@@ -469,7 +469,7 @@
         <PackageName Value="FCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="30">
+    <Units Count="29">
       <Unit0>
         <Filename Value="VectorClassesTimingTest64.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -576,21 +576,17 @@
         <IsPartOfProject Value="True"/>
       </Unit25>
       <Unit26>
-        <Filename Value="../VectorClasses/vectormath_vector2f_win64_sse_imp.inc"/>
+        <Filename Value="VectorOperatorsTestCase.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit26>
       <Unit27>
-        <Filename Value="VectorOperatorsTestCase.pas"/>
+        <Filename Value="VectorOperatorsTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit27>
       <Unit28>
-        <Filename Value="VectorOperatorsTimingTest.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit28>
-      <Unit29>
         <Filename Value="Vector2NumericsTestCase.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit29>
+      </Unit28>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
