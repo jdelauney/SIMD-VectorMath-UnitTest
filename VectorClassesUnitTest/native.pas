@@ -97,7 +97,9 @@ type
     function Negate:TNativeGLZVector4f;
     function  DivideBy2:TNativeGLZVector4f;
     function Distance(constref A: TNativeGLZVector4f):Single;
+    function DistanceSquare(constref A: TNativeGLZVector4f):Single;
     function Length:Single;
+    function LengthSquare:Single;
     function Spacing(constref A: TNativeGLZVector4f):Single;
     function DotProduct(constref A: TNativeGLZVector4f):Single;
     function CrossProduct(constref A: TNativeGLZVector4f): TNativeGLZVector4f;

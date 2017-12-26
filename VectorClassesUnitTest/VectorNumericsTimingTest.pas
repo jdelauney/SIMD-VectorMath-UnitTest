@@ -19,7 +19,9 @@ type
     procedure TimeNegate;
     procedure TimeDivideBy2;
     procedure TimeDistance;
+    procedure TimeDistanceSquare;
     procedure TimeLength;
+    procedure TimeLengthSquare;
     procedure TimeSpacing;
     procedure TimeDotProduct;
     procedure TimeCrossProduct;
@@ -87,6 +89,19 @@ begin
   GlobalProfiler[1].Stop;
 end;
 
+procedure TVectorNumericsTimingTest.TimeDistanceSquare;
+begin
+  TestDispName := 'Vector Op DistanceSquare';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin rs := nt1.DistanceSquare(nt2); end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  For cnt:= 1 to Iterations do begin rs := vt1.DistanceSquare(vt2); end;
+  GlobalProfiler[1].Stop;
+end;
+
 procedure TVectorNumericsTimingTest.TimeLength;
 begin
   TestDispName := 'Vector Op Length';
@@ -97,6 +112,19 @@ begin
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;
   For cnt:= 1 to Iterations do begin rs := vt1.Length; end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVectorNumericsTimingTest.TimeLengthSquare;
+begin
+  TestDispName := 'Vector Op LengthSquare';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin rs := nt1.LengthSquare; end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  For cnt:= 1 to Iterations do begin rs := vt1.LengthSquare; end;
   GlobalProfiler[1].Stop;
 end;
 

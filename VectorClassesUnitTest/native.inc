@@ -345,6 +345,11 @@ begin
   result := sqrt(sqr(Self.X-A.X)+ sqr(Self.Y-A.Y) + sqr(Self.Z-A.Z));
 end;
 
+function TNativeGLZVector4f.DistanceSquare(constref A: TNativeGLZVector4f):Single;
+begin
+  result := sqr(Self.X-A.X)+ sqr(Self.Y-A.Y) + sqr(Self.Z-A.Z);
+end;
+
 function TNativeGLZVector4f.Length : Single;
 //var
 //X1 : Single;
@@ -353,6 +358,11 @@ begin
   { Ensure result is non-zero to avoid divide-by-zero errors }
   //if X1 = 0 then X1 := 0.0000000001;
   //Result := X1;
+end;
+
+function TNativeGLZVector4f.LengthSquare : Single;
+begin
+  Result := (Self.X * Self.X) +(Self.Y * Self.Y) +(Self.Z * Self.Z);
 end;
 
 function TNativeGLZVector4f.Spacing(constref A : TNativeGLZVector4f) : Single;
