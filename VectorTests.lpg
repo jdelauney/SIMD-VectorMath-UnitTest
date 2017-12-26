@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectGroup FileVersion="1">
+    <Targets Count="2">
+      <Target0 FileName="VectorClassesUnitTest\VectorClassesTimingTest64.lpi">
+        <BuildModes Count="11"/>
+        <Mode1 Name="Default"/>
+        <Mode2 Name="SSE_CONFIG_1" Compile="True"/>
+        <Mode3 Name="SSE3_CONFIG_1"/>
+        <Mode4 Name="SSE3_CONFIG_1_TEST"/>
+        <Mode5 Name="SSE4_CONFIG_1"/>
+        <Mode6 Name="SSE4_CONFIG_1_TEST"/>
+        <Mode7 Name="AVX_CONFIG_1"/>
+        <Mode8 Name="AVX_CONFIG_1_TEST"/>
+        <Mode9 Name="Native_CONFIG_1"/>
+        <Mode10 Name="Native_CONFIG_2"/>
+        <Mode11 Name="SSE_CONFIG_1_TEST"/>
+      </Target0>
+      <Target1 FileName="VectorClassesUnitTest\VectorClassesTimingTest32.lpi">
+        <BuildModes Count="11"/>
+        <Mode1 Name="Default" Compile="True"/>
+        <Mode2 Name="SSE_CONFIG_1"/>
+        <Mode3 Name="SSE3_CONFIG_1"/>
+        <Mode4 Name="SSE3_CONFIG_1_TEST"/>
+        <Mode5 Name="SSE4_CONFIG_1"/>
+        <Mode6 Name="SSE4_CONFIG_1_TEST"/>
+        <Mode7 Name="AVX_CONFIG_1"/>
+        <Mode8 Name="AVX_CONFIG_1_TEST"/>
+        <Mode9 Name="Native_CONFIG_1"/>
+        <Mode10 Name="Native_CONFIG_2"/>
+        <Mode11 Name="SSE_CONFIG_1_TEST"/>
+      </Target1>
+    </Targets>
+  </ProjectGroup>
+</CONFIG>
