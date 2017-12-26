@@ -57,7 +57,6 @@
 {%region%====[ SSE3 Configs ]==================================================}
 
 {$ifdef SSE3_CONFIG_1}
-  const REP_FLAGS = '-CfSSE3, -Sv, -O3, -dUSE_ASM_SSE_3, -dSSE3_CONFIG_1';
   {$ifdef CPU64}
   const REP_FLAGS = '-CfSSE3, -Sv, -O3, -dUSE_ASM_SSE_3, -dSSE3_CONFIG_1 (64bit)';
   const REP_FILE_CSV = 'SSE3_Config_1_64bit.csv';
