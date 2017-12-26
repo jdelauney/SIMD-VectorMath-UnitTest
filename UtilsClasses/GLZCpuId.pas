@@ -16,7 +16,7 @@
 unit GLZCpuId;
 
 {.$i ..\lazbeanz_lib.inc}
-
+{$ASMMODE INTEL}
 interface
 
 uses
@@ -25,7 +25,8 @@ uses
      Windows,
    {$ENDIF}
    {$IFDEF UNIX}
-     BaseUnix, UnixUtil, Unix,
+//     BaseUnix, UnixUtil,
+     Unix,
      {$IFDEF X11_SUPPORT}
        xlib,
      {$ENDIF}

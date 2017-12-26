@@ -26,7 +26,7 @@
 unit GLZUtils;
 
 {.$i ..\glzscene_options.inc}
-
+{$ASMMODE INTEL}
 interface
 
 uses
@@ -100,7 +100,7 @@ implementation
 USes
   //StrUtils,
   LConvEncoding, lazutf8,
-  GLZCpuID;
+  GLZCpuId;
 
 const _CRC_TABLE32 : array[0..255] of LongWord =
  ($00000000, $77073096, $EE0E612C, $990951BA,
