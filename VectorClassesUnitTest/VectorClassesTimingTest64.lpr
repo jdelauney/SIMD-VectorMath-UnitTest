@@ -6,7 +6,7 @@ uses
   Interfaces, Forms, GuiTestRunner,
   // Vector2f Test Case
   Vector2OperatorsTestCase,
-
+  Vector2NumericsTestCase,
   // Vector4f Test Case
   VectorOperatorsTestCase,
   VectorNumericsTestCase,

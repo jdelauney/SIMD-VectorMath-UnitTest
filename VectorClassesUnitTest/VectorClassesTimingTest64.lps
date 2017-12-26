@@ -3,43 +3,41 @@
   <ProjectSession>
     <Version Value="10"/>
     <BuildModes Active="SSE3_CONFIG_1_TEST"/>
-    <Units Count="56">
+    <Units Count="57">
       <Unit0>
         <Filename Value="VectorClassesTimingTest64.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="7"/>
-        <CursorPos X="41" Y="19"/>
-        <UsageCount Value="117"/>
+        <TopLine Value="3"/>
+        <CursorPos X="10" Y="9"/>
+        <UsageCount Value="118"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="../VectorClasses/GLZVectorMath.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="145"/>
-        <CursorPos X="42" Y="167"/>
-        <FoldState Value=" TClNI{E TJo51{p1 pjBmI1z3 piZkI1C11142 pwR;C1~a01]G T3ilg08m"/>
-        <UsageCount Value="117"/>
+        <TopLine Value="157"/>
+        <CursorPos X="38" Y="174"/>
+        <FoldState Value=" TClNI{E TJo51{p1 pjBmI1z3 piZkI1C11142 T3ilg08("/>
+        <UsageCount Value="118"/>
         <Loaded Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="native.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="480"/>
         <CursorPos X="100" Y="493"/>
-        <FoldState Value=" TCkYT{P1X"/>
-        <UsageCount Value="117"/>
+        <UsageCount Value="118"/>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="native.inc"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="124"/>
         <CursorPos X="33" Y="134"/>
-        <FoldState Value=" TJxc1#rC p0+91#i6Z"/>
-        <UsageCount Value="117"/>
+        <UsageCount Value="118"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
@@ -48,14 +46,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="11"/>
         <CursorPos Y="35"/>
-        <UsageCount Value="117"/>
+        <UsageCount Value="118"/>
       </Unit4>
       <Unit5>
         <Filename Value="VectorOtherTestCase.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="38" Y="160"/>
-        <UsageCount Value="117"/>
+        <UsageCount Value="118"/>
       </Unit5>
       <Unit6>
         <Filename Value="VectorNumericsTimingTest.pas"/>
@@ -63,7 +61,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="38"/>
         <CursorPos X="52" Y="47"/>
-        <UsageCount Value="117"/>
+        <UsageCount Value="118"/>
       </Unit6>
       <Unit7>
         <Filename Value="BaseTimingTest.pas"/>
@@ -71,7 +69,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="73"/>
         <CursorPos X="48" Y="88"/>
-        <UsageCount Value="117"/>
+        <UsageCount Value="118"/>
       </Unit7>
       <Unit8>
         <Filename Value="ReportTest.pas"/>
@@ -79,7 +77,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="4"/>
         <CursorPos X="14" Y="43"/>
-        <UsageCount Value="117"/>
+        <UsageCount Value="118"/>
       </Unit8>
       <Unit9>
         <Filename Value="BaseTestCase.pas"/>
@@ -87,7 +85,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="23"/>
         <CursorPos X="3" Y="41"/>
-        <UsageCount Value="117"/>
+        <UsageCount Value="118"/>
       </Unit9>
       <Unit10>
         <Filename Value="Vector2OperatorsTestCase.pas"/>
@@ -95,29 +93,31 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="93"/>
         <CursorPos Y="114"/>
-        <UsageCount Value="90"/>
+        <UsageCount Value="91"/>
       </Unit10>
       <Unit11>
         <Filename Value="VectorNumericsTestCase.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="46" Y="23"/>
-        <UsageCount Value="115"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="116"/>
+        <CursorPos Y="153"/>
+        <UsageCount Value="116"/>
+        <Loaded Value="True"/>
       </Unit11>
       <Unit12>
         <Filename Value="VectorOperatorsOnSelfTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="37"/>
-        <UsageCount Value="115"/>
+        <UsageCount Value="116"/>
       </Unit12>
       <Unit13>
         <Filename Value="Vector2OperatorsTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="341"/>
+        <TopLine Value="331"/>
         <CursorPos X="27" Y="28"/>
-        <UsageCount Value="115"/>
+        <UsageCount Value="116"/>
         <Loaded Value="True"/>
       </Unit13>
       <Unit14>
@@ -127,7 +127,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="52"/>
         <CursorPos Y="118"/>
-        <UsageCount Value="97"/>
+        <UsageCount Value="98"/>
       </Unit14>
       <Unit15>
         <Filename Value="../UtilsClasses/GLZMath.pas"/>
@@ -135,7 +135,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="173"/>
         <CursorPos X="21" Y="123"/>
-        <UsageCount Value="97"/>
+        <UsageCount Value="98"/>
       </Unit15>
       <Unit16>
         <Filename Value="../UtilsClasses/GLZProfiler.pas"/>
@@ -143,7 +143,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="384"/>
         <CursorPos X="3" Y="144"/>
-        <UsageCount Value="97"/>
+        <UsageCount Value="98"/>
       </Unit16>
       <Unit17>
         <Filename Value="../UtilsClasses/GLZStopWatch.pas"/>
@@ -151,7 +151,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="132"/>
         <CursorPos X="90" Y="153"/>
-        <UsageCount Value="97"/>
+        <UsageCount Value="98"/>
       </Unit17>
       <Unit18>
         <Filename Value="../UtilsClasses/GLZSystem.pas"/>
@@ -159,13 +159,13 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="291"/>
         <CursorPos X="3" Y="312"/>
-        <UsageCount Value="97"/>
+        <UsageCount Value="98"/>
       </Unit18>
       <Unit19>
         <Filename Value="../UtilsClasses/GLZTypes.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="97"/>
+        <UsageCount Value="98"/>
       </Unit19>
       <Unit20>
         <Filename Value="../UtilsClasses/GLZUtils.pas"/>
@@ -173,13 +173,13 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="18"/>
         <CursorPos X="85" Y="979"/>
-        <UsageCount Value="93"/>
+        <UsageCount Value="94"/>
       </Unit20>
       <Unit21>
         <Filename Value="MatrixTestCase.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="92"/>
+        <UsageCount Value="93"/>
       </Unit21>
       <Unit22>
         <Filename Value="QuaternionTestCase.pas"/>
@@ -187,7 +187,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="107"/>
         <CursorPos X="30" Y="122"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit22>
       <Unit23>
         <Filename Value="VectorAndHmgPlaneHelperTestCase.pas"/>
@@ -195,7 +195,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="67"/>
         <CursorPos X="23" Y="77"/>
-        <UsageCount Value="33"/>
+        <UsageCount Value="34"/>
       </Unit23>
       <Unit24>
         <Filename Value="MatrixTimingTest.pas"/>
@@ -203,7 +203,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="52"/>
         <CursorPos Y="69"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="30"/>
       </Unit24>
       <Unit25>
         <Filename Value="QuaternionTimingTest.pas"/>
@@ -211,301 +211,342 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="142"/>
         <CursorPos X="39" Y="135"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="29"/>
       </Unit25>
       <Unit26>
-        <Filename Value="vectormath_planehelper_win64_sse_imp.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="88"/>
-        <CursorPos X="41" Y="4"/>
-        <UsageCount Value="53"/>
-      </Unit26>
-      <Unit27>
-        <Filename Value="../VectorClasses/GLZMath.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="52"/>
-        <CursorPos X="14" Y="80"/>
-        <UsageCount Value="35"/>
-      </Unit27>
-      <Unit28>
-        <Filename Value="../VectorClasses/vectormath_quaternion_native_imp.inc"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos Y="90"/>
-        <FoldState Value=" TJ01{61R"/>
-        <UsageCount Value="36"/>
-      </Unit28>
-      <Unit29>
-        <Filename Value="operatortimingtest.pas"/>
-        <UnitName Value="OperatorTimingTest"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="7"/>
-        <CursorPos X="12" Y="20"/>
-        <UsageCount Value="15"/>
-      </Unit29>
-      <Unit30>
-        <Filename Value="config.inc"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="92" Y="178"/>
-        <UsageCount Value="11"/>
-      </Unit30>
-      <Unit31>
-        <Filename Value="VectorClassesTimingTest.lps"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="44" Y="6"/>
-        <UsageCount Value="4"/>
-        <DefaultSyntaxHighlighter Value="XML"/>
-      </Unit31>
-      <Unit32>
-        <Filename Value="../VectorClasses/vectormath_vector_win64_sse_imp.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="208"/>
-        <CursorPos X="10" Y="222"/>
-        <UsageCount Value="44"/>
-      </Unit32>
-      <Unit33>
-        <Filename Value="VectorOnSelfTimingTest.pas"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos Y="279"/>
-        <UsageCount Value="21"/>
-      </Unit33>
-      <Unit34>
-        <Filename Value="../VectorClasses/vectormath_matrix_win64_sse_imp.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="350"/>
-        <CursorPos X="36" Y="363"/>
-        <UsageCount Value="47"/>
-      </Unit34>
-      <Unit35>
-        <Filename Value="../VectorClasses/vectormath_matrix_native_imp.inc"/>
-        <EditorIndex Value="-1"/>
-        <UsageCount Value="8"/>
-      </Unit35>
-      <Unit36>
-        <Filename Value="../VectorClasses/vectormath_quaternion_win64_sse_imp.inc"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="80" Y="153"/>
-        <UsageCount Value="38"/>
-      </Unit36>
-      <Unit37>
-        <Filename Value="../VectorClasses/vectormath_vector_native_imp.inc"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos Y="332"/>
-        <FoldState Value=" TJ01{N1 pm8oU1}H TLt10xp"/>
-        <UsageCount Value="5"/>
-      </Unit37>
-      <Unit38>
-        <Filename Value="../../../../../fpc/3.0.4/source/packages/fcl-fpcunit/src/fpcunit.pp"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="46"/>
-        <CursorPos X="14" Y="60"/>
-        <UsageCount Value="5"/>
-      </Unit38>
-      <Unit39>
-        <Filename Value="../../../../../fpcunit/guitestrunner.pas"/>
-        <UnitName Value="GuiTestRunner"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="529"/>
-        <UsageCount Value="5"/>
-      </Unit39>
-      <Unit40>
-        <Filename Value="../../../../../fpc/3.0.4/source/packages/fcl-fpcunit/src/testregistry.pp"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="98"/>
-        <CursorPos X="3" Y="124"/>
-        <UsageCount Value="5"/>
-      </Unit40>
-      <Unit41>
-        <Filename Value="../../../../../lazprofiler/LazProfilerCore.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="5"/>
-        <CursorPos X="15" Y="143"/>
-        <UsageCount Value="5"/>
-      </Unit41>
-      <Unit42>
-        <Filename Value="../../../../../bgrabitmap-master/bgrabitmap/phonglightsse.inc"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="20" Y="102"/>
-        <UsageCount Value="5"/>
-      </Unit42>
-      <Unit43>
-        <Filename Value="../../../../../bgrabitmap-master/bgrabitmap/bgraopengl.pas"/>
-        <UnitName Value="BGRAOpenGL"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1101"/>
-        <CursorPos X="5" Y="1113"/>
-        <UsageCount Value="5"/>
-      </Unit43>
-      <Unit44>
-        <Filename Value="../VectorClasses/vectormath_vector_win64_avx_imp.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="352"/>
-        <CursorPos X="38" Y="366"/>
-        <UsageCount Value="5"/>
-      </Unit44>
-      <Unit45>
-        <Filename Value="vectormath_plane_native_imp.inc"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="87" Y="6"/>
-        <UsageCount Value="31"/>
-      </Unit45>
-      <Unit46>
-        <Filename Value="vectormath_vectorhelper_win64_sse_imp.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="4"/>
-        <CursorPos X="40" Y="50"/>
-        <UsageCount Value="34"/>
-      </Unit46>
-      <Unit47>
-        <Filename Value="vectormath_matrixhelper_native_imp.inc"/>
-        <EditorIndex Value="-1"/>
-        <UsageCount Value="28"/>
-      </Unit47>
-      <Unit48>
-        <Filename Value="vectormath_vectorhelper_native_imp.inc"/>
-        <EditorIndex Value="-1"/>
-        <UsageCount Value="10"/>
-      </Unit48>
-      <Unit49>
-        <Filename Value="averagenormal_code.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="199"/>
-        <CursorPos Y="233"/>
-        <UsageCount Value="8"/>
-      </Unit49>
-      <Unit50>
-        <Filename Value="../VectorClasses/vectormath_vectorhelper_win64_sse_imp.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="14"/>
-        <UsageCount Value="10"/>
-      </Unit50>
-      <Unit51>
-        <Filename Value="C:/lazarus/fpc/3.0.4/source/packages/fcl-fpcunit/src/fpcunit.pp"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1407"/>
-        <CursorPos X="3" Y="189"/>
-        <UsageCount Value="11"/>
-      </Unit51>
-      <Unit52>
         <Filename Value="../VectorClasses/vectormath_vector2f_win64_sse_imp.inc"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="188"/>
-        <CursorPos X="74" Y="145"/>
-        <UsageCount Value="25"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="134"/>
+        <CursorPos X="83" Y="145"/>
+        <UsageCount Value="26"/>
         <Loaded Value="True"/>
-      </Unit52>
-      <Unit53>
-        <Filename Value="../VectorClasses/vectormath_vector4f_win64_sse_imp.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="583"/>
-        <CursorPos X="5" Y="611"/>
-        <UsageCount Value="11"/>
-      </Unit53>
-      <Unit54>
+      </Unit26>
+      <Unit27>
         <Filename Value="VectorOperatorsTestCase.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="21"/>
-      </Unit54>
-      <Unit55>
+        <UsageCount Value="22"/>
+      </Unit27>
+      <Unit28>
         <Filename Value="VectorOperatorsTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="263"/>
+        <TopLine Value="236"/>
         <CursorPos X="39" Y="478"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="21"/>
         <Loaded Value="True"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="vectormath_planehelper_win64_sse_imp.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="88"/>
+        <CursorPos X="41" Y="4"/>
+        <UsageCount Value="53"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="../VectorClasses/GLZMath.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="52"/>
+        <CursorPos X="14" Y="80"/>
+        <UsageCount Value="35"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="../VectorClasses/vectormath_quaternion_native_imp.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="90"/>
+        <FoldState Value=" TJ01{61R"/>
+        <UsageCount Value="36"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="operatortimingtest.pas"/>
+        <UnitName Value="OperatorTimingTest"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="7"/>
+        <CursorPos X="12" Y="20"/>
+        <UsageCount Value="15"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="config.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="92" Y="178"/>
+        <UsageCount Value="11"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="VectorClassesTimingTest.lps"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="44" Y="6"/>
+        <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="XML"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="../VectorClasses/vectormath_vector_win64_sse_imp.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="208"/>
+        <CursorPos X="10" Y="222"/>
+        <UsageCount Value="44"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="VectorOnSelfTimingTest.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="279"/>
+        <UsageCount Value="21"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="../VectorClasses/vectormath_matrix_win64_sse_imp.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="350"/>
+        <CursorPos X="36" Y="363"/>
+        <UsageCount Value="47"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="../VectorClasses/vectormath_matrix_native_imp.inc"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="8"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="../VectorClasses/vectormath_quaternion_win64_sse_imp.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="80" Y="153"/>
+        <UsageCount Value="38"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="../VectorClasses/vectormath_vector_native_imp.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="332"/>
+        <FoldState Value=" TJ01{N1 pm8oU1}H TLt10xp"/>
+        <UsageCount Value="5"/>
+      </Unit40>
+      <Unit41>
+        <Filename Value="../../../../../fpc/3.0.4/source/packages/fcl-fpcunit/src/fpcunit.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="46"/>
+        <CursorPos X="14" Y="60"/>
+        <UsageCount Value="5"/>
+      </Unit41>
+      <Unit42>
+        <Filename Value="../../../../../fpcunit/guitestrunner.pas"/>
+        <UnitName Value="GuiTestRunner"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="529"/>
+        <UsageCount Value="5"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="../../../../../fpc/3.0.4/source/packages/fcl-fpcunit/src/testregistry.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="98"/>
+        <CursorPos X="3" Y="124"/>
+        <UsageCount Value="5"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="../../../../../lazprofiler/LazProfilerCore.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="5"/>
+        <CursorPos X="15" Y="143"/>
+        <UsageCount Value="5"/>
+      </Unit44>
+      <Unit45>
+        <Filename Value="../../../../../bgrabitmap-master/bgrabitmap/phonglightsse.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="20" Y="102"/>
+        <UsageCount Value="5"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="../../../../../bgrabitmap-master/bgrabitmap/bgraopengl.pas"/>
+        <UnitName Value="BGRAOpenGL"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1101"/>
+        <CursorPos X="5" Y="1113"/>
+        <UsageCount Value="5"/>
+      </Unit46>
+      <Unit47>
+        <Filename Value="../VectorClasses/vectormath_vector_win64_avx_imp.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="352"/>
+        <CursorPos X="38" Y="366"/>
+        <UsageCount Value="5"/>
+      </Unit47>
+      <Unit48>
+        <Filename Value="vectormath_plane_native_imp.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="87" Y="6"/>
+        <UsageCount Value="31"/>
+      </Unit48>
+      <Unit49>
+        <Filename Value="vectormath_vectorhelper_win64_sse_imp.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="4"/>
+        <CursorPos X="40" Y="50"/>
+        <UsageCount Value="34"/>
+      </Unit49>
+      <Unit50>
+        <Filename Value="vectormath_matrixhelper_native_imp.inc"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="28"/>
+      </Unit50>
+      <Unit51>
+        <Filename Value="vectormath_vectorhelper_native_imp.inc"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit51>
+      <Unit52>
+        <Filename Value="averagenormal_code.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="199"/>
+        <CursorPos Y="233"/>
+        <UsageCount Value="8"/>
+      </Unit52>
+      <Unit53>
+        <Filename Value="../VectorClasses/vectormath_vectorhelper_win64_sse_imp.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="14"/>
+        <UsageCount Value="10"/>
+      </Unit53>
+      <Unit54>
+        <Filename Value="C:/lazarus/fpc/3.0.4/source/packages/fcl-fpcunit/src/fpcunit.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1407"/>
+        <CursorPos X="3" Y="189"/>
+        <UsageCount Value="11"/>
+      </Unit54>
+      <Unit55>
+        <Filename Value="../VectorClasses/vectormath_vector4f_win64_sse_imp.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="583"/>
+        <CursorPos X="5" Y="611"/>
+        <UsageCount Value="11"/>
       </Unit55>
+      <Unit56>
+        <Filename Value="Vector2NumericsTestCase.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="29"/>
+        <CursorPos X="5" Y="52"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+      </Unit56>
     </Units>
-    <JumpHistory Count="21" HistoryIndex="20">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
         <Filename Value="../VectorClasses/vectormath_vector2f_win64_sse_imp.inc"/>
-        <Caret Line="108" Column="66" TopLine="135"/>
+        <Caret Line="67" Column="20" TopLine="53"/>
       </Position1>
       <Position2>
         <Filename Value="../VectorClasses/vectormath_vector2f_win64_sse_imp.inc"/>
-        <Caret Line="67" Column="20" TopLine="53"/>
+        <Caret Line="120" Column="22" TopLine="44"/>
       </Position2>
       <Position3>
         <Filename Value="../VectorClasses/vectormath_vector2f_win64_sse_imp.inc"/>
-        <Caret Line="120" Column="22" TopLine="44"/>
+        <Caret Line="130" TopLine="116"/>
       </Position3>
       <Position4>
         <Filename Value="../VectorClasses/vectormath_vector2f_win64_sse_imp.inc"/>
-        <Caret Line="130" TopLine="116"/>
+        <Caret Line="202" Column="13" TopLine="186"/>
       </Position4>
       <Position5>
         <Filename Value="../VectorClasses/vectormath_vector2f_win64_sse_imp.inc"/>
-        <Caret Line="202" Column="13" TopLine="186"/>
+        <Caret Line="157" Column="8" TopLine="146"/>
       </Position5>
       <Position6>
         <Filename Value="../VectorClasses/vectormath_vector2f_win64_sse_imp.inc"/>
-        <Caret Line="157" Column="8" TopLine="146"/>
+        <Caret Line="167" Column="7" TopLine="146"/>
       </Position6>
       <Position7>
-        <Filename Value="../VectorClasses/vectormath_vector2f_win64_sse_imp.inc"/>
-        <Caret Line="167" Column="7" TopLine="146"/>
-      </Position7>
-      <Position8>
         <Filename Value="native.pas"/>
         <Caret Line="59" Column="55" TopLine="39"/>
+      </Position7>
+      <Position8>
+        <Filename Value="native.inc"/>
+        <Caret Line="133" Column="60" TopLine="112"/>
       </Position8>
       <Position9>
         <Filename Value="native.inc"/>
-        <Caret Line="133" Column="60" TopLine="112"/>
+        <Caret Line="15" Column="35"/>
       </Position9>
       <Position10>
-        <Filename Value="native.inc"/>
-        <Caret Line="15" Column="35"/>
+        <Filename Value="native.pas"/>
+        <Caret Line="502" Column="9" TopLine="497"/>
       </Position10>
       <Position11>
-        <Filename Value="native.pas"/>
-        <Caret Line="22" Column="44" TopLine="24"/>
+        <Filename Value="native.inc"/>
+        <Caret Line="103" Column="29" TopLine="82"/>
       </Position11>
       <Position12>
         <Filename Value="native.inc"/>
-        <Caret Line="90" Column="37" TopLine="111"/>
+        <Caret Line="100" Column="23" TopLine="86"/>
       </Position12>
       <Position13>
-        <Filename Value="native.pas"/>
-        <Caret Line="502" Column="9" TopLine="497"/>
-      </Position13>
-      <Position14>
-        <Filename Value="native.inc"/>
-        <Caret Line="103" Column="29" TopLine="82"/>
-      </Position14>
-      <Position15>
-        <Filename Value="native.inc"/>
-        <Caret Line="100" Column="23" TopLine="86"/>
-      </Position15>
-      <Position16>
         <Filename Value="../VectorClasses/vectormath_vector2f_win64_sse_imp.inc"/>
         <Caret Line="13" Column="9"/>
-      </Position16>
-      <Position17>
+      </Position13>
+      <Position14>
         <Filename Value="../VectorClasses/vectormath_vector2f_win64_sse_imp.inc"/>
         <Caret Line="140" Column="8" TopLine="126"/>
-      </Position17>
-      <Position18>
+      </Position14>
+      <Position15>
         <Filename Value="../VectorClasses/vectormath_vector2f_win64_sse_imp.inc"/>
         <Caret Line="10" Column="8"/>
-      </Position18>
-      <Position19>
+      </Position15>
+      <Position16>
         <Filename Value="VectorClassesTimingTest64.lpr"/>
         <Caret Line="17" Column="6" TopLine="4"/>
-      </Position19>
-      <Position20>
+      </Position16>
+      <Position17>
         <Filename Value="native.pas"/>
         <Caret Line="493" Column="100" TopLine="480"/>
-      </Position20>
-      <Position21>
+      </Position17>
+      <Position18>
         <Filename Value="../VectorClasses/GLZVectorMath.pas"/>
         <Caret Line="167" Column="42" TopLine="145"/>
+      </Position18>
+      <Position19>
+        <Filename Value="VectorNumericsTestCase.pas"/>
+        <Caret Line="12" Column="40"/>
+      </Position19>
+      <Position20>
+        <Filename Value="VectorNumericsTestCase.pas"/>
+        <Caret Line="142" Column="26" TopLine="116"/>
+      </Position20>
+      <Position21>
+        <Filename Value="VectorNumericsTestCase.pas"/>
+        <Caret Line="153" TopLine="116"/>
       </Position21>
+      <Position22>
+        <Filename Value="VectorNumericsTestCase.pas"/>
+        <Caret Line="150" Column="57" TopLine="116"/>
+      </Position22>
+      <Position23>
+        <Filename Value="VectorNumericsTestCase.pas"/>
+        <Caret Line="141" Column="33" TopLine="116"/>
+      </Position23>
+      <Position24>
+        <Filename Value="VectorNumericsTestCase.pas"/>
+        <Caret Line="79" Column="14" TopLine="59"/>
+      </Position24>
+      <Position25>
+        <Filename Value="Vector2NumericsTestCase.pas"/>
+        <Caret Line="29" Column="31" TopLine="15"/>
+      </Position25>
+      <Position26>
+        <Filename Value="Vector2NumericsTestCase.pas"/>
+        <Caret Line="103" TopLine="66"/>
+      </Position26>
+      <Position27>
+        <Filename Value="Vector2NumericsTestCase.pas"/>
+        <Caret Line="94" Column="51" TopLine="66"/>
+      </Position27>
+      <Position28>
+        <Filename Value="Vector2NumericsTestCase.pas"/>
+        <Caret Line="90" Column="105" TopLine="66"/>
+      </Position28>
+      <Position29>
+        <Filename Value="Vector2NumericsTestCase.pas"/>
+        <Caret Line="89" Column="47"/>
+      </Position29>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>

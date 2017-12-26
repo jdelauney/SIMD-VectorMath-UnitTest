@@ -132,24 +132,24 @@ asm
   movq   [RAX], xmm0
 end;
 
-function TGLZVector2f.MulAdd(A,B:TGLZVector2f): TGLZVector2f;Assembler;//nostackframe;register;
+function TGLZVector2f.MulAdd(constref A,B:TGLZVector2f): TGLZVector2f;Assembler;//nostackframe;register;
 asm
   movq   xmm0, [RCX]
   movq   xmm1, [A]
   movq   xmm2, [B]
   Mulps  xmm0, xmm1
   Addps  xmm0, xmm2
-  movlps   [RAX], xmm0
+  movlps   [Result], xmm0
 end;
 
-function TGLZVector2f.MulDiv(A,B:TGLZVector2f): TGLZVector2f;Assembler;//nostackframe;register;
+function TGLZVector2f.MulDiv(constref A,B:TGLZVector2f): TGLZVector2f;Assembler;//nostackframe;register;
 asm
   movq   xmm0, [RCX]
   movq   xmm1, [A]
   movq   xmm2, [B]
   Mulps  xmm0, xmm1
   Divps  xmm0, xmm2
-  movq   [RAX], xmm0
+  movlps   [Result], xmm0
 end;
 
 function TGLZVector2f.Length:Single;Assembler;nostackframe;register;
@@ -172,7 +172,7 @@ asm
   //sqrtss xmm0, xmm0
 end;
 
-function TGLZVector2f.Distance(A:TGLZVector2f):Single;Assembler;nostackframe;register;
+function TGLZVector2f.Distance(constref A:TGLZVector2f):Single;Assembler;//nostackframe;register;
 asm
   movq xmm0, [RCX]         // move 64 bits and clear top  x,y,0,0
   movq xmm1, [A]           // move 64 bits and clear top  x1,y1,0,0
@@ -181,9 +181,10 @@ asm
   //addps  xmm0, xmm1   //(x-x1)^2+(z-z1)^2, (y-y1)^2, 0, 0
   haddps xmm0, xmm0  //(x-x1)^2+(z-z1)^2 + (y-y1)^2, 0, 0
   sqrtss xmm0, xmm0
+  movq [Result], xmm0
 end;
 
-function TGLZVector2f.DistanceSquare(A:TGLZVector2f):Single;Assembler;nostackframe;register;
+function TGLZVector2f.DistanceSquare(Constref A:TGLZVector2f):Single;Assembler;nostackframe;register;
 asm
   movq xmm0, [RCX]         // move 64 bits and clear top  x,y,0,0
   movq xmm1, [A]           // move 64 bits and clear top  x1,y1,0,0

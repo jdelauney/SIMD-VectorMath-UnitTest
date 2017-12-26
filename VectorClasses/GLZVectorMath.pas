@@ -166,12 +166,12 @@ type
 
     function Clamp(constref AMin, AMax: TGLZVector2f): TGLZVector2f;overload;
     function Clamp(constref AMin, AMax: Single): TGLZVector2f;overload;
-    function MulAdd(A,B:TGLZVector2f): TGLZVector2f;
-    function MulDiv(A,B:TGLZVector2f): TGLZVector2f;
+    function MulAdd(constref A,B:TGLZVector2f): TGLZVector2f;
+    function MulDiv(constref A,B:TGLZVector2f): TGLZVector2f;
     function Length:Single;
     function LengthSquare:Single;
-    function Distance(A:TGLZVector2f):Single;
-    function DistanceSquare(A:TGLZVector2f):Single;
+    function Distance(constref A:TGLZVector2f):Single;
+    function DistanceSquare(constref A:TGLZVector2f):Single;
     function Normalize : TGLZVector2f;
     // function DotProduct(A:TVector2f):TVector2f;
     // function Reflect(I, NRef : TVector2f):TVector2f
