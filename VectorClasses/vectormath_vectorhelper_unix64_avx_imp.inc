@@ -70,6 +70,13 @@ asm
   movhlps xmm1,xmm0
 end;
 
+procedure TGLZVectorHelper.CreatePlane(constref p1, p2, p3 : TGLZVector);
+begin
+  CalcPlaneNormal(p1, p2, p3);
+  Self.W:=-p1.DotProduct(Self);
+end;
+
+
 function TGLZVectorHelper.NormalizePlane : TGLZHmgPlane; assembler;
 asm
   vxorps xmm0, xmm0, xmm0
