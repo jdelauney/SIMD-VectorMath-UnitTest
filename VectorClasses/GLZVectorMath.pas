@@ -225,7 +225,7 @@ type
 
     function Abs:TGLZVector4f;overload;
     function Negate:TGLZVector4f;
-    function  DivideBy2:TGLZVector4f;
+    function DivideBy2:TGLZVector4f;
     function Distance(constref A: TGLZVector4f):Single;
     function Length:Single;
     function DistanceSquare(constref A: TGLZVector4f):Single;
@@ -339,11 +339,11 @@ type
     function MatrixDetInternal(const a1, a2, a3, b1, b2, b3, c1, c2, c3: Single): Single;
     procedure Transpose_Scale_M33(constref src : TGLZMatrix4; Constref ascale : Single);
   public
-    class operator +(constref A, B: TGLZMatrix4): TGLZMatrix4;overload;
+    class operator +(constref A, B: TGLZMatrix4): TGLZMatrix4; overload;
     class operator +(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; overload;
-    class operator -(constref A, B: TGLZMatrix4): TGLZMatrix4;overload;
+    class operator -(constref A, B: TGLZMatrix4): TGLZMatrix4; overload;
     class operator -(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; overload;
-    class operator *(constref A, B: TGLZMatrix4): TGLZMatrix4;overload;
+    class operator *(constref A, B: TGLZMatrix4): TGLZMatrix4; overload;
     class operator *(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; overload;
     class operator *(constref A: TGLZMatrix4; constref B: TGLZVector): TGLZVector; overload;
     class operator /(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; overload;
@@ -830,7 +830,7 @@ end;  *)
   {$endif}
 {$endif}
 {$else}
-  {$I vectormath_vector_native_imp.inc}
+  {$I vectormath_vector2f_native_imp.inc}
 {$endif}
 
 
@@ -915,7 +915,7 @@ end;
   {$endif}
 {$endif}
 {$else}
-  {$I vectormath_vector_native_imp.inc}
+  {$I vectormath_vector4f_native_imp.inc}
 {$endif}
 
 
@@ -945,17 +945,17 @@ end;
 
 function TGLZMatrix4.GetComponent(const ARow, AColumn: Integer): Single;
 begin
-  Result := M[ARow, AColumn];
+  Result := Self.M[ARow, AColumn];
 end;
 
 procedure TGLZMatrix4.SetComponent(const ARow, AColumn: Integer; const Value: Single);
 begin
-  M[ARow, AColumn] := Value;
+  Self.M[ARow, AColumn] := Value;
 end;
 
 procedure TGLZMatrix4.SetRow(const AIndex: Integer; const Value: TGLZVector);
 begin
-  V[AIndex] := Value;
+  Self.V[AIndex] := Value;
 end;
 
 function TGLZMatrix4.GetRow(const AIndex: Integer): TGLZVector;
@@ -1604,6 +1604,7 @@ end;
 {%region%====[ Commons functions ]==============================================}
 
 
+{%region%====[ Qaternion ]======================================================}
 function TGLZQuaternion.ToString : String;
 begin
    Result := '(ImagePart.X: '+FloattoStrF(Self.X,fffixed,5,5)+
@@ -1756,7 +1757,7 @@ begin
         eulYXZ, eulZXY: quat2 := EulerToQuat(x + SMALL_ANGLE, y, z, EulerOrder);
         eulXZY, eulYZX: quat2 := EulerToQuat(x, y, z + SMALL_ANGLE, EulerOrder);
       end;
-      Self := Quat1.Slerp(quat2, 0.5);
+      Self := Quat1.Slerp(quat2{%H-}, 0.5);
    end
    else
    begin
@@ -1852,7 +1853,7 @@ begin
    Result.V[2].V[2] := 1 - 2 * ( xx + yy );
 end; }
 
-{%endregion%}
+
 
 {$ifdef USE_ASM}
 {$ifdef UNIX}
@@ -1941,7 +1942,7 @@ end;
   {$endif}
 {$endif}
 {$else}
-  {$I vectormath_planehelper_native_imp.inc}
+ // {$I vectormath_planehelper_native_imp.inc}
 {$endif}
 
 {%endregion%}

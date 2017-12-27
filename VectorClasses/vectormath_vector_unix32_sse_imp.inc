@@ -208,6 +208,40 @@ Asm
   movss [RESULT], {%H-}xmm0
 end;
 
+function TGLZVector4f.DistanceSquare(constref A: TGLZVector4f):Single;assembler;
+//nostackframe;register; we cannot use this because the result is ST register
+//result := sqrt(sqr(Self.X-A.X)+ sqr(Self.Y-A.Y) + sqr(Self.Z-A.Z));
+Asm
+  {$IFDEF USE_ASM_SSE_4}
+    movups xmm0,[EAX]
+    movups  xmm1, [A]
+    subps   xmm0, xmm1
+    andps xmm0, [cSSE_MASK_NO_W]
+    dpps xmm0, xmm0, $FF;
+  {$ELSE}
+    {$IFDEF USE_ASM_SSE_3}
+       movups xmm0,[EAX]
+       movups  xmm1, [A]
+       subps   xmm0, xmm1
+       andps xmm0, [cSSE_MASK_NO_W]
+       mulps   xmm0, xmm0
+       haddps xmm0, xmm0
+       haddps xmm0, xmm0
+    {$ELSE}
+       movups xmm1,[EAX]
+       movups  xmm0, [A]
+       subps   xmm1, xmm0
+       andps xmm1, [cSSE_MASK_NO_W]
+       mulps   xmm1, xmm1
+       movhlps xmm0, xmm1
+       addss xmm0, xmm1
+       shufps xmm1, xmm1, $55
+       addss xmm0, xmm1
+     {$ENDIF}
+  {$ENDIF}
+  movss [RESULT], {%H-}xmm0
+end;
+
 function TGLZVector4f.Length:Single;assembler;
 //nostackframe;register; we cannot use this because the result is ST register
 Asm
@@ -244,6 +278,62 @@ Asm
   {$ENDIF}
   movss [Result], {%H-}xmm0
 end;
+
+function TGLZVector4f.LengthSquare:Single;assembler;
+//nostackframe;register; we cannot use this because the result is ST register
+Asm
+  {$IFDEF USE_ASM_SSE_4}
+    movups xmm0,[EAX]
+    andps xmm0, [cSSE_MASK_NO_W]
+    dpps xmm0, xmm0, $FF;
+  {$ELSE}
+    {$IFDEF USE_ASM_SSE_3}
+      movups xmm0,[EAX]
+      andps xmm0, [cSSE_MASK_NO_W]
+      mulps   xmm0, xmm0
+      haddps xmm0, xmm0
+      haddps xmm0, xmm0
+    {$ELSE}
+      movups xmm1,[EAX]
+      andps xmm1, [cSSE_MASK_NO_W]
+      mulps   xmm1, xmm1
+      movhlps xmm0, xmm1
+      addss xmm0, xmm1
+      shufps xmm1, xmm1, $55
+      addss xmm0, xmm1
+    {$ENDIF}
+  {$ENDIF}
+  movss [Result], {%H-}xmm0
+end;
+
+function TGLZVector4f.Spacing(constref A : TGLZVector4f) : Single; assembler; nostackframe; register;
+asm
+  //Result:=Abs(v2.X-Self.X)+Abs(v2.Y-Self.Y)+Abs(v2.Z-Self.Z)+Abs(v2.W-Self.W);
+  movups xmm1, [EAX]
+  movups xmm0, [A]
+  subps xmm0, xmm1
+  andps xmm0, [cSSE_MASK_ABS]
+  {$IFDEF USE_ASM_SSE_3}
+    {$ifdef TEST}
+      movshdup    xmm1, xmm0
+      addps       xmm0, xmm1
+      movhlps     xmm1, xmm0
+      addss       xmm0, xmm1
+    {$else}
+      haddps xmm0, xmm0
+      haddps xmm0, xmm0
+    {$endif}
+  {$else}
+     movhlps xmm1, xmm0            // xmm1 =  - | -  | w  | z  |
+     addss xmm1, xmm0              // x + z
+     shufps xmm0, xmm0, 00000001b  // xmm0 =  - | -  | -  | y  |
+     addss xmm0, xmm1              // (x + z ) + y
+     shufps xmm1, xmm1, 01010101b  // xmm1 =  - | -  | -  | w  |
+     addss xmm0, xmm1              // (x + z  + y) + w
+  {$endif}
+//  movss [Result], {%H-}xmm0
+end;
+
 
 function TGLZVector4f.CrossProduct(constref A: TGLZVector4f): TGLZVector4f;assembler; nostackframe; register;
 asm

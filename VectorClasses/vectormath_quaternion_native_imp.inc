@@ -1,4 +1,4 @@
-{%region%----[ Operators ]--------------------------------------------------------}
+{%region%----[ Operators ]------------------------------------------------------}
 
 class operator TGLZQuaternion.+(constref A, B: TGLZQuaternion): TGLZQuaternion;
 begin
@@ -17,23 +17,34 @@ begin
 end;
 
 class operator TGLZQuaternion.*(constref A, B: TGLZQuaternion): TGLZQuaternion;
+begin
+
+  // Returns the product B*A (which is the concatenation of a rotation Q1 followed by the rotation Q2)
+
+  Result.X :=  (B.w * A.x) + (B.x * A.w) + (B.y * A.z) - (B.z * A.y);
+  Result.Y :=  (B.w * A.y) - (B.x * A.z) + (B.y * A.w) + (B.z * A.x);
+  Result.Z :=  (B.w * A.z) + (B.x * A.y) - (B.y * A.x) + (B.z * A.w);
+  Result.W :=  (B.w * A.w) - (B.x * A.x) - (B.y * A.y) - (B.z * A.z);
+end;
+{*
+class operator TGLZQuaternion.*(constref A, B: TGLZQuaternion): TGLZQuaternion;
 var
   Temp : TQuaternion;
 begin
-  Temp.RealPart := A.RealPart * B.RealPart - A.ImagPart.X * B.ImagPart.X
-                 - A.ImagPart.Y * B.ImagPart.Y - A.ImagPart.Z * B.ImagPart.Z;
+  Temp.RealPart := A.RealPart * B.RealPart - A.ImagePart.X * B.ImagePart.X
+                 - A.ImagePart.Y * B.ImagePart.Y - A.ImagePart.Z * B.ImagePart.Z;
 
-  Temp.ImagPart.X := A.RealPart * B.ImagPart.X + A.ImagPart.X * B.RealPart
-                   + A.ImagPart.Y * B.ImagPart.Z - A.ImagPart.Z * B.ImagPart.Y;
+  Temp.ImagePart.X := A.RealPart * B.ImagePart.X + A.ImagePart.X * B.RealPart
+                   + A.ImagePart.Y * B.ImagePart.Z - A.ImagePart.Z * B.ImagePart.Y;
 
-  Temp.ImagPart.Y := A.RealPart * B.ImagPart.Y + A.ImagPart.Y * B.RealPart
-                   + A.ImagPart.Z * B.ImagPart.X - A.ImagPart.X * B.ImagPart.Z;
+  Temp.ImagePart.Y := A.RealPart * B.ImagePart.Y + A.ImagePart.Y * B.RealPart
+                   + A.ImagePart.Z * B.ImagePart.X - A.ImagePart.X * B.ImagePart.Z;
 
-  Temp.ImagPart.Z := A.RealPart * B.ImagPart.Z + A.ImagPart.Z * B.RealPart
-                   + A.ImagPart.X * B.ImagPart.Y - A.ImagPart.Y * B.ImagPart.X;
+  Temp.ImagePart.Z := A.RealPart * B.ImagePart.Z + A.ImagePart.Z * B.RealPart
+                   + A.ImagePart.X * B.ImagePart.Y - A.ImagePart.Y * B.ImagePart.X;
   Result:=Temp;
 end;
-
+*}
 
 class operator TGLZQuaternion.+(constref A: TGLZQuaternion; constref B:Single): TGLZQuaternion; overload;
 begin
@@ -87,7 +98,7 @@ end;
 
 {%endregion%}
 
-{%region%----[ Functions ]--------------------------------------------------------}
+{%region%----[ Functions ]------------------------------------------------------}
 
 function TGLZQuaternion.Conjugate : TGLZQuaternion;
 begin
@@ -107,10 +118,10 @@ var
    m, f, r : Single;
 begin
    m:=Self.Magnitude;
-   if m>cEPSILON2 then
+   if m>cEPSILON then
    begin
       f:=1/m;
-      Self := Self.AsVector4f * f;
+      Self.AsVector4f := Self.AsVector4f * f;
    end
    else
    Self:=IdentityQuaternion;
@@ -118,19 +129,19 @@ end;
 
 function TGLZQuaternion.MultiplyAsSecond(const qFirst : TGLZQuaternion): TGLZQuaternion;
 var
-  Temp : TQuaternion;
+  Temp : TGLZQuaternion;
 begin
-  Temp.RealPart := qFirst.RealPart * Self.RealPart - qFirst.ImagPart.X * Self.ImagPart.X
-                 - qFirst.ImagPart.Y * Self.ImagPart.Y - qFirst.ImagPart.Z * Self.ImagPart.Z;
+  Temp.RealPart := qFirst.RealPart * Self.RealPart - qFirst.ImagePart.X * Self.ImagePart.X
+                 - qFirst.ImagePart.Y * Self.ImagePart.Y - qFirst.ImagePart.Z * Self.ImagePart.Z;
 
-  Temp.ImagPart.X := qFirst.RealPart * Self.ImagPart.X + qFirst.ImagPart.X * Self.RealPart
-                   + qFirst.ImagPart.Y * Self.ImagPart.Z - qFirst.ImagPart.Z * Self.ImagPart.Y;
+  Temp.ImagePart.X := qFirst.RealPart * Self.ImagePart.X + qFirst.ImagePart.X * Self.RealPart
+                   + qFirst.ImagePart.Y * Self.ImagePart.Z - qFirst.ImagePart.Z * Self.ImagePart.Y;
 
-  Temp.ImagPart.Y := qFirst.RealPart * Self.ImagPart.Y + qFirst.ImagPart.Y * Self.RealPart
-                   + qFirst.ImagPart.Z * Self.ImagPart.X - qFirst.ImagPart.X * Self.ImagPart.Z;
+  Temp.ImagePart.Y := qFirst.RealPart * Self.ImagePart.Y + qFirst.ImagePart.Y * Self.RealPart
+                   + qFirst.ImagePart.Z * Self.ImagePart.X - qFirst.ImagePart.X * Self.ImagePart.Z;
 
-  Temp.ImagPart.Z := qFirst.RealPart * Self.ImagPart.Z + qFirst.ImagPart.Z * Self.RealPart
-                   + qFirst.ImagPart.X * Self.ImagPart.Y - qFirst.ImagPart.Y * Self.ImagPart.X;
+  Temp.ImagePart.Z := qFirst.RealPart * Self.ImagePart.Z + qFirst.ImagePart.Z * Self.RealPart
+                   + qFirst.ImagePart.X * Self.ImagePart.Y - qFirst.ImagePart.Y * Self.ImagePart.X;
   Result:=Temp;
 end;
 
