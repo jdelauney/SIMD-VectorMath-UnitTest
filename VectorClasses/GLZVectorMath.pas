@@ -823,9 +823,9 @@ end;  *)
       {$ENDIF}
   {$else}
      {$IFDEF USE_ASM_AVX}
-        {$I vectormath_vector_win32_avx_imp.inc}
+        {$I vectormath_vector2f_win32_avx_imp.inc}
      {$ELSE}
-        {$I vectormath_vector_win32_sse_imp.inc}
+        {$I vectormath_vector2f_win32_sse_imp.inc}
      {$ENDIF}
   {$endif}
 {$endif}
@@ -908,9 +908,9 @@ end;
       {$ENDIF}
   {$else}
      {$IFDEF USE_ASM_AVX}
-        {$I vectormath_vector_win32_avx_imp.inc}
+        {$I vectormath_vector4f_win32_avx_imp.inc}
      {$ELSE}
-        {$I vectormath_vector_win32_sse_imp.inc}
+        {$I vectormath_vector4f_win32_sse_imp.inc}
      {$ENDIF}
   {$endif}
 {$endif}
