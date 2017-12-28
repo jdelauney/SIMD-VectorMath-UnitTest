@@ -256,10 +256,18 @@ end;
 
 function CPU_getLargestStandardFunction:integer;  assembler;
 asm
+{$IFDEF CPU32}
+      PUSH      EBX
+      MOV       EAX,0
+      CPUID
+      POP       EBX
+{$ENDIF}
+{$IFDEF CPU64}
        PUSH      RBX
        MOV       EAX,0
        CPUID
        POP RBX
+{$ENDIF}
 end;
 
 function CPU_Signature: Integer;   assembler; 
@@ -531,7 +539,7 @@ end;
 end;
 
 function CPU_VendorID: String; //{$IFDEF FPC} assembler; {$ENDIF}
-var s:array[0..11] of ansichar;
+var s:array[0..50] of char;
 begin
   fillchar(s,sizeof(s),0);
 {$IFDEF CPU32}
@@ -585,9 +593,9 @@ end;
 
 function CPU_FeaturesAsString : String;
 begin
+  result:='';
   if not CPUID_Available then Exit;
   {ciMMX  ,  ciEMMX,  ciSSE   , ciSSE2  , ci3DNow ,  ci3DNowExt}
-  result:='';
   if CPU_HasFeature(cf3DNow)  then result:=result+'3DNow';
   if (result<>'') then result:=result+' / ';
   if CPU_HasFeature(cf3DNowExt) then result:=result+'3DNowExt';
@@ -1055,8 +1063,8 @@ begin
     if CPU_HasFeature(I) then CPUFeaturesData := CPUFeaturesData + [I];
     with ret do
     begin
-       Vendor  := CPU_VendorID;
-       BrandName := CPU_Brand;
+       Vendor  := Trim(CPU_VendorID);
+       BrandName := Trim(CPU_Brand);
        FamillyAsString := '-';//getCPUFamillyAsString;
        Features  := CPUFeaturesData;
        FeaturesAsString := CPU_FeaturesAsString;
@@ -1090,7 +1098,7 @@ begin
        LogicalProcessors :=1;
     end;
   end;
-  result:=ret;
+  result := ret;
 end;
 
 {$ELSE}
@@ -1129,8 +1137,9 @@ end;
 
 initialization
 
+{$ifndef CPU32}
  GLZCpuInfos:=getCPUInfos();
-  
+{$endif}
  (* if CPU_HasFeature(cfSSE) then
   begin
     oldmxcsr:=get_mxcsr;

@@ -306,7 +306,7 @@ Asm
   movss [Result], {%H-}xmm0
 end;
 
-function TGLZVector4f.Spacing(constref A : TGLZVector4f) : Single; assembler; nostackframe; register;
+function TGLZVector4f.Spacing(constref A : TGLZVector4f) : Single; assembler; //nostackframe; register;
 asm
   //Result:=Abs(v2.X-Self.X)+Abs(v2.Y-Self.Y)+Abs(v2.Z-Self.Z)+Abs(v2.W-Self.W);
   movups xmm1, [EAX]
@@ -331,7 +331,7 @@ asm
      shufps xmm1, xmm1, 01010101b  // xmm1 =  - | -  | -  | w  |
      addss xmm0, xmm1              // (x + z  + y) + w
   {$endif}
-//  movss [Result], {%H-}xmm0
+  movss [Result], {%H-}xmm0
 end;
 
 

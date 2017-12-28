@@ -86,8 +86,8 @@ end;
 
 function TGLZVectorHelper.DistancePlaneToPoint(constref point : TGLZVector) : Single; assembler;
 asm
-  movaps xmm0, [ECX]     // xmm0 = Plane->d | Plane->c | Plane->b | Plane->a
-  movaps xmm1, [POINT]   // xmm1 = ???????? | Point->z | Point->y | Point->x
+  movups xmm0, [EAX]     // xmm0 = Plane->d | Plane->c | Plane->b | Plane->a
+  movups xmm1, [POINT]   // xmm1 = ???????? | Point->z | Point->y | Point->x
 
   andps xmm1, [cSSE_MASK_NO_W] // xmm1 = 0 | ...
   movaps xmm7, xmm0                // xmm7 = Plane...

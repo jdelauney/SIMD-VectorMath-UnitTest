@@ -230,7 +230,7 @@ type
     function Length:Single;
     function DistanceSquare(constref A: TGLZVector4f):Single;
     function LengthSquare:Single;
-    function spacing(constref A: TGLZVector4f):Single;
+    function Spacing(constref A: TGLZVector4f):Single;
     function DotProduct(constref A: TGLZVector4f):Single;
     function CrossProduct(constref A: TGLZVector4f): TGLZVector4f;
     function Normalize: TGLZVector4f;
@@ -811,7 +811,7 @@ end;  *)
     {$IFDEF USE_ASM_AVX}
        {$I vectormath_vector_unix32_avx_imp.inc}
     {$ELSE}
-       {$I vectormath_vector_unix32_sse_imp.inc}
+       {$I vectormath_vector2f_unix32_sse_imp.inc}
     {$ENDIF}
   {$endif}
 {$else}
@@ -896,7 +896,7 @@ end;
     {$IFDEF USE_ASM_AVX}
        {$I vectormath_vector_unix32_avx_imp.inc}
     {$ELSE}
-       {$I vectormath_vector_unix32_sse_imp.inc}
+       {$I vectormath_vector4f_unix32_sse_imp.inc}
     {$ENDIF}
   {$endif}
 {$else}
@@ -2159,7 +2159,7 @@ end;
 
 procedure sse_SetRoundMode(Round_Mode: sse_Rounding_Mode);
 begin
- set_mxcsr ((get_mxcsr and sse_no_round_bits_mask) or sse_Rounding_Flags[Round_Mode] );
+ set_mxcsr ((get_mxcsr and sse_no_round_bits_mask) {%H-}or sse_Rounding_Flags[Round_Mode] );
 end;
 
 {%endregion%}

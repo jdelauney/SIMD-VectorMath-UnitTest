@@ -21,22 +21,19 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../VectorClasses"/>
+            <OtherUnitFiles Value="../VectorClasses;../UtilsClasses"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
             <Style Value="1"/>
           </Parsing>
           <CodeGeneration>
-            <TargetCPU Value="x86_64"/>
-            <TargetOS Value="win64"/>
             <Optimizations>
               <OptimizationLevel Value="3"/>
             </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
-              <GenerateDebugInfo Value="False"/>
               <StripSymbols Value="True"/>
             </Debugging>
             <Options>
@@ -65,7 +62,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../VectorClasses"/>
+            <OtherUnitFiles Value="../VectorClasses;../UtilsClasses"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -101,6 +98,7 @@
         </CompilerOptions>
       </Item3>
       <Item4 Name="SSE3_CONFIG_1_TEST">
+        <MacroValues Count="1"/>
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
@@ -108,7 +106,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../VectorClasses"/>
+            <OtherUnitFiles Value="../VectorClasses;../UtilsClasses"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -152,7 +150,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../VectorClasses"/>
+            <OtherUnitFiles Value="../VectorClasses;../UtilsClasses"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -188,6 +186,7 @@
         </CompilerOptions>
       </Item5>
       <Item6 Name="SSE4_CONFIG_1_TEST">
+        <MacroValues Count="1"/>
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
@@ -195,7 +194,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../VectorClasses"/>
+            <OtherUnitFiles Value="../VectorClasses;../UtilsClasses"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -240,7 +239,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../VectorClasses"/>
+            <OtherUnitFiles Value="../VectorClasses;../UtilsClasses"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -284,7 +283,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../VectorClasses"/>
+            <OtherUnitFiles Value="../VectorClasses;../UtilsClasses"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -329,7 +328,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../VectorClasses"/>
+            <OtherUnitFiles Value="../VectorClasses;../UtilsClasses"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -370,7 +369,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../VectorClasses"/>
+            <OtherUnitFiles Value="../VectorClasses;../UtilsClasses"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -410,7 +409,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../VectorClasses"/>
+            <OtherUnitFiles Value="../VectorClasses;../UtilsClasses"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -447,7 +446,7 @@
         </CompilerOptions>
       </Item11>
       <SharedMatrixOptions Count="1">
-        <Item1 ID="197042861580" Modes="Default,SSE3_CONFIG_1,SSE_CONFIG_1,SSE4_CONFIG_1,Native_CONFIG_1,AVX_CONFIG_1,Native_CONFIG_2,AVX_CONFIG_1_TEST" Type="IDEMacro"/>
+        <Item1 ID="197042861580" Modes="Native_CONFIG_1,Native_CONFIG_2,AVX_CONFIG_1_TEST,AVX_CONFIG_1,SSE4_CONFIG_1_TEST,SSE4_CONFIG_1,SSE3_CONFIG_1,SSE3_CONFIG_1_TEST,SSE_CONFIG_1,Default" Type="IDEMacro"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
@@ -469,7 +468,7 @@
         <PackageName Value="FCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="15">
+    <Units Count="17">
       <Unit0>
         <Filename Value="VectorClassesTimingTest32.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -483,55 +482,61 @@
         <IsPartOfProject Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="../VectorClasses/GLZMath.pas"/>
+        <Filename Value="native.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="native.inc"/>
+        <Filename Value="VectorOnSelfTestCase.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="VectorOnSelfTestCase.pas"/>
+        <Filename Value="VectorOtherTestCase.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit5>
       <Unit6>
-        <Filename Value="VectorOtherTestCase.pas"/>
+        <Filename Value="VectorNumericsTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit6>
       <Unit7>
-        <Filename Value="VectorNumericsTimingTest.pas"/>
+        <Filename Value="ReportTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit7>
       <Unit8>
-        <Filename Value="basetimingtest.pas"/>
+        <Filename Value="BaseTestCase.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="BaseTimingTest"/>
       </Unit8>
       <Unit9>
-        <Filename Value="ReportTest.pas"/>
+        <Filename Value="VectorOperatorsTestCase.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit9>
       <Unit10>
-        <Filename Value="BaseTestCase.pas"/>
+        <Filename Value="VectorOperatorsOnSelfTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit10>
       <Unit11>
-        <Filename Value="VectorOperatorsTestCase.pas"/>
+        <Filename Value="VectorOperatorsTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit11>
       <Unit12>
-        <Filename Value="vectornumericstestcase.pas"/>
+        <Filename Value="../UtilsClasses/GLZMath.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="VectorNumericsTestCase"/>
       </Unit12>
       <Unit13>
-        <Filename Value="VectorOperatorsOnSelfTimingTest.pas"/>
+        <Filename Value="MatrixTestCase.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit13>
       <Unit14>
-        <Filename Value="VectorOperatorsTimingTest.pas"/>
+        <Filename Value="MatrixTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit14>
+      <Unit15>
+        <Filename Value="QuaternionTestCase.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="QuaternionTimingTest.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit16>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -541,7 +546,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../VectorClasses"/>
+      <OtherUnitFiles Value="../VectorClasses;../UtilsClasses"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

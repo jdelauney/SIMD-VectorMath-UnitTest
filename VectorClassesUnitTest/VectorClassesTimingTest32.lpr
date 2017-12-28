@@ -4,21 +4,36 @@ program VectorClassesTimingTest32;
 
 uses
   Interfaces, Forms, GuiTestRunner,
-  // Test Case
+  // Vector2f Test Case
+  Vector2OperatorsTestCase,
+  Vector2NumericsTestCase,
+  // Vector4f Test Case
   VectorOperatorsTestCase,
   VectorNumericsTestCase,
   VectorOtherTestCase,
   VectorOnSelfTestCase,
-  // Timing Test Case
+  // Matrix Test Case
+  MatrixTestCase,
+  // Quaternion Test Case
+  QuaternionTestCase,
+  // Vector4f and Plane Test Case
+  VectorAndHmgPlaneHelperTestCase,
+  // Vector2f Timing Test Case
+  Vector2OperatorsTimingTest,
+//  glz_2DHelper_test_cases,
+  // Vector4f Timing Test Case
   VectorOperatorsTimingTest,
+  VectorOperatorsOnSelfTimingTest,
   VectorNumericsTimingTest,
-  VectorOnSelfTimingTest,
-
+  // Matrix Timing Test
+  MatrixTimingTest,
+  // Quaternion Timing Test
+  QuaternionTimingTest,
   { ensure your code is included before this line}
-  ReportTest ;
+  ReportTest, GLZVectorMath;
 
 begin
-  Application.Title:='VectorClassesUnitTest32';
+  Application.Title:='VectorClassesUnitTest';
   Application.Initialize;
   Application.CreateForm(TGuiTestRunner, TestRunner);
   Application.Run;
