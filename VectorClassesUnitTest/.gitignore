@@ -27,6 +27,7 @@ backup/
 *.bak
 lib/
 results/
+*.ini
 
 # Application bundle for Mac OS
 *.app/

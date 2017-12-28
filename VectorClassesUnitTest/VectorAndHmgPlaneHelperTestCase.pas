@@ -40,6 +40,8 @@ begin
   inherited Setup;
   nt3.Create(10.350,10.470,2.482,0.0);
   nt4.Create(20.350,18.470,8.482,0.0);
+  nph1.CreatePlane(nt1,nt2,nt3);
+  ph1.V := nph1.V;
   vt3.V := nt3.V;
   vt4.V := nt4.V;
 end;
