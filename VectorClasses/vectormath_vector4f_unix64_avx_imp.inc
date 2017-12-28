@@ -752,8 +752,8 @@ End;
 procedure TGLZVector4f.pClamp(Constref AMin, AMax: TGLZVector4f); assembler; nostackframe; register;
 asm
   vmovaps xmm0,[RDI]
-  vmovss xmm2, [AMin]
-  vmovss xmm3, [AMax]
+  vmovaps xmm2, [AMin]
+  vmovaps xmm3, [AMax]
   vmaxps  xmm0, xmm0, xmm2
   vminps  xmm0, xmm0, xmm3
   vmovaps [RDI],xmm0

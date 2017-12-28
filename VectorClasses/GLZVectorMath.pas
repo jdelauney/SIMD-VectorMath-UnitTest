@@ -247,9 +247,8 @@ type
 
     function Lerp(Constref B: TGLZVector4f; Constref T:Single): TGLZVector4f;
     function AngleCosine(constref A : TGLZVector4f): Single;
-    {.$ifndef USE_ASM_AVX}
     function AngleBetween(Constref A, ACenterPoint : TGLZVector4f): Single;
-    {.$endif}
+
     function Combine(constref V2: TGLZVector4f; constref F1: Single): TGLZVector4f;
     function Combine2(constref V2: TGLZVector4f; const F1, F2: Single): TGLZVector4f;
     function Combine3(constref V2, V3: TGLZVector4f; const F1, F2, F3: Single): TGLZVector4f;
