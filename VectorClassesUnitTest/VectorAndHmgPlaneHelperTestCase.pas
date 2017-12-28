@@ -52,7 +52,7 @@ procedure TVectorAndHmgPlaneHelperTestCase.TestCreate;
 begin
   nph1.CreatePlane(nt1,nt2,nt3);
   ph1.CreatePlane(vt1,vt2,vt3);
-  AssertTrue('HmgPlaneHelper Create no match'+nph1.ToString+' --> '+ph1.ToString, Compare(nph1,ph1));
+  AssertTrue('HmgPlaneHelper Create no match'+nph1.ToString+' --> '+ph1.ToString, Compare(nph1,ph1, 1e-5));
 end;
 
 procedure TVectorAndHmgPlaneHelperTestCase.TestNormalizePlane;
@@ -82,7 +82,7 @@ procedure TVectorAndHmgPlaneHelperTestCase.TestAverageNormal4;
 begin
   nt5 := nt1.AverageNormal4(nt1,nt2,nt3,nt4);
   vt5 := vt1.AverageNormal4(vt1,vt2,vt3,vt4);
-  AssertTrue('VectorHelper AverageNormal4 no match'+nt5.ToString+' --> '+vt5.ToString, Compare(nt5,vt5));
+  AssertTrue('VectorHelper AverageNormal4 no match'+nt5.ToString+' --> '+vt5.ToString, Compare(nt5,vt5, 1e-7));
 end;
 
 procedure TVectorAndHmgPlaneHelperTestCase.TestPointProject;

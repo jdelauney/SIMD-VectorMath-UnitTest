@@ -31,7 +31,7 @@ unit GLZProfiler;
 interface
 
 uses
-  Classes, SysUtils, DOM, XMLWrite, XMLRead,
+  Classes, SysUtils, Laz2_DOM, Laz2_XMLWrite, Laz2_XMLRead,
   GLZTypes, GLZCpuID, GLZSystem,
   GLZStopWatch;
 
@@ -545,8 +545,6 @@ begin
       XMLDoc := TXMLDocument.Create;
       XMLDoc.AppendChild(XMLDoc.CreateElement('profile'));
     end;
-     // if not(FileExists(FileName)) then
-     // begin
     if not(FileExists(FileName)) then
     begin
         Node := XMLDoc.FindNode('profile');
@@ -556,11 +554,11 @@ begin
         CPUInfos:=GLZCPUInfos;
         with Element do
         begin
-          AttribStrings['Signature'] := StringToWideString(IntToStr(CPUInfos.Signature));
-          AttribStrings['Vendor'] := StringToWideString(CPUInfos.Vendor);
-          AttribStrings['Brand'] := StringToWideString(CPUInfos.BrandName);
-          AttribStrings['LogicalProcessors'] := StringToWideString(IntToStr(CPUInfos.LogicalProcessors));
-          AttribStrings['Speed'] := StringToWideString(IntToStr(CPUInfos.Speed));
+          AttribStrings['Signature'] := IntToStr(CPUInfos.Signature);
+          AttribStrings['Vendor'] := CPUInfos.Vendor;
+          AttribStrings['Brand'] := CPUInfos.BrandName;
+          AttribStrings['LogicalProcessors'] := IntToStr(CPUInfos.LogicalProcessors);
+          AttribStrings['Speed'] := IntToStr(CPUInfos.Speed);
         end;
         Node.AppendChild(Element);
 
@@ -568,8 +566,8 @@ begin
         Element := XMLDoc.CreateElement('OS');
         with Element do
         begin
-          AttribStrings['Name'] := StringToWideString(GetPlatformVersionAsString);
-          AttribStrings['Device'] := StringToWideString(ReplaceStr(GetDeviceCapabilitiesAsString,#13#10,' - '));
+          AttribStrings['Name'] := GetPlatformVersionAsString;
+          AttribStrings['Device'] := ReplaceStr(GetDeviceCapabilitiesAsString,#13#10,' - ');
         end;
         Node.AppendChild(Element);
    //   end;
@@ -585,13 +583,13 @@ begin
     Element := XMLDoc.CreateElement('trace');
     with Element do
     begin
-      AttribStrings['Name'] := StringToWideString(Items[Index].Name);
-      AttribStrings['MinTicks'] := StringToWideString(IntToStr(Items[Index].MinTicks));
-      AttribStrings['MaxTicks'] := StringToWideString(IntToStr(Items[Index].MaxTicks));
-      AttribStrings['TotalTicks'] := StringToWideString(IntToStr(Items[Index].TotalTicks));
-      AttribStrings['LastTicks'] := StringToWideString(IntToStr(Items[Index].LastTicks));
-      AttribStrings['Count'] := StringToWideString(Inttostr(Items[Index].Count));
-      AttribStrings['FPSMode'] := StringToWideString(bool2StrFR[Items[Index].FPSMode]);
+      AttribStrings['Name'] := Items[Index].Name;
+      AttribStrings['MinTicks'] := IntToStr(Items[Index].MinTicks);
+      AttribStrings['MaxTicks'] := IntToStr(Items[Index].MaxTicks);
+      AttribStrings['TotalTicks'] := IntToStr(Items[Index].TotalTicks);
+      AttribStrings['LastTicks'] := IntToStr(Items[Index].LastTicks);
+      AttribStrings['Count'] := (Inttostr(Items[Index].Count));
+      AttribStrings['FPSMode'] := bool2StrFR[Items[Index].FPSMode];
     end;
     Node.AppendChild(Element);
   end;
