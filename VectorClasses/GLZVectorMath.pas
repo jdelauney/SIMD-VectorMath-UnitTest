@@ -809,7 +809,7 @@ end;  *)
     {$ENDIF}
   {$else}
     {$IFDEF USE_ASM_AVX}
-       {$I vectormath_vector_unix32_avx_imp.inc}
+       {$I vectormath_vector2f_unix32_avx_imp.inc}
     {$ELSE}
        {$I vectormath_vector2f_unix32_sse_imp.inc}
     {$ENDIF}
@@ -894,7 +894,7 @@ end;
     {$ENDIF}
   {$else}
     {$IFDEF USE_ASM_AVX}
-       {$I vectormath_vector_unix32_avx_imp.inc}
+       {$I vectormath_vector4f_unix32_avx_imp.inc}
     {$ELSE}
        {$I vectormath_vector4f_unix32_sse_imp.inc}
     {$ENDIF}

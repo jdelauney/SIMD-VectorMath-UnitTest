@@ -7,4 +7,4 @@ Results/
 *.ini
 
 # Unix executables
-VectorClassesUnitTest64-SSE 
+VectorClassesUnitTest* 

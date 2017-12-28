@@ -9,51 +9,9 @@
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
     </General>
-    <BuildModes Count="10" Active="SSE4_CONFIG_1">
-      <Item1 Name="SSE_CONFIG_1">
-        <MacroValues Count="1"/>
-        <CompilerOptions>
-          <Version Value="11"/>
-          <Target>
-            <Filename Value="VectorClassesUnitTest64-SSE"/>
-          </Target>
-          <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../VectorClasses;../UtilsClasses"/>
-            <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
-          </SearchPaths>
-          <Parsing>
-            <Style Value="1"/>
-          </Parsing>
-          <CodeGeneration>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
-          </CodeGeneration>
-          <Linking>
-            <Debugging>
-              <GenerateDebugInfo Value="False"/>
-              <StripSymbols Value="True"/>
-            </Debugging>
-            <Options>
-              <Win32>
-                <GraphicApplication Value="True"/>
-              </Win32>
-            </Options>
-          </Linking>
-          <Other>
-            <CustomOptions Value="-CfSSE3
--Sv
--al
--an
--ar
--dUSE_ASM
--dSSE_CONFIG_1"/>
-          </Other>
-        </CompilerOptions>
-      </Item1>
+    <BuildModes Count="10">
+      <Item1 Name="SSE_CONFIG_1" Default="True"/>
       <Item2 Name="SSE3_CONFIG_1">
-        <MacroValues Count="1"/>
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
@@ -95,7 +53,6 @@
         </CompilerOptions>
       </Item2>
       <Item3 Name="SSE3_CONFIG_1_TEST">
-        <MacroValues Count="1"/>
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
@@ -139,7 +96,6 @@
         </CompilerOptions>
       </Item3>
       <Item4 Name="SSE4_CONFIG_1">
-        <MacroValues Count="1"/>
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
@@ -181,7 +137,6 @@
         </CompilerOptions>
       </Item4>
       <Item5 Name="SSE4_CONFIG_1_TEST">
-        <MacroValues Count="1"/>
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
@@ -224,7 +179,6 @@
         </CompilerOptions>
       </Item5>
       <Item6 Name="AVX_CONFIG_1">
-        <MacroValues Count="1"/>
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
@@ -266,7 +220,6 @@
         </CompilerOptions>
       </Item6>
       <Item7 Name="AVX_CONFIG_1_TEST">
-        <MacroValues Count="1"/>
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
@@ -309,7 +262,6 @@
         </CompilerOptions>
       </Item7>
       <Item8 Name="Native_CONFIG_1">
-        <MacroValues Count="1"/>
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
@@ -348,7 +300,6 @@
         </CompilerOptions>
       </Item8>
       <Item9 Name="Native_CONFIG_2">
-        <MacroValues Count="1"/>
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
@@ -387,7 +338,6 @@
         </CompilerOptions>
       </Item9>
       <Item10 Name="SSE_CONFIG_1_TEST">
-        <MacroValues Count="1"/>
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
@@ -429,18 +379,6 @@
           </Other>
         </CompilerOptions>
       </Item10>
-      <SessionEnabledMatrixOptions Count="10">
-        <Item1 Mode="SSE_CONFIG_1" Option="197042861580"/>
-        <Item2 Mode="SSE3_CONFIG_1" Option="197042861580"/>
-        <Item3 Mode="SSE3_CONFIG_1_TEST" Option="197042861580"/>
-        <Item4 Mode="SSE4_CONFIG_1" Option="197042861580"/>
-        <Item5 Mode="SSE4_CONFIG_1_TEST" Option="197042861580"/>
-        <Item6 Mode="AVX_CONFIG_1" Option="197042861580"/>
-        <Item7 Mode="AVX_CONFIG_1_TEST" Option="197042861580"/>
-        <Item8 Mode="Native_CONFIG_1" Option="197042861580"/>
-        <Item9 Mode="Native_CONFIG_2" Option="197042861580"/>
-        <Item10 Mode="SSE_CONFIG_1_TEST" Option="197042861580"/>
-      </SessionEnabledMatrixOptions>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -568,7 +506,7 @@
 -an
 -ar
 -dUSE_ASM
--dCONFIG_1"/>
+-dSSE_CONFIG_1"/>
     </Other>
   </CompilerOptions>
   <Debugging>
