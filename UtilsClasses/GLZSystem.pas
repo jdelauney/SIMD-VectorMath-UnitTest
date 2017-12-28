@@ -149,7 +149,7 @@ function GetDeviceCapabilities: TDeviceCapabilities;
 // Retourne le nombre de bit pour l'affichage
 function GetCurrentColorDepth: Integer;
 // Retourne la largeur de l'affichage en DPI
-function GetDeviceLogicalPixelsX(device: HDC): Integer;
+function GetDeviceLogicalPixelsX({%H-}device: HDC): Integer;
 // Retourne les carateristique d'affichage de l'appareil sous forme de chaine de caratères
 function GetDeviceCapabilitiesAsString: String;
 

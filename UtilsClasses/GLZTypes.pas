@@ -36,9 +36,9 @@ Unit GLZTypes;
 Interface
 
 Uses
-  LCLIntf, LCLType,
-  Classes, SysUtils, types, Graphics,
-  GLZVectorMath;
+//  LCLIntf, LCLType,  Graphics,
+  Classes, SysUtils, types;
+//  GLZVectorMath;
 
 
 //==============================================================================
@@ -332,7 +332,7 @@ type
     etBounceOutIn
   );
 Const
-  { Constantes pour les vecteurs
+ (* { Constantes pour les vecteurs
   @groupbegin }
   XYZVector: TGLZVector = (X: 1; Y: 1; Z: 1; W: 0);
   XHmgVector: TGLZVector = (X: 1; Y: 0; Z: 0; W: 0);
@@ -346,7 +346,7 @@ Const
   XYZWHmgVector: TGLZVector = (X: 1; Y: 1; Z: 1; W: 1);
   NullHmgVector: TGLZVector = (X: 0; Y: 0; Z: 0; W: 0);
   { @groupend }
-
+*)
   { Autres Constantes
   @groupbegin }
   Bool2StrEN: Array[Boolean] Of String = ('False', 'True');

@@ -1063,8 +1063,8 @@ begin
     if CPU_HasFeature(I) then CPUFeaturesData := CPUFeaturesData + [I];
     with ret do
     begin
-       Vendor  := Trim(CPU_VendorID);
-       BrandName := Trim(CPU_Brand);
+       Vendor  := CPU_VendorID;
+       BrandName := CPU_Brand;
        FamillyAsString := '-';//getCPUFamillyAsString;
        Features  := CPUFeaturesData;
        FeaturesAsString := CPU_FeaturesAsString;
