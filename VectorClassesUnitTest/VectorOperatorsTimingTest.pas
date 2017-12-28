@@ -13,7 +13,7 @@ uses
 {$I config.inc}
 
 type
-  { TVector2OperatorsTimingTest }
+  { TVectorOperatorsTimingTest }
   TVectorOperatorsTimingTest = class(TVectorBaseTimingTest)
   published
     procedure TimeAdd;

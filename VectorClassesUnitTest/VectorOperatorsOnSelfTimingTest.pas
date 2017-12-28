@@ -30,6 +30,8 @@ type
     procedure TimepMinSingle;
     procedure TimepMaxVector;
     procedure TimepMaxSingle;
+    procedure TimepClampVector;
+    procedure TimepClampSingle;
   end;
 
 implementation
@@ -287,6 +289,34 @@ begin
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;
   For cnt:= 1 to 20000000 do begin vt1.pMax(r1); end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVectorOperatorsOnSelfTimingTest.TimepClampVector;
+begin
+  GlobalProfiler.Clear;
+  TestDispName := 'Self Clamp Vector';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to 20000000 do begin nt1.pClamp(nt2,nt1); end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  For cnt:= 1 to 20000000 do begin vt1.pClamp(vt2,vt1); end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVectorOperatorsOnSelfTimingTest.TimepClampSingle;
+begin
+  GlobalProfiler.Clear;
+  TestDispName := 'Self Clamp Single';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to 20000000 do begin nt1.pClamp(fs2,fs1); end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  For cnt:= 1 to 20000000 do begin vt1.pClamp(fs2,fs1); end;
   GlobalProfiler[1].Stop;
 end;
 

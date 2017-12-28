@@ -60,7 +60,7 @@ procedure TVector2NumericsTestCase.TestDistanceVector;
 begin
   Fs1 := ntt1.Distance(ntt2);
   Fs2 := vtt1.Distance(vtt2);
-  AssertTrue('Vector2f  distances do not match : '+FLoattostrF(fs1,fffixed,3,3)+' --> '+FLoattostrF(fs2,fffixed,3,3), IsEqual(Fs1,Fs2));//
+  AssertTrue('Vector2f  distances do not match : '+FLoattostrF(fs1,fffixed,3,3)+' --> '+FLoattostrF(fs2,fffixed,3,3), IsEqual(Fs1,Fs2));
 end;
 
 procedure TVector2NumericsTestCase.TestLengthVector;
@@ -74,7 +74,7 @@ procedure TVector2NumericsTestCase.TestDistanceSquareVector;
 begin
   Fs1 := ntt1.DistanceSquare(ntt2);
   Fs2 := vtt1.DistanceSquare(vtt2);
-  AssertTrue('Vector2f  distances do not match : '+FLoattostrF(fs1,fffixed,3,3)+' --> '+FLoattostrF(fs2,fffixed,3,3), IsEqual(Fs1,Fs2));//
+  AssertTrue('Vector2f  distances do not match : '+FLoattostrF(fs1,fffixed,3,3)+' --> '+FLoattostrF(fs2,fffixed,3,3), IsEqual(Fs1,Fs2));
 end;
 
 procedure TVector2NumericsTestCase.TestLengthSquareVector;

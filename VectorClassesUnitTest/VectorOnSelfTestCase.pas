@@ -31,6 +31,8 @@ type
     procedure TestpNormalize;
     procedure TestpMulAdd;
     procedure TestpMulDiv;
+    procedure TestpClampVector;
+    procedure TestpClampSingle;
   end;
 
 implementation
@@ -157,6 +159,20 @@ begin
   nt1.pMulDiv(nt2, nt1);
   vt1.pMulDiv(vt2, vt1);
   AssertTrue('Vector pMulDivs do not match : '+nt1.ToString+' --> '+vt1.ToString, Compare(nt1,vt1));
+end;
+
+procedure TVectorOnSelfTestCase.TestpClampVector;
+begin
+  nt1.pClamp(nt2,nt1);
+  vt1.pClamp(vt2,vt1);
+  AssertTrue('Vector pClamp vectors do not match : '+nt1.ToString+' --> '+vt1.ToString, Compare(nt1,vt1));
+end;
+
+procedure TVectorOnSelfTestCase.TestpClampSingle;
+begin
+  nt1.pClamp(fs2,fs1);
+  vt1.pClamp(fs2,fs1);
+  AssertTrue('Vector pClampSingle do not match : '+ nt1.ToString+' --> '+vt1.ToString, Compare(nt1,vt1));
 end;
 
 {%endregion%}
