@@ -508,14 +508,14 @@ End;
 
 procedure TGLZVector4f.pClamp(Constref AMin, AMax: TGLZVector4f);
 begin
-  Self.Max(AMin);
-  Self.Min(AMax);
+  Self.pMax(AMin);
+  Self.pMin(AMax);
 End;
 
 procedure TGLZVector4f.pClamp(constref AMin, AMax: Single);
 begin
-  Self.Max(AMin);
-  Self.Min(AMax);
+  Self.pMax(AMin);
+  Self.pMin(AMax);
 End;
 
 procedure TGLZVector4f.pMulAdd(Constref B, C: TGLZVector4f); // (Self*B)+c
