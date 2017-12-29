@@ -816,7 +816,7 @@ end;  *)
 {$else}
   {$ifdef CPU64}
      {$IFDEF USE_ASM_AVX}
-         {$I vectormath_vector_win64_avx_imp.inc}
+         {$I vectormath_vector2f_win64_avx_imp.inc}
       {$ELSE}
          {$I vectormath_vector2f_win64_sse_imp.inc}
       {$ENDIF}
@@ -901,7 +901,7 @@ end;
 {$else}
   {$ifdef CPU64}
      {$IFDEF USE_ASM_AVX}
-         {$I vectormath_vector_win64_avx_imp.inc}
+         {$I vectormath_vector4f_win64_avx_imp.inc}
       {$ELSE}
          {$I vectormath_vector4f_win64_sse_imp.inc}
       {$ENDIF}
