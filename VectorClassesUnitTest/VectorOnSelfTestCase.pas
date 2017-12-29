@@ -163,8 +163,10 @@ end;
 
 procedure TVectorOnSelfTestCase.TestpClampVector;
 begin
-  nt1.pClamp(nt2,nt1);
-  vt1.pClamp(vt2,vt1);
+  nt3 := nt1.DivideBy2;
+  vt3.V := nt3.V;
+  nt1.pClamp(nt2,nt3);
+  vt1.pClamp(vt2,vt3);
   AssertTrue('Vector pClamp vectors do not match : '+nt1.ToString+' --> '+vt1.ToString, Compare(nt1,vt1));
 end;
 
