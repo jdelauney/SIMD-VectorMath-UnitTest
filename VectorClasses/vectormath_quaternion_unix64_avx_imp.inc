@@ -18,8 +18,8 @@ end;
 
 class operator TGLZQuaternion.-(constref A: TGLZQuaternion): TGLZQuaternion; assembler; nostackframe; register;
 asm
-  vmovups xmm1, [A]
-  vmovups xmm0, [RIP+cNullVector4f]
+  vmovaps xmm1, [A]
+  vmovaps xmm0, [RIP+cNullVector4f]
   vsubps  xmm0, xmm0, xmm1
   movhlps xmm1, xmm0
 end;

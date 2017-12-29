@@ -778,8 +778,8 @@ End;
 procedure TGLZVector4f.pClamp(constref AMin, AMax: Single); assembler; nostackframe; register;
 asm
   vmovups xmm0,[EAX]
-  vmovss xmm2, [AMin]
-  vmovss xmm3, [AMax]
+  vmovaps xmm2, [AMin]
+  vmovaps xmm3, [AMax]
   vshufps xmm2, xmm2, xmm2, $00 // Replicate AMin
   vshufps xmm3, xmm3, xmm3, $00 // Replicate AMax
   vmaxps  xmm0, xmm0, xmm2

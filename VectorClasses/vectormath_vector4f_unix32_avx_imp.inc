@@ -315,8 +315,8 @@ end;
 function TGLZVector4f.Clamp(constref AMin, AMax: Single): TGLZVector4f; assembler; nostackframe; register;
 asm
   vmovups xmm0,[EAX]
-  vmovss xmm2, [AMin]
-  vmovss xmm3, [AMax]
+  vmovaps xmm2, [AMin]
+  vmovaps xmm3, [AMax]
   vshufps xmm2, xmm2, xmm2, $00
   vshufps xmm3, xmm3, xmm3, $00
   vmaxps  xmm0, xmm0, xmm2
