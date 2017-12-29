@@ -26,6 +26,7 @@ type
     procedure TestSubSingle;
     procedure TestMulQuaternion;
     procedure TestMulSingle;
+    procedure TestDivSingle;
     procedure TestNegate;
     procedure TestConjugate;
     procedure TestMagnitude;
@@ -124,6 +125,19 @@ begin
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;
   For cnt:= 1 to Iterations do begin qt3 := qt1 * FS1; end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TQuaternionTimingTest.TestDivSingle;
+begin
+  TestDispName := 'Quaternion Divide Single';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin nqt3 := nqt1 / FS1; end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  For cnt:= 1 to Iterations do begin qt3 := qt1 / FS1; end;
   GlobalProfiler[1].Stop;
 end;
 

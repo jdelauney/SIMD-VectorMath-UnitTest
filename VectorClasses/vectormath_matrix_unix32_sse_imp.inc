@@ -523,6 +523,7 @@ asm
   {$ENDIF}
 
 *)
+movss [result], xmm0  ////dummy
 end;
 
 Function TGLZMatrix4.Translate(constref V : TGLZVector) : TGLZMatrix4; assembler;

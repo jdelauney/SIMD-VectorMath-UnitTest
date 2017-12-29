@@ -16,8 +16,8 @@ type
     procedure Setup; override;
   public
     {$CODEALIGN RECORDMIN=16}
-    nqt1, nqt2,nqt3 : TNativeGLZQuaternion;
-    qt1,qt2,qt3     : TGLZQuaternion;
+    nqt1, nqt2, nqt3 : TNativeGLZQuaternion;
+    qt1, qt2, qt3    : TGLZQuaternion;
     {$CODEALIGN RECORDMIN=4}
   published
     procedure TestAddQuaternion;
@@ -26,6 +26,7 @@ type
     procedure TestSubSingle;
     procedure TestMulQuaternion;
     procedure TestMulSingle;
+    procedure TestDivSingle;
     procedure TestNegate;
     procedure TestConjugate;
     procedure TestMagnitude;
@@ -89,6 +90,13 @@ begin
   nqt3 := nqt1 * FS1;
   qt3 := qt1 * FS1;
   AssertTrue('Quaternion * Single no match'+nqt3.ToString+' --> '+qt3.ToString, CompareQuaternion(nqt3,qt3));
+end;
+
+procedure TQuaternionTestCase.TestDivSingle;
+begin
+  nqt3 := nqt1 / FS1;
+  qt3 := qt1 / FS1;
+  AssertTrue('Quaternion / Single no match'+nqt3.ToString+' --> '+qt3.ToString, CompareQuaternion(nqt3,qt3));
 end;
 
 procedure TQuaternionTestCase.TestNegate;
