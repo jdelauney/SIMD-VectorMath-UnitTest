@@ -712,8 +712,8 @@ End;
 
 procedure TNativeGLZVector4f.pClamp(Constref AMin, AMax: TNativeGLZVector4f);
 begin
-  Self.Max(AMin);
-  Self.Min(AMax);
+  Self.pMax(AMin);
+  Self.pMin(AMax);
 End;
 
 procedure TNativeGLZVector4f.pClamp(constref AMin, AMax: Single);
