@@ -180,7 +180,7 @@ uses
     JwaWinBase,{, JwaWinNt}
     winpeimagereader; {need this for reading exe info}
    {$ENDIF}
-   {$IFDEF LINUX}
+   {$IFDEF UNIX}
      LCLProc,
      elfreader; {needed for reading ELF executables}
    {$ENDIF}
@@ -198,7 +198,7 @@ uses
 //  CPUExtensionsFeatureCheck : array[TCPUExtensionsFeaturesSet] of byte =(22,23,23,30,31,20);
 
 
-{$IFDEF LINUX}
+{$IFDEF UNIX}
 const _SC_NPROCESSORS_ONLN = 83;
 function sysconf(i: cint): clong; cdecl; external name 'sysconf';
 {$ENDIF}
@@ -251,7 +251,7 @@ begin
 end;
 {$ENDIF}
 
-{$IFDEF LINUX}
+{$IFDEF UNIX}
 var
   tz: timeval;
 begin
@@ -276,7 +276,7 @@ begin
 end;
 {$ENDIF}
 
-{$IFDEF LINUX}
+{$IFDEF UNIX}
 var
   vProgStartSecond: int64;
 
@@ -295,7 +295,7 @@ begin
   Windows.QueryPerformanceCounter(val);
 end;
 {$ENDIF}
-{$IFDEF LINUX}
+{$IFDEF UNIX}
 var
   tz: timeval;
 begin
@@ -312,7 +312,7 @@ begin
   Result := Boolean(Windows.QueryPerformanceFrequency(val));
 end;
 {$ENDIF}
-{$IFDEF LINUX}
+{$IFDEF UNIX}
 begin
   val := 1000000;
   Result := True;
@@ -351,7 +351,7 @@ begin
     Version :=  InttoStr(OSVersionInfo.DwMajorVersion)+'.'+InttoStr(OSVersionInfo.DwMinorVersion)+' Build : '+InttoStr(OSVersionInfo.dwBuildNumber);
   end;
   {$ENDIF}
-  {$IFDEF LINUX}
+  {$IFDEF UNIX}
   {$IFNDEF DARWIN}
   ReleseList := TStringList.Create;
 
@@ -468,7 +468,7 @@ begin
         end;
    end;
   {$ENDIF}
-  {$IFDEF LINUX}
+  {$IFDEF UNIX}
   with GetPlatformInfo do
   begin
     if Version='' then Exit;
@@ -629,7 +629,7 @@ begin
 {$IFDEF WINDOWS}
   ShellExecute(0, 'open', PChar(Url), nil, nil, SW_SHOW);
 {$ENDIF}
-{$IFDEF LINUX}
+{$IFDEF UNIX}
   fpSystem(PChar('env xdg-open ' + Url));
 {$ENDIF}
 end;
@@ -648,7 +648,7 @@ end;
 
 initialization
    vGLZStartTime := GLZStartTime;
-  {$IFDEF LINUX}
+  {$IFDEF UNIX}
     Init_vProgStartSecond;
   {$ENDIF}
 
