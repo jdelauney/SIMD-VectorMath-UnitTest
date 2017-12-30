@@ -2,11 +2,11 @@ procedure TGLZVectorHelper.CreatePlane(constref p1, p2, p3 : TGLZVector);assembl
 asm
   movups xmm0, [p1]
   movups xmm1, [p2]
-  mov ebx, [p3]
+  mov    ebx,  [p3]
   movups xmm2, [ebx]
   movaps xmm7, xmm0
-  subps xmm0, xmm1
-  subps xmm2, xmm1
+  subps  xmm0, xmm1
+  subps  xmm2, xmm1
 
   // Crossprod of xmm0 and xmm2
   movaps xmm1, xmm0
@@ -23,37 +23,37 @@ asm
 
   // Calculation of 'd' component
 
-  andps xmm2, [cSSE_MASK_NO_W]
+  andps  xmm2, [cSSE_MASK_NO_W]
 
   movaps xmm4, xmm2
 
   // Multiply with point 'p1' on the polygon (saved in xmm7): xmm2 = 0 | a.z*z | a.y*y | a.x*x
-  mulps xmm2, xmm7
+  mulps  xmm2, xmm7
   {$ifdef USE_ASM_SSE_3}
     // horizontally add, xmm2 = x^2+y^2+z^2 | x^2+y^2+z^2 | x^2+y^2+z^2 | x^2+y^2+z^2
     haddps xmm2, xmm2
     haddps xmm2, xmm2
 
     // Change sign for top component, remove bits for others
-    xorps xmm2, [cSSE_SIGN_MASK_PPPN]  // xmm2 = -(x^2+y^2+z^2) | .... | ...
-    andps xmm2, [cSSE_MASK_ONLY_W]	  // xmm2 = -(x^2+y^2+z^2) | 0 | 0 | 0
-    orps xmm4, xmm2                       // xmm4 = -(x^2+y^2+z^2) | z | y | x
+    xorps  xmm2, [cSSE_SIGN_MASK_PPPN]  // xmm2 = -(x^2+y^2+z^2) | .... | ...
+    andps  xmm2, [cSSE_MASK_ONLY_W]     // xmm2 = -(x^2+y^2+z^2) | 0 | 0 | 0
+    orps   xmm4, xmm2                   // xmm4 = -(x^2+y^2+z^2) | z | y | x
   {$else}
 
-    movhlps xmm3, xmm2     // xmm3 = ?   | ?   | 0   |  z^2
-    addss xmm3, xmm2       // xmm3 = ?   | ?   | 0   | z^2 + x^2
-    shufps xmm2, xmm2, $55 // xmm2 = y^2 | y^2 | y^2 | y^2
-    addss xmm3, xmm2       // xmm3 = ?   | ?   | ?   | x^2+y^2+z^2
+    movhlps xmm3, xmm2       // xmm3 = ?   | ?   | 0   |  z^2
+    addss   xmm3, xmm2       // xmm3 = ?   | ?   | 0   | z^2 + x^2
+    shufps  xmm2, xmm2, $55  // xmm2 = y^2 | y^2 | y^2 | y^2
+    addss   xmm3, xmm2       // xmm3 = ?   | ?   | ?   | x^2+y^2+z^2
     // Change sign
-    xorps xmm3, [cSSE_SIGN_MASK_NPPP] // xmm3 = ? | ? | ? | -(x^2+y^2+z^2)
+    xorps   xmm3, [cSSE_SIGN_MASK_NPPP] // xmm3 = ? | ? | ? | -(x^2+y^2+z^2)
     // Move to w component location, mask off xyz, and OR with saved portions
-    shufps xmm3,xmm3, $00                // xmm3 = -(x^2+y^2+z^2) | -(x^2+y^2+z^2) | -(x^2+y^2+z^2) | -(x^2+y^2+z^2)
-    andps xmm3, [cSSE_MASK_ONLY_W]   // xmm3 = -(x^2+y^2+z^2) | 0 | 0 | 0
-    orps xmm4, xmm3                      // xmm4 = -(x^2+y^2+z^2) | z | y | x */
+    shufps  xmm3, xmm3, $00             // xmm3 = -(x^2+y^2+z^2) | -(x^2+y^2+z^2) | -(x^2+y^2+z^2) | -(x^2+y^2+z^2)
+    andps   xmm3, [cSSE_MASK_ONLY_W]    // xmm3 = -(x^2+y^2+z^2) | 0 | 0 | 0
+    orps    xmm4, xmm3                  // xmm4 = -(x^2+y^2+z^2) | z | y | x */
   {$endif}
 
   // Save plane coefficients
-  movups [EAX],xmm4
+  movups [EAX], xmm4
 end;
 
 
@@ -63,8 +63,8 @@ function TGLZVectorHelper.NormalizePlane:TGLZHmgPlane;assembler;
 asm
   movups xmm0, [EAX]
   movaps xmm2, xmm0
-  mulps xmm0, xmm0
-  andps xmm0, [cSSE_MASK_NO_W]
+  mulps  xmm0, xmm0
+  andps  xmm0, [cSSE_MASK_NO_W]
   {$ifdef USE_ASM_SSE_3}
 
        haddps xmm0, xmm0
@@ -72,14 +72,14 @@ asm
 
   {$else}
     movhlps xmm1, xmm0
-    addss xmm1, xmm0
-    shufps xmm1, xmm1, $55
-    addss xmm0, xmm1
+    addss   xmm1, xmm0
+    shufps  xmm1, xmm1, $55
+    addss   xmm0, xmm1
   {$endif}
   sqrtps xmm0, xmm0
   movaps xmm1, [cOneVector4f]
-  divps xmm1, xmm0
-  mulps xmm2, xmm1
+  divps  xmm1, xmm0
+  mulps  xmm2, xmm1
   movaps xmm0, xmm2
   movups [RESULT], xmm0
 end;
@@ -89,22 +89,22 @@ asm
   movups xmm0, [EAX]     // xmm0 = Plane->d | Plane->c | Plane->b | Plane->a
   movups xmm1, [POINT]   // xmm1 = ???????? | Point->z | Point->y | Point->x
 
-  andps xmm1, [cSSE_MASK_NO_W] // xmm1 = 0 | ...
-  movaps xmm7, xmm0                // xmm7 = Plane...
+  andps  xmm1, [cSSE_MASK_NO_W]     // xmm1 = 0 | ...
+  movaps xmm7, xmm0                 // xmm7 = Plane...
 
-  mulps xmm1, xmm0        // xmm1 = d*0.0 | c*z | b*y | a*x
-  shufps xmm7, xmm7, $FF  // xmm7 = d | d | d | d
+  mulps  xmm1, xmm0                 // xmm1 = d*0.0 | c*z | b*y | a*x
+  shufps xmm7, xmm7, $FF            // xmm7 = d | d | d | d
 
   {$ifdef USE_ASM_SSE_3}
     haddps xmm1, xmm1               // xmm1 = ... | ... | z*c + 0 | x*a + y*b
     haddps xmm1, xmm1               // xmm1 = ... | ... | dot(Plane, Point)
-    andps xmm1, [cSSE_MASK_ABS] // xmm1 = ??? | ??? | ??? | abs(dot(Plane, Point))
-    addss xmm1, xmm7                // xmm1 = ? | ? | ? | fabsf(dot(Plane, Point)) + Plane->d
+    andps  xmm1, [cSSE_MASK_ABS]    // xmm1 = ??? | ??? | ??? | abs(dot(Plane, Point))
+    addss  xmm1, xmm7               // xmm1 = ? | ? | ? | fabsf(dot(Plane, Point)) + Plane->d
   {$else}
     movhlps xmm2, xmm1              // xmm2 = ???? | ???? | d*0.0 | z*c */
     addss xmm2, xmm1                // xmm2 = ???? | ???? | ????  | x*a + z*c*/
     shufps xmm1, xmm1, $55          // xmm1 = ???? | ???? | ????  | y*b */
-    andps xmm1, [cSSE_MASK_ABS] // xmm1 = abs(dot(Plane, Point))
+    andps xmm1, [cSSE_MASK_ABS]     // xmm1 = abs(dot(Plane, Point))
     addss xmm1, xmm2                // xmm1 = + Plane.W
   {$endif}
   movss [RESULT], {%H-}xmm1
@@ -115,11 +115,11 @@ asm
   movaps xmm0, [EAX]    // xmm0 = Plane->d | Plane->c | Plane->b | Plane->a
   movaps xmm1, [Center] // xmm1 = ????????? | Sphere->Center.z | Sphere->Center.y | Sphere->Center.x
 
-  andps xmm1, [cSSE_MASK_NO_W] // xmm1 = 0 | ...
-  movaps xmm7, xmm0                // xmm7 = Plane...
+  andps  xmm1, [cSSE_MASK_NO_W] // xmm1 = 0 | ...
+  movaps xmm7, xmm0             // xmm7 = Plane...
 
-  mulps xmm1, xmm0        // xmm1 = d*0.0 | c*z | b*y | a*x
-  shufps xmm7, xmm7, $FF  // xmm7 = d | d | d | d
+  mulps  xmm1, xmm0             // xmm1 = d*0.0 | c*z | b*y | a*x
+  shufps xmm7, xmm7, $FF        // xmm7 = d | d | d | d
   {$ifdef USE_ASM_SSE_3}
     {$ifdef TEST}
       movshdup    xmm2, xmm1
@@ -151,17 +151,17 @@ asm
        //vzeroupper ????
       }
     {$else}
-      haddps xmm1, xmm1               // xmm1 = ... | ... | z*c + 0 | x*a + y*b
-      haddps xmm1, xmm1               // xmm1 = ... | ... | dot(pPlane, pSphere->Center)
+      haddps xmm1, xmm1            // xmm1 = ... | ... | z*c + 0 | x*a + y*b
+      haddps xmm1, xmm1            // xmm1 = ... | ... | dot(pPlane, pSphere->Center)
     {$endif}
-      andps xmm1, [cSSE_MASK_ABS] // xmm1 = ? | ? | ? | abs(dot(Plane, Sphere->Center))
-      addss xmm1, xmm7                // xmm1 = ? | ? | ? | + pPlane->d
+      andps  xmm1, [cSSE_MASK_ABS] // xmm1 = ? | ? | ? | abs(dot(Plane, Sphere->Center))
+      addss  xmm1, xmm7            // xmm1 = ? | ? | ? | + pPlane->d
   {$else}
     movhlps xmm2, xmm1              // xmm2 = ???? | ???? | d*0.0 | z*c
-    addss xmm2, xmm1                // xmm2 = ???? | ???? | ????  | x*a + z*c
-    shufps xmm1, xmm1, $55          // xmm1 = ???? | ???? | ????  | y*b
-    andps xmm1, [cSSE_MASK_ABS] // xmm1 = ???? | ???? | ????  | abs(dot(Plane, Sphere->Center))
-    addss xmm1, xmm2                // xmm1 = ???? | ???? | ????  | + Plane->d
+    addss   xmm2, xmm1              // xmm2 = ???? | ???? | ????  | x*a + z*c
+    shufps  xmm1, xmm1, $55         // xmm1 = ???? | ???? | ????  | y*b
+    andps   xmm1, [cSSE_MASK_ABS]   // xmm1 = ???? | ???? | ????  | abs(dot(Plane, Sphere->Center))
+    addss   xmm1, xmm2              // xmm1 = ???? | ???? | ????  | + Plane->d
   {$endif}
 
   xorps xmm7, xmm7    // xmm7 = 0 | 0 | 0 | 0

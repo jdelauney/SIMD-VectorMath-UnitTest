@@ -47,7 +47,7 @@ asm
   movups xmm1, [A]$10
   movups xmm2, [A]$20
   movups xmm3, [A]$30
-  movss xmm4, [B]
+  movss  xmm4, [B]
   shufps xmm4, xmm4, 0    // Replicate B
 
   addps  xmm0, xmm4       // Add B to each row
@@ -67,7 +67,7 @@ asm
   movups xmm1, [A]$10
   movups xmm2, [A]$20
   movups xmm3, [A]$30
-  movss xmm4, [B]
+  movss  xmm4, [B]
   shufps xmm4, xmm4, 0
 
   subps  xmm0, xmm4
@@ -87,7 +87,7 @@ asm
   movups xmm1, [A]$10
   movups xmm2, [A]$20
   movups xmm3, [A]$30
-  movss xmm4, [B]
+  movss  xmm4, [B]
   shufps xmm4, xmm4, 0
 
   mulps  xmm0, xmm4
@@ -314,7 +314,7 @@ asm
   movups xmm1, [A]$10
   movups xmm2, [A]$20
   movups xmm3, [A]$30
-  movss xmm4, [B]
+  movss  xmm4, [B]
   shufps xmm4, xmm4, 0
 
   divps  xmm0, xmm4
@@ -378,24 +378,24 @@ end;
 function TGLZMatrix4.Transpose:TGLZMatrix4; assembler;
 asm
   {$ifdef TEST}
-    movlps	xmm1, [EAX]
-    movlps	xmm3, [EAX]8
-    movhps	xmm1, [EAX]16
-    movhps	xmm3, [EAX]24
-    movlps	xmm5, [EAX]32
-    movlps	xmm4, [EAX]40
-    movhps	xmm5, [EAX]48
-    movhps	xmm4, [EAX]56
-    movaps	xmm0, xmm1
-    movaps	xmm2, xmm3
-    shufps	xmm1, xmm5, $DD
-    shufps	xmm3, xmm4, $DD
-    shufps	xmm0, xmm5, $88
-    shufps	xmm2, xmm4, $88
+    movlps     xmm1, [EAX]
+    movlps     xmm3, [EAX]8
+    movhps     xmm1, [EAX]16
+    movhps     xmm3, [EAX]24
+    movlps     xmm5, [EAX]32
+    movlps     xmm4, [EAX]40
+    movhps     xmm5, [EAX]48
+    movhps     xmm4, [EAX]56
+    movaps     xmm0, xmm1
+    movaps     xmm2, xmm3
+    shufps     xmm1, xmm5, $DD
+    shufps     xmm3, xmm4, $DD
+    shufps     xmm0, xmm5, $88
+    shufps     xmm2, xmm4, $88
     movups [EAX]$00, xmm0
-    movups [EAX]$10,xmm1 //16
-    movups [EAX]$20,xmm2 //32
-    movups [EAX]$30,xmm3 //48
+    movups [EAX]$10, xmm1 //16
+    movups [EAX]$20, xmm2 //32
+    movups [EAX]$30, xmm3 //48
   {$else}
     movups   xmm0, [EAX]$00  // A03 A02 A01 A00
     movups   xmm1, [EAX]$10 // A13 A12 A11 A10
@@ -536,8 +536,8 @@ asm
   movups xmm4, [EAX]$20
   movups xmm0, [EAX]$30
   movaps xmm1, [V]
-  andps xmm1, [cSSE_MASK_NO_W]
-  addps xmm0, xmm1
+  andps  xmm1, [cSSE_MASK_NO_W]
+  addps  xmm0, xmm1
   movups [RESULT]$00, xmm2
   movups [RESULT]$10, xmm3
   movups [RESULT]$20, xmm4

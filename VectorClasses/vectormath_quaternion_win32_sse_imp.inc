@@ -4,43 +4,43 @@
 
 class operator TGLZQuaternion.+(constref A, B: TGLZQuaternion): TGLZQuaternion; assembler; nostackframe; register;
 asm
-  movups xmm0,[A]
-  movups xmm1,[B]
-  addps  xmm0,xmm1
+  movups xmm0, [A]
+  movups xmm1, [B]
+  addps  xmm0, xmm1
   movups [RESULT], xmm0
 end;
 
 class operator TGLZQuaternion.+(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion;  assembler; nostackframe; register;
 asm
-  movups xmm0,[A]
-  movss  xmm1,[B]
+  movups xmm0, [A]
+  movss  xmm1, [B]
   shufps xmm1, xmm1, $00
-  addps  xmm0,xmm1
+  addps  xmm0, xmm1
   movups [RESULT], xmm0
 end;
 
 class operator TGLZQuaternion.-(constref A, B: TGLZQuaternion): TGLZQuaternion; assembler; nostackframe; register;
 asm
-  movups xmm0,[A]
-  movups xmm1,[B]
-  subps  xmm0,xmm1
+  movups xmm0, [A]
+  movups xmm1, [B]
+  subps  xmm0, xmm1
   movups [RESULT], xmm0
 end;
 
 class operator TGLZQuaternion.-(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion; assembler; nostackframe; register;
 asm
-  movups xmm0,[A]
-  movss  xmm1,[B]
+  movups xmm0, [A]
+  movss  xmm1, [B]
   shufps xmm1, xmm1, $00
-  subps  xmm0,xmm1
+  subps  xmm0, xmm1
   movups [RESULT], xmm0
 end;
 
 class operator TGLZQuaternion.-(constref A: TGLZQuaternion): TGLZQuaternion; assembler; nostackframe; register;
 asm
-  movups xmm1,[A]
-  movups xmm0,[cNullVector4f]
-  subps xmm0,xmm1
+  movups xmm1, [A]
+  movups xmm0, [cNullVector4f]
+  subps  xmm0, xmm1
   movups [RESULT], xmm0
 End;
 
@@ -68,31 +68,31 @@ asm
  //(B.w * A.y)
  //(B.w * A.z)
  //(B.w * A.w)
- mulps xmm5,xmm0
+ mulps  xmm5, xmm0
  //(B.x * A.w)
  //-(B.x * A.z)
  //(B.x * A.y)
  //-(B.x * A.x)
- movaps xmm6,xmm0
+ movaps xmm6, xmm0
  shufps xmm6, xmm6, 00011011b //wzyx
- mulps xmm2, xmm6
- mulps xmm2, [cControlWZYX]
+ mulps  xmm2, xmm6
+ mulps  xmm2, [cControlWZYX]
  //(B.y * A.z)
  //(B.y * A.w)
  //-(B.y * A.x)
  //-(B.y * A.y)
- movaps xmm6,xmm0
+ movaps xmm6, xmm0
  shufps xmm6, xmm6, 01001110b //zwxy
- mulps xmm3, xmm6
- mulps xmm3, [cControlZWXY]
+ mulps  xmm3, xmm6
+ mulps  xmm3, [cControlZWXY]
  //(B.z * A.y)
  //(B.z * A.x)
  //(B.z * A.w)
  //(B.z * A.z)
- movaps xmm6,xmm0
+ movaps xmm6, xmm0
  shufps xmm6, xmm6, 10110001b //yxwz
- mulps xmm4,xmm6
- mulps xmm4, [cControlYXWZ]
+ mulps  xmm4, xmm6
+ mulps  xmm4, [cControlYXWZ]
 
  addps xmm5, xmm2
  addps xmm5, xmm3
@@ -102,26 +102,26 @@ end;
 
 class operator TGLZQuaternion.*(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion; assembler; nostackframe; register;
 asm
-  movups xmm0,[A]
-  movss  xmm1,[B]
+  movups xmm0, [A]
+  movss  xmm1, [B]
   shufps xmm1, xmm1, $00
-  mulps  xmm0,xmm1
+  mulps  xmm0, xmm1
   movups [RESULT], xmm0
 end;
 
 class operator TGLZQuaternion./(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion; assembler; nostackframe; register;
 asm
-  movups xmm0,[A]
-  movss  xmm1,[B]
+  movups xmm0, [A]
+  movss  xmm1, [B]
   shufps xmm1, xmm1,$00
-  divps  xmm0,xmm1
+  divps  xmm0, xmm1
   movups [RESULT], xmm0
 end;
 
 class operator TGLZQuaternion.=(constref A, B: TGLZQuaternion): Boolean; assembler; nostackframe; register;
 asm
-  movups xmm1,[A]
-  movups xmm0,[B]
+  movups xmm1, [A]
+  movups xmm0, [B]
   cmpps  xmm0, xmm1, cSSE_OPERATOR_EQUAL    //  Yes: $FFFFFFFF, No: $00000000 ; 0 = Operator Equal
   movmskps eax, xmm0
   xor eax, $F
@@ -130,8 +130,8 @@ end;
 
 class operator TGLZQuaternion.<>(constref A, B: TGLZQuaternion): Boolean; assembler; nostackframe; register;
 asm
-  movaps xmm0,[A]
-  movaps xmm1,[B]
+  movaps xmm0, [A]
+  movaps xmm1, [B]
   cmpps  xmm0, xmm1, cSSE_OPERATOR_NOT_EQUAL    //  Yes: $FFFFFFFF, No: $00000000 ; 4 = Operator Not Equal
   movmskps eax, xmm0
   xor eax, $f
@@ -147,7 +147,7 @@ Const
  cSSE_SIGNMASK_XYZ : array [0..3] of UInt32 = ($80000000, $80000000, $80000000, $00000000);
 asm
   movups xmm0, [EAX]
-  xorps xmm0, [cSSE_SIGNMASK_XYZ]
+  xorps  xmm0, [cSSE_SIGNMASK_XYZ]
   movups [RESULT], xmm0
 end;
 
@@ -182,10 +182,10 @@ asm
   mulps   xmm0, xmm2
   movups [RESULT], xmm0
 {$else}
-  movups xmm0,[EAX]
-  movaps xmm2,xmm0
-  movlps xmm1,[EAX]12
-  andps xmm2, [cSSE_MASK_NO_W]
+  movups xmm0, [EAX]
+  movaps xmm2, xmm0
+  movlps xmm1, [EAX]12
+  andps xmm2,  [cSSE_MASK_NO_W]
 
   mulps  xmm2, xmm2
   pshufd xmm1, xmm2, $0E
@@ -193,13 +193,13 @@ asm
   pshufd xmm1, xmm2, $01
   addss  xmm2, xmm1
   sqrtss xmm2, xmm2
-  movlps    xmm5, [cEpsilon30]
-  comiss   xmm2, xmm5
+  movlps xmm5, [cEpsilon30]
+  comiss xmm2, xmm5
   jb  @LessThan
   //rcpss xmm2,xmm2
   shufps xmm2, xmm2, $00
   movups xmm3, [cOneVector4f]
-  divps xmm3, xmm2
+  divps  xmm3, xmm2
   mulps  xmm0, xmm3
   jmp @Finish
 @LessThan:
@@ -235,15 +235,15 @@ asm
   //(B.w * A.y)
   //(B.w * A.z)
   //(B.w * A.w)
-  mulps xmm5,xmm0
+  mulps  xmm5, xmm0
   //(B.x * A.w)
   //-(B.x * A.z)
   //(B.x * A.y)
   //-(B.x * A.x)
-  movaps xmm6,xmm0
+  movaps xmm6, xmm0
   shufps xmm6, xmm6, 00011011b //wzyx
-  mulps xmm2, xmm6
-  mulps xmm2, [cControlWZYX]
+  mulps  xmm2, xmm6
+  mulps  xmm2, [cControlWZYX]
 //  "xorps _POSNEGPOSNEG, %%xmm4\n"		/* C2 = { + - + - } */
 //  "xorps _POSPOSNEGNEG, %%xmm5\n"		/* C3 = { + + - - } */
 //  "xorps _NEGPOSPOSNEG, %%xmm6\n"		/* C4 = { - + + - } */
@@ -251,22 +251,22 @@ asm
   //(B.y * A.w)
   //-(B.y * A.x)
   //-(B.y * A.y)
-  movaps xmm6,xmm0
+  movaps xmm6, xmm0
   shufps xmm6, xmm6, 01001110b //zwxy
-  mulps xmm3, xmm6
-  mulps xmm3, [cControlZWXY]
+  mulps  xmm3, xmm6
+  mulps  xmm3, [cControlZWXY]
   //(B.z * A.y)
   //(B.z * A.x)
   //(B.z * A.w)
   //(B.z * A.z)
-  movaps xmm6,xmm0
+  movaps xmm6, xmm0
   shufps xmm6, xmm6, 10110001b //yxwz
-  mulps xmm4,xmm6
-  mulps xmm4, [cControlYXWZ]
+  mulps  xmm4, xmm6
+  mulps  xmm4, [cControlYXWZ]
 
-  addps xmm5, xmm2
-  addps xmm5, xmm3
-  addps xmm5, xmm4
+  addps  xmm5, xmm2
+  addps  xmm5, xmm3
+  addps  xmm5, xmm4
 
   movaps xmm0, xmm5
   movups [RESULT], xmm0

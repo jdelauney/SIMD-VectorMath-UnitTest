@@ -26,7 +26,7 @@ asm
   vmovups [Result], xmm0
 end;
 
-////TODO OPTIMIZE TO AVX STILL SSE CODE
+{ TODO 1 -oTGLZQuaternion -cASM : Optimize to AVX still SSE code }
 class operator TGLZQuaternion.*(constref A, B: TGLZQuaternion): TGLZQuaternion;  assembler; nostackframe; register;
 Const
  cControlWZYX : TGLZQuaternion =(x:1.0;y:-1.0;z:1.0;w:-1.0);
@@ -84,8 +84,8 @@ end;
 
 class operator TGLZQuaternion.+(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion; assembler; nostackframe; register;
 asm
-  vmovups  xmm0,[A]
-  vmovss   xmm1,[B]
+  vmovups  xmm0, [A]
+  vmovss   xmm1, [B]
   vshufps  xmm1, xmm1, xmm1, $00
   vaddps   xmm0, xmm0, xmm1
   vmovups  [Result], xmm0
@@ -153,12 +153,12 @@ asm
   movss   [RESULT], {%H-}xmm0
 end;
 
-////TODO OPTIMIZE TO AVX STILL SSE CODE
+{ TODO 1 -oTGLZQuaternion -cASM : Optimize to AVX still SSE code }
 function TGLZQuaternion.Normalize : TGLZQuaternion; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmovaps xmm2,xmm0
-  movlps  xmm1,[EAX]12        //???? moving 8 bytes 4 past record should this be movss?????
+  vmovups xmm0, [EAX]
+  vmovaps xmm2, xmm0
+  movlps  xmm1, [EAX]12        //???? moving 8 bytes 4 past record should this be movss?????
   vandps  xmm2, xmm2, [cSSE_MASK_NO_W]
 
   vmulps  xmm2, xmm2, xmm2
@@ -182,7 +182,7 @@ asm
   vmovups [Result], xmm0
 end;
 
-////TODO OPTIMIZE TO AVX STILL SSE CODE
+{ TODO 1 -oTGLZQuaternion -cASM : Optimize to AVX still SSE code }
 function TGLZQuaternion.MultiplyAsSecond(const qFirst : TGLZQuaternion): TGLZQuaternion; assembler; nostackframe; register;
 Const
  cControlWZYX : TGLZQuaternion =(x:1.0;y:-1.0;z:1.0;w:-1.0);
@@ -205,12 +205,12 @@ asm
   //(B.w * A.y)
   //(B.w * A.z)
   //(B.w * A.w)
-  vmulps xmm5, xmm5, xmm0
+  vmulps  xmm5, xmm5, xmm0
   //(B.x * A.w)
   //-(B.x * A.z)
   //(B.x * A.y)
   //-(B.x * A.x)
-  vmovaps xmm6,xmm0
+  vmovaps xmm6, xmm0
   vshufps xmm6, xmm6, xmm6, 00011011b //wzyx
   vmulps  xmm2, xmm2, xmm6
   vmulps  xmm2, xmm2, [cControlWZYX]
@@ -234,22 +234,22 @@ asm
   vmulps  xmm4, xmm4, xmm6
   vmulps  xmm4, xmm4, [cControlYXWZ]
 
-  vaddps xmm0, xmm5, xmm2
-  vaddps xmm0, xmm0, xmm3
-  vaddps xmm0, xmm0, xmm4
-  vmovups  [Result], xmm0
+  vaddps  xmm0, xmm5, xmm2
+  vaddps  xmm0, xmm0, xmm3
+  vaddps  xmm0, xmm0, xmm4
+  vmovups [Result], xmm0
 end;
 
 function TGLZQuaternion.Slerp(const QEnd: TGLZQuaternion; Spin: Integer; t: Single): TGLZQuaternion; assembler; nostackframe; register;
 asm
-  vxorps xmm0, xmm0, xmm0
-vmovups  [Result], xmm0
+  vxorps  xmm0, xmm0, xmm0
+  vmovups [Result], xmm0
 end;
 
 function TGLZQuaternion.Slerp(const QEnd: TGLZQuaternion; const t : Single) : TGLZQuaternion; assembler; nostackframe; register;
 asm
-  vxorps xmm0, xmm0, xmm0
-vmovups  [Result], xmm0
+  vxorps  xmm0, xmm0, xmm0
+  vmovups [Result], xmm0
 end;
 
 {%endregion%}

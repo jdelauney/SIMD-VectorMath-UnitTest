@@ -2,85 +2,85 @@
 
 class operator TGLZVector4f.+(constref A, B: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[A]
-  vmovups xmm1,[B]
-  vaddps  xmm0,xmm0, xmm1
+  vmovups xmm0, [A]
+  vmovups xmm1, [B]
+  vaddps  xmm0, xmm0, xmm1
   vmovups [RESULT], xmm0
 end;
 
 class operator TGLZVector4f.-(constref A, B: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[A]
-  vmovups xmm1,[B]
-  vsubps  xmm0,xmm0, xmm1
+  vmovups xmm0, [A]
+  vmovups xmm1, [B]
+  vsubps  xmm0, xmm0, xmm1
   vmovups [RESULT], xmm0
 end;
 
 class operator TGLZVector4f.*(constref A, B: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[A]
-  vmovups xmm1,[B]
-  vmulps  xmm0,xmm0, xmm1
+  vmovups xmm0, [A]
+  vmovups xmm1, [B]
+  vmulps  xmm0, xmm0, xmm1
   vmovups [RESULT], xmm0
 end;
 
 class operator TGLZVector4f./(constref A, B: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[A]
-  vmovups xmm1,[B]
-  vdivps  xmm0,xmm0, xmm1
+  vmovups xmm0, [A]
+  vmovups xmm1, [B]
+  vdivps  xmm0, xmm0, xmm1
   vmovups [RESULT], xmm0
 end;
 
 class operator TGLZVector4f.+(constref A: TGLZVector4f; constref B:Single): TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[A]
-  vmovss  xmm1,[B]
-  vshufps xmm1, xmm1, xmm1,0
-  vaddps  xmm0,xmm1, xmm0
+  vmovups xmm0, [A]
+  vmovss  xmm1, [B]
+  vshufps xmm1, xmm1, xmm1, 0
+  vaddps  xmm0, xmm1, xmm0
   vmovups [RESULT], xmm0
 end;
 
 class operator TGLZVector4f.-(constref A: TGLZVector4f; constref B:Single): TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[A]
-  vmovss  xmm1,[B]
-  vshufps xmm1, xmm1, xmm1,0
-  vsubps  xmm0,xmm0, xmm1
+  vmovups xmm0, [A]
+  vmovss  xmm1, [B]
+  vshufps xmm1, xmm1, xmm1, 0
+  vsubps  xmm0, xmm0, xmm1
   vmovups [RESULT], xmm0
 end;
 
 class operator TGLZVector4f.*(constref A: TGLZVector4f; constref B:Single): TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[A]
-  vmovss  xmm1,[B]
-  vshufps xmm1, xmm1, xmm1,0
-  vmulps  xmm0,xmm1, xmm0
+  vmovups xmm0, [A]
+  vmovss  xmm1, [B]
+  vshufps xmm1, xmm1, xmm1, 0
+  vmulps  xmm0, xmm1, xmm0
   vmovups [RESULT], xmm0
 end;
 
 class operator TGLZVector4f./(constref A: TGLZVector4f; constref B:Single): TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[A]
-  vmovss  xmm1,[B]
+  vmovups xmm0, [A]
+  vmovss  xmm1, [B]
   vshufps xmm1, xmm1, xmm1,0
-  vdivps  xmm0,xmm0, xmm1
+  vdivps  xmm0, xmm0, xmm1
   vmovups [RESULT], xmm0
 end;
 
 class operator TGLZVector4f.-(constref A: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovaps xmm1,[A]
-  vmovaps xmm0,[cNullVector4f]
-  vsubps  xmm0,xmm0, xmm1
+  vmovaps xmm1, [A]
+  vmovaps xmm0, [cNullVector4f]
+  vsubps  xmm0, xmm0, xmm1
   vmovups [RESULT],xmm0 //RDX = RESULT
 End;
 
 class operator TGLZVector4f.=(constref A, B: TGLZVector4f): Boolean; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[A]
-  vmovups xmm1,[B]
-  vcmpps xmm0, xmm0,xmm1, cSSE_OPERATOR_EQUAL
+  vmovups xmm0, [A]
+  vmovups xmm1, [B]
+  vcmpps  xmm0, xmm0, xmm1, cSSE_OPERATOR_EQUAL
   movmskps eax, xmm0
   xor eax, $f
   setz al
@@ -88,9 +88,9 @@ end;
 
 class operator TGLZVector4f.<=(constref A, B: TGLZVector4f): Boolean; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[A]
-  vmovups xmm1,[B]
-  vcmpps xmm0, xmm0,xmm1, cSSE_OPERATOR_LESS_OR_EQUAL
+  vmovups xmm0, [A]
+  vmovups xmm1, [B]
+  vcmpps  xmm0, xmm0,xmm1, cSSE_OPERATOR_LESS_OR_EQUAL
   movmskps eax, xmm0
   xor eax, $f
   setz al
@@ -98,9 +98,9 @@ end;
 
 class operator TGLZVector4f.>=(constref A, B: TGLZVector4f): Boolean; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[A]
-  vmovups xmm1,[B]
-  vcmpps xmm0, xmm0,xmm1, cSSE_OPERATOR_NOT_LESS_OR_EQUAL
+  vmovups xmm0, [A]
+  vmovups xmm1, [B]
+  vcmpps  xmm0, xmm0,xmm1, cSSE_OPERATOR_NOT_LESS_OR_EQUAL
   movmskps eax, xmm0
   xor eax, $f
   setz al
@@ -108,9 +108,9 @@ end;
 
 class operator TGLZVector4f.>(constref A, B: TGLZVector4f): Boolean; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[A]
-  vmovups xmm1,[B]
-  vcmpps xmm0, xmm0,xmm1, cSSE_OPERATOR_NOT_LESS
+  vmovups xmm0, [A]
+  vmovups xmm1, [B]
+  vcmpps  xmm0, xmm0,xmm1, cSSE_OPERATOR_NOT_LESS
   movmskps eax, xmm0
   xor eax, $f
   setz al
@@ -118,9 +118,9 @@ end;
 
 class operator TGLZVector4f.<(constref A, B: TGLZVector4f): Boolean; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[A]
-  vmovups xmm1,[B]
-  vcmpps xmm0, xmm0,xmm1, cSSE_OPERATOR_LESS
+  vmovups xmm0, [A]
+  vmovups xmm1, [B]
+  vcmpps  xmm0, xmm0,xmm1, cSSE_OPERATOR_LESS
   movmskps eax, xmm0
   xor eax, $f
   setz al
@@ -128,9 +128,9 @@ end;
 
 class operator TGLZVector4f.<>(constref A, B: TGLZVector4f): Boolean; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[A]
-  vmovups xmm1,[B]
-  vcmpps xmm0, xmm0,xmm1, cSSE_OPERATOR_NOT_EQUAL
+  vmovups xmm0, [A]
+  vmovups xmm1, [B]
+  vcmpps  xmm0, xmm0,xmm1, cSSE_OPERATOR_NOT_EQUAL
   movmskps eax, xmm0
   xor eax, $f
   setz al
@@ -142,54 +142,53 @@ end;
 
 function TGLZVector4f.Abs: TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  //vmovups xmm1, [cSSE_MASK_ABS]
-  vandps  xmm0, xmm0, [cSSE_MASK_ABS]   //xmm1
-  vmovups [RESULT],xmm0
+  vmovups xmm0, [EAX]
+  vandps  xmm0, xmm0, [cSSE_MASK_ABS]
+  vmovups [RESULT], xmm0
 end;
 
 function TGLZVector4f.Negate:TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vxorps xmm0, xmm0,[cSSE_MASK_NEGATE]
-  vmovups [RESULT],xmm0
+  vmovups xmm0, [EAX]
+  vxorps  xmm0, xmm0, [cSSE_MASK_NEGATE]
+  vmovups [RESULT], xmm0
 End;
 
 function TGLZVector4f.DivideBy2:TGLZVector4f;assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmulps xmm0, xmm0,[cHalfOneVector4f]
-  vmovups [RESULT],xmm0
+  vmovups xmm0, [EAX]
+  vmulps  xmm0, xmm0,[cHalfOneVector4f]
+  vmovups [RESULT], xmm0
 end;
 
 function TGLZVector4f.Distance(constref A: TGLZVector4f):Single;assembler;
 //nostackframe;register; we cannot use this because the result is ST register
 Asm
-  vmovups xmm0,[EAX]
+  vmovups xmm0, [EAX]
   vmovups xmm1, [A]
   vsubps  xmm0, xmm0, xmm1
   vandps  xmm0, xmm0, [cSSE_MASK_NO_W]
-  vdpps xmm0, xmm0, xmm0, $FF
-  vsqrtss xmm0, xmm0 , xmm0
+  vdpps   xmm0, xmm0, xmm0, $FF
+  vsqrtss xmm0, xmm0 ,xmm0
   movss [RESULT], {%H-}xmm0
 end;
 
 function TGLZVector4f.DistanceSquare(constref A: TGLZVector4f):Single;assembler;
 //nostackframe;register; we cannot use this because the result is ST register
 Asm
-  vmovups xmm0,[EAX]
+  vmovups xmm0, [EAX]
   vmovups xmm1, [A]
   vsubps  xmm0, xmm0, xmm1
   vandps  xmm0, xmm0, [cSSE_MASK_NO_W]
-  vdpps xmm0, xmm0, xmm0, $FF
+  vdpps   xmm0, xmm0, xmm0, $FF
   movss [RESULT], {%H-}xmm0
 end;
 
 function TGLZVector4f.Length:Single;assembler;
 Asm
-  vmovups xmm0,[EAX]
+  vmovups xmm0, [EAX]
   vandps  xmm0, xmm0, [cSSE_MASK_NO_W]
-  vdpps xmm0, xmm0, xmm0, $FF
+  vdpps   xmm0, xmm0, xmm0, $FF
   vsqrtss xmm0, xmm0, xmm0
   movss [RESULT], {%H-}xmm0
 end;
@@ -198,7 +197,7 @@ function TGLZVector4f.LengthSquare:Single;assembler;
 Asm
   vmovups xmm0,[EAX]
   vandps  xmm0, xmm0, [cSSE_MASK_NO_W]
-  vdpps xmm0, xmm0, xmm0, $FF
+  vdpps   xmm0, xmm0, xmm0, $FF
   movss [RESULT], {%H-}xmm0
 end;
 
@@ -207,8 +206,8 @@ asm
   //Result:=Abs(v2.X-Self.X)+Abs(v2.Y-Self.Y)+Abs(v2.Z-Self.Z)+Abs(v2.W-Self.W);
   vmovups xmm1, [EAX]
   vmovups xmm0, [A]
-  vsubps xmm0, xmm0, xmm1
-  vandps xmm0, xmm0, [cSSE_MASK_ABS]
+  vsubps  xmm0, xmm0, xmm1
+  vandps  xmm0, xmm0, [cSSE_MASK_ABS]
   vhaddps xmm0, xmm0, xmm0
   vhaddps xmm0, xmm0, xmm0
   movss [RESULT], {%H-}xmm0
@@ -216,7 +215,7 @@ end;
 
 function TGLZVector4f.CrossProduct(constref A: TGLZVector4f): TGLZVector4f;assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
+  vmovups xmm0, [EAX]
   vmovups xmm1, [A]
   vmovaps xmm2, xmm0
   vmovaps xmm3, xmm1
@@ -237,21 +236,21 @@ end;
 
 function TGLZVector4f.DotProduct(constref A: TGLZVector4f):Single;assembler; //nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
+  vmovups xmm0, [EAX]
   vmovups xmm1, [A]
-  vdpps xmm0, xmm0, xmm1, 01110001b //or $F1
+  vdpps   xmm0, xmm0, xmm1, 01110001b //or $F1
   movss [RESULT], {%H-}xmm0
 end;
 
 function TGLZVector4f.Norm:Single;assembler; //nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmulps xmm0,xmm0, xmm0
+  vmovups xmm0, [EAX]
+  vmulps  xmm0, xmm0, xmm0
   vmovaps xmm1, xmm0
   vshufps xmm0, xmm0, xmm1, $4e
-  vaddps xmm0,xmm0, xmm1
+  vaddps  xmm0, xmm0, xmm1
   vshufps xmm1, xmm1, xmm0, $11
-  vaddps xmm0, xmm0, xmm1
+  vaddps  xmm0, xmm0, xmm1
   movss [RESULT], {%H-}xmm0
 end;
 
@@ -262,26 +261,26 @@ asm
   vandps  xmm3, xmm3, [cSSE_MASK_ONLY_W]
   vandps  xmm0, xmm0, [cSSE_MASK_NO_W]
   vmovaps xmm2, xmm0
-  vmulps xmm0, xmm0, xmm0
+  vmulps  xmm0, xmm0, xmm0
   vhaddps xmm0, xmm0, xmm0
   vhaddps xmm0, xmm0, xmm0
 {$IFDEF USE_ASM_SIMD_HIGHPRECISION}
   // High Precision
   vsqrtps xmm0, xmm0
-  vdivps xmm0, xmm2, xmm0
+  vdivps  xmm0, xmm2, xmm0
 {$ELSE}
   // Low precision
   rsqrtps xmm0, xmm0       //approximate reciprocal
-  mulps xmm2, xmm0
+  mulps   xmm2, xmm0
 {$ENDIF}
-  vaddps  xmm0,xmm0,xmm3
+  vaddps  xmm0, xmm0, xmm3
   vmovups [RESULT], xmm0
 end;
 
 function TGLZVector4f.Min(constref B: Single): TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmovss xmm1, [B]
+  vmovups xmm0, [EAX]
+  vmovss  xmm1, [B]
   vshufps xmm1, xmm1, xmm1, $00 // Replicate B
   vminps  xmm0, xmm0, xmm1
   vmovups [RESULT], xmm0
@@ -289,7 +288,7 @@ end;
 
 function TGLZVector4f.Min(constref B: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
+  vmovups xmm0, [EAX]
   vmovups xmm1, [B]
   vminps  xmm0, xmm0, xmm1
   vmovups [RESULT], xmm0
@@ -297,8 +296,8 @@ end;
 
 function TGLZVector4f.Max(constref B: Single): TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmovss xmm1, [B]
+  vmovups xmm0, [EAX]
+  vmovss  xmm1, [B]
   vshufps xmm1, xmm1, xmm1, $00 // Replicate B
   vmaxps  xmm0, xmm0, xmm1
   vmovups [RESULT], xmm0
@@ -306,7 +305,7 @@ end;
 
 function TGLZVector4f.Max(constref B: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
+  vmovups xmm0, [EAX]
   vmovups xmm1, [B]
   vmaxps  xmm0, xmm0, xmm1
   vmovups [RESULT], xmm0
@@ -314,7 +313,7 @@ end;
 
 function TGLZVector4f.Clamp(constref AMin, AMax: Single): TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
+  vmovups xmm0, [EAX]
   vmovaps xmm2, [AMin]
   vmovaps xmm3, [AMax]
   vshufps xmm2, xmm2, xmm2, $00
@@ -327,7 +326,7 @@ end;
 
 function TGLZVector4f.Clamp(Constref AMin, AMax: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
+  vmovups xmm0, [EAX]
   vmovups xmm1, [AMin]
   vmovups xmm2, [AMax]
   vmaxps  xmm0, xmm0, xmm1
@@ -338,52 +337,52 @@ end;
 
 function TGLZVector4f.MulAdd(Constref B, C: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
+  vmovups xmm0, [EAX]
   vmovups xmm1, [B]
   vmovups xmm2, [C]
-  vmulps xmm0, xmm0, xmm1
-  vaddps xmm0, xmm0, xmm2
+  vmulps  xmm0, xmm0, xmm1
+  vaddps  xmm0, xmm0, xmm2
   //vmovups [RESULT], xmm0
   movhlps xmm1,xmm0
 end;
 
 function TGLZVector4f.MulDiv(Constref B, C: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
+  vmovups xmm0, [EAX]
   vmovups xmm1, [B]
   vmovups xmm2, [C]
   vmulps  xmm0, xmm0, xmm1
   vdivps  xmm0,xmm0, xmm2
   //vmovups [RESULT], xmm0
-  movhlps xmm1,xmm0
+  movhlps xmm1, xmm0
 end;
 
 function TGLZVector4f.Lerp(Constref B: TGLZVector4f; Constref T:Single): TGLZVector4f;assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
+  vmovups xmm0, [EAX]
   vmovups xmm1, [B]
   vmovss  xmm2, [T]
-  vshufps xmm2, xmm2,xmm2, $0
-  vandps xmm2, xmm2, [cSSE_MASK_NO_W]
-  vsubps xmm1, xmm1,xmm0
-  vmulps xmm1, xmm1, xmm2
+  vshufps xmm2, xmm2, xmm2, $0
+  vandps  xmm2, xmm2, [cSSE_MASK_NO_W]
+  vsubps  xmm1, xmm1, xmm0
+  vmulps  xmm1, xmm1, xmm2
 
   vaddps xmm0, xmm0, xmm1
   //vmovups [RESULT], xmm0
-  movhlps xmm1,xmm0
+  movhlps xmm1, xmm0
 end;
 
 function TGLZVector4f.AngleCosine(constref A : TGLZVector4f): Single;assembler;
 // Result = xmm0
 asm
-  vmovups xmm2,[EAX]
-  vmovups xmm1,[A]
+  vmovups xmm2, [EAX]
+  vmovups xmm1, [A]
 //  vmovaps xmm2, xmm0 // Coypy Self
   vmovaps xmm4, xmm1 // Copy A
 
   // DotProd in xmm2 RESULT in xmm3
   //andps xmm0, [cSSE_MASK_NO_W]
-  vdpps xmm3, xmm2, xmm1, 01110001b //or $F1
+  vdpps  xmm3, xmm2, xmm1, 01110001b //or $F1
 
   // Length Self in xmm2 RESULT in xmm2
   vandps  xmm2, xmm2, [cSSE_MASK_NO_W]
@@ -394,7 +393,7 @@ asm
 
   // Lenght A in xmm4 RESULT in xmm4
   vandps  xmm4, xmm4, [cSSE_MASK_NO_W]
-  vmulps xmm4, xmm4, xmm4
+  vmulps  xmm4, xmm4, xmm4
   vhaddps xmm4, xmm4, xmm4
   vhaddps xmm4, xmm4, xmm4
   vsqrtss xmm4, xmm4, xmm4
@@ -409,13 +408,13 @@ Var
   vResult  :  Single;
 begin
   asm
-    vmovups xmm0,[EAX]
-    mov ecx, [A]            // A is a pointer on the stack
+    vmovups xmm0, [EAX]
+    mov     ecx,  [A]            // A is a pointer on the stack
     vmovups xmm1, [ECX]
-    mov ecx, [ACenterPoint] // ACenterPoint is a pointer on the stack
+    mov     ecx,  [ACenterPoint] // ACenterPoint is a pointer on the stack
     vmovups xmm2, [ECX]
-    vsubps xmm0, xmm0, xmm2
-    vsubps xmm1, xmm1, xmm2
+    vsubps  xmm0, xmm0, xmm2
+    vsubps  xmm1, xmm1, xmm2
 
     // Normalize xmm0 result in xmm2
     vmovaps xmm3,xmm0
@@ -431,13 +430,13 @@ begin
     {$IFDEF USE_ASM_SIMD_HIGHPRECISION}
       // High Precision
       vsqrtps xmm0, xmm0
-      vdivps xmm2, xmm2, xmm0
+      vdivps  xmm2, xmm2, xmm0
     {$ELSE}
       // Low precision
       rsqrtps xmm0, xmm0       //approximate reciprocal
-      mulps xmm2, xmm0
+      mulps   xmm2, xmm0
     {$ENDIF}
-    vaddps xmm2, xmm2,xmm3
+    vaddps  xmm2, xmm2,xmm3
     // Normalize xmm1 result in xmm4
     vmovaps xmm3, xmm1
     vandps  xmm3, xmm3, [cSSE_MASK_ONLY_W]
@@ -450,13 +449,13 @@ begin
     {$IFDEF USE_ASM_SIMD_HIGHPRECISION}
       // High Precision
       vsqrtps xmm1, xmm1
-      vdivps xmm4, xmm4, xmm1
+      vdivps  xmm4, xmm4, xmm1
     {$ELSE}
       // Low precision
       rsqrtps xmm1, xmm1       //approximate reciprocal
-      mulps xmm4, xmm1
+      mulps   xmm4, xmm1
     {$ENDIF}
-    vaddps xmm4, xmm4,xmm3
+    vaddps xmm4, xmm4, xmm3
 
     // AngleCosine
     vmovaps xmm1, xmm4
@@ -466,15 +465,15 @@ begin
     vdpps xmm3, xmm0, xmm1, 01110001b //or $F1
 
     // Length xmm2 result in xmm2
-    vandps xmm2, xmm2, [cSSE_MASK_NO_W]
-    vdpps xmm2, xmm2, xmm2, $FF;
+    vandps  xmm2, xmm2, [cSSE_MASK_NO_W]
+    vdpps   xmm2, xmm2, xmm2, $FF;
     vsqrtss xmm2, xmm2, xmm2
     // Lenght  xmm4 result in xmm4
-    vandps xmm4, xmm4, [cSSE_MASK_NO_W]
-    vdpps xmm4, xmm4, xmm4, $FF;
+    vandps  xmm4, xmm4, [cSSE_MASK_NO_W]
+    vdpps   xmm4, xmm4, xmm4, $FF;
     vsqrtss xmm4, xmm4, xmm4
-    vmulps xmm2, xmm2,xmm4
-    vdivps xmm3, xmm3, xmm2
+    vmulps  xmm2, xmm2, xmm4
+    vdivps  xmm3, xmm3, xmm2
     movss [vResult], {%H-}xmm3
   end;
   Result := ArcCos(vResult);
@@ -482,18 +481,18 @@ end;
 
 function TGLZVector4f.Combine(constref V2: TGLZVector4f; constref F1: Single): TGLZVector4f;assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
+  vmovups xmm0, [EAX]
   vmovups xmm1, [V2]
 
-  movlps xmm2, [F1]
+  movlps  xmm2, [F1]
   vshufps xmm2, xmm2, xmm2, $00 // replicate
 
-  vmulps xmm1, xmm1, xmm2 //V2*F1
-  vaddps xmm0, xmm0, xmm1 // Self + (V2*F1)
+  vmulps  xmm1, xmm1, xmm2 //V2*F1
+  vaddps  xmm0, xmm0, xmm1 // Self + (V2*F1)
 
   vandps xmm0, xmm0, [cSSE_MASK_NO_W]
   //vmovups [RESULT], xmm0
-  movhlps xmm1,xmm0
+  movhlps xmm1, xmm0
 end;
 
 function TGLZVector4f.Combine2(constref V2: TGLZVector4f; Const F1, F2: Single): TGLZVector4f;assembler; nostackframe; register;
@@ -504,19 +503,19 @@ asm
 
   vmovups xmm0,[EAX]
   vmovups xmm1, [V2]
-  movlps xmm2, {%H-}[F2]  // GLZVectorMath.pas(3465,3) Error: Invalid register used in memory reference expression: "xmm3"
+  movlps  xmm2, {%H-}[F2]  // GLZVectorMath.pas(3465,3) Error: Invalid register used in memory reference expression: "xmm3"
 
   vshufps xmm2, xmm2, xmm2, $00 // replicate
   vshufps xmm3, xmm3, xmm3, $00 // replicate
 
-  vmulps xmm0, xmm0, xmm3  // Self * F1
-  vmulps xmm1, xmm1, xmm2  // V2 * F2
+  vmulps  xmm0, xmm0, xmm3  // Self * F1
+  vmulps  xmm1, xmm1, xmm2  // V2 * F2
 
-  vaddps xmm0, xmm0, xmm1  // (Self * F1) + (V2 * F2)
+  vaddps  xmm0, xmm0, xmm1  // (Self * F1) + (V2 * F2)
 
-  vandps xmm0, xmm0, [cSSE_MASK_NO_W]
+  vandps  xmm0, xmm0, [cSSE_MASK_NO_W]
   //vmovups [RESULT], xmm0
-  movhlps xmm1,xmm0
+  movhlps xmm1, xmm0
 
 //  pop RBP
 end;
@@ -528,9 +527,9 @@ asm
 
   vmovups xmm0,[EAX]
 
-  movlps xmm2, [F1]
-  movlps xmm3, [F2]
-  movlps xmm5, [F3]
+  movlps  xmm2, [F1]
+  movlps  xmm3, [F2]
+  movlps  xmm5, [F3]
 
   vmovups xmm1, [V2]
   vmovaps xmm4, [V3]
@@ -539,14 +538,14 @@ asm
   vshufps xmm3, xmm3, xmm3, $00 // replicate
   vshufps xmm5, xmm5, xmm5, $00 // replicate
 
-  vmulps xmm0, xmm0, xmm2 // Self * F1
-  vmulps xmm1, xmm1, xmm3 // V2 * F2
-  vmulps xmm4, xmm4, xmm5 // V3 * F3
+  vmulps  xmm0, xmm0, xmm2 // Self * F1
+  vmulps  xmm1, xmm1, xmm3 // V2 * F2
+  vmulps  xmm4, xmm4, xmm5 // V3 * F3
 
-  vaddps xmm0, xmm0, xmm1 // (Self * F1) + (V2 * F2)
-  vaddps xmm0, xmm0, xmm4 // ((Self * F1) + (V2 * F2)) + (V3 * F3)
+  vaddps  xmm0, xmm0, xmm1 // (Self * F1) + (V2 * F2)
+  vaddps  xmm0, xmm0, xmm4 // ((Self * F1) + (V2 * F2)) + (V3 * F3)
 
-  vandps xmm0, xmm0, [cSSE_MASK_NO_W]
+  vandps  xmm0, xmm0, [cSSE_MASK_NO_W]
   //vmovups [RESULT], xmm0
   movhlps xmm1,xmm0
 //  pop RBP
@@ -554,30 +553,30 @@ end;
 
 function TGLZVector4f.Perpendicular(constref N : TGLZVector4f) : TGLZVector4f; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
+  vmovups xmm0, [EAX]
   vmovups xmm1, [N]
-  vandps xmm0, xmm0, [cSSE_MASK_NO_W]
-  movaps xmm2, xmm0
+  vandps  xmm0, xmm0, [cSSE_MASK_NO_W]
+  movaps  xmm2, xmm0
  // Self.Dot(N) RESULT in xmm0
-  vdpps xmm0, xmm0, xmm1, 01110001b //or $F1
-  vShufps xmm0, xmm0,xmm0, $0
-  vmulps xmm0, xmm0, xmm2    // (Dot * Self)
-  vsubps xmm0, xmm2, xmm0    // self - (Dot * Self)
+  vdpps   xmm0, xmm0, xmm1, 01110001b //or $F1
+  vShufps xmm0, xmm0, xmm0, $0
+  vmulps  xmm0, xmm0, xmm2    // (Dot * Self)
+  vsubps  xmm0, xmm2, xmm0    // self - (Dot * Self)
   vmovups [RESULT], xmm0
 end;
 
 function TGLZVector4f.Reflect(constref N: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
 asm
- vmovups xmm0,[EAX]
+ vmovups xmm0, [EAX]
  vmovups xmm1, [N]
  vmovaps xmm2, xmm1
  vmovaps xmm3, xmm0
  // N.Dot(SELF) RESULT in xmm1
- vdpps xmm1, xmm1, xmm0, 01110001b //or $F1
- vShufps xmm1, xmm1,xmm1, $0  // Replicate
- vaddps xmm1, xmm1,xmm1  // (2 * N.Dot(Self))
- vmulps xmm1, xmm1, xmm2 // ((2 * N.Dot(Self)) * N)
- vsubps xmm3, xmm3, xmm1 // Self - ((2 * N.Dot(Self)) * N)
+ vdpps   xmm1, xmm1, xmm0, 01110001b //or $F1
+ vShufps xmm1, xmm1, xmm1, $0        // Replicate
+ vaddps  xmm1, xmm1, xmm1            // (2 * N.Dot(Self))
+ vmulps  xmm1, xmm1, xmm2            // ((2 * N.Dot(Self)) * N)
+ vsubps  xmm3, xmm3, xmm1            // Self - ((2 * N.Dot(Self)) * N)
  vmovups [RESULT], xmm3
 end;
 
@@ -587,108 +586,105 @@ end;
 
 procedure TGLZVector4f.pAdd(constref A: TGLZVector4f); assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmovups xmm1, [A]
-  vAddps xmm0, xmm0, xmm1
-  vmovups [EAX],xmm0
+  vmovups  xmm0, [EAX]
+  vmovups  xmm1, [A]
+  vAddps   xmm0, xmm0, xmm1
+  vmovups [EAX], xmm0
 End;
 
 procedure TGLZVector4f.pSub(constref A: TGLZVector4f); assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmovups xmm1, [A]
-  vsubps xmm0, xmm0, xmm1
-  vmovups [EAX],xmm0
+  vmovups  xmm0, [EAX]
+  vmovups  xmm1, [A]
+  vsubps   xmm0, xmm0, xmm1
+  vmovups [EAX], xmm0
 End;
 
 procedure TGLZVector4f.pMul(constref A: TGLZVector4f); assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmovups xmm1, [A]
-  vmulps xmm0, xmm0, xmm1
-  vmovups [EAX],xmm0
+  vmovups  xmm0, [EAX]
+  vmovups  xmm1, [A]
+  vmulps   xmm0, xmm0, xmm1
+  vmovups [EAX], xmm0
 End;
 
 procedure TGLZVector4f.pDiv(constref A: TGLZVector4f); assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmovups xmm1, [A]
-  vdivps xmm0, xmm0, xmm1
-  vmovups [EAX],xmm0
+  vmovups  xmm0, [EAX]
+  vmovups  xmm1, [A]
+  vdivps   xmm0, xmm0, xmm1
+  vmovups [EAX], xmm0
 End;
 
 procedure TGLZVector4f.pAdd(constref A: Single); assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmovss  xmm1,[A]
-  vshufps xmm1, xmm1, xmm1,0
-  vaddps  xmm0, xmm0, xmm1
-  vmovups [EAX],xmm0
+  vmovups  xmm0, [EAX]
+  vmovss   xmm1, [A]
+  vshufps  xmm1, xmm1, xmm1, 0
+  vaddps   xmm0, xmm0, xmm1
+  vmovups [EAX], xmm0
 End;
 
 procedure TGLZVector4f.pSub(constref A: Single); assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmovss  xmm1,[A]
-  vshufps xmm1, xmm1, xmm1,0
-  vsubps  xmm0, xmm0, xmm1
-  vmovups [EAX],xmm0
+  vmovups  xmm0, [EAX]
+  vmovss   xmm1, [A]
+  vshufps  xmm1, xmm1, xmm1, 0
+  vsubps   xmm0, xmm0, xmm1
+  vmovups [EAX], xmm0
 End;
 
 procedure TGLZVector4f.pMul(constref A: Single); assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmovss  xmm1,[A]
-  vshufps xmm1, xmm1, xmm1,0
-  vmulps  xmm0, xmm0, xmm1
-  vmovups [EAX],xmm0
+  vmovups  xmm0, [EAX]
+  vmovss   xmm1, [A]
+  vshufps  xmm1, xmm1, xmm1, 0
+  vmulps   xmm0, xmm0, xmm1
+  vmovups [EAX], xmm0
 End;
 
 procedure TGLZVector4f.pDiv(constref A: Single); assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmovss  xmm1,[A]
-  vshufps xmm1, xmm1, xmm1,0
-  vdivps  xmm0, xmm0, xmm1
-  vmovups [EAX],xmm0
+  vmovups  xmm0, [EAX]
+  vmovss   xmm1, [A]
+  vshufps  xmm1, xmm1, xmm1, 0
+  vdivps   xmm0, xmm0, xmm1
+  vmovups [EAX], xmm0
 End;
 
 procedure TGLZVector4f.pInvert;assembler; nostackframe; register;
 asm
-  vmovups xmm1,[EAX]
-  vmovups xmm0,[cNullVector4f]
-  vsubps xmm0, xmm0, xmm1
-  vmovups [EAX],xmm0
+  vmovups  xmm1, [EAX]
+  vmovups  xmm0, [cNullVector4f]
+  vsubps   xmm0, xmm0, xmm1
+  vmovups [EAX], xmm0
 End;
 
 procedure TGLZVector4f.pNegate; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
- // vmovaps xmm1,[cSSE_MASK_NEGATE]
-  vxorps xmm0, xmm0, [cSSE_MASK_NEGATE]  //xmm1
-  vmovups [EAX],xmm0
+  vmovups  xmm0, [EAX]
+  vxorps   xmm0, xmm0, [cSSE_MASK_NEGATE]  //xmm1
+  vmovups [EAX], xmm0
 End;
 
 procedure TGLZVector4f.pAbs; assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  //vmovaps   xmm1, [cSSE_MASK_ABS]
+  vmovups  xmm0, [EAX]
   vandps   xmm0, xmm0, [cSSE_MASK_ABS]    // xmm1
-  vmovups [EAX],xmm0
+  vmovups [EAX], xmm0
 end;
 
 procedure TGLZVector4f.pDivideBy2;assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
- // vmovaps xmm1,[cHalfOneVector4f]
-  vmulps xmm0, xmm0, [cHalfOneVector4f]   //xmm1
-  vmovups [EAX],xmm0
+  vmovups  xmm0, [EAX]
+  vmulps   xmm0, xmm0, [cHalfOneVector4f]   //xmm1
+  vmovups [EAX], xmm0
 end;
 
 procedure TGLZVector4f.pCrossProduct(constref A: TGLZVector4f);assembler; nostackframe; register;
 asm
   //v1:x,y,z,w
-  vmovups xmm0,[EAX]
+  vmovups xmm0, [EAX]
   //v2:x,y,z,w
   vmovups xmm1, [A]
   vmovaps xmm2, xmm0
@@ -710,101 +706,101 @@ end;
 
 procedure TGLZVector4f.pNormalize;  assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmovaps xmm3,xmm0
+  vmovups xmm0, [EAX]
+  vmovaps xmm3, xmm0
   vandps  xmm3, xmm3, [cSSE_MASK_ONLY_W]
   vandps  xmm0, xmm0, [cSSE_MASK_NO_W]
   vmovaps xmm2, xmm0
-  vmulps xmm0, xmm0, xmm0
+  vmulps  xmm0, xmm0, xmm0
   vhaddps xmm0, xmm0, xmm0
   vhaddps xmm0, xmm0, xmm0
 {$IFDEF USE_ASM_SIMD_HIGHPRECISION}
   // High Precision
   vsqrtps xmm0, xmm0
-  vdivps xmm0, xmm2, xmm0
+  vdivps  xmm0, xmm2, xmm0
 {$ELSE}
   // Low precision
   rsqrtps xmm0, xmm0       //approximate reciprocal
-  mulps xmm2, xmm0
+  mulps   xmm2, xmm0
 {$ENDIF}
-  vaddps  xmm0,xmm0,xmm3
-  vmovups [EAX],xmm0
+  vaddps  xmm0, xmm0, xmm3
+  vmovups [EAX], xmm0
 end;
 
 procedure TGLZVector4f.pMin(constref B: TGLZVector4f); assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmovups xmm1, [B]
-  vminps  xmm0, xmm0, xmm1
-  vmovups [EAX],xmm0
+  vmovups  xmm0, [EAX]
+  vmovups  xmm1, [B]
+  vminps   xmm0, xmm0, xmm1
+  vmovups [EAX], xmm0
 End;
 
 procedure TGLZVector4f.pMin(constref B: Single); assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmovss xmm1, [B]
-  vshufps xmm1, xmm1, xmm1, $00
-  vminps  xmm0, xmm0, xmm1
-  vmovups [EAX],xmm0
+  vmovups  xmm0, [EAX]
+  vmovss   xmm1, [B]
+  vshufps  xmm1, xmm1, xmm1, $00
+  vminps   xmm0, xmm0, xmm1
+  vmovups [EAX], xmm0
 End;
 
 procedure TGLZVector4f.pMax(constref B: TGLZVector4f); assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmovups xmm1, [B]
-  vmaxps  xmm0, xmm0, xmm1
-  vmovups [EAX],xmm0
+  vmovups  xmm0, [EAX]
+  vmovups  xmm1, [B]
+  vmaxps   xmm0, xmm0, xmm1
+  vmovups [EAX], xmm0
 End;
 
 procedure TGLZVector4f.pMax(constref B: Single); assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmovss xmm1, [B]
-  vshufps xmm1, xmm1, xmm1, $00
-  vmaxps xmm0, xmm0, xmm1
-  vmovups [EAX],xmm0
+  vmovups  xmm0, [EAX]
+  vmovss   xmm1, [B]
+  vshufps  xmm1, xmm1, xmm1, $00
+  vmaxps   xmm0, xmm0, xmm1
+  vmovups [EAX], xmm0
 End;
 
 procedure TGLZVector4f.pClamp(Constref AMin, AMax: TGLZVector4f); assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmovss xmm2, [AMin]
-  vmovss xmm3, [AMax]
-  vmaxps  xmm0, xmm0, xmm2
-  vminps  xmm0, xmm0, xmm3
-  vmovups [EAX],xmm0
+  vmovups  xmm0, [EAX]
+  vmovss   xmm2, [AMin]
+  vmovss   xmm3, [AMax]
+  vmaxps   xmm0, xmm0, xmm2
+  vminps   xmm0, xmm0, xmm3
+  vmovups [EAX], xmm0
 End;
 
 procedure TGLZVector4f.pClamp(constref AMin, AMax: Single); assembler; nostackframe; register;
 asm
-  vmovups xmm0,[EAX]
-  vmovss xmm2, [AMin]
-  vmovss xmm3, [AMax]
-  vshufps xmm2, xmm2, xmm2, $00 // Replicate AMin
-  vshufps xmm3, xmm3, xmm3, $00 // Replicate AMax
-  vmaxps  xmm0, xmm0, xmm2
-  vminps  xmm0, xmm0, xmm3
-  vmovups [EAX],xmm0
+  vmovups  xmm0, [EAX]
+  vmovss   xmm2, [AMin]
+  vmovss   xmm3, [AMax]
+  vshufps  xmm2, xmm2, xmm2, $00 // Replicate AMin
+  vshufps  xmm3, xmm3, xmm3, $00 // Replicate AMax
+  vmaxps   xmm0, xmm0, xmm2
+  vminps   xmm0, xmm0, xmm3
+  vmovups [EAX], xmm0
 End;
 
 procedure TGLZVector4f.pMulAdd(Constref B, C: TGLZVector4f); assembler; nostackframe; register; // (Self*B)+c
 asm
-  vmovups xmm0,[EAX]
-  vmovups xmm1, [B]
-  vmovups xmm2, [C]
-  vmulps  xmm0, xmm0, xmm1
-  vaddps  xmm0, xmm0, xmm2
-  vmovups [EAX],xmm0
+  vmovups  xmm0, [EAX]
+  vmovups  xmm1, [B]
+  vmovups  xmm2, [C]
+  vmulps   xmm0, xmm0, xmm1
+  vaddps   xmm0, xmm0, xmm2
+  vmovups [EAX], xmm0
 End;
 
 procedure TGLZVector4f.pMulDiv(Constref B, C: TGLZVector4f); assembler; nostackframe; register; // (Self*B)-c
 asm
-  vmovups xmm0,[EAX]
-  vmovups xmm1, [B]
-  vmovups xmm2, [C]
-  vmulps  xmm0, xmm0, xmm1
-  vdivps  xmm0, xmm0, xmm2
-  vmovups [EAX],xmm0
+  vmovups  xmm0, [EAX]
+  vmovups  xmm1, [B]
+  vmovups  xmm2, [C]
+  vmulps   xmm0, xmm0, xmm1
+  vdivps   xmm0, xmm0, xmm2
+  vmovups [EAX], xmm0
 End;
 
 {%endregion%}

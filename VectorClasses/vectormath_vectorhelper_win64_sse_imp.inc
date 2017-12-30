@@ -3,17 +3,17 @@ asm
   movaps xmm0, [RCX]
   movaps xmm1, [Origin]
   movaps xmm2, [Direction]
-  subps xmm0, xmm1
-  mulps xmm0, xmm2
-  andps xmm0, [RIP+cSSE_MASK_NO_W]
+  subps  xmm0, xmm1
+  mulps  xmm0, xmm2
+  andps  xmm0, [RIP+cSSE_MASK_NO_W]
   movaps xmm1, xmm0
   movaps xmm2, xmm0
   shufps xmm0, xmm0, 00000000b
   shufps xmm1, xmm1, 01010101b
   shufps xmm2, xmm2, 10101010b
-  addss xmm0,xmm1
-  addss xmm0,xmm2
-  movss [RESULT], {%H-}xmm0
+  addss  xmm0, xmm1
+  addss  xmm0, xmm2
+  movss  [RESULT], {%H-}xmm0
 end;
 
 function TGLZVectorHelper.AverageNormal4(constref up, left, down,right: TGLZVector): TGLZVector; assembler; register; nostackframe;
@@ -22,22 +22,22 @@ asm
 
   //VectorSubtract(up^,cen^,s{%H-});
   movaps xmm2, [up]   //s
-  subps xmm2, xmm1
+  subps  xmm2, xmm1
   //VectorSubtract(left^,cen^,t{%H-});
   movaps xmm3, [left]  //t
-  subps xmm3, xmm1
+  subps  xmm3, xmm1
   //VectorSubtract(down^,cen^,u{%H-});
   movaps xmm4, [down]   //u
-  subps xmm4, xmm1
+  subps  xmm4, xmm1
   //VectorSubtract(right^,cen^,v{%H-});
   movups xmm5, [right]  //v   //Here we use MOVUPS. On Win64 all Args over the stack become unaligned
-  subps xmm5, xmm1
+  subps  xmm5, xmm1
 
   movaps xmm0, [RIP+cSSE_MASK_NO_W]
-  andps xmm2, xmm0
-  andps xmm3, xmm0
-  andps xmm4, xmm0
-  andps xmm5, xmm0
+  andps  xmm2, xmm0
+  andps  xmm3, xmm0
+  andps  xmm4, xmm0
+  andps  xmm5, xmm0
                                    // state for result
   //------------------------------------
   // X := s.Y*t.Z,    1*-0.34
@@ -45,11 +45,11 @@ asm
   // Z := s.X*t.Y     0 * 0
   // S =   ,x,z,Y
   // T =  -,y,x,z
-  movaps xmm6,xmm2
+  movaps xmm6, xmm2
   shufps xmm6, xmm6, 11001001b
-  movaps xmm7,xmm3
+  movaps xmm7, xmm3
   shufps xmm7, xmm7, 11010010b
-  mulps xmm6, xmm7                  // s gone t in 7
+  mulps  xmm6, xmm7                  // s gone t in 7
 
 
   // X := s.Z*t.Y
@@ -60,9 +60,9 @@ asm
   shufps xmm7, xmm7, 11010010b
   movaps xmm8, xmm2
   shufps xmm8, xmm8, 11010010b
-  mulps xmm7,xmm8
+  mulps  xmm7, xmm8
 
-  subps xmm6,xmm7
+  subps  xmm6, xmm7
   movaps xmm0, xmm6
   //-------------------------------------
   // same again for t and u
@@ -72,11 +72,11 @@ asm
   // Z := t.X*u.Y
   // T =   w,z,y,x
   // U = * -,x,z,y
-  movaps xmm6,xmm3
+  movaps xmm6, xmm3
   shufps xmm6, xmm6, 11001001b
-  movaps xmm7,xmm4
+  movaps xmm7, xmm4
   shufps xmm7, xmm7, 11010010b
-  mulps xmm6, xmm7                  // s gone t in 7
+  mulps  xmm6, xmm7                  // s gone t in 7
 
   // X := t.Z*u.Y
   // Y := t.X*u.Z
@@ -86,10 +86,10 @@ asm
   shufps xmm7, xmm7, 11010010b
   movaps xmm8, xmm3
   shufps xmm8, xmm8, 11010010b
-  mulps xmm7,xmm8
+  mulps  xmm7, xmm8
 
-  subps xmm6,xmm7
-  addps xmm0, xmm6
+  subps  xmm6, xmm7
+  addps  xmm0, xmm6
 
   //-------------------------------------
   // same again for u and v
@@ -99,11 +99,11 @@ asm
   // Z := u.X*v.Y
   // U =   w,z,y,x
   // V = * -,x,z,y
-  movaps xmm6,xmm4
+  movaps xmm6, xmm4
   shufps xmm6, xmm6, 11001001b
-  movaps xmm7,xmm5
+  movaps xmm7, xmm5
   shufps xmm7, xmm7, 11010010b
-  mulps xmm6, xmm7                  // s gone t in 7
+  mulps  xmm6, xmm7                  // s gone t in 7
 
   // X := u.Z*v.Y
   // Y := u.X*v.Z
@@ -113,10 +113,10 @@ asm
   shufps xmm7, xmm7, 11010010b
   movaps xmm8, xmm4
   shufps xmm8, xmm8, 11010010b
-  mulps xmm7,xmm8
+  mulps  xmm7, xmm8
 
-  subps xmm6,xmm7
-  addps xmm0, xmm6
+  subps  xmm6, xmm7
+  addps  xmm0, xmm6
 
   //-------------------------------------
   // same again for v and s
@@ -126,11 +126,11 @@ asm
   // Z := v.X*s.Y
   // V =   w,z,y,x
   // S = * -,x,z,y
-  movaps xmm6,xmm5
+  movaps xmm6, xmm5
   shufps xmm6, xmm6, 11001001b
-  movaps xmm7,xmm2
+  movaps xmm7, xmm2
   shufps xmm7, xmm7, 11010010b
-  mulps xmm6, xmm7                  // s gone t in 7
+  mulps  xmm6, xmm7                  // s gone t in 7
 
   // X := v.Z*s.Y
   // Y := v.X*s.Z
@@ -140,10 +140,10 @@ asm
   shufps xmm7, xmm7, 11010010b
   movaps xmm8, xmm5
   shufps xmm8, xmm8, 11010010b
-  mulps xmm7,xmm8
+  mulps  xmm7, xmm8
 
-  subps xmm6,xmm7
-  addps xmm0, xmm6
+  subps  xmm6, xmm7
+  addps  xmm0, xmm6
 
   //  xmm0        =      xmm6       +        xmm7         +         xmm8        +         xmm2
   //Result.X := (s.Y*t.Z - s.Z*t.Y) + (t.Y*u.Z - t.Z*u.Y) + (u.Y*v.Z - u.Z*v.Y) + (v.Y*s.Z - v.Z*s.Y);
@@ -151,17 +151,16 @@ asm
   //Result.Z := (s.X*t.Y - s.Y*t.X) + (t.X*u.Y - t.Y*u.X) + (u.X*v.Y - u.Y*v.X) + (v.X*s.Y - v.Y*s.X);
 
   movaps xmm2, xmm0
-  mulps xmm0, xmm0
+  mulps  xmm0, xmm0
   movaps xmm1, xmm0
   shufps xmm0, xmm1, $4e
-  addps xmm0, xmm1
+  addps  xmm0, xmm1
   movaps xmm1, xmm0
   shufps xmm1, xmm1, $11
-  addps xmm0, xmm1
+  addps  xmm0, xmm1
   sqrtps xmm0, xmm0
-  divps xmm2, xmm0
+  divps  xmm2, xmm0
   movaps xmm0, xmm2
- // movhlps xmm1,xmm0
 end;
 
 

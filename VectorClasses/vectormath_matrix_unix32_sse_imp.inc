@@ -47,7 +47,7 @@ asm
   movups xmm1, [A]$10
   movups xmm2, [A]$20
   movups xmm3, [A]$30
-  movss xmm4, [B]
+  movss  xmm4, [B]
   shufps xmm4, xmm4, 0    // Replicate B
 
   addps  xmm0, xmm4       // Add B to each row
@@ -67,7 +67,7 @@ asm
   movups xmm1, [A]$10
   movups xmm2, [A]$20
   movups xmm3, [A]$30
-  movss xmm4, [B]
+  movss  xmm4, [B]
   shufps xmm4, xmm4, 0
 
   subps  xmm0, xmm4
@@ -87,7 +87,7 @@ asm
   movups xmm1, [A]$10
   movups xmm2, [A]$20
   movups xmm3, [A]$30
-  movss xmm4, [B]
+  movss  xmm4, [B]
   shufps xmm4, xmm4, 0
 
   mulps  xmm0, xmm4
@@ -314,7 +314,7 @@ asm
   movups xmm1, [A]$10
   movups xmm2, [A]$20
   movups xmm3, [A]$30
-  movss xmm4, [B]
+  movss  xmm4, [B]
   shufps xmm4, xmm4, 0
 
   divps  xmm0, xmm4
@@ -425,6 +425,8 @@ asm
   {$endif}
 end;
 
+
+{ TODO 1 -oTGLZMatrix4 -cASM : REWORK this uses more registers than available in 32bit mode }
 // Translated from DirectXMathMatrix.nl
 function TGLZMatrix4.GetDeterminant : Single; assembler;
 asm
@@ -536,8 +538,8 @@ asm
   movups xmm4, [EAX]$20
   movups xmm0, [EAX]$30
   movaps xmm1, [V]
-  andps xmm1, [cSSE_MASK_NO_W]
-  addps xmm0, xmm1
+  andps  xmm1, [cSSE_MASK_NO_W]
+  addps  xmm0, xmm1
   movups [RESULT]$00, xmm2
   movups [RESULT]$10, xmm3
   movups [RESULT]$20, xmm4
@@ -816,6 +818,7 @@ float Inverse(__m128 *_L1, __m128 *_L2,__m128 *_L3,__m128 *_L4)
 //Note  Xmm0 = Determinant
 }
 
+{ TODO 1 -oTGLZMatrix4 -cASM : REWORK this uses more registers than available in 32bit mode }
 Function TGLZMatrix4.Invert : TGLZMatrix4; assembler;
 asm
   // Convert from Intel Math Lib
