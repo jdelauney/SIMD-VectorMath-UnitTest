@@ -17,7 +17,7 @@ type
   public
     {$CODEALIGN RECORDMIN=16}
     nmtx1,nmtx2, nmtx3 : TNativeGLZMatrix4;
-    mtx1, mtx2, mtx3  : TGLZMatrix4;
+    mtx1, mtx2, mtx3  : TGLZMatrix4f;
     {$CODEALIGN RECORDMIN=4}
   published
     procedure TestAddMatrix;

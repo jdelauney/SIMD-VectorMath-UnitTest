@@ -1,4 +1,179 @@
-{%region%----[ Operators ]--------------------------------------------------------}
+{%region%----[ Pure Pascal will never Convert ]---------------------------------}
+// Temp comment this region is where we keep pascal routines for which it does
+// not make sense to use SSE/AVX
+
+procedure TGLZVector4f.Create(Const aX,aY,aZ: single; const aW : Single = 0);
+begin
+   Self.X := AX;
+   Self.Y := AY;
+   Self.Z := AZ;
+   Self.W := AW;
+end;
+
+procedure TGLZVector4f.Create(Const anAffineVector: TGLZVector3f; const aW : Single = 0);
+begin
+   Self.X := anAffineVector.X;
+   Self.Y := anAffineVector.Y;
+   Self.Z := anAffineVector.Z;
+   Self.W := AW;
+end;
+
+function TGLZVector4f.ToString : String;
+begin
+   Result := '(X: '+FloattoStrF(Self.X,fffixed,5,5)+
+            ' ,Y: '+FloattoStrF(Self.Y,fffixed,5,5)+
+            ' ,Z: '+FloattoStrF(Self.Z,fffixed,5,5)+
+            ' ,W: '+FloattoStrF(Self.W,fffixed,5,5)+')';
+End;
+
+function TGLZVector4f.Shuffle(const x,y,z,w : Byte):TGLZVector4f;
+begin
+  Result.V[x]:=Self.X;
+  Result.V[y]:=Self.Y;
+  Result.V[z]:=Self.Z;
+  Result.V[w]:=Self.W;
+End;
+
+function TGLZVector4f.MinXYZComponent : Single;
+begin
+   Result:=Min3s(Self.X, Self.Y, Self.Z);
+end;
+
+function TGLZVector4f.MaxXYZComponent : Single;
+begin
+   Result:=Max3s(Self.X, Self.Y, Self.Z);
+end;
+
+{%endregion}
+
+{%region%----[ Pure Pascal may Convert at some point ]--------------------------}
+
+function TGLZVector4f.Swizzle(const ASwizzle: TGLZVector4SwizzleRef ): TGLZVector4f;
+begin
+   //FSwizzleMode :=  ASwizzle;
+   case ASwizzle of
+     //swXYXY movlhps
+     //swZWZW movhlps
+     //swXXYY unpacklo
+     //swZZWW unpackhi
+     //swXXZZ movldup
+     //swYYWW movhdup
+     swXXXX, swRRRR :  // Shufps ,00000000b
+     begin
+       Result.X := Self.X;
+       Result.Y := Self.X;
+       Result.Z := Self.X;
+       Result.W := Self.X;
+     end;
+     swYYYY, swGGGG :  // Shufps ,01010101b
+     begin
+       Result.X := Self.Y;
+       Result.Y := Self.Y;
+       Result.Z := Self.Y;
+       Result.W := Self.Y;
+     end;
+     swZZZZ, swBBBB : // Shufps ,10101010b
+     begin
+       Result.X := Self.Z;
+       Result.Y := Self.Z;
+       Result.Z := Self.Z;
+       Result.W := Self.Z;
+     end;
+     swWWWW, swAAAA :  // Shufps ,11111111b
+     begin
+       Result.X := Self.W;
+       Result.Y := Self.W;
+       Result.Z := Self.W;
+       Result.W := Self.W;
+     end;
+     swZYXW, swBGRA : // Shufps ,11000110b ==>  ARGB
+     begin
+       Result.X := Self.Z;
+       Result.Y := Self.Y;
+       Result.Z := Self.X;
+       Result.W := Self.W;
+     end;
+     swXZYW, swRBGA :  // Shufps ,11011000b
+     begin
+       Result.X := Self.X;
+       Result.Y := Self.Z;
+       Result.Z := Self.Y;
+       Result.W := Self.W;
+     end;
+     swZXYW, swBRGA :
+     begin
+       Result.X := Self.Z;
+       Result.Y := Self.X;
+       Result.Z := Self.Y;
+       Result.W := Self.W;
+     end;
+     swYXZW, swGRBA :
+     begin
+       Result.X := Self.Y;
+       Result.Y := Self.X;
+       Result.Z := Self.Z;
+       Result.W := Self.W;
+     end;
+     swYZXW, swGBRA :
+     begin
+       Result.X := Self.Y;
+       Result.Y := Self.Z;
+       Result.Z := Self.X;
+       Result.W := Self.W;
+     end;
+     swWXYZ, swARGB :
+     begin
+       Result.X := Self.W;
+       Result.Y := Self.X;
+       Result.Z := Self.Y;
+       Result.W := Self.Z;
+     end;
+     swWZYX, swABGR :
+     begin
+       Result.X := Self.W;
+       Result.Y := Self.Z;
+       Result.Z := Self.Y;
+       Result.W := Self.X;
+     end;
+     swWXZY, swARBG :
+     begin
+       Result.X := Self.W;
+       Result.Y := Self.X;
+       Result.Z := Self.Z;
+       Result.W := Self.Y;
+     end;
+     swWZXY, swABRG :
+     begin
+       Result.X := Self.W;
+       Result.Y := Self.Z;
+       Result.Z := Self.X;
+       Result.W := Self.Y;
+     end;
+     swWYXZ, swAGRB :
+     begin
+       Result.X := Self.W;
+       Result.Y := Self.Y;
+       Result.Z := Self.X;
+       Result.W := Self.Z;
+     end;
+     swWYZX, swAGBR :
+     begin
+       Result.X := Self.W;
+       Result.Y := Self.Y;
+       Result.Z := Self.Z;
+       Result.W := Self.X;
+     end;
+
+     else result := self; //swXYZW, swRGBA
+   end;
+end;
+{%endregion}
+
+{$IFNDEF USE_ASM}
+
+{%region----[ PASCAL VERSION OF ASSEMBLER ROUTINES BELOW ]----------------------}
+
+{%region%----[ Operators ]------------------------------------------------------}
 
 class operator TGLZVector4f.+(constref A, B: TGLZVector4f): TGLZVector4f;
 begin
@@ -104,7 +279,7 @@ end;
 
 {%endregion%}
 
-{%region%----[ Functions ]--------------------------------------------------------}
+{%region%----[ Functions ]------------------------------------------------------}
 
 function TGLZVector4f.Abs:TGLZVector4f;
 begin
@@ -344,7 +519,7 @@ end;
 
 {%endregion%}
 
-{%region%----[ Operations on Self ]-----------------------------------------------}
+{%region%----[ Operations on Self ]---------------------------------------------}
 
 procedure TGLZVector4f.pAdd(constref A: TGLZVector4f);
 begin
@@ -530,64 +705,6 @@ end;
 
 {%endregion%}
 
-{function GetNormFromCutPlane(cen, up, left, down, right: TGLZVector4f): TGLZVector4f;
-//  s,t,u,v: xmm2,xmm3, xmm4, xmm5
-asm
-  movaps xmm2, [Cent] //s
-  movaps xmm3, xmm2   //t
-  movaps xmm4, xmm2   //u
-  movaps xmm5, xmm2   //v
+{%endregion%}
 
-  //VectorSubtract(up^,cen^,s{%H-});
-  movaps xmm1, [up]
-  subps xmm2, xmm1
-  //VectorSubtract(left^,cen^,t{%H-});
-  movaps xmm1, [left]
-  subps xmm3, xmm1
-  //VectorSubtract(down^,cen^,u{%H-});
-  movaps xmm1, [down]
-  subps xmm4, xmm1
-  //VectorSubtract(right^,cen^,v{%H-});
-  movaps xmm1, [right]
-  subps xmm5, xmm1
-
-  andps xmm2, [RIP+cSSE_MASK_NO_W]
-  andps xmm3, [RIP+cSSE_MASK_NO_W]
-  andps xmm4, [RIP+cSSE_MASK_NO_W]
-  andps xmm5, [RIP+cSSE_MASK_NO_W]
-
-  //------------------------------------
-  // X := s.Y*t.Z,
-  // Y := s.Z*t.X,
-  // Z := s.X*t.Y
-  // S =   w,z,y,x
-  // T = * -,x,z,y
-  shufps xmm6, xmm3, 11001001b
-  mulps xmm6,xmm2
-
-  // X := s.Z*t.Y
-  // Y := s.X*t.Z
-  // Z := s.Y*t.X
-  // S =   w,z,y,x
-  // t = * -,y,x,z
-  shufps xmm7, xmm3, 11010010b
-  mulps xmm7,xmm2
-
-  //xmm6 = w,x,z,y
-  //xmm7 = w,y,x,z
-  subps xmm6,xmm7
-  movaps xmm0, xmm6
-  //-------------------------------------
-
-  //  xmm0        =      xmm6       +        xmm7         +         xmm8        +         xmm2
-  //Result.X := (s.Y*t.Z - s.Z*t.Y) + (t.Y*u.Z - t.Z*u.Y) + (u.Y*v.Z - u.Z*v.Y) + (v.Y*s.Z - v.Z*s.Y);
-  //Result.Y := (s.Z*t.X - s.X*t.Z) + (t.Z*u.X - t.x*u.Z) + (u.Z*v.X - u.X*v.Z) + (v.Z*s.X - v.X*s.Z);
-  //Result.Z := (s.X*t.Y - s.Y*t.X) + (t.X*u.Y - t.Y*u.X) + (u.X*v.Y - u.Y*v.X) + (v.X*s.Y - v.Y*s.X);
-
-  addps xmm0,xmm7
-  addps xmm0,xmm8
-  addps xmm0,xmm2
-
-  //NormalizeVector(Result);
-end;}
-
+{$ENDIF}

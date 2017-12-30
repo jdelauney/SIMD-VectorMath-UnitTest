@@ -41,7 +41,7 @@ Unit GLZVectorMath;
 
 //-----------------------------
 {$ASMMODE INTEL}
-{$COPERATORS ON}
+{.$COPERATORS ON}
 {$INLINE ON}
 
 {$MODESWITCH ADVANCEDRECORDS}
@@ -85,7 +85,11 @@ Unit GLZVectorMath;
 Interface
 
 Uses
-  Classes, Sysutils;
+  Classes, Sysutils, GLZTypes;
+
+Const
+  cColorFloatRatio : Single = 1/255;
+
 
 {%region%----[ SSE States Flags Const ]-----------------------------------------}
 Type
@@ -125,15 +129,26 @@ Const
 
 type
   TGLZVector2fType = packed array[0..1] of Single;
+
   TGLZVector3fType = packed array[0..2] of Single;
+  TGLZVector3bType = packed Array[0..2] of Byte;
+
   TGLZVector4fType = packed array[0..3] of Single;
   TGLZVector4iType = packed array[0..3] of Longint;
+  TGLZVector4bType = packed Array[0..3] of Byte;
 
-  TGLZVector4i =  record
-    case Integer of
-      0 : (V: TGLZVector4iType);
-      1 : (X,Y,Z,W: longint);
-  end;
+  TGLZVector3SwizzleRef = (swDefaultSwizzle3,
+    swXXX, swYYY, swZZZ, swXYZ, swXZY, swZYX, swZXY, swYXZ, swYZX,
+    swRRR, swGGG, swBBB, swRGB, swRBG, swBGR, swBRG, swGRB, swGBR);
+
+  TGLZVector4SwizzleRef = (swDefaultSwizzle4,
+    swXXXX, swYYYY, swZZZZ, swWWWW,
+    swXYZW, swXZYW, swZYXW, swZXYW, swYXZW, swYZXW,
+    swWXYZ, swWXZY, swWZYX, swWZXY, swWYXZ, swWYZX,
+    swRRRR, swGGGG, swBBBB, swAAAA,
+    swRGBA, swRBGA, swBGRA, swBRGA, swGRBA, swGBRA,
+    swARGB, swARBG, swABGR, swABRG, swAGRB, swAGBR);
+
 
   TGLZVector2f =  record
     procedure Create(aX,aY: single);
@@ -188,12 +203,15 @@ type
     case Byte of
       0: (V: TGLZVector3fType);
       1: (X, Y, Z: Single);
+      2: (Red, Green, Blue: Single);
   End;
+
   TGLZAffineVector = TGLZVector3f;
   PGLZAffineVector = ^TGLZAffineVector;
 
-  //=====[ Vectors Functions ]===========================================
   TGLZVector4f =  record  // With packed record the performance decrease a little
+  private
+    //FSwizzleMode :  TGLZVector4SwizzleRef;
   public
     procedure Create(Const aX,aY,aZ: single; const aW : Single = 0); overload;
     procedure Create(Const anAffineVector: TGLZVector3f; const aW : Single = 0); overload;
@@ -220,6 +238,8 @@ type
     class operator <>(constref A, B: TGLZVector4f): Boolean;
 
     function Shuffle(const x,y,z,w : Byte):TGLZVector4f;
+    function Swizzle(const ASwizzle: TGLZVector4SwizzleRef ): TGLZVector4f;
+
     function MinXYZComponent : Single;
     function MaxXYZComponent : Single;
 
@@ -230,7 +250,7 @@ type
     function Length:Single;
     function DistanceSquare(constref A: TGLZVector4f):Single;
     function LengthSquare:Single;
-    function Spacing(constref A: TGLZVector4f):Single;
+    function spacing(constref A: TGLZVector4f):Single;
     function DotProduct(constref A: TGLZVector4f):Single;
     function CrossProduct(constref A: TGLZVector4f): TGLZVector4f;
     function Normalize: TGLZVector4f;
@@ -286,7 +306,10 @@ type
     case Byte of
       0: (V: TGLZVector4fType);
       1: (X, Y, Z, W: Single);
-      2: (AsVector3f : TGLZVector3f);
+      2: (Red, Green, Blue, Alpha: Single);
+      3: (Left, Top, Right, Bottom: Single);
+      4: (ST,UV : TGLZVector2f);
+      5: (AsVector3f : TGLZVector3f);
   end;
 
   TGLZVector = TGLZVector4f;
@@ -294,24 +317,135 @@ type
   PGLZVectorArray = ^TGLZVectorArray;
   TGLZVectorArray = array[0..MAXINT shr 5] of TGLZVector4f;
 
-  //procedure VectorArrayAdd(const src : PGLZVectorArray; const delta : TGLZVector4f; const nb : Integer; dest : PGLZVectorArray);
-  //procedure VectorArraySub(const src : PGLZVectorArray; const delta : TGLZVector4f; const nb : Integer; dest : PGLZVectorArray);
-  //procedure VectorArrayMul(const src : PGLZVectorArray; const delta : TGLZVector4f; const nb : Integer; dest : PGLZVectorArray);
-  //procedure VectorArrayDiv(const src : PGLZVectorArray; const delta : TGLZVector4f; const nb : Integer; dest : PGLZVectorArray);
-//  procedure VectorArrayLerp(const src : PGLZVectorArray; const delta : TGLZVector4f; const nb : Integer; dest : PGLZVectorArray);
-//  procedure VectorArrayNormalize(const src : PGLZVectorArray; const delta : TGLZVector4f; const nb : Integer; dest : PGLZVectorArray);
+  TGLZColorVector = TGLZVector;
+  PGLZColorVector = ^TGLZColorVector;
+
+  TGLZClipRect = TGLZVector;
+
+
+  TGLZVector4i = Record
+  public
+    case Integer of
+      0 : (V: TGLZVector4iType);
+      1 : (X,Y,Z,W: longint);
+  end;
+
+  TGLZVector3b = Record
+  private
+    //FSwizzleMode : TGLZVector3SwizzleRef;
+  public
+    procedure Create(Const aX,aY,aZ: Byte); overload;
+
+    function ToString : String;
+
+    class operator +(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+    class operator -(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+    class operator *(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+    class operator Div(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+
+    class operator +(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+    class operator -(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+    class operator *(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+    class operator *(constref A: TGLZVector3b; constref B:Single): TGLZVector3b; overload;
+    class operator Div(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+
+    class operator =(constref A, B: TGLZVector3b): Boolean;
+    class operator <>(constref A, B: TGLZVector3b): Boolean;
+
+    class operator And(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+    class operator Or(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+    class operator Xor(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+    class operator And(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+    class operator or(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+    class operator Xor(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+
+    function AsVector3f : TGLZVector3f;
+
+    function Swizzle(Const ASwizzle : TGLZVector3SwizzleRef): TGLZVector3b;
+
+    Case Integer of
+      0 : (V:TGLZVector3bType);
+      1 : (x,y,z:Byte);
+      2 : (Red,Green,Blue:Byte);
+  end;
+
+  TGLZVector4b = Record
+  private
+    //FSwizzleMode : TGLZVector4SwizzleRef;
+  public
+    procedure Create(Const aX,aY,aZ: Byte; const aW : Byte = 255); overload;
+    procedure Create(Const aValue : TGLZVector3b; const aW : Byte = 255); overload;
+
+    function ToString : String;
+
+    class operator +(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+    class operator -(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+    class operator *(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+    class operator Div(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+
+    class operator +(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+    class operator -(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+    class operator *(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+    class operator *(constref A: TGLZVector4b; constref B:Single): TGLZVector4b; overload;
+    class operator Div(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+
+    class operator =(constref A, B: TGLZVector4b): Boolean;
+    class operator <>(constref A, B: TGLZVector4b): Boolean;
+
+    class operator And(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+    class operator Or(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+    class operator Xor(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+    class operator And(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+    class operator or(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+    class operator Xor(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+
+    function DivideBy2 : TGLZVector4b;
+
+    function Min(Constref B : TGLZVector4b):TGLZVector4b; overload;
+    function Min(Constref B : Byte):TGLZVector4b; overload;
+    function Max(Constref B : TGLZVector4b):TGLZVector4b; overload;
+    function Max(Constref B : Byte):TGLZVector4b; overload;
+    function Clamp(Constref AMin, AMax : TGLZVector4b):TGLZVector4b; overload;
+    function Clamp(Constref AMin, AMax : Byte):TGLZVector4b; overload;
+
+    function MulAdd(Constref B, C : TGLZVector4b):TGLZVector4b;
+    function MulDiv(Constref B, C : Byte):TGLZVector4b;
+
+    function GetSwizzleMode : TGLZVector4SwizzleRef;
+
+    function AsVector4f : TGLZVector4f;
+
+
+    function Shuffle(const x,y,z,w : Byte):TGLZVector4b;
+    function Swizzle(const ASwizzle: TGLZVector4SwizzleRef ): TGLZVector4b;
+
+    function Combine(constref V2: TGLZVector4b; constref F1: Single): TGLZVector4b;
+    function Combine2(constref V2: TGLZVector4b; const F1, F2: Single): TGLZVector4b;
+    function Combine3(constref V2, V3: TGLZVector4b; const F1, F2, F3: Single): TGLZVector4b;
+
+    function MinXYZComponent : Byte;
+    function MaxXYZComponent : Byte;
+
+    Case Integer of
+     0 : (V:TGLZVector4bType);
+     1 : (x,y,z,w:Byte);
+     2 : (Red,Green,Blue, Alpha:Byte);
+     3 : (AsVector3b : TGLZVector3b);
+     4 : (AsInteger : Integer);
+  end;
 
 {%endregion%}
 
-{%region%----[ Matrix ]---------------------------------------------------------}
   { A plane equation.
    Defined by its equation A.x+B.y+C.z+D, a plane can be mapped to the
    homogeneous space coordinates, and this is what we are doing here.
    The typename is just here for easing up data manipulation. }
    TGLZHmgPlane = TGLZVector;
-   TGLZFrustum = packed record
+   TGLZFrustum =  record
       pLeft, pTop, pRight, pBottom, pNear, pFar : TGLZHmgPlane;
    end;
+
+{%region%----[ Matrix ]---------------------------------------------------------}
 
   TGLZMatrixTransType = (ttScaleX, ttScaleY, ttScaleZ,
                 ttShearXY, ttShearXZ, ttShearYZ,
@@ -324,9 +458,7 @@ type
   // constants are declared for easier access (see MatrixDecompose below)
   TGLZMatrixTransformations  = array [TGLZMAtrixTransType] of Single;
 
-
-  //=====[ Matrix Functions ]===================================================
-  TGLZMatrix4 = record
+  TGLZMatrix4f = record
   private
     function GetComponent(const ARow, AColumn: Integer): Single; inline;
     procedure SetComponent(const ARow, AColumn: Integer; const Value: Single); inline;
@@ -336,18 +468,18 @@ type
     function GetDeterminant: Single;
 
     function MatrixDetInternal(const a1, a2, a3, b1, b2, b3, c1, c2, c3: Single): Single;
-    procedure Transpose_Scale_M33(constref src : TGLZMatrix4; Constref ascale : Single);
+    procedure Transpose_Scale_M33(constref src : TGLZMatrix4f; Constref ascale : Single);
   public
-    class operator +(constref A, B: TGLZMatrix4): TGLZMatrix4; overload;
-    class operator +(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; overload;
-    class operator -(constref A, B: TGLZMatrix4): TGLZMatrix4; overload;
-    class operator -(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; overload;
-    class operator *(constref A, B: TGLZMatrix4): TGLZMatrix4; overload;
-    class operator *(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; overload;
-    class operator *(constref A: TGLZMatrix4; constref B: TGLZVector): TGLZVector; overload;
-    class operator /(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; overload;
+    class operator +(constref A, B: TGLZMatrix4f): TGLZMatrix4f; overload;
+    class operator +(constref A: TGLZMatrix4f; constref B: Single): TGLZMatrix4f; overload;
+    class operator -(constref A, B: TGLZMatrix4f): TGLZMatrix4f; overload;
+    class operator -(constref A: TGLZMatrix4f; constref B: Single): TGLZMatrix4f; overload;
+    class operator *(constref A, B: TGLZMatrix4f): TGLZMatrix4f; overload;
+    class operator *(constref A: TGLZMatrix4f; constref B: Single): TGLZMatrix4f; overload;
+    class operator *(constref A: TGLZMatrix4f; constref B: TGLZVector): TGLZVector; overload;
+    class operator /(constref A: TGLZMatrix4f; constref B: Single): TGLZMatrix4f; overload;
 
-    class operator -(constref A: TGLZMatrix4): TGLZMatrix4; overload;
+    class operator -(constref A: TGLZMatrix4f): TGLZMatrix4f; overload;
 
     //class operator =(constref A, B: TGLZMatrix4): Boolean;overload;
     //class operator <>(constref A, B: TGLZMatrix4): Boolean;overload;
@@ -398,21 +530,21 @@ type
 
     function ToString : String;
 
-    function Transpose: TGLZMatrix4;
+    function Transpose: TGLZMatrix4f;
     //procedure Transpose;
-    function Invert : TGLZMatrix4;
+    function Invert : TGLZMatrix4f;
     //procedure Invert;
-    function Normalize : TGLZMatrix4;
+    function Normalize : TGLZMatrix4f;
     //procedure Normalize;
     procedure Adjoint;
-    procedure AnglePreservingMatrixInvert(constref mat : TGLZMatrix4);
+    procedure AnglePreservingMatrixInvert(constref mat : TGLZMatrix4f);
 
     function Decompose(var Tran: TGLZMatrixTransformations): Boolean;
 
-    function Translate( constref v : TGLZVector):TGLZMatrix4;
-    function Multiply(constref M2: TGLZMatrix4):TGLZMatrix4;  //Component-wise multiplication
+    function Translate( constref v : TGLZVector):TGLZMatrix4f;
+    function Multiply(constref M2: TGLZMatrix4f):TGLZMatrix4f;  //Component-wise multiplication
 
-    //function Lerp(constref m2: TGLZMatrix4; const Delta: Single): TGLZMatrix4;
+    //function Lerp(constref m2: TGLZMatrix4f; const Delta: Single): TGLZMatrix4f;
 
     property Rows[const AIndex: Integer]: TGLZVector read GetRow write SetRow;
     property Components[const ARow, AColumn: Integer]: Single read GetComponent write SetComponent; default;
@@ -430,7 +562,7 @@ type
           m41, m42, m43, m44: Single);
   End;
 
-  TGLZMatrix = TGLZMatrix4;
+  TGLZMatrix = TGLZMatrix4f;
   PGLZMatrix = ^TGLZMatrix;
   TGLZMatrixArray = array [0..MaxInt shr 7] of TGLZMatrix;
   PGLZMatrixArray = ^TGLZMatrixArray;
@@ -536,6 +668,133 @@ type
 
 {%endregion%}
 
+{%region%----[ BoundingBox ]----------------------------------------------------}
+
+  TGLZBoundingBox = record
+  private
+  public
+    procedure Create(Const AValue : TGLZVector);
+
+    class operator +(ConstRef A, B : TGLZBoundingBox):TGLZBoundingBox;overload;
+    class operator +(ConstRef A: TGLZBoundingBox; ConstRef B : TGLZVector):TGLZBoundingBox;overload;
+    class operator =(ConstRef A, B : TGLZBoundingBox):Boolean;overload;
+
+    function Transform(ConstRef M:TGLZMAtrix):TGLZBoundingBox;
+    function MinX : Single;
+    function MaxX : Single;
+    function MinY : Single;
+    function MaxY : Single;
+    function MinZ : Single;
+    function MaxZ : Single;
+
+    Case Integer of
+     0 : (Points : Array[0..7] of TGLZVector);
+     1 : (pt1, pt2, pt3, pt4 :TGLZVector;
+          pt5, pt6, pt7, pt8 :TGLZVector);
+  end;
+
+{%endregion%}
+
+  { : Result type for space intersection tests, like AABBContainsAABB or BSphereContainsAABB }
+  TGLZSpaceContains = (ScNoOverlap, ScContainsFully, ScContainsPartially);
+
+{%region%----[ BoundingSphere ]-------------------------------------------------}
+
+  TGLZBoundingSphere = record
+  public
+
+    procedure Create(Const x,y,z: Single;Const r: single = 1.0); overload;
+    procedure Create(Const AValue : TGLZAffineVector;Const r: single = 1.0); overload;
+    procedure Create(Const AValue : TGLZVector;Const r: single = 1.0); overload;
+
+    function Contains(const TestBSphere: TGLZBoundingSphere) : TGLZSpaceContains;
+    { : Determines if one BSphere intersects another BSphere }
+    function Intersect(const TestBSphere: TGLZBoundingSphere): Boolean;
+
+    Case Integer of
+          { : Center of Bounding Sphere }
+      0 : (Center: TGLZVector;
+          { : Radius of Bounding Sphere }
+          Radius: Single);
+  end;
+
+{%endregion%}
+
+{%region%----[ Axis Aligned BoundingBox ]---------------------------------------}
+
+{ : Structure for storing the corners of an AABB, used with ExtractAABBCorners }
+  TGLZAABBCorners = array [0 .. 7] of TGLZVector;
+
+  TGLZAxisAlignedBoundingBox =  record
+  public
+    procedure Create(const AValue: TGLZVector);
+    { : Extract the AABB information from a BB. }
+    procedure Create(const ABB: TGLZBoundingBox);
+
+    { : Make the AABB that is formed by sweeping a sphere (or AABB) from Start to Dest }
+    procedure CreateFromSweep(const Start, Dest: TGLZVector;const Radius: Single);
+
+    { : Convert a BSphere to the AABB }
+    procedure Create(const BSphere: TGLZBoundingSphere); overload;
+    procedure Create(const Center: TGLZVector; Radius: Single); overload;
+
+
+    class operator +(ConstRef A, B : TGLZAxisAlignedBoundingBox):TGLZAxisAlignedBoundingBox;overload;
+    class operator +(ConstRef A: TGLZAxisAlignedBoundingBox; ConstRef B : TGLZVector):TGLZAxisAlignedBoundingBox;overload;
+    class operator *(ConstRef A: TGLZAxisAlignedBoundingBox; ConstRef B : TGLZVector):TGLZAxisAlignedBoundingBox;overload;
+    class operator =(ConstRef A, B : TGLZAxisAlignedBoundingBox):Boolean;overload;
+
+    function Transform(Constref M:TGLZMatrix):TGLZAxisAlignedBoundingBox;
+    function Include(Constref P:TGLZVector):TGLZAxisAlignedBoundingBox;
+    { : Returns the intersection of the AABB with second AABBs.
+      If the AABBs don't intersect, will return a degenerated AABB (plane, line or point). }
+    function Intersection(const B: TGLZAxisAlignedBoundingBox): TGLZAxisAlignedBoundingBox;
+
+    { : Converts the AABB to its canonical BB. }
+    function ToBoundingBox: TGLZBoundingBox; overload;
+    { : Transforms the AABB to a BB. }
+    function ToBoundingBox(const M: TGLZMatrix) : TGLZBoundingBox; overload;
+    { : Convert the AABB to a BSphere }
+    function ToBoundingSphere: TGLZBoundingSphere;
+
+    function ToClipRect(ModelViewProjection: TGLZMatrix; ViewportSizeX, ViewportSizeY: Integer): TGLZClipRect;
+    { : Determines if two AxisAlignedBoundingBoxes intersect.
+      The matrices are the ones that convert one point to the other's AABB system }
+    function Intersect(const B: TGLZAxisAlignedBoundingBox;const M1, M2: TGLZMatrix):Boolean;
+    { : Checks whether two Bounding boxes aligned with the world axes collide in the XY plane. }
+    function IntersectAbsoluteXY(const B: TGLZAxisAlignedBoundingBox): Boolean;
+    { : Checks whether two Bounding boxes aligned with the world axes collide in the XZ plane. }
+    function IntersectAbsoluteXZ(const B: TGLZAxisAlignedBoundingBox): Boolean;
+    { : Checks whether two Bounding boxes aligned with the world axes collide. }
+    function IntersectAbsolute(const B: TGLZAxisAlignedBoundingBox): Boolean;
+    { : Checks whether one Bounding box aligned with the world axes fits within
+      another Bounding box. }
+    function FitsInAbsolute(const B: TGLZAxisAlignedBoundingBox): Boolean;
+
+    { : Checks if a point "p" is inside the AABB }
+    function PointIn(const P: TGLZVector): Boolean;
+
+    { : Extract the corners from the AABB }
+    function ExtractCorners: TGLZAABBCorners;
+
+    { : Determines to which extent the AABB contains another AABB }
+    function Contains(const TestAABB: TGLZAxisAlignedBoundingBox): TGLZSpaceContains; overload;
+    { : Determines to which extent the AABB contains a BSphere }
+    function Contains(const TestBSphere: TGLZBoundingSphere): TGLZSpaceContains; overload;
+
+    { : Clips a position to the AABB }
+    function Clip(const V: TGLZAffineVector): TGLZAffineVector;
+
+    { : Finds the intersection between a ray and an axis aligned bounding box. }
+    function RayCastIntersect(const RayOrigin, RayDirection: TGLZVector; out TNear, TFar: Single): Boolean; overload;
+    function RayCastIntersect(const RayOrigin, RayDirection: TGLZVector; IntersectPoint: PGLZVector = nil): Boolean; overload;
+
+    Case Integer of
+      0 : (Min, Max : TGLZVector);
+  end;
+
+{%endregion%}
+
 {%region%----[ TGLZVectorHelper ]-----------------------------------------------}
 
   TGLZVectorHelper = record helper for TGLZVector
@@ -573,6 +832,9 @@ type
     function PointProject(constref origin, direction : TGLZVector) : Single;
     // Returns true if both vector are colinear
     function IsColinear(constref v2: TGLZVector) : Boolean;
+    //function IsPerpendicular(constref v2: TGLZVector) : Boolean;
+    //function IsParallel(constref v2: TGLZVector) : Boolean;
+
     // Returns true if line intersect ABCD quad. Quad have to be flat and convex
     //function IsLineIntersectQuad(const direction, ptA, ptB, ptC, ptD : TGLZVector) : Boolean;
     // Computes closest point on a segment (a segment is a limited line).
@@ -595,39 +857,43 @@ type
     function ShiftObjectFromCenter(Constref ACenter: TGLZVector; const ADistance: Single; const AFromCenterSpot: Boolean): TGLZVector;
 
     function AverageNormal4(constref up, left, down, right: TGLZVector): TGLZVector;
+
+    function ExtendClipRect(vX, vY: Single) : TGLZClipRect;
   end;
 
-{%endregion%}
 
-{%region%----[ TGLZHmgPlane ]---------------------------------------------------}
+  {%region%----[ TGLZHmgPlane ]---------------------------------------------------}
 
-{ ARF IT'S IMPOSSIBLE TO CREATE MORE THAN 1 HELPER PER RECORD
-  SO BECAREFULL THE LAST DECLARED HELPER IS THE ONLY AVAILABLE, snif :( , so moved in TGLZVectorHelper }
+  { ARF IT'S IMPOSSIBLE TO CREATE MORE THAN 1 HELPER PER RECORD
+    SO BECAREFULL THE LAST DECLARED HELPER IS THE ONLY AVAILABLE, snif :( , so moved in TGLZVectorHelper }
 
-(*  TGLZHmgPlaneHelper = record helper for TGLZHmgPlane
-  public
-    procedure CreatePlane(constref p1, p2, p3 : TGLZVector);overload;
-    // Computes the parameters of a plane defined by a point and a normal.
-    procedure CreatePlane(constref point, normal : TGLZVector); overload;
+  (*  TGLZHmgPlaneHelper = record helper for TGLZHmgPlane
+    public
+      procedure CreatePlane(constref p1, p2, p3 : TGLZVector);overload;
+      // Computes the parameters of a plane defined by a point and a normal.
+      procedure CreatePlane(constref point, normal : TGLZVector); overload;
 
-    //function Normalize : TGLZHmgPlane; overload;
-    function NormalizePlane : TGLZHmgPlane;
+      //function Normalize : TGLZHmgPlane; overload;
+      function NormalizePlane : TGLZHmgPlane;
 
-    procedure CalcPlaneNormal(constref p1, p2, p3 : TGLZVector);
+      procedure CalcPlaneNormal(constref p1, p2, p3 : TGLZVector);
 
-    //function PointIsInHalfSpace(constref point: TGLZVector) : Boolean;
-    //function PlaneEvaluatePoint(constref point : TGLZVector) : Single;
-    function DistancePlaneToPoint(constref point : TGLZVector) : Single;
-    function DistancePlaneToSphere(constref Center : TGLZVector; constref Radius:Single) : Single;
-    { Compute the intersection point "res" of a line with a plane.
-      Return value:
-       0 : no intersection, line parallel to plane
-       1 : res is valid
-       -1 : line is inside plane
-      Adapted from:
-      E.Hartmann, Computeruntersttzte Darstellende Geometrie, B.G. Teubner Stuttgart 1988 }
-    //function IntersectLinePlane(const point, direction : TGLZVector; intersectPoint : PGLZVector = nil) : Integer;
-  end;  *)
+      //function PointIsInHalfSpace(constref point: TGLZVector) : Boolean;
+      //function PlaneEvaluatePoint(constref point : TGLZVector) : Single;
+      function DistancePlaneToPoint(constref point : TGLZVector) : Single;
+      function DistancePlaneToSphere(constref Center : TGLZVector; constref Radius:Single) : Single;
+      { Compute the intersection point "res" of a line with a plane.
+        Return value:
+         0 : no intersection, line parallel to plane
+         1 : res is valid
+         -1 : line is inside plane
+        Adapted from:
+        E.Hartmann, Computeruntersttzte Darstellende Geometrie, B.G. Teubner Stuttgart 1988 }
+      //function IntersectLinePlane(const point, direction : TGLZVector; intersectPoint : PGLZVector = nil) : Integer;
+    end;  *)
+
+  {%endregion%}
+
 
 {%endregion%}
 
@@ -655,6 +921,18 @@ type
 
 {%endregion%}
 
+{%region%----[ TGLZBoundingBoxHelper ]------------------------------------------}
+{%endregion%}
+
+{%region%----[ TGLZAxisAlignedBoundingBoxHelper ]-------------------------------}
+{%endregion%}
+
+{%region%----[ TGLZPlaneHelper AddOns ]-----------------------------------------}
+{%endregion%}
+
+{%region%----[ TGLZFrustrumHelper ]---------------------------------------------}
+{%endregion%}
+
 {%region%----[ Vectors Const ]--------------------------------------------------}
 
 Const
@@ -666,12 +944,19 @@ Const
   XZVector :   TGLZAffineVector = (X:1; Y:0; Z:1);
   YZVector :   TGLZAffineVector = (X:0; Y:1; Z:1);
   XYZVector :  TGLZAffineVector = (X:1; Y:1; Z:1);
+  NullVector : TGLZAffineVector = (X:0; Y:0; Z:0);
   // standard homogeneous vectors
   XHmgVector : TGLZVector = (X:1; Y:0; Z:0; W:0);
   YHmgVector : TGLZVector = (X:0; Y:1; Z:0; W:0);
   ZHmgVector : TGLZVector = (X:0; Y:0; Z:1; W:0);
   WHmgVector : TGLZVector = (X:0; Y:0; Z:0; W:1);
   NullHmgVector : TGLZVector = (X:0; Y:0; Z:0; W:0);
+  XYHmgVector: TGLZVector = (X: 1; Y: 1; Z: 0; W: 0);
+  YZHmgVector: TGLZVector = (X: 0; Y: 1; Z: 1; W: 0);
+  XZHmgVector: TGLZVector = (X: 1; Y: 0; Z: 1; W: 0);
+  XYZHmgVector: TGLZVector = (X: 1; Y: 1; Z: 1; W: 0);
+  XYZWHmgVector: TGLZVector = (X: 1; Y: 1; Z: 1; W: 1);
+
   // standard homogeneous points
   XHmgPoint :  TGLZVector = (X:1; Y:0; Z:0; W:1);
   YHmgPoint :  TGLZVector = (X:0; Y:1; Z:0; W:1);
@@ -680,6 +965,10 @@ Const
   NullHmgPoint : TGLZVector = (X:0; Y:0; Z:0; W:1);
 
   NegativeUnitVector : TGLZVector = (X:-1; Y:-1; Z:-1; W:-1);
+
+
+
+  { @groupend }
 
 {%endregion%}
 
@@ -704,10 +993,34 @@ Const
 
 {%endregion%}
 
+{%region%----[ Others Const ]---------------------------------------------------}
+
+const
+   NullBoundingBox: TGLZBoundingBox =
+   (Points:((X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1)));
+
+{%endregion%}
+
 {%region%----[ Misc Vector Helpers functions ]----------------------------------}
 
 function AffineVectorMake(const x, y, z : Single) : TGLZAffineVector;overload;
 function AffineVectorMake(const v : TGLZVector) : TGLZAffineVector;overload;
+
+
+//procedure VectorArrayAdd(const src : PGLZVectorArray; const delta : TGLZVector4f; const nb : Integer; dest : PGLZVectorArray);
+//procedure VectorArraySub(const src : PGLZVectorArray; const delta : TGLZVector4f; const nb : Integer; dest : PGLZVectorArray);
+//procedure VectorArrayMul(const src : PGLZVectorArray; const delta : TGLZVector4f; const nb : Integer; dest : PGLZVectorArray);
+//procedure VectorArrayDiv(const src : PGLZVectorArray; const delta : TGLZVector4f; const nb : Integer; dest : PGLZVectorArray);
+//procedure VectorArrayLerp(const src : PGLZVectorArray; const delta : TGLZVector4f; const nb : Integer; dest : PGLZVectorArray);
+//procedure VectorArrayNormalize(const src : PGLZVectorArray; const delta : TGLZVector4f; const nb : Integer; dest : PGLZVectorArray);
+
 
 {%endregion%}
 
@@ -725,6 +1038,7 @@ Implementation
 
 Uses Math, GLZMath, GLZUtils;
 
+{%region%----[ Internal Types and Const ]---------------------------------------}
 Const
   cNullVector4f   : TGLZVector = (x:0;y:0;z:0;w:0);
   cOneVector4f    : TGLZVector = (x:1;y:1;z:1;w:1);
@@ -746,7 +1060,6 @@ Const
   cSSE_MASK_ONLY_W : array [0..3] of UInt32 = ($00000000, $00000000, $00000000, $FFFFFFFF);
   //cSSE_MASK_NO_XYZ : array [0..3] of UInt32 = ($00000000, $00000000, $00000000, $FFFFFFFF);
 
-
   cSSE_OPERATOR_EQUAL             = 0;
   cSSE_OPERATOR_LESS              = 1;
   cSSE_OPERATOR_LESS_OR_EQUAL     = 2;
@@ -757,170 +1070,170 @@ Const
   cSSE_OPERATOR_NOT_ORDERED       = 7;
 {$ENDIF}
 
-{%region%----[ Vectors ]--------------------------------------------------------}
 
-{%region%----[ Vector2f ]-------------------------------------------------------}
+// ---- Used by Bounding box functions -----------------------------------------
 
-procedure TGLZVector2f.Create(aX,aY: single);
+type
+  TPlanIndices = array [0 .. 3] of Integer;
+  TPlanBB = array [0 .. 5] of TPlanIndices;
+  TDirPlan = array [0 .. 5] of Integer;
+
+const
+  CBBFront: TPlanIndices = (0, 1, 2, 3);
+  CBBBack: TPlanIndices = (4, 5, 6, 7);
+  CBBLeft: TPlanIndices = (0, 4, 7, 3);
+  CBBRight: TPlanIndices = (1, 5, 6, 2);
+  CBBTop: TPlanIndices = (0, 1, 5, 4);
+  CBBBottom: TPlanIndices = (2, 3, 7, 6);
+  CBBPlans: TPlanBB = ((0, 1, 2, 3), (4, 5, 6, 7), (0, 4, 7, 3), (1, 5, 6, 2),
+    (0, 1, 5, 4), (2, 3, 7, 6));
+  CDirPlan: TDirPlan = (0, 0, 1, 1, 2, 2);
+
+
+procedure SetPlanBB(Var A:TGLZBoundingBox;const NumPlan: Integer; const Valeur: Double);
+var
+  I: Integer;
 begin
-  Self.X := aX;
-  Self.Y := aY;
+  for I := 0 to 3 do
+  begin
+    A.Points[CBBPlans[NumPlan][I]].V[CDirPlan[NumPlan]] := Valeur;
+    A.Points[CBBPlans[NumPlan][I]].V[3] := 1;
+  end;
 end;
 
-function TGLZVector2f.ToString : String;
-begin
-   Result := '(X: '+FloattoStrF(Self.X,fffixed,5,5)+
-            ' ,Y: '+FloattoStrF(Self.Y,fffixed,5,5)+')';
-End;
 
-class operator TGLZVector2f.-(constref A: TGLZVector2f): TGLZVector2f;
-begin
-  Result.X := -A.X;
-  Result.Y := -A.Y;
-end;
+//------------------------------------------------------------------------------
 
-class operator TGLZVector2f.=(constref A, B: TGLZVector2f): Boolean;
-begin
- result := ((A.X = B.X) And (A.Y = B.Y));
-end;
-(*class operator >=(constref A, B: TVector4f): Boolean;
-class operator <=(constref A, B: TVector4f): Boolean;
-class operator >(constref A, B: TVector4f): Boolean;
-class operator <(constref A, B: TVector4f): Boolean; *)
-class operator TGLZVector2f.<>(constref A, B: TGLZVector2f): Boolean;
-begin
-  result := ((A.X <> B.X) or (A.Y <> B.Y));
-end;
+{%endregion%}
 
-(* function TGLZVector2f.Abs(const A: TVector2f): TVector2f;
-begin
-  Result.X := System.Abs(A.X);
-  Result.Y := System.Abs(A.Y);
-end;  *)
+
+//-----[ INCLUDE IMPLEMENTATION ]-----------------------------------------------
 
 {$ifdef USE_ASM}
-{$ifdef UNIX}
-  {$ifdef CPU64}
-    {$IFDEF USE_ASM_AVX}
-       {$I vectormath_vector2f_unix64_avx_imp.inc}
-    {$ELSE}
-       {$I vectormath_vector2f_unix64_sse_imp.inc}
-    {$ENDIF}
-  {$else}
-    {$IFDEF USE_ASM_AVX}
-       {$I vectormath_vector2f_unix32_avx_imp.inc}
-    {$ELSE}
-       {$I vectormath_vector2f_unix32_sse_imp.inc}
-    {$ENDIF}
-  {$endif}
-{$else}
-  {$ifdef CPU64}
-     {$IFDEF USE_ASM_AVX}
-         {$I vectormath_vector2f_win64_avx_imp.inc}
+  {$ifdef UNIX}
+    {$ifdef CPU64}
+      {$IFDEF USE_ASM_AVX}
+         {.$I vectormath_vector2f_unix64_avx_imp.inc}
+         {.$I vectormath_vector4f_unix64_avx_imp.inc}
+
+         {$I vectormath_vector3b_native_imp.inc}
+         {$I vectormath_vector4b_native_imp.inc}
+
+         {$I vectormath_quaternion_unix64_avx_imp.inc}
+         {.$I vectormath_matrix_unix64_avx_imp.inc}
+         {.$I vectormath_planehelper_unix64_avx_imp.inc}
+         {.$I vectormath_vectorhelper_unix64_avx_imp.inc}
       {$ELSE}
-         {$I vectormath_vector2f_win64_sse_imp.inc}
+         {.$I vectormath_vector2f_unix64_sse_imp.inc}
+         {.$I vectormath_vector4f_unix64_sse_imp.inc}
+         {$I vectormath_quaternion_unix64_sse_imp.inc}
+         {.$I vectormath_matrix_unix64_sse_imp.inc}
+         {.$I vectormath_planehelper_unix64_sse_imp.inc}
+         {.$I vectormath_vectorhelper_unix64_sse_imp.inc}
       {$ENDIF}
+    {$else}
+      {$IFDEF USE_ASM_AVX}
+         {.$I vectormath_vector2f_unix32_avx_imp.inc}
+         {.$I vectormath_vector4f_unix32_avx_imp.inc}
+         {$I vectormath_quaternion_unix32_avx_imp.inc}
+         {.$I vectormath_matrix_unix32_avx_imp.inc}
+         {.$I vectormath_planehelper_unix32_avx_imp.inc}
+         {.$I vectormath_vectorhelper_unix32_avx_imp.inc}
+      {$ELSE}
+         {.$I vectormath_vector2f_unix32_sse_imp.inc}
+         {.$I vectormath_vector4f_unix32_sse_imp.inc}
+         {$I vectormath_quaternion_unix32_sse_imp.inc}
+         {.$I vectormath_matrix_unix32_sse_imp.inc}
+         {.$I vectormath_planehelper_unix32_sse_imp.inc}
+         {.$I vectormath_vectorhelper_unix32_sse_imp.inc}
+      {$ENDIF}
+    {$endif}
   {$else}
-     {$IFDEF USE_ASM_AVX}
-        {$I vectormath_vector2f_win32_avx_imp.inc}
-     {$ELSE}
-        {$I vectormath_vector2f_win32_sse_imp.inc}
-     {$ENDIF}
+    {$ifdef CPU64}
+       {$IFDEF USE_ASM_AVX}
+           {$I vectormath_vector2f_win64_avx_imp.inc}
+           {$I vectormath_vector4f_win64_avx_imp.inc}
+
+           {$I vectormath_vector3b_native_imp.inc}
+           {$I vectormath_vector4b_native_imp.inc}
+
+           {$I vectormath_quaternion_win64_avx_imp.inc}
+           {$I vectormath_matrix_win64_avx_imp.inc}
+           {$I vectormath_planehelper_win64_avx_imp.inc}
+           {$I vectormath_vectorhelper_win64_avx_imp.inc}
+        {$ELSE}
+           {$I vectormath_vector2f_native_imp.inc}
+           {$I vectormath_vector2f_win64_sse_imp.inc}
+
+           {$I vectormath_vector4f_native_imp.inc}
+           {$I vectormath_vector4f_win64_sse_imp.inc}
+
+           {$I vectormath_vector3b_native_imp.inc}
+           {$I vectormath_vector4b_native_imp.inc}
+
+           {$I vectormath_quaternion_native_imp.inc}
+           {$I vectormath_quaternion_win64_sse_imp.inc}
+
+           {$I vectormath_matrix4f_native_imp.inc}
+           {$I vectormath_matrix4f_win64_sse_imp.inc}
+
+           {$I vectormath_boundingbox_native_imp.inc}
+           {.$I vectormath_boundingbox_win64_sse_imp.inc}
+
+           {$I vectormath_boundingsphere_native_imp.inc}
+           {.$I vectormath_boundingsphere_win64_sse_imp.inc}
+
+           {$I vectormath_axisaligned_boundingbox_native_imp.inc}
+           {.$I vectormath_axisaligned_boundingbox_win64_sse_imp.inc}
+
+           {$I vectormath_planehelper_native_imp.inc}
+           {$I vectormath_planehelper_win64_sse_imp.inc}
+
+           {$I vectormath_vectorhelper_native_imp.inc}
+           {$I vectormath_vectorhelper_win64_sse_imp.inc}
+
+           {$I vectormath_matrixhelper_native_imp.inc}
+           {.$I vectormath_matrixhelper_win64_sse_imp.inc}
+
+        {$ENDIF}
+    {$else}
+       {$IFDEF USE_ASM_AVX}
+          {.$I vectormath_vector2f_win32_avx_imp.inc}
+          {.$I vectormath_vector4f_win32_avx_imp.inc}
+          {$I vectormath_quaternion_win32_avx_imp.inc}
+          {.$I vectormath_matrix_win32_avx_imp.inc}
+          {.$I vectormath_planehelper_win32_avx_imp.inc}
+          {.$I vectormath_vectorhelper_win32_avx_imp.inc}
+       {$ELSE}
+          {.$I vectormath_vector4f_win32_sse_imp.inc}
+          {.$I vectormath_vector4f_win32_sse_imp.inc}
+          {$I vectormath_quaternion_win32_sse_imp.inc}
+          {.$I vectormath_matrix_win32_sse_imp.inc}
+          {.$I vectormath_planehelper_win32_sse_imp.inc}
+          {.$I vectormath_vectorhelper_win32_sse_imp.inc}
+       {$ENDIF}
+    {$endif}
   {$endif}
-{$endif}
 {$else}
   {$I vectormath_vector2f_native_imp.inc}
-{$endif}
-
-
-{%endregion%}
-
-{%region%----[ Vector4f ]-------------------------------------------------------}
-
-{%region%====[ Commons functions ]==============================================}
-
-procedure TGLZVector4f.Create(Const aX,aY,aZ: single; const aW : Single = 0);
-begin
-   Self.X := AX;
-   Self.Y := AY;
-   Self.Z := AZ;
-   Self.W := AW;
-end;
-
-procedure TGLZVector4f.Create(Const anAffineVector: TGLZVector3f; const aW : Single = 0);
-begin
-   Self.X := anAffineVector.X;
-   Self.Y := anAffineVector.Y;
-   Self.Z := anAffineVector.Z;
-   Self.W := AW;
-end;
-
-function TGLZVector4f.ToString : String;
-begin
-   Result := '(X: '+FloattoStrF(Self.X,fffixed,5,5)+
-            ' ,Y: '+FloattoStrF(Self.Y,fffixed,5,5)+
-            ' ,Z: '+FloattoStrF(Self.Z,fffixed,5,5)+
-            ' ,W: '+FloattoStrF(Self.W,fffixed,5,5)+')';
-End;
-
-function TGLZVector4f.Shuffle(const x,y,z,w : Byte):TGLZVector4f;
-begin
-  Result.V[x]:=Self.X;
-  Result.V[y]:=Self.Y;
-  Result.V[z]:=Self.Z;
-  Result.V[w]:=Self.W;
-End;
-
-function TGLZVector4f.MinXYZComponent : Single;
-begin
-   Result:=Min3s(Self.X, Self.Y, Self.Z);
-end;
-
-function TGLZVector4f.MaxXYZComponent : Single;
-begin
-   Result:=Max3s(Self.X, Self.Y, Self.Z);
-end;
-
-{%endregion%}
-
-{$ifdef USE_ASM}
-{$ifdef UNIX}
-  {$ifdef CPU64}
-    {$IFDEF USE_ASM_AVX}
-       {$I vectormath_vector4f_unix64_avx_imp.inc}
-    {$ELSE}
-       {$I vectormath_vector4f_unix64_sse_imp.inc}
-    {$ENDIF}
-  {$else}
-    {$IFDEF USE_ASM_AVX}
-       {$I vectormath_vector4f_unix32_avx_imp.inc}
-    {$ELSE}
-       {$I vectormath_vector4f_unix32_sse_imp.inc}
-    {$ENDIF}
-  {$endif}
-{$else}
-  {$ifdef CPU64}
-     {$IFDEF USE_ASM_AVX}
-         {$I vectormath_vector4f_win64_avx_imp.inc}
-      {$ELSE}
-         {$I vectormath_vector4f_win64_sse_imp.inc}
-      {$ENDIF}
-  {$else}
-     {$IFDEF USE_ASM_AVX}
-        {$I vectormath_vector4f_win32_avx_imp.inc}
-     {$ELSE}
-        {$I vectormath_vector4f_win32_sse_imp.inc}
-     {$ENDIF}
-  {$endif}
-{$endif}
-{$else}
   {$I vectormath_vector4f_native_imp.inc}
+  {$I vectormath_vector2b_native_imp.inc}
+  {$I vectormath_vector4b_native_imp.inc}
+
+  {$I vectormath_quaternion_native_imp.inc}
+  {$I vectormath_boundingbox_native_imp.inc}
+  {$I vectormath_boundingsphere_native_imp.inc}
+  {$I vectormath_axisaligned_boundingbox_native_imp.inc}
+
+  {$I vectormath_matrix_native_imp.inc}
+
+  {$I vectormath_planehelper_native_imp.inc}
+  {$I vectormath_vectorhelper_native_imp.inc}
+  {$I vectormath_boundingboxhelper_native_imp.inc}
+  {$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
+  {$I vectormath_frustrumhelper_native_imp.inc}
 {$endif}
 
-
-{%endregion%}
-
-{%endregion%}
 
 {%region%----[ Misc Vector Helpers functions ]----------------------------------}
 
@@ -937,1003 +1250,6 @@ begin
    Result.Y:=v.Y;
    Result.Z:=v.Z;
 end;
-
-{%endregion%}
-
-{%region%----[ Matrix ]---------------------------------------------------------}
-
-function TGLZMatrix4.GetComponent(const ARow, AColumn: Integer): Single;
-begin
-  Result := Self.M[ARow, AColumn];
-end;
-
-procedure TGLZMatrix4.SetComponent(const ARow, AColumn: Integer; const Value: Single);
-begin
-  Self.M[ARow, AColumn] := Value;
-end;
-
-procedure TGLZMatrix4.SetRow(const AIndex: Integer; const Value: TGLZVector);
-begin
-  Self.V[AIndex] := Value;
-end;
-
-function TGLZMatrix4.GetRow(const AIndex: Integer): TGLZVector;
-begin
-  Result := V[AIndex];
-end;
-
-function TGLZMatrix4.ToString : String;
-begin
-  Result :='|'+V[0].ToString+'|'+#13+#10
-          +'|'+V[1].ToString+'|'+#13+#10
-          +'|'+V[2].ToString+'|'+#13+#10
-          +'|'+V[3].ToString+'|'+#13+#10
-End;
-
-procedure TGLZMatrix4.CreateIdentityMatrix;
-begin
-  Self:=IdentityHmgMatrix;
-End;
-
-procedure TGLZMatrix4.CreateScaleMatrix(const v : TGLZAffineVector);
-begin
-   Self:=IdentityHmgMatrix;
-   Self.X.X:=v.X;
-   Self.Y.Y:=v.Y;
-   Self.Z.Z:=v.Z;
-end;
-
-procedure TGLZMatrix4.CreateScaleMatrix(const v : TGLZVector);
-begin
-   Self:=IdentityHmgMatrix;
-   Self.X.X:=v.X;
-   Self.Y.Y:=v.Y;
-   Self.Z.Z:=v.Z;
-end;
-
-procedure TGLZMatrix4.CreateTranslationMatrix(const V: TGLZAffineVector);
-begin
-   Self:=IdentityHmgMatrix;
-   Self.W.X:=V.X;
-   Self.W.Y:=V.Y;
-   Self.W.Z:=V.Z;
-end;
-
-procedure TGLZMatrix4.CreateTranslationMatrix(const V: TGLZVector);
-begin
-   Self:=IdentityHmgMatrix;
-   Self.W.X:=V.X;
-   Self.W.Y:=V.Y;
-   Self.W.Z:=V.Z;
-end;
-
-procedure TGLZMatrix4.CreateScaleAndTranslationMatrix(const ascale, offset : TGLZVector);
-begin
-   Self:=IdentityHmgMatrix;
-   Self.X.X:=ascale.X;   Self.W.X:=offset.X;
-   Self.Y.Y:=ascale.Y;   Self.W.Y:=offset.Y;
-   Self.Z.Z:=ascale.Z;   Self.W.Z:=offset.Z;
-end;
-
-procedure TGLZMatrix4.CreateRotationMatrixX(const sine, cosine: Single);
-begin
-   Self:=EmptyHmgMatrix;
-   Self.X.X:=1;
-   Self.Y.Y:=cosine;
-   Self.Y.Z:=sine;
-   Self.Z.Y:=-sine;
-   Self.Z.Z:=cosine;
-   Self.W.W:=1;
-end;
-
-procedure TGLZMatrix4.CreateRotationMatrixX(const angle : Single);
-var
-   s, c : Single;
-begin
-   //GLZMath.
-   SinCos(angle, s, c);
-   CreateRotationMatrixX(s, c);
-end;
-
-procedure TGLZMatrix4.CreateRotationMatrixY(const sine, cosine: Single);
-begin
-   Self:=EmptyHmgMatrix;
-   Self.X.X:=cosine;
-   Self.X.Z:=-sine;
-   Self.Y.Y:=1;
-   Self.Z.X:=sine;
-   Self.Z.Z:=cosine;
-   Self.W.W:=1;
-end;
-
-procedure TGLZMatrix4.CreateRotationMatrixY(const angle : Single);
-var
-   s, c : Single;
-begin
-   //GLZMath.
-   SinCos(angle, s, c);
-   CreateRotationMatrixY(s, c);
-end;
-
-procedure TGLZMatrix4.CreateRotationMatrixZ(const sine, cosine: Single);
-begin
-   Self:=EmptyHmgMatrix;
-   Self.X.X:=cosine;
-   Self.X.Y:=sine;
-   Self.Y.X:=-sine;
-   Self.Y.Y:=cosine;
-   Self.Z.Z:=1;
-   Self.W.W:=1;
-end;
-
-procedure TGLZMatrix4.CreateRotationMatrixZ(const angle : Single);
-var
-   s, c : Single;
-begin
-   //GLZMath.
-   SinCos(angle, s, c);
-   CreateRotationMatrixZ(s, c);
-end;
-
-procedure TGLZMatrix4.CreateRotationMatrix(const anAxis : TGLZAffineVector; angle : Single);
-var
-   axis : TGLZVector;
-   cosine, sine, one_minus_cosine : Single;
-begin
-   axis.AsVector3f := anAxis;
-   //GLZMath.
-   SinCos(angle, sine, cosine);
-   one_minus_cosine:=1-cosine;
-   axis.Normalize;
-
-   Self.X.X:=(one_minus_cosine * axis.V[0] * axis.V[0]) + cosine;
-   Self.X.Y:=(one_minus_cosine * axis.V[0] * axis.V[1]) - (axis.V[2] * sine);
-   Self.X.Z:=(one_minus_cosine * axis.V[2] * axis.V[0]) + (axis.V[1] * sine);
-   Self.X.W:=0;
-
-   Self.Y.X:=(one_minus_cosine * axis.V[0] * axis.V[1]) + (axis.V[2] * sine);
-   Self.Y.Y:=(one_minus_cosine * axis.V[1] * axis.V[1]) + cosine;
-   Self.Y.Z:=(one_minus_cosine * axis.V[1] * axis.V[2]) - (axis.V[0] * sine);
-   Self.Y.W:=0;
-
-   Self.Z.X:=(one_minus_cosine * axis.V[2] * axis.V[0]) - (axis.V[1] * sine);
-   Self.Z.Y:=(one_minus_cosine * axis.V[1] * axis.V[2]) + (axis.V[0] * sine);
-   Self.Z.Z:=(one_minus_cosine * axis.V[2] * axis.V[2]) + cosine;
-   Self.Z.W:=0;
-
-   Self.W.X:=0;
-   Self.W.Y:=0;
-   Self.W.Z:=0;
-   Self.W.W:=1;
-end;
-
-procedure TGLZMatrix4.CreateRotationMatrix(const anAxis : TGLZVector; angle : Single);
-begin
-   CreateRotationMatrix(anAxis.AsVector3f, angle);
-end;
-
-
-(* function TGLZMatrix4.Invert:TGLZMatrix4;
-var
-   det : Single;
-begin
-   det:=GetDeterminant;
-   if Abs(Det)<cEPSILON then  result:=IdentityHmgMatrix
-   else
-   begin
-      Self.Adjoint;
-      result := Self * (1/det);
-   end;
-end; *)
-
-function TGLZMatrix4.MatrixDetInternal(const a1, a2, a3, b1, b2, b3, c1, c2, c3: Single): Single;
-// internal version for the determinant of a 3x3 matrix
-begin
-  Result:=  a1 * (b2 * c3 - b3 * c2)
-          - b1 * (a2 * c3 - a3 * c2)
-          + c1 * (a2 * b3 - a3 * b2);
-end;
-
-{ TODO 1 -oTMatrix4 -cASM : Adjoint : Add SSE/AVX Version }
-procedure TGLZMatrix4.Adjoint;
-var
-   a1, a2, a3, a4,
-   b1, b2, b3, b4,
-   c1, c2, c3, c4,
-   d1, d2, d3, d4: Single;
-begin
-    a1:= Self.X.X; b1:= Self.X.Y;
-    c1:= Self.X.Z; d1:= Self.X.W;
-    a2:= Self.Y.X; b2:= Self.Y.Y;
-    c2:= Self.Y.Z; d2:= Self.Y.W;
-    a3:= Self.Z.X; b3:= Self.Z.Y;
-    c3:= Self.Z.Z; d3:= Self.Z.W;
-    a4:= Self.W.X; b4:= Self.W.Y;
-    c4:= Self.W.Z; d4:= Self.W.W;
-
-    // row column labeling reversed since we transpose rows & columns
-    Self.X.X:= MatrixDetInternal(b2, b3, b4, c2, c3, c4, d2, d3, d4);
-    Self.X.Y:=-MatrixDetInternal(b1, b3, b4, c1, c3, c4, d1, d3, d4);
-    Self.X.Z:= MatrixDetInternal(b1, b2, b4, c1, c2, c4, d1, d2, d4);
-    Self.X.W:=-MatrixDetInternal(b1, b2, b3, c1, c2, c3, d1, d2, d3);
-
-    Self.Y.X:=-MatrixDetInternal(a2, a3, a4, c2, c3, c4, d2, d3, d4);
-    Self.Z.X:= MatrixDetInternal(a2, a3, a4, b2, b3, b4, d2, d3, d4);
-    Self.W.X:=-MatrixDetInternal(a2, a3, a4, b2, b3, b4, c2, c3, c4);
-
-
-    Self.Y.Y:= MatrixDetInternal(a1, a3, a4, c1, c3, c4, d1, d3, d4);
-    Self.Z.Y:=-MatrixDetInternal(a1, a3, a4, b1, b3, b4, d1, d3, d4);
-    Self.W.Y:= MatrixDetInternal(a1, a3, a4, b1, b3, b4, c1, c3, c4);
-
-
-    Self.Y.Z:=-MatrixDetInternal(a1, a2, a4, c1, c2, c4, d1, d2, d4);
-    Self.Z.Z:= MatrixDetInternal(a1, a2, a4, b1, b2, b4, d1, d2, d4);
-    Self.W.Z:=-MatrixDetInternal(a1, a2, a4, b1, b2, b4, c1, c2, c4);
-
-
-    Self.Y.W:= MatrixDetInternal(a1, a2, a3, c1, c2, c3, d1, d2, d3);
-    Self.Z.W:=-MatrixDetInternal(a1, a2, a3, b1, b2, b3, d1, d2, d3);
-    Self.W.W:= MatrixDetInternal(a1, a2, a3, b1, b2, b3, c1, c2, c3);
-end;
-
-
-{ TODO 1 -oTMatrix4 -cASM : Add SSE/AVX Version }
-procedure TGLZMatrix4.Transpose_Scale_M33(constref src : TGLZMatrix4; Constref ascale : Single);
-// EAX src
-// EDX dest
-// ECX scale
-begin
-   Self.V[0].V[0]:=ascale*src.V[0].V[0];
-   Self.V[1].V[0]:=ascale*src.V[0].V[1];
-   Self.V[2].V[0]:=ascale*src.V[0].V[2];
-
-   Self.V[0].V[1]:=ascale*src.V[1].V[0];
-   Self.V[1].V[1]:=ascale*src.V[1].V[1];
-   Self.V[2].V[1]:=ascale*src.V[1].V[2];
-
-   Self.V[0].V[2]:=ascale*src.V[2].V[0];
-   Self.V[1].V[2]:=ascale*src.V[2].V[1];
-   Self.V[2].V[2]:=ascale*src.V[2].V[2];
-end;
-
-{ TODO 1 -oTMatrix4 -cASM : Add SSE/AVX Version }
-procedure TGLZMatrix4.AnglePreservingMatrixInvert(constref mat : TGLZMatrix4);
-var
-   ascale : Single;
-begin
-   ascale:=mat.V[0].Norm;
-
-   // Is the submatrix A singular?
-   if Abs(ascale)<cEPSILON then
-   begin
-      // Matrix M has no inverse
-      Self:=IdentityHmgMatrix;
-      Exit;
-   end
-   else
-   begin
-      // Calculate the inverse of the square of the isotropic scale factor
-      ascale:=1.0/ascale;
-   end;
-
-   // Fill in last row while CPU is busy with the division
-   Self.V[0].V[3]:=0.0;
-   Self.V[1].V[3]:=0.0;
-   Self.V[2].V[3]:=0.0;
-   Self.V[3].V[3]:=1.0;
-
-   // Transpose and scale the 3 by 3 upper-left submatrix
-   Self.transpose_scale_m33(mat,ascale);
-
-   // Calculate -(transpose(A) / s*s) C
-   Self.V[3].V[0]:=-(Self.V[0].V[0]*mat.V[3].V[0]
-                    +Self.V[1].V[0]*mat.V[3].V[1]
-                    +Self.V[2].V[0]*mat.V[3].V[2]);
-   Self.V[3].V[1]:=-(Self.V[0].V[1]*mat.V[3].V[0]
-                    +Self.V[1].V[1]*mat.V[3].V[1]
-                    +Self.V[2].V[1]*mat.V[3].V[2]);
-   Self.V[3].V[2]:=-(Self.V[0].V[2]*mat.V[3].V[0]
-                    +Self.V[1].V[2]*mat.V[3].V[1]
-                    +Self.V[2].V[2]*mat.V[3].V[2]);
-end;
-
-function TGLZMatrix4.Decompose(var Tran: TGLZMatrixTransformations): Boolean;
-var
-   I, J: Integer;
-   LocMat, pmat, invpmat : TGLZMatrix;
-   prhs, psol: TGLZVector;
-   row0, row1, row2 : TGLZVector;
-   f : Single;
-begin
-  Result:=False;
-  locmat:=Self;
-  // normalize the matrix
-  if LocMat.W.W = 0 then Exit;
-  for I:=0 to 3 do
-    for J:=0 to 3 do
-      Locmat.V[I].V[J]:=locmat.V[I].V[J] / locmat.W.W;
-
-  // pmat is used to solve for perspective, but it also provides
-  // an easy way to test for singularity of the upper 3x3 component.
-
-  pmat:=locmat;
-  for I:=0 to 2 do pmat.V[I].W:=0;
-  pmat.W.W:=1;
-
-  if pmat.Determinant = 0 then Exit;
-
-  // First, isolate perspective.  This is the messiest.
-  if (locmat.X.W <> 0) or (locmat.Y.W <> 0) or (locmat.Z.W <> 0) then
-  begin
-    // prhs is the right hand side of the equation.
-    prhs.X:=locmat.X.W;
-    prhs.Y:=locmat.Y.W;
-    prhs.Z:=locmat.Z.W;
-    prhs.W:=locmat.W.W;
-
-    // Solve the equation by inverting pmat and multiplying
-    // prhs by the inverse.  (This is the easiest way, not
-    // necessarily the best.)
-
-    invpmat:=pmat;
-    invpmat.Invert;
-    invpmat.Transpose;
-    psol:=  invpmat * prhs; //VectorTransform(prhs, invpmat);
-
-    // stuff the answer away
-    Tran[ttPerspectiveX]:=psol.X;
-    Tran[ttPerspectiveY]:=psol.Y;
-    Tran[ttPerspectiveZ]:=psol.Z;
-    Tran[ttPerspectiveW]:=psol.W;
-
-    // clear the perspective partition
-    locmat.X.W:=0;
-    locmat.Y.W:=0;
-    locmat.Z.W:=0;
-    locmat.W.W:=1;
-  end
-  else
-  begin
-    // no perspective
-    Tran[ttPerspectiveX]:=0;
-    Tran[ttPerspectiveY]:=0;
-    Tran[ttPerspectiveZ]:=0;
-    Tran[ttPerspectiveW]:=0;
-  end;
-
-  // next take care of translation (easy)
-  for I:=0 to 2 do
-  begin
-    Tran[TGLZMAtrixTransType(Ord(ttTranslateX) + I)]:=locmat.V[3].V[I];
-    locmat.V[3].V[I]:=0;
-  end;
-
-  // now get scale and shear
-  row0 := locmat.X;
-  row1 := locmat.Y;
-  row2 := locmat.Z;
-
-  // compute X scale factor and normalize first row
-  Tran[ttScaleX]:=Row0.Norm;
-  Row0 := Row0 * RSqrt(Tran[ttScaleX]); //VectorScale(row0, RSqrt(Tran[ttScaleX]));
-
-  // compute XY shear factor and make 2nd row orthogonal to 1st
-  Tran[ttShearXY]:=row0.DotProduct(row1);
-  f:=-Tran[ttShearXY];
-  Row1.Combine(row0, f);
-
-  // now, compute Y scale and normalize 2nd row
-  Tran[ttScaleY]:=Row1.Norm;
-  Row1 := Row1 * RSqrt(Tran[ttScaleY]); //VectorScale(row1, RSqrt(Tran[ttScaleY]));
-  Tran[ttShearXY]:=Tran[ttShearXY]/Tran[ttScaleY];
-
-  // compute XZ and YZ shears, orthogonalize 3rd row
-  Tran[ttShearXZ]:=row0.DotProduct(row2);
-  f:=-Tran[ttShearXZ];
-  row2.Combine(row0, f);
-  Tran[ttShearYZ]:=Row1.DotProduct(row2);
-  f:=-Tran[ttShearYZ];
-  Row2.Combine(row1, f);
-
-  // next, get Z scale and normalize 3rd row
-  Tran[ttScaleZ]:=Row2.Norm;
-  Row2:=row2* RSqrt(Tran[ttScaleZ]);
-  Tran[ttShearXZ]:=Tran[ttShearXZ] / tran[ttScaleZ];
-  Tran[ttShearYZ]:=Tran[ttShearYZ] / Tran[ttScaleZ];
-
-  // At this point, the matrix (in rows[]) is orthonormal.
-  // Check for a coordinate system flip.  If the determinant
-  // is -1, then negate the matrix and the scaling factors.
-  if row0.DotProduct(row1.CrossProduct(row2)) < 0 then
-  begin
-    for I:=0 to 2 do
-      Tran[TGLZMatrixTransType(Ord(ttScaleX) + I)]:=-Tran[TGLZMatrixTransType(Ord(ttScaleX) + I)];
-    row0.pNegate;
-    row1.pNegate;
-    row2.pNegate;
-  end;
-
-  // now, get the rotations out, as described in the gem
-  Tran[ttRotateY]:=GLZMath.ArcSine(-row0.Z);
-  if cos(Tran[ttRotateY]) <> 0 then
-  begin
-    Tran[ttRotateX]:=GLZMath.ArcTan2(row1.Z, row2.Z);
-    Tran[ttRotateZ]:=GLZMath.ArcTan2(row0.Y, row0.X);
-  end else
-  begin
-    tran[ttRotateX]:=GLZMath.ArcTan2(row1.X, row1.Y);
-    tran[ttRotateZ]:=0;
-  end;
-  // All done!
-  Result:=True;
-end;
-
-{ TODO 1 -oTMatrix4 -cASM : Add SSE/AVX Version }
-procedure TGLZMatrix4.CreateLookAtMatrix(const eye, center, normUp: TGLZVector);
-var
-  XAxis, YAxis, ZAxis, negEye: TGLZVector;
-begin
-  ZAxis := center - eye;
-  ZAxis.Normalize;
-  XAxis := ZAxis.CrossProduct(normUp);
-  XAxis.Normalize;
-  YAxis := XAxis.CrossProduct(ZAxis);
-  Self.V[0] := XAxis;
-  Self.V[1] := YAxis;
-  Self.V[2] := ZAxis;
-  Self.V[2].pNegate;
-  Self.V[3] := NullHmgPoint;
-  Self.Transpose;
-  negEye := eye;
-  negEye.pNegate;
-  negEye.V[3] := 1;
-  negEye :=  Self * negEye ; //VectorTransform(negEye, Self);
-  Self.V[3] := negEye;
-end;
-
-procedure TGLZMatrix4.CreateMatrixFromFrustum(Left, Right, Bottom, Top, ZNear, ZFar: Single);
-begin
-  Self.X.X := 2 * ZNear / (Right - Left);
-  Self.X.Y := 0;
-  Self.X.Z := 0;
-  Self.X.W := 0;
-
-  Self.Y.X := 0;
-  Self.Y.Y := 2 * ZNear / (Top - Bottom);
-  Self.Y.Z := 0;
-  Self.Y.W := 0;
-
-  Self.Z.X := (Right + Left) / (Right - Left);
-  Self.Z.Y := (Top + Bottom) / (Top - Bottom);
-  Self.Z.Z := -(ZFar + ZNear) / (ZFar - ZNear);
-  Self.Z.W := -1;
-
-  Self.W.X := 0;
-  Self.W.Y := 0;
-  Self.W.Z := -2 * ZFar * ZNear / (ZFar - ZNear);
-  Self.W.W := 0;
-end;
-
-procedure TGLZMatrix4.CreatePerspectiveMatrix(FOV, Aspect, ZNear, ZFar: Single);
-var
-  xx, yy: Single;
-begin
-  FOV := Min2s(179.9, Max2s(0, FOV));
-  yy:= ZNear * GLZMath.Tan(GLZMath.DegToRadian(FOV) * 0.5);
-  xx:= yy * Aspect;
-  CreateMatrixFromFrustum(-xx, xx, -yy, yy, ZNear, ZFar);
-end;
-
-procedure TGLZMatrix4.CreateOrthoMatrix(Left, Right, Bottom, Top, ZNear, ZFar: Single);
-begin
-  Self.V[0].V[0] := 2 / (Right - Left);
-  Self.V[0].V[1] := 0;
-  Self.V[0].V[2] := 0;
-  Self.V[0].V[3] := 0;
-
-  Self.V[1].V[0] := 0;
-  Self.V[1].V[1] := 2 / (Top - Bottom);
-  Self.V[1].V[2] := 0;
-  Self.V[1].V[3] := 0;
-
-  Self.V[2].V[0] := 0;
-  Self.V[2].V[1] := 0;
-  Self.V[2].V[2] := -2 / (ZFar - ZNear);
-  Self.V[2].V[3] := 0;
-
-  Self.V[3].V[0] := (Left + Right) / (Left - Right);
-  Self.V[3].V[1] := (Bottom + Top) / (Bottom - Top);
-  Self.V[3].V[2] := (ZNear + ZFar) / (ZNear - ZFar);
-  Self.V[3].V[3] := 1;
-end;
-
-procedure TGLZMatrix4.CreatePickMatrix(x, y, deltax, deltay: Single; const viewport: TGLZVector4i);
-begin
-  if (deltax <= 0) or (deltay <= 0) then
-  begin
-    Self := IdentityHmgMatrix;
-    exit;
-  end;
-  // Translate and scale the picked region to the entire window
-  CreateTranslationMatrix(AffineVectorMake( (viewport.V[2] - 2 * (x - viewport.V[0])) / deltax,
-	                                    (viewport.V[3] - 2 * (y - viewport.V[1])) / deltay,
-                                            0.0));
-  Self.V[0].V[0] := viewport.V[2] / deltax;
-  Self.V[1].V[1] := viewport.V[3] / deltay;
-end;
-
-
-procedure TGLZMatrix4.CreateParallelProjectionMatrix(const plane : TGLZHmgPlane;const dir : TGLZVector);
-// Based on material from a course by William D. Shoaff (www.cs.fit.edu)
-var
-   dot, invDot : Single;
-begin
-   dot:=plane.V[0]*dir.V[0]+plane.V[1]*dir.V[1]+plane.V[2]*dir.V[2];
-   if Abs(dot)<1e-5 then
-   begin
-      Self:=IdentityHmgMatrix;
-      Exit;
-   end;
-   invDot:=1/dot;
-
-   Self.V[0].V[0]:=(plane.V[1]*dir.V[1]+plane.V[2]*dir.V[2])*invDot;
-   Self.V[1].V[0]:=(-plane.V[1]*dir.V[0])*invDot;
-   Self.V[2].V[0]:=(-plane.V[2]*dir.V[0])*invDot;
-   Self.V[3].V[0]:=(-plane.V[3]*dir.V[0])*invDot;
-
-   Self.V[0].V[1]:=(-plane.V[0]*dir.V[1])*invDot;
-   Self.V[1].V[1]:=(plane.V[0]*dir.V[0]+plane.V[2]*dir.V[2])*invDot;
-   Self.V[2].V[1]:=(-plane.V[2]*dir.V[1])*invDot;
-   Self.V[3].V[1]:=(-plane.V[3]*dir.V[1])*invDot;
-
-   Self.V[0].V[2]:=(-plane.V[0]*dir.V[2])*invDot;
-   Self.V[1].V[2]:=(-plane.V[1]*dir.V[2])*invDot;
-   Self.V[2].V[2]:=(plane.V[0]*dir.V[0]+plane.V[1]*dir.V[1])*invDot;
-   Self.V[3].V[2]:=(-plane.V[3]*dir.V[2])*invDot;
-
-   Self.V[0].V[3]:=0;
-   Self.V[1].V[3]:=0;
-   Self.V[2].V[3]:=0;
-   Self.V[3].V[3]:=1;
-end;
-
-procedure TGLZMatrix4.CreateShadowMatrix(const planePoint, planeNormal, lightPos : TGLZVector);
-var
-   planeNormal3, dot : Single;
-begin
-	// Find the last coefficient by back substitutions
-	planeNormal3:=-( planeNormal.V[0]*planePoint.V[0]
-                   +planeNormal.V[1]*planePoint.V[1]
-                   +planeNormal.V[2]*planePoint.V[2]);
-	// Dot product of plane and light position
-	dot:= planeNormal.V[0]*lightPos.V[0]
-        +planeNormal.V[1]*lightPos.V[1]
-        +planeNormal.V[2]*lightPos.V[2]
-        +planeNormal3  *lightPos.V[3];
-	// Now do the projection
-	// First column
-        Self.V[0].V[0]:= dot - lightPos.V[0] * planeNormal.V[0];
-        Self.V[1].V[0]:=     - lightPos.V[0] * planeNormal.V[1];
-        Self.V[2].V[0]:=     - lightPos.V[0] * planeNormal.V[2];
-        Self.V[3].V[0]:=     - lightPos.V[0] * planeNormal3;
-	// Second column
-	Self.V[0].V[1]:=     - lightPos.V[1] * planeNormal.V[0];
-	Self.V[1].V[1]:= dot - lightPos.V[1] * planeNormal.V[1];
-	Self.V[2].V[1]:=     - lightPos.V[1] * planeNormal.V[2];
-	Self.V[3].V[1]:=     - lightPos.V[1] * planeNormal3;
-	// Third Column
-	Self.V[0].V[2]:=     - lightPos.V[2] * planeNormal.V[0];
-	Self.V[1].V[2]:=     - lightPos.V[2] * planeNormal.V[1];
-	Self.V[2].V[2]:= dot - lightPos.V[2] * planeNormal.V[2];
-	Self.V[3].V[2]:=     - lightPos.V[2] * planeNormal3;
-	// Fourth Column
-	Self.V[0].V[3]:=     - lightPos.V[3] * planeNormal.V[0];
-	Self.V[1].V[3]:=     - lightPos.V[3] * planeNormal.V[1];
-	Self.V[2].V[3]:=     - lightPos.V[3] * planeNormal.V[2];
-	Self.V[3].V[3]:= dot - lightPos.V[3] * planeNormal3;
-end;
-
-procedure TGLZMatrix4.CreateReflectionMatrix(const planePoint, planeNormal : TGLZVector);
-var
-   pv2 : Single;
-begin
-   // Precalcs
-   pv2:=2*planepoint.DotProduct(planeNormal);
-   // 1st column
-   Self.V[0].V[0]:=1-2*Sqr(planeNormal.V[0]);
-   Self.V[0].V[1]:=-2*planeNormal.V[0]*planeNormal.V[1];
-   Self.V[0].V[2]:=-2*planeNormal.V[0]*planeNormal.V[2];
-   Self.V[0].V[3]:=0;
-   // 2nd column
-   Self.V[1].V[0]:=-2*planeNormal.V[1]*planeNormal.V[0];
-   Self.V[1].V[1]:=1-2*Sqr(planeNormal.V[1]);
-   Self.V[1].V[2]:=-2*planeNormal.V[1]*planeNormal.V[2];
-   Self.V[1].V[3]:=0;
-   // 3rd column
-   Self.V[2].V[0]:=-2*planeNormal.V[2]*planeNormal.V[0];
-   Self.V[2].V[1]:=-2*planeNormal.V[2]*planeNormal.V[1];
-   Self.V[2].V[2]:=1-2*Sqr(planeNormal.V[2]);
-   Self.V[2].V[3]:=0;
-   // 4th column
-   Self.V[3].V[0]:=pv2*planeNormal.V[0];
-   Self.V[3].V[1]:=pv2*planeNormal.V[1];
-   Self.V[3].V[2]:=pv2*planeNormal.V[2];
-   Self.V[3].V[3]:=1;
-end;
-
-{$ifdef USE_ASM}
-{$ifdef UNIX}
-  {$ifdef CPU64}
-    {$IFDEF USE_ASM_AVX}
-       {$I vectormath_matrix_unix64_avx_imp.inc}
-    {$ELSE}
-       {$I vectormath_matrix_unix64_sse_imp.inc}
-    {$ENDIF}
-  {$else}
-    {$IFDEF USE_ASM_AVX}
-       {$I vectormath_matrix_unix32_avx_imp.inc}
-    {$ELSE}
-       {$I vectormath_matrix_unix32_sse_imp.inc}
-    {$ENDIF}
-  {$endif}
-{$else}
-  {$ifdef CPU64}
-     {$IFDEF USE_ASM_AVX}
-         {$I vectormath_matrix_win64_avx_imp.inc}
-      {$ELSE}
-         {$I vectormath_matrix_win64_sse_imp.inc}
-      {$ENDIF}
-  {$else}
-     {$IFDEF USE_ASM_AVX}
-        {$I vectormath_matrix_win32_avx_imp.inc}
-     {$ELSE}
-        {$I vectormath_matrix_win32_sse_imp.inc}
-     {$ENDIF}
-  {$endif}
-{$endif}
-{$else}
-  {$I vectormath_matrix_native_imp.inc}
-{$endif}
-
-{%endregion%}
-
-
-
-{%region%====[ Commons functions ]==============================================}
-
-
-{%region%====[ Quaternion ]=====================================================}
-/// modded to look like the super include
-/// Aside from any implementation constants this will be the main body
-/// of the implementation section. Obviously the comment periods are so
-/// it does not break the code atm.
-
-
-{$ifdef USE_ASM}
-{$ifdef UNIX}
-  {$ifdef CPU64}
-    {$IFDEF USE_ASM_AVX}
-       {.$I vectormath_vector2f_unix64_avx_imp.inc}
-       {.$I vectormath_vector4f_unix64_avx_imp.inc}
-       {$I vectormath_quaternion_unix64_avx_imp.inc}
-       {.$I vectormath_matrix_unix64_avx_imp.inc}
-       {.$I vectormath_planehelper_unix64_avx_imp.inc}
-       {.$I vectormath_vectorhelper_unix64_avx_imp.inc}
-    {$ELSE}
-       {.$I vectormath_vector2f_unix64_sse_imp.inc}
-       {.$I vectormath_vector4f_unix64_sse_imp.inc}
-       {$I vectormath_quaternion_unix64_sse_imp.inc}
-       {.$I vectormath_matrix_unix64_sse_imp.inc}
-       {.$I vectormath_planehelper_unix64_sse_imp.inc}
-       {.$I vectormath_vectorhelper_unix64_sse_imp.inc}
-    {$ENDIF}
-  {$else}
-    {$IFDEF USE_ASM_AVX}
-       {.$I vectormath_vector2f_unix32_avx_imp.inc}
-       {.$I vectormath_vector4f_unix32_avx_imp.inc}
-       {$I vectormath_quaternion_unix32_avx_imp.inc}
-       {.$I vectormath_matrix_unix32_avx_imp.inc}
-       {.$I vectormath_planehelper_unix32_avx_imp.inc}
-       {.$I vectormath_vectorhelper_unix32_avx_imp.inc}
-    {$ELSE}
-       {.$I vectormath_vector2f_unix32_sse_imp.inc}
-       {.$I vectormath_vector4f_unix32_sse_imp.inc}
-       {$I vectormath_quaternion_unix32_sse_imp.inc}
-       {.$I vectormath_matrix_unix32_sse_imp.inc}
-       {.$I vectormath_planehelper_unix32_sse_imp.inc}
-       {.$I vectormath_vectorhelper_unix32_sse_imp.inc}
-    {$ENDIF}
-  {$endif}
-{$else}
-  {$ifdef CPU64}
-     {$IFDEF USE_ASM_AVX}
-         {$I vectormath_vector2f_win64_avx_imp.inc}
-         {$I vectormath_vector4f_win64_avx_imp.inc}
-         {$I vectormath_quaternion_win64_avx_imp.inc}
-         {.$I vectormath_matrix_win64_avx_imp.inc}
-         {.$I vectormath_planehelper_win64_avx_imp.inc}
-         {.$I vectormath_vectorhelper_win64_avx_imp.inc}
-      {$ELSE}
-         {.$I vectormath_vector2f_win64_sse_imp.inc}
-         {.$I vectormath_vector4f_win64_sse_imp.inc}
-         {$I vectormath_quaternion_win64_sse_imp.inc}
-         {.$I vectormath_matrix_win64_sse_imp.inc}
-         {.$I vectormath_planehelper_win64_sse_imp.inc}
-         {.$I vectormath_vectorhelper_win64_sse_imp.inc}
-      {$ENDIF}
-  {$else}
-     {$IFDEF USE_ASM_AVX}
-        {.$I vectormath_vector2f_win32_avx_imp.inc}
-        {.$I vectormath_vector4f_win32_avx_imp.inc}
-        {$I vectormath_quaternion_win32_avx_imp.inc}
-        {.$I vectormath_matrix_win32_avx_imp.inc}
-        {.$I vectormath_planehelper_win32_avx_imp.inc}
-        {.$I vectormath_vectorhelper_win32_avx_imp.inc}
-     {$ELSE}
-        {.$I vectormath_vector4f_win32_sse_imp.inc}
-        {.$I vectormath_vector4f_win32_sse_imp.inc}
-        {$I vectormath_quaternion_win32_sse_imp.inc}
-        {.$I vectormath_matrix_win32_sse_imp.inc}
-        {.$I vectormath_planehelper_win32_sse_imp.inc}
-        {.$I vectormath_vectorhelper_win32_sse_imp.inc}
-     {$ENDIF}
-  {$endif}
-{$endif}
-{$else}
-  {.$I vectormath_vector2f_native_imp.inc}
-  {.$I vectormath_vector4f_native_imp.inc}
-  {$I vectormath_quaternion_native_imp.inc}
-  {.$I vectormath_matrix_native_imp.inc}
-  {.$I vectormath_planehelper_native_imp.inc}
-  {.$I vectormath_vectorhelper_native_imp.inc}
-{$endif}
-
-
-{%endregion%}
-
-{%region%----[ TGLZHmgPlane Helper ]--------------------------------------------}
-
-{ TODO 1 -oASM -cTHmgPlane : Create(point, normal) Add ASM Version }
-procedure TGLZVectorHelper.CreatePlane(constref point, normal : TGLZVector);
-begin
-   Self:=normal;
-   Self.W:=-Point.DotProduct(normal);
-end;
-
-{ TODO 1 -oASM -cTHmgPlane : CalcPlaneNormal(p1, p2, p3)  Add ASM Version }
-procedure TGLZVectorHelper.CalcPlaneNormal(constref p1, p2, p3 : TGLZVector);
-var
-   v1, v2 : TGLZVector;
-begin
-   v1:=p2-p1;
-   v2:=p3-p1;
-   Self:=v1.CrossProduct(v2);
-   Self:=Self.Normalize;
-end;
-
-{$ifdef USE_ASM}
-{$ifdef UNIX}
-  {$ifdef CPU64}
-    {$IFDEF USE_ASM_AVX}
-       {$I vectormath_planehelper_unix64_avx_imp.inc}
-    {$ELSE}
-       {$I vectormath_planehelper_unix64_sse_imp.inc}
-    {$ENDIF}
-  {$else}
-    {$IFDEF USE_ASM_AVX}
-       {$I vectormath_planehelper_unix32_avx_imp.inc}
-    {$ELSE}
-       {$I vectormath_planehelper_unix32_sse_imp.inc}
-    {$ENDIF}
-  {$endif}
-{$else}
-  {$ifdef CPU64}
-     {$IFDEF USE_ASM_AVX}
-         {$I vectormath_planehelper_win64_avx_imp.inc}
-      {$ELSE}
-         {$I vectormath_planehelper_win64_sse_imp.inc}
-      {$ENDIF}
-  {$else}
-     {$IFDEF USE_ASM_AVX}
-        {$I vectormath_planehelper_win32_avx_imp.inc}
-     {$ELSE}
-        {$I vectormath_planehelper_win32_sse_imp.inc}
-     {$ENDIF}
-  {$endif}
-{$endif}
-{$else}
- // {$I vectormath_planehelper_native_imp.inc}
-{$endif}
-
-{%endregion%}
-
-{%region%----[ TGLZVectorHelper ]-----------------------------------------------}
-
-function TGLZVectorHelper.Rotate(constref axis : TGLZVector; angle : Single):TGLZVector;
-var
-   rotMatrix : TGLZMatrix;
-begin
-   rotMatrix.CreateRotationMatrix(axis, Angle);
-   Result:=rotMatrix*Self;
-end;
-
-function TGLZVectorHelper.RotateAroundX( alpha : Single) : TGLZVector;
-var
-   c, s : Single;
-begin
-   SinCos(alpha, s, c);
-   Result.X:=Self.X;
-   Result.Y:=c*Self.Y+s*Self.Z;
-   Result.Z:=c*Self.Z-s*Self.Y;
-end;
-
-function TGLZVectorHelper.RotateAroundY(alpha : Single) : TGLZVector;
-var
-   c, s : Single;
-begin
-   SinCos(alpha, s, c);
-   Result.Y:=Self.Y;
-   Result.X:=c*Self.X+s*Self.Z;
-   Result.Z:=c*Self.Z-s*Self.X;
-end;
-
-function TGLZVectorHelper.RotateAroundZ(alpha : Single) : TGLZVector;
-var
-   c, s : Single;
-begin
-   SinCos(alpha, s, c);
-   Result.X:=c*Self.X+s*Self.Y;
-   Result.Y:=c*Self.Y-s*Self.X;
-   Result.Z:=Self.Z;
-end;
-
-{ TODO 1 -oASM -cVectorHelper : IsColinear(v2) Add ASM version }
-function TGLZVectorHelper.IsColinear(constref v2: TGLZVector) : Boolean;
-var
-  a, b, c : Single;
-begin
-  a := Self.DotProduct(Self);
-  b := Self.DotProduct(v2);
-  c := v2.DotProduct(v2);
-  Result :=  (a*c - b*b) < cColinearBias;
-end;
-
-function TGLZVectorHelper.MoveAround(constref AMovingObjectUp, ATargetPosition: TGLZVector;pitchDelta, turnDelta: Single): TGLZVector;
-var
-  originalT2C, normalT2C, normalCameraRight: TGLZVector;
-  pitchNow, dist: Single;
-begin
-    // normalT2C points away from the direction the camera is looking
-    originalT2C := Self - ATargetPosition;
-    normalT2C := originalT2C;
-    dist := normalT2C.Length;
-    normalT2C := normalT2C.Normalize;
-    // normalRight points to the camera's right
-    // the camera is pitching around this axis.
-    normalCameraRight := AMovingObjectUp.CrossProduct(normalT2C);
-    if normalCameraRight.Length < 0.001 then
-      normalCameraRight:= XHmgVector // arbitrary vector
-    else
-      normalCameraRight := normalCameraRight.Normalize;
-    // calculate the current pitch.
-    // 0 is looking down and PI is looking up
-    pitchNow := ArcCos(AMovingObjectUp.DotProduct(normalT2C));
-    pitchNow := GLZUtils.Clamp(pitchNow + DegToRadian(pitchDelta), 0 + 0.025, cPI - 0.025);
-    // create a new vector pointing up and then rotate it down
-    // into the new position
-    normalT2C := AMovingObjectUp;
-    normalT2C := normalT2C.Rotate(normalCameraRight, -pitchNow);
-    normalT2C := normalT2C.Rotate(AMovingObjectUp, -DegToRadian(turnDelta));
-    normalT2C := normalT2C * dist;
-    Result := Self + (normalT2C - originalT2C);
-end;
-
-{$ifdef USE_ASM}
-{$ifdef UNIX}
-  {$ifdef CPU64}
-    {$IFDEF USE_ASM_AVX}
-       {$I vectormath_vectorhelper_unix64_avx_imp.inc}
-    {$ELSE}
-       {$I vectormath_vectorhelper_unix64_sse_imp.inc}
-    {$ENDIF}
-  {$else}
-    {$IFDEF USE_ASM_AVX}
-       {$I vectormath_vectorhelper_unix32_avx_imp.inc}
-    {$ELSE}
-       {$I vectormath_vectorhelper_unix32_sse_imp.inc}
-    {$ENDIF}
-  {$endif}
-{$else}
-  {$ifdef CPU64}
-     {$IFDEF USE_ASM_AVX}
-         {$I vectormath_vectorhelper_win64_avx_imp.inc}
-      {$ELSE}
-         {$I vectormath_vectorhelper_win64_sse_imp.inc}
-      {$ENDIF}
-  {$else}
-     {$IFDEF USE_ASM_AVX}
-        {$I vectormath_vectorhelper_win32_avx_imp.inc}
-     {$ELSE}
-        {$I vectormath_vectorhelper_win32_sse_imp.inc}
-     {$ENDIF}
-  {$endif}
-{$endif}
-{$else}
-  {$I vectormath_vectorhelper_native_imp.inc}
-{$endif}
-
-function TGLZVectorHelper.ShiftObjectFromCenter(constref ACenter: TGLZVector; const ADistance: Single;const AFromCenterSpot: Boolean):TGLZVector;
-var
-  lDirection: TGLZVector;
-begin
-  lDirection := Self - ACenter;
-  lDirection := lDirection.Normalize;
-  if AFromCenterSpot then Result := ACenter + (lDirection * ADistance)
-  else Result := Self + (lDirection * ADistance)
-end;
-
-{%endregion%}
-
-{%region%----[ TGLZMatrixHelper ]-----------------------------------------------}
-
-// Turn (Y axis)
-function TGLZMatrixHelper.Turn( Angle: Single): TGLZMatrix;
-var
-  m : TGLZMatrix;
-begin
-  m.CreateRotationMatrix(AffineVectorMake(Self.V[1].V[0], Self.V[1].V[1], Self.V[1].V[2]), Angle);
-  Result:=Self * m;
-end;
-
-// Turn (direction)
-function TGLZMatrixHelper.Turn(constref MasterUp: TGLZVector; Angle: Single): TGLZMatrix;
-var
-  m : TGLZMatrix;
-begin
-  m.CreateRotationMatrix(MasterUp, Angle);
-  Result:=Self * m;
-end;
-
-// Pitch (X axis)
-function TGLZMatrixHelper.Pitch(Angle: Single): TGLZMatrix;
-var
-  m : TGLZMatrix;
-begin
-  m.CreateRotationMatrix(AffineVectorMake(Self.V[0].V[0], Self.V[0].V[1], Self.V[0].V[2]), Angle);
-  Result:=Self * m;
-end;
-
-// Pitch (direction)
-function TGLZMatrixHelper.Pitch(constref MasterRight: TGLZVector; Angle: Single): TGLZMatrix;
-var
-  m : TGLZMatrix;
-begin
-  m.CreateRotationMatrix(MasterRight, Angle);
-  Result := Self * m;
-end;
-
-// Roll (Z axis)
-function TGLZMatrixHelper.Roll(Angle: Single): TGLZMatrix;
-var
-  m : TGLZMatrix;
-begin
-  m.CreateRotationMatrix(AffineVectorMake(Self.V[2].V[0], Self.V[2].V[1], Self.V[2].V[2]), Angle);
-  Result := Self * m;
-end;
-
-// Roll (direction)
-function TGLZMatrixHelper.Roll(constref MasterDirection: TGLZVector; Angle: Single): TGLZMatrix;
-var
-  m : TGLZMatrix;
-begin
-  m.CreateRotationMatrix(MasterDirection, Angle);
-  Result := Self * m;
-end;
-
-{%endregion%}
-
-{%region%----[ Misc functions ]-------------------------------------------------}
 
 {%endregion%}
 

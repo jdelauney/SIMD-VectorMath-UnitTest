@@ -1,3 +1,50 @@
+{%region%----[ Pure Pascal will never Convert ]---------------------------------}
+// Temp comment this region is where we keep pascal routines for which it does
+// not make sense to use SSE/AVX
+
+procedure TGLZVector2f.Create(aX,aY: single);
+begin
+  Self.X := aX;
+  Self.Y := aY;
+end;
+
+function TGLZVector2f.ToString : String;
+begin
+   Result := '(X: '+FloattoStrF(Self.X,fffixed,5,5)+
+            ' ,Y: '+FloattoStrF(Self.Y,fffixed,5,5)+')';
+End;
+
+class operator TGLZVector2f.-(constref A: TGLZVector2f): TGLZVector2f;
+begin
+  Result.X := -A.X;
+  Result.Y := -A.Y;
+end;
+
+class operator TGLZVector2f.=(constref A, B: TGLZVector2f): Boolean;
+begin
+ result := ((A.X = B.X) And (A.Y = B.Y));
+end;
+
+(*class operator >=(constref A, B: TVector4f): Boolean;
+class operator <=(constref A, B: TVector4f): Boolean;
+class operator >(constref A, B: TVector4f): Boolean;
+class operator <(constref A, B: TVector4f): Boolean; *)
+
+class operator TGLZVector2f.<>(constref A, B: TGLZVector2f): Boolean;
+begin
+  result := ((A.X <> B.X) or (A.Y <> B.Y));
+end;
+
+{%endregion}
+
+{%region%----[ Pure Pascal may Convert at some point ]--------------------------}
+
+{%endregion}
+
+{$IFNDEF USE_ASM}
+
+{%region----[ PASCAL VERSION OF ASSEMBLER ROUTINES BELOW ]----------------------}
+
 {%region%----[ Operators ]------------------------------------------------------}
 class operator TGLZVector2f.+(constref A, B: TGLZVector2f): TGLZVector2f;
 begin
@@ -53,7 +100,7 @@ end;
 
 {%endregion%}
 
-{%region%----[ Functions ]--------------------------------------------------------}
+{%region%----[ Functions ]------------------------------------------------------}
 
 function TGLZVector2f.Min(constref B: TGLZVector2f): TGLZVector2f;
 begin
@@ -130,3 +177,7 @@ begin
 end;
 
 {%endregion%}
+
+{%endregion%}
+
+{$ENDIF}

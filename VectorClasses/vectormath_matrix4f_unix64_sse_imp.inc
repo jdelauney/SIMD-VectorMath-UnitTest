@@ -1,53 +1,53 @@
 
 {%region%----[ Operators ]------------------------------------------------------}
 
-class operator TGLZMatrix4.+(constref A, B: TGLZMatrix4): TGLZMatrix4; assembler;
+class operator TGLZMatrix4f.+(constref A, B: TGLZMatrix4): TGLZMatrix4; assembler;
 asm
-  movups xmm0, [A]$00   // Load 4 rows of A  //0
-  movups xmm1, [A]$10                        //16
-  movups xmm2, [A]$20                        //32
-  movups xmm3, [A]$30                        //48
-  movups xmm4, [B]$00   // Load 2 rows of B
-  movups xmm5, [B]$10
+  movaps xmm0, [A]$00   // Load 4 rows of A  //0
+  movaps xmm1, [A]$10                        //16
+  movaps xmm2, [A]$20                        //32
+  movaps xmm3, [A]$30                        //48
+  movaps xmm4, [B]$00   // Load 2 rows of B
+  movaps xmm5, [B]$10
   addps  xmm0, xmm4     // Add rows
   addps  xmm1, xmm5
-  movups xmm4, [B]$20   // Load 2 rows of B
-  movups xmm5, [B]$30
+  movaps xmm4, [B]$20   // Load 2 rows of B
+  movaps xmm5, [B]$30
   addps  xmm2, xmm4     // Add rows
   addps  xmm3, xmm5
-  movups [Result]$00, xmm0
-  movups [Result]$10, xmm1
-  movups [Result]$20, xmm2
-  movups [Result]$30, xmm3
+  movaps [Result]$00, xmm0
+  movaps [Result]$10, xmm1
+  movaps [Result]$20, xmm2
+  movaps [Result]$30, xmm3
 end;
 
-class operator TGLZMatrix4.-(constref A, B: TGLZMatrix4): TGLZMatrix4; assembler;
+class operator TGLZMatrix4f.-(constref A, B: TGLZMatrix4): TGLZMatrix4; assembler;
 asm
-  movups xmm0, [A]$00
-  movups xmm1, [A]$10
-  movups xmm2, [A]$20
-  movups xmm3, [A]$30
-  movups xmm4, [B]$00
-  movups xmm5, [B]$10
+  movaps xmm0, [A]$00
+  movaps xmm1, [A]$10
+  movaps xmm2, [A]$20
+  movaps xmm3, [A]$30
+  movaps xmm4, [B]$00
+  movaps xmm5, [B]$10
   subps  xmm0, xmm4
   subps  xmm1, xmm5
-  movups xmm4, [B]$20
-  movups xmm5, [B]$30
+  movaps xmm4, [B]$20
+  movaps xmm5, [B]$30
   subps  xmm2, xmm4
   subps  xmm3, xmm5
-  movups [Result]$00, xmm0
-  movups [Result]$10, xmm1
-  movups [Result]$20, xmm2
-  movups [Result]$30, xmm3
+  movaps [Result]$00, xmm0
+  movaps [Result]$10, xmm1
+  movaps [Result]$20, xmm2
+  movaps [Result]$30, xmm3
 end;
 
-class operator TGLZMatrix4.+(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; assembler;
+class operator TGLZMatrix4f.+(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; assembler;
 asm
-  movups xmm0, [A]$00     // Load 4 rows
-  movups xmm1, [A]$10
-  movups xmm2, [A]$20
-  movups xmm3, [A]$30
-  movss  xmm4, [B]
+  movaps xmm0, [A]$00     // Load 4 rows
+  movaps xmm1, [A]$10
+  movaps xmm2, [A]$20
+  movaps xmm3, [A]$30
+  movss xmm4, [B]
   shufps xmm4, xmm4, 0    // Replicate B
 
   addps  xmm0, xmm4       // Add B to each row
@@ -55,19 +55,19 @@ asm
   addps  xmm2, xmm4
   addps  xmm3, xmm4
 
-  movups [Result]$00, xmm0
-  movups [Result]$10, xmm1
-  movups [Result]$20, xmm2
-  movups [Result]$30, xmm3
+  movaps [Result]$00, xmm0
+  movaps [Result]$10, xmm1
+  movaps [Result]$20, xmm2
+  movaps [Result]$30, xmm3
 end;
 
-class operator TGLZMatrix4.-(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; assembler;
+class operator TGLZMatrix4f.-(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; assembler;
 asm
-  movups xmm0, [A]$00
-  movups xmm1, [A]$10
-  movups xmm2, [A]$20
-  movups xmm3, [A]$30
-  movss  xmm4, [B]
+  movaps xmm0, [A]$00
+  movaps xmm1, [A]$10
+  movaps xmm2, [A]$20
+  movaps xmm3, [A]$30
+  movss xmm4, [B]
   shufps xmm4, xmm4, 0
 
   subps  xmm0, xmm4
@@ -75,19 +75,19 @@ asm
   subps  xmm2, xmm4
   subps  xmm3, xmm4
 
-  movups [Result]$00, xmm0
-  movups [Result]$10, xmm1
-  movups [Result]$20, xmm2
-  movups [Result]$30, xmm3
+  movaps [Result]$00, xmm0
+  movaps [Result]$10, xmm1
+  movaps [Result]$20, xmm2
+  movaps [Result]$30, xmm3
 end;
 
-class operator TGLZMatrix4.*(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; assembler;
+class operator TGLZMatrix4f.*(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; assembler;
 asm
-  movups xmm0, [A]$00
-  movups xmm1, [A]$10
-  movups xmm2, [A]$20
-  movups xmm3, [A]$30
-  movss  xmm4, [B]
+  movaps xmm0, [A]$00
+  movaps xmm1, [A]$10
+  movaps xmm2, [A]$20
+  movaps xmm3, [A]$30
+  movss xmm4, [B]
   shufps xmm4, xmm4, 0
 
   mulps  xmm0, xmm4
@@ -95,21 +95,21 @@ asm
   mulps  xmm2, xmm4
   mulps  xmm3, xmm4
 
-  movups [Result]$00, xmm0
-  movups [Result]$10, xmm1
-  movups [Result]$20, xmm2
-  movups [Result]$30, xmm3
+  movaps [Result]$00, xmm0
+  movaps [Result]$10, xmm1
+  movaps [Result]$20, xmm2
+  movaps [Result]$30, xmm3
 end;
 
 // https://github.com/WojciechMula/toys/blob/master/sse/sse-matvecmult.c
-class operator TGLZMatrix4.*(constref A: TGLZMatrix4; constref B: TGLZVector4f): TGLZVector4f; assembler;
+class operator TGLZMatrix4f.*(constref A: TGLZMatrix4; constref B: TGLZVector4f): TGLZVector4f; assembler;
 asm
-  movups   xmm0, [B]      // Load vector
-  movups   xmm4, [A]$00   // Load 1st row
+  movaps   xmm0, [B]      // Load vector
+  movaps   xmm4, [A]$00   // Load 1st row
   movaps   xmm1, xmm0
   movaps   xmm2, xmm0
   movaps   xmm3, xmm0
-  movups   xmm5, [A]$10  // Load 2nd row
+  movaps   xmm5, [A]$10  // Load 2nd row
   mulps    xmm0, xmm4    // (Bx * A00), (By * A01), (Bz * A02), (Bw * A03)
   mulps    xmm1, xmm5    // (Bx * A10), (By * A11), (Bz * A12), (Bw * A13)
   movups   xmm4, [A]$20  // Load 3rd row
@@ -137,14 +137,14 @@ asm
   addps    xmm0, xmm1    // Add rows
   addps    xmm2, xmm3
   addps    xmm0, xmm2
-  movups   [Result], xmm0
+  movaps   [Result], xmm0
 end;
 
 
 // https://stackoverflow.com/questions/18499971/efficient-4x4-matrix-multiplication-c-vs-assembly
 // http://www.mindfruit.co.uk/2012/02/avx-matrix-multiplication-or-something.html
 // https://stackoverflow.com/questions/14967969/efficient-4x4-matrix-vector-multiplication-with-sse-horizontal-add-and-dot-prod
-class operator TGLZMatrix4.*(constref A, B: TGLZMatrix4): TGLZMatrix4; assembler;
+class operator TGLZMatrix4f.*(constref A, B: TGLZMatrix4): TGLZMatrix4; assembler;
 { Code below consists of 4 Vector*Matrix calculations }
 asm
 (*  snip from gcc
@@ -232,8 +232,8 @@ asm
 *)
 
   { A.V[0] * B }
-  movups xmm0, [A]$00
-  movups xmm4, [B]$00
+  movaps xmm0, [A]$00
+  movaps xmm4, [B]$00
   movaps xmm1, xmm0
   movaps xmm2, xmm0
   movaps xmm3, xmm0
@@ -241,9 +241,9 @@ asm
   shufps xmm1, xmm1, $55
   shufps xmm2, xmm2, $AA
   shufps xmm3, xmm3, $FF
-  movups xmm5, [B]$10
-  movups xmm6, [B]$20
-  movups xmm7, [B]$30
+  movaps xmm5, [B]$10
+  movaps xmm6, [B]$20
+  movaps xmm7, [B]$30
   mulps  xmm0, xmm4
   mulps  xmm1, xmm5
   mulps  xmm2, xmm6
@@ -251,10 +251,10 @@ asm
   addps  xmm0, xmm1
   addps  xmm2, xmm3
   addps  xmm0, xmm2
-  movups [Result]$00, xmm0
+  movaps [Result]$00, xmm0
 
   { A.V[1] * B }
-  movups xmm0, [A]$10
+  movaps xmm0, [A]$10
   movaps xmm1, xmm0
   movaps xmm2, xmm0
   movaps xmm3, xmm0
@@ -269,7 +269,7 @@ asm
   addps  xmm0, xmm1
   addps  xmm2, xmm3
   addps  xmm0, xmm2
-  movups [Result]$10, xmm0
+  movaps [Result]$10, xmm0
 
   { A.V[2] * B }
   movups xmm0, [A]$20
@@ -290,7 +290,7 @@ asm
   movups [Result]$20, xmm0
 
   { A.V[3] * B }
-  movups xmm0, [A]$30
+  movaps xmm0, [A]$30
   movaps xmm1, xmm0
   movaps xmm2, xmm0
   movaps xmm3, xmm0
@@ -305,16 +305,16 @@ asm
   addps  xmm0, xmm1
   addps  xmm2, xmm3
   addps  xmm0, xmm2
-  movups [Result]$30, xmm0
+  movaps [Result]$30, xmm0
 end;
 
-class operator TGLZMatrix4./(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; assembler;
+class operator TGLZMatrix4f./(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; assembler;
 asm
-  movups xmm0, [A]$00
-  movups xmm1, [A]$10
-  movups xmm2, [A]$20
-  movups xmm3, [A]$30
-  movss  xmm4, [B]
+  movaps xmm0, [A]$00
+  movaps xmm1, [A]$10
+  movaps xmm2, [A]$20
+  movaps xmm3, [A]$30
+  movss xmm4, [B]
   shufps xmm4, xmm4, 0
 
   divps  xmm0, xmm4
@@ -322,85 +322,85 @@ asm
   divps  xmm2, xmm4
   divps  xmm3, xmm4
 
-  movups [Result]$00, xmm0
-  movups [Result]$10, xmm1
-  movups [Result]$20, xmm2
-  movups [Result]$30, xmm3
+  movaps [Result]$00, xmm0
+  movaps [Result]$10, xmm1
+  movaps [Result]$20, xmm2
+  movaps [Result]$30, xmm3
 end;
 
-class operator TGLZMatrix4.-(constref A: TGLZMatrix4): TGLZMatrix4; assembler;
+class operator TGLZMatrix4f.-(constref A: TGLZMatrix4): TGLZMatrix4; assembler;
 asm
-  movups xmm0, [cSSE_MASK_NEGATE]  // Load mask with 4 sign (upper) bits
-  movups xmm1, [A]$00 // Load 4 rows
-  movups xmm2, [A]$10
-  movups xmm3, [A]$20
-  movups xmm4, [A]$30
+  movaps xmm0, [RIP+cSSE_MASK_NEGATE]  // Load mask with 4 sign (upper) bits
+  movaps xmm1, [A]$00 // Load 4 rows
+  movaps xmm2, [A]$10
+  movaps xmm3, [A]$20
+  movaps xmm4, [A]$30
   xorps  xmm1, xmm0             // Flip sign bits of each element in each row
   xorps  xmm2, xmm0
   xorps  xmm3, xmm0
   xorps  xmm4, xmm0
-  movups [Result]$00, xmm1
-  movups [Result]$10, xmm2
-  movups [Result]$20, xmm3
-  movups [Result]$30, xmm4
+  movaps [Result]$00, xmm1
+  movaps [Result]$10, xmm2
+  movaps [Result]$20, xmm3
+  movaps [Result]$30, xmm4
 end;
 
 {%endregion%}
 
 {%region%----[ Functions ]------------------------------------------------------}
 
-function TGLZMatrix4.Multiply(constref M2: TGLZMatrix4):TGLZMatrix4;assembler;
+function TGLZMatrix4f.Multiply(constref M2: TGLZMatrix4):TGLZMatrix4;assembler;
 asm
-   movups xmm0, [EAX]$00   // Self[0]
-   movups xmm1, [EAX]$10   // Self[1]
-   movups xmm2, [EAX]$20   // Self[2]
-   movups xmm3, [EAX]$30   // Self[3]
+   movaps xmm0, [RDI]$00   // Self[0]
+   movaps xmm1, [RDI]$10   // Self[1]
+   movaps xmm2, [RDI]$20   // Self[2]
+   movaps xmm3, [RDI]$30   // Self[3]
 
-   movups xmm4, [M2]$00
-   movups xmm5, [M2]$10
-   movups xmm6, [M2]$20
-   movups xmm7, [M2]$30
+   movaps xmm4, [M2]$00
+   movaps xmm5, [M2]$10
+   movaps xmm6, [M2]$20
+   movaps xmm7, [M2]$30
    // Component-wise multiplication
    mulps  xmm0, xmm4
    mulps  xmm1, xmm5
    mulps  xmm2, xmm6
    mulps  xmm3, xmm7
 
-   movups [Result]$00, xmm0
-   movups [Result]$10, xmm1
-   movups [Result]$20, xmm2
-   movups [Result]$30, xmm3
+   movaps [Result]$00, xmm0
+   movaps [Result]$10, xmm1
+   movaps [Result]$20, xmm2
+   movaps [Result]$30, xmm3
 end;
 
 // https://www.gamedev.net/forums/topic/621951-sse-4x4-matrix-transpose-and-invert/
 // http://www.mersenneforum.org/showthread.php?t=17555
 // https://github.com/floodyberry/supercop/blob/master/crypto_hash/groestl512/avx/groestl-asm-avx.h
-function TGLZMatrix4.Transpose:TGLZMatrix4; assembler;
+function TGLZMatrix4f.Transpose:TGLZMatrix4; assembler;
 asm
   {$ifdef TEST}
-    movlps     xmm1, [EAX]
-    movlps     xmm3, [EAX]8
-    movhps     xmm1, [EAX]16
-    movhps     xmm3, [EAX]24
-    movlps     xmm5, [EAX]32
-    movlps     xmm4, [EAX]40
-    movhps     xmm5, [EAX]48
-    movhps     xmm4, [EAX]56
-    movaps     xmm0, xmm1
-    movaps     xmm2, xmm3
-    shufps     xmm1, xmm5, $DD
-    shufps     xmm3, xmm4, $DD
-    shufps     xmm0, xmm5, $88
-    shufps     xmm2, xmm4, $88
-    movups [EAX]$00, xmm0
-    movups [EAX]$10, xmm1 //16
-    movups [EAX]$20, xmm2 //32
-    movups [EAX]$30, xmm3 //48
+    movlps	xmm1, [RDI]
+    movlps	xmm3, [RDI]8
+    movhps	xmm1, [RDI]16
+    movhps	xmm3, [RDI]24
+    movlps	xmm5, [RDI]32
+    movlps	xmm4, [RDI]40
+    movhps	xmm5, [RDI]48
+    movhps	xmm4, [RDI]56
+    movaps	xmm0, xmm1
+    movaps	xmm2, xmm3
+    shufps	xmm1, xmm5, $DD
+    shufps	xmm3, xmm4, $DD
+    shufps	xmm0, xmm5, $88
+    shufps	xmm2, xmm4, $88
+    movaps [RDI]$00, xmm0
+    movaps [RDI]$10,xmm1 //16
+    movaps [RDI]$20,xmm2 //32
+    movaps [RDI]$30,xmm3 //48
   {$else}
-    movups   xmm0, [EAX]$00  // A03 A02 A01 A00
-    movups   xmm1, [EAX]$10 // A13 A12 A11 A10
-    movups   xmm2, [EAX]$20 // A23 A22 A21 A20
-    movups   xmm3, [EAX]$30 // A33 A32 A31 A30
+    movaps   xmm0, [RDI]$00  // A03 A02 A01 A00
+    movaps   xmm1, [RDI]$10 // A13 A12 A11 A10
+    movaps   xmm2, [RDI]$20 // A23 A22 A21 A20
+    movaps   xmm3, [RDI]$30 // A33 A32 A31 A30
 
     movaps   xmm4, xmm2
     unpcklps xmm2, xmm3               // A31 A21 A30 A20
@@ -418,22 +418,22 @@ asm
     unpcklpd xmm2, xmm4               // A32 A22 A12 A02
     unpckhpd xmm3, xmm4               // A33 A23 A13 A03
 
-    movups  [RESULT]$00, xmm0
-    movups  [RESULT]$10, xmm1
-    movups  [RESULT]$20, xmm2
-    movups  [RESULT]$30, xmm3
+    movaps  [RESULT]$00, xmm0
+    movaps  [RESULT]$10, xmm1
+    movaps  [RESULT]$20, xmm2
+    movaps  [RESULT]$30, xmm3
   {$endif}
 end;
 
 // Translated from DirectXMathMatrix.nl
-function TGLZMatrix4.GetDeterminant : Single; assembler;
+function TGLZMatrix4f.GetDeterminant : Single; assembler;
 asm
 
 (*
-  movaps xmm0, [EAX]$00
-  movaps xmm1, [EAX]$10
-  movaps xmm2, [EAX]$20
-  movaps xmm3, [EAX]$30
+  movaps xmm0, [RCX]$00
+  movaps xmm1, [RCX]$10
+  movaps xmm2, [RCX]$20
+  movaps xmm3, [RCX]$30
 
   movaps xmm4,xmm2
   shufps xmm4,xmm4,00000001b
@@ -510,7 +510,7 @@ asm
        {$endif}
         movss [RESULT], {%H-}xmm10
     {$ELSE}
-      movaps xmm0,[EAX]
+      movaps xmm0,[RCX]
       movaps xmm1, [A]
       andps xmm10, [RIP+cSSE_MASK_NO_W]
       mulps  xmm10, xmm4
@@ -523,31 +523,30 @@ asm
   {$ENDIF}
 
 *)
-movss [result], xmm0  ////dummy
 end;
 
-Function TGLZMatrix4.Translate(constref V : TGLZVector) : TGLZMatrix4; assembler;
+Function TGLZMatrix4f.Translate(constref V : TGLZVector) : TGLZMatrix4; assembler;
 asm
    //Self.W.X:=Self.W.X+v.X;
    //Self.W.Y:=Self.W.Y+v.Y;
    //Self.W.Z:=Self.W.Z+v.Z;
-  movups xmm2, [EAX]$00
-  movups xmm3, [EAX]$10
-  movups xmm4, [EAX]$20
-  movups xmm0, [EAX]$30
+  movaps xmm2, [RDI]$00
+  movaps xmm3, [RDI]$10
+  movaps xmm4, [RDI]$20
+  movaps xmm0, [RDI]$30
   movaps xmm1, [V]
-  andps  xmm1, [cSSE_MASK_NO_W]
-  addps  xmm0, xmm1
-  movups [RESULT]$00, xmm2
-  movups [RESULT]$10, xmm3
-  movups [RESULT]$20, xmm4
-  movups [RESULT]$30, xmm0
+  andps xmm1, [RIP+cSSE_MASK_NO_W]
+  addps xmm0, xmm1
+  movaps [RESULT]$00, xmm2
+  movaps [RESULT]$10, xmm3
+  movaps [RESULT]$20, xmm4
+  movaps [RESULT]$30, xmm0
 end;
 
 // https://software.intel.com/en-us/articles/optimized-matrix-library-for-use-with-the-intel-pentiumr-4-processors-sse2-instructions/
 // https://lxjk.github.io/2017/09/03/Fast-4x4-Matrix-Inverse-with-SSE-SIMD-Explained.html
 
-(* Function TGLZMatrix4.Invert : TGLZMatrix4; assembler;  myfirst try but is wrong
+(* Function TGLZMatrix4f.Invert : TGLZMatrix4; assembler;  myfirst try but is wrong
 asm
 // Convert from Intel Math Lib
 // https://software.intel.com/en-us/articles/optimized-matrix-library-for-use-with-the-intel-pentiumr-4-processors-sse2-instructions/
@@ -556,10 +555,10 @@ asm
 // register holds four matrix element, the smaller matrices are
 // represented as a registers. Hence we get a better locality of the calculations.
 
-  movaps xmm0, [EAX]$00
-  movaps xmm1, [EAX]$10
-  movaps xmm2, [EAX]$20
-  movaps xmm3, [EAX]$30
+  movaps xmm0, [RDI]$00
+  movaps xmm1, [RDI]$10
+  movaps xmm2, [RDI]$20
+  movaps xmm3, [RDI]$30
 
   movlhps xmm0, xmm1  //A
   movhlps xmm1, xmm0  //B
@@ -816,7 +815,7 @@ float Inverse(__m128 *_L1, __m128 *_L2,__m128 *_L3,__m128 *_L4)
 //Note  Xmm0 = Determinant
 }
 
-Function TGLZMatrix4.Invert : TGLZMatrix4; assembler;
+Function TGLZMatrix4f.Invert : TGLZMatrix4; assembler;
 asm
   // Convert from Intel Math Lib
   // https://software.intel.com/en-us/articles/optimized-matrix-library-for-use-with-the-intel-pentiumr-4-processors-sse2-instructions/
@@ -824,17 +823,17 @@ asm
   // original matrix is divide into four 2x2 sub-matrices. Since each
   // register holds four matrix element, the smaller matrices are
   // represented as a registers. Hence we get a better locality of the calculations.
-{
-  movups  xmm12,[RDI]$00
+
+  movaps  xmm12,[RDI]$00
   //movaps  xmm1, XMMWORD PTR [RCX]$10
   // movaps  xmm1, XMMWORD PTR [RCX+$10]
-  movups  xmm1, [RDI]$10
+  movaps  xmm1, [RDI]$10
   movhps  xmm12, QWORD PTR [RDI]$10
-  movups  xmm2, [RDI]$30
+  movaps  xmm2, [RDI]$30
   movlps  xmm1, QWORD PTR [RDI]$20+8
   movaps  xmm4, xmm12
   movaps  xmm5, xmm12
-  movups  xmm3, [RDI]$20
+  movaps  xmm3, [RDI]$20
   movaps  xmm0, xmm1
   shufps  xmm5, xmm12, 165
   shufps  xmm4, xmm12, 15
@@ -959,17 +958,16 @@ asm
   shufps  xmm1, xmm10, 34
   movaps  [RDI]$30, xmm2
   movaps  [RDI]$20, xmm1
-}
 end;
 
-(*function TGLZMatrix4.Normalize:TGLZMatrix4; assembler;
+(*function TGLZMatrix4f.Normalize:TGLZMatrix4; assembler;
 asm
 
 
  movaps  [RCX]$30, [RIP+WHmgVector]
 end; *)
 
-function TGLZMatrix4.Normalize:TGLZMatrix4;
+function TGLZMatrix4f.Normalize:TGLZMatrix4;
 begin
    result :=self;
    Result.X.W:=0;
@@ -987,52 +985,52 @@ end;
 {%region%-----[ TODO  ]---------------------------------------------------------}
 
 {
-function TGLZMatrix4.MatrixDetInternal(const a1, a2, a3, b1, b2, b3, c1, c2, c3: Single): Single; assembler;
+function TGLZMatrix4f.MatrixDetInternal(const a1, a2, a3, b1, b2, b3, c1, c2, c3: Single): Single; assembler;
 asm
 end;
 
-procedure TGLZMatrix4.Transpose_Scale_M33(constref src : TGLZMatrix4; Constref ascale : Single); assembler;
+procedure TGLZMatrix4f.Transpose_Scale_M33(constref src : TGLZMatrix4; Constref ascale : Single); assembler;
 asm
 end;
 
-procedure TGLZMatrix4.CreateLookAtMatrix(const eye, center, normUp: TGLZVector); assembler;
+procedure TGLZMatrix4f.CreateLookAtMatrix(const eye, center, normUp: TGLZVector); assembler;
 asm
 end;
-procedure TGLZMatrix4.CreateMatrixFromFrustum(Left, Right, Bottom, Top, ZNear, ZFar: Single); assembler;
+procedure TGLZMatrix4f.CreateMatrixFromFrustum(Left, Right, Bottom, Top, ZNear, ZFar: Single); assembler;
 asm
 end;
-procedure TGLZMatrix4.CreatePerspectiveMatrix(FOV, Aspect, ZNear, ZFar: Single); assembler;
+procedure TGLZMatrix4f.CreatePerspectiveMatrix(FOV, Aspect, ZNear, ZFar: Single); assembler;
 asm
 end;
-procedure TGLZMatrix4.CreateOrthoMatrix(Left, Right, Bottom, Top, ZNear, ZFar: Single); assembler;
+procedure TGLZMatrix4f.CreateOrthoMatrix(Left, Right, Bottom, Top, ZNear, ZFar: Single); assembler;
 asm
 end;
-procedure TGLZMatrix4.CreatePickMatrix(x, y, deltax, deltay: Single; const viewport: TGLZVector4i); assembler;
-asm
-end;
-
-
-procedure TGLZMatrix4.CreateParallelProjectionMatrix(const plane : TGLZHmgPlane; const dir : TGLZVector); assembler;
+procedure TGLZMatrix4f.CreatePickMatrix(x, y, deltax, deltay: Single; const viewport: TGLZVector4i); assembler;
 asm
 end;
 
 
-procedure TGLZMatrix4.CreateShadowMatrix(const planePoint, planeNormal, lightPos : TGLZVector); assembler;
+procedure TGLZMatrix4f.CreateParallelProjectionMatrix(const plane : TGLZHmgPlane; const dir : TGLZVector); assembler;
 asm
 end;
 
-procedure TGLZMatrix4.CreateReflectionMatrix(const planePoint, planeNormal : TGLZVector); assembler;
+
+procedure TGLZMatrix4f.CreateShadowMatrix(const planePoint, planeNormal, lightPos : TGLZVector); assembler;
 asm
 end;
 
-procedure TGLZMatrix4.Adjoint; assembler;
-asm
-end;
-procedure TGLZMatrix4.AnglePreservingMatrixInvert(constref mat : TGLZMatrix4); assembler;
+procedure TGLZMatrix4f.CreateReflectionMatrix(const planePoint, planeNormal : TGLZVector); assembler;
 asm
 end;
 
-function TGLZMatrix4.Decompose(var Tran: TGLZMatrixTransformations): Boolean; assembler;
+procedure TGLZMatrix4f.Adjoint; assembler;
+asm
+end;
+procedure TGLZMatrix4f.AnglePreservingMatrixInvert(constref mat : TGLZMatrix4); assembler;
+asm
+end;
+
+function TGLZMatrix4f.Decompose(var Tran: TGLZMatrixTransformations): Boolean; assembler;
 asm
 end;
 

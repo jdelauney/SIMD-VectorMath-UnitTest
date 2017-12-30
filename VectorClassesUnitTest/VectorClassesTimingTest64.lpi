@@ -622,8 +622,9 @@
 -al
 -an
 -ar
--dUSE_ASM
--dCONFIG_1"/>
+-dUSE_ASM_SSE_3
+-dTEST
+-dSSE3_CONFIG_1_TEST"/>
     </Other>
   </CompilerOptions>
   <Debugging>

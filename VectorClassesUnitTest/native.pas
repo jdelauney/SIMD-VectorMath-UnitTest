@@ -494,7 +494,7 @@ Const
 
   function Compare(constref A: TNativeGLZVector4f; constref B: TGLZVector4f;Espilon: Single = 1e-10): boolean;overload;
   function Compare(constref A: TNativeGLZVector2f; constref B: TGLZVector2f;Espilon: Single = 1e-10): boolean; overload;
-  function CompareMatrix(constref A: TNativeGLZMatrix4; constref B: TGLZMatrix4; Espilon: Single = 1e-10): boolean;
+  function CompareMatrix(constref A: TNativeGLZMatrix4; constref B: TGLZMatrix4f; Espilon: Single = 1e-10): boolean;
   function CompareQuaternion(constref A: TNativeGLZQuaternion; constref B: TGLZQuaternion; Espilon: Single = 1e-10): boolean;
 
   function IsEqual(A,B: Single; Epsilon: single = 1e-10): boolean; inline;
@@ -526,7 +526,7 @@ begin
   if not IsEqual (A.Y, B.Y, Espilon) then Result := False;
 end;
 
-function CompareMatrix(constref A: TNativeGLZMatrix4; constref B: TGLZMatrix4;  Espilon: Single): boolean;
+function CompareMatrix(constref A: TNativeGLZMatrix4; constref B: TGLZMatrix4f;  Espilon: Single): boolean;
 var i : Byte;
 begin
   Result := true;

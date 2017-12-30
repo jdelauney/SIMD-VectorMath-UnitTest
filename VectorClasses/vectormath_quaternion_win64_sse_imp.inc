@@ -1,4 +1,4 @@
-{$I vectormath_quaternion_native_imp.inc}
+{.$I vectormath_quaternion_native_imp.inc}
 
 {%region%----[ Operators ]--------------------------------------------------------}
 
