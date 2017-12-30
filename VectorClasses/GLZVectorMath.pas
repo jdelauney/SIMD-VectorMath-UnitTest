@@ -1039,6 +1039,7 @@ Implementation
 Uses Math, GLZMath, GLZUtils;
 
 {%region%----[ Internal Types and Const ]---------------------------------------}
+
 Const
   cNullVector4f   : TGLZVector = (x:0;y:0;z:0;w:0);
   cOneVector4f    : TGLZVector = (x:1;y:1;z:1;w:1);
