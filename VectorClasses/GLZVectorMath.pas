@@ -1111,8 +1111,8 @@ end;
 //-----[ INCLUDE IMPLEMENTATION ]-----------------------------------------------
 
 {$ifdef USE_ASM}
-  {$ifdef UNIX}
-    {$ifdef CPU64}
+  {$ifdef CPU64}
+    {$ifdef UNIX}
       {$IFDEF USE_ASM_AVX}
 
          {$I vectormath_vector2f_native_imp.inc}
@@ -1177,90 +1177,73 @@ end;
          {.$I vectormath_frustrumhelper_native_imp.inc}
 
       {$ENDIF}
-    {$else}
+    {$else} // win64
       {$IFDEF USE_ASM_AVX}
-         {.$I vectormath_vector2f_unix32_avx_imp.inc}
-         {.$I vectormath_vector4f_unix32_avx_imp.inc}
-         {$I vectormath_quaternion_unix32_avx_imp.inc}
-         {.$I vectormath_matrix_unix32_avx_imp.inc}
-         {.$I vectormath_planehelper_unix32_avx_imp.inc}
-         {.$I vectormath_vectorhelper_unix32_avx_imp.inc}
-      {$ELSE}
-         {.$I vectormath_vector2f_unix32_sse_imp.inc}
-         {.$I vectormath_vector4f_unix32_sse_imp.inc}
-         {$I vectormath_quaternion_unix32_sse_imp.inc}
-         {.$I vectormath_matrix_unix32_sse_imp.inc}
-         {.$I vectormath_planehelper_unix32_sse_imp.inc}
-         {.$I vectormath_vectorhelper_unix32_sse_imp.inc}
-      {$ENDIF}
-    {$endif}
-  {$else}
-    {$ifdef CPU64}
-       {$IFDEF USE_ASM_AVX}
-           {$I vectormath_vector2f_win64_avx_imp.inc}
-           {$I vectormath_vector4f_win64_avx_imp.inc}
+          {$I vectormath_vector2f_win64_avx_imp.inc}
+          {$I vectormath_vector4f_win64_avx_imp.inc}
 
-           {$I vectormath_vector3b_native_imp.inc}
-           {$I vectormath_vector4b_native_imp.inc}
+          {$I vectormath_vector3b_native_imp.inc}
+          {$I vectormath_vector4b_native_imp.inc}
 
-           {$I vectormath_quaternion_win64_avx_imp.inc}
-           {$I vectormath_matrix_win64_avx_imp.inc}
-           {$I vectormath_planehelper_win64_avx_imp.inc}
-           {$I vectormath_vectorhelper_win64_avx_imp.inc}
-        {$ELSE}
-           {$I vectormath_vector2f_native_imp.inc}
-           {$I vectormath_vector2f_win64_sse_imp.inc}
-
-           {$I vectormath_vector4f_native_imp.inc}
-           {$I vectormath_vector4f_win64_sse_imp.inc}
-
-           {$I vectormath_vector3b_native_imp.inc}
-           {$I vectormath_vector4b_native_imp.inc}
-
-           {$I vectormath_quaternion_native_imp.inc}
-           {$I vectormath_quaternion_win64_sse_imp.inc}
-
-           {$I vectormath_matrix4f_native_imp.inc}
-           {$I vectormath_matrix4f_win64_sse_imp.inc}
-
-           {$I vectormath_boundingbox_native_imp.inc}
-           {.$I vectormath_boundingbox_win64_sse_imp.inc}
-
-           {$I vectormath_boundingsphere_native_imp.inc}
-           {.$I vectormath_boundingsphere_win64_sse_imp.inc}
-
-           {$I vectormath_axisaligned_boundingbox_native_imp.inc}
-           {.$I vectormath_axisaligned_boundingbox_win64_sse_imp.inc}
-
-           {$I vectormath_planehelper_native_imp.inc}
-           {$I vectormath_planehelper_win64_sse_imp.inc}
-
-           {$I vectormath_vectorhelper_native_imp.inc}
-           {$I vectormath_vectorhelper_win64_sse_imp.inc}
-
-           {$I vectormath_matrixhelper_native_imp.inc}
-           {.$I vectormath_matrixhelper_win64_sse_imp.inc}
-
-        {$ENDIF}
-    {$else}
-       {$IFDEF USE_ASM_AVX}
-          {.$I vectormath_vector2f_win32_avx_imp.inc}
-          {.$I vectormath_vector4f_win32_avx_imp.inc}
-          {$I vectormath_quaternion_win32_avx_imp.inc}
-          {.$I vectormath_matrix_win32_avx_imp.inc}
-          {.$I vectormath_planehelper_win32_avx_imp.inc}
-          {.$I vectormath_vectorhelper_win32_avx_imp.inc}
+          {$I vectormath_quaternion_win64_avx_imp.inc}
+          {$I vectormath_matrix_win64_avx_imp.inc}
+          {$I vectormath_planehelper_win64_avx_imp.inc}
+          {$I vectormath_vectorhelper_win64_avx_imp.inc}
        {$ELSE}
-          {.$I vectormath_vector4f_win32_sse_imp.inc}
-          {.$I vectormath_vector4f_win32_sse_imp.inc}
-          {$I vectormath_quaternion_win32_sse_imp.inc}
-          {.$I vectormath_matrix_win32_sse_imp.inc}
-          {.$I vectormath_planehelper_win32_sse_imp.inc}
-          {.$I vectormath_vectorhelper_win32_sse_imp.inc}
+          {$I vectormath_vector2f_native_imp.inc}
+          {$I vectormath_vector2f_win64_sse_imp.inc}
+
+          {$I vectormath_vector4f_native_imp.inc}
+          {$I vectormath_vector4f_win64_sse_imp.inc}
+
+          {$I vectormath_vector3b_native_imp.inc}
+          {$I vectormath_vector4b_native_imp.inc}
+
+          {$I vectormath_quaternion_native_imp.inc}
+          {$I vectormath_quaternion_win64_sse_imp.inc}
+
+          {$I vectormath_matrix4f_native_imp.inc}
+          {$I vectormath_matrix4f_win64_sse_imp.inc}
+
+          {$I vectormath_boundingbox_native_imp.inc}
+          {.$I vectormath_boundingbox_win64_sse_imp.inc}
+
+          {$I vectormath_boundingsphere_native_imp.inc}
+          {.$I vectormath_boundingsphere_win64_sse_imp.inc}
+
+          {$I vectormath_axisaligned_boundingbox_native_imp.inc}
+          {.$I vectormath_axisaligned_boundingbox_win64_sse_imp.inc}
+
+          {$I vectormath_planehelper_native_imp.inc}
+          {$I vectormath_planehelper_win64_sse_imp.inc}
+
+          {$I vectormath_vectorhelper_native_imp.inc}
+          {$I vectormath_vectorhelper_win64_sse_imp.inc}
+
+          {$I vectormath_matrixhelper_native_imp.inc}
+          {.$I vectormath_matrixhelper_win64_sse_imp.inc}
+
        {$ENDIF}
-    {$endif}
+    {$endif}  //unix
+  {$else} // CPU32
+     {$IFDEF USE_ASM_AVX}
+        {.$I vectormath_vector2f_win32_avx_imp.inc}
+        {.$I vectormath_vector4f_win32_avx_imp.inc}
+        {$I vectormath_quaternion_win32_avx_imp.inc}
+        {.$I vectormath_matrix_win32_avx_imp.inc}
+        {.$I vectormath_planehelper_win32_avx_imp.inc}
+        {.$I vectormath_vectorhelper_win32_avx_imp.inc}
+     {$ELSE}
+        {.$I vectormath_vector4f_win32_sse_imp.inc}
+        {.$I vectormath_vector4f_win32_sse_imp.inc}
+        {$I vectormath_quaternion_win32_sse_imp.inc}
+        {.$I vectormath_matrix_win32_sse_imp.inc}
+        {.$I vectormath_planehelper_win32_sse_imp.inc}
+        {.$I vectormath_vectorhelper_win32_sse_imp.inc}
+     {$ENDIF}
   {$endif}
-{$else}
+
+{$else}  // pascal
   {$I vectormath_vector2f_native_imp.inc}
   {$I vectormath_vector4f_native_imp.inc}
   {$I vectormath_vector3b_native_imp.inc}
