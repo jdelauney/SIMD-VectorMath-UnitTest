@@ -173,7 +173,7 @@ end;
 
 function TGLZVector2f.Normalize : TGLZVector2f;
 begin
- Result := Self * (1/Self.LengthSquare);
+ Result := Self * (1/Self.Length);
 end;
 
 {%endregion%}
