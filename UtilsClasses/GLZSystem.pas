@@ -38,7 +38,8 @@ interface
 uses
   {$IFDEF FPC}
   //  LCLVersion,
-     LCLIntf, LCLType,
+  //   LCLIntf,
+   LCLType,
     {$IFDEF Windows}
       Windows,
     {$ENDIF}
@@ -180,7 +181,7 @@ uses
     JwaWinBase,{, JwaWinNt}
     winpeimagereader; {need this for reading exe info}
    {$ENDIF}
-   {$IFDEF UNIX}
+   {$IFDEF LINUX}
      LCLProc,
      elfreader; {needed for reading ELF executables}
    {$ENDIF}
