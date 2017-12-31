@@ -216,11 +216,11 @@ Asm
   {$ELSE}
     {$IFDEF USE_ASM_SSE_3}
        {$ifdef TEST}
-          movq   xmm0, [RCX]   // move 64 bits and clear top  x,y,0,0   ** Not working on Win10 64bit
+          movq   xmm0, [RDI]   // move 64 bits and clear top  x,y,0,0   ** Not working on Win10 64bit
           movq   xmm1, [A]     // move 64 bits and clear top  x1,y1,0,0
           subps  xmm0, xmm1    // x-x1,y-y1,0,0
           mulps  xmm0, xmm0    // (x-x1)^2,(y-y1)^2,0,0
-          movss  xmm1, [rcx]8  // z,0,0,0
+          movss  xmm1, [RDI]8  // z,0,0,0
           movss  xmm2, [A]8    //z1,0,0,0
           subps  xmm1, xmm2    //z-z1,0,0,0
           mulps  xmm1, xmm1    //(z-z1)^2,0,0,0
