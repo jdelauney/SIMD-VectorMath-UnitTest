@@ -30,6 +30,23 @@ type
     published
   end;
 
+  TReportGroup = (rgVector2f, rgVector4f, rgMatrix4f, rgQuaterion);
+
+
+const
+
+  REPORT_GROUP_VECTOR2F = 'Vector2f';
+  REPORT_GROUP_VECTOR4F = 'Vector4f';
+  REPORT_GROUP_MATRIX4F = 'Matrix4f' ;
+  REPORT_GROUP_QUATERION = 'Quaternion' ;
+
+  rgArray: Array[TReportGroup] of string = (
+              REPORT_GROUP_VECTOR2F,
+              REPORT_GROUP_VECTOR4F,
+              REPORT_GROUP_MATRIX4F,
+              REPORT_GROUP_QUATERION
+              );
+
 implementation
 
 procedure TVectorBaseTestCase.Setup;

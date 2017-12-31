@@ -110,7 +110,7 @@ end;
 {%endregion%}
 
 initialization
-  RegisterTest(TVector2NumericsTestCase);
+  RegisterTest(REPORT_GROUP_VECTOR2F, TVector2NumericsTestCase);
 end.
 
 

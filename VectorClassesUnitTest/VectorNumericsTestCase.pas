@@ -161,7 +161,7 @@ end;
 {%endregion%}
 
 initialization
-  RegisterTest(TVectorNumericsTestCase);
+  RegisterTest(REPORT_GROUP_VECTOR4F, TVectorNumericsTestCase);
 end.
 
 

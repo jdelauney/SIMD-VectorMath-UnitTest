@@ -155,6 +155,6 @@ end;
 {%endregion%}
 
 initialization
-  RegisterTest(TMatrix4TestCase);
+  RegisterTest(REPORT_GROUP_MATRIX4F, TMatrix4TestCase);
 end.
 

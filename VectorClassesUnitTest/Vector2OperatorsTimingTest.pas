@@ -7,7 +7,7 @@ unit Vector2OperatorsTimingTest;
 interface
 
 uses
-  Classes, SysUtils, fpcunit, testregistry, BaseTimingTest,
+  Classes, SysUtils, fpcunit, testregistry, BaseTestCase, BaseTimingTest,
   native, GLZVectorMath, GLZProfiler;
 
 {$I config.inc}
@@ -15,6 +15,8 @@ uses
 type
   { TVector2OperatorsTimingTest }
   TVector2OperatorsTimingTest = class(TVectorBaseTimingTest)
+  protected
+    procedure Setup; override;
   published
     procedure TimeAdd;
     procedure TimeSub;
@@ -32,6 +34,12 @@ type
 implementation
 
 {%region%====[ TVector2OperatorsTimingTest ]====================================}
+
+procedure TVector2OperatorsTimingTest.Setup;
+begin
+  inherited Setup;
+  Group := rgVector2f;
+end;
 
 procedure TVector2OperatorsTimingTest.TimeAdd;
 begin
@@ -364,5 +372,5 @@ end;
 {%endregion%}
 
 initialization
-  RegisterTest(TVector2OperatorsTimingTest);
+  RegisterTest(REPORT_GROUP_VECTOR2F, TVector2OperatorsTimingTest);
 end.

@@ -137,7 +137,7 @@ end;
 {%endregion%}
 
 initialization
-  RegisterTest(TQuaternionTestCase);
+  RegisterTest(REPORT_GROUP_QUATERION, TQuaternionTestCase);
 end.
 
 

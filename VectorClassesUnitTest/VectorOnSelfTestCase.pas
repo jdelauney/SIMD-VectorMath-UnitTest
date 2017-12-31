@@ -180,7 +180,7 @@ end;
 {%endregion%}
 
 initialization
-  RegisterTest(TVectorOnSelfTestCase);
+  RegisterTest(REPORT_GROUP_VECTOR4F, TVectorOnSelfTestCase);
 
 end.
 

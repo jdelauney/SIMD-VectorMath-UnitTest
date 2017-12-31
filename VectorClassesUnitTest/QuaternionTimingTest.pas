@@ -5,7 +5,7 @@ unit QuaternionTimingTest;
 interface
 
 uses
-  Classes, SysUtils, fpcunit, testregistry, BaseTimingTest,
+  Classes, SysUtils, fpcunit, testregistry, BaseTestCase, BaseTimingTest,
   native, GLZVectorMath, GLZProfiler;
 
 type
@@ -41,6 +41,7 @@ implementation
 procedure TQuaternionTimingTest.Setup;
 begin
   inherited Setup;
+  Group := rgQuaterion;
   nqt1.Create(5.850,-15.480,8.512,1.5);
   nqt2.Create(1.558,6.512,4.525,1.0);
   qt1.V := nqt1.V;
@@ -209,6 +210,6 @@ end;
 {%endregion%}
 
 initialization
-  RegisterTest(TQuaternionTimingTest);
+  RegisterTest(REPORT_GROUP_QUATERION, TQuaternionTimingTest);
 end.
 

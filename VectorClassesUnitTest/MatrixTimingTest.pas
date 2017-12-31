@@ -5,7 +5,7 @@ unit MatrixTimingTest;
 interface
 
 uses
-  Classes, SysUtils, fpcunit, testregistry, BaseTimingTest,
+  Classes, SysUtils, fpcunit, testregistry, BaseTimingTest, BaseTestCase,
   native, GLZVectorMath, GLZProfiler;
 
 type
@@ -43,6 +43,7 @@ implementation
 procedure TMatrixTimingTest.Setup;
 begin
   inherited Setup;
+  Group := rgMatrix4f;
   nmtx1.CreateIdentityMatrix;
   nmtx2.CreateScaleMatrix(nt1);
   mtx1.CreateIdentityMatrix;
@@ -236,6 +237,6 @@ end;
 {%endregion%}
 
 initialization
-  RegisterTest(TMatrixTimingTest);
+  RegisterTest(REPORT_GROUP_MATRIX4F, TMatrixTimingTest);
 end.
 

@@ -5,12 +5,14 @@ unit VectorOperatorsOnSelfTimingTest;
 interface
 
 uses
-  Classes, SysUtils, fpcunit, testregistry, BaseTimingTest,
+  Classes, SysUtils, fpcunit, testregistry, BaseTimingTest, BaseTestCase,
   native, GLZVectorMath, GLZProfiler;
 
 type
   { TVectorOperatorsOnSelfTimingTest }
   TVectorOperatorsOnSelfTimingTest = class(TVectorBaseTimingTest)
+  protected
+    procedure Setup; override;
   published
     procedure TimepAdd;
     procedure TimepSub;
@@ -37,6 +39,12 @@ type
 implementation
 
 {%region%====[ TVectorOperatorsOnSelfTimingTest ]==============================}
+
+procedure TVectorOperatorsOnSelfTimingTest.Setup;
+begin
+  inherited Setup;
+  Group := rgVector4f;
+end;
 
 procedure TVectorOperatorsOnSelfTimingTest.TimepAdd;
 begin
@@ -324,6 +332,6 @@ end;
 
 initialization
 
-  RegisterTest(TVectorOperatorsOnSelfTimingTest);
+  RegisterTest(REPORT_GROUP_VECTOR4F, TVectorOperatorsOnSelfTimingTest);
 end.
 

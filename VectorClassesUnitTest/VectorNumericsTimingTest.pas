@@ -4,7 +4,7 @@ unit VectorNumericsTimingTest;
 interface
 
 uses
-  Classes, SysUtils, fpcunit, testregistry, BaseTimingTest,
+  Classes, SysUtils, fpcunit, testregistry, BaseTimingTest, BaseTestCase,
   native, GLZVectorMath, GLZProfiler;
 
 type
@@ -14,6 +14,8 @@ type
   { TVectorNumericsTimingTest }
 
   TVectorNumericsTimingTest = class(TVectorBaseTimingTest)
+  protected
+    procedure Setup; override;
   published
     procedure TimeAbs;
     procedure TimeNegate;
@@ -36,6 +38,12 @@ type
 implementation
 
 {%region%====[ TVectorNumericsTimingTest ]=====================================}
+
+procedure TVectorNumericsTimingTest.Setup;
+begin
+  inherited Setup;
+  Group := rgVector4f;
+end;
 
 procedure TVectorNumericsTimingTest.TimeAbs;
 begin
@@ -248,7 +256,7 @@ end;
 {%endregion%}
 
 initialization
-  RegisterTest(TVectorNumericsTimingTest);
+  RegisterTest(REPORT_GROUP_VECTOR4F, TVectorNumericsTimingTest);
 end.
 
 

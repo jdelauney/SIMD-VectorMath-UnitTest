@@ -1,7 +1,6 @@
 unit BaseTimingTest;
 
 {$mode objfpc}{$H+}
-
 {$CODEALIGN LOCALMIN=16}
 {$CODEALIGN CONSTMIN=16}
 
@@ -12,14 +11,24 @@ uses
 
 {$I config.inc}
 
+
 type
 
-  { TBaseTimingTest }
-  TVectorBaseTimingTest = class(TVectorBaseTestCase)
+
+  { TGroupTimingTest }
+  TGroupTimingTest = class(TVectorBaseTestCase)
+  public
+    class var Group: TReportGroup;
+    class function RGString: string;
+  end;
+
+  { TVectorBaseTimingTest }
+  TVectorBaseTimingTest = class(TGroupTimingTest)
   protected
     procedure TearDown; override;
   public
     {$CODEALIGN RECORDMIN=4}
+    var
     r1, rs : Single;
     Res: boolean;
 
@@ -56,14 +65,22 @@ var
   cnt: Integer;
   sl,ml,hl, fhl: TStringList;
 
+  HeaderPos: integer;
 
 implementation
 
-uses strutils, GLZProfiler;
+uses strutils, GLZProfiler, GLZCpuId;
 
 procedure DoInitLists;
+var
+  infoStr, featuresStr: string;
 begin
+
+  infoStr := Format('CPU Info: %s @ %d MHz', [Trim(GLZCPUInfos.BrandName), GLZCPUInfos.Speed]);
+  featuresStr := 'CPU Features: ' + GLZCPUInfos.FeaturesAsString;
   sl := TStringList.Create;
+  sl.Add(infoStr);
+  sl.Add(featuresStr);
   sl.Add('Compiler Flags: ' + REP_FLAGS);
   sl.Add('Test,Native,Assembler,Gain in %,Speed factor');
 
@@ -93,9 +110,14 @@ begin
     Add('tr:nth-child(odd) td {background-color: rgb(245,245,245);}');
     Add('tr:nth-child(even) td {background-color: rgb(225,225,225);}');
     Add('caption {padding: 10px;}');
+    Add('h1 {text-align: center;}');
+    Add('h5 {text-align: center;}');
     Add('</style>');
     Add('</head>');
-    Add('<h1>FPC SSE/AVX Vector Maths tests case.</h1>');
+    Add('<div>');
+    HeaderPos := Add('');
+    Add('<h5>' + infoStr + '</h5>');
+    Add('<h5>' + featuresStr + '</h5>');
     Add('<table>');
     Add('<caption><b>Compiler Flags: ' + REP_FLAGS + '</b></caption>');
     Add('<thead>');
@@ -121,9 +143,14 @@ begin
 end;
 
 procedure CheckResultsDir;
+var
+  rg: TReportGroup;
 begin
   If Not DirectoryExists('Results') then
     CreateDir ('Results');
+  for rg := low(TReportGroup) to High(TReportGroup) do
+    If Not DirectoryExists('Results' + DirectorySeparator + rgArray[rg]) then
+      CreateDir ('Results' + DirectorySeparator + rgArray[rg]);
 end;
 
 function WriteTimer:String;
@@ -156,6 +183,14 @@ begin
   sf := GlobalProfiler.Items[0].TotalTicks/GlobalProfiler.Items[1].TotalTicks;
   result :=  FloatToStrF(sf,ffFixed,5,6);
 end;
+
+{%region%====[ TGroupTimingTest ]=====================================}
+
+class function TGroupTimingTest.RGString: string;
+begin
+  Result := rgArray[Group];
+end;
+{%region%}
 
 {%region%====[ TVectorBaseTimingTest etc ]=====================================}
 
