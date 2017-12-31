@@ -2,6 +2,8 @@ program VectorClassesTimingTest32;
 
 {$mode objfpc}{$H+}
 
+{$define NO_TIMING_TEST}
+
 uses
   Interfaces, Forms, GuiTestRunner,
   // Vector2f Test Case
@@ -18,6 +20,7 @@ uses
   QuaternionTestCase,
   // Vector4f and Plane Test Case
   VectorAndHmgPlaneHelperTestCase,
+{$ifndef NO_TIMING_TEST}
   // Vector2f Timing Test Case
   Vector2OperatorsTimingTest,
 //  glz_2DHelper_test_cases,
@@ -30,7 +33,9 @@ uses
   // Quaternion Timing Test
   QuaternionTimingTest,
   { ensure your code is included before this line}
-  ReportTest, GLZVectorMath;
+  ReportTest,
+{$endif}
+  GLZVectorMath;
 
 begin
   Application.Title:='VectorClassesUnitTest';

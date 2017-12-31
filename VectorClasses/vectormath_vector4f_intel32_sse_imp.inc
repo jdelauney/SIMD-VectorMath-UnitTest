@@ -1070,8 +1070,8 @@ End;
 procedure TGLZVector4f.pClamp(Constref AMin, AMax: TGLZVector4f); assembler; nostackframe; register;
 asm
   movups  xmm0, [EAX]
-  movlps  xmm2, [AMin]
-  movlps  xmm3, [AMax]
+  movups  xmm2, [AMin]
+  movups  xmm3, [AMax]
   maxps   xmm0, xmm2
   minps   xmm0, xmm3
   movups [EAX], xmm0
@@ -1080,8 +1080,8 @@ End;
 procedure TGLZVector4f.pClamp(constref AMin, AMax: Single); assembler; nostackframe; register;
 asm
   movups  xmm0, [EAX]
-  movlps  xmm2, [AMin]
-  movlps  xmm3, [AMax]
+  movss   xmm2, [AMin]
+  movss   xmm3, [AMax]
   shufps  xmm2, xmm2, $00 // Replicate AMin
   shufps  xmm3, xmm3, $00 // Replicate AMax
   maxps   xmm0, xmm2
