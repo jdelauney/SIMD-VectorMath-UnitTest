@@ -2,47 +2,47 @@
 
 {%region%----[ Operators ]------------------------------------------------------}
 
-class operator TGLZMatrix4f.+(constref A, B: TGLZMatrix4): TGLZMatrix4; assembler; nostackframe; register;
+class operator TGLZMatrix4f.+(constref A, B: TGLZMatrix4f): TGLZMatrix4f; assembler; nostackframe; register;
 asm
   vxorps xmm0, xmm0, xmm0
 end;
 
-class operator TGLZMatrix4f.+(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; assembler; nostackframe; register;
+class operator TGLZMatrix4f.+(constref A: TGLZMatrix4f; constref B: Single): TGLZMatrix4f; assembler; nostackframe; register;
 asm
   vxorps xmm0, xmm0, xmm0
 end;
 
-class operator TGLZMatrix4f.-(constref A, B: TGLZMatrix4): TGLZMatrix4; assembler; nostackframe; register;
+class operator TGLZMatrix4f.-(constref A, B: TGLZMatrix4f): TGLZMatrix4f; assembler; nostackframe; register;
 asm
   vxorps xmm0, xmm0, xmm0
 end;
 
-class operator TGLZMatrix4f.-(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; assembler; nostackframe; register;
+class operator TGLZMatrix4f.-(constref A: TGLZMatrix4f; constref B: Single): TGLZMatrix4f; assembler; nostackframe; register;
 asm
   vxorps xmm0, xmm0, xmm0
 end;
 
-class operator TGLZMatrix4f.*(constref A, B: TGLZMatrix4): TGLZMatrix4; assembler; nostackframe; register;
+class operator TGLZMatrix4f.*(constref A, B: TGLZMatrix4f): TGLZMatrix4f; assembler; nostackframe; register;
 asm
   vxorps xmm0, xmm0, xmm0
 end;
 
-class operator TGLZMatrix4f.*(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; assembler; nostackframe; register;
+class operator TGLZMatrix4f.*(constref A: TGLZMatrix4f; constref B: Single): TGLZMatrix4f; assembler; nostackframe; register;
 asm
   vxorps xmm0, xmm0, xmm0
 end;
 
-class operator TGLZMatrix4f.*(constref A: TGLZMatrix4; constref B: TGLZVector): TGLZVector; assembler; nostackframe; register;
+class operator TGLZMatrix4f.*(constref A: TGLZMatrix4f; constref B: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
 asm
   vxorps xmm0, xmm0, xmm0
 end;
 
-class operator TGLZMatrix4f./(constref A: TGLZMatrix4; constref B: Single): TGLZMatrix4; assembler; nostackframe; register;
+class operator TGLZMatrix4f./(constref A: TGLZMatrix4f; constref B: Single): TGLZMatrix4f; assembler; nostackframe; register;
 asm
   vxorps xmm0, xmm0, xmm0
 end;
 
-class operator TGLZMatrix4f.-(constref A: TGLZMatrix4): TGLZMatrix4; assembler; nostackframe; register;
+class operator TGLZMatrix4f.-(constref A: TGLZMatrix4f): TGLZMatrix4f; assembler; nostackframe; register;
 asm
   vxorps xmm0, xmm0, xmm0
 end;
@@ -51,30 +51,30 @@ end;
 
 {%region%----[ Functions ]------------------------------------------------------}
 
-function TGLZMatrix4f.GetDeterminant: Single;assembler; nostackframe; register;
-asm
-  vxorps xmm0, xmm0, xmm0
-end;
-
+//function TGLZMatrix4f.GetDeterminant: Single;assembler; nostackframe; register;
+//asm
+//  vxorps xmm0, xmm0, xmm0
+//end;
+//
 //function TGLZMatrix4f.MatrixDetInternal(const a1, a2, a3, b1, b2, b3, c1, c2, c3: Single): Single; assembler; nostackframe; register;
 //asm
 //  vxorps xmm0, xmm0, xmm0
 //end;
 
-function TGLZMatrix4f.Transpose: TGLZMatrix4;assembler; nostackframe; register;
-asm
-  vxorps xmm0, xmm0, xmm0
-end;
-
-function TGLZMatrix4f.Invert : TGLZMatrix4;assembler; nostackframe; register;
-asm
-  vxorps xmm0, xmm0, xmm0
-end;
-
-function TGLZMatrix4f.Normalize : TGLZMatrix4;assembler; nostackframe; register;
-asm
-  vxorps xmm0, xmm0, xmm0
-end;
+//function TGLZMatrix4f.Transpose: TGLZMatrix4f;assembler; nostackframe; register;
+//asm
+//  vxorps xmm0, xmm0, xmm0
+//end;
+//
+//function TGLZMatrix4f.Invert : TGLZMatrix4;assembler; nostackframe; register;
+//asm
+//  vxorps xmm0, xmm0, xmm0
+//end;
+//
+//function TGLZMatrix4f.Normalize : TGLZMatrix4;assembler; nostackframe; register;
+//asm
+//  vxorps xmm0, xmm0, xmm0
+//end;
 
 //procedure TGLZMatrix4f.Adjoint;assembler; nostackframe; register;
 //asm
@@ -90,14 +90,14 @@ end;
 //  vxorps xmm0, xmm0, xmm0
 //end;
 
-function TGLZMatrix4f.Translate( constref v : TGLZVector):TGLZMatrix4;assembler; nostackframe; register;
-asm
-  vxorps xmm0, xmm0, xmm0
-end;
-function TGLZMatrix4f.Multiply(constref M2: TGLZMatrix4):TGLZMatrix4;assembler; nostackframe; register;
-asm
-  vxorps xmm0, xmm0, xmm0
-end;
+//function TGLZMatrix4f.Translate( constref v : TGLZVector):TGLZMatrix4;assembler; nostackframe; register;
+//asm
+//  vxorps xmm0, xmm0, xmm0
+//end;
+//function TGLZMatrix4f.Multiply(constref M2: TGLZMatrix4):TGLZMatrix4;assembler; nostackframe; register;
+//asm
+//  vxorps xmm0, xmm0, xmm0
+//end;
 
 {%endregion%}
 

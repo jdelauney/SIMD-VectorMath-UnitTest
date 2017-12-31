@@ -121,7 +121,7 @@ implementation
 
 //==============================================================================
 const
-  DefaultDisplayFormat = '#,##0.0';
+  {%H-}DefaultDisplayFormat = '#,##0.0';
   TimeUnitName: array[TGLZTimeUnit] of String =
     (' ns', ' µs', ' ms', ' s');//, 'm', 'h');
   TimeUnitCoefficient: array[TGLZTimeUnit] of Extended =

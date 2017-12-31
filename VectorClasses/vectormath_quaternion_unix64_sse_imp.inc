@@ -1,5 +1,3 @@
-{$I vectormath_quaternion_native_imp.inc}
-
 {%region%----[ Operators ]--------------------------------------------------------}
 
 class operator TGLZQuaternion.+(constref A, B: TGLZQuaternion): TGLZQuaternion; assembler; nostackframe; register;

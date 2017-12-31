@@ -107,7 +107,6 @@ begin
   nmtx3 := nmtx1 / FS1;
   mtx3  := mtx1 / FS1;
   AssertTrue('Matrix / Single no match'+nmtx3.ToString+' --> '+mtx3.ToString, CompareMatrix(nmtx3,mtx3));
-
 end;
 
 procedure TMatrix4TestCase.TestMinus;

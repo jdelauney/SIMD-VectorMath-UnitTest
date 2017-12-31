@@ -1114,23 +1114,68 @@ end;
   {$ifdef UNIX}
     {$ifdef CPU64}
       {$IFDEF USE_ASM_AVX}
-         {.$I vectormath_vector2f_unix64_avx_imp.inc}
-         {.$I vectormath_vector4f_unix64_avx_imp.inc}
+
+         {$I vectormath_vector2f_native_imp.inc}
+         {$I vectormath_vector2f_unix64_avx_imp.inc}
 
          {$I vectormath_vector3b_native_imp.inc}
          {$I vectormath_vector4b_native_imp.inc}
 
+         {$I vectormath_vector4f_native_imp.inc}
+         {$I vectormath_vector4f_unix64_avx_imp.inc}
+
+         {$I vectormath_quaternion_native_imp.inc}
          {$I vectormath_quaternion_unix64_avx_imp.inc}
-         {.$I vectormath_matrix_unix64_avx_imp.inc}
-         {.$I vectormath_planehelper_unix64_avx_imp.inc}
-         {.$I vectormath_vectorhelper_unix64_avx_imp.inc}
+
+         {$I vectormath_matrix4f_native_imp.inc}
+         {$I vectormath_matrix4f_unix64_avx_imp.inc}
+         {$I vectormath_matrixhelper_native_imp.inc}
+
+
+         {$I vectormath_vectorhelper_native_imp.inc}
+         {$I vectormath_vectorhelper_unix64_avx_imp.inc}
+
+         {$I vectormath_planehelper_native_imp.inc}
+         {$I vectormath_planehelper_unix64_avx_imp.inc}
+
+         {$I vectormath_boundingbox_native_imp.inc}
+         {$I vectormath_boundingsphere_native_imp.inc}
+         {$I vectormath_axisaligned_boundingbox_native_imp.inc}
+         {.$I vectormath_boundingboxhelper_native_imp.inc}
+         {.$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
+         {.$I vectormath_frustrumhelper_native_imp.inc}
+
       {$ELSE}
-         {.$I vectormath_vector2f_unix64_sse_imp.inc}
-         {.$I vectormath_vector4f_unix64_sse_imp.inc}
+
+         {$I vectormath_vector2f_native_imp.inc}
+         {$I vectormath_vector2f_unix64_sse_imp.inc}
+
+         {$I vectormath_vector3b_native_imp.inc}
+         {$I vectormath_vector4b_native_imp.inc}
+
+         {$I vectormath_vector4f_native_imp.inc}
+         {$I vectormath_vector4f_unix64_sse_imp.inc}
+
+         {$I vectormath_quaternion_native_imp.inc}
          {$I vectormath_quaternion_unix64_sse_imp.inc}
-         {.$I vectormath_matrix_unix64_sse_imp.inc}
-         {.$I vectormath_planehelper_unix64_sse_imp.inc}
-         {.$I vectormath_vectorhelper_unix64_sse_imp.inc}
+
+         {$I vectormath_matrix4f_native_imp.inc}
+         {$I vectormath_matrix4f_unix64_sse_imp.inc}
+         {$I vectormath_matrixhelper_native_imp.inc}
+
+         {$I vectormath_vectorhelper_native_imp.inc}
+         {$I vectormath_vectorhelper_unix64_sse_imp.inc}
+
+         {$I vectormath_planehelper_native_imp.inc}
+         {$I vectormath_planehelper_unix64_sse_imp.inc}
+
+         {$I vectormath_boundingbox_native_imp.inc}
+         {$I vectormath_boundingsphere_native_imp.inc}
+         {$I vectormath_axisaligned_boundingbox_native_imp.inc}
+         {.$I vectormath_boundingboxhelper_native_imp.inc}
+         {.$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
+         {.$I vectormath_frustrumhelper_native_imp.inc}
+
       {$ENDIF}
     {$else}
       {$IFDEF USE_ASM_AVX}

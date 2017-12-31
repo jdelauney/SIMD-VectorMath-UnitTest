@@ -47,7 +47,7 @@ function MulDiv(Multiplicand, Multiplier, Divisor: Integer): Integer;
 
 { Clamp : Borner une valeur
 @groupbegin }
-function Clamp(const V,Min,Max : integer) : integer;
+function Clamp(const V,Min,Max : integer) : integer; overload;
 function Clamp(const V,Min,Max : Single):  Single; overload;
 function ClampMin(const V,aMin:Single):  Single;
 function ClampMax(Const Value, Max:Integer):Integer;
@@ -56,7 +56,7 @@ function ClampByte(Const Value:Integer):Byte;
 
 { Swap : Inverser les bits d'une valeur
 @groupbegin }
-procedure Swap(var A, B: Integer);
+procedure Swap(var A, B: Integer); overload;
 procedure Swap(var X, Y: Word); overload;
 procedure SwapShort(P: PWord; Count: Cardinal);
 procedure SwapLong(P: PInteger; Count: Cardinal); overload;
