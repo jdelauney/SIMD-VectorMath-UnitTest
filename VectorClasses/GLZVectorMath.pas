@@ -1218,7 +1218,7 @@ end;
 {$else}
   {$I vectormath_vector2f_native_imp.inc}
   {$I vectormath_vector4f_native_imp.inc}
-  {$I vectormath_vector2b_native_imp.inc}
+  {$I vectormath_vector3b_native_imp.inc}
   {$I vectormath_vector4b_native_imp.inc}
 
   {$I vectormath_quaternion_native_imp.inc}
@@ -1226,13 +1226,14 @@ end;
   {$I vectormath_boundingsphere_native_imp.inc}
   {$I vectormath_axisaligned_boundingbox_native_imp.inc}
 
-  {$I vectormath_matrix_native_imp.inc}
+  {$I vectormath_matrix4f_native_imp.inc}
+  {$I vectormath_matrixhelper_native_imp.inc}
 
   {$I vectormath_planehelper_native_imp.inc}
   {$I vectormath_vectorhelper_native_imp.inc}
-  {$I vectormath_boundingboxhelper_native_imp.inc}
-  {$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
-  {$I vectormath_frustrumhelper_native_imp.inc}
+  {.$I vectormath_boundingboxhelper_native_imp.inc}
+  {.$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
+  {.$I vectormath_frustrumhelper_native_imp.inc}
 {$endif}
 
 

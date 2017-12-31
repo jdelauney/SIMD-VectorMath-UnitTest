@@ -43,15 +43,15 @@ end;
 
 {%region%----[ Functions ]------------------------------------------------------}
 
-function TGLZVectorHelper.DistanceToPoint(constref point : TGLZVector) : Single;
+function TGLZVectorHelper.DistancePlaneToPoint(constref point : TGLZVector) : Single;
 begin
-   result:= abs((Self.X*Point.X) + (Self.Y*Point.Y) + (Self.Z*Point.Z) + Self.W);
+   result:= system.abs((Self.X*Point.X) + (Self.Y*Point.Y) + (Self.Z*Point.Z) + Self.W);
 end;
 
-function TGLZVectorHelper.DistanceToSphere(constref Center : TGLZVector; constref Radius:Single) : Single;
+function TGLZVectorHelper.DistancePlaneToSphere(constref Center : TGLZVector; constref Radius:Single) : Single;
 var dist : single;
 begin
-  dist := Self.DistanceToPoint(Center);
+  dist := Self.DistancePlaneToPoint(Center);
   result := 0.0;
   if(dist > Radius) then result := dist - radius
 end;
