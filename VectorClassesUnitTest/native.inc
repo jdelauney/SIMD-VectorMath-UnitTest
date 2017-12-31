@@ -138,7 +138,7 @@ end;
 
 function TNativeGLZVector2f.Normalize : TNativeGLZVector2f;
 begin
- Result := Self * (1/Self.LengthSquare);
+ Result := Self * (1/Self.Length);
 end;
 
 class operator TNativeGLZVector2f.-(constref A: TNativeGLZVector2f): TNativeGLZVector2f;
