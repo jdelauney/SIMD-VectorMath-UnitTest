@@ -41,6 +41,7 @@ uses
   MatrixTimingTest,
   // Quaternion Timing Test
   QuaternionTimingTest,
+  BoundingBoxTimingTest,
   { ensure your code is included before this line}
   ReportTest,
 {$endif}

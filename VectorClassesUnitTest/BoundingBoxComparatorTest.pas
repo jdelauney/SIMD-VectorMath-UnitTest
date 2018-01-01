@@ -27,7 +27,6 @@ type
       procedure TestMaxY;
       procedure TestMinZ;
       procedure TestMaxZ;
-
   end;
 
 implementation
