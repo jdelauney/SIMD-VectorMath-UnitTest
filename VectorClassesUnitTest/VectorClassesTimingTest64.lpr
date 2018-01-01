@@ -24,6 +24,8 @@ uses
   QuaternionTestCase,
   // Vector4f and Plane Test Case
   VectorAndHmgPlaneHelperTestCase,
+  // bounding box et al
+  BoundingBoxComparatorTest,
 {$ifndef NO_TIMING_TEST}
   // Vector2f Timing Test Case
   Vector2OperatorsTimingTest,

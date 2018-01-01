@@ -1,3 +1,18 @@
+function NativeAffineVectorMake(const x, y, z : Single) : TNativeGLZAffineVector;
+begin
+   Result.X:=x;
+   Result.Y:=y;
+   Result.Z:=z;
+end;
+
+function NativeAffineVectorMake(const v : TNativeGLZVector) : TNativeGLZAffineVector;
+begin
+   Result.X:=v.X;
+   Result.Y:=v.Y;
+   Result.Z:=v.Z;
+end;
+
+
 {%region%-----[ TNativeGLZVector2f ]--------------------------------------------}
 
 {%region%----[ TNativeGLZVector2f Operators ]-----------------------------------}
@@ -970,9 +985,9 @@ begin
    CreateRotationMatrixZ(s, c);
 end;
 
-procedure TNativeGLZMatrix4.CreateRotationMatrix(const anAxis : TGLZAffineVector; angle : Single);
+procedure TNativeGLZMatrix4.CreateRotationMatrix(const anAxis : TNativeGLZAffineVector; angle : Single);
 var
-   axis : TGLZVector;
+   axis : TNativeGLZVector;
    cosine, sine, one_minus_cosine : Single;
 begin
    axis.AsVector3f := anAxis;
@@ -1735,10 +1750,10 @@ begin
    Self.RealPart:=real;
 end;
 
-procedure TNativeGLZQuaternion.Create(const V1, V2: TGLZAffineVector);
+procedure TNativeGLZQuaternion.Create(const V1, V2: TNativeGLZAffineVector);
 Var
  //av : TGLZAffineVector;
- vv, vv1,vv2 : TGLZVector;
+ vv, vv1,vv2 : TNativeGLZVector;
 begin
    vv1.AsVector3f := V1;
    vv2.AsVector3f := V2;
@@ -1786,11 +1801,11 @@ begin
    NormalizeQuaternion(Result);
 end; }
 
-procedure TNativeGLZQuaternion.Create(const angle  : Single; const axis : TGLZAffineVector);
+procedure TNativeGLZQuaternion.Create(const angle  : Single; const axis : TNativeGLZAffineVector);
 //procedure TNativeGLZQuaternion.Create(const angle  : Single; const axis : TGLZVector);
 var
    f, s, c : Single;
-   vaxis : TGLZVector;
+   vaxis : TNativeGLZVector;
 begin
    GLZMath.SinCos(DegToRadian(angle*cOneDotFive), s, c);
    Self.RealPart:=c;
@@ -1805,9 +1820,9 @@ procedure TNativeGLZQuaternion.Create(const r, p, y : Single); //Roll Pitch Yaw
 var
    qp, qy : TNativeGLZQuaternion;
 begin
-   Self.Create(r, ZVector); // Create From Angle Axis
-   qp.Create(p, XVector);
-   qy.Create(y, YVector);
+   Self.Create(r, NativeZVector); // Create From Angle Axis
+   qp.Create(p, NativeXVector);
+   qy.Create(y, NativeYVector);
 
    Self:=qp * Self;
    Self:=qy * Self;
@@ -1827,9 +1842,9 @@ var
    var
       q : array [1..3] of TNativeGLZQuaternion;
    begin
-      q[cOrder[eulerOrder][1]].Create(X, XVector); // Create From Angle Axis
-      q[cOrder[eulerOrder][2]].Create(Y, YVector);
-      q[cOrder[eulerOrder][3]].Create(Z, ZVector);
+      q[cOrder[eulerOrder][1]].Create(X, NativeXVector); // Create From Angle Axis
+      q[cOrder[eulerOrder][2]].Create(Y, NativeYVector);
+      q[cOrder[eulerOrder][3]].Create(Z, NativeZVector);
       result:=(q[2] * q[3]);
       result:=(q[1] * Self);
    end;
@@ -1868,22 +1883,22 @@ begin
    end;
 end;
 
-procedure TNativeGLZQuaternion.ConvertToPoints(var ArcFrom, ArcTo: TGLZAffineVector);
+procedure TNativeGLZQuaternion.ConvertToPoints(var ArcFrom, ArcTo: TNativeGLZAffineVector);
 //procedure ConvertToPoints(var ArcFrom, ArcTo: TGLZVector); //overload;
 var
    s, invS : Single;
 begin
    s:=Self.ImagePart.X*Self.ImagePart.X+Self.ImagePart.Y*Self.ImagePart.Y;
-   if s=0 then ArcFrom := AffineVectorMake( 0, 1, 0)
+   if s=0 then ArcFrom := NativeAffineVectorMake( 0, 1, 0)
    else
    begin
       invS:=RSqrt(s);
-      ArcFrom := AffineVectorMake( -Self.ImagePart.Y*invS, Self.ImagePart.X*invS, 0);
+      ArcFrom := NativeAffineVectorMake( -Self.ImagePart.Y*invS, Self.ImagePart.X*invS, 0);
    end;
    ArcTo.X:=Self.RealPart*ArcFrom.X-Self.ImagePart.Z*ArcFrom.Y;
    ArcTo.Y:=Self.RealPart*ArcFrom.Y+Self.ImagePart.Z*ArcFrom.X;
    ArcTo.Z:=Self.ImagePart.X*ArcFrom.Y-Self.ImagePart.Y*ArcFrom.X;
-   if Self.RealPart<0 then ArcFrom := AffineVectorMake( -ArcFrom.X, -ArcFrom.Y, 0);
+   if Self.RealPart<0 then ArcFrom := NativeAffineVectorMake( -ArcFrom.X, -ArcFrom.Y, 0);
 end;
 
 function TNativeGLZQuaternion.MultiplyAsSecond(const qFirst : TNativeGLZQuaternion): TNativeGLZQuaternion;
@@ -2242,7 +2257,7 @@ function TNativeGLZMatrixHelper.Turn( Angle: Single): TNativeGLZMatrix;
 var
   m : TNativeGLZMatrix;
 begin
-  m.CreateRotationMatrix(AffineVectorMake(Self.V[1].V[0], Self.V[1].V[1], Self.V[1].V[2]), Angle);
+  m.CreateRotationMatrix(NativeAffineVectorMake(Self.V[1].V[0], Self.V[1].V[1], Self.V[1].V[2]), Angle);
   Result:=Self * m;
 end;
 
@@ -2260,7 +2275,7 @@ function TNativeGLZMatrixHelper.Pitch(Angle: Single): TNativeGLZMatrix;
 var
   m : TNativeGLZMatrix;
 begin
-  m.CreateRotationMatrix(AffineVectorMake(Self.V[0].V[0], Self.V[0].V[1], Self.V[0].V[2]), Angle);
+  m.CreateRotationMatrix(NativeAffineVectorMake(Self.V[0].V[0], Self.V[0].V[1], Self.V[0].V[2]), Angle);
   Result:=Self * m;
 end;
 
@@ -2278,7 +2293,7 @@ function TNativeGLZMatrixHelper.Roll(Angle: Single): TNativeGLZMatrix;
 var
   m : TNativeGLZMatrix;
 begin
-  m.CreateRotationMatrix(AffineVectorMake(Self.V[2].V[0], Self.V[2].V[1], Self.V[2].V[2]), Angle);
+  m.CreateRotationMatrix(NativeAffineVectorMake(Self.V[2].V[0], Self.V[2].V[1], Self.V[2].V[2]), Angle);
   Result := Self * m;
 end;
 
@@ -2890,3 +2905,155 @@ begin
   Result:=Max3i(Self.X, Self.Y, Self.Z);
 end;
 {%endregion%}
+
+{%region%----[ TNativeGLZBoundingBox ]------------------------------------------}
+type
+  TPlanIndices = array [0 .. 3] of Integer;
+  TPlanBB = array [0 .. 5] of TPlanIndices;
+  TDirPlan = array [0 .. 5] of Integer;
+
+const
+  CBBFront: TPlanIndices = (0, 1, 2, 3);
+  CBBBack: TPlanIndices = (4, 5, 6, 7);
+  CBBLeft: TPlanIndices = (0, 4, 7, 3);
+  CBBRight: TPlanIndices = (1, 5, 6, 2);
+  CBBTop: TPlanIndices = (0, 1, 5, 4);
+  CBBBottom: TPlanIndices = (2, 3, 7, 6);
+  CBBPlans: TPlanBB = ((0, 1, 2, 3), (4, 5, 6, 7), (0, 4, 7, 3), (1, 5, 6, 2),
+    (0, 1, 5, 4), (2, 3, 7, 6));
+  CDirPlan: TDirPlan = (0, 0, 1, 1, 2, 2);
+
+
+procedure SetPlanBB(Var A:TNativeGLZBoundingBox;const NumPlan: Integer; const Valeur: Double);
+var
+  I: Integer;
+begin
+  for I := 0 to 3 do
+  begin
+    A.Points[CBBPlans[NumPlan][I]].V[CDirPlan[NumPlan]] := Valeur;
+    A.Points[CBBPlans[NumPlan][I]].V[3] := 1;
+  end;
+end;
+
+procedure TNativeGLZBoundingBox.Create(Const AValue : TNativeGLZVector);
+begin
+  SetPlanBB(Self, 0,  AValue.X);
+  SetPlanBB(Self, 1, -AValue.X);
+  SetPlanBB(Self, 2,  AValue.Y);
+  SetPlanBB(Self, 3, -AValue.Y);
+  SetPlanBB(Self, 4,  AValue.Z);
+  SetPlanBB(Self, 5, -AValue.Z);
+end;
+
+class operator TNativeGLZBoundingBox.+(ConstRef A, B : TNativeGLZBoundingBox):TNativeGLZBoundingBox;overload;
+var
+  I, J: Integer;
+  C1, C2 : TNativeGLZBoundingBox;
+begin
+  C1 := A;
+  C2 := B;
+  for I := 0 to 7 do
+  begin
+    for J := 0 to 3 do
+      if C1.Points[CBBFront[J]].X < C2.Points[I].X then SetPlanBB(C1, 0, C2.Points[I].X);
+    for J := 0 to 3 do
+      if C1.Points[CBBBack[J]].X > C2.Points[I].X then SetPlanBB(C1, 1, C2.Points[I].X);
+    for J := 0 to 3 do
+      if C1.Points[CBBLeft[J]].Y < C2.Points[I].Y then SetPlanBB(C1, 2, C2.Points[I].Y);
+    for J := 0 to 3 do
+      if C1.Points[CBBRight[J]].Y > C2.Points[I].Y then SetPlanBB(C1, 3, C2.Points[I].Y);
+    for J := 0 to 3 do
+      if C1.Points[CBBTop[J]].Z < C2.Points[I].Z then SetPlanBB(C1, 4, C2.Points[I].Z);
+    for J := 0 to 3 do
+      if C1.Points[CBBBottom[J]].Z > C2.Points[I].Z then SetPlanBB(C1, 5, C2.Points[I].Z);
+  end;
+  Result := C1;
+end;
+
+class operator TNativeGLZBoundingBox.+(ConstRef A: TNativeGLZBoundingBox; ConstRef B : TNativeGLZVector):TNativeGLZBoundingBox;
+var
+  I: Integer;
+begin
+  for I := 0 to 7 do
+   result.Points[I] := A.Points[I] + B;
+end;
+
+class operator TNativeGLZBoundingBox.=(ConstRef A, B : TNativeGLZBoundingBox):Boolean;
+begin
+  Result := CompareMem(@A, @B, SizeOf(TNativeGLZBoundingBox));
+
+(*  Result := (A.Points[0] = B.Points[0]) and
+            (A.Points[1] = B.Points[1]) and
+            (A.Points[2] = B.Points[2]) and
+            (A.Points[3] = B.Points[3]) and
+            (A.Points[4] = B.Points[4]) and
+            (A.Points[5] = B.Points[5]) and
+            (A.Points[6] = B.Points[6]) and
+            (A.Points[7] = B.Points[7]); *)
+end;
+
+function TNativeGLZBoundingBox.Transform(ConstRef M:TNativeGLZMAtrix):TNativeGLZBoundingBox;
+var
+  I: Integer;
+begin
+  Result := Self;
+  for I := 0 to 7 do
+    Result.Points[I] := M * Result.Points[I];
+end;
+
+function TNativeGLZBoundingBox.MinX : Single;
+var
+  I: Integer;
+begin
+  Result := Self.Points[0].X;
+  for I := 1 to 7 do
+    Result := Math.Min(Result, Self.Points[I].X);
+end;
+
+function TNativeGLZBoundingBox.MaxX : Single;
+var
+  I: Integer;
+begin
+  Result := Self.Points[0].X;
+  for I := 1 to 7 do
+    Result := Math.Max(Result, Self.Points[I].X);
+end;
+
+function TNativeGLZBoundingBox.MinY : Single;
+var
+  I: Integer;
+begin
+  Result := Self.Points[0].Y;
+  for I := 1 to 7 do
+    Result := Math.Min(Result, Self.Points[I].y);
+end;
+
+function TNativeGLZBoundingBox.MaxY : Single;
+var
+  I: Integer;
+begin
+  Result := Self.Points[0].Y;
+  for I := 1 to 7 do
+    Result := Math.Max(Result, Self.Points[I].Y);
+end;
+
+function TNativeGLZBoundingBox.MinZ : Single;
+var
+  I: Integer;
+begin
+  Result := Self.Points[0].Z;
+  for I := 1 to 7 do
+    Result := Math.Min(Result, Self.Points[I].Z);
+end;
+
+function TNativeGLZBoundingBox.MaxZ : Single;
+var
+  I: Integer;
+begin
+  Result := Self.Points[0].Z;
+  for I := 1 to 7 do
+    Result := Math.Max(Result, Self.Points[I].Z);
+end;
+
+{%endregion}
+

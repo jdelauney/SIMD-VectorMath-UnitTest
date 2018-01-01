@@ -75,6 +75,9 @@ TNativeGLZVector3f =  record
     2: (Red, Green, Blue: Single);
 End;
 
+TNativeGLZAffineVector = TNativeGLZVector3f;
+PNativeGLZAffineVector = ^TNativeGLZAffineVector;
+
 {%endregion%}
 
 {%region%----[ TNativeGLZVector4f ]---------------------------------------------}
@@ -171,7 +174,7 @@ End;
     case Byte of
       0: (V: TGLZVector4fType);
       1: (X, Y, Z, W: Single);
-      2: (AsVector3f : TGLZVector3f);
+      2: (AsVector3f : TNativeGLZVector3f);
   end;
 
   TNativeGLZVector = TNativeGLZVector4f;
@@ -231,7 +234,7 @@ Type
     procedure CreateRotationMatrixZ(const sine, cosine: Single); overload;
     procedure CreateRotationMatrixZ(const angle: Single); overload;
     // Creates a rotation matrix along the given Axis by the given Angle in radians.
-    procedure CreateRotationMatrix(const anAxis : TGLZAffineVector; angle : Single); overload;
+    procedure CreateRotationMatrix(const anAxis : TNativeGLZAffineVector; angle : Single); overload;
     procedure CreateRotationMatrix(const anAxis : TNativeGLZVector4f; angle : Single); overload;
 
     procedure CreateLookAtMatrix(const eye, center, normUp: TNativeGLZVector4f);
@@ -327,14 +330,14 @@ Type
     procedure Create(const Imag: array of Single; Real : Single); overload;
 
     // Constructs a unit quaternion from two points on unit sphere
-    procedure Create(const V1, V2: TGLZAffineVector); overload;
+    procedure Create(const V1, V2: TNativeGLZAffineVector); overload;
     //procedure Create(const V1, V2: TGLZVector); overload;
 
     // Constructs a unit quaternion from a rotation matrix
     //procedure Create(const mat : TGLZMatrix); overload;
 
     // Constructs quaternion from angle (in deg) and axis
-    procedure Create(const angle  : Single; const axis : TGLZAffineVector); overload;
+    procedure Create(const angle  : Single; const axis : TNativeGLZAffineVector); overload;
     //procedure Create(const angle  : Single; const axis : TGLZVector); overload;
 
     // Constructs quaternion from Euler angles
@@ -344,7 +347,7 @@ Type
     procedure Create(const x, y, z: Single; eulerOrder : TGLZEulerOrder); overload;
 
     // Converts a unit quaternion into two points on a unit sphere
-    procedure ConvertToPoints(var ArcFrom, ArcTo: TGLZAffineVector); //overload;
+    procedure ConvertToPoints(var ArcFrom, ArcTo: TNativeGLZAffineVector); //overload;
     //procedure ConvertToPoints(var ArcFrom, ArcTo: TGLZVector); //overload;
 
     { Constructs a rotation matrix from (possibly non-unit) quaternion.
@@ -386,7 +389,7 @@ Type
       0: (V: TGLZVector4fType);
       1: (X, Y, Z, W: Single);
       2: (AsVector4f : TNativeGLZVector4f);
-      3: (ImagePart : TGLZVector3f; RealPart : Single);
+      3: (ImagePart : TNativeGLZVector3f; RealPart : Single);
   End;
 
 (* Type
@@ -617,12 +620,37 @@ public
 end;
 {%endregion%}
 
+{%region%----[ BoundingBox ]----------------------------------------------------}
+
+  TNativeGLZBoundingBox = record
+  private
+  public
+    procedure Create(Const AValue : TNativeGLZVector);
+
+    class operator +(ConstRef A, B : TNativeGLZBoundingBox):TNativeGLZBoundingBox;overload;
+    class operator +(ConstRef A: TNativeGLZBoundingBox; ConstRef B : TNativeGLZVector):TNativeGLZBoundingBox;overload;
+    class operator =(ConstRef A, B : TNativeGLZBoundingBox):Boolean;overload;
+
+    function Transform(ConstRef M:TNativeGLZMAtrix):TNativeGLZBoundingBox;
+    function MinX : Single;
+    function MaxX : Single;
+    function MinY : Single;
+    function MaxY : Single;
+    function MinZ : Single;
+    function MaxZ : Single;
+
+    Case Integer of
+     0 : (Points : Array[0..7] of TNativeGLZVector);
+     1 : (pt1, pt2, pt3, pt4 :TNativeGLZVector;
+          pt5, pt6, pt7, pt8 :TNativeGLZVector);
+  end;
+
+{%endregion%}
+
 {%region%----[ Const ]------------------------------------------------------ ---}
 
 Const
-  NativeNullHmgPoint : TNativeGLZVector4f = (X:0; Y:0; Z:0; W:1);
-  NativeWHmgVector  :  TNativeGLZVector4f = (X:0; Y:0; Z:0; W:1);
-  NativeXHmgVector  :  TNativeGLZVector4f = (X:1; Y:0; Z:0; W:0);
+
 
   NativeIdentityHmgMatrix : TNativeGLZMatrix4 = (V:((X:1; Y:0; Z:0; W:0),
                                        (X:0; Y:1; Z:0; W:0),
@@ -634,7 +662,44 @@ Const
                                     (X:0; Y:0; Z:0; W:0),
                                     (X:0; Y:0; Z:0; W:0)));
 
+
+  const
+// standard affine vectors
+NativeXVector :    TNativeGLZAffineVector = (X:1; Y:0; Z:0);
+NativeYVector :    TNativeGLZAffineVector = (X:0; Y:1; Z:0);
+NativeZVector :    TNativeGLZAffineVector = (X:0; Y:0; Z:1);
+NativeXYVector :   TNativeGLZAffineVector = (X:1; Y:1; Z:0);
+NativeXZVector :   TNativeGLZAffineVector = (X:1; Y:0; Z:1);
+NativeYZVector :   TNativeGLZAffineVector = (X:0; Y:1; Z:1);
+NativeXYZVector :  TNativeGLZAffineVector = (X:1; Y:1; Z:1);
+NativeNullVector : TNativeGLZAffineVector = (X:0; Y:0; Z:0);
+// standard homogeneous vectors
+NativeXHmgVector : TNativeGLZVector = (X:1; Y:0; Z:0; W:0);
+NativeYHmgVector : TNativeGLZVector = (X:0; Y:1; Z:0; W:0);
+NativeZHmgVector : TNativeGLZVector = (X:0; Y:0; Z:1; W:0);
+NativeWHmgVector : TNativeGLZVector = (X:0; Y:0; Z:0; W:1);
+NativeNullHmgVector : TNativeGLZVector = (X:0; Y:0; Z:0; W:0);
+NativeXYHmgVector: TNativeGLZVector = (X: 1; Y: 1; Z: 0; W: 0);
+NativeYZHmgVector: TNativeGLZVector = (X: 0; Y: 1; Z: 1; W: 0);
+NativeXZHmgVector: TNativeGLZVector = (X: 1; Y: 0; Z: 1; W: 0);
+NativeXYZHmgVector: TNativeGLZVector = (X: 1; Y: 1; Z: 1; W: 0);
+NativeXYZWHmgVector: TGLZVector = (X: 1; Y: 1; Z: 1; W: 1);
+
+// standard homogeneous points
+NativeXHmgPoint :  TNativeGLZVector = (X:1; Y:0; Z:0; W:1);
+NativeYHmgPoint :  TNativeGLZVector = (X:0; Y:1; Z:0; W:1);
+NativeZHmgPoint :  TNativeGLZVector = (X:0; Y:0; Z:1; W:1);
+NativeWHmgPoint :  TNativeGLZVector = (X:0; Y:0; Z:0; W:1);
+NativeNullHmgPoint : TNativeGLZVector = (X:0; Y:0; Z:0; W:1);
+
+NativeNegativeUnitVector : TNativeGLZVector = (X:-1; Y:-1; Z:-1; W:-1);
+
+
  NativeIdentityQuaternion: TNativeGLZQuaternion = (ImagePart:(X:0; Y:0; Z:0); RealPart: 1);
+
+ function NativeAffineVectorMake(const x, y, z : Single) : TNativeGLZAffineVector;overload;
+ function NativeAffineVectorMake(const v : TNativeGLZVector) : TNativeGLZAffineVector;overload;
+
 
 {%endregion%}
 
@@ -643,6 +708,7 @@ Const
   function Compare(constref A: TNativeGLZVector3b; constref B: TGLZVector3b): boolean;overload;
   function Compare(constref A: TNativeGLZVector4b; constref B: TGLZVector4b): boolean;overload;
   function Compare(constref A: TNativeGLZVector2f; constref B: TGLZVector2f;Espilon: Single = 1e-10): boolean; overload;
+  function Compare(constref A: TNativeGLZBoundingBox; constref B: TGLZBoundingBox;Espilon: Single = 1e-10): boolean; overload;
   function CompareMatrix(constref A: TNativeGLZMatrix4; constref B: TGLZMatrix4f; Espilon: Single = 1e-10): boolean;
   function CompareQuaternion(constref A: TNativeGLZQuaternion; constref B: TGLZQuaternion; Espilon: Single = 1e-10): boolean;
 
@@ -699,6 +765,20 @@ begin
   Result := true;
   if not IsEqual (A.X, B.X, Espilon) then Result := False;
   if not IsEqual (A.Y, B.Y, Espilon) then Result := False;
+end;
+
+function Compare(constref A: TNativeGLZBoundingBox; constref
+  B: TGLZBoundingBox; Espilon: Single): boolean;
+begin
+  Result := True;
+  if not compare(A.pt1,B.pt1) then Result := False;
+  if not compare(A.pt2,B.pt2) then Result := False;
+  if not compare(A.pt3,B.pt3) then Result := False;
+  if not compare(A.pt4,B.pt4) then Result := False;
+  if not compare(A.pt5,B.pt5) then Result := False;
+  if not compare(A.pt6,B.pt6) then Result := False;
+  if not compare(A.pt7,B.pt7) then Result := False;
+  if not compare(A.pt8,B.pt8) then Result := False;
 end;
 
 function CompareMatrix(constref A: TNativeGLZMatrix4; constref B: TGLZMatrix4f;  Espilon: Single): boolean;

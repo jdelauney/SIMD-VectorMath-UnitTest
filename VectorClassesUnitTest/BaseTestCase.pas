@@ -48,8 +48,19 @@ type
 
   end;
 
+  { TBBoxBaseTestCase }
 
-  TReportGroup = (rgVector2f, rgVector3b, rgVector4b, rgVector4f, rgMatrix4f, rgQuaterion);
+  TBBoxBaseTestCase = class(TVectorBaseTestCase)
+    protected
+      procedure Setup; override;
+    public
+     {$CODEALIGN RECORDMIN=16}
+      nbb1,nbb2,nbb3: TNativeGLZBoundingBox;
+      abb1,abb2,abb3: TGLZBoundingBox;
+  end;
+
+
+  TReportGroup = (rgVector2f, rgVector3b, rgVector4b, rgVector4f, rgMatrix4f, rgQuaterion, rgBBox);
 
 const
 
@@ -59,6 +70,7 @@ const
   REPORT_GROUP_VECTOR4F = 'Vector4f';
   REPORT_GROUP_MATRIX4F = 'Matrix4f' ;
   REPORT_GROUP_QUATERION = 'Quaternion' ;
+  REPORT_GROUP_BBOX = 'BoundingBox' ;
 
   rgArray: Array[TReportGroup] of string = (
               REPORT_GROUP_VECTOR2F,
@@ -66,10 +78,22 @@ const
               REPORT_GROUP_VECTOR4B,
               REPORT_GROUP_VECTOR4F,
               REPORT_GROUP_MATRIX4F,
-              REPORT_GROUP_QUATERION
+              REPORT_GROUP_QUATERION,
+              REPORT_GROUP_BBOX
               );
 
 implementation
+
+{ TBBoxBaseTestCase }
+
+procedure TBBoxBaseTestCase.Setup;
+begin
+  inherited Setup;
+  nbb1.Create(nt1);
+  abb1.Create(vt1);
+  nbb2.Create(nt2);
+  abb2.Create(vt2);
+end;
 
 
 
