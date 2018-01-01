@@ -30,24 +30,68 @@ type
     published
   end;
 
-  TReportGroup = (rgVector2f, rgVector4f, rgMatrix4f, rgQuaterion);
+  { TByteVectorBaseTestCase }
 
+  TByteVectorBaseTestCase = class(TTestCase)
+    protected
+      procedure Setup; override;
+    public
+     {$CODEALIGN RECORDMIN=4}
+     nbt1, nbt2, nbt3, nbt4: TNativeGLZVector3b;
+     nbf1, nbf2, nbf3, nbf4: TNativeGLZVector4b;
+     abt1, abt2, abt3, abt4: TGLZVector3b;
+     abf1, abf2, abf3, abf4: TGLZVector4b;
+     {$CODEALIGN RECORDMIN=1}
+     b1, b2, b3, b4, b5, b6, b7, b8: byte;
+     nb, ab: boolean;
+     {$CODEALIGN RECORDMIN=4}
+
+  end;
+
+
+  TReportGroup = (rgVector2f, rgVector3b, rgVector4b, rgVector4f, rgMatrix4f, rgQuaterion);
 
 const
 
   REPORT_GROUP_VECTOR2F = 'Vector2f';
+  REPORT_GROUP_VECTOR3B = 'Vector3b';
+  REPORT_GROUP_VECTOR4B = 'Vector4b';
   REPORT_GROUP_VECTOR4F = 'Vector4f';
   REPORT_GROUP_MATRIX4F = 'Matrix4f' ;
   REPORT_GROUP_QUATERION = 'Quaternion' ;
 
   rgArray: Array[TReportGroup] of string = (
               REPORT_GROUP_VECTOR2F,
+              REPORT_GROUP_VECTOR3B,
+              REPORT_GROUP_VECTOR4B,
               REPORT_GROUP_VECTOR4F,
               REPORT_GROUP_MATRIX4F,
               REPORT_GROUP_QUATERION
               );
 
 implementation
+
+
+
+procedure TByteVectorBaseTestCase.Setup;
+begin
+  inherited Setup;
+  nbt1.Create(12, 124, 253);
+  nbt2.Create(253, 124, 12);
+  abt1.V := nbt1.V;
+  abt2.V := nbt2.V;
+  nbf1.Create(12, 124, 253, 0);
+  nbf2.Create(253, 124, 12, 255);
+  abf1.V := nbf1.V;
+  abf2.V := nbf2.V;
+  b1 := 3;    // three small bytes
+  b2 := 4;
+  b3 := 5;    // b4 can be used as a result
+  b5 := 245;  // three large bytes
+  b6 := 248;
+  b7 := 255;  //b8 can be used as a result.
+
+end;
 
 procedure TVectorBaseTestCase.Setup;
 begin

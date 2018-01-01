@@ -1272,16 +1272,29 @@ Begin
 End;
 
 {$IFNDEF NO_ASM_OPTIMIZATIONS}
-Function Max3i(Const A, B, C: Integer): Integer;   Assembler; Register;
+Function Max3i(Const A, B, C: Integer): Integer;   Assembler; Register; nostackframe;
 asm
 {$IFDEF CPU64}
-         MOV       RAX,RCX
-         MOV       RCX,R8
+  {$IFDEF UNIX}
+        MOV       EAX, EDI
+        CMP       ESI, EAX
+        CMOVG     EAX, ESI
+        CMP       EDX, EAX
+        CMOVG     EAX, EDX
+  {$ELSE}
+        MOV       RAX,RCX
+        MOV       RCX,R8
+        CMP       EDX,EAX
+        CMOVG     EAX,EDX
+        CMP       ECX,EAX
+        CMOVG     EAX,ECX
+  {$ENDIF}
+{$ELSE}
+        CMP       EDX,EAX
+        CMOVG     EAX,EDX
+        CMP       ECX,EAX
+        CMOVG     EAX,ECX
 {$ENDIF}
-         CMP       EDX,EAX
-         CMOVG     EAX,EDX
-         CMP       ECX,EAX
-         CMOVG     EAX,ECX
 End;
 {$else}
 Function Max3i(Const A, B, C: Integer): Integer;
@@ -1300,16 +1313,29 @@ End;
 {$endif}
 
 {$IFNDEF NO_ASM_OPTIMIZATIONS}
-Function Min3i(Const A, B, C: Integer): Integer;  Assembler; Register;
+Function Min3i(Const A, B, C: Integer): Integer;  Assembler; Register; NoStackFrame;
 Asm
 {$IFDEF CPU64}
-         MOV       RAX,RCX
-         MOV       RCX,R8
+  {$IFDEF UNIX}
+        MOV       EAX, EDI
+        CMP       ESI, EAX
+        CMOVL     EAX, ESI
+        CMP       EDX, EAX
+        CMOVL     EAX, EDX
+  {$ELSE}
+        MOV       RAX, RCX
+        MOV       RCX, R8
+        CMP       EDX, EAX
+        CMOVL     EAX, EDX
+        CMP       ECX, EAX
+        CMOVL     EAX, ECX
+  {$ENDIF}
+{$ELSE}
+        CMP       EDX, EAX
+        CMOVL     EAX, EDX
+        CMP       ECX, EAX
+        CMOVL     EAX, ECX
 {$ENDIF}
-         CMP       EDX,EAX
-         CMOVL     EAX,EDX
-         CMP       ECX,EAX
-         CMOVL     EAX,ECX
 End;
 {$else}
 Function Min3i(Const A, B, C: Integer): Integer;

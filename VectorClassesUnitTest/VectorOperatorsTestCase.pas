@@ -42,12 +42,12 @@ implementation
 {Test IsEqual and we have same values for each class ttpe}
 procedure TVectorOperatorsTestCase.TestCompare;
 begin
-  AssertTrue('Test Values do not match'+nt3.ToString+' --> '+vt3.ToString, Compare(nt1,vt1));
+  AssertTrue('Test Values do not match'+nt1.ToString+' --> '+vt1.ToString, Compare(nt1,vt1));
 end;
 
 procedure TVectorOperatorsTestCase.TestCompareFalse;
 begin
-  AssertFalse('Test Values should not match'+nt3.ToString+' --> '+vt3.ToString, Compare(nt1,vt2));
+  AssertFalse('Test Values should not match'+nt1.ToString+' --> '+vt2.ToString, Compare(nt1,vt2));
 end;
 
 procedure TVectorOperatorsTestCase.TestAddVector;

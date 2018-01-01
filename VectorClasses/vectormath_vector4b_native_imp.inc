@@ -218,8 +218,18 @@ begin
 end;
 
 function TGLZVector4b.MulDiv(Constref B, C : Byte) : TGLZVector4b;
+var tmp: integer;
 begin
-  result := (self*B) div C;
+  tmp := self.x * B;
+  result.x := ClampByte(tmp div C);
+  tmp := self.y * B;
+  result.y := ClampByte(tmp div C);
+  tmp := self.z * B;
+  result.z := ClampByte(tmp div C);
+  tmp := self.w * B;
+  result.w := ClampByte(tmp div C);
+
+//  result := (self*B) div C;   clampbyte messes this up
 end;
 
 function TGLZVector4b.GetSwizzleMode : TGLZVector4SwizzleRef;

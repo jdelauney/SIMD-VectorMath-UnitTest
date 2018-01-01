@@ -1,4 +1,6 @@
-{%region%-----[ TNativeGLZVector2f ]------------------------------------------------}
+{%region%-----[ TNativeGLZVector2f ]--------------------------------------------}
+
+{%region%----[ TNativeGLZVector2f Operators ]-----------------------------------}
 
 procedure TNativeGLZVector2f.Create(aX,aY: single);
 begin
@@ -65,7 +67,7 @@ end;
 
 {%endregion%}
 
-{%region%----[ Functions ]--------------------------------------------------------}
+{%region%----[ TNativeGLZVector2f Functions ]-----------------------------------}
 
 function TNativeGLZVector2f.Min(constref B: Single): TNativeGLZVector2f;
 Begin
@@ -167,9 +169,11 @@ begin
 end;  *)
 
 {%endregion%}
+{%endregion%}
 
-{%region%-----[ TNativeGLZVector4f ]------------------------------------------------}
+{%region%-----[ TNativeGLZVector4f ]--------------------------------------------}
 
+{%region%----[ TNativeGLZVector4f Operators ]-----------------------------------}
 procedure TNativeGLZVector4f.Create(const aX, aY, aZ: single; const aW: Single);
 begin
    Self.X := AX;
@@ -314,6 +318,9 @@ class operator TNativeGLZVector4f.<>(constref A, B: TNativeGLZVector4f): Boolean
 begin
   Result := (A.X <> B.X) and (A.Y <> B.Y) and (A.Z <> B.Z) and (A.W <> B.W);
 end;
+{%endregion%}
+
+{%region%----[ TNativeGLZVector4f Functions ]-----------------------------------}
 
 function TNativeGLZVector4f.Abs:TNativeGLZVector4f;
 begin
@@ -549,6 +556,10 @@ begin
   Result := Self - (N*(2 * N.Dotproduct(Self)));
  // Result.W:=0;
 end;
+{%endregion%}
+
+{%region%----[ TNativeGLZVector4f Ops on self ]---------------------------------}
+
 
 procedure TNativeGLZVector4f.pAdd(constref A: TNativeGLZVector4f);
 begin
@@ -731,10 +742,10 @@ procedure TNativeGLZVector4f.pMulDiv(Constref B, C: TNativeGLZVector4f); // (Sel
 begin
   Self := (self*B)/C;
 end;
-
+{%endregion%}
 {%endregion%}
 
-{%region%-----[ TNativeGLZMatrix4 ]-------------------------------------------------}
+{%region%-----[ TNativeGLZMatrix4 ]---------------------------------------------}
 
 function TNativeGLZMatrix4.GetComponent(const ARow, AColumn: Integer): Single;
 begin
@@ -1085,26 +1096,6 @@ begin
         +Self.V[0].Z*MatrixDetInternal(Self.V[1].X, Self.V[2].X, Self.V[3].X, Self.V[1].Y, Self.V[2].Y, Self.V[3].Y, Self.V[1].W, Self.V[2].W, Self.V[3].W)
         -Self.V[0].W*MatrixDetInternal(Self.V[1].X, Self.V[2].X, Self.V[3].X, Self.V[1].Y, Self.V[2].Y, Self.V[3].Y, Self.V[1].Z, Self.V[3].Z, Self.V[3].Z);
 end;
-
-(* function TMatrix4.GetDeterminant: Single;
-var
-  F00, F01, F02, F03, F04, F05: Single;
-  C: TVector4;
-begin
-  F00 := (M[2,2] * M[3,3]) - (M[3,2] * M[2,3]);
-  F01 := (M[2,1] * M[3,3]) - (M[3,1] * M[2,3]);
-  F02 := (M[2,1] * M[3,2]) - (M[3,1] * M[2,2]);
-  F03 := (M[2,0] * M[3,3]) - (M[3,0] * M[2,3]);
-  F04 := (M[2,0] * M[3,2]) - (M[3,0] * M[2,2]);
-  F05 := (M[2,0] * M[3,1]) - (M[3,0] * M[2,1]);
-
-  C.X := + ((M[1,1] * F00) - (M[1,2] * F01) + (M[1,3] * F02));
-  C.Y := - ((M[1,0] * F00) - (M[1,2] * F03) + (M[1,3] * F04));
-  C.Z := + ((M[1,0] * F01) - (M[1,1] * F03) + (M[1,3] * F05));
-  C.W := - ((M[1,0] * F02) - (M[1,1] * F04) + (M[1,2] * F05));
-
-  Result := (M[0,0] * C.X) + (M[0,1] * C.Y) + (M[0,2] * C.Z) + (M[0,3] * C.W);
-end; *)
 
 procedure TNativeGLZMatrix4.Adjoint;
 var
@@ -1603,7 +1594,7 @@ end; *)
 
 {%endregion%}
 
-{%region%-----[ TNativeGLZQuaternion ]----------------------------------------------}
+{%region%-----[ TNativeGLZQuaternion ]------------------------------------------}
 
 class operator TNativeGLZQuaternion.-(constref A: TNativeGLZQuaternion): TNativeGLZQuaternion;
 begin
@@ -2079,7 +2070,7 @@ end; }
 
 {%endregion%}
 
-{%region%----[ TNativeGLZHmgPlane Helper ]------------------------------------------}
+{%region%----[ TNativeGLZHmgPlane Helper ]--------------------------------------}
 
 { TODO 1 -oASM -cTHmgPlane : Create(point, normal) Add ASM Version }
 procedure TNativeGLZVectorHelper.CreatePlane(constref point, normal : TNativeGLZVector);
@@ -2128,7 +2119,7 @@ end;
 
 {%endregion%}
 
-{%region%----[ TNativeGLZVectorHelper ]---------------------------------------------}
+{%region%----[ TNativeGLZVectorHelper ]-----------------------------------------}
 
 function TNativeGLZVectorHelper.Rotate(constref axis : TNativeGLZVector; angle : Single):TNativeGLZVector;
 var
@@ -2244,7 +2235,7 @@ end;
 
 {%endregion%}
 
-{%region%----[ TNativeGLZMatrixHelper ]---------------------------------------------}
+{%region%----[ TNativeGLZMatrixHelper ]-----------------------------------------}
 
 // Turn (Y axis)
 function TNativeGLZMatrixHelper.Turn( Angle: Single): TNativeGLZMatrix;
@@ -2302,6 +2293,600 @@ end;
 
 {%endregion%}
 
+{%region%----[ TNativeGLZVector3b ]---------------------------------------------}
+
+procedure TNativeGLZVector3b.Create(const aX, aY, aZ: Byte);
+begin
+  Self.X := aX;
+  Self.Y := aY;
+  Self.Z := aZ;
+end;
+
+function TNativeGLZVector3b.ToString: String;
+begin
+  Result := '(X: '+IntToStr(Self.X)+
+           ' ,Y: '+IntToStr(Self.Y)+
+           ' ,Z: '+IntToStr(Self.Z)+')';
+end;
 
 
+class operator TNativeGLZVector3b.+(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b;
+begin
+  Result.X := ClampByte((A.X + B.X));
+  Result.Y := ClampByte((A.Y + B.Y));
+  Result.Z := ClampByte((A.Z + B.Z));
+end;
 
+class operator TNativeGLZVector3b.-(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b;
+begin
+  Result.X := ClampByte((A.X - B.X));
+  Result.Y := ClampByte((A.Y - B.Y));
+  Result.Z := ClampByte((A.Z - B.Z));
+end;
+
+class operator TNativeGLZVector3b.*(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b;
+begin
+  Result.X := ClampByte((A.X * B.X));
+  Result.Y := ClampByte((A.Y * B.Y));
+  Result.Z := ClampByte((A.Z * B.Z));
+end;
+
+class operator TNativeGLZVector3b.div(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b;
+begin
+  Result.X := ClampByte((A.X div B.X));
+  Result.Y := ClampByte((A.Y div B.Y));
+  Result.Z := ClampByte((A.Z div B.Z));
+end;
+
+class operator TNativeGLZVector3b.+(constref A: TNativeGLZVector3b; constref B: Byte ): TNativeGLZVector3b;
+begin
+  Result.X := ClampByte((A.X + B));
+  Result.Y := ClampByte((A.Y + B));
+  Result.Z := ClampByte((A.Z + B));
+end;
+
+class operator TNativeGLZVector3b.-(constref A: TNativeGLZVector3b; constref B: Byte ): TNativeGLZVector3b;
+begin
+  Result.X := ClampByte((A.X - B));
+  Result.Y := ClampByte((A.Y - B));
+  Result.Z := ClampByte((A.Z - B));
+end;
+
+class operator TNativeGLZVector3b.*(constref A: TNativeGLZVector3b; constref B: Byte ): TNativeGLZVector3b;
+begin
+  Result.X := ClampByte((A.X * B));
+  Result.Y := ClampByte((A.Y * B));
+  Result.Z := ClampByte((A.Z * B));
+end;
+
+class operator TNativeGLZVector3b.*(constref A: TNativeGLZVector3b; constref B: Single): TNativeGLZVector3b;
+begin
+  Result.X := ClampByte(Round((A.X * B)));
+  Result.Y := ClampByte(Round((A.Y * B)));
+  Result.Z := ClampByte(Round((A.Z * B)));
+end;
+
+class operator TNativeGLZVector3b.div(constref A: TNativeGLZVector3b; constref B: Byte ): TNativeGLZVector3b;
+begin
+  Result.X := ClampByte((A.X div B));
+  Result.Y := ClampByte((A.Y div B));
+  Result.Z := ClampByte((A.Z div B));
+end;
+
+class operator TNativeGLZVector3b.=(constref A, B: TNativeGLZVector3b): Boolean;
+begin
+  Result := (A.X = B.X) and (A.Y = B.Y) and (A.Z = B.Z);
+end;
+
+class operator TNativeGLZVector3b.<>(constref A, B: TNativeGLZVector3b): Boolean;
+begin
+  Result := (A.X <> B.X) or (A.Y <> B.Y) or (A.Z <> B.Z);
+end;
+
+class operator TNativeGLZVector3b.and(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b;
+begin
+  Result.X := ClampByte((A.X and B.X));
+  Result.Y := ClampByte((A.Y and B.Y));
+  Result.Z := ClampByte((A.Z and B.Z));
+end;
+
+class operator TNativeGLZVector3b.Or(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b;
+begin
+  Result.X := ClampByte((A.X or B.X));
+  Result.Y := ClampByte((A.Y or B.Y));
+  Result.Z := ClampByte((A.Z or B.Z));
+end;
+
+class operator TNativeGLZVector3b.Xor(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b;
+begin
+  Result.X := ClampByte((A.X xor B.X));
+  Result.Y := ClampByte((A.Y xor B.Y));
+  Result.Z := ClampByte((A.Z xor B.Z));
+end;
+
+class operator TNativeGLZVector3b.and(constref A: TNativeGLZVector3b; constref B: Byte): TNativeGLZVector3b;
+begin
+  Result.X := ClampByte((A.X and B));
+  Result.Y := ClampByte((A.Y and B));
+  Result.Z := ClampByte((A.Z and B));
+end;
+
+class operator TNativeGLZVector3b.or(constref A: TNativeGLZVector3b; constref B: Byte): TNativeGLZVector3b;
+begin
+  Result.X := ClampByte((A.X or B));
+  Result.Y := ClampByte((A.Y or B));
+  Result.Z := ClampByte((A.Z or B));
+end;
+
+class operator TNativeGLZVector3b.Xor(constref A: TNativeGLZVector3b; constref B: Byte): TNativeGLZVector3b;
+begin
+  Result.X := ClampByte((A.X xor B));
+  Result.Y := ClampByte((A.Y xor B));
+  Result.Z := ClampByte((A.Z xor B));
+end;
+
+function TNativeGLZVector3b.AsVector3f: TNativeGLZVector3f;
+begin
+  Result.X := Self.X * cColorFloatRatio;
+  Result.X := Self.Y * cColorFloatRatio;
+  Result.X := Self.Z * cColorFloatRatio;
+end;
+
+function TNativeGLZVector3b.Swizzle(const ASwizzle: TGLZVector3SwizzleRef ): TNativeGLZVector3b;
+begin
+   //FSwizzleMode := ASwizzle;
+   case ASwizzle of
+     swXXX, swRRR :
+     begin
+       Result.X := Self.X;
+       Result.Y := Self.X;
+       Result.Z := Self.X;
+     end;
+     swYYY, swGGG :
+     begin
+       Result.X := Self.Y;
+       Result.Y := Self.Y;
+       Result.Z := Self.Y;
+     end;
+     swZZZ, swBBB :
+     begin
+       Result.X := Self.Z;
+       Result.Y := Self.Z;
+       Result.Z := Self.Z;
+     end;
+//     swWWW, swAAA :
+     swZYX, swBGR :
+     begin
+       Result.X := Self.Z;
+       Result.Y := Self.Y;
+       Result.Z := Self.X;
+     end;
+     swYXZ, swGRB :
+     begin
+       Result.X := Self.Y;
+       Result.Y := Self.X;
+       Result.Z := Self.Z;
+     end;
+     swYZX, swGBR :
+     begin
+       Result.X := Self.Y;
+       Result.Y := Self.Z;
+       Result.Z := Self.X;
+     end;
+
+     else result := self;
+   end;
+end;
+
+{%endregion%}
+
+{%region%----[ TNativeGLZVector3b ]---------------------------------------------}
+procedure TNativeGLZVector4b.Create(const aX, aY, aZ : Byte; const aW : Byte);
+begin
+  Self.X := aX;
+  Self.Y := aY;
+  Self.Z := aZ;
+  Self.w := aW;
+end;
+
+procedure TNativeGLZVector4b.Create(const aValue : TNativeGLZVector3b; const aW : Byte);
+begin
+  Self.X := aValue.X;
+  Self.Y := aValue.Y;
+  Self.Z := aValue.Z;
+  Self.W := aW;
+end;
+
+function TNativeGLZVector4b.ToString: String;
+begin
+  Result := '(X: '+IntToStr(Self.X)+
+           ' ,Y: '+IntToStr(Self.Y)+
+           ' ,Z: '+IntToStr(Self.Z)+
+           ' ,W: '+IntToStr(Self.W)+')';
+end;
+
+class operator TNativeGLZVector4b.+(constref A, B : TNativeGLZVector4b): TNativeGLZVector4b;
+begin
+  Result.X := ClampByte((A.X + B.X));
+  Result.Y := ClampByte((A.Y + B.Y));
+  Result.Z := ClampByte((A.Z + B.Z));
+  Result.W := ClampByte((A.W + B.W));
+end;
+
+class operator TNativeGLZVector4b.-(constref A, B : TNativeGLZVector4b): TNativeGLZVector4b;
+begin
+  Result.X := ClampByte((A.X - B.X));
+  Result.Y := ClampByte((A.Y - B.Y));
+  Result.Z := ClampByte((A.Z - B.Z));
+  Result.W := ClampByte((A.W - B.W));
+end;
+
+class operator TNativeGLZVector4b.*(constref A, B : TNativeGLZVector4b): TNativeGLZVector4b;
+begin
+  Result.X := ClampByte((A.X * B.X));
+  Result.Y := ClampByte((A.Y * B.Y));
+  Result.Z := ClampByte((A.Z * B.Z));
+  Result.W := ClampByte((A.W * B.W));
+end;
+
+class operator TNativeGLZVector4b.div(constref A, B : TNativeGLZVector4b): TNativeGLZVector4b;
+begin
+  Result.X := ClampByte((A.X div B.X));
+  Result.Y := ClampByte((A.Y div B.Y));
+  Result.Z := ClampByte((A.Z div B.Z));
+  Result.W := ClampByte((A.W div B.W));
+end;
+
+class operator TNativeGLZVector4b.+(constref A: TNativeGLZVector4b; constref B: Byte ): TNativeGLZVector4b;
+begin
+  Result.X := ClampByte((A.X + B));
+  Result.Y := ClampByte((A.Y + B));
+  Result.Z := ClampByte((A.Z + B));
+  Result.W := ClampByte((A.W + B));
+end;
+
+class operator TNativeGLZVector4b.-(constref A: TNativeGLZVector4b; constref B: Byte ): TNativeGLZVector4b;
+begin
+  Result.X := ClampByte((A.X - B));
+  Result.Y := ClampByte((A.Y - B));
+  Result.Z := ClampByte((A.Z - B));
+  Result.W := ClampByte((A.W - B));
+end;
+
+class operator TNativeGLZVector4b.*(constref A: TNativeGLZVector4b; constref B: Byte ): TNativeGLZVector4b;
+begin
+  Result.X := ClampByte((A.X * B));
+  Result.Y := ClampByte((A.Y * B));
+  Result.Z := ClampByte((A.Z * B));
+  Result.W := ClampByte((A.W * B));
+end;
+
+class operator TNativeGLZVector4b.*(constref A: TNativeGLZVector4b; constref B: Single): TNativeGLZVector4b;
+begin
+  Result.X := ClampByte(Round((A.X * B)));
+  Result.Y := ClampByte(Round((A.Y * B)));
+  Result.Z := ClampByte(Round((A.Z * B)));
+  Result.Z := ClampByte(Round((A.W * B)));
+end;
+
+class operator TNativeGLZVector4b.div(constref A: TNativeGLZVector4b; constref B: Byte ): TNativeGLZVector4b;
+begin
+  Result.X := ClampByte((A.X div B));
+  Result.Y := ClampByte((A.Y div B));
+  Result.Z := ClampByte((A.Z div B));
+  Result.Z := ClampByte((A.W div B));
+end;
+
+class operator TNativeGLZVector4b.=(constref A, B: TNativeGLZVector4b): Boolean;
+begin
+  Result := (A.W = B.W) and (A.X = B.X) and (A.Y = B.Y) and (A.Z = B.Z);
+end;
+
+class operator TNativeGLZVector4b.<>(constref A, B: TNativeGLZVector4b): Boolean;
+begin
+  Result := (A.W <> B.W) or (A.X <> B.X) or (A.Y <> B.Y) or (A.Z <> B.Z);
+end;
+
+class operator TNativeGLZVector4b.and(constref A, B : TNativeGLZVector4b) : TNativeGLZVector4b;
+begin
+  Result.X := ClampByte((A.X and B.X));
+  Result.Y := ClampByte((A.Y and B.Y));
+  Result.Z := ClampByte((A.Z and B.Z));
+  Result.W := ClampByte((A.W and B.W));
+end;
+
+class operator TNativeGLZVector4b.Or(constref A, B : TNativeGLZVector4b) : TNativeGLZVector4b;
+begin
+  Result.X := ClampByte((A.X or B.X));
+  Result.Y := ClampByte((A.Y or B.Y));
+  Result.Z := ClampByte((A.Z or B.Z));
+  Result.W := ClampByte((A.W or B.W));
+end;
+
+class operator TNativeGLZVector4b.Xor(constref A, B : TNativeGLZVector4b) : TNativeGLZVector4b;
+begin
+  Result.X := ClampByte((A.X xor B.X));
+  Result.Y := ClampByte((A.Y xor B.Y));
+  Result.Z := ClampByte((A.Z xor B.Z));
+  Result.W := ClampByte((A.W xor B.W));
+end;
+
+class operator TNativeGLZVector4b.and(constref A : TNativeGLZVector4b; constref B : Byte) : TNativeGLZVector4b;
+begin
+  Result.X := ClampByte((A.X and B));
+  Result.Y := ClampByte((A.Y and B));
+  Result.Z := ClampByte((A.Z and B));
+  Result.W := ClampByte((A.W and B));
+end;
+
+class operator TNativeGLZVector4b.or(constref A : TNativeGLZVector4b; constref B : Byte) : TNativeGLZVector4b;
+begin
+  Result.X := ClampByte((A.X or B));
+  Result.Y := ClampByte((A.Y or B));
+  Result.Z := ClampByte((A.Z or B));
+  Result.W := ClampByte((A.W or B));
+end;
+
+class operator TNativeGLZVector4b.Xor(constref A : TNativeGLZVector4b; constref B : Byte) : TNativeGLZVector4b;
+begin
+  Result.X := ClampByte((A.X xor B));
+  Result.Y := ClampByte((A.Y xor B));
+  Result.Z := ClampByte((A.Z xor B));
+  Result.W := ClampByte((A.W xor B));
+end;
+
+function TNativeGLZVector4b.DivideBy2 : TNativeGLZVector4b;
+begin
+  Result.x := ClampByte(Round(Self.X*0.5));
+  Result.y := ClampByte(Round(Self.Y*0.5));
+  Result.z := ClampByte(Round(Self.Z*0.5));
+  Result.w := ClampByte(Round(Self.W*0.5));
+end;
+
+function TNativeGLZVector4b.Min(Constref B : TNativeGLZVector4b) : TNativeGLZVector4b;
+begin
+  Result := Self;
+  if Self.X>B.X then Result.X := B.X;
+  if Self.Y>B.Y then Result.Y := B.Y;
+  if Self.Z>B.Z then Result.Z := B.Z;
+  if Self.W>B.W then Result.W := B.W;
+end;
+
+function TNativeGLZVector4b.Min(Constref B : Byte) : TNativeGLZVector4b;
+begin
+  Result := Self;
+  if Self.X>B then Result.X := B;
+  if Self.Y>B then Result.Y := B;
+  if Self.Z>B then Result.Z := B;
+  if Self.W>B then Result.W := B;
+End;
+
+function TNativeGLZVector4b.Max(Constref B : TNativeGLZVector4b) : TNativeGLZVector4b;
+begin
+  Result := Self;
+  if Self.X<B.X then Result.X := B.X;
+  if Self.Y<B.Y then Result.Y := B.Y;
+  if Self.Z<B.Z then Result.Z := B.Z;
+  if Self.W<B.W then Result.W := B.W;
+end;
+
+function TNativeGLZVector4b.Max(Constref B : Byte) : TNativeGLZVector4b;
+begin
+  Result := Self;
+  if Self.X<B then Result.X := B;
+  if Self.Y<B then Result.Y := B;
+  if Self.Z<B then Result.Z := B;
+  if Self.W<B then Result.W := B;
+end;
+
+function TNativeGLZVector4b.Clamp(Constref AMin, AMax : TNativeGLZVector4b) : TNativeGLZVector4b;
+begin
+  Result := Self.Max(AMin);
+  Result := Result.Min(AMax);
+end;
+
+function TNativeGLZVector4b.Clamp(Constref AMin, AMax : Byte) : TNativeGLZVector4b;
+begin
+  Result := Self.Max(AMin);
+  Result := Result.Min(AMax);
+end;
+
+function TNativeGLZVector4b.MulAdd(Constref B, C : TNativeGLZVector4b) : TNativeGLZVector4b;
+begin
+  result := (self*B)+C;
+end;
+
+function TNativeGLZVector4b.MulDiv(Constref B, C : Byte) : TNativeGLZVector4b;
+var tmp: integer;
+begin
+  tmp := self.x * B;
+  result.x := ClampByte(tmp div C);
+  tmp := self.y * B;
+  result.y := ClampByte(tmp div C);
+  tmp := self.z * B;
+  result.z := ClampByte(tmp div C);
+  tmp := self.w * B;
+  result.w := ClampByte(tmp div C);
+//  result := (self*B) div C;
+end;
+
+function TNativeGLZVector4b.GetSwizzleMode : TGLZVector4SwizzleRef;
+begin
+  Result := swDefaultSwizzle4; //FSwizzleMode;
+end;
+
+function TNativeGLZVector4b.AsVector4f: TNativeGLZVector4f;
+begin
+  Result.X := Self.X * cColorFloatRatio;
+  Result.Y := Self.Y * cColorFloatRatio;
+  Result.Z := Self.Z * cColorFloatRatio;
+  Result.W := Self.W * cColorFloatRatio;
+end;
+
+
+function TNativeGLZVector4b.Shuffle(const x,y,z,w : Byte):TNativeGLZVector4b;
+begin
+  Result.V[x]:=Self.X;
+  Result.V[y]:=Self.Y;
+  Result.V[z]:=Self.Z;
+  Result.V[w]:=Self.W;
+End;
+
+function TNativeGLZVector4b.Swizzle(const ASwizzle: TGLZVector4SwizzleRef ): TNativeGLZVector4b;
+begin
+   //FSwizzleMode :=  ASwizzle;
+   case ASwizzle of
+     swXXXX, swRRRR :
+     begin
+       Result.X := Self.X;
+       Result.Y := Self.X;
+       Result.Z := Self.X;
+       Result.W := Self.X;
+     end;
+     swYYYY, swGGGG :
+     begin
+       Result.X := Self.Y;
+       Result.Y := Self.Y;
+       Result.Z := Self.Y;
+       Result.W := Self.Y;
+     end;
+     swZZZZ, swBBBB :
+     begin
+       Result.X := Self.Z;
+       Result.Y := Self.Z;
+       Result.Z := Self.Z;
+       Result.W := Self.Z;
+     end;
+     swWWWW, swAAAA :
+     begin
+       Result.X := Self.W;
+       Result.Y := Self.W;
+       Result.Z := Self.W;
+       Result.W := Self.W;
+     end;
+     swZYXW, swBGRA :
+     begin
+       Result.X := Self.Z;
+       Result.Y := Self.Y;
+       Result.Z := Self.X;
+       Result.W := Self.W;
+     end;
+     swXZYW, swRBGA :
+     begin
+       Result.X := Self.X;
+       Result.Y := Self.Z;
+       Result.Z := Self.Y;
+       Result.W := Self.W;
+     end;
+     swZXYW, swBRGA :
+     begin
+       Result.X := Self.Z;
+       Result.Y := Self.X;
+       Result.Z := Self.Y;
+       Result.W := Self.W;
+     end;
+     swYXZW, swGRBA :
+     begin
+       Result.X := Self.Y;
+       Result.Y := Self.X;
+       Result.Z := Self.Z;
+       Result.W := Self.W;
+     end;
+     swYZXW, swGBRA :
+     begin
+       Result.X := Self.Y;
+       Result.Y := Self.Z;
+       Result.Z := Self.X;
+       Result.W := Self.W;
+     end;
+     swWXYZ, swARGB :
+     begin
+       Result.X := Self.W;
+       Result.Y := Self.X;
+       Result.Z := Self.Y;
+       Result.W := Self.Z;
+     end;
+     swWZYX, swABGR :
+     begin
+       Result.X := Self.W;
+       Result.Y := Self.Z;
+       Result.Z := Self.Y;
+       Result.W := Self.X;
+     end;
+     swWXZY, swARBG :
+     begin
+       Result.X := Self.W;
+       Result.Y := Self.X;
+       Result.Z := Self.Z;
+       Result.W := Self.Y;
+     end;
+     swWZXY, swABRG :
+     begin
+       Result.X := Self.W;
+       Result.Y := Self.Z;
+       Result.Z := Self.X;
+       Result.W := Self.Y;
+     end;
+     swWYXZ, swAGRB :
+     begin
+       Result.X := Self.W;
+       Result.Y := Self.Y;
+       Result.Z := Self.X;
+       Result.W := Self.Z;
+     end;
+     swWYZX, swAGBR :
+     begin
+       Result.X := Self.W;
+       Result.Y := Self.Y;
+       Result.Z := Self.Z;
+       Result.W := Self.X;
+     end;
+
+     else result := self; //swXYZW, swRGBA
+   end;
+end;
+
+function TNativeGLZVector4b.Combine(constref V2: TNativeGLZVector4b; constref F1: Single): TNativeGLZVector4b;
+Var
+  v3 : TNativeGLZVector4b;
+begin
+  v3 := v2 * F1;
+  result := Self + v3;
+  result.W := Self.W;
+End;
+
+function TNativeGLZVector4b.Combine2(constref V2: TNativeGLZVector4b; const F1, F2: Single): TNativeGLZVector4b;
+Var
+  va, vb : TNativeGLZVector4b;
+  ws : Byte;
+begin
+  ws:=Self.W;
+  va := Self * F1;
+  vb := v2 * F2;
+  result := va + vb;
+  result.W := ws;
+end;
+
+function TNativeGLZVector4b.Combine3(constref V2, V3: TNativeGLZVector4b; const F1, F2, F3: Single): TNativeGLZVector4b;
+Var
+  va, vb, vc : TNativeGLZVector4b;
+  ws : Byte;
+begin
+  ws:=Self.W;
+  va := Self * F1;
+  vb := v2 * F2;
+  vc := v3 * F3;
+  result := va + vb + vc;
+  result.W := ws;
+end;
+
+function TNativeGLZVector4b.MinXYZComponent : Byte;
+begin
+  Result:=Min3i(Self.X, Self.Y, Self.Z);
+end;
+
+function TNativeGLZVector4b.MaxXYZComponent : Byte;
+begin
+  Result:=Max3i(Self.X, Self.Y, Self.Z);
+end;
+{%endregion%}
