@@ -6,7 +6,7 @@ interface
 
 
 uses
-  Classes, SysUtils, fpcunit, testregistry, BaseTimingTest;
+  Classes, SysUtils, fpcunit, testregistry, BaseTimingTest, BaseTestCase;
 
 {$I config.inc}
 
@@ -63,10 +63,12 @@ begin
 end;
 
 initialization
-RegisterTest('Vector2f',TFileWriteTest );
-RegisterTest('Vector4f',TFileWriteTest );
-RegisterTest('Matrix4f',TFileWriteTest );
-RegisterTest('Quaternion',TFileWriteTest ); // must always be last in list!!!
+RegisterTest(REPORT_GROUP_VECTOR2F, TFileWriteTest );
+RegisterTest(REPORT_GROUP_VECTOR3B, TFileWriteTest );
+RegisterTest(REPORT_GROUP_VECTOR4B, TFileWriteTest );
+RegisterTest(REPORT_GROUP_VECTOR4F, TFileWriteTest );
+RegisterTest(REPORT_GROUP_MATRIX4F, TFileWriteTest );
+RegisterTest(REPORT_GROUP_QUATERION,TFileWriteTest );
 
 end.
 

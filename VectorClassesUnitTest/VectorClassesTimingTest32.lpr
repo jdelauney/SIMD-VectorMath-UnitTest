@@ -27,6 +27,10 @@ uses
 {$ifndef NO_TIMING_TEST}
   // Vector2f Timing Test Case
   Vector2OperatorsTimingTest,
+  // Vector3b Timing Test Case
+  Vector3bTimingTest,
+  // Vector4b Timing Test Case
+  Vector4bTimingTest,
 //  glz_2DHelper_test_cases,
   // Vector4f Timing Test Case
   VectorOperatorsTimingTest,

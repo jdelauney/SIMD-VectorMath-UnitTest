@@ -264,7 +264,6 @@ begin
    nbf3 := nbf1.MulAdd(nbf2, nbf4);
    abf3 := abf1.MulAdd(abf2, abf4);
    AssertTrue('Vector MulAdd no match'+nbf3.ToString+' --> '+abf3.ToString, Compare(nbf3,abf3));
-
 end;
 
 procedure TVector4bComparatorTest.TestMulDiv;
