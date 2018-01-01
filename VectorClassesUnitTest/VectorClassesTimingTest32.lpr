@@ -9,6 +9,10 @@ uses
   // Vector2f Test Case
   Vector2OperatorsTestCase,
   Vector2NumericsTestCase,
+  // Vector3b Test Case
+  Vector3bComparatorTest,
+  // Vector4b Test Case
+  Vector4bComparatorTest,
   // Vector4f Test Case
   VectorOperatorsTestCase,
   VectorNumericsTestCase,

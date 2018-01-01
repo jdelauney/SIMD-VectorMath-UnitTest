@@ -135,8 +135,8 @@ end;
 function TGLZVector3b.AsVector3f: TGLZVector3f;
 begin
   Result.X := Self.X * cColorFloatRatio;
-  Result.X := Self.Y * cColorFloatRatio;
-  Result.X := Self.Z * cColorFloatRatio;
+  Result.Y := Self.Y * cColorFloatRatio;
+  Result.Z := Self.Z * cColorFloatRatio;
 end;
 
 function TGLZVector3b.Swizzle(const ASwizzle: TGLZVector3SwizzleRef ): TGLZVector3b;
