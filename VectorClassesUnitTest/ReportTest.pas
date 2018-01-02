@@ -70,6 +70,7 @@ RegisterTest(REPORT_GROUP_VECTOR4F, TFileWriteTest );
 RegisterTest(REPORT_GROUP_MATRIX4F, TFileWriteTest );
 RegisterTest(REPORT_GROUP_QUATERION, TFileWriteTest );
 RegisterTest(REPORT_GROUP_BBOX, TFileWriteTest );
+RegisterTest(REPORT_GROUP_BSPHERE, TFileWriteTest );
 
 end.
 

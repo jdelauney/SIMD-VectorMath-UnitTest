@@ -44,6 +44,7 @@ uses
   // Quaternion Timing Test
   QuaternionTimingTest,
   BoundingBoxTimingTest,
+  BSphereTimingTest,  
   { ensure your code is included before this line}
   ReportTest,
 {$endif}
