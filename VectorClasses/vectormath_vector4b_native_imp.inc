@@ -100,12 +100,20 @@ end;
 
 class operator TGLZVector4b.=(constref A, B: TGLZVector4b): Boolean;
 begin
+{$ifdef TEST}
   Result := (A.W = B.W) and (A.X = B.X) and (A.Y = B.Y) and (A.Z = B.Z);
+{$else}
+  Result := A.AsInteger = B.AsInteger;
+{$endif}
 end;
 
 class operator TGLZVector4b.<>(constref A, B: TGLZVector4b): Boolean;
 begin
+{$ifdef TEST}
   Result := (A.W <> B.W) or (A.X <> B.X) or (A.Y <> B.Y) or (A.Z <> B.Z);
+{$else}
+  Result := A.AsInteger <> B.AsInteger;
+{$endif}
 end;
 
 class operator TGLZVector4b.and(constref A, B : TGLZVector4b) : TGLZVector4b;
@@ -145,32 +153,52 @@ begin
 end;
 
 class operator TGLZVector4b.and(constref A : TGLZVector4b; constref B : Byte) : TGLZVector4b;
+var  tmp: integer;
 begin
+{$ifdef TEST}
   Result.X := A.X and B;
   Result.Y := A.Y and B;
   Result.Z := A.Z and B;
   Result.W := A.W and B;
+{$else}
+  tmp := (B shl 8) or B;
+  tmp := (tmp shl 16) or tmp;
+  Result.AsInteger := A.AsInteger and tmp;
+{$endif}
 end;
 
 class operator TGLZVector4b.or(constref A : TGLZVector4b; constref B : Byte) : TGLZVector4b;
+var  tmp: integer;
 begin
+{$ifdef TEST}
   Result.X := A.X or B;
   Result.Y := A.Y or B;
   Result.Z := A.Z or B;
   Result.W := A.W or B;
+{$else}
+  tmp := (B shl 8) or B;
+  tmp := (tmp shl 16) or tmp;
+  Result.AsInteger := A.AsInteger or tmp;
+{$endif}
 end;
 
 class operator TGLZVector4b.Xor(constref A : TGLZVector4b; constref B : Byte) : TGLZVector4b;
+var  tmp: integer;
 begin
+{$ifdef TEST}
   Result.X := A.X xor B;
   Result.Y := A.Y xor B;
   Result.Z := A.Z xor B;
   Result.W := A.W xor B;
+{$else}
+  tmp := (B shl 8) or B;
+  tmp := (tmp shl 16) or tmp;
+  Result.AsInteger := A.AsInteger xor tmp;
+{$endif}
 end;
 
 function TGLZVector4b.DivideBy2 : TGLZVector4b;
-var
-  tmp: integer;
+var  tmp: integer;
 begin
 {$ifdef TEST}
   Result.x := Round(Self.X*0.5);
@@ -179,8 +207,7 @@ begin
   Result.w := Round(Self.W*0.5);
 {$else}
   tmp := Self.AsInteger;
-  tmp := (tmp and $FEFEFEFE) shr 1;
-  Result.AsInteger := tmp;
+  Result.AsInteger :=  (tmp and $FEFEFEFE) shr 1;
 {$endif}
 end;
 
