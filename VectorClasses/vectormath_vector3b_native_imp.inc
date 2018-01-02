@@ -92,44 +92,44 @@ end;
 
 class operator TGLZVector3b.and(constref A, B: TGLZVector3b): TGLZVector3b;
 begin
-  Result.X := ClampByte((A.X and B.X));
-  Result.Y := ClampByte((A.Y and B.Y));
-  Result.Z := ClampByte((A.Z and B.Z));
+  Result.X := A.X and B.X;
+  Result.Y := A.Y and B.Y;
+  Result.Z := A.Z and B.Z;
 end;
 
 class operator TGLZVector3b.Or(constref A, B: TGLZVector3b): TGLZVector3b;
 begin
-  Result.X := ClampByte((A.X or B.X));
-  Result.Y := ClampByte((A.Y or B.Y));
-  Result.Z := ClampByte((A.Z or B.Z));
+  Result.X := A.X or B.X;
+  Result.Y := A.Y or B.Y;
+  Result.Z := A.Z or B.Z;
 end;
 
 class operator TGLZVector3b.Xor(constref A, B: TGLZVector3b): TGLZVector3b;
 begin
-  Result.X := ClampByte((A.X xor B.X));
-  Result.Y := ClampByte((A.Y xor B.Y));
-  Result.Z := ClampByte((A.Z xor B.Z));
+  Result.X := A.X xor B.X;
+  Result.Y := A.Y xor B.Y;
+  Result.Z := A.Z xor B.Z;
 end;
 
 class operator TGLZVector3b.and(constref A: TGLZVector3b; constref B: Byte): TGLZVector3b;
 begin
-  Result.X := ClampByte((A.X and B));
-  Result.Y := ClampByte((A.Y and B));
-  Result.Z := ClampByte((A.Z and B));
+  Result.X := A.X and B;
+  Result.Y := A.Y and B;
+  Result.Z := A.Z and B;
 end;
 
 class operator TGLZVector3b.or(constref A: TGLZVector3b; constref B: Byte): TGLZVector3b;
 begin
-  Result.X := ClampByte((A.X or B));
-  Result.Y := ClampByte((A.Y or B));
-  Result.Z := ClampByte((A.Z or B));
+  Result.X := A.X or B;
+  Result.Y := A.Y or B;
+  Result.Z := A.Z or B;
 end;
 
 class operator TGLZVector3b.Xor(constref A: TGLZVector3b; constref B: Byte): TGLZVector3b;
 begin
-  Result.X := ClampByte((A.X xor B));
-  Result.Y := ClampByte((A.Y xor B));
-  Result.Z := ClampByte((A.Z xor B));
+  Result.X := A.X xor B;
+  Result.Y := A.Y xor B;
+  Result.Z := A.Z xor B;
 end;
 
 function TGLZVector3b.AsVector3f: TGLZVector3f;
