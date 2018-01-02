@@ -707,6 +707,8 @@ type
     procedure Create(Const AValue : TGLZAffineVector;Const r: single = 1.0); overload;
     procedure Create(Const AValue : TGLZVector;Const r: single = 1.0); overload;
 
+    function ToString: String;
+
     function Contains(const TestBSphere: TGLZBoundingSphere) : TGLZSpaceContains;
     { : Determines if one BSphere intersects another BSphere }
     function Intersect(const TestBSphere: TGLZBoundingSphere): Boolean;

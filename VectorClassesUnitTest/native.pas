@@ -84,7 +84,7 @@ PNativeGLZAffineVector = ^TNativeGLZAffineVector;
   TNativeGLZVector4f =  record  // With packed record the performance decrease a little
   public
     procedure Create(Const aX,aY,aZ: single; const aW : Single = 0); overload;
-    procedure Create(Const anAffineVector: TGLZVector3f; const aW : Single = 0); overload;
+    procedure Create(Const anAffineVector: TNativeGLZVector3f; const aW : Single = 0); overload;
 
     function ToString : String;
 
@@ -647,6 +647,29 @@ end;
 
 {%endregion%}
 
+{%region%----[ BoundingSphere ]-------------------------------------------------}
+
+  TNativeGLZBoundingSphere = record
+  public
+
+    procedure Create(Const x,y,z: Single;Const r: single = 1.0); overload;
+    procedure Create(Const AValue : TNativeGLZAffineVector;Const r: single = 1.0); overload;
+    procedure Create(Const AValue : TNativeGLZVector;Const r: single = 1.0); overload;
+
+    function ToString: String;
+
+    function Contains(const TestBSphere: TNativeGLZBoundingSphere) : TGLZSpaceContains;
+    { : Determines if one BSphere intersects another BSphere }
+    function Intersect(const TestBSphere: TNativeGLZBoundingSphere): Boolean;
+
+    Case Integer of
+          { : Center of Bounding Sphere }
+      0 : (Center: TNativeGLZVector;
+          { : Radius of Bounding Sphere }
+          Radius: Single);
+  end;
+{%endregion%}
+
 {%region%----[ Const ]------------------------------------------------------ ---}
 
 Const
@@ -705,12 +728,15 @@ NativeNegativeUnitVector : TNativeGLZVector = (X:-1; Y:-1; Z:-1; W:-1);
 
   function Compare(constref A: TNativeGLZVector3f; constref B: TGLZVector3f;Espilon: Single = 1e-10): boolean;overload;
   function Compare(constref A: TNativeGLZVector4f; constref B: TGLZVector4f;Espilon: Single = 1e-10): boolean;overload;
+  function Compare(constref A: TGLZVector4f; constref B: TGLZVector4f;Espilon: Single = 1e-10): boolean;overload;
   function Compare(constref A: TNativeGLZVector3b; constref B: TGLZVector3b): boolean;overload;
   function Compare(constref A: TNativeGLZVector4b; constref B: TGLZVector4b): boolean;overload;
   function Compare(constref A: TNativeGLZVector2f; constref B: TGLZVector2f;Espilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TNativeGLZBoundingBox; constref B: TGLZBoundingBox;Espilon: Single = 1e-10): boolean; overload;
   function CompareMatrix(constref A: TNativeGLZMatrix4; constref B: TGLZMatrix4f; Espilon: Single = 1e-10): boolean;
   function CompareQuaternion(constref A: TNativeGLZQuaternion; constref B: TGLZQuaternion; Espilon: Single = 1e-10): boolean;
+  function Compare(constref A: TNativeGLZBoundingSphere; constref B: TGLZBoundingSphere; Espilon: Single = 1e-10): boolean;
+  function Compare(constref A: TGLZBoundingSphere; constref B: TGLZBoundingSphere; Espilon: Single = 1e-10): boolean;
 
   function IsEqual(A,B: Single; Epsilon: single = 1e-10): boolean; inline;
 
@@ -740,6 +766,16 @@ begin
   if not IsEqual (A.X, B.X, Espilon) then Result := False;
   if not IsEqual (A.Y, B.Y, Espilon) then Result := False;
   if not IsEqual (A.Z, B.Z, Espilon) then Result := False;
+end;
+
+function Compare(constref A: TGLZVector4f; constref B: TGLZVector4f;
+  Espilon: Single): boolean;
+begin
+  Result := true;
+  if not IsEqual (A.X, B.X, Espilon) then Result := False;
+  if not IsEqual (A.Y, B.Y, Espilon) then Result := False;
+  if not IsEqual (A.Z, B.Z, Espilon) then Result := False;
+  if not IsEqual (A.W, B.W, Espilon) then Result := False;
 end;
 
 function Compare(constref A: TNativeGLZVector3b; constref B: TGLZVector3b): boolean;
@@ -802,6 +838,22 @@ begin
   if not IsEqual (A.Y, B.Y, Espilon) then Result := False;
   if not IsEqual (A.Z, B.Z, Espilon) then Result := False;
   if not IsEqual (A.W, B.W, Espilon) then Result := False;
+end;
+
+function Compare(constref A: TNativeGLZBoundingSphere; constref
+  B: TGLZBoundingSphere; Espilon: Single): boolean;
+begin
+  Result := True;
+  if not Compare(A.Center, B.Center, Espilon) then Result := False;
+  if not IsEqual(A.Radius, B.Radius, Espilon) then Result := False;
+end;
+
+function Compare(constref A: TGLZBoundingSphere; constref
+  B: TGLZBoundingSphere; Espilon: Single): boolean;
+begin
+  Result := True;
+  if not Compare(A.Center, B.Center, Espilon) then Result := False;
+  if not IsEqual(A.Radius, B.Radius, Espilon) then Result := False;
 end;
 
 {$i native.inc}

@@ -21,6 +21,11 @@ begin
   Radius := r;
 end;
 
+function TGLZBoundingSphere.ToString: String;
+begin
+  Result := '{' +Self.Center.ToString + ' R: ' + FloattoStrF(Self.Radius,fffixed,5,5) + '}';
+end;
+
 function TGLZBoundingSphere.Contains(const TestBSphere: TGLZBoundingSphere) : TGLZSpaceContains;
 var
   D2: Single;

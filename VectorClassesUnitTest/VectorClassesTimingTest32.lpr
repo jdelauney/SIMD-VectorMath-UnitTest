@@ -26,6 +26,7 @@ uses
   VectorAndHmgPlaneHelperTestCase,
   // bounding box et al
   BoundingBoxComparatorTest,  
+  BSphereComparatorTest,
 {$ifndef NO_TIMING_TEST}
   // Vector2f Timing Test Case
   Vector2OperatorsTimingTest,

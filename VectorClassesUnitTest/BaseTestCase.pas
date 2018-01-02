@@ -57,10 +57,13 @@ type
      {$CODEALIGN RECORDMIN=16}
       nbb1,nbb2,nbb3: TNativeGLZBoundingBox;
       abb1,abb2,abb3: TGLZBoundingBox;
+      nbs1,nbs2,nbs3: TNativeGLZBoundingSphere;
+      abs1,abs2,abs3: TGLZBoundingSphere;
   end;
 
 
-  TReportGroup = (rgVector2f, rgVector3b, rgVector4b, rgVector4f, rgMatrix4f, rgQuaterion, rgBBox);
+  TReportGroup = (rgVector2f, rgVector3b, rgVector4b, rgVector4f, rgMatrix4f,
+                  rgQuaterion, rgBBox, rgBSphere);
 
 const
 
@@ -71,6 +74,7 @@ const
   REPORT_GROUP_MATRIX4F = 'Matrix4f' ;
   REPORT_GROUP_QUATERION = 'Quaternion' ;
   REPORT_GROUP_BBOX = 'BoundingBox' ;
+  REPORT_GROUP_BSPHERE = 'BoundingSphere';
 
   rgArray: Array[TReportGroup] of string = (
               REPORT_GROUP_VECTOR2F,
@@ -79,7 +83,8 @@ const
               REPORT_GROUP_VECTOR4F,
               REPORT_GROUP_MATRIX4F,
               REPORT_GROUP_QUATERION,
-              REPORT_GROUP_BBOX
+              REPORT_GROUP_BBOX,
+              REPORT_GROUP_BSPHERE
               );
 
 implementation
@@ -93,6 +98,10 @@ begin
   abb1.Create(vt1);
   nbb2.Create(nt2);
   abb2.Create(vt2);
+  nbs1.Create(nt1, 1.356);
+  abs1.Create(vt1, 1.356);
+  nbs2.Create(nt2, 8.435);
+  abs2.Create(vt2, 8.435);
 end;
 
 

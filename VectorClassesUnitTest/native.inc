@@ -197,7 +197,7 @@ begin
    Self.W := AW;
 end;
 
-procedure TNativeGLZVector4f.Create(const anAffineVector: TGLZVector3f; const aW: Single);
+procedure TNativeGLZVector4f.Create(const anAffineVector: TNativeGLZVector3f; const aW: Single);
 begin
    Self.X := anAffineVector.X;
    Self.Y := anAffineVector.Y;
@@ -3053,6 +3053,56 @@ begin
   Result := Self.Points[0].Z;
   for I := 1 to 7 do
     Result := Math.Max(Result, Self.Points[I].Z);
+end;
+
+{%endregion}
+
+{%region%----[ TNativeGLZBoundingSphere ]---------------------------------------}
+// Temp comment this region is where we keep pascal routines for which it does
+// not make sense to use SSE/AVX
+
+procedure TNativeGLZBoundingSphere.Create(Const x,y,z: Single;Const r: single = 1.0);
+begin
+ Center.Create(x,y,z,1);
+ Radius := r;
+end;
+
+procedure TNativeGLZBoundingSphere.Create(Const AValue : TNativeGLZAffineVector;Const r: single = 1.0);
+begin
+  Center.Create(AValue,1);
+  Radius := r;
+end;
+
+procedure TNativeGLZBoundingSphere.Create(Const AValue : TNativeGLZVector;Const r: single = 1.0);
+begin
+  Center := AValue;
+  Center.W := 1;
+  Radius := r;
+end;
+
+function TNativeGLZBoundingSphere.ToString: String;
+begin
+  Result := '{' +Self.Center.ToString + ' R: ' + FloattoStrF(Self.Radius,fffixed,5,5) + '}';
+end;
+
+function TNativeGLZBoundingSphere.Contains(const TestBSphere: TNativeGLZBoundingSphere) : TGLZSpaceContains;
+var
+  D2: Single;
+begin
+  D2 := Self.Center.DistanceSquare(TestBSphere.Center); // VectorDistance2(MainBSphere.Center, TestBSphere.Center);
+
+  if D2 < Sqr(Self.Radius + TestBSphere.Radius) then
+  begin
+    if D2 < Sqr(Self.Radius - TestBSphere.Radius) then Result := ScContainsFully
+    else
+      Result := ScContainsPartially;
+  end
+  else Result := ScNoOverlap;
+end;
+
+function TNativeGLZBoundingSphere.Intersect(const TestBSphere: TNativeGLZBoundingSphere): Boolean;
+begin
+  Result := Self.Center.DistanceSquare(TestBSphere.Center) < Sqr(Self.Radius + TestBSphere.Radius);
 end;
 
 {%endregion}
