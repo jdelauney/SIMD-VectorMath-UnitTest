@@ -333,8 +333,12 @@ end;
 function ClampByte(const Value: Integer): Byte; assembler; nostackframe;
 asm
 {$IFDEF CPU64}
-        // in x64 calling convention parameters are passed in ECX, EDX, R8 & R9
+  {$IFDEF UNIX}
+        MOV     EAX,EDI
+  {$ELSE}
+        // in win x64 calling convention parameters are passed in ECX, EDX, R8 & R9
         MOV     EAX,ECX
+  {$ENDIF}
 {$ENDIF}
         TEST    EAX,$FFFFFF00
         JNZ     @above
@@ -363,8 +367,12 @@ end;
 function ClampMax(Const Value, Max:Integer):Integer; assembler; nostackframe;
 asm
 {$IFDEF CPU64}
-   // en 64bit les paramètres sont passés à ECX, EDX, R8 & R9
+  {$IFDEF UNIX}
+   MOV     EAX,EDI
+  {$ELSE}
+// en 64bit les paramètres sont passés à ECX, EDX, R8 & R9
   MOV     EAX,ECX
+  {$ENDIF}
 {$ENDIF}
   CMP     EAX,EDX
   JG      @@above

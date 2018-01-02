@@ -110,58 +110,78 @@ end;
 
 class operator TGLZVector4b.and(constref A, B : TGLZVector4b) : TGLZVector4b;
 begin
-  Result.X := ClampByte((A.X and B.X));
-  Result.Y := ClampByte((A.Y and B.Y));
-  Result.Z := ClampByte((A.Z and B.Z));
-  Result.W := ClampByte((A.W and B.W));
+{$ifdef TEST}
+  Result.X := A.X and B.X;
+  Result.Y := A.Y and B.Y;
+  Result.Z := A.Z and B.Z;
+  Result.W := A.W and B.W;
+{$else}
+  Result.AsInteger := A.AsInteger and B.AsInteger;
+{$endif}
 end;
 
 class operator TGLZVector4b.Or(constref A, B : TGLZVector4b) : TGLZVector4b;
 begin
-  Result.X := ClampByte((A.X or B.X));
-  Result.Y := ClampByte((A.Y or B.Y));
-  Result.Z := ClampByte((A.Z or B.Z));
-  Result.W := ClampByte((A.W or B.W));
+{$ifdef TEST}
+  Result.X := A.X or B.X;
+  Result.Y := A.Y or B.Y;
+  Result.Z := A.Z or B.Z;
+  Result.W := A.W or B.W;
+{$else}
+    Result.AsInteger := A.AsInteger or B.AsInteger;
+{$endif}
 end;
 
 class operator TGLZVector4b.Xor(constref A, B : TGLZVector4b) : TGLZVector4b;
 begin
-  Result.X := ClampByte((A.X xor B.X));
-  Result.Y := ClampByte((A.Y xor B.Y));
-  Result.Z := ClampByte((A.Z xor B.Z));
-  Result.W := ClampByte((A.W xor B.W));
+{$ifdef TEST}
+  Result.X := A.X xor B.X;
+  Result.Y := A.Y xor B.Y;
+  Result.Z := A.Z xor B.Z;
+  Result.W := A.W xor B.W;
+{$else}
+  Result.AsInteger := A.AsInteger xor B.AsInteger;
+{$endif}
 end;
 
 class operator TGLZVector4b.and(constref A : TGLZVector4b; constref B : Byte) : TGLZVector4b;
 begin
-  Result.X := ClampByte((A.X and B));
-  Result.Y := ClampByte((A.Y and B));
-  Result.Z := ClampByte((A.Z and B));
-  Result.W := ClampByte((A.W and B));
+  Result.X := A.X and B;
+  Result.Y := A.Y and B;
+  Result.Z := A.Z and B;
+  Result.W := A.W and B;
 end;
 
 class operator TGLZVector4b.or(constref A : TGLZVector4b; constref B : Byte) : TGLZVector4b;
 begin
-  Result.X := ClampByte((A.X or B));
-  Result.Y := ClampByte((A.Y or B));
-  Result.Z := ClampByte((A.Z or B));
-  Result.W := ClampByte((A.W or B));
+  Result.X := A.X or B;
+  Result.Y := A.Y or B;
+  Result.Z := A.Z or B;
+  Result.W := A.W or B;
 end;
 
 class operator TGLZVector4b.Xor(constref A : TGLZVector4b; constref B : Byte) : TGLZVector4b;
 begin
-  Result.X := ClampByte((A.X xor B));
-  Result.Y := ClampByte((A.Y xor B));
-  Result.Z := ClampByte((A.Z xor B));
-  Result.W := ClampByte((A.W xor B));
+  Result.X := A.X xor B;
+  Result.Y := A.Y xor B;
+  Result.Z := A.Z xor B;
+  Result.W := A.W xor B;
 end;
 
 function TGLZVector4b.DivideBy2 : TGLZVector4b;
+var
+  tmp: integer;
 begin
-  Result.x := ClampByte(Round(Self.X*0.5));
-  Result.y := ClampByte(Round(Self.Y*0.5));
-  Result.z := ClampByte(Round(Self.Z*0.5));
-  Result.w := ClampByte(Round(Self.W*0.5));
+{$ifdef TEST}
+  Result.x := Round(Self.X*0.5);
+  Result.y := Round(Self.Y*0.5);
+  Result.z := Round(Self.Z*0.5);
+  Result.w := Round(Self.W*0.5);
+{$else}
+  tmp := Self.AsInteger;
+  tmp := (tmp and $FEFEFEFE) shr 1;
+  Result.AsInteger := tmp;
+{$endif}
 end;
 
 function TGLZVector4b.Min(Constref B : TGLZVector4b) : TGLZVector4b;
