@@ -174,11 +174,29 @@ PNativeGLZAffineVector = ^TNativeGLZAffineVector;
     case Byte of
       0: (V: TGLZVector4fType);
       1: (X, Y, Z, W: Single);
-      2: (AsVector3f : TNativeGLZVector3f);
+      2: (Red, Green, Blue, Alpha: Single);
+      3: (Left, Top, Right, Bottom: Single);
+      4: (ST,UV : TNativeGLZVector2f);
+      5: (AsVector3f : TNativeGLZVector3f);
   end;
 
   TNativeGLZVector = TNativeGLZVector4f;
+  PNativeGLZVector = ^TNativeGLZVector;
   TNativeGLZHmgPlane = TNativeGLZVector;
+  TNativeGLZVectorArray = array[0..MAXINT shr 5] of TNativeGLZVector4f;
+
+  TNativeGLZColorVector = TNativeGLZVector;
+  PNativeGLZColorVector = ^TNativeGLZColorVector;
+
+  TNativeGLZClipRect = TNativeGLZVector;
+
+
+  TNativeGLZVector4i = Record
+  public
+    case Integer of
+      0 : (V: TGLZVector4iType);
+      1 : (X,Y,Z,W: longint);
+  end;
 
 {%endregion%}
 
@@ -245,7 +263,7 @@ Type
 
     { Creates a parallel projection matrix.
        Transformed points will projected on the plane along the specified direction. }
-    procedure CreateParallelProjectionMatrix(const plane : TGLZHmgPlane; const dir : TNativeGLZVector4f);
+    procedure CreateParallelProjectionMatrix(const plane : TNativeGLZHmgPlane; const dir : TNativeGLZVector4f);
 
     { Creates a shadow projection matrix.
        Shadows will be projected onto the plane defined by planePoint and planeNormal,
@@ -481,6 +499,8 @@ Type
     }
     function ShiftObjectFromCenter(Constref ACenter: TNativeGLZVector; const ADistance: Single; const AFromCenterSpot: Boolean): TNativeGLZVector;
     function AverageNormal4(constref up, left, down, right: TNativeGLZVector): TNativeGLZVector;
+
+    function ExtendClipRect(vX, vY: Single) : TNativeGLZClipRect;
   end;
 
   {%endregion%}
@@ -670,6 +690,81 @@ end;
   end;
 {%endregion%}
 
+{%region%----[ Axis Aligned BoundingBox ]---------------------------------------}
+
+{ : Structure for storing the corners of an AABB, used with ExtractAABBCorners }
+  TNativeGLZAABBCorners = array [0 .. 7] of TNativeGLZVector;
+
+  TNativeGLZAxisAlignedBoundingBox =  record
+  public
+    procedure Create(const AValue: TNativeGLZVector);
+    { : Extract the AABB information from a BB. }
+    procedure Create(const ABB: TNativeGLZBoundingBox);
+
+    { : Make the AABB that is formed by sweeping a sphere (or AABB) from Start to Dest }
+    procedure CreateFromSweep(const Start, Dest: TNativeGLZVector;const Radius: Single);
+
+    { : Convert a BSphere to the AABB }
+    procedure Create(const BSphere: TNativeGLZBoundingSphere); overload;
+    procedure Create(const Center: TNativeGLZVector; Radius: Single); overload;
+
+
+    class operator +(ConstRef A, B : TNativeGLZAxisAlignedBoundingBox):TNativeGLZAxisAlignedBoundingBox;overload;
+    class operator +(ConstRef A: TNativeGLZAxisAlignedBoundingBox; ConstRef B : TNativeGLZVector):TNativeGLZAxisAlignedBoundingBox;overload;
+    class operator *(ConstRef A: TNativeGLZAxisAlignedBoundingBox; ConstRef B : TNativeGLZVector):TNativeGLZAxisAlignedBoundingBox;overload;
+    class operator =(ConstRef A, B : TNativeGLZAxisAlignedBoundingBox):Boolean;overload;
+
+    function Transform(Constref M:TNativeGLZMatrix):TNativeGLZAxisAlignedBoundingBox;
+    function Include(Constref P:TNativeGLZVector):TNativeGLZAxisAlignedBoundingBox;
+    { : Returns the intersection of the AABB with second AABBs.
+      If the AABBs don't intersect, will return a degenerated AABB (plane, line or point). }
+    function Intersection(const B: TNativeGLZAxisAlignedBoundingBox): TNativeGLZAxisAlignedBoundingBox;
+
+    { : Converts the AABB to its canonical BB. }
+    function ToBoundingBox: TNativeGLZBoundingBox; overload;
+    { : Transforms the AABB to a BB. }
+    function ToBoundingBox(const M: TNativeGLZMatrix) : TNativeGLZBoundingBox; overload;
+    { : Convert the AABB to a BSphere }
+    function ToBoundingSphere: TNativeGLZBoundingSphere;
+
+    function ToClipRect(ModelViewProjection: TNativeGLZMatrix; ViewportSizeX, ViewportSizeY: Integer): TNativeGLZClipRect;
+    { : Determines if two AxisAlignedBoundingBoxes intersect.
+      The matrices are the ones that convert one point to the other's AABB system }
+    function Intersect(const B: TNativeGLZAxisAlignedBoundingBox;const M1, M2: TNativeGLZMatrix):Boolean;
+    { : Checks whether two Bounding boxes aligned with the world axes collide in the XY plane. }
+    function IntersectAbsoluteXY(const B: TNativeGLZAxisAlignedBoundingBox): Boolean;
+    { : Checks whether two Bounding boxes aligned with the world axes collide in the XZ plane. }
+    function IntersectAbsoluteXZ(const B: TNativeGLZAxisAlignedBoundingBox): Boolean;
+    { : Checks whether two Bounding boxes aligned with the world axes collide. }
+    function IntersectAbsolute(const B: TNativeGLZAxisAlignedBoundingBox): Boolean;
+    { : Checks whether one Bounding box aligned with the world axes fits within
+      another Bounding box. }
+    function FitsInAbsolute(const B: TNativeGLZAxisAlignedBoundingBox): Boolean;
+
+    { : Checks if a point "p" is inside the AABB }
+    function PointIn(const P: TNativeGLZVector): Boolean;
+
+    { : Extract the corners from the AABB }
+    function ExtractCorners: TNativeGLZAABBCorners;
+
+    { : Determines to which extent the AABB contains another AABB }
+    function Contains(const TestAABB: TNativeGLZAxisAlignedBoundingBox): TGLZSpaceContains; overload;
+    { : Determines to which extent the AABB contains a BSphere }
+    function Contains(const TestBSphere: TNativeGLZBoundingSphere): TGLZSpaceContains; overload;
+
+    { : Clips a position to the AABB }
+    function Clip(const V: TNativeGLZAffineVector): TNativeGLZAffineVector;
+
+    { : Finds the intersection between a ray and an axis aligned bounding box. }
+    function RayCastIntersect(const RayOrigin, RayDirection: TNativeGLZVector; out TNear, TFar: Single): Boolean; overload;
+    function RayCastIntersect(const RayOrigin, RayDirection: TNativeGLZVector; IntersectPoint: PNativeGLZVector = nil): Boolean; overload;
+
+    Case Integer of
+      0 : (Min, Max : TNativeGLZVector);
+  end;
+
+{%endregion%}
+
 {%region%----[ Const ]------------------------------------------------------ ---}
 
 Const
@@ -685,6 +780,16 @@ Const
                                     (X:0; Y:0; Z:0; W:0),
                                     (X:0; Y:0; Z:0; W:0)));
 
+
+  NativeNullBoundingBox: TNativeGLZBoundingBox =
+  (Points:((X: 0; Y: 0; Z: 0; W: 1),
+           (X: 0; Y: 0; Z: 0; W: 1),
+           (X: 0; Y: 0; Z: 0; W: 1),
+           (X: 0; Y: 0; Z: 0; W: 1),
+           (X: 0; Y: 0; Z: 0; W: 1),
+           (X: 0; Y: 0; Z: 0; W: 1),
+           (X: 0; Y: 0; Z: 0; W: 1),
+           (X: 0; Y: 0; Z: 0; W: 1)));
 
   const
 // standard affine vectors
@@ -726,17 +831,21 @@ NativeNegativeUnitVector : TNativeGLZVector = (X:-1; Y:-1; Z:-1; W:-1);
 
 {%endregion%}
 
-  function Compare(constref A: TNativeGLZVector3f; constref B: TGLZVector3f;Espilon: Single = 1e-10): boolean;overload;
-  function Compare(constref A: TNativeGLZVector4f; constref B: TGLZVector4f;Espilon: Single = 1e-10): boolean;overload;
-  function Compare(constref A: TGLZVector4f; constref B: TGLZVector4f;Espilon: Single = 1e-10): boolean;overload;
-  function Compare(constref A: TNativeGLZVector3b; constref B: TGLZVector3b): boolean;overload;
-  function Compare(constref A: TNativeGLZVector4b; constref B: TGLZVector4b): boolean;overload;
-  function Compare(constref A: TNativeGLZVector2f; constref B: TGLZVector2f;Espilon: Single = 1e-10): boolean; overload;
-  function Compare(constref A: TNativeGLZBoundingBox; constref B: TGLZBoundingBox;Espilon: Single = 1e-10): boolean; overload;
-  function CompareMatrix(constref A: TNativeGLZMatrix4; constref B: TGLZMatrix4f; Espilon: Single = 1e-10): boolean;
-  function CompareQuaternion(constref A: TNativeGLZQuaternion; constref B: TGLZQuaternion; Espilon: Single = 1e-10): boolean;
-  function Compare(constref A: TNativeGLZBoundingSphere; constref B: TGLZBoundingSphere; Espilon: Single = 1e-10): boolean;
-  function Compare(constref A: TGLZBoundingSphere; constref B: TGLZBoundingSphere; Espilon: Single = 1e-10): boolean;
+  function Compare(constref A: TNativeGLZVector3f; constref B: TGLZVector3f;Epsilon: Single = 1e-10): boolean; overload;
+  function Compare(constref A: TNativeGLZVector4f; constref B: TGLZVector4f;Epsilon: Single = 1e-10): boolean; overload;
+  function Compare(constref A: TGLZVector4f; constref B: TGLZVector4f;Epsilon: Single = 1e-10): boolean; overload;
+  function Compare(constref A: TNativeGLZVector3b; constref B: TGLZVector3b): boolean; overload;
+  function Compare(constref A: TNativeGLZVector4b; constref B: TGLZVector4b): boolean; overload;
+  function Compare(constref A: TNativeGLZVector2f; constref B: TGLZVector2f;Epsilon: Single = 1e-10): boolean; overload;
+  function Compare(constref A: TNativeGLZBoundingBox; constref B: TGLZBoundingBox;Epsilon: Single = 1e-10): boolean; overload;
+  function CompareMatrix(constref A: TNativeGLZMatrix4; constref B: TGLZMatrix4f; Epsilon: Single = 1e-10): boolean;
+  function CompareQuaternion(constref A: TNativeGLZQuaternion; constref B: TGLZQuaternion; Epsilon: Single = 1e-10): boolean;
+  function Compare(constref A: TNativeGLZBoundingSphere; constref B: TGLZBoundingSphere; Epsilon: Single = 1e-10): boolean; overload;
+  function Compare(constref A: TGLZBoundingSphere; constref B: TGLZBoundingSphere; Epsilon: Single = 1e-10): boolean; overload;
+  function Compare(constref A: TNativeGLZAxisAlignedBoundingBox; constref B: TGLZAxisAlignedBoundingBox; Epsilon: Single = 1e-10): boolean; overload;
+  function Compare(constref A: TNativeGLZAABBCorners; constref B: TGLZAABBCorners; Epsilon: Single = 1e-10): boolean; overload;
+
+
 
   function IsEqual(A,B: Single; Epsilon: single = 1e-10): boolean; inline;
 
@@ -751,31 +860,31 @@ begin
 end;
 
 
-function Compare(constref A: TNativeGLZVector4f; constref B: TGLZVector4f; Espilon: Single): boolean;
+function Compare(constref A: TNativeGLZVector4f; constref B: TGLZVector4f; Epsilon: Single): boolean;
 begin
   Result := true;
-  if not IsEqual (A.X, B.X, Espilon) then Result := False;
-  if not IsEqual (A.Y, B.Y, Espilon) then Result := False;
-  if not IsEqual (A.Z, B.Z, Espilon) then Result := False;
-  if not IsEqual (A.W, B.W, Espilon) then Result := False;
+  if not IsEqual (A.X, B.X, Epsilon) then Result := False;
+  if not IsEqual (A.Y, B.Y, Epsilon) then Result := False;
+  if not IsEqual (A.Z, B.Z, Epsilon) then Result := False;
+  if not IsEqual (A.W, B.W, Epsilon) then Result := False;
 end;
 
-function Compare(constref A: TNativeGLZVector3f; constref B: TGLZVector3f; Espilon: Single): boolean;
+function Compare(constref A: TNativeGLZVector3f; constref B: TGLZVector3f; Epsilon: Single): boolean;
 begin
   Result := true;
-  if not IsEqual (A.X, B.X, Espilon) then Result := False;
-  if not IsEqual (A.Y, B.Y, Espilon) then Result := False;
-  if not IsEqual (A.Z, B.Z, Espilon) then Result := False;
+  if not IsEqual (A.X, B.X, Epsilon) then Result := False;
+  if not IsEqual (A.Y, B.Y, Epsilon) then Result := False;
+  if not IsEqual (A.Z, B.Z, Epsilon) then Result := False;
 end;
 
 function Compare(constref A: TGLZVector4f; constref B: TGLZVector4f;
-  Espilon: Single): boolean;
+  Epsilon: Single): boolean;
 begin
   Result := true;
-  if not IsEqual (A.X, B.X, Espilon) then Result := False;
-  if not IsEqual (A.Y, B.Y, Espilon) then Result := False;
-  if not IsEqual (A.Z, B.Z, Espilon) then Result := False;
-  if not IsEqual (A.W, B.W, Espilon) then Result := False;
+  if not IsEqual (A.X, B.X, Epsilon) then Result := False;
+  if not IsEqual (A.Y, B.Y, Epsilon) then Result := False;
+  if not IsEqual (A.Z, B.Z, Epsilon) then Result := False;
+  if not IsEqual (A.W, B.W, Epsilon) then Result := False;
 end;
 
 function Compare(constref A: TNativeGLZVector3b; constref B: TGLZVector3b): boolean;
@@ -796,15 +905,15 @@ begin
 end;
 
 
-function Compare(constref A: TNativeGLZVector2f; constref B: TGLZVector2f; Espilon: Single): boolean;
+function Compare(constref A: TNativeGLZVector2f; constref B: TGLZVector2f; Epsilon: Single): boolean;
 begin
   Result := true;
-  if not IsEqual (A.X, B.X, Espilon) then Result := False;
-  if not IsEqual (A.Y, B.Y, Espilon) then Result := False;
+  if not IsEqual (A.X, B.X, Epsilon) then Result := False;
+  if not IsEqual (A.Y, B.Y, Epsilon) then Result := False;
 end;
 
 function Compare(constref A: TNativeGLZBoundingBox; constref
-  B: TGLZBoundingBox; Espilon: Single): boolean;
+  B: TGLZBoundingBox; Epsilon: Single): boolean;
 begin
   Result := True;
   if not compare(A.pt1,B.pt1) then Result := False;
@@ -817,43 +926,60 @@ begin
   if not compare(A.pt8,B.pt8) then Result := False;
 end;
 
-function CompareMatrix(constref A: TNativeGLZMatrix4; constref B: TGLZMatrix4f;  Espilon: Single): boolean;
+function CompareMatrix(constref A: TNativeGLZMatrix4; constref B: TGLZMatrix4f;  Epsilon: Single): boolean;
 var i : Byte;
 begin
   Result := true;
   for I:=0 to 3 do
   begin
-   if not IsEqual (A.V[I].X, B.V[I].X, Espilon) then Result := False;
-   if not IsEqual (A.V[I].Y, B.V[I].Y, Espilon) then Result := False;
-   if not IsEqual (A.V[I].Z, B.V[I].Z, Espilon) then Result := False;
-   if not IsEqual (A.V[I].W, B.V[I].W, Espilon) then Result := False;
+   if not IsEqual (A.V[I].X, B.V[I].X, Epsilon) then Result := False;
+   if not IsEqual (A.V[I].Y, B.V[I].Y, Epsilon) then Result := False;
+   if not IsEqual (A.V[I].Z, B.V[I].Z, Epsilon) then Result := False;
+   if not IsEqual (A.V[I].W, B.V[I].W, Epsilon) then Result := False;
    if result = false then break;
   end;
 end;
 
-function CompareQuaternion(constref A: TNativeGLZQuaternion; constref B: TGLZQuaternion; Espilon: Single): boolean;
+function CompareQuaternion(constref A: TNativeGLZQuaternion; constref B: TGLZQuaternion; Epsilon: Single): boolean;
 begin
   Result := true;
-  if not IsEqual (A.X, B.X, Espilon) then Result := False;
-  if not IsEqual (A.Y, B.Y, Espilon) then Result := False;
-  if not IsEqual (A.Z, B.Z, Espilon) then Result := False;
-  if not IsEqual (A.W, B.W, Espilon) then Result := False;
+  if not IsEqual (A.X, B.X, Epsilon) then Result := False;
+  if not IsEqual (A.Y, B.Y, Epsilon) then Result := False;
+  if not IsEqual (A.Z, B.Z, Epsilon) then Result := False;
+  if not IsEqual (A.W, B.W, Epsilon) then Result := False;
 end;
 
 function Compare(constref A: TNativeGLZBoundingSphere; constref
-  B: TGLZBoundingSphere; Espilon: Single): boolean;
+  B: TGLZBoundingSphere; Epsilon: Single): boolean;
 begin
   Result := True;
-  if not Compare(A.Center, B.Center, Espilon) then Result := False;
-  if not IsEqual(A.Radius, B.Radius, Espilon) then Result := False;
+  if not Compare(A.Center, B.Center, Epsilon) then Result := False;
+  if not IsEqual(A.Radius, B.Radius, Epsilon) then Result := False;
 end;
 
 function Compare(constref A: TGLZBoundingSphere; constref
-  B: TGLZBoundingSphere; Espilon: Single): boolean;
+  B: TGLZBoundingSphere; Epsilon: Single): boolean;
 begin
   Result := True;
-  if not Compare(A.Center, B.Center, Espilon) then Result := False;
-  if not IsEqual(A.Radius, B.Radius, Espilon) then Result := False;
+  if not Compare(A.Center, B.Center, Epsilon) then Result := False;
+  if not IsEqual(A.Radius, B.Radius, Epsilon) then Result := False;
+end;
+
+function Compare(constref A: TNativeGLZAxisAlignedBoundingBox; constref
+  B: TGLZAxisAlignedBoundingBox; Epsilon: Single): boolean;
+begin
+  Result := True;
+  if not Compare(A.Min, B.Min, Epsilon) then Result := False;
+  if not Compare(A.Max, B.Max, Epsilon) then Result := False;
+end;
+
+function Compare(constref A: TNativeGLZAABBCorners; constref
+  B: TGLZAABBCorners; Epsilon: Single): boolean;
+var i: integer;
+begin
+  Result := True;
+  for i := 0 to 7 do
+    if not compare(A[i],B[i]) then Result := False;
 end;
 
 {$i native.inc}

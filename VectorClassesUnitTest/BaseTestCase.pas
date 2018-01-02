@@ -59,11 +59,13 @@ type
       abb1,abb2,abb3: TGLZBoundingBox;
       nbs1,nbs2,nbs3: TNativeGLZBoundingSphere;
       abs1,abs2,abs3: TGLZBoundingSphere;
+      naabb1,naabb2,naabb3: TNativeGLZAxisAlignedBoundingBox;
+      aaabb1,aaabb2,aaabb3: TGLZAxisAlignedBoundingBox;
   end;
 
 
   TReportGroup = (rgVector2f, rgVector3b, rgVector4b, rgVector4f, rgMatrix4f,
-                  rgQuaterion, rgBBox, rgBSphere);
+                  rgQuaterion, rgBBox, rgBSphere, rgAABB);
 
 const
 
@@ -75,6 +77,7 @@ const
   REPORT_GROUP_QUATERION = 'Quaternion' ;
   REPORT_GROUP_BBOX = 'BoundingBox' ;
   REPORT_GROUP_BSPHERE = 'BoundingSphere';
+  REPORT_GROUP_AABB = 'AABoundingBox';
 
   rgArray: Array[TReportGroup] of string = (
               REPORT_GROUP_VECTOR2F,
@@ -84,7 +87,8 @@ const
               REPORT_GROUP_MATRIX4F,
               REPORT_GROUP_QUATERION,
               REPORT_GROUP_BBOX,
-              REPORT_GROUP_BSPHERE
+              REPORT_GROUP_BSPHERE,
+              REPORT_GROUP_AABB
               );
 
 implementation
@@ -102,6 +106,10 @@ begin
   abs1.Create(vt1, 1.356);
   nbs2.Create(nt2, 8.435);
   abs2.Create(vt2, 8.435);
+  naabb1.Create(nbs1);
+  aaabb1.Create(abs1);
+  naabb2.Create(nbs2);
+  aaabb2.Create(abs2);
 end;
 
 
