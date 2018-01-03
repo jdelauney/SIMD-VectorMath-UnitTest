@@ -53,6 +53,7 @@ const
 
   Iterations : integer = 20000000;
   IterationsQuarter = 5000000;
+  IterationsTenth = 2000000;
 
 var
   StartTime, TotalTime, elapsedTime : double;

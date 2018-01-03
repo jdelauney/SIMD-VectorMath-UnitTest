@@ -46,6 +46,7 @@ uses
   QuaternionTimingTest,
   BoundingBoxTimingTest,
   BSphereTimingTest,  
+  AABBTimingTest,
   { ensure your code is included before this line}
   ReportTest,
 {$endif}

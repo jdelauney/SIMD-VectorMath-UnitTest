@@ -202,8 +202,15 @@ begin
 end;
 
 procedure TAABBComparatorTest.TestIntersect;
+var
+  nMat: TNativeGLZMatrix;
+  aMat: TGLZMatrix;
 begin
-  AssertTrue('TODO Nothing To Test Against yet!',False);
+  nMat.CreateIdentityMatrix;
+  aMat.CreateIdentityMatrix;
+  nb := naabb1.Intersect(naabb2, nMat, nMat);
+  vb := aaabb1.Intersect(aaabb2, aMat, aMat);
+  AssertTrue('AABB IntersectAbsoluteXY does not match', (nb = vb));
 end;
 
 procedure TAABBComparatorTest.TestIntersectAbsoluteXY;
