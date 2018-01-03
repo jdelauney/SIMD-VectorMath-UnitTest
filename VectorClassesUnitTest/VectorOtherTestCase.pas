@@ -16,6 +16,8 @@ type
     procedure TestCompareFalse;  // with and tests the compare function.
     procedure TestMinXYZComponent;
     procedure TestMaxXYZComponent;
+    procedure TestShuffle;
+    procedure TestSwizzle;
     procedure TestMinVector;
     procedure TestMaxVector;
     procedure TestMinSingle;
@@ -57,6 +59,20 @@ begin
   Fs1 := nt1.MaxXYZComponent;
   Fs2 := vt1.MaxXYZComponent;
   AssertTrue('Vector MaxXYZComponents do not match : '+FLoattostrF(fs1,fffixed,3,3)+' --> '+FLoattostrF(fs2,fffixed,3,3), IsEqual(Fs1,Fs2));
+end;
+
+procedure TVectorOtherTestCase.TestShuffle;
+begin
+  nt3 := nt1.Shuffle(1,2,3,0);
+  vt3 := vt1.Shuffle(1,2,3,0);
+  AssertTrue('Vector Shuffle no match'+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
+end;
+
+procedure TVectorOtherTestCase.TestSwizzle;
+begin
+  nt3 := nt1.Swizzle(swWZYX);
+  vt3 := vt1.Swizzle(swWZYX);
+  AssertTrue('Vector Swizzle no match'+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
 end;
 
 procedure TVectorOtherTestCase.TestMinVector;

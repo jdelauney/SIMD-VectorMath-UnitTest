@@ -82,6 +82,8 @@ PNativeGLZAffineVector = ^TNativeGLZAffineVector;
 
 {%region%----[ TNativeGLZVector4f ]---------------------------------------------}
   TNativeGLZVector4f =  record  // With packed record the performance decrease a little
+  private
+    //FSwizzleMode :  TGLZVector4SwizzleRef;
   public
     procedure Create(Const aX,aY,aZ: single; const aW : Single = 0); overload;
     procedure Create(Const anAffineVector: TNativeGLZVector3f; const aW : Single = 0); overload;
@@ -108,6 +110,7 @@ PNativeGLZAffineVector = ^TNativeGLZAffineVector;
     class operator <>(constref A, B: TNativeGLZVector4f): Boolean;
 
     function Shuffle(const x,y,z,w : Byte):TNativeGLZVector4f;
+    function Swizzle(const ASwizzle: TGLZVector4SwizzleRef ): TNativeGLZVector4f;
     function MinXYZComponent : Single;
     function MaxXYZComponent : Single;
 
@@ -115,8 +118,8 @@ PNativeGLZAffineVector = ^TNativeGLZAffineVector;
     function Negate:TNativeGLZVector4f;
     function  DivideBy2:TNativeGLZVector4f;
     function Distance(constref A: TNativeGLZVector4f):Single;
-    function DistanceSquare(constref A: TNativeGLZVector4f):Single;
     function Length:Single;
+    function DistanceSquare(constref A: TNativeGLZVector4f):Single;
     function LengthSquare:Single;
     function Spacing(constref A: TNativeGLZVector4f):Single;
     function DotProduct(constref A: TNativeGLZVector4f):Single;
@@ -131,6 +134,7 @@ PNativeGLZAffineVector = ^TNativeGLZAffineVector;
     function Clamp(constref AMin, AMax: Single): TNativeGLZVector4f; overload;
     function MulAdd(Constref B, C: TNativeGLZVector4f): TNativeGLZVector4f;
     function MulDiv(Constref B, C: TNativeGLZVector4f): TNativeGLZVector4f;
+
 
     function Lerp(Constref B: TNativeGLZVector4f; Constref T:Single): TNativeGLZVector4f;
     function AngleCosine(constref A : TNativeGLZVector4f): Single;
@@ -199,337 +203,6 @@ PNativeGLZAffineVector = ^TNativeGLZAffineVector;
   end;
 
 {%endregion%}
-
-{%region%----[ TNativeGLZMatrix4 ]----------------------------------------------}
-
-
-Type
-  TNativeGLZMatrix4 = packed record
-  private
-    function GetComponent(const ARow, AColumn: Integer): Single; inline;
-    procedure SetComponent(const ARow, AColumn: Integer; const Value: Single); inline;
-    function GetRow(const AIndex: Integer): TNativeGLZVector4f; inline;
-    procedure SetRow(const AIndex: Integer; const Value: TNativeGLZVector4f); inline;
-
-    function GetDeterminant: Single;
-
-    function MatrixDetInternal(const a1, a2, a3, b1, b2, b3, c1, c2, c3: Single): Single;
-    procedure Transpose_Scale_M33(constref src : TNativeGLZMatrix4; Constref ascale : Single);
-  public
-    class operator +(constref A, B: TNativeGLZMatrix4): TNativeGLZMatrix4;overload;
-    class operator +(constref A: TNativeGLZMatrix4; constref B: Single): TNativeGLZMatrix4; overload;
-    class operator -(constref A, B: TNativeGLZMatrix4): TNativeGLZMatrix4;overload;
-    class operator -(constref A: TNativeGLZMatrix4; constref B: Single): TNativeGLZMatrix4; overload;
-    class operator *(constref A, B: TNativeGLZMatrix4): TNativeGLZMatrix4;overload;
-    class operator *(constref A: TNativeGLZMatrix4; constref B: Single): TNativeGLZMatrix4; overload;
-    class operator *(constref A: TNativeGLZMatrix4; constref B: TNativeGLZVector4f): TNativeGLZVector4f; overload;
-    class operator /(constref A: TNativeGLZMatrix4; constref B: Single): TNativeGLZMatrix4; overload;
-
-    class operator -(constref A: TNativeGLZMatrix4): TNativeGLZMatrix4; overload;
-
-    //class operator =(constref A, B: TGLZMatrix4): Boolean;overload;
-    //class operator <>(constref A, B: TGLZMatrix4): Boolean;overload;
-
-    procedure CreateIdentityMatrix;
-    // Creates scale matrix
-    procedure CreateScaleMatrix(const v : TGLZAffineVector); overload;
-    // Creates scale matrix
-    procedure CreateScaleMatrix(const v : TNativeGLZVector4f); overload;
-    // Creates translation matrix
-    procedure CreateTranslationMatrix(const V : TGLZAffineVector); overload;
-    // Creates translation matrix
-    procedure CreateTranslationMatrix(const V : TNativeGLZVector4f); overload;
-    { Creates a scale+translation matrix.
-       Scale is applied BEFORE applying offset }
-    procedure CreateScaleAndTranslationMatrix(const ascale, offset : TNativeGLZVector4f); overload;
-    // Creates matrix for rotation about x-axis (angle in rad)
-    procedure CreateRotationMatrixX(const sine, cosine: Single); overload;
-    procedure CreateRotationMatrixX(const angle: Single); overload;
-    // Creates matrix for rotation about y-axis (angle in rad)
-    procedure CreateRotationMatrixY(const sine, cosine: Single); overload;
-    procedure CreateRotationMatrixY(const angle: Single); overload;
-    // Creates matrix for rotation about z-axis (angle in rad)
-    procedure CreateRotationMatrixZ(const sine, cosine: Single); overload;
-    procedure CreateRotationMatrixZ(const angle: Single); overload;
-    // Creates a rotation matrix along the given Axis by the given Angle in radians.
-    procedure CreateRotationMatrix(const anAxis : TNativeGLZAffineVector; angle : Single); overload;
-    procedure CreateRotationMatrix(const anAxis : TNativeGLZVector4f; angle : Single); overload;
-
-    procedure CreateLookAtMatrix(const eye, center, normUp: TNativeGLZVector4f);
-    procedure CreateMatrixFromFrustum(Left, Right, Bottom, Top, ZNear, ZFar: Single);
-    procedure CreatePerspectiveMatrix(FOV, Aspect, ZNear, ZFar: Single);
-    procedure CreateOrthoMatrix(Left, Right, Bottom, Top, ZNear, ZFar: Single);
-    procedure CreatePickMatrix(x, y, deltax, deltay: Single; const viewport: TGLZVector4i);
-
-    { Creates a parallel projection matrix.
-       Transformed points will projected on the plane along the specified direction. }
-    procedure CreateParallelProjectionMatrix(const plane : TNativeGLZHmgPlane; const dir : TNativeGLZVector4f);
-
-    { Creates a shadow projection matrix.
-       Shadows will be projected onto the plane defined by planePoint and planeNormal,
-       from lightPos. }
-    procedure CreateShadowMatrix(const planePoint, planeNormal, lightPos : TNativeGLZVector4f);
-
-    { Builds a reflection matrix for the given plane.
-       Reflection matrix allow implementing planar reflectors in OpenGL (mirrors). }
-    procedure CreateReflectionMatrix(const planePoint, planeNormal : TNativeGLZVector4f);
-
-    function ToString : String;
-
-    //function Transform(constref A: TNativeGLZVector4f):TNativeGLZVector4f;
-    function Transpose : TNativeGLZMatrix4;
-    //procedure pTranspose;
-    function Invert : TNativeGLZMatrix4;
-    //procedure pInvert;
-    function Normalize : TNativeGLZMatrix4;
-    //procedure pNormalize;
-
-    procedure Adjoint;
-    procedure AnglePreservingMatrixInvert(constref mat : TNativeGLZMatrix4);
-
-    function Decompose(var Tran: TGLZMatrixTransformations): Boolean;
-
-    Function Translate( constref v : TNativeGLZVector4f):TNativeGLZMatrix4;
-    //procedure pTranslate( constref v : TNativeGLZVector4f);
-
-    function Multiply(constref M2: TNativeGLZMatrix4):TNativeGLZMatrix4;
-    //procedure pMultiply(constref M2: TNativeGLZMatrix4)
-
-
-    property Rows[const AIndex: Integer]: TNativeGLZVector4f read GetRow write SetRow;
-    property Components[const ARow, AColumn: Integer]: Single read GetComponent write SetComponent; default;
-    property Determinant: Single read GetDeterminant;
-
-    case Byte of
-    { The elements of the matrix in row-major order }
-      0: (M: array [0..3, 0..3] of Single);
-      1: (V: array [0..3] of TNativeGLZVector4f);
-      2: (VX : Array[0..1] of array[0..7] of Single); //AVX Access
-      3: (X,Y,Z,W : TNativeGLZVector4f);
-      4: (m11, m12, m13, m14: Single;
-          m21, m22, m23, m24: Single;
-          m31, m32, m33, m34: Single;
-          m41, m42, m43, m44: Single);
-  End;
-
-  TNativeGLZMatrix = TNativeGLZMatrix4;
-
-{%endregion%}
-
-{%region%----[ TNativeGLZQuaternion ]-------------------------------------------}
-
-
-Type
-  TNativeGLZQuaternion = record
-  private
-  public
-    class operator +(constref A, B: TNativeGLZQuaternion): TNativeGLZQuaternion; overload;
-    class operator -(constref A, B: TNativeGLZQuaternion): TNativeGLZQuaternion; overload;
-    class operator -(constref A: TNativeGLZQuaternion): TNativeGLZQuaternion; overload;
-    { Returns quaternion product qL * qR.
-       Note: order is important!
-       To combine rotations, use the product Muliply(qSecond, qFirst),
-       which gives the effect of rotating by qFirst then qSecond.
-    }
-    class operator *(constref A, B: TNativeGLZQuaternion): TNativeGLZQuaternion;  overload;
-
-    class operator +(constref A : TNativeGLZQuaternion; constref B:Single): TNativeGLZQuaternion; overload;
-    class operator -(constref A : TNativeGLZQuaternion; constref B:Single): TNativeGLZQuaternion; overload;
-    class operator *(constref A : TNativeGLZQuaternion; constref B:Single): TNativeGLZQuaternion; overload;
-    class operator /(constref A : TNativeGLZQuaternion; constref B:Single): TNativeGLZQuaternion; overload;
-
-    class operator =(constref A, B: TNativeGLZQuaternion): Boolean;
-    class operator <>(constref A, B: TNativeGLZQuaternion): Boolean;
-
-    function ToString : String;
-
-    procedure Create(x,y,z: Single; Real : Single);overload;
-    // Creates a quaternion from the given values
-    procedure Create(const Imag: array of Single; Real : Single); overload;
-
-    // Constructs a unit quaternion from two points on unit sphere
-    procedure Create(const V1, V2: TNativeGLZAffineVector); overload;
-    //procedure Create(const V1, V2: TGLZVector); overload;
-
-    // Constructs a unit quaternion from a rotation matrix
-    //procedure Create(const mat : TGLZMatrix); overload;
-
-    // Constructs quaternion from angle (in deg) and axis
-    procedure Create(const angle  : Single; const axis : TNativeGLZAffineVector); overload;
-    //procedure Create(const angle  : Single; const axis : TGLZVector); overload;
-
-    // Constructs quaternion from Euler angles
-    procedure Create(const r, p, y : Single); overload;
-
-    // Constructs quaternion from Euler angles in arbitrary order (angles in degrees)
-    procedure Create(const x, y, z: Single; eulerOrder : TGLZEulerOrder); overload;
-
-    // Converts a unit quaternion into two points on a unit sphere
-    procedure ConvertToPoints(var ArcFrom, ArcTo: TNativeGLZAffineVector); //overload;
-    //procedure ConvertToPoints(var ArcFrom, ArcTo: TGLZVector); //overload;
-
-    { Constructs a rotation matrix from (possibly non-unit) quaternion.
-       Assumes matrix is used to multiply column vector on the left:
-       vnew = mat vold.
-       Works correctly for right-handed coordinate system and right-handed rotations. }
-    //function ConvertToMatrix : TGLZMatrix;
-
-    { Constructs an affine rotation matrix from (possibly non-unit) quaternion. }
-    //function ConvertToAffineMatrix : TGLZAffineMatrix;
-
-    // Returns the conjugate of a quaternion
-    function Conjugate : TNativeGLZQuaternion;
-    //procedure pConjugate;
-
-    // Returns the magnitude of the quaternion
-    function Magnitude : Single;
-
-    // Normalizes the given quaternion
-    function Normalize : TNativeGLZQuaternion;
-    //procedure pNormalize;
-
-    { Returns quaternion product qL * qR.
-       Note: order is important!
-       To combine rotations, use the product Muliply(qSecond, qFirst),
-       which gives the effect of rotating by qFirst then qSecond.
-      }
-    //function MultiplyAsFirst(const qSecond : TNativeGLZQuaternion): TNativeGLZQuaternion;
-    function MultiplyAsSecond(const qFirst : TNativeGLZQuaternion): TNativeGLZQuaternion;
-
-    { Spherical linear interpolation of unit quaternions with spins.
-       QStart, QEnd - start and end unit quaternions
-       t            - interpolation parameter (0 to 1)
-       Spin         - number of extra spin rotations to involve  }
-    function Slerp(const QEnd: TNativeGLZQuaternion; Spin: Integer; t: Single): TNativeGLZQuaternion; overload;
-    function Slerp(const QEnd: TNativeGLZQuaternion; const t : Single) : TNativeGLZQuaternion; overload;
-
-    case Byte of
-      0: (V: TGLZVector4fType);
-      1: (X, Y, Z, W: Single);
-      2: (AsVector4f : TNativeGLZVector4f);
-      3: (ImagePart : TNativeGLZVector3f; RealPart : Single);
-  End;
-
-(* Type
-  TNativeGLZHmgPlaneHelper = record helper for TNativeGLZVector //TNativeGLZHmgPlane
-  public
-    procedure CreatePlane(constref p1, p2, p3 : TNativeGLZVector);overload;
-    // Computes the parameters of a plane defined by a point and a normal.
-    procedure CreatePlane(constref point, normal : TNativeGLZVector); overload;
-
-    //function Normalize : TGLZHmgPlane; overload;
-    function NormalizePlane : TNativeGLZHmgPlane;
-
-    procedure CalcPlaneNormal(constref p1, p2, p3 : TNativeGLZVector);
-
-    //function PointIsInHalfSpace(constref point: TGLZVector) : Boolean;
-    //function PlaneEvaluatePoint(constref point : TGLZVector) : Single;
-    function DistancePlaneToPoint(constref point : TNativeGLZVector) : Single;
-    function DistancePlaneToSphere(constref Center : TNativeGLZVector; constref Radius:Single) : Single;
-    { Compute the intersection point "res" of a line with a plane.
-      Return value:
-       0 : no intersection, line parallel to plane
-       1 : res is valid
-       -1 : line is inside plane
-      Adapted from:
-      E.Hartmann, Computeruntersttzte Darstellende Geometrie, B.G. Teubner Stuttgart 1988 }
-    //function IntersectLinePlane(const point, direction : TGLZVector; intersectPoint : PGLZVector = nil) : Integer;
-  end; *)
-
-
-{%endregion%}
-
-{%region%----[ TNativeGLZVectorHelper ]-----------------------------------------}
-
-Type
-  TNativeGLZVectorHelper = record helper for TNativeGLZVector
-  public
-
-  procedure CreatePlane(constref p1, p2, p3 : TNativeGLZVector);overload;
-  // Computes the parameters of a plane defined by a point and a normal.
-  procedure CreatePlane(constref point, normal : TNativeGLZVector); overload;
-
-  //function Normalize : TGLZHmgPlane; overload;
-  function NormalizePlane : TNativeGLZHmgPlane;
-
-  procedure CalcPlaneNormal(constref p1, p2, p3 : TNativeGLZVector);
-
-  //function PointIsInHalfSpace(constref point: TGLZVector) : Boolean;
-  //function PlaneEvaluatePoint(constref point : TGLZVector) : Single;
-  function DistancePlaneToPoint(constref point : TNativeGLZVector) : Single;
-  function DistancePlaneToSphere(constref Center : TNativeGLZVector; constref Radius:Single) : Single;
-  { Compute the intersection point "res" of a line with a plane.
-    Return value:
-     0 : no intersection, line parallel to plane
-     1 : res is valid
-     -1 : line is inside plane
-    Adapted from:
-    E.Hartmann, Computeruntersttzte Darstellende Geometrie, B.G. Teubner Stuttgart 1988 }
-  //function IntersectLinePlane(const point, direction : TGLZVector; intersectPoint : PGLZVector = nil) : Integer;
-
-    function Rotate(constref axis : TNativeGLZVector; angle : Single):TNativeGLZVector;
-    // Returns given vector rotated around the X axis (alpha is in rad)
-    function RotateAroundX(alpha : Single) : TNativeGLZVector;
-    // Returns given vector rotated around the Y axis (alpha is in rad)
-    function RotateAroundY(alpha : Single) : TNativeGLZVector;
-    // Returns given vector rotated around the Z axis (alpha is in rad)
-    function RotateAroundZ(alpha : Single) : TNativeGLZVector;
-    // Self is the point
-    function PointProject(constref origin, direction : TNativeGLZVector) : Single;
-    // Returns true if both vector are colinear
-    function IsColinear(constref v2: TNativeGLZVector) : Boolean;
-    // Returns true if line intersect ABCD quad. Quad have to be flat and convex
-    //function IsLineIntersectQuad(const direction, ptA, ptB, ptC, ptD : TGLZVector) : Boolean;
-    // Computes closest point on a segment (a segment is a limited line).
-    //function PointSegmentClosestPoint(segmentStart, segmentStop : TGLZVector) : TGLZVector;
-    { Computes algebraic distance between segment and line (a segment is a limited line).}
-    //function PointSegmentDistance(const point, segmentStart, segmentStop : TAffineVector) : single;
-    { Computes closest point on a line.}
-    //function PointLineClosestPoint(const linePoint, lineDirection : TGLZVector) : TGLZVector;
-    { Computes algebraic distance between point and line.}
-    //function PointLineDistance(const linePoint, lineDirection : TGLZVector) : Single;
-    { Extracted from Camera.MoveAroundTarget(pitch, turn). }
-    function MoveAround(constref AMovingObjectUp, ATargetPosition: TNativeGLZVector; pitchDelta, turnDelta: Single): TNativeGLZVector;
-    { AOriginalPosition - Object initial position.
-       ACenter - some point, from which is should be distanced.
-
-       ADistance + AFromCenterSpot - distance, which object should keep from ACenter
-       or
-       ADistance + not AFromCenterSpot - distance, which object should shift from his current position away from center.
-    }
-    function ShiftObjectFromCenter(Constref ACenter: TNativeGLZVector; const ADistance: Single; const AFromCenterSpot: Boolean): TNativeGLZVector;
-    function AverageNormal4(constref up, left, down, right: TNativeGLZVector): TNativeGLZVector;
-
-    function ExtendClipRect(vX, vY: Single) : TNativeGLZClipRect;
-  end;
-
-  {%endregion%}
-
-{%region%----[ TNativeGLZMatrixHelper ]-----------------------------------------}
-
-
-Type
-  TNativeGLZMatrixHelper = record helper for TNativeGLZMatrix
-  public
-    // Self is ViewProjMatrix
-    //function Project(Const objectVector: TGLZVector; const viewport: TVector4i; out WindowVector: TGLZVector): Boolean;
-    //function UnProject(Const WindowVector: TGLZVector; const viewport: TVector4i; out objectVector: TGLZVector): Boolean;
-    // coordinate system manipulation functions
-    // Rotates the given coordinate system (represented by the matrix) around its Y-axis
-    function Turn(angle : Single) : TNativeGLZMatrix; overload;
-    // Rotates the given coordinate system (represented by the matrix) around MasterUp
-    function Turn(constref MasterUp : TNativeGLZVector; Angle : Single) : TNativeGLZMatrix; overload;
-    // Rotates the given coordinate system (represented by the matrix) around its X-axis
-    function Pitch(Angle: Single): TNativeGLZMatrix; overload;
-    // Rotates the given coordinate system (represented by the matrix) around MasterRight
-    function Pitch(constref MasterRight: TNativeGLZVector; Angle: Single): TNativeGLZMatrix; overload;
-    // Rotates the given coordinate system (represented by the matrix) around its Z-axis
-    function Roll(Angle: Single): TNativeGLZMatrix; overload;
-    // Rotates the given coordinate system (represented by the matrix) around MasterDirection
-    function Roll(constref MasterDirection: TNativeGLZVector; Angle: Single): TNativeGLZMatrix; overload;
-  end;
-
-  {%endregion%}
 
 {%region%----[ TNativeGLZVector3b ]---------------------------------------------}
 
@@ -640,6 +313,252 @@ public
 end;
 {%endregion%}
 
+{%region%----[ TNativeGLZMatrix4 ]----------------------------------------------}
+
+
+
+  TNativeGLZMatrix4f = record
+  private
+    function GetComponent(const ARow, AColumn: Integer): Single; inline;
+    procedure SetComponent(const ARow, AColumn: Integer; const Value: Single); inline;
+    function GetRow(const AIndex: Integer): TNativeGLZVector4f; inline;
+    procedure SetRow(const AIndex: Integer; const Value: TNativeGLZVector4f); inline;
+
+    function GetDeterminant: Single;
+
+    function MatrixDetInternal(const a1, a2, a3, b1, b2, b3, c1, c2, c3: Single): Single;
+    procedure Transpose_Scale_M33(constref src : TNativeGLZMatrix4f; Constref ascale : Single);
+  public
+    class operator +(constref A, B: TNativeGLZMatrix4f): TNativeGLZMatrix4f;overload;
+    class operator +(constref A: TNativeGLZMatrix4f; constref B: Single): TNativeGLZMatrix4f; overload;
+    class operator -(constref A, B: TNativeGLZMatrix4f): TNativeGLZMatrix4f;overload;
+    class operator -(constref A: TNativeGLZMatrix4f; constref B: Single): TNativeGLZMatrix4f; overload;
+    class operator *(constref A, B: TNativeGLZMatrix4f): TNativeGLZMatrix4f;overload;
+    class operator *(constref A: TNativeGLZMatrix4f; constref B: Single): TNativeGLZMatrix4f; overload;
+    class operator *(constref A: TNativeGLZMatrix4f; constref B: TNativeGLZVector4f): TNativeGLZVector4f; overload;
+    class operator /(constref A: TNativeGLZMatrix4f; constref B: Single): TNativeGLZMatrix4f; overload;
+
+    class operator -(constref A: TNativeGLZMatrix4f): TNativeGLZMatrix4f; overload;
+
+    //class operator =(constref A, B: TGLZMatrix4): Boolean;overload;
+    //class operator <>(constref A, B: TGLZMatrix4): Boolean;overload;
+
+    procedure CreateIdentityMatrix;
+    // Creates scale matrix
+    procedure CreateScaleMatrix(const v : TGLZAffineVector); overload;
+    // Creates scale matrix
+    procedure CreateScaleMatrix(const v : TNativeGLZVector4f); overload;
+    // Creates translation matrix
+    procedure CreateTranslationMatrix(const V : TGLZAffineVector); overload;
+    // Creates translation matrix
+    procedure CreateTranslationMatrix(const V : TNativeGLZVector4f); overload;
+    { Creates a scale+translation matrix.
+       Scale is applied BEFORE applying offset }
+    procedure CreateScaleAndTranslationMatrix(const ascale, offset : TNativeGLZVector4f); overload;
+    // Creates matrix for rotation about x-axis (angle in rad)
+    procedure CreateRotationMatrixX(const sine, cosine: Single); overload;
+    procedure CreateRotationMatrixX(const angle: Single); overload;
+    // Creates matrix for rotation about y-axis (angle in rad)
+    procedure CreateRotationMatrixY(const sine, cosine: Single); overload;
+    procedure CreateRotationMatrixY(const angle: Single); overload;
+    // Creates matrix for rotation about z-axis (angle in rad)
+    procedure CreateRotationMatrixZ(const sine, cosine: Single); overload;
+    procedure CreateRotationMatrixZ(const angle: Single); overload;
+    // Creates a rotation matrix along the given Axis by the given Angle in radians.
+    procedure CreateRotationMatrix(const anAxis : TNativeGLZAffineVector; angle : Single); overload;
+    procedure CreateRotationMatrix(const anAxis : TNativeGLZVector4f; angle : Single); overload;
+
+    procedure CreateLookAtMatrix(const eye, center, normUp: TNativeGLZVector4f);
+    procedure CreateMatrixFromFrustum(Left, Right, Bottom, Top, ZNear, ZFar: Single);
+    procedure CreatePerspectiveMatrix(FOV, Aspect, ZNear, ZFar: Single);
+    procedure CreateOrthoMatrix(Left, Right, Bottom, Top, ZNear, ZFar: Single);
+    procedure CreatePickMatrix(x, y, deltax, deltay: Single; const viewport: TGLZVector4i);
+
+    { Creates a parallel projection matrix.
+       Transformed points will projected on the plane along the specified direction. }
+    procedure CreateParallelProjectionMatrix(const plane : TNativeGLZHmgPlane; const dir : TNativeGLZVector4f);
+
+    { Creates a shadow projection matrix.
+       Shadows will be projected onto the plane defined by planePoint and planeNormal,
+       from lightPos. }
+    procedure CreateShadowMatrix(const planePoint, planeNormal, lightPos : TNativeGLZVector4f);
+
+    { Builds a reflection matrix for the given plane.
+       Reflection matrix allow implementing planar reflectors in OpenGL (mirrors). }
+    procedure CreateReflectionMatrix(const planePoint, planeNormal : TNativeGLZVector4f);
+
+    function ToString : String;
+
+    //function Transform(constref A: TNativeGLZVector4f):TNativeGLZVector4f;
+    function Transpose : TNativeGLZMatrix4f;
+    //procedure pTranspose;
+    function Invert : TNativeGLZMatrix4f;
+    //procedure pInvert;
+    function Normalize : TNativeGLZMatrix4f;
+    //procedure pNormalize;
+
+    procedure Adjoint;
+    procedure AnglePreservingMatrixInvert(constref mat : TNativeGLZMatrix4f);
+
+    function Decompose(var Tran: TGLZMatrixTransformations): Boolean;
+
+    Function Translate( constref v : TNativeGLZVector4f):TNativeGLZMatrix4f;
+    function Multiply(constref M2: TNativeGLZMatrix4f):TNativeGLZMatrix4f;
+
+    //function Lerp(constref m2: TGLZMatrix4f; const Delta: Single): TGLZMatrix4f;
+
+    property Rows[const AIndex: Integer]: TNativeGLZVector4f read GetRow write SetRow;
+    property Components[const ARow, AColumn: Integer]: Single read GetComponent write SetComponent; default;
+    property Determinant: Single read GetDeterminant;
+
+    case Byte of
+    { The elements of the matrix in row-major order }
+      0: (M: array [0..3, 0..3] of Single);
+      1: (V: array [0..3] of TNativeGLZVector4f);
+      2: (VX : Array[0..1] of array[0..7] of Single); //AVX Access
+      3: (X,Y,Z,W : TNativeGLZVector4f);
+      4: (m11, m12, m13, m14: Single;
+          m21, m22, m23, m24: Single;
+          m31, m32, m33, m34: Single;
+          m41, m42, m43, m44: Single);
+  End;
+
+  TNativeGLZMatrix = TNativeGLZMatrix4f;
+  PNativeGLZMatrix = ^TNativeGLZMatrix;
+  TNativeGLZMatrixArray = array [0..MaxInt shr 7] of TNativeGLZMatrix;
+  PNativeGLZMatrixArray = ^TNativeGLZMatrixArray;
+
+{%endregion%}
+
+{%region%----[ TNativeGLZQuaternion ]-------------------------------------------}
+
+
+Type
+  TNativeGLZQuaternion = record
+  private
+  public
+    class operator +(constref A, B: TNativeGLZQuaternion): TNativeGLZQuaternion; overload;
+    class operator -(constref A, B: TNativeGLZQuaternion): TNativeGLZQuaternion; overload;
+    class operator -(constref A: TNativeGLZQuaternion): TNativeGLZQuaternion; overload;
+    { Returns quaternion product qL * qR.
+       Note: order is important!
+       To combine rotations, use the product Muliply(qSecond, qFirst),
+       which gives the effect of rotating by qFirst then qSecond.
+    }
+    class operator *(constref A, B: TNativeGLZQuaternion): TNativeGLZQuaternion;  overload;
+    //class operator /(constref A, B: TNativeGLZQuaternion): TGLZQuaternion;overload;
+
+    class operator +(constref A : TNativeGLZQuaternion; constref B:Single): TNativeGLZQuaternion; overload;
+    class operator -(constref A : TNativeGLZQuaternion; constref B:Single): TNativeGLZQuaternion; overload;
+    class operator *(constref A : TNativeGLZQuaternion; constref B:Single): TNativeGLZQuaternion; overload;
+    class operator /(constref A : TNativeGLZQuaternion; constref B:Single): TNativeGLZQuaternion; overload;
+
+    class operator =(constref A, B: TNativeGLZQuaternion): Boolean;
+    class operator <>(constref A, B: TNativeGLZQuaternion): Boolean;
+
+    function ToString : String;
+
+    procedure Create(x,y,z: Single; Real : Single);overload;
+    // Creates a quaternion from the given values
+    procedure Create(const Imag: array of Single; Real : Single); overload;
+
+    // Constructs a unit quaternion from two points on unit sphere
+    procedure Create(const V1, V2: TNativeGLZAffineVector); overload;
+    //procedure Create(const V1, V2: TGLZVector); overload;
+
+    // Constructs a unit quaternion from a rotation matrix
+    //procedure Create(const mat : TGLZMatrix); overload;
+
+    // Constructs quaternion from angle (in deg) and axis
+    procedure Create(const angle  : Single; const axis : TNativeGLZAffineVector); overload;
+    //procedure Create(const angle  : Single; const axis : TGLZVector); overload;
+
+    // Constructs quaternion from Euler angles
+    procedure Create(const r, p, y : Single); overload;
+
+    // Constructs quaternion from Euler angles in arbitrary order (angles in degrees)
+    procedure Create(const x, y, z: Single; eulerOrder : TGLZEulerOrder); overload;
+
+    // Converts a unit quaternion into two points on a unit sphere
+    procedure ConvertToPoints(var ArcFrom, ArcTo: TNativeGLZAffineVector); //overload;
+    //procedure ConvertToPoints(var ArcFrom, ArcTo: TGLZVector); //overload;
+
+    { Constructs a rotation matrix from (possibly non-unit) quaternion.
+       Assumes matrix is used to multiply column vector on the left:
+       vnew = mat vold.
+       Works correctly for right-handed coordinate system and right-handed rotations. }
+    //function ConvertToMatrix : TGLZMatrix;
+
+    { Constructs an affine rotation matrix from (possibly non-unit) quaternion. }
+    //function ConvertToAffineMatrix : TGLZAffineMatrix;
+
+    // Returns the conjugate of a quaternion
+    function Conjugate : TNativeGLZQuaternion;
+    //procedure pConjugate;
+
+    // Returns the magnitude of the quaternion
+    function Magnitude : Single;
+
+    // Normalizes the given quaternion
+    function Normalize : TNativeGLZQuaternion;
+    //procedure pNormalize;
+
+    { Returns quaternion product qL * qR.
+       Note: order is important!
+       To combine rotations, use the product Muliply(qSecond, qFirst),
+       which gives the effect of rotating by qFirst then qSecond.
+      }
+    //function MultiplyAsFirst(const qSecond : TNativeGLZQuaternion): TNativeGLZQuaternion;
+    function MultiplyAsSecond(const qFirst : TNativeGLZQuaternion): TNativeGLZQuaternion;
+
+    { Spherical linear interpolation of unit quaternions with spins.
+       QStart, QEnd - start and end unit quaternions
+       t            - interpolation parameter (0 to 1)
+       Spin         - number of extra spin rotations to involve  }
+    function Slerp(const QEnd: TNativeGLZQuaternion; Spin: Integer; t: Single): TNativeGLZQuaternion; overload;
+    function Slerp(const QEnd: TNativeGLZQuaternion; const t : Single) : TNativeGLZQuaternion; overload;
+
+    case Byte of
+      0: (V: TGLZVector4fType);
+      1: (X, Y, Z, W: Single);
+      2: (AsVector4f : TNativeGLZVector4f);
+      3: (ImagePart : TNativeGLZVector3f; RealPart : Single);
+  End;
+  PNativeGLZQuaternionArray = ^TNativeGLZQuaternionArray;
+  TNativeGLZQuaternionArray = array[0..MAXINT shr 5] of TNativeGLZQuaternion;
+
+
+
+
+(* Type
+  TNativeGLZHmgPlaneHelper = record helper for TNativeGLZVector //TNativeGLZHmgPlane
+  public
+    procedure CreatePlane(constref p1, p2, p3 : TNativeGLZVector);overload;
+    // Computes the parameters of a plane defined by a point and a normal.
+    procedure CreatePlane(constref point, normal : TNativeGLZVector); overload;
+
+    //function Normalize : TGLZHmgPlane; overload;
+    function NormalizePlane : TNativeGLZHmgPlane;
+
+    procedure CalcPlaneNormal(constref p1, p2, p3 : TNativeGLZVector);
+
+    //function PointIsInHalfSpace(constref point: TGLZVector) : Boolean;
+    //function PlaneEvaluatePoint(constref point : TGLZVector) : Single;
+    function DistancePlaneToPoint(constref point : TNativeGLZVector) : Single;
+    function DistancePlaneToSphere(constref Center : TNativeGLZVector; constref Radius:Single) : Single;
+    { Compute the intersection point "res" of a line with a plane.
+      Return value:
+       0 : no intersection, line parallel to plane
+       1 : res is valid
+       -1 : line is inside plane
+      Adapted from:
+      E.Hartmann, Computeruntersttzte Darstellende Geometrie, B.G. Teubner Stuttgart 1988 }
+    //function IntersectLinePlane(const point, direction : TGLZVector; intersectPoint : PGLZVector = nil) : Integer;
+  end; *)
+
+
+{%endregion%}
+
 {%region%----[ BoundingBox ]----------------------------------------------------}
 
   TNativeGLZBoundingBox = record
@@ -688,6 +607,7 @@ end;
           { : Radius of Bounding Sphere }
           Radius: Single);
   end;
+
 {%endregion%}
 
 {%region%----[ Axis Aligned BoundingBox ]---------------------------------------}
@@ -765,22 +685,151 @@ end;
 
 {%endregion%}
 
+{%region%----[ TNativeGLZVectorHelper ]-----------------------------------------}
+
+  TNativeGLZVectorHelper = record helper for TNativeGLZVector
+  public
+
+  procedure CreatePlane(constref p1, p2, p3 : TNativeGLZVector);overload;
+  // Computes the parameters of a plane defined by a point and a normal.
+  procedure CreatePlane(constref point, normal : TNativeGLZVector); overload;
+
+  //function Normalize : TGLZHmgPlane; overload;
+  function NormalizePlane : TNativeGLZHmgPlane;
+
+  procedure CalcPlaneNormal(constref p1, p2, p3 : TNativeGLZVector);
+
+  //function PointIsInHalfSpace(constref point: TGLZVector) : Boolean;
+  //function PlaneEvaluatePoint(constref point : TGLZVector) : Single;
+  function DistancePlaneToPoint(constref point : TNativeGLZVector) : Single;
+  function DistancePlaneToSphere(constref Center : TNativeGLZVector; constref Radius:Single) : Single;
+  { Compute the intersection point "res" of a line with a plane.
+    Return value:
+     0 : no intersection, line parallel to plane
+     1 : res is valid
+     -1 : line is inside plane
+    Adapted from:
+    E.Hartmann, Computeruntersttzte Darstellende Geometrie, B.G. Teubner Stuttgart 1988 }
+  //function IntersectLinePlane(const point, direction : TGLZVector; intersectPoint : PGLZVector = nil) : Integer;
+
+    function Rotate(constref axis : TNativeGLZVector; angle : Single):TNativeGLZVector;
+    // Returns given vector rotated around the X axis (alpha is in rad)
+    function RotateAroundX(alpha : Single) : TNativeGLZVector;
+    // Returns given vector rotated around the Y axis (alpha is in rad)
+    function RotateAroundY(alpha : Single) : TNativeGLZVector;
+    // Returns given vector rotated around the Z axis (alpha is in rad)
+    function RotateAroundZ(alpha : Single) : TNativeGLZVector;
+    // Self is the point
+    function PointProject(constref origin, direction : TNativeGLZVector) : Single;
+    // Returns true if both vector are colinear
+    function IsColinear(constref v2: TNativeGLZVector) : Boolean;
+    //function IsPerpendicular(constref v2: TGLZVector) : Boolean;
+    //function IsParallel(constref v2: TGLZVector) : Boolean;
+    // Returns true if line intersect ABCD quad. Quad have to be flat and convex
+    //function IsLineIntersectQuad(const direction, ptA, ptB, ptC, ptD : TGLZVector) : Boolean;
+    // Computes closest point on a segment (a segment is a limited line).
+    //function PointSegmentClosestPoint(segmentStart, segmentStop : TGLZVector) : TGLZVector;
+    { Computes algebraic distance between segment and line (a segment is a limited line).}
+    //function PointSegmentDistance(const point, segmentStart, segmentStop : TAffineVector) : single;
+    { Computes closest point on a line.}
+    //function PointLineClosestPoint(const linePoint, lineDirection : TGLZVector) : TGLZVector;
+    { Computes algebraic distance between point and line.}
+    //function PointLineDistance(const linePoint, lineDirection : TGLZVector) : Single;
+    { Extracted from Camera.MoveAroundTarget(pitch, turn). }
+    function MoveAround(constref AMovingObjectUp, ATargetPosition: TNativeGLZVector; pitchDelta, turnDelta: Single): TNativeGLZVector;
+    { AOriginalPosition - Object initial position.
+       ACenter - some point, from which is should be distanced.
+
+       ADistance + AFromCenterSpot - distance, which object should keep from ACenter
+       or
+       ADistance + not AFromCenterSpot - distance, which object should shift from his current position away from center.
+    }
+    function ShiftObjectFromCenter(Constref ACenter: TNativeGLZVector; const ADistance: Single; const AFromCenterSpot: Boolean): TNativeGLZVector;
+    function AverageNormal4(constref up, left, down, right: TNativeGLZVector): TNativeGLZVector;
+
+    function ExtendClipRect(vX, vY: Single) : TNativeGLZClipRect;
+  end;
+
+  {%endregion%}
+
+{%region%----[ TNativeGLZMatrixHelper ]-----------------------------------------}
+
+
+Type
+  TNativeGLZMatrixHelper = record helper for TNativeGLZMatrix4f
+  public
+    // Self is ViewProjMatrix
+    //function Project(Const objectVector: TGLZVector; const viewport: TVector4i; out WindowVector: TGLZVector): Boolean;
+    //function UnProject(Const WindowVector: TGLZVector; const viewport: TVector4i; out objectVector: TGLZVector): Boolean;
+    // coordinate system manipulation functions
+    // Rotates the given coordinate system (represented by the matrix) around its Y-axis
+    function Turn(angle : Single) : TNativeGLZMatrix4f; overload;
+    // Rotates the given coordinate system (represented by the matrix) around MasterUp
+    function Turn(constref MasterUp : TNativeGLZVector; Angle : Single) : TNativeGLZMatrix; overload;
+    // Rotates the given coordinate system (represented by the matrix) around its X-axis
+    function Pitch(Angle: Single): TNativeGLZMatrix; overload;
+    // Rotates the given coordinate system (represented by the matrix) around MasterRight
+    function Pitch(constref MasterRight: TNativeGLZVector; Angle: Single): TNativeGLZMatrix; overload;
+    // Rotates the given coordinate system (represented by the matrix) around its Z-axis
+    function Roll(Angle: Single): TNativeGLZMatrix; overload;
+    // Rotates the given coordinate system (represented by the matrix) around MasterDirection
+    function Roll(constref MasterDirection: TNativeGLZVector; Angle: Single): TNativeGLZMatrix; overload;
+  end;
+
+{%endregion%}
+
 {%region%----[ Const ]------------------------------------------------------ ---}
 
 Const
+  // standard affine vectors
+  NativeXVector :    TNativeGLZAffineVector = (X:1; Y:0; Z:0);
+  NativeYVector :    TNativeGLZAffineVector = (X:0; Y:1; Z:0);
+  NativeZVector :    TNativeGLZAffineVector = (X:0; Y:0; Z:1);
+  NativeXYVector :   TNativeGLZAffineVector = (X:1; Y:1; Z:0);
+  NativeXZVector :   TNativeGLZAffineVector = (X:1; Y:0; Z:1);
+  NativeYZVector :   TNativeGLZAffineVector = (X:0; Y:1; Z:1);
+  NativeXYZVector :  TNativeGLZAffineVector = (X:1; Y:1; Z:1);
+  NativeNullVector : TNativeGLZAffineVector = (X:0; Y:0; Z:0);
+  // standard homogeneous vectors
+  NativeXHmgVector : TNativeGLZVector = (X:1; Y:0; Z:0; W:0);
+  NativeYHmgVector : TNativeGLZVector = (X:0; Y:1; Z:0; W:0);
+  NativeZHmgVector : TNativeGLZVector = (X:0; Y:0; Z:1; W:0);
+  NativeWHmgVector : TNativeGLZVector = (X:0; Y:0; Z:0; W:1);
+  NativeNullHmgVector : TNativeGLZVector = (X:0; Y:0; Z:0; W:0);
+  NativeXYHmgVector: TNativeGLZVector = (X: 1; Y: 1; Z: 0; W: 0);
+  NativeYZHmgVector: TNativeGLZVector = (X: 0; Y: 1; Z: 1; W: 0);
+  NativeXZHmgVector: TNativeGLZVector = (X: 1; Y: 0; Z: 1; W: 0);
+  NativeXYZHmgVector: TNativeGLZVector = (X: 1; Y: 1; Z: 1; W: 0);
+  NativeXYZWHmgVector: TGLZVector = (X: 1; Y: 1; Z: 1; W: 1);
 
+  // standard homogeneous points
+  NativeXHmgPoint :  TNativeGLZVector = (X:1; Y:0; Z:0; W:1);
+  NativeYHmgPoint :  TNativeGLZVector = (X:0; Y:1; Z:0; W:1);
+  NativeZHmgPoint :  TNativeGLZVector = (X:0; Y:0; Z:1; W:1);
+  NativeWHmgPoint :  TNativeGLZVector = (X:0; Y:0; Z:0; W:1);
+  NativeNullHmgPoint : TNativeGLZVector = (X:0; Y:0; Z:0; W:1);
 
-  NativeIdentityHmgMatrix : TNativeGLZMatrix4 = (V:((X:1; Y:0; Z:0; W:0),
+  NativeNegativeUnitVector : TNativeGLZVector = (X:-1; Y:-1; Z:-1; W:-1);
+
+{%region%----[ Matrix Const ]---------------------------------------------------}
+  NativeIdentityHmgMatrix : TNativeGLZMatrix4f = (V:((X:1; Y:0; Z:0; W:0),
                                        (X:0; Y:1; Z:0; W:0),
                                        (X:0; Y:0; Z:1; W:0),
                                        (X:0; Y:0; Z:0; W:1)));
 
-  NativeEmptyHmgMatrix : TNativeGLZMatrix4 = (V:((X:0; Y:0; Z:0; W:0),
+  NativeEmptyHmgMatrix : TNativeGLZMatrix4f = (V:((X:0; Y:0; Z:0; W:0),
                                     (X:0; Y:0; Z:0; W:0),
                                     (X:0; Y:0; Z:0; W:0),
                                     (X:0; Y:0; Z:0; W:0)));
+{%endregion%}
 
+{%region%----[ Quaternion Const ]-----------------------------------------------}
 
+Const
+ NativeIdentityQuaternion: TNativeGLZQuaternion = (ImagePart:(X:0; Y:0; Z:0); RealPart: 1);
+
+{%endregion%}
+{%region%----[ Others Const ]---------------------------------------------------}
   NativeNullBoundingBox: TNativeGLZBoundingBox =
   (Points:((X: 0; Y: 0; Z: 0; W: 1),
            (X: 0; Y: 0; Z: 0; W: 1),
@@ -791,39 +840,10 @@ Const
            (X: 0; Y: 0; Z: 0; W: 1),
            (X: 0; Y: 0; Z: 0; W: 1)));
 
-  const
-// standard affine vectors
-NativeXVector :    TNativeGLZAffineVector = (X:1; Y:0; Z:0);
-NativeYVector :    TNativeGLZAffineVector = (X:0; Y:1; Z:0);
-NativeZVector :    TNativeGLZAffineVector = (X:0; Y:0; Z:1);
-NativeXYVector :   TNativeGLZAffineVector = (X:1; Y:1; Z:0);
-NativeXZVector :   TNativeGLZAffineVector = (X:1; Y:0; Z:1);
-NativeYZVector :   TNativeGLZAffineVector = (X:0; Y:1; Z:1);
-NativeXYZVector :  TNativeGLZAffineVector = (X:1; Y:1; Z:1);
-NativeNullVector : TNativeGLZAffineVector = (X:0; Y:0; Z:0);
-// standard homogeneous vectors
-NativeXHmgVector : TNativeGLZVector = (X:1; Y:0; Z:0; W:0);
-NativeYHmgVector : TNativeGLZVector = (X:0; Y:1; Z:0; W:0);
-NativeZHmgVector : TNativeGLZVector = (X:0; Y:0; Z:1; W:0);
-NativeWHmgVector : TNativeGLZVector = (X:0; Y:0; Z:0; W:1);
-NativeNullHmgVector : TNativeGLZVector = (X:0; Y:0; Z:0; W:0);
-NativeXYHmgVector: TNativeGLZVector = (X: 1; Y: 1; Z: 0; W: 0);
-NativeYZHmgVector: TNativeGLZVector = (X: 0; Y: 1; Z: 1; W: 0);
-NativeXZHmgVector: TNativeGLZVector = (X: 1; Y: 0; Z: 1; W: 0);
-NativeXYZHmgVector: TNativeGLZVector = (X: 1; Y: 1; Z: 1; W: 0);
-NativeXYZWHmgVector: TGLZVector = (X: 1; Y: 1; Z: 1; W: 1);
 
-// standard homogeneous points
-NativeXHmgPoint :  TNativeGLZVector = (X:1; Y:0; Z:0; W:1);
-NativeYHmgPoint :  TNativeGLZVector = (X:0; Y:1; Z:0; W:1);
-NativeZHmgPoint :  TNativeGLZVector = (X:0; Y:0; Z:1; W:1);
-NativeWHmgPoint :  TNativeGLZVector = (X:0; Y:0; Z:0; W:1);
-NativeNullHmgPoint : TNativeGLZVector = (X:0; Y:0; Z:0; W:1);
+{%endregion%}
 
-NativeNegativeUnitVector : TNativeGLZVector = (X:-1; Y:-1; Z:-1; W:-1);
-
-
- NativeIdentityQuaternion: TNativeGLZQuaternion = (ImagePart:(X:0; Y:0; Z:0); RealPart: 1);
+{%region%----[ Misc Vector Helpers functions ]----------------------------------}
 
  function NativeAffineVectorMake(const x, y, z : Single) : TNativeGLZAffineVector;overload;
  function NativeAffineVectorMake(const v : TNativeGLZVector) : TNativeGLZAffineVector;overload;
@@ -838,7 +858,7 @@ NativeNegativeUnitVector : TNativeGLZVector = (X:-1; Y:-1; Z:-1; W:-1);
   function Compare(constref A: TNativeGLZVector4b; constref B: TGLZVector4b): boolean; overload;
   function Compare(constref A: TNativeGLZVector2f; constref B: TGLZVector2f;Epsilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TNativeGLZBoundingBox; constref B: TGLZBoundingBox;Epsilon: Single = 1e-10): boolean; overload;
-  function CompareMatrix(constref A: TNativeGLZMatrix4; constref B: TGLZMatrix4f; Epsilon: Single = 1e-10): boolean;
+  function CompareMatrix(constref A: TNativeGLZMatrix4f; constref B: TGLZMatrix4f; Epsilon: Single = 1e-10): boolean;
   function CompareQuaternion(constref A: TNativeGLZQuaternion; constref B: TGLZQuaternion; Epsilon: Single = 1e-10): boolean;
   function Compare(constref A: TNativeGLZBoundingSphere; constref B: TGLZBoundingSphere; Epsilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TGLZBoundingSphere; constref B: TGLZBoundingSphere; Epsilon: Single = 1e-10): boolean; overload;
@@ -926,7 +946,7 @@ begin
   if not compare(A.pt8,B.pt8) then Result := False;
 end;
 
-function CompareMatrix(constref A: TNativeGLZMatrix4; constref B: TGLZMatrix4f;  Epsilon: Single): boolean;
+function CompareMatrix(constref A: TNativeGLZMatrix4f; constref B: TGLZMatrix4f;  Epsilon: Single): boolean;
 var i : Byte;
 begin
   Result := true;

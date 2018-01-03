@@ -18,7 +18,7 @@ type
     procedure Setup; override;
   public
     {$CODEALIGN RECORDMIN=16}
-    nmtx1,nmtx2, nmtx3 : TNativeGLZMatrix4;
+    nmtx1,nmtx2, nmtx3 : TNativeGLZMatrix4f;
     mtx1, mtx2, mtx3  : TGLZMatrix4f;
     {$CODEALIGN RECORDMIN=4}
   published
