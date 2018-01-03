@@ -40,6 +40,7 @@ uses
   VectorOperatorsTimingTest,
   VectorOperatorsOnSelfTimingTest,
   VectorNumericsTimingTest,
+  VectorAndHmgPlaneTimingTest,
   // Matrix Timing Test
   MatrixTimingTest,
   // Quaternion Timing Test
