@@ -65,7 +65,7 @@ type
 
 
   TReportGroup = (rgVector2f, rgVector3b, rgVector4b, rgVector4f, rgMatrix4f,
-                  rgQuaterion, rgBBox, rgBSphere, rgAABB);
+                  rgQuaterion, rgBBox, rgBSphere, rgAABB, rgPlaneHelper);
 
 const
 
@@ -78,6 +78,7 @@ const
   REPORT_GROUP_BBOX = 'BoundingBox' ;
   REPORT_GROUP_BSPHERE = 'BoundingSphere';
   REPORT_GROUP_AABB = 'AABoundingBox';
+  REPORT_GROUP_PLANE_HELP = 'PlaneHelper';
 
   rgArray: Array[TReportGroup] of string = (
               REPORT_GROUP_VECTOR2F,
@@ -88,7 +89,8 @@ const
               REPORT_GROUP_QUATERION,
               REPORT_GROUP_BBOX,
               REPORT_GROUP_BSPHERE,
-              REPORT_GROUP_AABB
+              REPORT_GROUP_AABB,
+              REPORT_GROUP_PLANE_HELP
               );
 
 implementation

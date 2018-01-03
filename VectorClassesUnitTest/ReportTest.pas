@@ -13,13 +13,14 @@ uses
 Type
   { TFileWriteTest }
   TFileWriteTest = class (TGroupTimingTest)
-  published
+  private
     procedure WriteFile;
     procedure WriteMarkDown;
     procedure WriteHTML;
     procedure WriteForumBBCode;
     procedure ClearLog;
-
+  published
+    procedure WriteFiles;
   end;
 
 implementation
@@ -60,6 +61,15 @@ begin
   hl.free;
   fhl.free;
   DoInitLists;
+end;
+
+procedure TFileWriteTest.WriteFiles;
+begin
+   WriteFile;
+   WriteMarkDown;
+   WriteHTML;
+   WriteForumBBCode;
+   ClearLog;
 end;
 
 initialization
