@@ -56,7 +56,7 @@ Unit GLZVectorMath;
 
 // with Those the performance decrease a little with SSE but increase a little with AVX
 // Depend of the compiler options with AVX<x> speed is increase with SSE<x> speed decrease
-{.$CODEALIGN LOCALMIN=16}
+{$CODEALIGN LOCALMIN=16}
 {.$CODEALIGN RECORDMIN=4}
 
 // Those options are set in compiler options with the -d command

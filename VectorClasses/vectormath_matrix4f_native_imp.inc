@@ -404,53 +404,6 @@ begin
           + c1 * (a2 * b3 - a3 * b2);
 end;
 
-function TGLZMatrix4f.GetDeterminant: Single;
-begin
-  Result:= Self.V[0].X*MatrixDetInternal(Self.V[1].Y, Self.V[2].Y, Self.V[3].Y, Self.V[1].Z, Self.V[2].Z, Self.V[3].Z, Self.V[1].W, Self.V[2].W, Self.V[3].W)
-        -Self.V[0].Y*MatrixDetInternal(Self.V[1].X, Self.V[2].X, Self.V[3].X, Self.V[1].Z, Self.V[2].Z, Self.V[3].Z, Self.V[1].W, Self.V[2].W, Self.V[3].W)
-        +Self.V[0].Z*MatrixDetInternal(Self.V[1].X, Self.V[2].X, Self.V[3].X, Self.V[1].Y, Self.V[2].Y, Self.V[3].Y, Self.V[1].W, Self.V[2].W, Self.V[3].W)
-        -Self.V[0].W*MatrixDetInternal(Self.V[1].X, Self.V[2].X, Self.V[3].X, Self.V[1].Y, Self.V[2].Y, Self.V[3].Y, Self.V[1].Z, Self.V[3].Z, Self.V[3].Z);
-end;
-
-function TGLZMatrix4f.Invert:TGLZMatrix4f;
-var
-   det : Single;
-begin
-   det:=GetDeterminant;
-   if Abs(Det)<cEPSILON then  result:=IdentityHmgMatrix
-   else
-   begin
-      Self.Adjoint;
-      result := Self * (1/det);
-   end;
-end;
-
-function TGLZMatrix4f.Translate(constref v : TGLZVector4f):TGLZMatrix4f;
-begin
-   Result := Self;
-   Result.W.X:=Self.W.X+v.X;
-   Result.W.Y:=Self.W.Y+v.Y;
-   Result.W.Z:=Self.W.Z+v.Z;
-end;
-
-function TGLZMatrix4f.Multiply(constref M2 : TGLZMatrix4f): TGLZMatrix4f;
-var
-  I: Integer;
-begin
-  for I := 0 to 3 do
-    Result.V[I] := Self.V[I] * M2.V[I];
-end;
-
-function TGLZMatrix4f.Normalize: TGLZMatrix4f;
-begin
-   Result.X.W:=0;
-   Result.X.Normalize;
-   Result.Y.W:=0;
-   Result.Y.Normalize;
-   Result.Z:=Result.X.CrossProduct(Result.Y);
-   Result.X:=Result.Y.CrossProduct(Result.Z);
-   Result.W:=WHmgVector;
-end;
 
 
 
@@ -516,28 +469,7 @@ begin
    Self.V[2].V[2]:=ascale*src.V[2].V[2];
 end;
 
-function TGLZMatrix4f.Transpose: TGLZMatrix4f;
-begin
-  Result.M[0,0] := M[0,0];
-  Result.M[0,1] := M[1,0];
-  Result.M[0,2] := M[2,0];
-  Result.M[0,3] := M[3,0];
 
-  Result.M[1,0] := M[0,1];
-  Result.M[1,1] := M[1,1];
-  Result.M[1,2] := M[2,1];
-  Result.M[1,3] := M[3,1];
-
-  Result.M[2,0] := M[0,2];
-  Result.M[2,1] := M[1,2];
-  Result.M[2,2] := M[2,2];
-  Result.M[2,3] := M[3,2];
-
-  Result.M[3,0] := M[0,3];
-  Result.M[3,1] := M[1,3];
-  Result.M[3,2] := M[2,3];
-  Result.M[3,3] := M[3,3];
-end;
 
 { TODO 1 -oTMatrix4 -cASM : Add SSE/AVX Version }
 procedure TGLZMatrix4f.AnglePreservingMatrixInvert(constref mat : TGLZMatrix4f);
@@ -842,6 +774,100 @@ end;
 {%endregion%}
 
 {%region%----[ Functions ]------------------------------------------------------}
+function TGLZMatrix4f.GetDeterminant: Single;
+begin
+  Result:= Self.V[0].X*MatrixDetInternal(Self.V[1].Y, Self.V[2].Y, Self.V[3].Y, Self.V[1].Z, Self.V[2].Z, Self.V[3].Z, Self.V[1].W, Self.V[2].W, Self.V[3].W)
+        -Self.V[0].Y*MatrixDetInternal(Self.V[1].X, Self.V[2].X, Self.V[3].X, Self.V[1].Z, Self.V[2].Z, Self.V[3].Z, Self.V[1].W, Self.V[2].W, Self.V[3].W)
+        +Self.V[0].Z*MatrixDetInternal(Self.V[1].X, Self.V[2].X, Self.V[3].X, Self.V[1].Y, Self.V[2].Y, Self.V[3].Y, Self.V[1].W, Self.V[2].W, Self.V[3].W)
+        -Self.V[0].W*MatrixDetInternal(Self.V[1].X, Self.V[2].X, Self.V[3].X, Self.V[1].Y, Self.V[2].Y, Self.V[3].Y, Self.V[1].Z, Self.V[3].Z, Self.V[3].Z);
+end;
+
+function TGLZMatrix4f.Invert:TGLZMatrix4f;
+var
+   det : Single;
+begin
+   det:=GetDeterminant;
+   if Abs(Det)<cEPSILON then  result:=IdentityHmgMatrix
+   else
+   begin
+      Self.Adjoint;
+      result := Self * (1/det);
+   end;
+end;
+
+function TGLZMatrix4f.Translate(constref v : TGLZVector4f):TGLZMatrix4f;
+begin
+   Result := Self;
+   Result.W.X:=Self.W.X+v.X;
+   Result.W.Y:=Self.W.Y+v.Y;
+   Result.W.Z:=Self.W.Z+v.Z;
+end;
+
+function TGLZMatrix4f.Multiply(constref M2 : TGLZMatrix4f): TGLZMatrix4f;
+var
+  I: Integer;
+begin
+  for I := 0 to 3 do
+    Result.V[I] := Self.V[I] * M2.V[I];
+end;
+
+function TGLZMatrix4f.Normalize: TGLZMatrix4f;
+begin
+   Result.X.W:=0;
+   Result.X.Normalize;
+   Result.Y.W:=0;
+   Result.Y.Normalize;
+   Result.Z:=Result.X.CrossProduct(Result.Y);
+   Result.X:=Result.Y.CrossProduct(Result.Z);
+   Result.W:=WHmgVector;
+end;
+
+function TGLZMatrix4f.Transpose: TGLZMatrix4f;
+begin
+  Result.M[0,0] := M[0,0];
+  Result.M[0,1] := M[1,0];
+  Result.M[0,2] := M[2,0];
+  Result.M[0,3] := M[3,0];
+
+  Result.M[1,0] := M[0,1];
+  Result.M[1,1] := M[1,1];
+  Result.M[1,2] := M[2,1];
+  Result.M[1,3] := M[3,1];
+
+  Result.M[2,0] := M[0,2];
+  Result.M[2,1] := M[1,2];
+  Result.M[2,2] := M[2,2];
+  Result.M[2,3] := M[3,2];
+
+  Result.M[3,0] := M[0,3];
+  Result.M[3,1] := M[1,3];
+  Result.M[3,2] := M[2,3];
+  Result.M[3,3] := M[3,3];
+end;
+
+
+function TGLZMatrix4f.Transpose: TGLZMatrix4f;
+begin
+  Result.M[0,0] := M[0,0];
+  Result.M[0,1] := M[1,0];
+  Result.M[0,2] := M[2,0];
+  Result.M[0,3] := M[3,0];
+
+  Result.M[1,0] := M[0,1];
+  Result.M[1,1] := M[1,1];
+  Result.M[1,2] := M[2,1];
+  Result.M[1,3] := M[3,1];
+
+  Result.M[2,0] := M[0,2];
+  Result.M[2,1] := M[1,2];
+  Result.M[2,2] := M[2,2];
+  Result.M[2,3] := M[3,2];
+
+  Result.M[3,0] := M[0,3];
+  Result.M[3,1] := M[1,3];
+  Result.M[3,2] := M[2,3];
+  Result.M[3,3] := M[3,3];
+end;
 
 {%endregion%}
 
