@@ -51,7 +51,7 @@ begin
   Result :=  (a*c - b*b) < cColinearBias;
 end;
 
-function TGLZVectorHelper.MoveAround(constref AMovingObjectUp, ATargetPosition: TGLZVector;pitchDelta, turnDelta: Single): TGLZVector;
+function TGLZVectorHelper.MoveAround(constref AMovingObjectUp, ATargetPosition: TGLZVector; pitchDelta, turnDelta: Single): TGLZVector;
 var
   originalT2C, normalT2C, normalCameraRight: TGLZVector;
   pitchNow, dist: Single;

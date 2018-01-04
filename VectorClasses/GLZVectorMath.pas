@@ -45,18 +45,17 @@ Unit GLZVectorMath;
 {$INLINE ON}
 
 {$MODESWITCH ADVANCEDRECORDS}
-
 //-----------------------
 
 // ALIGNEMENT
 {$ALIGN 16}
 
 {$CODEALIGN CONSTMIN=16}
+{$CODEALIGN LOCALMIN=16}
 {$CODEALIGN VARMIN=16}
 
 // with Those the performance decrease a little with SSE but increase a little with AVX
 // Depend of the compiler options with AVX<x> speed is increase with SSE<x> speed decrease
-{$CODEALIGN LOCALMIN=16}
 {.$CODEALIGN RECORDMIN=4}
 
 // Those options are set in compiler options with the -d command
@@ -847,7 +846,7 @@ type
     //function PointLineClosestPoint(const linePoint, lineDirection : TGLZVector) : TGLZVector;
     { Computes algebraic distance between point and line.}
     //function PointLineDistance(const linePoint, lineDirection : TGLZVector) : Single;
-    { Extracted from Camera.MoveAroundTarget(pitch, turn). }
+    { Extracted from Camera.MoveAroundTarget(pitch, turn). pitch and turn in deg }
     function MoveAround(constref AMovingObjectUp, ATargetPosition: TGLZVector; pitchDelta, turnDelta: Single): TGLZVector;
     { AOriginalPosition - Object initial position.
        ACenter - some point, from which is should be distanced.

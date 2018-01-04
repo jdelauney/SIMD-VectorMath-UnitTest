@@ -109,28 +109,28 @@ procedure TVectorAndHmgPlaneHelperTestCase.TestRotate;
 begin
   nt3 := nt1.Rotate(NativeYHmgVector,alpha);
   vt3 := vt1.Rotate(YHmgVector,alpha);
-  AssertTrue('HmgPlaneHelper Rotate do not match : '+FLoattostrF(fs1,fffixed,3,3)+' --> '+FLoattostrF(fs2,fffixed,3,3), Compare(nt3,vt3));
+  AssertTrue('HmgPlaneHelper Rotate do not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
 end;
 
 procedure TVectorAndHmgPlaneHelperTestCase.TestRotateAroundX;
 begin
   nt3 := nt1.RotateAroundX(alpha);
   vt3 := vt1.RotateAroundX(alpha);
-  AssertTrue('HmgPlaneHelper Rotate Around X do not match : '+FLoattostrF(fs1,fffixed,3,3)+' --> '+FLoattostrF(fs2,fffixed,3,3), Compare(nt3,vt3));
+  AssertTrue('HmgPlaneHelper Rotate Around X do not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
 end;
 
 procedure TVectorAndHmgPlaneHelperTestCase.TestRotateAroundY;
 begin
   nt3 := nt1.RotateAroundY(alpha);
   vt3 := vt1.RotateAroundY(alpha);
-  AssertTrue('HmgPlaneHelper Rotate Around Y do not match : '+FLoattostrF(fs1,fffixed,3,3)+' --> '+FLoattostrF(fs2,fffixed,3,3), Compare(nt3,vt3));
+  AssertTrue('HmgPlaneHelper Rotate Around Y do not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
 end;
 
 procedure TVectorAndHmgPlaneHelperTestCase.TestRotateAroundZ;
 begin
   nt3 := nt1.RotateAroundZ(alpha);
   vt3 := vt1.RotateAroundZ(alpha);
-  AssertTrue('HmgPlaneHelper Rotate Around Z do not match : '+FLoattostrF(fs1,fffixed,3,3)+' --> '+FLoattostrF(fs2,fffixed,3,3), Compare(nt3,vt3));
+  AssertTrue('HmgPlaneHelper Rotate Around Z do not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
 end;
 
 procedure TVectorAndHmgPlaneHelperTestCase.TestAverageNormal4;
@@ -158,14 +158,14 @@ procedure TVectorAndHmgPlaneHelperTestCase.TestMoveAround;
 begin
   nt3 := nt1.MoveAround(NativeYHmgVector,nt2, alpha, alpha);
   vt3 := vt1.MoveAround(YHmgVector,vt2, alpha, alpha);
-  AssertTrue('HmgPlaneHelper Move Z does not match : '+FLoattostrF(fs1,fffixed,3,3)+' --> '+FLoattostrF(fs2,fffixed,3,3), Compare(nt3,vt3));
+  AssertTrue('HmgPlaneHelper Move Z does not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
 end;
 
 procedure TVectorAndHmgPlaneHelperTestCase.TestShiftObjectFromCenter;
 begin
   nt3 := nt1.ShiftObjectFromCenter(nt2, Fs1, True);
   vt3 := vt1.ShiftObjectFromCenter(vt2, Fs1, True);
-  AssertTrue('HmgPlaneHelper ShiftObjectFromCenter does not match : '+FLoattostrF(fs1,fffixed,3,3)+' --> '+FLoattostrF(fs2,fffixed,3,3), Compare(nt3,vt3));
+  AssertTrue('HmgPlaneHelper ShiftObjectFromCenter does not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
 end;
 
 procedure TVectorAndHmgPlaneHelperTestCase.TestExtendClipRect;
@@ -177,7 +177,7 @@ begin
   aCr.V := vt1.V;
   nCr.ExtendClipRect(Fs1,Fs2);
   aCr.ExtendClipRect(Fs1,Fs2);
-  AssertTrue('HmgPlaneHelper ExtendClipRect does not match : '+FLoattostrF(fs1,fffixed,3,3)+' --> '+FLoattostrF(fs2,fffixed,3,3), Compare(nCr,aCr));
+  AssertTrue('HmgPlaneHelper ExtendClipRect does not match : '+nCr.ToString+' --> '+nCr.ToString, Compare(nCr,aCr));
 end;
 
 {%endregion%}

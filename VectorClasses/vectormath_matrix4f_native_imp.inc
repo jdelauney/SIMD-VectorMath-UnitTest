@@ -777,9 +777,9 @@ end;
 function TGLZMatrix4f.GetDeterminant: Single;
 begin
   Result:= Self.V[0].X*MatrixDetInternal(Self.V[1].Y, Self.V[2].Y, Self.V[3].Y, Self.V[1].Z, Self.V[2].Z, Self.V[3].Z, Self.V[1].W, Self.V[2].W, Self.V[3].W)
-        -Self.V[0].Y*MatrixDetInternal(Self.V[1].X, Self.V[2].X, Self.V[3].X, Self.V[1].Z, Self.V[2].Z, Self.V[3].Z, Self.V[1].W, Self.V[2].W, Self.V[3].W)
-        +Self.V[0].Z*MatrixDetInternal(Self.V[1].X, Self.V[2].X, Self.V[3].X, Self.V[1].Y, Self.V[2].Y, Self.V[3].Y, Self.V[1].W, Self.V[2].W, Self.V[3].W)
-        -Self.V[0].W*MatrixDetInternal(Self.V[1].X, Self.V[2].X, Self.V[3].X, Self.V[1].Y, Self.V[2].Y, Self.V[3].Y, Self.V[1].Z, Self.V[3].Z, Self.V[3].Z);
+          -Self.V[0].Y*MatrixDetInternal(Self.V[1].X, Self.V[2].X, Self.V[3].X, Self.V[1].Z, Self.V[2].Z, Self.V[3].Z, Self.V[1].W, Self.V[2].W, Self.V[3].W)
+          +Self.V[0].Z*MatrixDetInternal(Self.V[1].X, Self.V[2].X, Self.V[3].X, Self.V[1].Y, Self.V[2].Y, Self.V[3].Y, Self.V[1].W, Self.V[2].W, Self.V[3].W)
+          -Self.V[0].W*MatrixDetInternal(Self.V[1].X, Self.V[2].X, Self.V[3].X, Self.V[1].Y, Self.V[2].Y, Self.V[3].Y, Self.V[1].Z, Self.V[2].Z, Self.V[3].Z);
 end;
 
 function TGLZMatrix4f.Invert:TGLZMatrix4f;
@@ -846,28 +846,7 @@ begin
 end;
 
 
-function TGLZMatrix4f.Transpose: TGLZMatrix4f;
-begin
-  Result.M[0,0] := M[0,0];
-  Result.M[0,1] := M[1,0];
-  Result.M[0,2] := M[2,0];
-  Result.M[0,3] := M[3,0];
 
-  Result.M[1,0] := M[0,1];
-  Result.M[1,1] := M[1,1];
-  Result.M[1,2] := M[2,1];
-  Result.M[1,3] := M[3,1];
-
-  Result.M[2,0] := M[0,2];
-  Result.M[2,1] := M[1,2];
-  Result.M[2,2] := M[2,2];
-  Result.M[2,3] := M[3,2];
-
-  Result.M[3,0] := M[0,3];
-  Result.M[3,1] := M[1,3];
-  Result.M[3,2] := M[2,3];
-  Result.M[3,3] := M[3,3];
-end;
 
 {%endregion%}
 

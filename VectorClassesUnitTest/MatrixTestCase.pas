@@ -9,7 +9,6 @@ uses
   native, GLZVectorMath;
 
 type
-  { TVectorOperatorsTestCase }
 
   { TMatrix4TestCase }
 
@@ -45,7 +44,11 @@ implementation
 procedure TMatrix4TestCase.Setup;
 begin
   inherited Setup;
-  nmtx1.CreateIdentityMatrix;
+  nmtx1.V[0].Create(-2,2,-3,1);
+  nmtx1.V[1].Create(-1,1,3,1);
+  nmtx1.V[2].Create(2,0,-1,1);
+  nmtx1.V[3].Create(2,2,2,1);      // this should have det of -50
+
   nmtx2.CreateScaleMatrix(nt1);
   mtx1.CreateIdentityMatrix;
   mtx2.CreateScaleMatrix(vt1);

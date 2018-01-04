@@ -19,6 +19,7 @@ uses
   VectorOtherTestCase,
   VectorOnSelfTestCase,
   // Matrix Test Case
+  MatrixFunctionalTest,
   MatrixTestCase,
   // Quaternion Test Case
   QuaternionTestCase,
