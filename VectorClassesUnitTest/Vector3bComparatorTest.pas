@@ -32,7 +32,6 @@ type
       procedure TestOpOrByte;
       procedure TestOpXor;
       procedure TestOpXorByte;
-      procedure TestAsVector3f;
       procedure TestSwizzle;
 
   end;
@@ -167,15 +166,7 @@ begin
    AssertTrue('Vector Xor Byte no match'+nbt3.ToString+' --> '+abt3.ToString, Compare(nbt3,abt3));
 end;
 
-procedure TVector3bComparatorTest.TestAsVector3f;
-var
-  nvt3: TNativeGLZVector3f;
-  avt3: TGLZVector3f;
-begin
-   nvt3 := nbt1.AsVector3f;
-   avt3 := abt1.AsVector3f;
-   AssertTrue('Vector AsVector3f no match'+nbt3.ToString+' --> '+abt3.ToString, Compare(nvt3,avt3));
-end;
+
 
 procedure TVector3bComparatorTest.TestSwizzle;
 begin

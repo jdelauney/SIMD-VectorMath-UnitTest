@@ -22,6 +22,10 @@ type
      vt1,vt2, vt3 : TGLZVector4f;
      at1, at2, at3, at4, vorg: TGLZVector4f;
      ntt1,ntt2, ntt3 : TNativeGLZVector2f;
+     vt2i  : TGLZVector2i;
+     vt4i  : TGLZVector4i;
+     nt2i  : TNativeGLZVector2i;
+     nt4i  : TNativeGLZVector4i;
      nt1,nt2, nt3 : TNativeGLZVector4f;
      ant1,ant2, ant3, ant4, norg : TNativeGLZVector4f;
      {$CODEALIGN RECORDMIN=4}

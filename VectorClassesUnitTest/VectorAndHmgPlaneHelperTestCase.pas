@@ -158,7 +158,7 @@ procedure TVectorAndHmgPlaneHelperTestCase.TestMoveAround;
 begin
   nt3 := nt1.MoveAround(NativeYHmgVector,nt2, alpha, alpha);
   vt3 := vt1.MoveAround(YHmgVector,vt2, alpha, alpha);
-  AssertTrue('HmgPlaneHelper Move Z does not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
+  AssertTrue('HmgPlaneHelper Move Z does not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3,1e-5));
 end;
 
 procedure TVectorAndHmgPlaneHelperTestCase.TestShiftObjectFromCenter;

@@ -15,6 +15,20 @@ begin
   Bb.Min.V[2] := -Bb.Max.V[2]; *)
 end;
 
+procedure TGLZAxisAlignedBoundingBox.Create(const AMin, AMax: TGLZVector);overload;
+begin
+  if AMin<AMax then
+  begin
+    Self.Min := AMin.Abs;
+    Self.Max := AMax.abs;
+  end
+  else
+  begin
+    Self.Max := AMin.Abs;
+    Self.Min := AMax.abs;
+  end;
+end;
+
 { : Extract the AABB information from a BB. }
 procedure TGLZAxisAlignedBoundingBox.Create(const ABB: TGLZBoundingBox);
 var

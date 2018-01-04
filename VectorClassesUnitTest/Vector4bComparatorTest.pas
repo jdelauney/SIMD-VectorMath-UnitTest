@@ -42,8 +42,6 @@ type
       procedure TestOpClampByte;
       procedure TestMulAdd;
       procedure TestMulDiv;
-      procedure TestGetSwizzleMode;
-      procedure TestAsVector4f;
       procedure TestShuffle;
       procedure TestSwizzle;
       procedure TestCombine;
@@ -271,25 +269,6 @@ begin
    nbf3 := nbf1.MulDiv(b2, b5);
    abf3 := abf1.MulDiv(b2, b5);
    AssertTrue('Vector MulDiv byte no match'+nbf3.ToString+' --> '+abf3.ToString, Compare(nbf3,abf3));
-end;
-
-procedure TVector4bComparatorTest.TestGetSwizzleMode;
-var
-  nsw,asw: TGLZVector4SwizzleRef;
-begin
-   nsw := nbf1.GetSwizzleMode;
-   asw := abf1.GetSwizzleMode;
-   AssertEquals('Vector GetSwizzleMode no match', ord(nsw),ord(asw));
-end;
-
-procedure TVector4bComparatorTest.TestAsVector4f;
-var
-  nvt3: TNativeGLZVector4f;
-  avt3: TGLZVector4f;
-begin
-   nvt3 := nbf1.AsVector4f;
-   avt3 := abf1.AsVector4f;
-   AssertTrue('Vector AsVector3f no match'+nbf3.ToString+' --> '+abf3.ToString, Compare(nvt3,avt3));
 end;
 
 

@@ -2,7 +2,7 @@ program VectorClassesTimingTest64;
 
 {$mode objfpc}{$H+}
 
-{.$define NO_TIMING_TEST}
+{$define NO_TIMING_TEST}
 
 uses
   Interfaces, Forms, GuiTestRunner,
@@ -28,10 +28,10 @@ uses
   // bounding box et al
   BoundingBoxComparatorTest,
   BSphereComparatorTest,
-  AABBComparatorTest,
+  AABBComparatorTest
 {$ifndef NO_TIMING_TEST}
   // Vector2f Timing Test Case
-  Vector2OperatorsTimingTest,
+  ,Vector2OperatorsTimingTest,
   // Vector3b Timing Test Case
   Vector3bTimingTest,
   // Vector4b Timing Test Case
@@ -50,9 +50,9 @@ uses
   BSphereTimingTest,
   AABBTimingTest,
   { ensure your code is included before this line}
-  ReportTest,
+  ReportTest
 {$endif}
-  GLZVectorMath;
+  ,GLZVectorMath;
 
 begin
   Application.Title := 'VectorClassesUnitTest';

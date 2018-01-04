@@ -36,7 +36,6 @@ type
        procedure TestTimeOpOrByte;
        procedure TestTimeOpXor;
        procedure TestTimeOpXorByte;
-       procedure TestTimeAsVector3f;
        procedure TestTimeSwizzle;
    end;
 
@@ -266,21 +265,6 @@ begin
   GlobalProfiler[1].Stop;
 end;
 
-procedure TVector3bTimingTest.TestTimeAsVector3f;
-var
-  nres: TNativeGLZVector3f;
-  ares: TGLZVector3f;
-begin
-  TestDispName := 'Vector AsVector3f';
-  GlobalProfiler[0].Clear;
-  GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin nres := nbt1.AsVector3f; end;
-  GlobalProfiler[0].Stop;
-  GlobalProfiler[1].Clear;
-  GlobalProfiler[1].Start;
-  For cnt:= 1 to Iterations do begin ares := abt1.AsVector3f; end;
-  GlobalProfiler[1].Stop;
-end;
 
 procedure TVector3bTimingTest.TestTimeSwizzle;
 begin

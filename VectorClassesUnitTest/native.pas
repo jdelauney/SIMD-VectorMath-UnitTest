@@ -14,6 +14,13 @@ uses
   Classes, SysUtils, GLZVectorMath;
 
 type
+{%region%----[ TNativeGLZVector2i ]---------------------------------------------}
+  TNativeGLZVector2i = record
+  case Byte of
+    0: (V: TGLZVector2iType);
+    1: (X, Y : Integer);
+  end;
+{%endregion%}
 
 {%region%----[ TNativeGLZVector2f ]---------------------------------------------}
   TNativeGLZVector2f =  record
@@ -54,10 +61,12 @@ type
     function Distance(A:TNativeGLZVector2f):Single;
     function DistanceSquare(A:TNativeGLZVector2f):Single;
     function Normalize : TNativeGLZVector2f;
-    // function DotProduct(A:TVector2f):TVector2f;
+    function DotProduct(A:TNativeGLZVector2f):Single;
+    function AngleBetween(Constref A, ACenterPoint : TNativeGLZVector2f): Single;
+    function AngleCosine(constref A: TNativeGLZVector2f): Single;
     // function Reflect(I, NRef : TVector2f):TVector2f
-    //function Round: TVector2I;
-    //function Trunc: TVector2I;
+    function Round: TNativeGLZVector2i;
+    function Trunc: TNativeGLZVector2i;
 
 
     case Byte of
@@ -67,17 +76,192 @@ type
 
 {%endregion%}
 
-{%region%----[ TNativeGLZVector3f ]---------------------------------------------}
-TNativeGLZVector3f =  record
+
+{%region%----[ TNativeGLZVector3b ]---------------------------------------------}
+
+    TNativeGLZVector3b = Record
+    private
+      //FSwizzleMode : TGLZVector3SwizzleRef;
+    public
+      procedure Create(Const aX,aY,aZ: Byte); overload;
+
+      function ToString : String;
+
+      class operator +(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b; overload;
+      class operator -(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b; overload;
+      class operator *(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b; overload;
+      class operator Div(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b; overload;
+
+      class operator +(constref A: TNativeGLZVector3b; constref B:Byte): TNativeGLZVector3b; overload;
+      class operator -(constref A: TNativeGLZVector3b; constref B:Byte): TNativeGLZVector3b; overload;
+      class operator *(constref A: TNativeGLZVector3b; constref B:Byte): TNativeGLZVector3b; overload;
+      class operator *(constref A: TNativeGLZVector3b; constref B:Single): TNativeGLZVector3b; overload;
+      class operator Div(constref A: TNativeGLZVector3b; constref B:Byte): TNativeGLZVector3b; overload;
+
+      class operator =(constref A, B: TNativeGLZVector3b): Boolean;
+      class operator <>(constref A, B: TNativeGLZVector3b): Boolean;
+
+      class operator And(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b; overload;
+      class operator Or(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b; overload;
+      class operator Xor(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b; overload;
+      class operator And(constref A: TNativeGLZVector3b; constref B:Byte): TNativeGLZVector3b; overload;
+      class operator or(constref A: TNativeGLZVector3b; constref B:Byte): TNativeGLZVector3b; overload;
+      class operator Xor(constref A: TNativeGLZVector3b; constref B:Byte): TNativeGLZVector3b; overload;
+
+      function Swizzle(Const ASwizzle : TGLZVector3SwizzleRef): TNativeGLZVector3b;
+
+      Case Integer of
+        0 : (V:TGLZVector3bType);
+        1 : (x,y,z:Byte);
+        2 : (Red,Green,Blue:Byte);
+    end;
+{%endregion%}
+
+{%region%----[ TNativeGLZVector3i ]---------------------------------------------}
+  TNativeGLZVector3i = record
   case Byte of
-    0: (V: TGLZVector3fType);
-    1: (X, Y, Z: Single);
-    2: (Red, Green, Blue: Single);
-End;
+    0: (V: TGLZVector3iType);
+    1: (X, Y, Z : Integer);
+    2: (Red, Green, Blue : Integer);
+  end;
+{%endregion%}
 
-TNativeGLZAffineVector = TNativeGLZVector3f;
-PNativeGLZAffineVector = ^TNativeGLZAffineVector;
+{%region%----[ TNativeGLZVector3f ]---------------------------------------------}
+  TNativeGLZVector3f =  record
+    case Byte of
+      0: (V: TGLZVector3fType);
+      1: (X, Y, Z: Single);
+      2: (Red, Green, Blue: Single);
+  End;
 
+  TNativeGLZAffineVector = TNativeGLZVector3f;
+  PNativeGLZAffineVector = ^TNativeGLZAffineVector;
+
+{%endregion%}
+
+{%region%----[ TNativeGLZVector4b ]---------------------------------------------}
+  TNativeGLZVector4b = Record
+  private
+
+  public
+    procedure Create(Const aX,aY,aZ: Byte; const aW : Byte = 255); overload;
+    procedure Create(Const aValue : TNativeGLZVector3b; const aW : Byte = 255); overload;
+
+    function ToString : String;
+
+    class operator +(constref A, B: TNativeGLZVector4b): TNativeGLZVector4b; overload;
+    class operator -(constref A, B: TNativeGLZVector4b): TNativeGLZVector4b; overload;
+    class operator *(constref A, B: TNativeGLZVector4b): TNativeGLZVector4b; overload;
+    class operator Div(constref A, B: TNativeGLZVector4b): TNativeGLZVector4b; overload;
+
+    class operator +(constref A: TNativeGLZVector4b; constref B:Byte): TNativeGLZVector4b; overload;
+    class operator -(constref A: TNativeGLZVector4b; constref B:Byte): TNativeGLZVector4b; overload;
+    class operator *(constref A: TNativeGLZVector4b; constref B:Byte): TNativeGLZVector4b; overload;
+    class operator *(constref A: TNativeGLZVector4b; constref B:Single): TNativeGLZVector4b; overload;
+    class operator Div(constref A: TNativeGLZVector4b; constref B:Byte): TNativeGLZVector4b; overload;
+
+    class operator =(constref A, B: TNativeGLZVector4b): Boolean;
+    class operator <>(constref A, B: TNativeGLZVector4b): Boolean;
+
+    class operator And(constref A, B: TNativeGLZVector4b): TNativeGLZVector4b; overload;
+    class operator Or(constref A, B: TNativeGLZVector4b): TNativeGLZVector4b; overload;
+    class operator Xor(constref A, B: TNativeGLZVector4b): TNativeGLZVector4b; overload;
+    class operator And(constref A: TNativeGLZVector4b; constref B:Byte): TNativeGLZVector4b; overload;
+    class operator or(constref A: TNativeGLZVector4b; constref B:Byte): TNativeGLZVector4b; overload;
+    class operator Xor(constref A: TNativeGLZVector4b; constref B:Byte): TNativeGLZVector4b; overload;
+
+    function DivideBy2 : TNativeGLZVector4b;
+
+    function Min(Constref B : TNativeGLZVector4b):TNativeGLZVector4b; overload;
+    function Min(Constref B : Byte):TNativeGLZVector4b; overload;
+    function Max(Constref B : TNativeGLZVector4b):TNativeGLZVector4b; overload;
+    function Max(Constref B : Byte):TNativeGLZVector4b; overload;
+    function Clamp(Constref AMin, AMax : TNativeGLZVector4b):TNativeGLZVector4b; overload;
+    function Clamp(Constref AMin, AMax : Byte):TNativeGLZVector4b; overload;
+
+    function MulAdd(Constref B, C : TNativeGLZVector4b):TNativeGLZVector4b;
+    function MulDiv(Constref B, C : Byte):TNativeGLZVector4b;
+
+    function Shuffle(const x,y,z,w : Byte):TNativeGLZVector4b;
+    function Swizzle(const ASwizzle: TGLZVector4SwizzleRef ): TNativeGLZVector4b;
+
+    function Combine(constref V2: TNativeGLZVector4b; constref F1: Single): TNativeGLZVector4b;
+    function Combine2(constref V2: TNativeGLZVector4b; const F1, F2: Single): TNativeGLZVector4b;
+    function Combine3(constref V2, V3: TNativeGLZVector4b; const F1, F2, F3: Single): TNativeGLZVector4b;
+
+    function MinXYZComponent : Byte;
+    function MaxXYZComponent : Byte;
+
+    Case Integer of
+     0 : (V:TGLZVector4bType);
+     1 : (x,y,z,w:Byte);
+     2 : (Red,Green,Blue, Alpha:Byte);
+     3 : (AsVector3b : TNativeGLZVector3b);
+     4 : (AsInteger : Integer);
+  end;
+{%endregion%}
+
+{%region%----[ TNativeGLZVector4i ]---------------------------------------------}
+  TNativeGLZVector4i = Record
+  public
+    procedure Create(Const aX,aY,aZ: Longint; const aW : Longint = 0); overload;
+    procedure Create(Const aValue : TNativeGLZVector3i; const aW : Longint = MaxInt); overload;
+    procedure Create(Const aValue : TNativeGLZVector3b; const aW : Longint = MaxInt); overload;
+
+    function ToString : String;
+
+    class operator +(constref A, B: TNativeGLZVector4i): TNativeGLZVector4i; overload;
+    class operator -(constref A, B: TNativeGLZVector4i): TNativeGLZVector4i; overload;
+    class operator *(constref A, B: TNativeGLZVector4i): TNativeGLZVector4i; overload;
+    class operator Div(constref A, B: TNativeGLZVector4i): TNativeGLZVector4i; overload;
+
+    class operator +(constref A: TNativeGLZVector4i; constref B:Longint): TNativeGLZVector4i; overload;
+    class operator -(constref A: TNativeGLZVector4i; constref B:Longint): TNativeGLZVector4i; overload;
+    class operator *(constref A: TNativeGLZVector4i; constref B:Longint): TNativeGLZVector4i; overload;
+    class operator *(constref A: TNativeGLZVector4i; constref B:Single): TNativeGLZVector4i; overload;
+    class operator Div(constref A: TNativeGLZVector4i; constref B:Longint): TNativeGLZVector4i; overload;
+
+    class operator -(constref A: TNativeGLZVector4i): TNativeGLZVector4i; overload;
+    class operator =(constref A, B: TNativeGLZVector4i): Boolean;
+    class operator <>(constref A, B: TNativeGLZVector4i): Boolean;
+
+    (* class operator And(constref A, B: TGLZVector4i): TGLZVector4i; overload;
+    class operator Or(constref A, B: TGLZVector4i): TGLZVector4i; overload;
+    class operator Xor(constref A, B: TGLZVector4i): TGLZVector4i; overload;
+    class operator And(constref A: TGLZVector4i; constref B:LongInt): TGLZVector4i; overload;
+    class operator or(constref A: TGLZVector4i; constref B:LongInt): TGLZVector4i; overload;
+    class operator Xor(constref A: TGLZVector4i; constref B:LongInt): TGLZVector4i; overload; *)
+
+    function DivideBy2 : TNativeGLZVector4i;
+    function Abs: TNativeGLZVector4i;
+
+    function Min(Constref B : TNativeGLZVector4i):TNativeGLZVector4i; overload;
+    function Min(Constref B : LongInt):TNativeGLZVector4i; overload;
+    function Max(Constref B : TNativeGLZVector4i):TNativeGLZVector4i; overload;
+    function Max(Constref B : LongInt):TNativeGLZVector4i; overload;
+    function Clamp(Constref AMin, AMax : TNativeGLZVector4i):TNativeGLZVector4i; overload;
+    function Clamp(Constref AMin, AMax : LongInt):TNativeGLZVector4i; overload;
+
+    function MulAdd(Constref B, C : TNativeGLZVector4i):TNativeGLZVector4i;
+    function MulDiv(Constref B, C : TNativeGLZVector4i):TNativeGLZVector4i;
+
+
+    function Shuffle(const x,y,z,w : Byte):TNativeGLZVector4i;
+    function Swizzle(const ASwizzle: TGLZVector4SwizzleRef ): TNativeGLZVector4i;
+
+    function Combine(constref V2: TNativeGLZVector4i; constref F1: Single): TNativeGLZVector4i;
+    function Combine2(constref V2: TNativeGLZVector4i; const F1, F2: Single): TNativeGLZVector4i;
+    function Combine3(constref V2, V3: TNativeGLZVector4i; const F1, F2, F3: Single): TNativeGLZVector4i;
+
+    function MinXYZComponent : LongInt;
+    function MaxXYZComponent : LongInt;
+
+    case Byte of
+      0 : (V: TGLZVector4iType);
+      1 : (X,Y,Z,W: longint);
+      2 : (Red, Green, Blue, Alpha : Longint);
+      3 : (TopLeft, BottomRight : TNativeGLZVector2i);
+  end;
 {%endregion%}
 
 {%region%----[ TNativeGLZVector4f ]---------------------------------------------}
@@ -148,6 +332,9 @@ PNativeGLZAffineVector = ^TNativeGLZAffineVector;
 
     function Reflect(constref N: TNativeGLZVector4f): TNativeGLZVector4f;
 
+    function Round: TNativeGLZVector4i;
+    function Trunc: TNativeGLZVector4i;
+
 //    function MoveAround(constRef AMovingUp, ATargetPosition: TNativeGLZVector4f; pitchDelta, turnDelta: Single): TNativeGLZVector4f;
 
     procedure pAdd(constref A: TNativeGLZVector4f);overload;
@@ -179,9 +366,10 @@ PNativeGLZAffineVector = ^TNativeGLZAffineVector;
       0: (V: TGLZVector4fType);
       1: (X, Y, Z, W: Single);
       2: (Red, Green, Blue, Alpha: Single);
-      3: (Left, Top, Right, Bottom: Single);
+      3: (AsVector3f : TNativeGLZVector3f);   //change name for AsAffine ?????
       4: (ST,UV : TNativeGLZVector2f);
-      5: (AsVector3f : TNativeGLZVector3f);
+      5: (Left, Top, Right, Bottom: Single);
+      6: (TopLeft,BottomRight : TNativeGLZVector2f);
   end;
 
   TNativeGLZVector = TNativeGLZVector4f;
@@ -194,128 +382,9 @@ PNativeGLZAffineVector = ^TNativeGLZAffineVector;
 
   TNativeGLZClipRect = TNativeGLZVector;
 
-
-  TNativeGLZVector4i = Record
-  public
-    case Integer of
-      0 : (V: TGLZVector4iType);
-      1 : (X,Y,Z,W: longint);
-  end;
-
-{%endregion%}
-
-{%region%----[ TNativeGLZVector3b ]---------------------------------------------}
-
-TNativeGLZVector3b = Record
-private
-  //FSwizzleMode : TGLZVector3SwizzleRef;
-public
-  procedure Create(Const aX,aY,aZ: Byte); overload;
-
-  function ToString : String;
-
-  class operator +(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b; overload;
-  class operator -(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b; overload;
-  class operator *(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b; overload;
-  class operator Div(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b; overload;
-
-  class operator +(constref A: TNativeGLZVector3b; constref B:Byte): TNativeGLZVector3b; overload;
-  class operator -(constref A: TNativeGLZVector3b; constref B:Byte): TNativeGLZVector3b; overload;
-  class operator *(constref A: TNativeGLZVector3b; constref B:Byte): TNativeGLZVector3b; overload;
-  class operator *(constref A: TNativeGLZVector3b; constref B:Single): TNativeGLZVector3b; overload;
-  class operator Div(constref A: TNativeGLZVector3b; constref B:Byte): TNativeGLZVector3b; overload;
-
-  class operator =(constref A, B: TNativeGLZVector3b): Boolean;
-  class operator <>(constref A, B: TNativeGLZVector3b): Boolean;
-
-  class operator And(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b; overload;
-  class operator Or(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b; overload;
-  class operator Xor(constref A, B: TNativeGLZVector3b): TNativeGLZVector3b; overload;
-  class operator And(constref A: TNativeGLZVector3b; constref B:Byte): TNativeGLZVector3b; overload;
-  class operator or(constref A: TNativeGLZVector3b; constref B:Byte): TNativeGLZVector3b; overload;
-  class operator Xor(constref A: TNativeGLZVector3b; constref B:Byte): TNativeGLZVector3b; overload;
-
-  function AsVector3f : TNativeGLZVector3f;
-
-  function Swizzle(Const ASwizzle : TGLZVector3SwizzleRef): TNativeGLZVector3b;
-
-  Case Integer of
-    0 : (V:TGLZVector3bType);
-    1 : (x,y,z:Byte);
-    2 : (Red,Green,Blue:Byte);
-end;
-{%endregion%}
-
-{%region%----[ TNativeGLZVector4b ]---------------------------------------------}
-TNativeGLZVector4b = Record
-private
-  //FSwizzleMode : TGLZVector4SwizzleRef;
-public
-  procedure Create(Const aX,aY,aZ: Byte; const aW : Byte = 255); overload;
-  procedure Create(Const aValue : TNativeGLZVector3b; const aW : Byte = 255); overload;
-
-  function ToString : String;
-
-  class operator +(constref A, B: TNativeGLZVector4b): TNativeGLZVector4b; overload;
-  class operator -(constref A, B: TNativeGLZVector4b): TNativeGLZVector4b; overload;
-  class operator *(constref A, B: TNativeGLZVector4b): TNativeGLZVector4b; overload;
-  class operator Div(constref A, B: TNativeGLZVector4b): TNativeGLZVector4b; overload;
-
-  class operator +(constref A: TNativeGLZVector4b; constref B:Byte): TNativeGLZVector4b; overload;
-  class operator -(constref A: TNativeGLZVector4b; constref B:Byte): TNativeGLZVector4b; overload;
-  class operator *(constref A: TNativeGLZVector4b; constref B:Byte): TNativeGLZVector4b; overload;
-  class operator *(constref A: TNativeGLZVector4b; constref B:Single): TNativeGLZVector4b; overload;
-  class operator Div(constref A: TNativeGLZVector4b; constref B:Byte): TNativeGLZVector4b; overload;
-
-  class operator =(constref A, B: TNativeGLZVector4b): Boolean;
-  class operator <>(constref A, B: TNativeGLZVector4b): Boolean;
-
-  class operator And(constref A, B: TNativeGLZVector4b): TNativeGLZVector4b; overload;
-  class operator Or(constref A, B: TNativeGLZVector4b): TNativeGLZVector4b; overload;
-  class operator Xor(constref A, B: TNativeGLZVector4b): TNativeGLZVector4b; overload;
-  class operator And(constref A: TNativeGLZVector4b; constref B:Byte): TNativeGLZVector4b; overload;
-  class operator or(constref A: TNativeGLZVector4b; constref B:Byte): TNativeGLZVector4b; overload;
-  class operator Xor(constref A: TNativeGLZVector4b; constref B:Byte): TNativeGLZVector4b; overload;
-
-  function DivideBy2 : TNativeGLZVector4b;
-
-  function Min(Constref B : TNativeGLZVector4b):TNativeGLZVector4b; overload;
-  function Min(Constref B : Byte):TNativeGLZVector4b; overload;
-  function Max(Constref B : TNativeGLZVector4b):TNativeGLZVector4b; overload;
-  function Max(Constref B : Byte):TNativeGLZVector4b; overload;
-  function Clamp(Constref AMin, AMax : TNativeGLZVector4b):TNativeGLZVector4b; overload;
-  function Clamp(Constref AMin, AMax : Byte):TNativeGLZVector4b; overload;
-
-  function MulAdd(Constref B, C : TNativeGLZVector4b):TNativeGLZVector4b;
-  function MulDiv(Constref B, C : Byte):TNativeGLZVector4b;
-
-  function GetSwizzleMode : TGLZVector4SwizzleRef;
-
-  function AsVector4f : TNativeGLZVector4f;
-
-
-  function Shuffle(const x,y,z,w : Byte):TNativeGLZVector4b;
-  function Swizzle(const ASwizzle: TGLZVector4SwizzleRef ): TNativeGLZVector4b;
-
-  function Combine(constref V2: TNativeGLZVector4b; constref F1: Single): TNativeGLZVector4b;
-  function Combine2(constref V2: TNativeGLZVector4b; const F1, F2: Single): TNativeGLZVector4b;
-  function Combine3(constref V2, V3: TNativeGLZVector4b; const F1, F2, F3: Single): TNativeGLZVector4b;
-
-  function MinXYZComponent : Byte;
-  function MaxXYZComponent : Byte;
-
-  Case Integer of
-   0 : (V:TGLZVector4bType);
-   1 : (x,y,z,w:Byte);
-   2 : (Red,Green,Blue, Alpha:Byte);
-   3 : (AsVector3b : TNativeGLZVector3b);
-   4 : (AsInteger : Integer);
-end;
 {%endregion%}
 
 {%region%----[ TNativeGLZMatrix4 ]----------------------------------------------}
-
-
 
   TNativeGLZMatrix4f = record
   private
@@ -432,8 +501,6 @@ end;
 
 {%region%----[ TNativeGLZQuaternion ]-------------------------------------------}
 
-
-Type
   TNativeGLZQuaternion = record
   private
   public
@@ -754,8 +821,6 @@ Type
 
 {%region%----[ TNativeGLZMatrixHelper ]-----------------------------------------}
 
-
-Type
   TNativeGLZMatrixHelper = record helper for TNativeGLZMatrix4f
   public
     // Self is ViewProjMatrix
@@ -778,7 +843,7 @@ Type
 
 {%endregion%}
 
-{%region%----[ Const ]------------------------------------------------------ ---}
+{%region%----[ Vector Const ]---------------------------------------------------}
 
 Const
   // standard affine vectors
@@ -829,6 +894,7 @@ Const
  NativeIdentityQuaternion: TNativeGLZQuaternion = (ImagePart:(X:0; Y:0; Z:0); RealPart: 1);
 
 {%endregion%}
+
 {%region%----[ Others Const ]---------------------------------------------------}
   NativeNullBoundingBox: TNativeGLZBoundingBox =
   (Points:((X: 0; Y: 0; Z: 0; W: 1),
@@ -841,6 +907,7 @@ Const
            (X: 0; Y: 0; Z: 0; W: 1)));
 
 
+{%endregion%}
 {%endregion%}
 
 {%region%----[ Misc Vector Helpers functions ]----------------------------------}
@@ -856,6 +923,8 @@ Const
   function Compare(constref A: TGLZVector4f; constref B: TGLZVector4f;Epsilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TNativeGLZVector3b; constref B: TGLZVector3b): boolean; overload;
   function Compare(constref A: TNativeGLZVector4b; constref B: TGLZVector4b): boolean; overload;
+  function Compare(constref A: TNativeGLZVector4i; constref B: TGLZVector4i): boolean; overload;
+  function Compare(constref A: TNativeGLZVector2i; constref B: TGLZVector2i): boolean; overload;
   function Compare(constref A: TNativeGLZVector2f; constref B: TGLZVector2f;Epsilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TNativeGLZBoundingBox; constref B: TGLZBoundingBox;Epsilon: Single = 1e-10): boolean; overload;
   function CompareMatrix(constref A: TNativeGLZMatrix4f; constref B: TGLZMatrix4f; Epsilon: Single = 1e-10): boolean;
@@ -864,8 +933,6 @@ Const
   function Compare(constref A: TGLZBoundingSphere; constref B: TGLZBoundingSphere; Epsilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TNativeGLZAxisAlignedBoundingBox; constref B: TGLZAxisAlignedBoundingBox; Epsilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TNativeGLZAABBCorners; constref B: TGLZAABBCorners; Epsilon: Single = 1e-10): boolean; overload;
-
-
 
   function IsEqual(A,B: Single; Epsilon: single = 1e-10): boolean; inline;
 
@@ -922,6 +989,23 @@ begin
   if A.Green <> B.Green then Result := False;
   if A.Blue <> B.Blue then Result := False;
   if A.Alpha<> B.Alpha then Result := False;
+end;
+
+function Compare(constref A: TNativeGLZVector4i; constref B: TGLZVector4i): boolean;
+begin
+  Result := True;
+  if A.Red <> B.Red then Result := False;
+  if A.Green <> B.Green then Result := False;
+  if A.Blue <> B.Blue then Result := False;
+  if A.Alpha<> B.Alpha then Result := False;
+end;
+
+function Compare(constref A: TNativeGLZVector2i; constref B: TGLZVector2i): boolean;
+begin
+  Result := True;
+  if A.X <> B.Y then Result := False;
+  if A.Y <> B.Y then Result := False;
+
 end;
 
 

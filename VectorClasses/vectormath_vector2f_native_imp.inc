@@ -35,6 +35,27 @@ begin
   result := ((A.X <> B.X) or (A.Y <> B.Y));
 end;
 
+function TGLZVector2f.DotProduct(A:TGLZVector2f):Single;
+begin
+  Result := (X * A.X) + (Y * A.Y);
+end;
+
+function TGLZVector2f.AngleCosine(constref A: TGLZVector2f): Single;
+begin
+   Result:=Self.DotProduct(A)/(Self.Length*A.Length);
+end;
+
+function TGLZVector2f.AngleBetween(Constref A, ACenterPoint : TGLZVector2f): Single;
+Var
+  vt1,vt2  :  TGLZVector2f;
+begin
+  vt1 := Self - ACenterPoint;
+  vt2 := A - ACenterPoint;
+  vt1 := vt1.Normalize;
+  vt2 := vt2.Normalize;
+  Result := ArcCos(vt1.AngleCosine(vt2));
+end;
+
 {%endregion}
 
 {%region%----[ Pure Pascal may Convert at some point ]--------------------------}
@@ -173,7 +194,19 @@ end;
 
 function TGLZVector2f.Normalize : TGLZVector2f;
 begin
- Result := Self * (1/Self.Length);
+ Result := Self * (1/Self.LengthSquare);
+end;
+
+function TGLZVector2f.Round : TGLZVector2i;
+begin
+ result.X := System.Round(Self.X);
+ result.Y := System.Round(Self.Y);
+end;
+
+function TGLZVector2f.Trunc : TGLZVector2i;
+begin
+ result.X := System.Trunc(Self.X);
+ result.Y := System.Trunc(Self.Y);
 end;
 
 {%endregion%}

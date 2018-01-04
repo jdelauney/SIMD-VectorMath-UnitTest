@@ -52,10 +52,11 @@ end;
 
 class operator TGLZVector4b.div(constref A, B : TGLZVector4b): TGLZVector4b;
 begin
-  Result.X := ClampByte((A.X div B.X));
-  Result.Y := ClampByte((A.Y div B.Y));
-  Result.Z := ClampByte((A.Z div B.Z));
-  Result.W := ClampByte((A.W div B.W));
+  Result := A;
+  if B.X<>0 then Result.X := ClampByte((A.X div B.X));
+  if B.Y<>0 then Result.Y := ClampByte((A.Y div B.Y));
+  if B.Z<>0 then Result.Z := ClampByte((A.Z div B.Z));
+  if B.W<>0 then Result.W := ClampByte((A.W div B.W));
 end;
 
 class operator TGLZVector4b.+(constref A: TGLZVector4b; constref B: Byte ): TGLZVector4b;
@@ -92,10 +93,11 @@ end;
 
 class operator TGLZVector4b.div(constref A: TGLZVector4b; constref B: Byte ): TGLZVector4b;
 begin
-  Result.X := ClampByte((A.X div B));
-  Result.Y := ClampByte((A.Y div B));
-  Result.Z := ClampByte((A.Z div B));
-  Result.Z := ClampByte((A.W div B));
+  Result := A;
+  if B<>0 then Result.X := ClampByte(A.X div B);
+  if B<>0 then Result.Y := ClampByte(A.Y div B);
+  if B<>0 then Result.Z := ClampByte(A.Z div B);
+  if B<>0 then Result.W := ClampByte(A.W div B);
 end;
 
 class operator TGLZVector4b.=(constref A, B: TGLZVector4b): Boolean;
@@ -278,20 +280,6 @@ begin
 
 //  result := (self*B) div C;   clampbyte messes this up
 end;
-
-function TGLZVector4b.GetSwizzleMode : TGLZVector4SwizzleRef;
-begin
-  Result := swDefaultSwizzle4; //FSwizzleMode;
-end;
-
-function TGLZVector4b.AsVector4f: TGLZVector4f;
-begin
-  Result.X := Self.X * cColorFloatRatio;
-  Result.Y := Self.Y * cColorFloatRatio;
-  Result.Z := Self.Z * cColorFloatRatio;
-  Result.W := Self.W * cColorFloatRatio;
-end;
-
 
 function TGLZVector4b.Shuffle(const x,y,z,w : Byte):TGLZVector4b;
 begin

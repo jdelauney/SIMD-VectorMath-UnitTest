@@ -24,6 +24,20 @@ begin
    Self:=Self.Normalize;
 end;
 
+function TGLZVectorHelper.PlaneContains(const Location, Normal: TGLZVector; const TestBSphere: TGLZBoundingSphere): TGLZSpaceContains;
+var
+  Dist: Single;
+begin
+  Dist :=TestBSphere.Center.DistancePlaneToPoint(Location); //, Normal);
+
+  if Dist > TestBSphere.Radius then
+    Result := ScNoOverlap
+  else if System.Abs(Dist) <= TestBSphere.Radius then
+    Result := ScContainsPartially
+  else
+    Result := ScContainsFully;
+end;
+
 {%endregion}
 
 {$IFNDEF USE_ASM}

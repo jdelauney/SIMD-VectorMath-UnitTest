@@ -10,7 +10,7 @@ begin
    Self.W := AW;
 end;
 
-procedure TGLZVector4f.Create(Const anAffineVector: TGLZVector3f; const aW : Single = 0);
+procedure TGLZVector4f.Create(Const anAffineVector: TGLZVector3f; const aW : Single = 1); //W=1 because it's a point
 begin
    Self.X := anAffineVector.X;
    Self.Y := anAffineVector.Y;
@@ -469,8 +469,8 @@ Var
 begin
   vt1 := Self - ACenterPoint;
   vt2 := A - ACenterPoint;
-  vt1.pNormalize;
-  vt2.pNormalize;
+  vt1 := vt1.Normalize;
+  vt2 := vt2.Normalize;
   Result := ArcCos(vt1.AngleCosine(vt2));
 end;
 
@@ -515,6 +515,22 @@ begin
   //  Result:=Self.Combine(Self, N, 1, -2*VectorDotProduct(Self, N));
   Result := Self - (N*(2 * N.Dotproduct(Self)));
  // Result.W:=0;
+end;
+
+function TGLZVector4f.Round:TGLZVector4i;
+begin
+  result.X:=System.Round(Self.X);
+  result.Y:=System.Round(Self.Y);
+  result.Z:=System.Round(Self.Z);
+  result.W:=System.Round(Self.W);
+end;
+
+function TGLZVector4f.Trunc:TGLZVector4i;
+begin
+  result.X:=System.Trunc(Self.X);
+  result.Y:=System.Trunc(Self.Y);
+  result.Z:=System.Trunc(Self.Z);
+  result.W:=System.Trunc(Self.W);
 end;
 
 {%endregion%}

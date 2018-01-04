@@ -47,8 +47,6 @@ type
       procedure TestTimeOpClampByte;
       procedure TestTimeMulAdd;
       procedure TestTimeMulDiv;
-      procedure TestTimeGetSwizzleMode;
-      procedure TestTimeAsVector4f;
       procedure TestTimeShuffle;
       procedure TestTimeSwizzle;
       procedure TestTimeCombine;
@@ -409,35 +407,6 @@ begin
   GlobalProfiler[1].Stop;
 end;
 
-procedure TVector4bTimingTest.TestTimeGetSwizzleMode;
-var {%H-}asw: TGLZVector4SwizzleRef;
-begin
-  TestDispName := 'Vector GetSwizzleMode';
-  GlobalProfiler[0].Clear;
-  GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin asw := nbt1.GetSwizzleMode; end;
-  GlobalProfiler[0].Stop;
-  GlobalProfiler[1].Clear;
-  GlobalProfiler[1].Start;
-  For cnt:= 1 to Iterations do begin asw := abt1.GetSwizzleMode; end;
-  GlobalProfiler[1].Stop;
-end;
-
-procedure TVector4bTimingTest.TestTimeAsVector4f;
-var
-  {%H-}nres: TNativeGLZVector4f;
-  {%H-}ares: TGLZVector4f;
-begin
-  TestDispName := 'Vector AsVector4f';
-  GlobalProfiler[0].Clear;
-  GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin nres := nbt1.AsVector4f; end;
-  GlobalProfiler[0].Stop;
-  GlobalProfiler[1].Clear;
-  GlobalProfiler[1].Start;
-  For cnt:= 1 to Iterations do begin ares := abt1.AsVector4f; end;
-  GlobalProfiler[1].Stop;
-end;
 
 procedure TVector4bTimingTest.TestTimeShuffle;
 begin

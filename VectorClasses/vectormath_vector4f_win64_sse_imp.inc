@@ -1101,6 +1101,29 @@ asm
 
 end;
 
+function TGLZVector4f.Round: TGLZVector4i;assembler;nostackframe;register;
+asm
+  // Rounding mode defaults to round-to-nearest
+  movq     xmm0, [RCX]
+  cvtps2dq xmm0, xmm0
+  movq     rax, xmm0
+end;
+
+
+function TGLZVector4f.Trunc: TGLZVector4i;assembler;nostackframe;register;
+asm
+  //stmxcsr  [_bakMXCSR] // Push rounding mode
+  //mov      eax, [_bakMXCSR]
+  //and      eax, [RIP+cSSE_ROUND_MASK]
+  //or       eax, [RIP+cSSE_ROUND_MASK_TRUNC]
+  //mov      [_tmpMXCSR], eax
+  //ldmxcsr  [_tmpMXCSR]
+  movq     xmm0, [RCX]
+  cvtps2dq xmm0, xmm0
+  //ldmxcsr  [_bakMXCSR]  // Pop rounding mode
+  movq     rax, xmm0
+end;
+
 {%endregion%}
 
 {%region%----[ Operations on Self ]-----------------------------------------------}

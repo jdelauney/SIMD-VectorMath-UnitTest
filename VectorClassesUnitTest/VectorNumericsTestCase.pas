@@ -30,6 +30,8 @@ type
     procedure TestMulDiv;
     procedure TestAngleCosine;
     procedure TestAngleBetweem;
+    procedure TestRound;
+    procedure TestTrunc;
   end;
 
 implementation
@@ -156,6 +158,20 @@ begin
   Fs1 := nt1.AngleBetween(nt2, norg);
   Fs2 := vt1.AngleBetween(vt2, vorg);
   AssertTrue('Vector AngleBetweens do not match'+FLoattostrF(fs1,fffixed,3,3)+' --> '+FLoattostrF(fs2,fffixed,3,3), IsEqual(Fs1,Fs2));
+end;
+
+procedure TVectorNumericsTestCase.TestRound;
+begin
+  nt4i := nt1.Round;
+  vt4i := vt1.Round;
+  AssertTrue('Vector4f  Round do not match : '+ntt3.ToString+' --> '+vtt3.ToString, Compare(nt4i,vt4i));
+end;
+
+procedure TVectorNumericsTestCase.TestTrunc;
+begin
+  nt4i := nt1.Trunc;
+  vt4i := vt1.Trunc;
+  AssertTrue('Vector4f  Trunc do not match : '+ntt3.ToString+' --> '+vtt3.ToString, Compare(nt4i,vt4i));
 end;
 
 {%endregion%}

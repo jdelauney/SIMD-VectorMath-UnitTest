@@ -25,6 +25,9 @@ type
     procedure TestMulAdd;
     procedure TestMulDiv;
 
+    procedure TestRound;
+    procedure TestTrunc;
+
   end;
 
 implementation
@@ -104,6 +107,20 @@ begin
   ntt3 := ntt1.MulDiv(ntt2, ntt1);
   vtt3 := vtt1.MulDiv(vtt2, vtt1);
   AssertTrue('Vector2f  pMulDivs do not match : '+ntt3.ToString+' --> '+vtt3.ToString, Compare(ntt3,vtt3));
+end;
+
+procedure TVector2NumericsTestCase.TestRound;
+begin
+  nt2i := ntt1.Round;
+  vt2i := vtt1.Round;
+  AssertTrue('Vector2f  Round do not match : '+ntt3.ToString+' --> '+vtt3.ToString, Compare(ntt3,vtt3));
+end;
+
+procedure TVector2NumericsTestCase.TestTrunc;
+begin
+  nt2i := ntt1.Trunc;
+  vt2i := vtt1.Trunc;
+  AssertTrue('Vector2f  Trunc do not match : '+ntt3.ToString+' --> '+vtt3.ToString, Compare(ntt3,vtt3));
 end;
 
 

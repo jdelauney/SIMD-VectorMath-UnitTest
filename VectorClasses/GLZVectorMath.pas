@@ -128,8 +128,10 @@ Const
 
 type
   TGLZVector2fType = packed array[0..1] of Single;
+  TGLZVector2iType = packed array[0..1] of Integer;
 
   TGLZVector3fType = packed array[0..2] of Single;
+  TGLZVector3iType = packed Array[0..2] of Longint;
   TGLZVector3bType = packed Array[0..2] of Byte;
 
   TGLZVector4fType = packed array[0..3] of Single;
@@ -148,6 +150,11 @@ type
     swRGBA, swRBGA, swBGRA, swBRGA, swGRBA, swGBRA,
     swARGB, swARBG, swABGR, swABRG, swAGRB, swAGBR);
 
+  TGLZVector2i = record
+  case Byte of
+    0: (V: TGLZVector2iType);
+    1: (X, Y : Integer);
+  end;
 
   TGLZVector2f =  record
     procedure Create(aX,aY: single);
@@ -187,16 +194,69 @@ type
     function Distance(constref A:TGLZVector2f):Single;
     function DistanceSquare(constref A:TGLZVector2f):Single;
     function Normalize : TGLZVector2f;
-    // function DotProduct(A:TVector2f):TVector2f;
+    function DotProduct(A:TGLZVector2f):Single;
+    function AngleBetween(Constref A, ACenterPoint : TGLZVector2f): Single;
+    function AngleCosine(constref A: TGLZVector2f): Single;
     // function Reflect(I, NRef : TVector2f):TVector2f
-    //function Round: TVector2I;
-    //function Trunc: TVector2I;
+
+    function Round: TGLZVector2i;
+    function Trunc: TGLZVector2i;
+
+
 
 
     case Byte of
       0: (V: TGLZVector2fType);
       1: (X, Y : Single);
+      2: (Width, Height : Single);
   End;
+
+  TGLZVector3b = Record
+    private
+      //FSwizzleMode : TGLZVector3SwizzleRef;
+    public
+
+      procedure Create(const aX, aY, aZ: Byte);
+
+      function ToString : String;
+
+      class operator +(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+      class operator -(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+      class operator *(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+      class operator Div(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+
+      class operator +(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+      class operator -(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+      class operator *(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+      class operator *(constref A: TGLZVector3b; constref B:Single): TGLZVector3b; overload;
+      class operator Div(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+
+      class operator =(constref A, B: TGLZVector3b): Boolean;
+      class operator <>(constref A, B: TGLZVector3b): Boolean;
+
+      class operator And(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+      class operator Or(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+      class operator Xor(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+      class operator And(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+      class operator or(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+      class operator Xor(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+
+      //function AsVector3f : TGLZVector3i;
+
+      function Swizzle(Const ASwizzle : TGLZVector3SwizzleRef): TGLZVector3b;
+
+      Case Integer of
+        0 : (V:TGLZVector3bType);
+        1 : (X, Y, Z:Byte);
+        2 : (Red, Green, Blue:Byte);
+    end;
+
+  TGLZVector3i = record
+  case Byte of
+    0: (V: TGLZVector3iType);
+    1: (X, Y, Z : Integer);
+    2: (Red, Green, Blue : Integer);
+  end;
 
   TGLZVector3f =  record
     case Byte of
@@ -208,12 +268,149 @@ type
   TGLZAffineVector = TGLZVector3f;
   PGLZAffineVector = ^TGLZAffineVector;
 
+  TGLZVector4b = Record
+  private
+    //FSwizzleMode : TGLZVector4SwizzleRef;
+  public
+    procedure Create(Const aX,aY,aZ: Byte; const aW : Byte = 255); overload;
+    procedure Create(Const aValue : TGLZVector3b; const aW : Byte = 255); overload;
+
+    function ToString : String;
+
+    class operator +(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+    class operator -(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+    class operator *(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+    class operator Div(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+
+    class operator +(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+    class operator -(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+    class operator *(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+    class operator *(constref A: TGLZVector4b; constref B:Single): TGLZVector4b; overload;
+    class operator Div(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+
+    class operator =(constref A, B: TGLZVector4b): Boolean;
+    class operator <>(constref A, B: TGLZVector4b): Boolean;
+
+    class operator And(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+    class operator Or(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+    class operator Xor(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+    class operator And(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+    class operator or(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+    class operator Xor(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+
+    function DivideBy2 : TGLZVector4b;
+
+    function Min(Constref B : TGLZVector4b):TGLZVector4b; overload;
+    function Min(Constref B : Byte):TGLZVector4b; overload;
+    function Max(Constref B : TGLZVector4b):TGLZVector4b; overload;
+    function Max(Constref B : Byte):TGLZVector4b; overload;
+    function Clamp(Constref AMin, AMax : TGLZVector4b):TGLZVector4b; overload;
+    function Clamp(Constref AMin, AMax : Byte):TGLZVector4b; overload;
+
+    function MulAdd(Constref B, C : TGLZVector4b):TGLZVector4b;
+    function MulDiv(Constref B, C : Byte):TGLZVector4b;
+
+    //function GetSwizzleMode : TGLZVector4SwizzleRef;
+    //function AsVector4f : TGLZVector4f;
+
+    function Shuffle(const x,y,z,w : Byte):TGLZVector4b;
+    function Swizzle(const ASwizzle: TGLZVector4SwizzleRef ): TGLZVector4b;
+
+    function Combine(constref V2: TGLZVector4b; constref F1: Single): TGLZVector4b;
+    function Combine2(constref V2: TGLZVector4b; const F1, F2: Single): TGLZVector4b;
+    function Combine3(constref V2, V3: TGLZVector4b; const F1, F2, F3: Single): TGLZVector4b;
+
+    function MinXYZComponent : Byte;
+    function MaxXYZComponent : Byte;
+
+    Case Integer of
+     0 : (V:TGLZVector4bType);
+     1 : (X, Y, Z, W:Byte);
+     2 : (Red, Green, Blue,  Alpha:Byte);
+     3 : (AsVector3b : TGLZVector3b);
+     4 : (AsInteger : Integer);
+  end;
+
+  { TGLZVector4i }
+ (*TGLZVector4i = Record
+      case Integer of
+      0 : (V: TGLZVector4iType);
+      1 : (X,Y,Z,W: longint);
+      2 : (Red, Green, Blue, Alpha : Longint);
+      3 : (TopLeft, BottomRight : TGLZVector2i);
+  end; *)
+  TGLZVector4i = Record
+  public
+    procedure Create(Const aX,aY,aZ: Longint; const aW : Longint = 0); overload;
+    procedure Create(Const aValue : TGLZVector3i; const aW : Longint = MaxInt); overload;
+    procedure Create(Const aValue : TGLZVector3b; const aW : Longint = MaxInt); overload;
+
+    function ToString : String;
+
+    class operator +(constref A, B: TGLZVector4i): TGLZVector4i; overload;
+    class operator -(constref A, B: TGLZVector4i): TGLZVector4i; overload;
+    class operator *(constref A, B: TGLZVector4i): TGLZVector4i; overload;
+    class operator Div(constref A, B: TGLZVector4i): TGLZVector4i; overload;
+
+    class operator +(constref A: TGLZVector4i; constref B:Longint): TGLZVector4i; overload;
+    class operator -(constref A: TGLZVector4i; constref B:Longint): TGLZVector4i; overload;
+    class operator *(constref A: TGLZVector4i; constref B:Longint): TGLZVector4i; overload;
+    class operator *(constref A: TGLZVector4i; constref B:Single): TGLZVector4i; overload;
+    class operator Div(constref A: TGLZVector4i; constref B:Longint): TGLZVector4i; overload;
+
+    class operator -(constref A: TGLZVector4i): TGLZVector4i; overload;
+    class operator =(constref A, B: TGLZVector4i): Boolean;
+    class operator <>(constref A, B: TGLZVector4i): Boolean;
+
+    (* class operator And(constref A, B: TGLZVector4i): TGLZVector4i; overload;
+    class operator Or(constref A, B: TGLZVector4i): TGLZVector4i; overload;
+    class operator Xor(constref A, B: TGLZVector4i): TGLZVector4i; overload;
+    class operator And(constref A: TGLZVector4i; constref B:LongInt): TGLZVector4i; overload;
+    class operator or(constref A: TGLZVector4i; constref B:LongInt): TGLZVector4i; overload;
+    class operator Xor(constref A: TGLZVector4i; constref B:LongInt): TGLZVector4i; overload; *)
+
+    function DivideBy2 : TGLZVector4i;
+    function Abs: TGLZVector4i;
+
+    function Min(Constref B : TGLZVector4i):TGLZVector4i; overload;
+    function Min(Constref B : LongInt):TGLZVector4i; overload;
+    function Max(Constref B : TGLZVector4i):TGLZVector4i; overload;
+    function Max(Constref B : LongInt):TGLZVector4i; overload;
+    function Clamp(Constref AMin, AMax : TGLZVector4i):TGLZVector4i; overload;
+    function Clamp(Constref AMin, AMax : LongInt):TGLZVector4i; overload;
+
+    function MulAdd(Constref B, C : TGLZVector4i):TGLZVector4i;
+    function MulDiv(Constref B, C : TGLZVector4i):TGLZVector4i;
+
+    //function GetSwizzleMode : TGLZVector4SwizzleRef;
+    //function AsVector4f : TGLZVector4f;
+
+    function Shuffle(const x,y,z,w : Byte):TGLZVector4i;
+    function Swizzle(const ASwizzle: TGLZVector4SwizzleRef ): TGLZVector4i;
+
+    function Combine(constref V2: TGLZVector4i; constref F1: Single): TGLZVector4i;
+    function Combine2(constref V2: TGLZVector4i; const F1, F2: Single): TGLZVector4i;
+    function Combine3(constref V2, V3: TGLZVector4i; const F1, F2, F3: Single): TGLZVector4i;
+
+    function MinXYZComponent : LongInt;
+    function MaxXYZComponent : LongInt;
+
+    case Byte of
+      0 : (V: TGLZVector4iType);
+      1 : (X,Y,Z,W: longint);
+      2 : (Red, Green, Blue, Alpha : Longint);
+      3 : (TopLeft, BottomRight : TGLZVector2i);
+  end;
+
   TGLZVector4f =  record  // With packed record the performance decrease a little
   private
     //FSwizzleMode :  TGLZVector4SwizzleRef;
   public
     procedure Create(Const aX,aY,aZ: single; const aW : Single = 0); overload;
-    procedure Create(Const anAffineVector: TGLZVector3f; const aW : Single = 0); overload;
+    procedure Create(Const anAffineVector: TGLZVector3f; const aW : Single = 1); overload;
+
+    //function Make(Const aX,aY,aZ: single; const aW : Single = 0):TGLZVector4f; overload;
+    //function Make(Const anAffineVector: TGLZVector3f; const aW : Single = 1):TGLZVector4f; overload;
 
     function ToString : String;
 
@@ -276,6 +473,9 @@ type
 
     function Reflect(constref N: TGLZVector4f): TGLZVector4f;
 
+    function Round: TGLZVector4i;
+    function Trunc: TGLZVector4i;
+
  //   function MoveAround(constRef AMovingUp, ATargetPosition: TGLZVector4f; pitchDelta, turnDelta: Single): TGLZVector4f;
 
     procedure pAdd(constref A: TGLZVector4f);overload;
@@ -306,9 +506,11 @@ type
       0: (V: TGLZVector4fType);
       1: (X, Y, Z, W: Single);
       2: (Red, Green, Blue, Alpha: Single);
-      3: (Left, Top, Right, Bottom: Single);
+      3: (AsVector3f : TGLZVector3f);   //change name for AsAffine ?????
       4: (ST,UV : TGLZVector2f);
-      5: (AsVector3f : TGLZVector3f);
+      5: (Left, Top, Right, Bottom: Single);
+      6: (TopLeft,BottomRight : TGLZVector2f);
+
   end;
 
   TGLZVector = TGLZVector4f;
@@ -320,118 +522,6 @@ type
   PGLZColorVector = ^TGLZColorVector;
 
   TGLZClipRect = TGLZVector;
-
-
-  TGLZVector4i = Record
-  public
-    case Integer of
-      0 : (V: TGLZVector4iType);
-      1 : (X,Y,Z,W: longint);
-  end;
-
-  TGLZVector3b = Record
-  private
-    //FSwizzleMode : TGLZVector3SwizzleRef;
-  public
-    procedure Create(Const aX,aY,aZ: Byte); overload;
-
-    function ToString : String;
-
-    class operator +(constref A, B: TGLZVector3b): TGLZVector3b; overload;
-    class operator -(constref A, B: TGLZVector3b): TGLZVector3b; overload;
-    class operator *(constref A, B: TGLZVector3b): TGLZVector3b; overload;
-    class operator Div(constref A, B: TGLZVector3b): TGLZVector3b; overload;
-
-    class operator +(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
-    class operator -(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
-    class operator *(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
-    class operator *(constref A: TGLZVector3b; constref B:Single): TGLZVector3b; overload;
-    class operator Div(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
-
-    class operator =(constref A, B: TGLZVector3b): Boolean;
-    class operator <>(constref A, B: TGLZVector3b): Boolean;
-
-    class operator And(constref A, B: TGLZVector3b): TGLZVector3b; overload;
-    class operator Or(constref A, B: TGLZVector3b): TGLZVector3b; overload;
-    class operator Xor(constref A, B: TGLZVector3b): TGLZVector3b; overload;
-    class operator And(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
-    class operator or(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
-    class operator Xor(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
-
-    function AsVector3f : TGLZVector3f;
-
-    function Swizzle(Const ASwizzle : TGLZVector3SwizzleRef): TGLZVector3b;
-
-    Case Integer of
-      0 : (V:TGLZVector3bType);
-      1 : (x,y,z:Byte);
-      2 : (Red,Green,Blue:Byte);
-  end;
-
-  TGLZVector4b = Record
-  private
-    //FSwizzleMode : TGLZVector4SwizzleRef;
-  public
-    procedure Create(Const aX,aY,aZ: Byte; const aW : Byte = 255); overload;
-    procedure Create(Const aValue : TGLZVector3b; const aW : Byte = 255); overload;
-
-    function ToString : String;
-
-    class operator +(constref A, B: TGLZVector4b): TGLZVector4b; overload;
-    class operator -(constref A, B: TGLZVector4b): TGLZVector4b; overload;
-    class operator *(constref A, B: TGLZVector4b): TGLZVector4b; overload;
-    class operator Div(constref A, B: TGLZVector4b): TGLZVector4b; overload;
-
-    class operator +(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
-    class operator -(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
-    class operator *(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
-    class operator *(constref A: TGLZVector4b; constref B:Single): TGLZVector4b; overload;
-    class operator Div(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
-
-    class operator =(constref A, B: TGLZVector4b): Boolean;
-    class operator <>(constref A, B: TGLZVector4b): Boolean;
-
-    class operator And(constref A, B: TGLZVector4b): TGLZVector4b; overload;
-    class operator Or(constref A, B: TGLZVector4b): TGLZVector4b; overload;
-    class operator Xor(constref A, B: TGLZVector4b): TGLZVector4b; overload;
-    class operator And(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
-    class operator or(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
-    class operator Xor(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
-
-    function DivideBy2 : TGLZVector4b;
-
-    function Min(Constref B : TGLZVector4b):TGLZVector4b; overload;
-    function Min(Constref B : Byte):TGLZVector4b; overload;
-    function Max(Constref B : TGLZVector4b):TGLZVector4b; overload;
-    function Max(Constref B : Byte):TGLZVector4b; overload;
-    function Clamp(Constref AMin, AMax : TGLZVector4b):TGLZVector4b; overload;
-    function Clamp(Constref AMin, AMax : Byte):TGLZVector4b; overload;
-
-    function MulAdd(Constref B, C : TGLZVector4b):TGLZVector4b;
-    function MulDiv(Constref B, C : Byte):TGLZVector4b;
-
-    function GetSwizzleMode : TGLZVector4SwizzleRef;
-
-    function AsVector4f : TGLZVector4f;
-
-
-    function Shuffle(const x,y,z,w : Byte):TGLZVector4b;
-    function Swizzle(const ASwizzle: TGLZVector4SwizzleRef ): TGLZVector4b;
-
-    function Combine(constref V2: TGLZVector4b; constref F1: Single): TGLZVector4b;
-    function Combine2(constref V2: TGLZVector4b; const F1, F2: Single): TGLZVector4b;
-    function Combine3(constref V2, V3: TGLZVector4b; const F1, F2, F3: Single): TGLZVector4b;
-
-    function MinXYZComponent : Byte;
-    function MaxXYZComponent : Byte;
-
-    Case Integer of
-     0 : (V:TGLZVector4bType);
-     1 : (x,y,z,w:Byte);
-     2 : (Red,Green,Blue, Alpha:Byte);
-     3 : (AsVector3b : TGLZVector3b);
-     4 : (AsInteger : Integer);
-  end;
 
 {%endregion%}
 
@@ -728,7 +818,8 @@ type
 
   TGLZAxisAlignedBoundingBox =  record
   public
-    procedure Create(const AValue: TGLZVector);
+    procedure Create(const AValue: TGLZVector);overload;
+    procedure Create(const AMin, AMax: TGLZVector);overload;
     { : Extract the AABB information from a BB. }
     procedure Create(const ABB: TGLZBoundingBox);
 
@@ -860,41 +951,9 @@ type
     function AverageNormal4(constref up, left, down, right: TGLZVector): TGLZVector;
 
     function ExtendClipRect(vX, vY: Single) : TGLZClipRect;
+
+    function PlaneContains(const Location, Normal: TGLZVector; const TestBSphere: TGLZBoundingSphere): TGLZSpaceContains;
   end;
-
-
-  {%region%----[ TGLZHmgPlane ]---------------------------------------------------}
-
-  { ARF IT'S IMPOSSIBLE TO CREATE MORE THAN 1 HELPER PER RECORD
-    SO BECAREFULL THE LAST DECLARED HELPER IS THE ONLY AVAILABLE, snif :( , so moved in TGLZVectorHelper }
-
-  (*  TGLZHmgPlaneHelper = record helper for TGLZHmgPlane
-    public
-      procedure CreatePlane(constref p1, p2, p3 : TGLZVector);overload;
-      // Computes the parameters of a plane defined by a point and a normal.
-      procedure CreatePlane(constref point, normal : TGLZVector); overload;
-
-      //function Normalize : TGLZHmgPlane; overload;
-      function NormalizePlane : TGLZHmgPlane;
-
-      procedure CalcPlaneNormal(constref p1, p2, p3 : TGLZVector);
-
-      //function PointIsInHalfSpace(constref point: TGLZVector) : Boolean;
-      //function PlaneEvaluatePoint(constref point : TGLZVector) : Single;
-      function DistancePlaneToPoint(constref point : TGLZVector) : Single;
-      function DistancePlaneToSphere(constref Center : TGLZVector; constref Radius:Single) : Single;
-      { Compute the intersection point "res" of a line with a plane.
-        Return value:
-         0 : no intersection, line parallel to plane
-         1 : res is valid
-         -1 : line is inside plane
-        Adapted from:
-        E.Hartmann, Computeruntersttzte Darstellende Geometrie, B.G. Teubner Stuttgart 1988 }
-      //function IntersectLinePlane(const point, direction : TGLZVector; intersectPoint : PGLZVector = nil) : Integer;
-    end;  *)
-
-  {%endregion%}
-
 
 {%endregion%}
 
@@ -928,10 +987,14 @@ type
 {%region%----[ TGLZAxisAlignedBoundingBoxHelper ]-------------------------------}
 {%endregion%}
 
-{%region%----[ TGLZPlaneHelper AddOns ]-----------------------------------------}
-{%endregion%}
-
 {%region%----[ TGLZFrustrumHelper ]---------------------------------------------}
+
+ (* TGLZFrustumHelper = record helper for TGLZFrustum
+  public
+    function Contains(const TestBSphere: TGLZBoundingSphere): TGLZSpaceContains;overload;
+    // see http://www.flipcode.com/articles/article_frustumculling.shtml
+    function Contains(const TestAABB: TGLZAxisAlignedBoundingBox) : TGLZSpaceContains;overload;
+  end; *)
 {%endregion%}
 
 {%region%----[ Vectors Const ]--------------------------------------------------}
@@ -1042,7 +1105,14 @@ Uses Math, GLZMath, GLZUtils;
 {%region%----[ Internal Types and Const ]---------------------------------------}
 
 Const
+
+     { SSE rounding modes (bits in MXCSR register) }
+  //cSSE_ROUND_MASK         : DWord = $FFFF9FFF;
+  //cSSE_ROUND_MASK_NEAREST : DWord = $00000000;
+  //cSSE_ROUND_MASK_TRUNC   : DWord = $00006000;
+
   cNullVector4f   : TGLZVector = (x:0;y:0;z:0;w:0);
+  cNullVector4i   : TGLZVector4i = (x:0;y:0;z:0;w:0);
   cOneVector4f    : TGLZVector = (x:1;y:1;z:1;w:1);
   cNegateVector4f_PNPN    : TGLZVector = (x:1;y:-1;z:1;w:-1);
   cWOneVector4f   : TGLZVector = (x:0;y:0;z:0;w:1);
@@ -1091,6 +1161,10 @@ const
     (0, 1, 5, 4), (2, 3, 7, 6));
   CDirPlan: TDirPlan = (0, 0, 1, 1, 2, 2);
 
+// ---- Used by ASM Round & Trunc functions ------------------------------------
+var
+  _bakMXCSR, _tmpMXCSR : DWord;
+
 
 procedure SetPlanBB(Var A:TGLZBoundingBox;const NumPlan: Integer; const Valeur: Double);
 var
@@ -1108,6 +1182,8 @@ end;
 
 {%endregion%}
 
+Var
+  _oldMXCSR: DWord; // FLAGS SSE
 
 //-----[ INCLUDE IMPLEMENTATION ]-----------------------------------------------
 
@@ -1191,14 +1267,23 @@ end;
           {$I vectormath_planehelper_win64_avx_imp.inc}
           {$I vectormath_vectorhelper_win64_avx_imp.inc}
        {$ELSE}
+          {.$I vectormath_vector2i_native_imp.inc}
+          {.$I vectormath_vector2i_win64_sse_imp.inc}
           {$I vectormath_vector2f_native_imp.inc}
           {$I vectormath_vector2f_win64_sse_imp.inc}
+
+          {$I vectormath_vector3b_native_imp.inc}
+          {.$I vectormath_vector3i_native_imp.inc}
+          {.$I vectormath_vector3f_native_imp.inc}
+
+          {$I vectormath_vector4b_native_imp.inc}
+          {$I vectormath_vector4i_native_imp.inc}
+          {$I vectormath_vector4i_win64_sse_imp.inc}
 
           {$I vectormath_vector4f_native_imp.inc}
           {$I vectormath_vector4f_win64_sse_imp.inc}
 
-          {$I vectormath_vector3b_native_imp.inc}
-          {$I vectormath_vector4b_native_imp.inc}
+
 
           {$I vectormath_quaternion_native_imp.inc}
           {$I vectormath_quaternion_win64_sse_imp.inc}
@@ -1292,9 +1377,15 @@ end;
 
 {$else}  // pascal
   {$I vectormath_vector2f_native_imp.inc}
-  {$I vectormath_vector4f_native_imp.inc}
+  {.$I vectormath_vector2i_native_imp.inc}
+
   {$I vectormath_vector3b_native_imp.inc}
+  {.$I vectormath_vector3i_native_imp.inc}
+  {.$I vectormath_vector3f_native_imp.inc}
+
   {$I vectormath_vector4b_native_imp.inc}
+  {$I vectormath_vector4i_native_imp.inc}
+  {$I vectormath_vector4f_native_imp.inc}
 
   {$I vectormath_quaternion_native_imp.inc}
   {$I vectormath_boundingbox_native_imp.inc}
@@ -1359,14 +1450,15 @@ end;
 {%endregion%}
 
 //==============================================================================
-var
-  oldmxcsr : dword; // FLAGS SSE
+
+//Var
+//  _oldMXCSR: DWord; // FLAGS SSE
 
 initialization
-  oldmxcsr:=get_mxcsr;
+  _oldMXCSR := get_mxcsr;
   set_mxcsr (mxcsr_default);
 
 finalization
-  set_mxcsr(oldmxcsr);
+  set_mxcsr(_oldMXCSR);
 End.
 

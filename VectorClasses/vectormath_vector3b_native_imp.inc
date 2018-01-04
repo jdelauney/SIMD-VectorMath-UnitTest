@@ -132,12 +132,12 @@ begin
   Result.Z := A.Z xor B;
 end;
 
-function TGLZVector3b.AsVector3f: TGLZVector3f;
+(* function TGLZVector3b.AsVector3f: TGLZVector3f;
 begin
   Result.X := Self.X * cColorFloatRatio;
-  Result.Y := Self.Y * cColorFloatRatio;
-  Result.Z := Self.Z * cColorFloatRatio;
-end;
+  Result.X := Self.Y * cColorFloatRatio;
+  Result.X := Self.Z * cColorFloatRatio;
+end;  *)
 
 function TGLZVector3b.Swizzle(const ASwizzle: TGLZVector3SwizzleRef ): TGLZVector3b;
 begin

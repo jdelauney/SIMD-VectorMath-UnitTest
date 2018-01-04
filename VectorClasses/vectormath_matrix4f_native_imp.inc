@@ -572,7 +572,8 @@ end;
 procedure TGLZMatrix4f.CreateShadowMatrix(const planePoint, planeNormal, lightPos : TGLZVector);
 var
    planeNormal3, dot : Single;
-   v1,v2, vl, vpn : TGLZVector;
+   v1,v2  : TGLZVector;
+   //, vl, vpn
 begin
   v1 := planeNormal;
   v1.W := 0;

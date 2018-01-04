@@ -392,10 +392,10 @@ asm
     shufps	xmm3, xmm4, $DD
     shufps	xmm0, xmm5, $88
     shufps	xmm2, xmm4, $88
-    movaps [RCX]$00, xmm0
-    movaps [RCX]$10,xmm1 //16
-    movaps [RCX]$20,xmm2 //32
-    movaps [RCX]$30,xmm3 //48
+    movaps [RDX]$00, xmm0
+    movaps [RDX]$10,xmm1 //16
+    movaps [RDX]$20,xmm2 //32
+    movaps [RDX]$30,xmm3 //48
   {$else}
     movaps   xmm0, [RCX]$00  // A03 A02 A01 A00
     movaps   xmm1, [RCX]$10 // A13 A12 A11 A10
@@ -418,15 +418,15 @@ asm
     unpcklpd xmm2, xmm4               // A32 A22 A12 A02
     unpckhpd xmm3, xmm4               // A33 A23 A13 A03
 
-    movaps  [RESULT]$00, xmm0
-    movaps  [RESULT]$10, xmm1
-    movaps  [RESULT]$20, xmm2
-    movaps  [RESULT]$30, xmm3
+    movaps  [RDX]$00, xmm0
+    movaps  [RDX]$10, xmm1
+    movaps  [RDX]$20, xmm2
+    movaps  [RDX]$30, xmm3
   {$endif}
 end;
 
 // Translated from DirectXMathMatrix.nl
-function TGLZMatrix4f.GetDeterminant : Single; assembler;
+function TGLZMatrix4f.GetDeterminant : Single;  assembler; register; nostackframe;
 asm
   movaps xmm0, [RCX]$00
   movaps xmm1, [RCX]$10
@@ -492,21 +492,21 @@ asm
   // Dot
   {$IFDEF USE_ASM_SSE_4}
      dpps xmm10, xmm4, 01110001b //or $F1
-     movss [RESULT], {%H-}xmm0
+     movss xmm0, xmm10
   {$ELSE}
     {$IFDEF USE_ASM_SSE_3}
-       andps xmm10, [RIP+cSSE_MASK_NO_W]
+       //andps xmm10, [RIP+cSSE_MASK_NO_W]
        mulps xmm4, xmm10
        {$ifdef TEST}
-         movshdup    xmm4, xmm10
-         addps       xmm10, xmm4
-         movhlps     xmm4, xmm10
-         addss       xmm10, xmm4
+         movshdup    xmm10, xmm4
+         addps       xmm4, xmm10
+         movhlps     xmm10, xmm4
+         addss       xmm4, xmm10
        {$else}
          haddps xmm4, xmm4
          haddps xmm4, xmm4
        {$endif}
-        movss [RESULT], {%H-}xmm10
+        movss xmm0, xmm4
     {$ELSE}
       andps xmm10, [RIP+cSSE_MASK_NO_W]
       mulps  xmm10, xmm4
@@ -514,7 +514,7 @@ asm
       addps xmm4, xmm10
       shufps xmm10, xmm10, 00000001b
       addps xmm10, xmm4
-      movss [RESULT], {%H-}xmm10
+      movss xmm0, xmm10
     {$ENDIF}
   {$ENDIF}
 end;
