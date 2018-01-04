@@ -49,8 +49,10 @@ begin
   nmtx1.V[2].Create(2,0,-1,1);
   nmtx1.V[3].Create(2,2,2,1);      // this should have det of -50
 
+  mtx1.M := nmtx1.M;
+
+
   nmtx2.CreateScaleMatrix(nt1);
-  mtx1.CreateIdentityMatrix;
   mtx2.CreateScaleMatrix(vt1);
 end;
 
