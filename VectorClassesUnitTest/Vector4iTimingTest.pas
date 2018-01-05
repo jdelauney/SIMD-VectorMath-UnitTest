@@ -14,8 +14,10 @@ type
 
   TVector4iTimingTest =  class(TVectorBaseTimingTest)
     protected
+      {$CODEALIGN RECORDMIN=16}
       n4it1, n4it2, n4it3, n4it4: TNativeGLZVector4i;
       a4it1, a4it2, a4it3, a4it4: TGLZVector4i;
+      {$CODEALIGN RECORDMIN=4}
       b1, b2, b3, b4, b5, b6, b7, b8: integer;
       procedure Setup; override;
     published
@@ -27,6 +29,7 @@ type
       procedure TestTimeOpMulInt;
       procedure TestTimeOpDiv;
       procedure TestTimeOpDivInt;
+      procedure TestTimeOpNegate;
       procedure TestTimeOpEquality;
       procedure TestTimeOpNotEquals;
 {*      procedure TestTimeOpAnd;
@@ -178,6 +181,19 @@ begin
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;
   For cnt := 1 to Iterations do begin a4it3 := a4it1 div b2; end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVector4iTimingTest.TestTimeOpNegate;
+begin
+  TestDispName := 'Vector Op Negate';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin n4it3 := -n4it1; end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  For cnt := 1 to Iterations do begin a4it3 := -a4it1; end;
   GlobalProfiler[1].Stop;
 end;
 

@@ -24,6 +24,7 @@ type
       procedure TestOpMulInt;
       procedure TestOpDiv;
       procedure TestOpDivInt;
+      procedure TestOpNegate;
       procedure TestOpEquality;
       procedure TestOpNotEquals;
 {*      procedure TestOpAnd;
@@ -120,6 +121,13 @@ begin
    n4it3 := n4it1 div b2;
    a4it3 := a4it1 div b2;
    AssertTrue('Vector4i: Op Div Int does not match'+n4it3.ToString+' --> '+a4it3.ToString, Compare(n4it3,a4it3));
+end;
+
+procedure TVector4iComparatorTest.TestOpNegate;
+begin
+   n4it3 := -n4it1;
+   a4it3 := -a4it1;
+   AssertTrue('Vector4i: Op Negate does not match'+n4it3.ToString+' --> '+a4it3.ToString, Compare(n4it3,a4it3));
 end;
 
 procedure TVector4iComparatorTest.TestOpEquality;
