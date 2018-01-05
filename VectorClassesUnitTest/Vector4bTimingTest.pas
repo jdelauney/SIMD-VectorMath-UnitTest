@@ -407,7 +407,6 @@ begin
   GlobalProfiler[1].Stop;
 end;
 
-
 procedure TVector4bTimingTest.TestTimeShuffle;
 begin
   TestDispName := 'Vector Shuffle';

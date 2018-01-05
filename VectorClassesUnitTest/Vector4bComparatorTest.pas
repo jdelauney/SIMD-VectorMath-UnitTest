@@ -271,7 +271,6 @@ begin
    AssertTrue('Vector MulDiv byte no match'+nbf3.ToString+' --> '+abf3.ToString, Compare(nbf3,abf3));
 end;
 
-
 procedure TVector4bComparatorTest.TestShuffle;
 begin
    nbf3 := nbf1.Shuffle(1,2,3,0);

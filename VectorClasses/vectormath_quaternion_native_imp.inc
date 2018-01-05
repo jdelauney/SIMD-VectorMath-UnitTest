@@ -260,6 +260,7 @@ begin
    Result.V[1].V[2] :=     2 * ( yz + xw );
    Result.V[2].V[2] := 1 - 2 * ( xx + yy );
 end; }
+
 {%endregion%}
 
 {$IFNDEF USE_ASM}
@@ -386,7 +387,7 @@ end;
 
 function TGLZQuaternion.Normalize : TGLZQuaternion;
 var
-   m, f, r : Single;
+   m, f: Single;
 begin
    m:=Self.Magnitude;
    if m>cEPSILON then

@@ -265,7 +265,6 @@ begin
   GlobalProfiler[1].Stop;
 end;
 
-
 procedure TVector3bTimingTest.TestTimeSwizzle;
 begin
   TestDispName := 'Vector Swizzle';
@@ -277,7 +276,6 @@ begin
   GlobalProfiler[1].Start;
   For cnt:= 1 to Iterations do begin abt3 := abt1.Swizzle(swZYX); end;
   GlobalProfiler[1].Stop;
-
 end;
 
 

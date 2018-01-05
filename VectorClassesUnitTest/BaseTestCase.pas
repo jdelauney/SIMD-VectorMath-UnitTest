@@ -52,6 +52,24 @@ type
 
   end;
 
+  { TIntVectorBaseTestCase }
+
+  TIntVectorBaseTestCase = class(TTestCase)
+    protected
+      procedure Setup; override;
+    public
+     {$CODEALIGN RECORDMIN=4}
+     n3it1, n3it2, n3it3, n3it4: TNativeGLZVector3i;
+     n4it1, n4it2, n4it3, n4it4: TNativeGLZVector4i;
+     a3it1, a3it2, a3it3, a3it4: TGLZVector3i;
+     a4it1, a4it2, a4it3, a4it4: TGLZVector4i;
+     {$CODEALIGN RECORDMIN=4}
+     b1, b2, b3, b4, b5, b6, b7, b8: integer;
+     nb, ab: boolean;
+     Fs1,Fs2 : Single;
+
+  end;
+
   { TBBoxBaseTestCase }
 
   TBBoxBaseTestCase = class(TVectorBaseTestCase)
@@ -68,7 +86,7 @@ type
   end;
 
 
-  TReportGroup = (rgVector2f, rgVector3b, rgVector4b, rgVector4f, rgMatrix4f,
+  TReportGroup = (rgVector2f, rgVector3b, rgVector4b, rgVector4i, rgVector4f, rgMatrix4f,
                   rgQuaterion, rgBBox, rgBSphere, rgAABB, rgPlaneHelper);
 
 const
@@ -76,6 +94,7 @@ const
   REPORT_GROUP_VECTOR2F = 'Vector2f';
   REPORT_GROUP_VECTOR3B = 'Vector3b';
   REPORT_GROUP_VECTOR4B = 'Vector4b';
+  REPORT_GROUP_VECTOR4I = 'Vector4i';
   REPORT_GROUP_VECTOR4F = 'Vector4f';
   REPORT_GROUP_MATRIX4F = 'Matrix4f' ;
   REPORT_GROUP_QUATERION = 'Quaternion' ;
@@ -88,6 +107,7 @@ const
               REPORT_GROUP_VECTOR2F,
               REPORT_GROUP_VECTOR3B,
               REPORT_GROUP_VECTOR4B,
+              REPORT_GROUP_VECTOR4I,
               REPORT_GROUP_VECTOR4F,
               REPORT_GROUP_MATRIX4F,
               REPORT_GROUP_QUATERION,
@@ -98,6 +118,31 @@ const
               );
 
 implementation
+
+{ TIntVectorBaseTestCase }
+
+procedure TIntVectorBaseTestCase.Setup;
+begin
+  inherited Setup;
+//  n3it1.Create(12, 124, 253);  in advance of the code appearing
+//  n3it2.Create(253, 124, 12);
+//  a3it1.V := n3it1.V;
+//  a3it2.V := n3it2.V;
+  n4it1.Create(12, 124, 253, 0);
+  n4it2.Create(253, 124, 12, 255);
+  a4it1.V := n4it1.V;
+  a4it2.V := n4it2.V;
+  b1 := 3;    // three small
+  b2 := 4;
+  b3 := 5;
+  b4 := 0;
+  b5 := 2345;  // three large
+  b6 := 2248;
+  b7 := 2255;
+  b8 := 0;
+  Fs1 := 1.5;
+  Fs2 := 5.5;
+end;
 
 { TBBoxBaseTestCase }
 

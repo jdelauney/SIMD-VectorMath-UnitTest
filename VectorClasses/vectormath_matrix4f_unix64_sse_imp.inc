@@ -511,7 +511,7 @@ asm
          haddps xmm4, xmm4
          haddps xmm4, xmm4
        {$endif}
-        movss xmm0, xmm10
+        movss xmm0, xmm4
     {$ELSE}
       andps xmm10, [RIP+cSSE_MASK_NO_W]
       mulps  xmm10, xmm4

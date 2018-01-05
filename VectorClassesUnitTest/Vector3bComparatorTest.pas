@@ -166,8 +166,6 @@ begin
    AssertTrue('Vector Xor Byte no match'+nbt3.ToString+' --> '+abt3.ToString, Compare(nbt3,abt3));
 end;
 
-
-
 procedure TVector3bComparatorTest.TestSwizzle;
 begin
    nbt3 := nbt1.Swizzle(swBRG);

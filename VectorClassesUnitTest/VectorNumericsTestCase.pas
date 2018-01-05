@@ -164,14 +164,14 @@ procedure TVectorNumericsTestCase.TestRound;
 begin
   nt4i := nt1.Round;
   vt4i := vt1.Round;
-  AssertTrue('Vector4f  Round do not match : '+ntt3.ToString+' --> '+vtt3.ToString, Compare(nt4i,vt4i));
+  AssertTrue('Vector4f  Round do not match : '+nt4i.ToString+' --> '+vt4i.ToString, Compare(nt4i,vt4i));
 end;
 
 procedure TVectorNumericsTestCase.TestTrunc;
 begin
   nt4i := nt1.Trunc;
   vt4i := vt1.Trunc;
-  AssertTrue('Vector4f  Trunc do not match : '+ntt3.ToString+' --> '+vtt3.ToString, Compare(nt4i,vt4i));
+  AssertTrue('Vector4f  Trunc do not match : '+nt4i.ToString+' --> '+vt4i.ToString, Compare(nt4i,vt4i));
 end;
 
 {%endregion%}

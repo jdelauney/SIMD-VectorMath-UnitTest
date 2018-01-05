@@ -1230,6 +1230,9 @@ Var
          {$I vectormath_vector3b_native_imp.inc}
          {$I vectormath_vector4b_native_imp.inc}
 
+         {$I vectormath_vector4i_native_imp.inc}
+         {$I vectormath_vector4i_unix64_sse_imp.inc}
+
          {$I vectormath_vector4f_native_imp.inc}
          {$I vectormath_vector4f_unix64_sse_imp.inc}
 
