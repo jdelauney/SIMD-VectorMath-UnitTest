@@ -13,9 +13,18 @@ uses
 type
 
   { TVectorNumericsTestCase }
-  TVectorBaseTestCase = class(TTestCase)
-    protected
-      procedure Setup; override;
+  TBaseTestCase = class(TTestCase)
+  //  protected
+     // procedure Setup; override;
+    public
+     Fs1,Fs2 : Single;
+     nb, vb, ab: boolean;
+  end;
+
+
+  TVectorBaseTestCase = class(TBaseTestCase)
+  protected
+    procedure Setup; override;
     public
      {$CODEALIGN RECORDMIN=16}
      vtt1,vtt2, vtt3 : TGLZVector2f;
@@ -29,14 +38,12 @@ type
      nt1,nt2, nt3 : TNativeGLZVector4f;
      ant1,ant2, ant3, ant4, norg : TNativeGLZVector4f;
      {$CODEALIGN RECORDMIN=4}
-     Fs1,Fs2 : Single;
-     nb, vb: boolean;
     published
   end;
 
   { TByteVectorBaseTestCase }
 
-  TByteVectorBaseTestCase = class(TTestCase)
+  TByteVectorBaseTestCase = class(TBaseTestCase)
     protected
       procedure Setup; override;
     public
@@ -47,14 +54,13 @@ type
      abf1, abf2, abf3, abf4: TGLZVector4b;
      {$CODEALIGN RECORDMIN=1}
      b1, b2, b3, b4, b5, b6, b7, b8: byte;
-     nb, ab: boolean;
      {$CODEALIGN RECORDMIN=4}
 
   end;
 
   { TIntVectorBaseTestCase }
 
-  TIntVectorBaseTestCase = class(TTestCase)
+  TIntVectorBaseTestCase = class(TBaseTestCase)
     protected
       procedure Setup; override;
     public
@@ -65,9 +71,6 @@ type
      a4it1, a4it2, a4it3, a4it4: TGLZVector4i;
      {$CODEALIGN RECORDMIN=4}
      b1, b2, b3, b4, b5, b6, b7, b8: integer;
-     nb, ab: boolean;
-     Fs1,Fs2 : Single;
-
   end;
 
   { TBBoxBaseTestCase }

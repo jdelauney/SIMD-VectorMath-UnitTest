@@ -13,6 +13,7 @@ uses
   Vector3bComparatorTest,
   // Vector4b Test Case
   Vector4bComparatorTest,
+  Vector4iComparatorTest,
   // Vector4f Test Case
   VectorOperatorsTestCase,
   VectorNumericsTestCase,
@@ -36,7 +37,7 @@ uses
   Vector3bTimingTest,
   // Vector4b Timing Test Case
   Vector4bTimingTest,
-//  glz_2DHelper_test_cases,
+  Vector4iTimingTest,
   // Vector4f Timing Test Case
   VectorOperatorsTimingTest,
   VectorOperatorsOnSelfTimingTest,

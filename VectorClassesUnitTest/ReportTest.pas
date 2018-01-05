@@ -83,6 +83,7 @@ RegisterTest(REPORT_GROUP_BBOX, TFileWriteTest );
 RegisterTest(REPORT_GROUP_BSPHERE, TFileWriteTest );
 RegisterTest(REPORT_GROUP_AABB, TFileWriteTest );
 RegisterTest(REPORT_GROUP_PLANE_HELP, TFileWriteTest );
+RegisterTest(REPORT_GROUP_VECTOR4I, TFileWriteTest );
 
 end.
 

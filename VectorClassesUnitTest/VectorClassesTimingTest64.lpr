@@ -2,7 +2,7 @@ program VectorClassesTimingTest64;
 
 {$mode objfpc}{$H+}
 
-{$define NO_TIMING_TEST}
+{.$define NO_TIMING_TEST}
 
 uses
   Interfaces, Forms, GuiTestRunner,
@@ -37,6 +37,7 @@ uses
   Vector3bTimingTest,
   // Vector4b Timing Test Case
   Vector4bTimingTest,
+  Vector4iTimingTest,
   // Vector4f Timing Test Case
   VectorOperatorsTimingTest,
   VectorOperatorsOnSelfTimingTest,
