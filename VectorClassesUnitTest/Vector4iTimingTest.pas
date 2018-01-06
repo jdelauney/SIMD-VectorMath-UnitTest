@@ -199,16 +199,16 @@ begin
 end;
 
 procedure TVector4iTimingTest.TestTimeOpNegate;
- begin
-   TestDispName := 'Vector Op Negate';
-   GlobalProfiler[0].Clear;
-   GlobalProfiler[0].Start;
-   for cnt := 1 to Iterations do begin n4it3 := -n4it1; end;
-   GlobalProfiler[0].Stop;
-   GlobalProfiler[1].Clear;
-   GlobalProfiler[1].Start;
-   For cnt := 1 to Iterations do begin a4it3 := -a4it1; end;
-   GlobalProfiler[1].Stop;
+begin
+  TestDispName := 'Vector Op Negate';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin n4it3 := -n4it1; end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  For cnt := 1 to Iterations do begin a4it3 := -a4it1; end;
+  GlobalProfiler[1].Stop;
 end;
 
 procedure TVector4iTimingTest.TestTimeOpEquality;

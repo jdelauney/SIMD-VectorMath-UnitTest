@@ -293,7 +293,7 @@ asm
  and      eax, [RIP+cSSE_ROUND_MASK]
  or       eax, [RIP+cSSE_ROUND_MASK_TRUNC]  // Set bits
 {$else}
-                   // smaller opcode
+                   // smaller opcode no mem access required.
  and      eax, $00009FFF
  or       eax, $00006000                    // Set bits
 {$endif}

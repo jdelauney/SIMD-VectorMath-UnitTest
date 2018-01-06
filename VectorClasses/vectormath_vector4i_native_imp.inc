@@ -411,7 +411,7 @@ begin
   Result := Result.Min(AMax);
 end;
 
-(* function TGLZVector4i.MulAdd(Constref B, C : TGLZVector4i) : TGLZVector4i;
+function TGLZVector4i.MulAdd(Constref B, C : TGLZVector4i) : TGLZVector4i;
 begin
   result := (self*B)+C;
 end;
@@ -428,7 +428,7 @@ begin
   v3 := v2 * F1;
   result := Self + v3;
   result.W := Self.W;
-end;  *)
+end;  
 
 
 {%endregion%}
