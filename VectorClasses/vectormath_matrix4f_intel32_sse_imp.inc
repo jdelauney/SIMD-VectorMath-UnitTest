@@ -348,4 +348,27 @@ end;
 {%endregion%}
 
 {%region%----[ Functions ]------------------------------------------------------}
+function  TGLZMatrix4f.GetDeterminant: single; assembler;
+asm
+end;
 
+function TGLZMatrix4f.Transpose: TGLZMatrix4f; assembler;
+asm
+end;
+
+function TGLZMatrix4f.Invert : TGLZMatrix4f; assembler;
+asm
+end;
+
+function TGLZMatrix4f.Normalize : TGLZMatrix4f; assembler;
+asm
+end;
+
+function TGLZMatrix4f.Translate( constref v : TGLZVector):TGLZMatrix4f; assembler;
+asm
+end;
+function TGLZMatrix4f.Multiply(constref M2: TGLZMatrix4f):TGLZMatrix4f; assembler;
+asm
+end;
+
+{%endregion%}
