@@ -450,7 +450,7 @@ begin
     Self.W.W:= MatrixDetInternal(a1, a2, a3, b1, b2, b3, c1, c2, c3);
 end;
 
-{ TODO 1 -oTMatrix4 -cASM : Add SSE/AVX Version }
+{ TODO 1 -oTMatrix4 -cASM : Transpose_Scale_M33( Add SSE/AVX Version }
 procedure TGLZMatrix4f.Transpose_Scale_M33(constref src : TGLZMatrix4f; Constref ascale : Single);
 // EAX src
 // EDX dest
@@ -471,7 +471,7 @@ end;
 
 
 
-{ TODO 1 -oTMatrix4 -cASM : Add SSE/AVX Version }
+{ TODO 1 -oTMatrix4 -cASM : AnglePreservingMatrixInvert Add SSE/AVX Version }
 procedure TGLZMatrix4f.AnglePreservingMatrixInvert(constref mat : TGLZMatrix4f);
 var
    ascale : Single;
@@ -512,7 +512,7 @@ begin
                     +Self.V[2].V[2]*mat.V[3].V[2]);
 end;
 
-{ TODO 1 -oTMatrix4 -cASM : Add SSE/AVX Version }
+{ TODO 1 -oTMatrix4 -cASM : CreateLookAtMatrix Add SSE/AVX Version }
 procedure TGLZMatrix4f.CreateLookAtMatrix(const eye, center, normUp: TGLZVector);
 var
   XAxis, YAxis, ZAxis, negEye: TGLZVector;

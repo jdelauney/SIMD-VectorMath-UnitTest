@@ -214,7 +214,7 @@ end;
 
 function TGLZVector2f.Trunc: TGLZVector2i;assembler;//nostackframe;register;
 asm
-  //stmxcsr  _bakMXCSR // Push rounding mode
+  ////stmxcsr  _bakMXCSR // Push rounding mode
   //mov      eax, _oldMXCSR
   //and      eax, [RIP+cSSE_ROUND_MASK]
   //or       eax, [RIP+cSSE_ROUND_MASK_TRUNC]

@@ -3264,14 +3264,12 @@ end; }
 
 {%region%----[ TNativeGLZHmgPlane Helper ]--------------------------------------}
 
-{ TODO 1 -oASM -cTHmgPlane : Create(point, normal) Add ASM Version }
 procedure TNativeGLZVectorHelper.CreatePlane(constref point, normal : TNativeGLZVector);
 begin
    Self:=normal;
    Self.W:=-Point.DotProduct(normal);
 end;
 
-{ TODO 1 -oASM -cTHmgPlane : CalcPlaneNormal(p1, p2, p3)  Add ASM Version }
 procedure TNativeGLZVectorHelper.CalcPlaneNormal(constref p1, p2, p3 : TNativeGLZVector);
 var
    v1, v2 : TNativeGLZVector;
@@ -3351,7 +3349,6 @@ begin
    Result.Z:=Self.Z;
 end;
 
-{ TODO 1 -oASM -cVectorHelper : IsColinear(v2) Add ASM version }
 function TNativeGLZVectorHelper.IsColinear(constref v2: TNativeGLZVector) : Boolean;
 var
   a, b, c : Single;
@@ -4168,7 +4165,6 @@ begin
 end;
 
 { : Finds the intersection between a ray and an axis aligned bounding box. }
-{ TODO 1 -oASM -cGLZAxisAlignedBoundingBox : RayCastIntersect Add ASM version }
 function TNativeGLZAxisAlignedBoundingBox.RayCastIntersect(const RayOrigin, RayDirection: TNativeGLZVector; out TNear, TFar: Single): Boolean; overload;
 const
   Infinity = 1.0 / 0.0;

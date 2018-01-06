@@ -64,7 +64,7 @@ type
     protected
       procedure Setup; override;
     public
-     {$CODEALIGN RECORDMIN=4}
+     {$CODEALIGN RECORDMIN=16}
      n3it1, n3it2, n3it3, n3it4: TNativeGLZVector3i;
      n4it1, n4it2, n4it3, n4it4: TNativeGLZVector4i;
      a3it1, a3it2, a3it3, a3it4: TGLZVector3i;
@@ -86,6 +86,7 @@ type
       abs1,abs2,abs3: TGLZBoundingSphere;
       naabb1,naabb2,naabb3: TNativeGLZAxisAlignedBoundingBox;
       aaabb1,aaabb2,aaabb3: TGLZAxisAlignedBoundingBox;
+      {$CODEALIGN RECORDMIN=4}
   end;
 
 

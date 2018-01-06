@@ -433,6 +433,13 @@ type
     class operator <(constref A, B: TGLZVector4f): Boolean;
     class operator <>(constref A, B: TGLZVector4f): Boolean;
 
+    (* class operator And(constref A, B: TGLZVector4f.): TGLZVector4f.; overload;
+    class operator Or(constref A, B: TGLZVector4f.): TGLZVector4f.; overload;
+    class operator Xor(constref A, B: TGLZVector4f.): TGLZVector4f.; overload;
+    class operator And(constref A: TGLZVector4f.; constref B:Single): TGLZVector4f.; overload;
+    class operator or(constref A: TGLZVector4f.; constref B:Single): TGLZVector4f.; overload;
+    class operator Xor(constref A: TGLZVector4f.; constref B:Single): TGLZVector4f.; overload; *)
+
     function Shuffle(const x,y,z,w : Byte):TGLZVector4f;
     function Swizzle(const ASwizzle: TGLZVector4SwizzleRef ): TGLZVector4f;
 
@@ -1107,9 +1114,12 @@ Uses Math, GLZMath, GLZUtils;
 Const
 
      { SSE rounding modes (bits in MXCSR register) }
-  //cSSE_ROUND_MASK         : DWord = $FFFF9FFF;
-  //cSSE_ROUND_MASK_NEAREST : DWord = $00000000;
-  //cSSE_ROUND_MASK_TRUNC   : DWord = $00006000;
+  cSSE_ROUND_MASK         : DWord = $FFFF9FFF;
+  cSSE_ROUND_MASK_NEAREST : DWord = $00000000;
+  cSSE_ROUND_MASK_TRUNC   : DWord = $00006000;
+
+//  SSE_ROUND_DOWN    = $00002000;
+//  SSE_ROUND_UP      = $00004000;
 
   cNullVector4f   : TGLZVector = (x:0;y:0;z:0;w:0);
   cNullVector4i   : TGLZVector4i = (x:0;y:0;z:0;w:0);

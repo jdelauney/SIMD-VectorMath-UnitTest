@@ -166,15 +166,6 @@ begin
   end;
 end;
 
-function TGLZVector4i.Combine(constref V2 : TGLZVector4i; constref F1 : Single) : TGLZVector4i;
-Var
-  v3 : TGLZVector4i;
-begin
-  v3 := v2 * F1;
-  result := Self + v3;
-  result.W := Self.W;
-end;
-
 function TGLZVector4i.Combine2(constref V2 : TGLZVector4i; const F1, F2 : Single) : TGLZVector4i;
 Var
   va, vb : TGLZVector4i;
@@ -420,7 +411,7 @@ begin
   Result := Result.Min(AMax);
 end;
 
-function TGLZVector4i.MulAdd(Constref B, C : TGLZVector4i) : TGLZVector4i;
+(* function TGLZVector4i.MulAdd(Constref B, C : TGLZVector4i) : TGLZVector4i;
 begin
   result := (self*B)+C;
 end;
@@ -429,6 +420,16 @@ function TGLZVector4i.MulDiv(Constref B, C : TGLZVector4i) : TGLZVector4i;
 begin
   result := (self*B) div C;
 end;
+
+function TGLZVector4i.Combine(constref V2 : TGLZVector4i; constref F1 : Single) : TGLZVector4i;
+Var
+  v3 : TGLZVector4i;
+begin
+  v3 := v2 * F1;
+  result := Self + v3;
+  result.W := Self.W;
+end;  *)
+
 
 {%endregion%}
 

@@ -22,6 +22,7 @@ type
       procedure TestOpSubInt;
       procedure TestOpMul;
       procedure TestOpMulInt;
+      procedure TestOpMulSingle;
       procedure TestOpDiv;
       procedure TestOpDivInt;
       procedure TestOpNegate;
@@ -99,55 +100,62 @@ procedure TVector4iComparatorTest.TestOpMul;
 begin
    n4it3 := n4it1 * n4it2;
    a4it3 := a4it1 * a4it2;
-   AssertTrue('Vector4i: Op Mul does not match'+n4it3.ToString+' --> '+a4it3.ToString, Compare(n4it3,a4it3));
+   AssertTrue('Vector4i: Op Mul does not match '+n4it3.ToString+' --> '+a4it3.ToString, Compare(n4it3,a4it3));
 end;
 
 procedure TVector4iComparatorTest.TestOpMulInt;
 begin
    n4it3 := n4it1 * b2;
    a4it3 := a4it1 * b2;
-   AssertTrue('Vector4i: Op Mul Int does not match'+n4it3.ToString+' --> '+a4it3.ToString, Compare(n4it3,a4it3));
+   AssertTrue('Vector4i: Op Mul Int does not match '+n4it3.ToString+' --> '+a4it3.ToString, Compare(n4it3,a4it3));
+end;
+
+procedure TVector4iComparatorTest.TestOpMulSingle;
+begin
+   n4it3 := n4it1 * fs1;
+   a4it3 := a4it1 * fs1;
+   AssertTrue('Vector4i: Op Mul Single does not match'+n4it3.ToString+' --> '+a4it3.ToString, Compare(n4it3,a4it3));
 end;
 
 procedure TVector4iComparatorTest.TestOpDiv;
 begin
    n4it3 := n4it1 div n4it2;
    a4it3 := a4it1 div a4it2;
-   AssertTrue('Vector4i: Op Div does not match'+n4it3.ToString+' --> '+a4it3.ToString, Compare(n4it3,a4it3));
+   AssertTrue('Vector4i: Op Div does not match '+n4it3.ToString+' --> '+a4it3.ToString, Compare(n4it3,a4it3));
 end;
 
 procedure TVector4iComparatorTest.TestOpDivInt;
 begin
    n4it3 := n4it1 div b2;
    a4it3 := a4it1 div b2;
-   AssertTrue('Vector4i: Op Div Int does not match'+n4it3.ToString+' --> '+a4it3.ToString, Compare(n4it3,a4it3));
+   AssertTrue('Vector4i: Op Div Int does not match '+n4it3.ToString+' --> '+a4it3.ToString, Compare(n4it3,a4it3));
 end;
 
 procedure TVector4iComparatorTest.TestOpNegate;
 begin
    n4it3 := -n4it1;
    a4it3 := -a4it1;
-   AssertTrue('Vector4i: Op Negate does not match'+n4it3.ToString+' --> '+a4it3.ToString, Compare(n4it3,a4it3));
+   AssertTrue('Vector4i: Op negate does not match '+n4it3.ToString+' --> '+a4it3.ToString, Compare(n4it3,a4it3));
 end;
 
 procedure TVector4iComparatorTest.TestOpEquality;
 begin
    nb := n4it1 = n4it1;
    ab := a4it1 = a4it1;
-   AssertTrue('Vector = does not match'+nb.ToString+' --> '+ab.ToString, (nb = ab));
+   AssertTrue('Vector = does not match '+nb.ToString+' --> '+ab.ToString, (nb = ab));
    nb := n4it1 = n4it2;
    ab := a4it1 = a4it2;
-   AssertTrue('Vector = does not match'+nb.ToString+' --> '+ab.ToString, (nb = ab));
+   AssertTrue('Vector = does not match '+nb.ToString+' --> '+ab.ToString, (nb = ab));
 end;
 
 procedure TVector4iComparatorTest.TestOpNotEquals;
 begin
    nb := n4it1 <> n4it1;
    ab := a4it1 <> a4it1;
-   AssertTrue('Vector <> does not match'+nb.ToString+' --> '+ab.ToString, (nb = ab));
+   AssertTrue('Vector <> does not match '+nb.ToString+' --> '+ab.ToString, (nb = ab));
    nb := n4it1 <> n4it2;
    ab := a4it1 <> a4it2;
-   AssertTrue('Vector <> doos not match'+nb.ToString+' --> '+ab.ToString, (nb = ab));
+   AssertTrue('Vector <> doos not match '+nb.ToString+' --> '+ab.ToString, (nb = ab));
 end;
 
 {*
