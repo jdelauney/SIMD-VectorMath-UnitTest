@@ -273,9 +273,8 @@ asm
   movdqa [RESULT], xmm0
 end;
 
-function TGLZVector4i.MulDiv(Constref B, C: TGLZVector4i): TGLZVector4i; assembler; nostackframe; register;
+function TGLZVector4i.MulDiv(Constref B, C: TGLZVector4i): TGLZVector4i; assembler; register; nostackframe;
 asm
-  push rax
   movdqa xmm0,[RCX]
   movdqa  xmm1,[B]
   movdqa  xmm2,[C]
@@ -285,9 +284,26 @@ asm
  // andps xmm2,[RIP+ cOneVector4f]
   mulps  xmm0, xmm1
   divps  xmm0, xmm2
-  {$i macro_sse_win64_trunc_xmm0-xmm0.inc} //RAISE A SIGFPE WITH TIMING TEST
-  movdqa [RESULT], xmm0
-  pop rax
+ // {$i macro_sse_win64_trunc_xmm0-xmm0.inc} //RAISE A SIGFPE WITH TIMING TEST
+ push     rax                               // create a mem area for mxcsr
+ stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
+ mov      eax, DWORD PTR [rsp]              // get it
+ mov      ecx, eax                          // make local copy   self is done with at this point
+{$ifdef TEST}
+ and      eax, [RIP+cSSE_ROUND_MASK]
+ or       eax, [RIP+cSSE_ROUND_MASK_TRUNC]  // Set bits
+{$else}
+                   // smaller opcode
+ and      eax, $00009FFF
+ or       eax, $00006000                    // Set bits
+{$endif}
+ mov      DWORD PTR [rsp], eax              // mov bits to mem
+ ldmxcsr  DWORD PTR [rsp]                   // set new bits
+ cvtps2dq xmm0, xmm0
+ mov      DWORD PTR [rsp], ecx              // put old bits in mem
+ ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
+ pop      rax                               // free used stack
+ movdqa   [RESULT], xmm0
 end;
 
  function TGLZVector4i.Combine(constref V2: TGLZVector4i; constref F1: Single): TGLZVector4i;assembler; nostackframe; register;

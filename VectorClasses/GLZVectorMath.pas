@@ -1114,7 +1114,8 @@ Uses Math, GLZMath, GLZUtils;
 Const
 
      { SSE rounding modes (bits in MXCSR register) }
-  cSSE_ROUND_MASK         : DWord = $FFFF9FFF;
+//  cSSE_ROUND_MASK         : DWord = $FFFF9FFF;
+  cSSE_ROUND_MASK         : DWord = $00009FFF;   // never risk a stray bit being set in MXCSR reserved
   cSSE_ROUND_MASK_NEAREST : DWord = $00000000;
   cSSE_ROUND_MASK_TRUNC   : DWord = $00006000;
 
