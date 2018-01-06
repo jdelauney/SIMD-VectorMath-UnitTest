@@ -92,7 +92,7 @@ Const
 
 {%region%----[ SSE States Flags Const ]-----------------------------------------}
 Type
-  sse_Rounding_Mode = (rmNearest, rmFloor, rmCeil, rmDefault);
+  sse_Rounding_Mode = (rmNearestSSE, rmFloorSSE, rmCeilSSE, rmDefaultSSE);
 
 Const
   //mxcsr register bits
@@ -115,7 +115,9 @@ Const
   //mask for removing old rounding bits to set new bits
   sse_no_round_bits_mask= $ffffffff-sse_MaskNegRound-sse_MaskPosRound;
   //default value of the mxcsr after booting the PC
-  mxcsr_default : dword =sse_MaskInvalidOp or sse_MaskDenorm  or sse_MaskDivZero or sse_MaskOverflow or sse_MaskUnderflow or sse_MaskPrecision;// default setting of the mxscr register ; disable all exception's
+  //default setting of the mxscr register ; disable all exception's
+  mxcsr_default : dword =sse_MaskInvalidOp or sse_MaskDenorm  or sse_MaskDivZero or sse_MaskOverflow
+                      or sse_MaskUnderflow or sse_MaskPrecision or $00000000; //sse_MaskPosRound;
   //conversion table from rounding mode name to rounding bits
   sse_Rounding_Flags: array [sse_Rounding_Mode] of longint = (0,sse_MaskNegRound,sse_MaskPosRound,0);
 
@@ -1467,14 +1469,31 @@ end;
 
 //==============================================================================
 
-//Var
-//  _oldMXCSR: DWord; // FLAGS SSE
+var
+  _oldFPURoundingMode : TFPURoundingMode;
 
 initialization
+
+  // Store Default FPC "Rounding Mode"
+  { We need to set rounding mode to is the same as our SSE code
+    Because in FPC, the "function Round" using "banker's rounding" algorithm.
+    In fat, is not doing a RoundUp or RoundDown if the is exactly x.50
+    Round(2.5)=2 else Round(3.5)=4
+    See for more infos : https://www.freepascal.org/docs-html/rtl/system/round.html }
+
+  _oldFPURoundingMode := GetRoundMode;
+  Math.SetRoundMode(rmNearest);
+
+  // Store MXCSR SSE Flags
   _oldMXCSR := get_mxcsr;
   set_mxcsr (mxcsr_default);
 
 finalization
+
+  // Restore MXCSR SSE Flags to default value
   set_mxcsr(_oldMXCSR);
+  // Restore Default FPC "Rounding Mode"
+  Math.SetRoundMode(_oldFPURoundingMode);
+
 End.
 

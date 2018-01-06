@@ -166,31 +166,6 @@ begin
   end;
 end;
 
-function TGLZVector4i.Combine2(constref V2 : TGLZVector4i; const F1, F2 : Single) : TGLZVector4i;
-Var
-  va, vb : TGLZVector4i;
-  ws : Byte;
-begin
-  ws:=Self.W;
-  va := Self * F1;
-  vb := v2 * F2;
-  result := va + vb;
-  result.W := ws;
-end;
-
-function TGLZVector4i.Combine3(constref V2, V3 : TGLZVector4i; const F1, F2, F3 : Single) : TGLZVector4i;
-Var
-  va, vb, vc : TGLZVector4i;
-  ws : Byte;
-begin
-  ws:=Self.W;
-  va := Self * F1;
-  vb := v2 * F2;
-  vc := v3 * F3;
-  result := va + vb + vc;
-  result.W := ws;
-end;
-
 function TGLZVector4i.MinXYZComponent : LongInt;
 begin
   Result:=Min3i(Self.X, Self.Y, Self.Z);

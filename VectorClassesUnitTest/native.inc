@@ -972,7 +972,7 @@ end;
 function TNativeGLZVector4i.Combine2(constref V2 : TNativeGLZVector4i; const F1, F2 : Single) : TNativeGLZVector4i;
 Var
   va, vb : TNativeGLZVector4i;
-  ws : Byte;
+  ws : integer;
 begin
   ws:=Self.W;
   va := Self * F1;
@@ -984,7 +984,7 @@ end;
 function TNativeGLZVector4i.Combine3(constref V2, V3 : TNativeGLZVector4i; const F1, F2, F3 : Single) : TNativeGLZVector4i;
 Var
   va, vb, vc : TNativeGLZVector4i;
-  ws : Byte;
+  ws : integer;
 begin
   ws:=Self.W;
   va := Self * F1;
