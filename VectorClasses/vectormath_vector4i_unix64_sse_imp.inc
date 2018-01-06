@@ -337,14 +337,14 @@ asm
   push     rax                               // create a mem area for mxcsr
   stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
   mov      eax, DWORD PTR [rsp]              // get it
-  mov      ecx, eax                          // make local copy   self is done with at this point
+  mov      ecx, eax                          // make local copy   
   {$ifdef TEST}
   and      eax,  [RIP+cSSE_ROUND_MASK]
-  or       eax,  [RIP+cSSE_ROUND_MASK_TRUNC]  // Set bits
+  or       eax,  [RIP+cSSE_ROUND_MASK_TRUNC] // Set bits
   {$else}
                    // smaller opcode
   and      eax,  $00009FFF
-  or       eax,  $00006000                    // Set bits
+  or       eax,  $00006000                   // Set bits
   {$endif}
   mov      DWORD PTR [rsp], eax              // mov bits to mem
   ldmxcsr  DWORD PTR [rsp]                   // set new bits

@@ -179,33 +179,37 @@ asm
   addps  xmm2, xmm1      // (X*X+Y*Y) (2x)
   sqrtps xmm2, xmm2
   divps  xmm0, xmm2
-  //rsqrtps xmm0, xmm0      // (1 / Sqrt(X*X + Y*Y)) (4x)
-  //mulps   xmm0, xmm2      // A * (1 / Sqrt(Dot(A, A)))
-  //movq    rax, xmm0
 end;
 
-// function Reflect(I, NRef : TVector2f):TVector2f
-function TGLZVector2f.Round: TGLZVector2i;assembler;nostackframe;register;
+function TGLZVector2f.Trunc: TGLZVector2i;assembler; nostackframe; register;
 asm
-  // Rounding mode defaults to round-to-nearest
+  push     rax                               // create a mem area for mxcsr
+  stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
+  mov      eax, DWORD PTR [rsp]              // get it
+  mov      ecx, eax                          // make local copy
+  {$ifdef TEST}
+  and      eax,  [RIP+cSSE_ROUND_MASK]
+  //.or       eax,  [RIP+cSSE_ROUND_MASK_TRUNC] // Set bits
+  {$else}
+                   // smaller opcode
+  and      eax,  $00009FFF
+  or       eax,  $00006000                   // Set bits
+  {$endif}
+  mov      DWORD PTR [rsp], eax              // mov bits to mem
+  ldmxcsr  DWORD PTR [rsp]                   // set new bits
   movq     xmm0, [RDI]
   cvtps2dq xmm0, xmm0
-  movq     rax, xmm0
+  mov      DWORD PTR [rsp], ecx              // put old bits in mem
+  ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
+  pop      rax                               // free used stack
+  movq     rax,  xmm0
 end;
 
-function TGLZVector2f.Trunc: TGLZVector2i;assembler;//nostackframe;register;
+function TGLZVector2f.Round: TGLZVector2i;assembler; nostackframe; register;
 asm
-  //stmxcsr  _bakMXCSR // Push rounding mode
-  //mov      eax, _oldMXCSR
-  //and      eax, [RIP+cSSE_ROUND_MASK]
-  //or       eax, [RIP+cSSE_ROUND_MASK_TRUNC]
-  //mov      _tmpMXCSR, eax
-  //ldmxcsr  _tmpMXCSR
   movq     xmm0, [RDI]
-
   cvtps2dq xmm0, xmm0
-  //ldmxcsr   _oldMXCSR  // Pop rounding mode
-  movq     rax, xmm0
+  movq     rax,  xmm0
 end;
 
 {%endregion%}

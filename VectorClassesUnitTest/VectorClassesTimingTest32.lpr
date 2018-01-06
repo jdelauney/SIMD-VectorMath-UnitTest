@@ -7,6 +7,7 @@ program VectorClassesTimingTest32;
 uses
   Interfaces, Forms, GuiTestRunner,
   // Vector2f Test Case
+  Vector2fFunctionalTest,
   Vector2OperatorsTestCase,
   Vector2NumericsTestCase,
   // Vector3b Test Case
