@@ -1365,6 +1365,8 @@ Var
 
         {$I vectormath_vector4f_native_imp.inc}
         {$I vectormath_vector4f_intel32_sse_imp.inc}
+        {$I vectormath_vector4i_native_imp.inc}
+        {$I vectormath_vector4i_intel32_sse_imp.inc}
 
         {$I vectormath_vectorhelper_native_imp.inc}
         {$I vectormath_vectorhelper_intel32_sse_imp.inc}

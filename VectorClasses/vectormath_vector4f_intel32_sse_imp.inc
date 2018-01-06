@@ -867,6 +867,24 @@ asm
   subps  xmm3, xmm1     // Self - ((2 * N.Dot(Self)) * N)
   movups [RESULT], xmm3
 end;
+
+function TGLZVector4f.Round: TGLZVector4i;assembler;nostackframe;register;
+asm
+  // Rounding mode defaults to round-to-nearest
+  movups   xmm0, [EAX]
+  cvtps2dq xmm0, xmm0
+  movdqu   [Result], xmm0
+end;
+
+
+function TGLZVector4f.Trunc: TGLZVector4i;assembler;nostackframe;register;
+asm
+  movups   xmm0, [EAX]
+  cvtps2dq xmm0, xmm0         // todo
+  movdqu   [Result], xmm0
+end;
+
+
 {%endregion%}
 {%region%====[ SSE Operations on Self ]=========================================}
 

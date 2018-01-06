@@ -188,9 +188,18 @@ asm
   //movq    rax, xmm0
 end;
 
-// function DotProduct(A:TVector2f):TVector2f;
-// function Reflect(I, NRef : TVector2f):TVector2f
-//function Round: TVector2I;
-//function Trunc: TVector2I;
+function TGLZVector2f.Round: TGLZVector2i; assembler; nostackframe; register;
+asm
+  // Rounding mode defaults to round-to-nearest
+  movq     xmm0, [EAX]
+  cvtps2dq xmm0, xmm0
+end;
+
+function TGLZVector2f.Trunc: TGLZVector2i;assembler;//nostackframe;register;
+asm
+  movq     xmm0, [EAX]   // TODO
+  cvtps2dq xmm0, xmm0
+end;
+
 
 {%endregion%}

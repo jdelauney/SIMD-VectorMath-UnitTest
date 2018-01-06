@@ -8,3 +8,4 @@ Results/
 
 # Unix executables
 ./VectorClassesUnitTest* 
+VectorClassesUnitTest/VectorClassesUnitTest*
