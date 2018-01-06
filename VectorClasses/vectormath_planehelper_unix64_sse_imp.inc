@@ -1,30 +1,72 @@
 procedure TGLZVectorHelper.CreatePlane(constref p1, p2, p3 : TGLZVector);assembler;
 asm
-  movaps xmm0, [p1]
-  movaps xmm1, [p2]
-  movaps xmm2, [p3]
-  movaps xmm7, xmm0
-  subps xmm0, xmm1
-  subps xmm2, xmm1
+  movaps xmm0, [p2]
+  movaps xmm1, [p3]
+  movaps xmm2, [p1]
+  movaps xmm7, xmm2
 
-  // Crossprod of xmm0 and xmm2
-  movaps xmm1, xmm0
-  movaps xmm3, xmm2
-  shufps xmm0, xmm0, $C9
-  shufps xmm1, xmm1, $D2
-  shufps xmm2, xmm2, $D2
-  shufps xmm3, xmm3, $C9
+  //v1:=p2-p1;
+  //v2:=p3-p1;
+  subps xmm0, xmm2
+  subps xmm1, xmm2
 
-  mulps xmm2, xmm0
-  mulps xmm3, xmm1
+  //Self:=v1.CrossProduct(v2);
 
-  subps xmm2, xmm3
+                                 // xmm1 = v2
+  movaps xmm2, xmm0                // xmm2 = v1 // move aligned data
+  movaps xmm3, xmm1                // xmm3 = v2
 
-  // Calculation of 'd' component
+  // shuffle members
+  // becarefull at the order in the register (right to left )= w z x y )
+  // 1st arg xmm = w z y x = 11 10 01 00
+  // 2nd arg xmm = w z y x = 11 10 01 00
+  // 3rd arg where to place members of 1st arg in 2nd arg
+  // becarefull reading from right to left
+  shufps  xmm0, xmm0, $C9  //w z y x -> $c9 = 11 00 10 01 -> w x z y
+
+  shufps  xmm1, xmm1, $D2  //w z y x -> $d2 = 11 01 00 10 -> w y x z
+  shufps  xmm2, xmm2, $D2
+  shufps  xmm3, xmm3, $C9
+  // scale
+  mulps   xmm0, xmm1
+  mulps   xmm2, xmm3
+  // sub the results
+  subps   xmm0, xmm2
+  addps   xmm0, [rip+cWOnevector4f]
+
+//Self:=Self.Normalize;    // so we can use this code
+  movaps xmm3, xmm0
+  andps  xmm3, [RIP+cSSE_MASK_ONLY_W]
+  andps  xmm0, [RIP+cSSE_MASK_NO_W]
+  movaps xmm2, xmm0
+  {$IFDEF USE_ASM_SSE_3}
+    movaps xmm1, xmm0
+    mulps  xmm0, xmm0
+    haddps xmm0, xmm0
+    haddps xmm0, xmm0
+  {$ELSE}
+    mulps  xmm0, xmm0
+    movaps xmm1, xmm0
+    shufps xmm0, xmm1, $4e
+    addps  xmm0, xmm1
+    movaps xmm1, xmm0
+    shufps xmm1, xmm1, $11
+    addps  xmm0, xmm1
+  {$ENDIF}
+    sqrtps xmm0, xmm0
+    divps  xmm2, xmm0
+
+  addps   xmm2, xmm3
+
+  // Self.W:=-p1.DotProduct(Self);
+  // Calculation of 'd' component      // pi, p2, p3 trashed at this point
 
   andps xmm2, [RIP+cSSE_MASK_NO_W]
 
   movaps xmm4, xmm2
+
+  //negate has precedence over method
+  xorps xmm2, [RIP+cSSE_MASK_NEGATE]
 
   // Multiply with point 'p1' on the polygon (saved in xmm7): xmm2 = 0 | a.z*z | a.y*y | a.x*x
   mulps xmm2, xmm7
@@ -34,9 +76,9 @@ asm
     haddps xmm2, xmm2
 
     // Change sign for top component, remove bits for others
-    xorps xmm2, [RIP+cSSE_SIGN_MASK_PPPN]  // xmm2 = -(x^2+y^2+z^2) | .... | ...
-    andps xmm2, [RIP+cSSE_MASK_ONLY_W]	  // xmm2 = -(x^2+y^2+z^2) | 0 | 0 | 0
-    orps xmm4, xmm2                       // xmm4 = -(x^2+y^2+z^2) | z | y | x
+     // xmm2 = -(x^2+y^2+z^2) | .... | ...
+    andps xmm2, [RIP+cSSE_MASK_ONLY_W]	  // xmm2 = (x^2+y^2+z^2) | 0 | 0 | 0
+    orps xmm4, xmm2                       // xmm4 = (x^2+y^2+z^2) | z | y | x
   {$else}
 
     movhlps xmm3, xmm2     // xmm3 = ?   | ?   | 0   |  z^2
@@ -44,7 +86,7 @@ asm
     shufps xmm2, xmm2, $55 // xmm2 = y^2 | y^2 | y^2 | y^2
     addss xmm3, xmm2       // xmm3 = ?   | ?   | ?   | x^2+y^2+z^2
     // Change sign
-    xorps xmm3, [RIP+cSSE_SIGN_MASK_NPPP] // xmm3 = ? | ? | ? | -(x^2+y^2+z^2)
+//    xorps xmm3, [RIP+cSSE_SIGN_MASK_NPPP] // xmm3 = ? | ? | ? | -(x^2+y^2+z^2)
     // Move to w component location, mask off xyz, and OR with saved portions
     shufps xmm3,xmm3, $00                // xmm3 = -(x^2+y^2+z^2) | -(x^2+y^2+z^2) | -(x^2+y^2+z^2) | -(x^2+y^2+z^2)
     andps xmm3, [RIP+cSSE_MASK_ONLY_W]   // xmm3 = -(x^2+y^2+z^2) | 0 | 0 | 0
