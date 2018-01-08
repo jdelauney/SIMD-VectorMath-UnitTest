@@ -213,6 +213,10 @@ type
       2: (Width, Height : Single);
   End;
 
+  TGLZTexPoint = TGLZVector2f;
+  TGLZTexPointArray = array [0..MaxInt shr 4] of TGLZTexPoint;
+  PGLZTexPointArray = ^TGLZTexPointArray;
+
   TGLZVector3b = Record
     private
       //FSwizzleMode : TGLZVector3SwizzleRef;
@@ -401,7 +405,10 @@ type
       0 : (V: TGLZVector4iType);
       1 : (X,Y,Z,W: longint);
       2 : (Red, Green, Blue, Alpha : Longint);
-      3 : (TopLeft, BottomRight : TGLZVector2i);
+      3 : (AsVector3i : TGLZVector3i);   //change name for AsAffine ?????
+      4 : (ST,UV : TGLZVector2i);
+      5 : (Left, Top, Right, Bottom: Longint);
+      6 : (TopLeft,BottomRight : TGLZVector2i);
   end;
 
   TGLZVector4f =  record  // With packed record the performance decrease a little
