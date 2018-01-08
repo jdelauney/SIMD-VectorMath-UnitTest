@@ -11,7 +11,7 @@
 procedure TGLZVectorHelper.CreatePlane(constref point, normal : TGLZVector);
 begin
    Self:=normal;
-   Self.W:=-Point.DotProduct(normal);
+   Self.W:=-(Point.DotProduct(normal));
 end;
 { TODO 1 -oASM -cTHmgPlane : CalcPlaneNormal(p1, p2, p3)  Add ASM Version }
 procedure TGLZVectorHelper.CalcPlaneNormal(constref p1, p2, p3 : TGLZVector);
@@ -47,7 +47,7 @@ end;
 procedure TGLZVectorHelper.CreatePlane(constref p1, p2, p3 : TGLZVector);
 begin
   CalcPlaneNormal(p1, p2, p3);
-  Self.W:=-p1.DotProduct(Self);
+  Self.W:=-(p1.DotProduct(Self));
 end;
 
 

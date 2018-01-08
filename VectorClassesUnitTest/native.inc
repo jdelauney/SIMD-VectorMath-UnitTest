@@ -3267,7 +3267,7 @@ end; }
 procedure TNativeGLZVectorHelper.CreatePlane(constref point, normal : TNativeGLZVector);
 begin
    Self:=normal;
-   Self.W:=-Point.DotProduct(normal);
+   Self.W:=-(Point.DotProduct(normal));
 end;
 
 procedure TNativeGLZVectorHelper.CalcPlaneNormal(constref p1, p2, p3 : TNativeGLZVector);
@@ -3283,7 +3283,7 @@ end;
 procedure TNativeGLZVectorHelper.CreatePlane(constref p1, p2, p3 : TNativeGLZVector);
 begin
   CalcPlaneNormal(p1, p2, p3);
-  Self.W:=-p1.DotProduct(Self);
+  Self.W:=-(p1.DotProduct(Self));
 end;
 
 function TNativeGLZVectorHelper.DistancePlaneToPoint(constref point : TNativeGLZVector) : Single;
