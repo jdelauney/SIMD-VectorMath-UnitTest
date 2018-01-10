@@ -382,144 +382,139 @@ end;
 // https://github.com/floodyberry/supercop/blob/master/crypto_hash/groestl512/avx/groestl-asm-avx.h
 function TGLZMatrix4f.Transpose:TGLZMatrix4f; assembler;
 asm
-  {$ifdef TEST}
-    movlps	xmm1, [RDI]
-    movlps	xmm3, [RDI]8
-    movhps	xmm1, [RDI]16
-    movhps	xmm3, [RDI]24
-    movlps	xmm5, [RDI]32
-    movlps	xmm4, [RDI]40
-    movhps	xmm5, [RDI]48
-    movhps	xmm4, [RDI]56
-    movaps	xmm0, xmm1
-    movaps	xmm2, xmm3
-    shufps	xmm1, xmm5, $DD
-    shufps	xmm3, xmm4, $DD
-    shufps	xmm0, xmm5, $88
-    shufps	xmm2, xmm4, $88
-    movaps [RDI]$00, xmm0
-    movaps [RDI]$10,xmm1 //16
-    movaps [RDI]$20,xmm2 //32
-    movaps [RDI]$30,xmm3 //48
-  {$else}
-    movaps   xmm0, [RDI]$00  // A03 A02 A01 A00
-    movaps   xmm1, [RDI]$10 // A13 A12 A11 A10
-    movaps   xmm2, [RDI]$20 // A23 A22 A21 A20
-    movaps   xmm3, [RDI]$30 // A33 A32 A31 A30
+  movaps   xmm0, [RDI]$00  // A03 A02 A01 A00
+  movaps   xmm1, [RDI]$10 // A13 A12 A11 A10
+  movaps   xmm2, [RDI]$20 // A23 A22 A21 A20
+  movaps   xmm3, [RDI]$30 // A33 A32 A31 A30
 
-    movaps   xmm4, xmm2
-    unpcklps xmm2, xmm3               // A31 A21 A30 A20
-    unpckhps xmm4, xmm3               // A33 A23 A32 A22
+  movaps   xmm4, xmm2
+  unpcklps xmm2, xmm3               // A31 A21 A30 A20
+  unpckhps xmm4, xmm3               // A33 A23 A32 A22
 
-    movaps   xmm3, xmm0
-    unpcklps xmm0, xmm1               // A11 A01 A10 A00
-    unpckhps xmm3, xmm1               // A13 A03 A12 A02
+  movaps   xmm3, xmm0
+  unpcklps xmm0, xmm1               // A11 A01 A10 A00
+  unpckhps xmm3, xmm1               // A13 A03 A12 A02
 
-    movaps   xmm1, xmm0
-    unpcklpd xmm0, xmm2               // A30 A20 A10 A00
-    unpckhpd xmm1, xmm2               // A31 A21 A11 A01
+  movaps   xmm1, xmm0
+  unpcklpd xmm0, xmm2               // A30 A20 A10 A00
+  unpckhpd xmm1, xmm2               // A31 A21 A11 A01
 
-    movaps   xmm2, xmm3
-    unpcklpd xmm2, xmm4               // A32 A22 A12 A02
-    unpckhpd xmm3, xmm4               // A33 A23 A13 A03
+  movaps   xmm2, xmm3
+  unpcklpd xmm2, xmm4               // A32 A22 A12 A02
+  unpckhpd xmm3, xmm4               // A33 A23 A13 A03
 
-    movaps  [RESULT]$00, xmm0
-    movaps  [RESULT]$10, xmm1
-    movaps  [RESULT]$20, xmm2
-    movaps  [RESULT]$30, xmm3
-  {$endif}
+  movaps  [RESULT]$00, xmm0
+  movaps  [RESULT]$10, xmm1
+  movaps  [RESULT]$20, xmm2
+  movaps  [RESULT]$30, xmm3
 end;
 
 // Translated from DirectXMathMatrix.nl
 function TGLZMatrix4f.GetDeterminant : Single; assembler; register; nostackframe;
 asm
-  movaps xmm0, [RDI]$00
-  movaps xmm1, [RDI]$10
-  movaps xmm2, [RDI]$20
-  movaps xmm3, [RDI]$30
+  movaps xmm0, [RDI]$00        //A0
+  movaps xmm1, [RDI]$10        //A1
+  movaps xmm2, [RDI]$20        //A2
+  movaps xmm3, [RDI]$30        //A3
 
-  movaps xmm4,xmm2
-  shufps xmm4,xmm4,00000001b
-  movaps xmm5, xmm4
 
-  movaps xmm6, xmm2
-  shufps xmm6, xmm6, 01011111b
+//XMVECTOR V0 = XMVectorSwizzle<XM_SWIZZLE_Y, XM_SWIZZLE_X, XM_SWIZZLE_X, XM_SWIZZLE_X>(M.r[2]);
+//XMVECTOR V2 = XMVectorSwizzle<XM_SWIZZLE_Y, XM_SWIZZLE_X, XM_SWIZZLE_X, XM_SWIZZLE_X>(M.r[2]);
+  movaps xmm4,xmm2             // A2
+  shufps xmm4,xmm4,00000001b   // V0 YXXX  A2
+  movaps xmm5, xmm4            // V2 YXXX  A2
 
-  movaps xmm7, xmm3
-  shufps xmm7, xmm7, 01011111b
+//XMVECTOR V4 = XMVectorSwizzle<XM_SWIZZLE_Z, XM_SWIZZLE_Z, XM_SWIZZLE_Y, XM_SWIZZLE_Y>(M.r[2]);
+  movaps xmm6, xmm2            // A2
+  shufps xmm6, xmm6, 01011010b //    ZZYY
 
-  movaps xmm8, xmm3
-  shufps xmm8, xmm8, 10111111b
-  movaps xmm9, xmm8
+//XMVECTOR V1 = XMVectorSwizzle<XM_SWIZZLE_Z, XM_SWIZZLE_Z, XM_SWIZZLE_Y, XM_SWIZZLE_Y>(M.r[3]);
+  movaps xmm7, xmm3            // A3
+  shufps xmm7, xmm7, 01011010b //   ZZYY
 
-  mulps xmm4, xmm7
-  mulps xmm5, xmm8
-  mulps xmm6, xmm8
+//XMVECTOR V3 = XMVectorSwizzle<XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_Z>(M.r[3]);
+//XMVECTOR V5 = XMVectorSwizzle<XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_Z>(M.r[3]);
+  movaps xmm8, xmm3            // A3
+  shufps xmm8, xmm8, 10111111b //  WWWZ  // BOTH v£ v%
 
+  mulps xmm4, xmm7      // V0 * V1   P0
+  mulps xmm5, xmm8      // V2 * V3   P1
+  mulps xmm6, xmm8      // V4 * V5   P2
+
+
+//V0 = XMVectorSwizzle<XM_SWIZZLE_Z, XM_SWIZZLE_Z, XM_SWIZZLE_Y, XM_SWIZZLE_Y>(M.r[2]);
   movaps xmm7, xmm2
   shufps xmm7, xmm7, 01011010b
 
+  //V3 = XMVectorSwizzle<XM_SWIZZLE_Y, XM_SWIZZLE_X, XM_SWIZZLE_X, XM_SWIZZLE_X>(M.r[3]);
+  //V1 = XMVectorSwizzle<XM_SWIZZLE_Y, XM_SWIZZLE_X, XM_SWIZZLE_X, XM_SWIZZLE_X>(M.r[3]);
   movaps xmm8, xmm3
   shufps xmm8, xmm8, 00000001b
 
+  //V2 = XMVectorSwizzle<XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_Z>(M.r[2]);
+  //V4 = XMVectorSwizzle<XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_Z>(M.r[2]);
   movaps xmm10, xmm2
   shufps xmm10, xmm10, 10111111b
   movaps xmm11, xmm10
 
+  //V5 = XMVectorSwizzle<XM_SWIZZLE_Z, XM_SWIZZLE_Z, XM_SWIZZLE_Y, XM_SWIZZLE_Y>(M.r[3]);
   movaps xmm12, xmm3
-  shufps xmm12, xmm12, 01011111b
+  shufps xmm12, xmm12, 01011010b
 
-  mulps xmm7, xmm8
-  subps xmm4, xmm7
-  mulps xmm10, xmm8
-  subps xmm5, xmm10
-  mulps xmm11, xmm12
-  subps xmm6, xmm11
+  mulps xmm7, xmm8     //V0 * V1
+  subps xmm4, xmm7     // P0 - V0 * V1  IN XMM4 = P0
+  mulps xmm10, xmm8    // V2 * V3
+  subps xmm5, xmm10    // P1 - V2 * V3  IN XMM5 = P1
+  mulps xmm11, xmm12   // V4 * V5
+  subps xmm6, xmm11    // P2 - V4 * V5  IN XMM6 = P2
 
   movaps xmm7, xmm1
   movaps xmm8, xmm1
   movaps xmm9, xmm1
+
+  //V0 = XMVectorSwizzle<XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_Z>(M.r[1]);
   shufps xmm7, xmm7, 10111111b
+  //V1 = XMVectorSwizzle<XM_SWIZZLE_Z, XM_SWIZZLE_Z, XM_SWIZZLE_Y, XM_SWIZZLE_Y>(M.r[1]);
   shufps xmm8, xmm8, 01011010b
+  //V2 = XMVectorSwizzle<XM_SWIZZLE_Y, XM_SWIZZLE_X, XM_SWIZZLE_X, XM_SWIZZLE_X>(M.r[1]);
   shufps xmm9, xmm9, 00000001b
 
-  movaps xmm10, xmm0
-  mulps xmm10, [RIP+cNegateVector4f_PNPN]
+  //XMVECTOR S = XMVectorMultiply(M.r[0], Sign.v);
+  mulps xmm0, [RIP+cNegateVector4f_PNPN]    // S
 
-  mulps xmm4, xmm7
+  //XMVECTOR R = XMVectorMultiply(V0, P0);
+  mulps xmm4, xmm7    // XMM4 = R
 
-  mulps xmm5, xmm8
-  subps xmm4, xmm5
+  //R = XMVectorNegativeMultiplySubtract(V1, P1, R);
+  mulps xmm5, xmm8    // P1 * V1
+  subps xmm4, xmm5    // R = R - P1 * V1
 
-  mulps xmm6, xmm9
-  addps xmm4, xmm6
+  //R = XMVectorMultiplyAdd(V2, P2, R);
+  mulps xmm6, xmm9   // P2 * V2
+  addps xmm4, xmm6   // R = R - P2 * V2
 
   // Dot
   {$IFDEF USE_ASM_SSE_4}
-     dpps xmm10, xmm4, 01110001b //or $F1
-     movss xmm0, xmm10
+     dpps xmm0, xmm4, 11110001b //or $F1
   {$ELSE}
     {$IFDEF USE_ASM_SSE_3}
-       andps xmm10, [RIP+cSSE_MASK_NO_W]
-       mulps xmm4, xmm10
+       mulps xmm0, xmm4
        {$ifdef TEST}
          movshdup    xmm4, xmm10
          addps       xmm10, xmm4
          movhlps     xmm4, xmm10
          addss       xmm10, xmm4
        {$else}
-         haddps xmm4, xmm4
-         haddps xmm4, xmm4
+         haddps xmm0, xmm0
+         haddps xmm0, xmm0
        {$endif}
-        movss xmm0, xmm4
     {$ELSE}
-      andps xmm10, [RIP+cSSE_MASK_NO_W]
-      mulps  xmm10, xmm4
-      movhlps xmm4, xmm10
-      addps xmm4, xmm10
-      shufps xmm10, xmm10, 00000001b
-      addps xmm10, xmm4
-      movss xmm0, xmm10
+      mulps   xmm0, xmm4
+      movhlps xmm4, xmm0
+      addps   xmm4, xmm0     //|W*Y|Z*X|
+      movaps  xmm0, xmm4
+      shufps xmm0, xmm0, 00000001b
+      addps  xmm0, xmm4
     {$ENDIF}
   {$ENDIF}
 end;

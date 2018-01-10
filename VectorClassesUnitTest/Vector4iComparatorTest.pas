@@ -298,7 +298,7 @@ procedure TVector4iComparatorTest.TestCombine2;
 begin
    n4it3 := n4it1.Combine2(n4it1,fs1,fs2);
    a4it3 := a4it1.Combine2(a4it1,fs1,fs2);
-   AssertTrue('Vector4i: Combine2 does not match'+n4it3.ToString+' --> '+a4it3.ToString, Compare(n4it3,a4it3));
+   AssertTrue('Vector4i: Combine2 does not match'+n4it3.ToString+' --> '+a4it3.ToString, CompareWithRound(n4it3, a4it3));
 end;
 
 procedure TVector4iComparatorTest.TestCombine3;
@@ -307,7 +307,7 @@ begin
    a4it4 := a4it1.Swizzle(swAGRB);
    n4it3 := n4it1.Combine3(n4it1,n4it4,fs1,fs2, fs2);
    a4it3 := a4it1.Combine3(a4it1,a4it4,fs1,fs2, fs2);
-   AssertTrue('Vector4i: Combine2 does not match'+n4it3.ToString+' --> '+a4it3.ToString, Compare(n4it3,a4it3));
+   AssertTrue('Vector4i: Combine2 does not match'+n4it3.ToString+' --> '+a4it3.ToString, CompareWithRound(n4it3,a4it3));
 end;
 
 procedure TVector4iComparatorTest.TestMinXYZComponent;
