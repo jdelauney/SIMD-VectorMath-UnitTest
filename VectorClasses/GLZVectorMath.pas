@@ -1,6 +1,6 @@
 (*====< GLZVectorMath.pas >=====================================================@br
 @created(2017-11-25)
-@author(J.Delauney (BeanzMaster) - Peter (Dicepd)
+@author(J.Delauney (BeanzMaster) - Peter Dyson (Dicepd)
 Historique : @br
 @unorderedList(
   @item(25/11/2017 : Creation  )
@@ -91,6 +91,7 @@ Const
 
 
 {%region%----[ SSE States Flags Const ]-----------------------------------------}
+
 Type
   sse_Rounding_Mode = (rmNearestSSE, rmFloorSSE, rmCeilSSE, rmDefaultSSE);
 
@@ -118,6 +119,8 @@ Const
   //default setting of the mxscr register ; disable all exception's
   mxcsr_default : dword =sse_MaskInvalidOp or sse_MaskDenorm  or sse_MaskDivZero or sse_MaskOverflow
                       or sse_MaskUnderflow or sse_MaskPrecision or $00000000; //sse_MaskPosRound;
+  mxcsr_default_TEST : dword =sse_MaskInvalidOp and sse_MaskDenorm  or sse_MaskDivZero or sse_MaskOverflow
+                      or sse_MaskUnderflow or sse_MaskPrecision or $00000000 and sse_MaskZeroFlush; //sse_MaskPosRound;
   //conversion table from rounding mode name to rounding bits
   sse_Rounding_Flags: array [sse_Rounding_Mode] of longint = (0,sse_MaskNegRound,sse_MaskPosRound,0);
 
@@ -204,9 +207,6 @@ type
     function Round: TGLZVector2i;
     function Trunc: TGLZVector2i;
 
-
-
-
     case Byte of
       0: (V: TGLZVector2fType);
       1: (X, Y : Single);
@@ -219,7 +219,6 @@ type
 
   TGLZVector3b = Record
     private
-      //FSwizzleMode : TGLZVector3SwizzleRef;
     public
 
       procedure Create(const aX, aY, aZ: Byte);
@@ -276,7 +275,7 @@ type
 
   TGLZVector4b = Record
   private
-    //FSwizzleMode : TGLZVector4SwizzleRef;
+
   public
     procedure Create(Const aX,aY,aZ: Byte; const aW : Byte = 255); overload;
     procedure Create(Const aValue : TGLZVector3b; const aW : Byte = 255); overload;
@@ -316,9 +315,6 @@ type
     function MulAdd(Constref B, C : TGLZVector4b):TGLZVector4b;
     function MulDiv(Constref B, C : Byte):TGLZVector4b;
 
-    //function GetSwizzleMode : TGLZVector4SwizzleRef;
-    //function AsVector4f : TGLZVector4f;
-
     function Shuffle(const x,y,z,w : Byte):TGLZVector4b;
     function Swizzle(const ASwizzle: TGLZVector4SwizzleRef ): TGLZVector4b;
 
@@ -338,13 +334,6 @@ type
   end;
 
   { TGLZVector4i }
- (*TGLZVector4i = Record
-      case Integer of
-      0 : (V: TGLZVector4iType);
-      1 : (X,Y,Z,W: longint);
-      2 : (Red, Green, Blue, Alpha : Longint);
-      3 : (TopLeft, BottomRight : TGLZVector2i);
-  end; *)
   TGLZVector4i = Record
   public
     procedure Create(Const aX,aY,aZ: Longint; const aW : Longint = 0); overload;
@@ -541,7 +530,9 @@ type
 
 {%endregion%}
 
-  { A plane equation.
+{%region%----[ Plane ]----------------------------------------------------------}
+
+ { A plane equation.
    Defined by its equation A.x+B.y+C.z+D, a plane can be mapped to the
    homogeneous space coordinates, and this is what we are doing here.
    The plane is normalized so in effect contains unit normal in ABC (XYZ)
@@ -573,10 +564,15 @@ type
        4: (X, Y, Z, W: Single);          // legacy access so existing code works
   end;
 
+{%endregion%}
 
- TGLZFrustum =  record
+{%region%----[ Frustrum ]-------------------------------------------------------}
+
+  TGLZFrustum =  record
     pLeft, pTop, pRight, pBottom, pNear, pFar : TGLZHmgPlane;
  end;
+
+{%endregion%}
 
 {%region%----[ Matrix ]---------------------------------------------------------}
 
@@ -704,7 +700,6 @@ type
 
 {%region%----[ Quaternion ]-----------------------------------------------------}
 
-  //=====[ Quaternion Functions ]===============================================
   TGLZEulerOrder = (eulXYZ, eulXZY, eulYXZ, eulYZX, eulZXY, eulZYX);
   TGLZQuaternion = record
   private
@@ -828,9 +823,8 @@ type
 
 {%endregion%}
 
-{ : Result type for space intersection tests, like AABBContainsAABB or BSphereContainsAABB }
-TGLZSpaceContains = (ScNoOverlap, ScContainsFully, ScContainsPartially);
-
+  { : Result type for space intersection tests, like AABBContainsAABB or BSphereContainsAABB }
+  TGLZSpaceContains = (ScNoOverlap, ScContainsFully, ScContainsPartially);
 
 {%region%----[ BoundingSphere ]-------------------------------------------------}
 
@@ -936,28 +930,6 @@ TGLZSpaceContains = (ScNoOverlap, ScContainsFully, ScContainsPartially);
 
   TGLZVectorHelper = record helper for TGLZVector
   public
- //   procedure CreatePlane(constref p1, p2, p3 : TGLZVector);overload;
-    // Computes the parameters of a plane defined by a point and a normal.
-//    procedure CreatePlane(constref point, normal : TGLZVector); overload;
-
-    //function Normalize : TGLZHmgPlane; overload;
-//    function NormalizePlane : TGLZHmgPlane;
-
- //   procedure CalcPlaneNormal(constref p1, p2, p3 : TGLZVector);
-
-    //function PointIsInHalfSpace(constref point: TGLZVector) : Boolean;
-    //function PlaneEvaluatePoint(constref point : TGLZVector) : Single;
-//    function DistancePlaneToPoint(constref point : TGLZVector) : Single;
-//    function DistancePlaneToSphere(constref Center : TGLZVector; constref Radius:Single) : Single;
-    { Compute the intersection point "res" of a line with a plane.
-      Return value:
-       0 : no intersection, line parallel to plane
-       1 : res is valid
-       -1 : line is inside plane
-      Adapted from:
-      E.Hartmann, Computeruntersttzte Darstellende Geometrie, B.G. Teubner Stuttgart 1988 }
-    //function IntersectLinePlane(const point, direction : TGLZVector; intersectPoint : PGLZVector = nil) : Integer;
-
     function Rotate(constref axis : TGLZVector; angle : Single):TGLZVector;
     // Returns given vector rotated around the X axis (alpha is in rad)
     function RotateAroundX(alpha : Single) : TGLZVector;
@@ -1003,6 +975,7 @@ TGLZSpaceContains = (ScNoOverlap, ScContainsFully, ScContainsPartially);
 {%endregion%}
 
 {%region%----[ TGLZHmgPlaneHelper ]-----------------------------------------------}
+
   // for functions where we use types not declared before TGLZHmgPlane
   TGLZHmgPlaneHelper = record helper for TGLZHmgPlane
   public
