@@ -5,6 +5,8 @@ backup/
 lib/
 Results/
 *.ini
+bin/
+
 
 # Unix executables
 ./VectorClassesUnitTest* 

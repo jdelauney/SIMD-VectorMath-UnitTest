@@ -1,4 +1,4 @@
-procedure TGLZVectorHelper.CreatePlane(constref p1, p2, p3 : TGLZVector);assembler;
+procedure TGLZHmgPlane.Create(constref p1, p2, p3 : TGLZVector);assembler;
 asm
   movaps xmm0, [p1]
   movaps xmm1, [p2]
@@ -56,7 +56,32 @@ asm
 end;
 
 
-function TGLZVectorHelper.NormalizePlane:TGLZHmgPlane;assembler;
+procedure TGLZHmgPlane.Normalize;assembler;
+//   n:=1/Sqrt(Self.X*Self.X+Self.Y*Self.Y+Self.Z*Self.Z);
+//   Result :=Self * n;
+asm
+  movaps xmm0, [RCX]
+  movaps xmm2, xmm0
+  mulps xmm0, xmm0
+  andps xmm0, [RIP+cSSE_MASK_NO_W]
+  {$ifdef USE_ASM_SSE_3}
+
+       haddps xmm0, xmm0
+       haddps xmm0, xmm0
+
+  {$else}
+    movhlps xmm1, xmm0
+    addss xmm1, xmm0
+    shufps xmm1, xmm1, $55
+    addss xmm0, xmm1
+  {$endif}
+  sqrtps xmm0, xmm0
+  movaps xmm1, [RIP+cOneVector4f]
+  divps xmm1, xmm0
+  mulps xmm2, xmm1
+  movaps [RCX], xmm2
+end;
+  function TGLZHmgPlane.Normalized:TGLZHmgPlane;assembler;
 //   n:=1/Sqrt(Self.X*Self.X+Self.Y*Self.Y+Self.Z*Self.Z);
 //   Result :=Self * n;
 asm
@@ -82,7 +107,7 @@ asm
   movaps [RESULT], xmm2
 end;
 
-function TGLZVectorHelper.DistancePlaneToPoint(constref point : TGLZVector) : Single; assembler;
+function TGLZHmgPlane.Distance(constref point : TGLZVector) : Single; assembler;
 asm
   movaps xmm0, [RCX]     // xmm0 = Plane->d | Plane->c | Plane->b | Plane->a
   movaps xmm1, [POINT]   // xmm1 = ???????? | Point->z | Point->y | Point->x
@@ -108,10 +133,10 @@ asm
   movss [RESULT], {%H-}xmm1
 end;
 
-function TGLZVectorHelper.DistancePlaneToSphere(constref Center : TGLZVector; constref Radius:Single) : Single; assembler;
+function TGLZHmgPlane.AbsDistance(constref point : TGLZVector) : Single; assembler;
 asm
   movaps xmm0, [RCX]    // xmm0 = Plane->d | Plane->c | Plane->b | Plane->a
-  movaps xmm1, [Center] // xmm1 = ????????? | Sphere->Center.z | Sphere->Center.y | Sphere->Center.x
+  movaps xmm1, [point] // xmm1 = ????????? | Sphere->Center.z | Sphere->Center.y | Sphere->Center.x
 
   andps xmm1, [RIP+cSSE_MASK_NO_W] // xmm1 = 0 | ...
   movaps xmm7, xmm0                // xmm7 = Plane...
@@ -163,11 +188,6 @@ asm
   {$endif}
 
   xorps xmm7, xmm7    // xmm7 = 0 | 0 | 0 | 0
-
-  // Subtract radius
-  movlps xmm3, [Radius]
-  subss xmm1, xmm3   // xmm1 = ? | ? | ? | dist - radius
-  maxss xmm1, xmm7   // xmm1 = ? | ? | ? | max(0, dist-radius)
 
   movss [RESULT], {%H-}xmm1
 end;

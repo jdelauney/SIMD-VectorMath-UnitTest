@@ -1104,17 +1104,17 @@ end;
 function TGLZVector4f.Round: TGLZVector4i;assembler;nostackframe;register;
 asm
   // Rounding mode defaults to round-to-nearest
-  movq     xmm0, [RCX]
+  movaps     xmm0, [RCX]
   cvtps2dq xmm0, xmm0
-  movq     rax, xmm0
+  movaps     [RESULT], xmm0
 end;
 
 
 function TGLZVector4f.Trunc: TGLZVector4i;assembler;nostackframe;register;
 asm
-  movq     xmm0, [RCX]
+  movaps     xmm0, [RCX]
   {$i macro_sse_win64_trunc_xmm0-xmm0.inc}
-  movq     [RDX], xmm0
+  movaps     [RESULT], xmm0
 end;
 
 {%endregion%}
