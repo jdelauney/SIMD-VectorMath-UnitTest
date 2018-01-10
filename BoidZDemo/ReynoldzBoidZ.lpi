@@ -37,6 +37,8 @@
           </Linking>
           <Other>
             <CustomOptions Value="-CfSSE3
+-Sv
+-O3
 -dUSE_ASM_SSE_3"/>
           </Other>
         </CompilerOptions>
@@ -119,7 +121,9 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-CfSSE3"/>
+            <CustomOptions Value="-CfSSE3
+-Sv
+-O3"/>
           </Other>
         </CompilerOptions>
       </Item5>

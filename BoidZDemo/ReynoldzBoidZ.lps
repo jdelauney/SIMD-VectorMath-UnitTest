@@ -3,13 +3,13 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="10"/>
-    <BuildModes Active="Cpu64_NATIVE"/>
-    <Units Count="42">
+    <BuildModes Active="Cpu64_SSE_3 "/>
+    <Units Count="41">
       <Unit0>
         <Filename Value="ReynoldzBoidZ.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="25"/>
+        <UsageCount Value="27"/>
       </Unit0>
       <Unit1>
         <Filename Value="umainform.pas"/>
@@ -18,13 +18,40 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="142"/>
-        <CursorPos X="50" Y="255"/>
-        <FoldState Value=" T3jA0B621r"/>
-        <UsageCount Value="25"/>
+        <TopLine Value="248"/>
+        <CursorPos X="45" Y="58"/>
+        <FoldState Value=" T3jM0601513q"/>
+        <UsageCount Value="27"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
+        <Filename Value="..\UtilsClasses\GLZMath.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="23"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\UtilsClasses\GLZStopWatch.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="23"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\VectorClasses\GLZVectorMath.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="381"/>
+        <CursorPos X="14" Y="394"/>
+        <UsageCount Value="21"/>
+      </Unit4>
+      <Unit5>
         <Filename Value="..\FireZ\umainform.pas"/>
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
@@ -32,23 +59,23 @@
         <EditorIndex Value="-1"/>
         <CursorPos X="81" Y="23"/>
         <UsageCount Value="10"/>
-      </Unit2>
-      <Unit3>
+      </Unit5>
+      <Unit6>
         <Filename Value="..\..\..\..\..\GLZScene-Common\Source\GLZMath.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1417"/>
         <CursorPos Y="1431"/>
         <UsageCount Value="12"/>
-      </Unit3>
-      <Unit4>
+      </Unit6>
+      <Unit7>
         <Filename Value="..\..\..\..\..\GLZScene-Common\Source\Basis\VectorClasses\GLZVectorMath.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1350"/>
         <CursorPos X="14" Y="395"/>
         <FoldState Value=" TI/05.D"/>
         <UsageCount Value="12"/>
-      </Unit4>
-      <Unit5>
+      </Unit7>
+      <Unit8>
         <Filename Value="..\TurtuleZ\umainform.pas"/>
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
@@ -57,8 +84,8 @@
         <TopLine Value="167"/>
         <CursorPos X="51" Y="175"/>
         <UsageCount Value="10"/>
-      </Unit5>
-      <Unit6>
+      </Unit8>
+      <Unit9>
         <Filename Value="..\PlasmaZ\umainform.pas"/>
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
@@ -67,42 +94,42 @@
         <TopLine Value="118"/>
         <CursorPos X="14" Y="111"/>
         <UsageCount Value="10"/>
-      </Unit6>
-      <Unit7>
+      </Unit9>
+      <Unit10>
         <Filename Value="..\..\..\..\..\GLZScene-Common\Source\Basis\GLZVectorList.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="21"/>
         <CursorPos X="12" Y="35"/>
         <UsageCount Value="10"/>
-      </Unit7>
-      <Unit8>
+      </Unit10>
+      <Unit11>
         <Filename Value="..\..\..\..\Source\GLZBitmap.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="5637"/>
         <CursorPos X="63" Y="5647"/>
         <UsageCount Value="10"/>
-      </Unit8>
-      <Unit9>
+      </Unit11>
+      <Unit12>
         <Filename Value="..\..\..\..\..\GLZScene-Common\Source\Components\Tools\GLZStopWatch.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="344"/>
         <CursorPos Y="358"/>
         <UsageCount Value="10"/>
-      </Unit9>
-      <Unit10>
+      </Unit12>
+      <Unit13>
         <Filename Value="..\..\..\..\..\GLZScene-Common\Source\Basis\VectorClasses\vectormath_vector4i_native_imp.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="201"/>
         <CursorPos Y="215"/>
         <UsageCount Value="10"/>
-      </Unit10>
-      <Unit11>
+      </Unit13>
+      <Unit14>
         <Filename Value="..\..\..\..\..\GLZScene-Common\Source\Basis\VectorClasses\vectormath_vector2f_native_imp.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="9"/>
         <UsageCount Value="10"/>
-      </Unit11>
-      <Unit12>
+      </Unit14>
+      <Unit15>
         <Filename Value="..\FlammeZ\umainform.pas"/>
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
@@ -111,144 +138,118 @@
         <TopLine Value="901"/>
         <CursorPos X="7" Y="925"/>
         <UsageCount Value="10"/>
-      </Unit12>
-      <Unit13>
+      </Unit15>
+      <Unit16>
         <Filename Value="..\..\..\..\Source\Basis\GLZGraphicTypes.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1186"/>
         <CursorPos X="7" Y="1202"/>
         <UsageCount Value="10"/>
-      </Unit13>
-      <Unit14>
+      </Unit16>
+      <Unit17>
         <Filename Value="..\..\..\..\..\GLZScene-Common\Source\Basis\VectorClasses\vectormath_vector4f_native_imp.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="234"/>
         <CursorPos X="10" Y="329"/>
         <UsageCount Value="10"/>
-      </Unit14>
-      <Unit15>
+      </Unit17>
+      <Unit18>
         <Filename Value="..\..\..\..\..\GLZScene-Common\Source\Basis\VectorClasses\vectormath_vector2f_win64_sse_imp.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="9"/>
         <UsageCount Value="10"/>
-      </Unit15>
-      <Unit16>
+      </Unit18>
+      <Unit19>
         <Filename Value="..\..\..\..\Source\FileFormats\2D\GLZImageFilePNG.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="573"/>
         <CursorPos X="14" Y="587"/>
         <UsageCount Value="10"/>
-      </Unit16>
-      <Unit17>
+      </Unit19>
+      <Unit20>
         <Filename Value="..\..\..\..\Source\FileFormats\2D\GLZImageFileBMP.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="607"/>
         <CursorPos X="24" Y="621"/>
         <UsageCount Value="10"/>
-      </Unit17>
-      <Unit18>
+      </Unit20>
+      <Unit21>
         <Filename Value="..\..\..\..\Source\FileFormats\GLZImageFileIO.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="634"/>
         <CursorPos X="3" Y="646"/>
         <UsageCount Value="10"/>
-      </Unit18>
-      <Unit19>
+      </Unit21>
+      <Unit22>
         <Filename Value="..\..\..\..\Source\Basis\GLZGraphic.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="810"/>
         <CursorPos X="29" Y="824"/>
         <UsageCount Value="10"/>
-      </Unit19>
-      <Unit20>
+      </Unit22>
+      <Unit23>
         <Filename Value="..\..\..\..\..\GLZScene-Common\Source\glzscene_options.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="2" Y="15"/>
         <UsageCount Value="10"/>
-      </Unit20>
-      <Unit21>
+      </Unit23>
+      <Unit24>
         <Filename Value="..\..\..\..\..\GLZScene-Common\Source\Basis\GLZCpuId.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1175"/>
         <CursorPos X="4" Y="1187"/>
         <UsageCount Value="11"/>
-      </Unit21>
-      <Unit22>
+      </Unit24>
+      <Unit25>
         <Filename Value="..\..\..\..\..\GLZScene-Common\Source\Basis\GLZLists.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1290"/>
         <CursorPos X="5" Y="1233"/>
         <UsageCount Value="10"/>
-      </Unit22>
-      <Unit23>
+      </Unit25>
+      <Unit26>
         <Filename Value="..\..\..\..\..\GLZScene-Common\Source\GLZRandomGenerator.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="21"/>
         <CursorPos X="5" Y="35"/>
         <UsageCount Value="10"/>
-      </Unit23>
-      <Unit24>
+      </Unit26>
+      <Unit27>
         <Filename Value="..\..\..\..\..\GLZScene-Common\Source\Basis\VectorClasses\vectormath_vector4i_intel32_sse_imp.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="337"/>
         <CursorPos X="16" Y="352"/>
         <UsageCount Value="10"/>
-      </Unit24>
-      <Unit25>
+      </Unit27>
+      <Unit28>
         <Filename Value="..\..\..\..\..\GLZScene-Common\Source\Basis\VectorClasses\vectormath_vector4i_win64_sse_imp.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="283"/>
         <CursorPos X="14" Y="365"/>
         <UsageCount Value="10"/>
-      </Unit25>
-      <Unit26>
+      </Unit28>
+      <Unit29>
         <Filename Value="..\..\..\..\..\GLZScene-Common\Source\Basis\VectorClasses\vectormath_vector4f_intel32_sse_imp.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="737"/>
         <UsageCount Value="10"/>
-      </Unit26>
-      <Unit27>
+      </Unit29>
+      <Unit30>
         <Filename Value="..\..\..\..\..\GLZScene-Common\Source\Basis\VectorClasses\macro_sse_win64_trunc_xmm0-xmm0.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="5" Y="5"/>
         <UsageCount Value="10"/>
-      </Unit27>
-      <Unit28>
+      </Unit30>
+      <Unit31>
         <Filename Value="..\UtilsClasses\GLZCpuId.pas"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
         <UsageCount Value="20"/>
-      </Unit28>
-      <Unit29>
-        <Filename Value="..\UtilsClasses\GLZMath.pas"/>
-        <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <WindowIndex Value="-1"/>
-        <TopLine Value="-1"/>
-        <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="21"/>
-      </Unit29>
-      <Unit30>
-        <Filename Value="..\UtilsClasses\GLZProfiler.pas"/>
-        <EditorIndex Value="-1"/>
-        <WindowIndex Value="-1"/>
-        <TopLine Value="-1"/>
-        <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="20"/>
-      </Unit30>
-      <Unit31>
-        <Filename Value="..\UtilsClasses\GLZStopWatch.pas"/>
-        <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <WindowIndex Value="-1"/>
-        <TopLine Value="-1"/>
-        <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="21"/>
       </Unit31>
       <Unit32>
-        <Filename Value="..\UtilsClasses\GLZSystem.pas"/>
+        <Filename Value="..\UtilsClasses\GLZProfiler.pas"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
@@ -256,7 +257,7 @@
         <UsageCount Value="20"/>
       </Unit32>
       <Unit33>
-        <Filename Value="..\UtilsClasses\GLZTypes.pas"/>
+        <Filename Value="..\UtilsClasses\GLZSystem.pas"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
@@ -264,7 +265,7 @@
         <UsageCount Value="20"/>
       </Unit33>
       <Unit34>
-        <Filename Value="..\UtilsClasses\GLZUtils.pas"/>
+        <Filename Value="..\UtilsClasses\GLZTypes.pas"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
@@ -272,13 +273,12 @@
         <UsageCount Value="20"/>
       </Unit34>
       <Unit35>
-        <Filename Value="..\VectorClasses\GLZVectorMath.pas"/>
-        <IsPartOfProject Value="True"/>
+        <Filename Value="..\UtilsClasses\GLZUtils.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="385"/>
-        <CursorPos X="18" Y="398"/>
-        <FoldState Value=" TI?46T$"/>
-        <UsageCount Value="21"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="20"/>
       </Unit35>
       <Unit36>
         <Filename Value="..\VectorClasses\vectormath_vector4i_native_imp.inc"/>
@@ -288,41 +288,59 @@
         <UsageCount Value="10"/>
       </Unit36>
       <Unit37>
-        <Filename Value="..\..\SIMD-VectorMath-UnitTest\VectorClasses\GLZVectorMath.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="381"/>
-        <CursorPos X="14" Y="394"/>
-        <UsageCount Value="10"/>
-      </Unit37>
-      <Unit38>
-        <Filename Value="..\..\SIMD-VectorMath-UnitTest\VectorClasses\vectormath_vector4i_win64_sse_imp.inc"/>
+        <Filename Value="..\VectorClasses\vectormath_vector4i_win64_sse_imp.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="289"/>
         <CursorPos X="23" Y="303"/>
         <UsageCount Value="10"/>
-      </Unit38>
-      <Unit39>
-        <Filename Value="..\..\SIMD-VectorMath-UnitTest\VectorClasses\vectormath_vector4i_unix64_sse_imp.inc"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="..\VectorClasses\vectormath_vector4i_unix64_sse_imp.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="346"/>
         <CursorPos X="23" Y="360"/>
         <UsageCount Value="10"/>
-      </Unit39>
-      <Unit40>
-        <Filename Value="..\..\SIMD-VectorMath-UnitTest\VectorClasses\vectormath_vector4i_intel32_sse_imp.inc"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="..\VectorClasses\vectormath_vector4i_intel32_sse_imp.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="305"/>
         <CursorPos X="23" Y="319"/>
         <UsageCount Value="10"/>
-      </Unit40>
-      <Unit41>
-        <Filename Value="..\..\SIMD-VectorMath-UnitTest\VectorClasses\vectormath_vector4b_native_imp.inc"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="..\VectorClasses\vectormath_vector4b_native_imp.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="409"/>
         <CursorPos Y="415"/>
         <UsageCount Value="10"/>
-      </Unit41>
+      </Unit40>
     </Units>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory Count="6" HistoryIndex="5">
+      <Position1>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="156" Column="5" TopLine="149"/>
+      </Position1>
+      <Position2>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="162" Column="5" TopLine="162"/>
+      </Position2>
+      <Position3>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="439" TopLine="151"/>
+      </Position3>
+      <Position4>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="38" Column="12" TopLine="24"/>
+      </Position4>
+      <Position5>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="330" Column="14" TopLine="324"/>
+      </Position5>
+      <Position6>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="105" Column="49" TopLine="275"/>
+      </Position6>
+    </JumpHistory>
   </ProjectSession>
 </CONFIG>
