@@ -105,7 +105,7 @@ const
   REPORT_GROUP_BBOX = 'BoundingBox' ;
   REPORT_GROUP_BSPHERE = 'BoundingSphere';
   REPORT_GROUP_AABB = 'AABoundingBox';
-  REPORT_GROUP_PLANE_HELP = 'PlaneHelper';
+  REPORT_GROUP_PLANE_HELP = 'HmgPlane';
 
   rgArray: Array[TReportGroup] of string = (
               REPORT_GROUP_VECTOR2F,

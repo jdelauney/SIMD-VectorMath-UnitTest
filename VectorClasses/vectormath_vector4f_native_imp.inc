@@ -353,7 +353,7 @@ begin
   Result := V2.X + V2.Y + V2.Z;// + V2.W;
 end;
 
-function TGLZVector4f.CrossProduct(Constref A : TGLZVector4f):TGLZVector4f;
+function TGLZVector4f.CrossProduct(constref A: TGLZVector4f): TGLZVector4f;
 begin
   result.X:=Self.Y*A.Z-Self.Z*A.Y;
   result.Y:=Self.Z*A.X-Self.X*A.Z;
@@ -633,7 +633,7 @@ begin
   Self.w := Self.W*0.5;
 end;
 
-procedure TGLZVector4f.pCrossProduct(Constref A : TGLZVector4f);
+procedure TGLZVector4f.pCrossProduct(constref A: TGLZVector4f);
 Var
  Tmp : TGLZVector4f;
 begin

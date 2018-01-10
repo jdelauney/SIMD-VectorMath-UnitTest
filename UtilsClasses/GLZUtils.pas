@@ -1046,7 +1046,9 @@ end;
 
 initialization
 begin
+{$ifndef VALGRIND}
   RegisterGLZUtilsFunctions();
+{$endif}  
 end;
 end.
 

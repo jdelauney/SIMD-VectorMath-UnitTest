@@ -1137,8 +1137,10 @@ end;
 
 initialization
 
+{$ifndef VALGRIND}
 {$ifndef CPU32}
  GLZCpuInfos:=getCPUInfos();
+{$endif}
 {$endif}
  (* if CPU_HasFeature(cfSSE) then
   begin

@@ -39,7 +39,7 @@ begin
 end;
 
 procedure TBSphereTimingTest.TestTimeContains;
-var nCont, aCont: TGLZSpaceContains;
+var {%H-}nCont, {%H-}aCont: TGLZSpaceContains;
 begin
   TestDispName := 'BSphere Contains';
   GlobalProfiler[0].Clear;

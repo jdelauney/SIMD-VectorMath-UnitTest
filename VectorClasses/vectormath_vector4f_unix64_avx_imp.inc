@@ -563,6 +563,35 @@ asm
  movhlps xmm1, xmm0
 end;
 
+
+function TGLZVector4f.Trunc: TGLZVector4i;assembler; nostackframe; register;
+asm
+  push     rax                               // create a mem area for mxcsr
+  stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
+  mov      eax,  DWORD PTR [rsp]              // get it
+  mov      ecx,  eax                          // make local copy
+  and      eax,  $00009FFF
+  or       eax,  $00006000                   // Set bits
+  mov      DWORD PTR [rsp], eax              // mov bits to mem
+  ldmxcsr  DWORD PTR [rsp]                   // set new bits
+  vcvtps2dq xmm0, [RDI]
+  mov      DWORD PTR [rsp], ecx              // put old bits in mem
+  ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
+  pop      rax                               // free used stack
+  movhlps xmm1, xmm0
+  movq     RAX,  xmm0
+  movq     RDX,  xmm1
+end;
+
+function TGLZVector4f.Round: TGLZVector4i;assembler; nostackframe; register;
+asm
+
+  vcvtps2dq xmm0, [RDI]
+  movhlps   xmm1, xmm0
+  movq     RAX,  xmm0
+  movq     RDX,  xmm1
+end;
+
 {%endregion%}
 {%region%----[ Operations on Self ]-----------------------------------------------}
 procedure TGLZVector4f.pAdd(constref A: TGLZVector4f); assembler; nostackframe; register;

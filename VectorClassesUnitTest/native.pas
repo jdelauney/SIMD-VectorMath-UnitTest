@@ -374,13 +374,37 @@ type
 
   TNativeGLZVector = TNativeGLZVector4f;
   PNativeGLZVector = ^TNativeGLZVector;
-  TNativeGLZHmgPlane = TNativeGLZVector;
+//  TNativeGLZHmgPlane = TNativeGLZVector;
   TNativeGLZVectorArray = array[0..MAXINT shr 5] of TNativeGLZVector4f;
 
   TNativeGLZColorVector = TNativeGLZVector;
   PNativeGLZColorVector = ^TNativeGLZColorVector;
 
   TNativeGLZClipRect = TNativeGLZVector;
+
+{%endregion%}
+
+{%region%----[ TNativeGLZHmgPlane ]---------------------------------------------}
+
+  TNativeGLZHmgPlane = record
+     // Computes the parameters of a plane defined by a point and a normal.
+     procedure Create(constref point, normal : TNativeGLZVector); overload;
+     procedure Create(constref p1, p2, p3 : TNativeGLZVector); overload;
+     procedure CalcNormal(constref p1, p2, p3 : TNativeGLZVector);
+     procedure Normalize; overload;
+     function Normalized : TNativeGLZHmgPlane; overload;
+     function AbsDistance(constref point : TNativeGLZVector) : Single;
+     function Distance(constref point : TNativeGLZVector) : Single; overload;
+     function Distance(constref Center : TNativeGLZVector; constref Radius:Single) : Single; overload;
+     function IsInHalfSpace(constref point: TNativeGLZVector) : Boolean;
+
+     case Byte of
+       0: (V: TGLZVector4fType);         // should have type compat with other vector4f
+       1: (A, B, C, D: Single);          // Plane Parameter access
+       2: (AsNormal3: TNativeGLZAffineVector); // super quick descriptive access to Normal as Affine Vector.
+       3: (AsVector: TNativeGLZVector);
+       4: (X, Y, Z, W: Single);          // legacy access so existing code works
+  end;
 
 {%endregion%}
 
@@ -594,36 +618,6 @@ type
   PNativeGLZQuaternionArray = ^TNativeGLZQuaternionArray;
   TNativeGLZQuaternionArray = array[0..MAXINT shr 5] of TNativeGLZQuaternion;
 
-
-
-
-(* Type
-  TNativeGLZHmgPlaneHelper = record helper for TNativeGLZVector //TNativeGLZHmgPlane
-  public
-    procedure CreatePlane(constref p1, p2, p3 : TNativeGLZVector);overload;
-    // Computes the parameters of a plane defined by a point and a normal.
-    procedure CreatePlane(constref point, normal : TNativeGLZVector); overload;
-
-    //function Normalize : TGLZHmgPlane; overload;
-    function NormalizePlane : TNativeGLZHmgPlane;
-
-    procedure CalcPlaneNormal(constref p1, p2, p3 : TNativeGLZVector);
-
-    //function PointIsInHalfSpace(constref point: TGLZVector) : Boolean;
-    //function PlaneEvaluatePoint(constref point : TGLZVector) : Single;
-    function DistancePlaneToPoint(constref point : TNativeGLZVector) : Single;
-    function DistancePlaneToSphere(constref Center : TNativeGLZVector; constref Radius:Single) : Single;
-    { Compute the intersection point "res" of a line with a plane.
-      Return value:
-       0 : no intersection, line parallel to plane
-       1 : res is valid
-       -1 : line is inside plane
-      Adapted from:
-      E.Hartmann, Computeruntersttzte Darstellende Geometrie, B.G. Teubner Stuttgart 1988 }
-    //function IntersectLinePlane(const point, direction : TGLZVector; intersectPoint : PGLZVector = nil) : Integer;
-  end; *)
-
-
 {%endregion%}
 
 {%region%----[ BoundingBox ]----------------------------------------------------}
@@ -757,19 +751,17 @@ type
   TNativeGLZVectorHelper = record helper for TNativeGLZVector
   public
 
-  procedure CreatePlane(constref p1, p2, p3 : TNativeGLZVector);overload;
+//  procedure CreatePlane(constref p1, p2, p3 : TNativeGLZVector);overload;
   // Computes the parameters of a plane defined by a point and a normal.
-  procedure CreatePlane(constref point, normal : TNativeGLZVector); overload;
+ // procedure CreatePlane(constref point, normal : TNativeGLZVector); overload;
 
-  //function Normalize : TGLZHmgPlane; overload;
-  function NormalizePlane : TNativeGLZHmgPlane;
 
-  procedure CalcPlaneNormal(constref p1, p2, p3 : TNativeGLZVector);
+//  procedure CalcPlaneNormal(constref p1, p2, p3 : TNativeGLZVector);
 
   //function PointIsInHalfSpace(constref point: TGLZVector) : Boolean;
   //function PlaneEvaluatePoint(constref point : TGLZVector) : Single;
-  function DistancePlaneToPoint(constref point : TNativeGLZVector) : Single;
-  function DistancePlaneToSphere(constref Center : TNativeGLZVector; constref Radius:Single) : Single;
+//  function DistancePlaneToPoint(constref point : TNativeGLZVector) : Single;
+//  function DistancePlaneToSphere(constref Center : TNativeGLZVector; constref Radius:Single) : Single;
   { Compute the intersection point "res" of a line with a plane.
     Return value:
      0 : no intersection, line parallel to plane
@@ -817,7 +809,16 @@ type
     function ExtendClipRect(vX, vY: Single) : TNativeGLZClipRect;
   end;
 
-  {%endregion%}
+{%endregion%}
+
+{%region%----[ TNativeGLZHmgPlaneHelper ]-----------------------------------------------}
+  // for functions where we use types not declared before TGLZHmgPlane
+  TNativeGLZHmgPlaneHelper = record helper for TNativeGLZHmgPlane
+  public
+    function Contains(const TestBSphere: TNativeGLZBoundingSphere): TGLZSpaceContains;
+
+  end;
+{%endregion%}
 
 {%region%----[ TNativeGLZMatrixHelper ]-----------------------------------------}
 
@@ -920,6 +921,8 @@ Const
 
   function Compare(constref A: TNativeGLZVector3f; constref B: TGLZVector3f;Epsilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TNativeGLZVector4f; constref B: TGLZVector4f;Epsilon: Single = 1e-10): boolean; overload;
+  function Compare(constref A: TNativeGLZHmgPlane; constref B: TGLZHmgPlane;Epsilon: Single = 1e-10): boolean; overload;
+  function Compare(constref A: TGLZHmgPlane; constref B: TGLZHmgPlane;Epsilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TGLZVector4f; constref B: TGLZVector4f;Epsilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TNativeGLZVector3b; constref B: TGLZVector3b): boolean; overload;
   function Compare(constref A: TNativeGLZVector4b; constref B: TGLZVector4b): boolean; overload;
@@ -962,6 +965,26 @@ begin
   if not IsEqual (A.X, B.X, Epsilon) then Result := False;
   if not IsEqual (A.Y, B.Y, Epsilon) then Result := False;
   if not IsEqual (A.Z, B.Z, Epsilon) then Result := False;
+end;
+
+function Compare(constref A: TNativeGLZHmgPlane; constref B: TGLZHmgPlane;
+  Epsilon: Single): boolean;
+begin
+  Result := true;
+  if not IsEqual (A.X, B.X, Epsilon) then Result := False;
+  if not IsEqual (A.Y, B.Y, Epsilon) then Result := False;
+  if not IsEqual (A.Z, B.Z, Epsilon) then Result := False;
+  if not IsEqual (A.W, B.W, Epsilon) then Result := False;
+end;
+
+function Compare(constref A: TGLZHmgPlane; constref B: TGLZHmgPlane;
+  Epsilon: Single): boolean;
+begin
+  Result := true;
+  if not IsEqual (A.X, B.X, Epsilon) then Result := False;
+  if not IsEqual (A.Y, B.Y, Epsilon) then Result := False;
+  if not IsEqual (A.Z, B.Z, Epsilon) then Result := False;
+  if not IsEqual (A.W, B.W, Epsilon) then Result := False;
 end;
 
 function Compare(constref A: TGLZVector4f; constref B: TGLZVector4f;

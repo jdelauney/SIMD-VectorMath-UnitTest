@@ -181,14 +181,32 @@ asm
   addps  xmm2, xmm1      // (X*X+Y*Y) (2x)
   sqrtps xmm2, xmm2
   divps  xmm0, xmm2
-  //rsqrtps xmm0, xmm0      // (1 / Sqrt(X*X + Y*Y)) (4x)
-  //mulps   xmm0, xmm2      // A * (1 / Sqrt(Dot(A, A)))
-  //movq    rax, xmm0
+
 end;
 
-// function DotProduct(A:TVector2f):TVector2f;
-// function Reflect(I, NRef : TVector2f):TVector2f
-//function Round: TVector2I;
-//function Trunc: TVector2I;
+function TGLZVector2f.Trunc: TGLZVector2i;assembler; nostackframe; register;
+asm
+  push     rax                               // create a mem area for mxcsr
+  stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
+  mov      eax,  DWORD PTR [rsp]              // get it
+  mov      ecx,  eax                          // make local copy
+  and      eax,  $00009FFF
+  or       eax,  $00006000                   // Set bits
+  mov      DWORD PTR [rsp], eax              // mov bits to mem
+  ldmxcsr  DWORD PTR [rsp]                   // set new bits
+  cvtps2dq xmm0, [RDI]
+  mov      DWORD PTR [rsp], ecx              // put old bits in mem
+  ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
+  pop      rax                               // free used stack
+  vmovq    rax,  xmm0
+end;
+
+function TGLZVector2f.Round: TGLZVector2i;assembler; nostackframe; register;
+asm
+  vcvtps2dq xmm0, [RDI]
+  vmovq     rax,  xmm0
+end;
+
+
 
 {%endregion%}

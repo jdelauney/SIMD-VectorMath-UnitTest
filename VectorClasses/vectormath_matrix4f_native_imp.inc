@@ -320,7 +320,6 @@ begin
 end;
 
 
-
 procedure TGLZMatrix4f.CreateMatrixFromFrustum(Left, Right, Bottom, Top, ZNear, ZFar: Single);
 begin
   Self.X.X := 2 * ZNear / (Right - Left);
@@ -468,7 +467,6 @@ begin
    Self.V[1].V[2]:=ascale*src.V[2].V[1];
    Self.V[2].V[2]:=ascale*src.V[2].V[2];
 end;
-
 
 
 { TODO 1 -oTMatrix4 -cASM : AnglePreservingMatrixInvert Add SSE/AVX Version }

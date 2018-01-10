@@ -544,11 +544,39 @@ type
   { A plane equation.
    Defined by its equation A.x+B.y+C.z+D, a plane can be mapped to the
    homogeneous space coordinates, and this is what we are doing here.
-   The typename is just here for easing up data manipulation. }
-   TGLZHmgPlane = TGLZVector;
-   TGLZFrustum =  record
-      pLeft, pTop, pRight, pBottom, pNear, pFar : TGLZHmgPlane;
-   end;
+   The plane is normalized so in effect contains unit normal in ABC (XYZ)
+   and distance from origin to plane.
+   Create(Point, Normal) will allow non unit vectors but basically don't
+   do it. A non unit vector WILL calculate the wrong distance to the plane.
+   It is a fast way to create a plane when we have a point and a
+   normal without yet another sqrt call.
+   }
+
+  TGLZHmgPlane = record
+  private
+    procedure CalcNormal(constref p1, p2, p3 : TGLZVector);
+  public
+    procedure Create(constref point, normal : TGLZVector); overload;
+    procedure Create(constref p1, p2, p3 : TGLZVector); overload;
+    procedure Normalize;
+    function Normalized : TGLZHmgPlane;
+    function AbsDistance(constref point : TGLZVector) : Single;
+    function Distance(constref point : TGLZVector) : Single; overload;
+    function Distance(constref Center : TGLZVector; constref Radius:Single) : Single; overload;
+    function IsInHalfSpace(constref point: TGLZVector) : Boolean;
+
+    case Byte of
+       0: (V: TGLZVector4fType);         // should have type compat with other vector4f
+       1: (A, B, C, D: Single);          // Plane Parameter access
+       2: (AsNormal3: TGLZAffineVector); // super quick descriptive access to Normal as Affine Vector.
+       3: (AsVector: TGLZVector);
+       4: (X, Y, Z, W: Single);          // legacy access so existing code works
+  end;
+
+
+ TGLZFrustum =  record
+    pLeft, pTop, pRight, pBottom, pNear, pFar : TGLZHmgPlane;
+ end;
 
 {%region%----[ Matrix ]---------------------------------------------------------}
 
@@ -800,8 +828,9 @@ type
 
 {%endregion%}
 
-  { : Result type for space intersection tests, like AABBContainsAABB or BSphereContainsAABB }
-  TGLZSpaceContains = (ScNoOverlap, ScContainsFully, ScContainsPartially);
+{ : Result type for space intersection tests, like AABBContainsAABB or BSphereContainsAABB }
+TGLZSpaceContains = (ScNoOverlap, ScContainsFully, ScContainsPartially);
+
 
 {%region%----[ BoundingSphere ]-------------------------------------------------}
 
@@ -907,19 +936,19 @@ type
 
   TGLZVectorHelper = record helper for TGLZVector
   public
-    procedure CreatePlane(constref p1, p2, p3 : TGLZVector);overload;
+ //   procedure CreatePlane(constref p1, p2, p3 : TGLZVector);overload;
     // Computes the parameters of a plane defined by a point and a normal.
-    procedure CreatePlane(constref point, normal : TGLZVector); overload;
+//    procedure CreatePlane(constref point, normal : TGLZVector); overload;
 
     //function Normalize : TGLZHmgPlane; overload;
-    function NormalizePlane : TGLZHmgPlane;
+//    function NormalizePlane : TGLZHmgPlane;
 
-    procedure CalcPlaneNormal(constref p1, p2, p3 : TGLZVector);
+ //   procedure CalcPlaneNormal(constref p1, p2, p3 : TGLZVector);
 
     //function PointIsInHalfSpace(constref point: TGLZVector) : Boolean;
     //function PlaneEvaluatePoint(constref point : TGLZVector) : Single;
-    function DistancePlaneToPoint(constref point : TGLZVector) : Single;
-    function DistancePlaneToSphere(constref Center : TGLZVector; constref Radius:Single) : Single;
+//    function DistancePlaneToPoint(constref point : TGLZVector) : Single;
+//    function DistancePlaneToSphere(constref Center : TGLZVector; constref Radius:Single) : Single;
     { Compute the intersection point "res" of a line with a plane.
       Return value:
        0 : no intersection, line parallel to plane
@@ -968,9 +997,18 @@ type
 
     function ExtendClipRect(vX, vY: Single) : TGLZClipRect;
 
-    function PlaneContains(const Location, Normal: TGLZVector; const TestBSphere: TGLZBoundingSphere): TGLZSpaceContains;
+
   end;
 
+{%endregion%}
+
+{%region%----[ TGLZHmgPlaneHelper ]-----------------------------------------------}
+  // for functions where we use types not declared before TGLZHmgPlane
+  TGLZHmgPlaneHelper = record helper for TGLZHmgPlane
+  public
+    function Contains(const TestBSphere: TGLZBoundingSphere): TGLZSpaceContains;
+    function PlaneContains(const Location, Normal: TGLZVector; const TestBSphere: TGLZBoundingSphere): TGLZSpaceContains;
+  end;
 {%endregion%}
 
 {%region%----[ TGLZMatrixHelper ]-----------------------------------------------}
@@ -1221,6 +1259,9 @@ Var
          {$I vectormath_vector4f_native_imp.inc}
          {$I vectormath_vector4f_unix64_avx_imp.inc}
 
+         {$I vectormath_vector4i_native_imp.inc}
+         {$I vectormath_vector4i_unix64_avx_imp.inc}
+
          {$I vectormath_quaternion_native_imp.inc}
          {$I vectormath_quaternion_unix64_avx_imp.inc}
 
@@ -1232,8 +1273,8 @@ Var
          {$I vectormath_vectorhelper_native_imp.inc}
          {$I vectormath_vectorhelper_unix64_avx_imp.inc}
 
-         {$I vectormath_planehelper_native_imp.inc}
-         {$I vectormath_planehelper_unix64_avx_imp.inc}
+         {$I vectormath_hmgplane_native_imp.inc}
+         {$I vectormath_hmgplane_unix64_avx_imp.inc}
 
          {$I vectormath_boundingbox_native_imp.inc}
          {$I vectormath_boundingsphere_native_imp.inc}
@@ -1266,8 +1307,8 @@ Var
          {$I vectormath_vectorhelper_native_imp.inc}
          {$I vectormath_vectorhelper_unix64_sse_imp.inc}
 
-         {$I vectormath_planehelper_native_imp.inc}
-         {$I vectormath_planehelper_unix64_sse_imp.inc}
+         {$I vectormath_hmgplane_native_imp.inc}
+         {$I vectormath_hmgplane_unix64_sse_imp.inc}
 
          {$I vectormath_boundingbox_native_imp.inc}
          {$I vectormath_boundingsphere_native_imp.inc}
@@ -1323,8 +1364,8 @@ Var
           {$I vectormath_axisaligned_boundingbox_native_imp.inc}
           {.$I vectormath_axisaligned_boundingbox_win64_sse_imp.inc}
 
-          {$I vectormath_planehelper_native_imp.inc}
-          {$I vectormath_planehelper_win64_sse_imp.inc}
+          {$I vectormath_hmgplane_native_imp.inc}
+          {$I vectormath_hmgplane_win64_sse_imp.inc}
 
           {$I vectormath_vectorhelper_native_imp.inc}
           {$I vectormath_vectorhelper_win64_sse_imp.inc}
@@ -1348,8 +1389,8 @@ Var
          {$I vectormath_vectorhelper_native_imp.inc}
          {$I vectormath_vectorhelper_intel32_avx_imp.inc}
 
-         {$I vectormath_planehelper_native_imp.inc}
-         {$I vectormath_planehelper_intel32_avx_imp.inc}
+         {$I vectormath_hmgplane_native_imp.inc}
+         {$I vectormath_hmgplane_intel32_avx_imp.inc}
 
          {$I vectormath_matrix4f_native_imp.inc}
          {$I vectormath_matrix4f_intel32_avx_imp.inc}
@@ -1380,8 +1421,8 @@ Var
         {$I vectormath_vectorhelper_native_imp.inc}
         {$I vectormath_vectorhelper_intel32_sse_imp.inc}
 
-        {$I vectormath_planehelper_native_imp.inc}
-        {$I vectormath_planehelper_intel32_sse_imp.inc}
+        {$I vectormath_hmgplane_native_imp.inc}
+        {$I vectormath_hmgplane_intel32_sse_imp.inc}
 
         {$I vectormath_matrix4f_native_imp.inc}
         {$I vectormath_matrix4f_intel32_sse_imp.inc}
@@ -1420,7 +1461,7 @@ Var
   {$I vectormath_matrix4f_native_imp.inc}
   {$I vectormath_matrixhelper_native_imp.inc}
 
-  {$I vectormath_planehelper_native_imp.inc}
+  {$I vectormath_hmgplane_native_imp.inc}
   {$I vectormath_vectorhelper_native_imp.inc}
   {.$I vectormath_boundingboxhelper_native_imp.inc}
   {.$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}

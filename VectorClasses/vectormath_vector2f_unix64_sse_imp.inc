@@ -23,9 +23,10 @@ end;
 
 class operator TGLZVector2f./(constref A, B: TGLZVector2f): TGLZVector2f; assembler; nostackframe; register;
 asm
-  movq  xmm0, [A]
-  movq  xmm1, [B]
-  divps xmm0, xmm1
+  movq    xmm0, [A]
+  movq    xmm1, [B]
+  movlhps xmm1, xmm1 // remove 0 from high
+  divps   xmm0, xmm1
 end;
 
 class operator TGLZVector2f.+(constref A: TGLZVector2f; constref B:Single): TGLZVector2f; assembler; nostackframe; register;
@@ -98,7 +99,7 @@ end;
 
 function TGLZVector2f.Clamp(constref AMin, AMax: Single): TGLZVector2f;Assembler; nostackframe;register;
 asm
-  movq   xmm0, [RDI] //movq ????
+  movq   xmm0, [RDI]
   movq   xmm1, [AMin]
   movq   xmm2, [AMax]
   shufps xmm1, xmm1, $00 // Replicate AMin
@@ -147,7 +148,7 @@ function TGLZVector2f.LengthSquare:Single;Assembler;nostackframe;register;
 asm
   movq     xmm0, [RDI]
   mulps    xmm0, xmm0
-  movshdup xmm1,xmm0
+  movshdup xmm1, xmm0
   addps    xmm0, xmm1
 end;
 
@@ -185,16 +186,10 @@ function TGLZVector2f.Trunc: TGLZVector2i;assembler; nostackframe; register;
 asm
   push     rax                               // create a mem area for mxcsr
   stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
-  mov      eax, DWORD PTR [rsp]              // get it
-  mov      ecx, eax                          // make local copy
-  {$ifdef TEST}
-  and      eax,  [RIP+cSSE_ROUND_MASK]
-  //.or       eax,  [RIP+cSSE_ROUND_MASK_TRUNC] // Set bits
-  {$else}
-                   // smaller opcode
+  mov      eax,  DWORD PTR [rsp]              // get it
+  mov      ecx,  eax                          // make local copy
   and      eax,  $00009FFF
   or       eax,  $00006000                   // Set bits
-  {$endif}
   mov      DWORD PTR [rsp], eax              // mov bits to mem
   ldmxcsr  DWORD PTR [rsp]                   // set new bits
   movq     xmm0, [RDI]

@@ -192,8 +192,8 @@ var
   nPlane: TNativeGLZHmgPlane;
   aPlane: TGLZHmgPlane;
 begin
-  nPlane.CreatePlane(nt1,NativeZHmgVector);
-  aPlane.CreatePlane(vt1,ZHmgVector);
+  nPlane.Create(nt1,NativeZHmgVector);
+  aPlane.Create(vt1,ZHmgVector);
   nMat.CreateParallelProjectionMatrix(nPlane, NativeZHmgVector);
   aMat.CreateParallelProjectionMatrix(aPlane, ZHmgVector);
   nCr := naabb1.ToClipRect(nMat,200,200);

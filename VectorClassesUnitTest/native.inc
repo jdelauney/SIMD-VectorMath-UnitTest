@@ -3264,47 +3264,83 @@ end; }
 
 {%region%----[ TNativeGLZHmgPlane Helper ]--------------------------------------}
 
-procedure TNativeGLZVectorHelper.CreatePlane(constref point, normal : TNativeGLZVector);
+procedure TNativeGLZHmgPlane.Create(constref point, normal : TNativeGLZVector);
 begin
-   Self:=normal;
+   Self.AsNormal3 := normal.AsVector3f;
    Self.W:=-(Point.DotProduct(normal));
 end;
 
-procedure TNativeGLZVectorHelper.CalcPlaneNormal(constref p1, p2, p3 : TNativeGLZVector);
+procedure TNativeGLZHmgPlane.Create(constref p1, p2, p3 : TNativeGLZVector);
+begin
+  CalcNormal(p1, p2, p3);
+  Self.W:=-(p1.DotProduct(Self.AsVector));
+end;
+
+procedure TNativeGLZHmgPlane.CalcNormal(constref p1, p2, p3 : TNativeGLZVector);
 var
    v1, v2 : TNativeGLZVector;
 begin
    v1:=p2-p1;
    v2:=p3-p1;
-   Self:=v1.CrossProduct(v2);
-   Self:=Self.Normalize;
+   Self.AsVector:=v1.CrossProduct(v2);
+   Self.AsVector:=Self.AsVector.Normalize;
 end;
 
-procedure TNativeGLZVectorHelper.CreatePlane(constref p1, p2, p3 : TNativeGLZVector);
+function TNativeGLZHmgPlane.Distance(constref point : TNativeGLZVector) : Single;
 begin
-  CalcPlaneNormal(p1, p2, p3);
-  Self.W:=-(p1.DotProduct(Self));
+   result:= (Self.X*Point.X) + (Self.Y*Point.Y) + (Self.Z*Point.Z) + Self.W;
 end;
 
-function TNativeGLZVectorHelper.DistancePlaneToPoint(constref point : TNativeGLZVector) : Single;
+function TNativeGLZHmgPlane.AbsDistance(constref point : TNativeGLZVector) : Single;
 begin
-   result:= System.abs( (Self.X*Point.X) + (Self.Y*Point.Y) + (Self.Z*Point.Z) + Self.W );
+   result:= System.Abs((Self.X*Point.X) + (Self.Y*Point.Y) + (Self.Z*Point.Z) + Self.W );
 end;
 
-function TNativeGLZVectorHelper.DistancePlaneToSphere(constref Center : TNativeGLZVector; constref Radius:Single) : Single;
+function TNativeGLZHmgPlane.Distance(constref Center : TNativeGLZVector; constref Radius:Single) : Single;
 var dist : single;
 begin
-  dist := DistancePlaneToPoint(Center);
+  dist := Self.Distance(Center);
   result := 0.0;
-  if(dist > Radius) then result := dist - radius
+  if(Abs(dist) > Radius) then
+    if Dist > 0 then
+      result := dist - radius
+    else
+      result := dist + radius;
 end;
 
-function TNativeGLZVectorHelper.NormalizePlane:TNativeGLZHmgPlane;
+function TNativeGLZHmgPlane.Normalized:TNativeGLZHmgPlane;
+var
+   n : Single;
+begin
+   Result := Self;
+   Result.Normalize;
+end;
+
+procedure TNativeGLZHmgPlane.Normalize;
 var
    n : Single;
 begin
    n:=1/Sqrt(Self.X*Self.X+Self.Y*Self.Y+Self.Z*Self.Z);
-   Result :=Self * n;
+   Self.AsVector.pMul(n);
+end;
+
+function TNativeGLZHmgPlane.IsInHalfSpace(constref point: TNativeGLZVector) : Boolean;
+begin
+ Result := ((Self.X*Point.X) + (Self.Y*Point.Y) + (Self.Z*Point.Z) + Self.W) > 0;
+end;
+
+function TNativeGLZHmgPlaneHelper.Contains(const TestBSphere: TNativeGLZBoundingSphere): TGLZSpaceContains;
+var
+   Dist: Single;
+begin
+  Dist := self.Distance(TestBSphere.Center);
+
+  if Abs(Dist) < TestBSphere.Radius then
+    Result := ScContainsPartially
+  else if Dist < 0 then
+    Result :=  ScNoOverlap
+  else
+    Result := ScContainsFully;
 end;
 
 {%endregion%}
@@ -3494,8 +3530,6 @@ begin
 end;
 
 {%endregion%}
-
-
 
 {%region%----[ TNativeGLZBoundingBox ]------------------------------------------}
 type
