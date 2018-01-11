@@ -11,6 +11,13 @@ unit umainform;
   {$CODEALIGN VARMIN=16}
 {$endif}
 
+{$ifdef Windows}
+ {$define USE_FRAMEBUFFER}
+{$else}
+ {$define USE_CANVAS}
+ {.$define USE_FRAMEBUFFER}
+{$endif}
+
 
 {===============================================================================
  D'après le code source original en delphi :
@@ -59,7 +66,7 @@ Type
     procedure FormResize(Sender : TObject);
     procedure FormShow(Sender : TObject);
   private
-    {$ifdef Windows} FBitmapBuffer : TBitmap; {$endif}
+    {$ifdef USE_FRAMEBUFFER} FBitmapBuffer : TBitmap; {$endif}
     FCadencer : TTimer; // TGLZCadencer;
     FStopWatch : TGLZStopWatch;
     {$ifdef cpu64}
@@ -123,7 +130,7 @@ procedure TMainForm.FormDestroy(Sender : TObject);
 begin
   FreeAndNil(FStopWatch);
   FreeAndNil(FCadencer);
-  {$ifdef windows}FreeAndNil(FBitmapBuffer);{$endif}
+  {$ifdef USE_FRAMEBUFFER}FreeAndNil(FBitmapBuffer);{$endif}
 end;
 
 procedure TMainForm.FormResize(Sender : TObject);
@@ -131,8 +138,10 @@ begin
   FStopWatch.Stop;
   FCadencer.Enabled := False;
   //FBitmapBuffer.SetSize(ClientWidth,ClientHeight);
+{$ifdef USE_FRAMEBUFFER}
   FBitmapBuffer.Width:=clientwidth;
   FBitmapBuffer.Height:=clientheight;
+{$endif}
   FrameCounter := 0;
   FStopWatch.Start;
   FCadencer.Enabled := True;
@@ -150,7 +159,7 @@ begin
   AnimateScene;
   RenderScene;
   // affiche le résultat
-  {$ifdef WINDOWS} canvas.Draw(0,0,FBitmapBuffer); {$endif}  // DON'T WORK UNDER UNIX !!! LCL BUG ???
+  {$ifdef USE_FRAMEBUFFER} canvas.Draw(0,0,FBitmapBuffer); {$endif}  // DON'T WORK UNDER UNIX !!! LCL BUG ???
   Inc(FrameCounter);
   Caption:='500 BoïdZ Demo : '+Format('%.*f FPS', [3, FStopWatch.getFPS(FrameCounter)]);
 end;
@@ -239,10 +248,17 @@ begin
    //else if FBoidz[i].ST.y<0 then FBoidz[i].UV.y:=-(FBoidz[i].UV.y);
 
    // univers fermé
-   if FBoidz[i].ST.x>FBitmapBuffer.width then FBoidz[i].ST.x:=FBoidz[i].ST.x-FBitmapBuffer.width;
-   if FBoidz[i].ST.x<0 then FBoidz[i].ST.x:=FBoidz[i].ST.x+FBitmapBuffer.width;
-   if FBoidz[i].ST.y>FBitmapBuffer.height then FBoidz[i].ST.y:=FBoidz[i].ST.y-FBitmapBuffer.height;
-   if FBoidz[i].ST.y<0 then FBoidz[i].ST.y:=FBoidz[i].ST.y+FBitmapBuffer.height;
+   {$ifdef USE_FRAMEBUFFER}
+     if FBoidz[i].ST.x>FBitmapBuffer.width then FBoidz[i].ST.x:=FBoidz[i].ST.x-FBitmapBuffer.width;
+     if FBoidz[i].ST.x<0 then FBoidz[i].ST.x:=FBoidz[i].ST.x+FBitmapBuffer.width;
+     if FBoidz[i].ST.y>FBitmapBuffer.height then FBoidz[i].ST.y:=FBoidz[i].ST.y-FBitmapBuffer.height;
+     if FBoidz[i].ST.y<0 then FBoidz[i].ST.y:=FBoidz[i].ST.y+FBitmapBuffer.height;
+   {$else}
+     if FBoidz[i].ST.x>Mainform.ClientWidth then FBoidz[i].ST.x:=FBoidz[i].ST.x-Mainform.ClientWidth;
+     if FBoidz[i].ST.x<0 then FBoidz[i].ST.x:=FBoidz[i].ST.x+Mainform.ClientWidth;
+     if FBoidz[i].ST.y>Mainform.ClientHeight then FBoidz[i].ST.y:=FBoidz[i].ST.y-Mainform.ClientHeight;
+     if FBoidz[i].ST.y<0 then FBoidz[i].ST.y:=FBoidz[i].ST.y+Mainform.ClientHeight;
+   {$endif}
   end;
 end;
 
@@ -263,7 +279,7 @@ var
 begin
 
   // on efface le buffer et on affiche les boïdes
-  {$ifdef WINDOWS}
+  {$ifdef USE_FRAMEBUFFER}
   FBitmapBuffer.canvas.Brush.color:=clBlack;
   FBitmapBuffer.canvas.FillRect(clientrect);
   for i:=0 to maxboidz do
@@ -284,6 +300,7 @@ begin
     end;
    end;
    {$else}
+     mainform.canvas.Brush.color:=clBlack;
      mainform.Canvas.Clear;
      for i:=0 to maxboidz do
      begin
@@ -293,7 +310,7 @@ begin
        c:=round(FastArcTangent2(b.UV.X,b.UV.Y)*180/cPi)+180;
        CurColor := FColorMap[c];
 
-        with MainForm.Canvas do
+       with MainForm.Canvas do
        begin
          Pen.Style := psSolid;
          Pen.Color :=  CurColor;
@@ -354,7 +371,7 @@ begin
   FStopWatch := TGLZStopWatch.Create(self);
 
   Randomize;
-  {$ifdef windows}
+  {$ifdef USE_FRAMEBUFFER}
   FBitmapBuffer := TBitmap.Create;
   FBitmapBuffer.SetSize(Width,Height);
   FBitmapBuffer.PixelFormat := pf32bit;
@@ -369,8 +386,14 @@ begin
   for i:=0 to maxboidz do
   with Fboidz[i] do
    begin
-    ST.x:=10+random(FBitmapBuffer.Width-10);
-    ST.y:=10+random(FBitmapBuffer.Height-10);
+    {$ifdef USE_FRAMEBUFFER}
+      ST.x:=10+random(FBitmapBuffer.Width-10);
+      ST.y:=10+random(FBitmapBuffer.Height-10);
+    {$else}
+      ST.x:=10+random(Mainform.ClientWidth-10);
+      ST.y:=10+random(Mainform.ClientHeight-10);
+    {$endif}
+
     UV.x:=10+random(Vitesse_Max-10);
     UV.y:=10+random(Vitesse_Max-10);
    end;
