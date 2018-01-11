@@ -178,10 +178,11 @@ begin
   pt.Create(FCenterX,FCenterY); //pt.Create(FBitmapBuffer.CenterX,FBitmapBuffer.CenterY);
 
   GetCursorPos(pt);
-  pt := ScreenToClient(pt);
+  pt := Mainform.ScreenToClient(pt);
 
   ptc.Create(pt.x,pt.y); //ptc.Create(pt.x+(-320+Random(320)),pt.y+(-240+Random(240)));
-
+  ptc.X := ptc.x - (Mainform.ClientWidth shr 1) ;
+  ptc.Y := ptc.Y - (Mainform.ClientHeight shr 1) ;
 
   // pour chaque boïde
   for i:=0 to maxBoidz do
