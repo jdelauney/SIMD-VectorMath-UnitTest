@@ -1,4 +1,4 @@
-function TGLZVectorHelper.PointProject(constref origin, direction : TGLZVector) : Single; assembler; register; nostackframe;
+function TGLZVectorHelper.PointProject(constref origin, direction : TGLZVector) : Single; assembler;
 asm
   movups xmm0, [EAX]
   movups xmm1, [Origin]
@@ -13,6 +13,7 @@ asm
   shufps xmm2, xmm2, 10101010b
   addss  xmm0, xmm1
   addss  xmm0, xmm2
+  movss  [Result], xmm0
 end;
 
 function TGLZVectorHelper.AverageNormal4(constref up, left, down,right: TGLZVector): TGLZVector; assembler; register;
@@ -30,11 +31,11 @@ asm
   movups xmm5, [ebx]
   subps  xmm5, xmm1
 
-  movups xmm0, [cSSE_MASK_NO_W]
-  andps  xmm2, xmm0
-  andps  xmm3, xmm0
-  andps  xmm4, xmm0
-  andps  xmm5, xmm0
+  //movups xmm0, [cSSE_MASK_NO_W]
+  //andps  xmm2, xmm0
+  //andps  xmm3, xmm0
+  //andps  xmm4, xmm0
+  //andps  xmm5, xmm0
 
   movaps xmm6, xmm2
   shufps xmm6, xmm6, 11001001b
@@ -102,6 +103,7 @@ asm
   sqrtps xmm0, xmm0
   divps  xmm2, xmm0
   movaps xmm0, xmm2
+//  andps  xmm0, [cSSE_MASK_NO_W]
   mov    ebx,  [Result]
   vmovups [ebx], xmm0
 end;

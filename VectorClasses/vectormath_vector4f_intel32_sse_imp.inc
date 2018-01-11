@@ -880,7 +880,7 @@ end;
 function TGLZVector4f.Trunc: TGLZVector4i;assembler;nostackframe;register;
 asm
   movups   xmm0, [EAX]
-  cvtps2dq xmm0, xmm0         // todo
+  {$i macro_sse_win64_trunc_xmm0-xmm0.inc}
   movdqu   [Result], xmm0
 end;
 

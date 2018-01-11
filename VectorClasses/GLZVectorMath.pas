@@ -993,7 +993,8 @@ TGLZSpaceContains = (ScNoOverlap, ScContainsFully, ScContainsPartially);
     }
     function ShiftObjectFromCenter(Constref ACenter: TGLZVector; const ADistance: Single; const AFromCenterSpot: Boolean): TGLZVector;
 
-    function AverageNormal4(constref up, left, down, right: TGLZVector): TGLZVector;
+    function AverageNormal4(constref up, left, down, right: TGLZVector
+      ): TGLZVector; register;
 
     function ExtendClipRect(vX, vY: Single) : TGLZClipRect;
 

@@ -350,25 +350,165 @@ end;
 {%region%----[ Functions ]------------------------------------------------------}
 function  TGLZMatrix4f.GetDeterminant: single; assembler;
 asm
+  movups xmm0, [EAX]$20         //A2
+
+  movups xmm3, [EAX]$30         //A3
+
+  //XMVECTOR V4 = XMVectorSwizzle<XM_SWIZZLE_Z, XM_SWIZZLE_Z, XM_SWIZZLE_Y, XM_SWIZZLE_Y>(M.r[2]);
+  movaps xmm2, xmm0            // A2
+  shufps xmm2, xmm2, 01011010b // V4   ZZYY
+
+  //XMVECTOR V0 = XMVectorSwizzle<XM_SWIZZLE_Y, XM_SWIZZLE_X, XM_SWIZZLE_X, XM_SWIZZLE_X>(M.r[2]);
+  //XMVECTOR V2 = XMVectorSwizzle<XM_SWIZZLE_Y, XM_SWIZZLE_X, XM_SWIZZLE_X, XM_SWIZZLE_X>(M.r[2]);
+  shufps xmm0, xmm0,00000001b   // V0 YXXX  A2
+  movaps xmm1, xmm0            // V2 YXXX  A2
+
+  //XMVECTOR V3 = XMVectorSwizzle<XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_Z>(M.r[3]);
+  //XMVECTOR V5 = XMVectorSwizzle<XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_Z>(M.r[3]);
+  movaps xmm4, xmm3            // A3
+  shufps xmm4, xmm4, 10111111b //  WWWZ  // BOTH v£ v%
+
+  //XMVECTOR V1 = XMVectorSwizzle<XM_SWIZZLE_Z, XM_SWIZZLE_Z, XM_SWIZZLE_Y, XM_SWIZZLE_Y>(M.r[3]);
+  shufps xmm3, xmm3, 01011010b //   ZZYY
+
+  mulps  xmm0, xmm3      // V0 * V1   P0
+  mulps  xmm1, xmm4      // V2 * V3   P1
+  mulps  xmm2, xmm4      // V4 * V5   P2
+
+  movups xmm3, [EAX]$20
+
+  //V2 = XMVectorSwizzle<XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_Z>(M.r[2]);
+  //V4 = XMVectorSwizzle<XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_Z>(M.r[2]);
+  movaps xmm4, xmm3
+  shufps xmm4, xmm4, 10111111b
+  movaps xmm5, xmm4
+
+  //V0 = XMVectorSwizzle<XM_SWIZZLE_Z, XM_SWIZZLE_Z, XM_SWIZZLE_Y, XM_SWIZZLE_Y>(M.r[2]);
+  shufps xmm3, xmm3, 01011010b
+
+  movups xmm6, [EAX]$30
+
+  //V3 = XMVectorSwizzle<XM_SWIZZLE_Y, XM_SWIZZLE_X, XM_SWIZZLE_X, XM_SWIZZLE_X>(M.r[3]);
+  //V1 = XMVectorSwizzle<XM_SWIZZLE_Y, XM_SWIZZLE_X, XM_SWIZZLE_X, XM_SWIZZLE_X>(M.r[3]);
+  movaps xmm7, xmm6
+  shufps xmm7, xmm7, 00000001b
+
+  //V5 = XMVectorSwizzle<XM_SWIZZLE_Z, XM_SWIZZLE_Z, XM_SWIZZLE_Y, XM_SWIZZLE_Y>(M.r[3]);
+  shufps xmm6, xmm6, 01011010b
+
+  mulps  xmm3, xmm7    //V0 * V1
+  subps  xmm0, xmm3    // P0 - V0 * V1  IN XMM0 = P0
+  mulps  xmm4, xmm7    // V2 * V3
+  subps  xmm1, xmm4    // P1 - V2 * V3  IN XMM1 = P1
+  mulps  xmm5, xmm6    // V4 * V5
+  subps  xmm2, xmm5    // P2 - V4 * V5  IN XMM2 = P2   only 0,1,2 used at this point
+
+  movups xmm3, [EAX]$10
+  movaps xmm4, xmm3
+  movaps xmm5, xmm3
+
+  //V0 = XMVectorSwizzle<XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_W, XM_SWIZZLE_Z>(M.r[1]);
+  shufps xmm3, xmm3, 10111111b
+  //V1 = XMVectorSwizzle<XM_SWIZZLE_Z, XM_SWIZZLE_Z, XM_SWIZZLE_Y, XM_SWIZZLE_Y>(M.r[1]);
+  shufps xmm4, xmm4, 01011010b
+  //V2 = XMVectorSwizzle<XM_SWIZZLE_Y, XM_SWIZZLE_X, XM_SWIZZLE_X, XM_SWIZZLE_X>(M.r[1]);
+  shufps xmm5, xmm5, 00000001b
+
+
+  //XMVECTOR R = XMVectorMultiply(V0, P0);
+  mulps  xmm3, xmm0    // XMM3 = R
+
+  //R = XMVectorNegativeMultiplySubtract(V1, P1, R);
+  mulps  xmm1, xmm4    // P1 * V1
+  subps  xmm3, xmm1    // R = R - P1 * V1
+
+  //R = XMVectorMultiplyAdd(V2, P2, R);
+  mulps  xmm2, xmm5   // P2 * V2
+  addps  xmm3, xmm2   // R = R + P2 * V2
+
+  //XMVECTOR S = XMVectorMultiply(M.r[0], Sign.v);
+  movups xmm0, [EAX]$00        //A0
+  mulps  xmm0, [cNegateVector4f_PNPN]    // S
+
+// Dot  S.R
+{$IFDEF USE_ASM_SSE_4}
+   dpps xmm0, xmm3, 11110001b //or $F1
+{$ELSE}
+  {$IFDEF USE_ASM_SSE_3}
+     mulps xmm0, xmm3
+     {$ifdef TEST}
+       movshdup    xmm4, xmm0
+       addps       xmm0, xmm4
+       movhlps     xmm4, xmm0
+       addss       xmm0, xmm4
+     {$else}
+       haddps xmm0, xmm0
+       haddps xmm0, xmm0
+     {$endif}
+  {$ELSE}
+    mulps   xmm0, xmm3
+    movhlps xmm4, xmm0
+    addps   xmm4, xmm0     //|W*Y|Z*X|
+    movaps  xmm0, xmm4
+    shufps xmm0, xmm0, 00000001b
+    addps  xmm0, xmm4
+  {$ENDIF}
+{$ENDIF}
+ movss [Result], {%H-}xmm0
 end;
 
 function TGLZMatrix4f.Transpose: TGLZMatrix4f; assembler;
 asm
+movups [Result]$00, xmm1
+movups [Result]$10, xmm2
+movups [Result]$20, xmm3
+movups [Result]$30, xmm4
 end;
 
 function TGLZMatrix4f.Invert : TGLZMatrix4f; assembler;
 asm
+movups [Result]$00, xmm1
+movups [Result]$10, xmm2
+movups [Result]$20, xmm3
+movups [Result]$30, xmm4
 end;
 
 function TGLZMatrix4f.Normalize : TGLZMatrix4f; assembler;
 asm
+movups [Result]$00, xmm1
+movups [Result]$10, xmm2
+movups [Result]$20, xmm3
+movups [Result]$30, xmm4
 end;
 
 function TGLZMatrix4f.Translate( constref v : TGLZVector):TGLZMatrix4f; assembler;
 asm
+movups [Result]$00, xmm1
+movups [Result]$10, xmm2
+movups [Result]$20, xmm3
+movups [Result]$30, xmm4
 end;
 function TGLZMatrix4f.Multiply(constref M2: TGLZMatrix4f):TGLZMatrix4f; assembler;
 asm
+  movups xmm0, [EAX]$00   // Self[0]
+  movups xmm1, [EAX]$10   // Self[1]
+  movups xmm2, [EAX]$20   // Self[2]
+  movups xmm3, [EAX]$30   // Self[3]
+
+  movups xmm4, [M2]$00
+  movups xmm5, [M2]$10
+  movups xmm6, [M2]$20
+  movups xmm7, [M2]$30
+  // Component-wise multiplication
+  mulps  xmm0, xmm4
+  mulps  xmm1, xmm5
+  mulps  xmm2, xmm6
+  mulps  xmm3, xmm7
+
+  movups [Result]$00, xmm0
+  movups [Result]$10, xmm1
+  movups [Result]$20, xmm2
+  movups [Result]$30, xmm3
 end;
 
 {%endregion%}

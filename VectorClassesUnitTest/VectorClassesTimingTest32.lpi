@@ -25,15 +25,7 @@
           <Parsing>
             <Style Value="1"/>
           </Parsing>
-          <CodeGeneration>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
-          </CodeGeneration>
           <Linking>
-            <Debugging>
-              <StripSymbols Value="True"/>
-            </Debugging>
             <Options>
               <Win32>
                 <GraphicApplication Value="True"/>
@@ -67,15 +59,8 @@
           </Parsing>
           <CodeGeneration>
             <TargetCPU Value="i386"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
-            <Debugging>
-              <GenerateDebugInfo Value="False"/>
-              <StripSymbols Value="True"/>
-            </Debugging>
             <Options>
               <Win32>
                 <GraphicApplication Value="True"/>
@@ -108,16 +93,7 @@
           <Parsing>
             <Style Value="1"/>
           </Parsing>
-          <CodeGeneration>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
-          </CodeGeneration>
           <Linking>
-            <Debugging>
-              <GenerateDebugInfo Value="False"/>
-              <StripSymbols Value="True"/>
-            </Debugging>
             <Options>
               <Win32>
                 <GraphicApplication Value="True"/>
@@ -149,16 +125,7 @@
           <Parsing>
             <Style Value="1"/>
           </Parsing>
-          <CodeGeneration>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
-          </CodeGeneration>
           <Linking>
-            <Debugging>
-              <GenerateDebugInfo Value="False"/>
-              <StripSymbols Value="True"/>
-            </Debugging>
             <Options>
               <Win32>
                 <GraphicApplication Value="True"/>
@@ -348,16 +315,7 @@
           <Parsing>
             <Style Value="1"/>
           </Parsing>
-          <CodeGeneration>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
-          </CodeGeneration>
           <Linking>
-            <Debugging>
-              <GenerateDebugInfo Value="False"/>
-              <StripSymbols Value="True"/>
-            </Debugging>
             <Options>
               <Win32>
                 <GraphicApplication Value="True"/>
@@ -396,7 +354,7 @@
         <PackageName Value="FCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="17">
+    <Units Count="20">
       <Unit0>
         <Filename Value="VectorClassesTimingTest32.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -465,6 +423,18 @@
         <Filename Value="QuaternionTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit16>
+      <Unit17>
+        <Filename Value="HmgPlaneComparatorTest.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="HmgPlaneFunctionalTest.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="HmgPlaneTimingTest.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit19>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -480,16 +450,7 @@
     <Parsing>
       <Style Value="1"/>
     </Parsing>
-    <CodeGeneration>
-      <Optimizations>
-        <OptimizationLevel Value="3"/>
-      </Optimizations>
-    </CodeGeneration>
     <Linking>
-      <Debugging>
-        <GenerateDebugInfo Value="False"/>
-        <StripSymbols Value="True"/>
-      </Debugging>
       <Options>
         <Win32>
           <GraphicApplication Value="True"/>

@@ -188,17 +188,19 @@ asm
   //movq    rax, xmm0
 end;
 
-function TGLZVector2f.Round: TGLZVector2i; assembler; nostackframe; register;
+function TGLZVector2f.Round: TGLZVector2i; assembler;
 asm
   // Rounding mode defaults to round-to-nearest
   movq     xmm0, [EAX]
   cvtps2dq xmm0, xmm0
+  movq [Result], {%H-}xmm0
 end;
 
 function TGLZVector2f.Trunc: TGLZVector2i;assembler;//nostackframe;register;
 asm
   movq     xmm0, [EAX]   // TODO
-  cvtps2dq xmm0, xmm0
+  {$i macro_sse_win64_trunc_xmm0-xmm0.inc}
+  movq [Result], {%H-}xmm0
 end;
 
 

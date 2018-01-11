@@ -87,7 +87,7 @@ procedure TVectorHelperTestCase.TestAverageNormal4;
 begin
   nt5 := nt1.AverageNormal4(nt1,nt2,nt3,nt4);
   vt5 := vt1.AverageNormal4(vt1,vt2,vt3,vt4);
-  AssertTrue('VectorHelper AverageNormal4 no match'+nt5.ToString+' --> '+vt5.ToString, Compare(nt5,vt5, 1e-7));
+  AssertTrue('VectorHelper AverageNormal4 no match'+nt5.ToString+' --> '+vt5.ToString, Compare(nt5,vt5, 1e-5));
 end;
 
 procedure TVectorHelperTestCase.TestPointProject;

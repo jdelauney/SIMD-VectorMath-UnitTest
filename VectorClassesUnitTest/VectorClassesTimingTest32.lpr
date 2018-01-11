@@ -20,13 +20,16 @@ uses
   VectorNumericsTestCase,
   VectorOtherTestCase,
   VectorOnSelfTestCase,
+  // HmgPlane Test Case
+  HmgPlaneFunctionalTest,
+  HmgPlaneComparatorTest,
   // Matrix Test Case
   MatrixFunctionalTest,  
   MatrixTestCase,
   // Quaternion Test Case
   QuaternionTestCase,
   // Vector4f and Plane Test Case
-  VectorAndHmgPlaneHelperTestCase,
+  VectorHelperTestCase,
   // bounding box et al
   BoundingBoxComparatorTest,  
   BSphereComparatorTest,
@@ -43,7 +46,9 @@ uses
   VectorOperatorsTimingTest,
   VectorOperatorsOnSelfTimingTest,
   VectorNumericsTimingTest,
-  VectorAndHmgPlaneTimingTest,
+  VectorHelperTimingTest,
+  // HmgPlane Timing Test
+  HmgPlaneTimingTest,
   // Matrix Timing Test
   MatrixTimingTest,
   // Quaternion Timing Test

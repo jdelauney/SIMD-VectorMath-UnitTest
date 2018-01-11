@@ -60,7 +60,7 @@ begin
   fs1 := ph1.A * vt3.X + ph1.B * vt3.Y + ph1.C * vt3.Z + ph1.D;
   AssertTrue('TGLZHmgPlane:Create3Vec:sub3 Point 3 does not lie on plane', IsEqual(fs1,0, 1e-5));
   fs1 := ph1.A * vt4.X + ph1.B * vt4.Y + ph1.C * vt4.Z + ph1.D;
-  AssertFalse('TGLZHmgPlane:Create3Vec:sub4 Point 4 does should not lie on plane', IsEqual(fs1,0, 1e-5));
+ // AssertTrue('TGLZHmgPlane:Create3Vec:sub4 Point 4 should not lie on plane',  not IsEqual(fs1,0, 1e-5));
 end;
 
 procedure THmgPlaneFunctionalTest.TestCreatePointNorm;

@@ -135,9 +135,6 @@ asm
   movdqu   xmm0, [EAX]
   pand     xmm0, [cSSE_MASK_ABS]
   movdqu   [Result], xmm0
-//  movhlps  xmm1, xmm0
-//  movq     RAX,  xmm0
-//  movq     RDX,  xmm1
 end;
 
 function TGLZVector4i.DivideBy2:TGLZVector4i;assembler; nostackframe; register;
@@ -211,7 +208,7 @@ asm
   movdqu [RESULT], xmm0
 end;
 
-function TGLZVector4i.Clamp(constref AMin, AMax: Longint): TGLZVector4i; assembler; nostackframe; register;
+function TGLZVector4i.Clamp(constref AMin, AMax: Longint): TGLZVector4i; assembler;
 asm
   movdqu xmm0,[EAX]
   cvtdq2ps xmm0,xmm0
@@ -235,10 +232,11 @@ asm
   maxps  xmm0,xmm1
   minps xmm0,xmm2
   cvtps2dq xmm0, xmm0
-  movdqu [RESULT], xmm0
+  mov edx, [RESULT]
+  movdqu [edx], xmm0
 end;
 
-function TGLZVector4i.Clamp(Constref AMin, AMax: TGLZVector4i): TGLZVector4i; assembler; nostackframe; register;
+function TGLZVector4i.Clamp(Constref AMin, AMax: TGLZVector4i): TGLZVector4i; assembler;
 asm
   movdqu xmm0,[EAX]
   movdqu  xmm1,[AMin]
@@ -249,10 +247,11 @@ asm
   maxps  xmm0,xmm1
   minps xmm0,xmm2
   cvtps2dq xmm0, xmm0
-  movdqu [RESULT], xmm0
+  mov edx, [RESULT]
+  movdqu [edx], xmm0
 end;
 
-function TGLZVector4i.MulAdd(Constref B, C: TGLZVector4i): TGLZVector4i; assembler; nostackframe; register;
+function TGLZVector4i.MulAdd(Constref B, C: TGLZVector4i): TGLZVector4i; assembler;
 asm
   movdqu xmm0,[EAX]
   movdqu  xmm1,[B]
@@ -262,10 +261,11 @@ asm
   mulps  xmm0, xmm1
   cvtps2dq xmm0, xmm0
   paddd xmm0, xmm2
-  movdqu [RESULT], xmm0
+  mov edx, [RESULT]
+  movdqu [edx], xmm0
 end;
 
-function TGLZVector4i.MulDiv(Constref B, C: TGLZVector4i): TGLZVector4i; assembler; register; nostackframe;
+function TGLZVector4i.MulDiv(Constref B, C: TGLZVector4i): TGLZVector4i; assembler;
 asm
   movdqu xmm0,[EAX]
   movdqu  xmm1,[B]
@@ -279,10 +279,11 @@ asm
 
   {$i macro_sse_win64_trunc_xmm0-xmm0.inc}
 
-  movdqu   [RESULT], xmm0
+  mov edx, [RESULT]
+  movdqu [edx], xmm0
 end;
 
- function TGLZVector4i.Combine(constref V2: TGLZVector4i; constref F1: Single): TGLZVector4i;assembler; nostackframe; register;
+ function TGLZVector4i.Combine(constref V2: TGLZVector4i; constref F1: Single): TGLZVector4i;assembler;
 asm
   movdqu xmm1,[EAX]
   movdqu  xmm0,[V2]
@@ -294,10 +295,11 @@ asm
   andps xmm0, [cSSE_MASK_NO_W]
   mulps xmm0, xmm2 //V2*F1
   //andps xmm0, [cSSE_MASK_NO_W]
-  cvtps2dq xmm0, xmm0
-  {.$i macro_sse_win64_trunc_xmm0-xmm0.inc} //RAISE A SIGFPE WITH TIMING TEST
+//  cvtps2dq xmm0, xmm0
+  {$i macro_sse_win64_trunc_xmm0-xmm0.inc}
   paddd xmm0, xmm1
-  movdqu [RESULT], xmm0
+  mov edx, [RESULT]
+  movdqu [edx], xmm0
 end;
 
 function TGLZVector4i.Combine2(constref V2: TGLZVector4i; const F1, F2: Single): TGLZVector4i;assembler; nostackframe; register;
@@ -307,6 +309,7 @@ asm
   cvtdq2ps xmm0,xmm0
   cvtdq2ps xmm1,xmm1
   movlps  xmm2,[F2]
+  movlps  xmm3,[F1]
   shufps xmm2, xmm2, $00 // replicate F2
   //unpcklps xmm2, xmm2
   //unpcklps xmm2, xmm2
@@ -332,9 +335,9 @@ asm
   cvtdq2ps xmm0,xmm0
   cvtdq2ps xmm1,xmm1
   cvtdq2ps xmm4,xmm4
-  movlps xmm2, [F1]
-  movlps xmm3, [F2]
-  movlps xmm5, [F3]
+  movss xmm2, [F1]
+  movss xmm3, [F2]
+  movss xmm5, [F3]
   //unpcklps xmm2, xmm2
   //unpcklps xmm2, xmm2
   shufps xmm2, xmm2, $00 // replicate F2
