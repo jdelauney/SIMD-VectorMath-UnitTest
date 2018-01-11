@@ -199,7 +199,7 @@ asm
   sqrtss  xmm2, xmm2
   shufps  xmm2, xmm2, 00000000b
   divps   xmm0, xmm2
-  movhlps xmm1, xmm0
+  movaps [RESULT], xmm0
 end;
 
 procedure TGLZHmgPlane.Normalize; assembler; register; nostackframe;
