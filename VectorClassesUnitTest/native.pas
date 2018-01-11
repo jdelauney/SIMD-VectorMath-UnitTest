@@ -1028,7 +1028,7 @@ function CompareWithRound(constref A: TNativeGLZVector4i; constref
   B: TGLZVector4i): boolean;
 begin
   Result := True;
-  if Abs(A.Red - B.Red) > 1then Result := False;
+  if Abs(A.Red - B.Red) > 1 then Result := False;
   if Abs(A.Green - B.Green) > 1 then Result := False;
   if Abs(A.Blue - B.Blue) > 1 then Result := False;
   if Abs(A.Alpha - B.Alpha) > 1 then Result := False;

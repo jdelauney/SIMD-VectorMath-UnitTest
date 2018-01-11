@@ -35,10 +35,8 @@ unit umainform;
 interface
 
 uses
-  LCLIntf, Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
+  LCLType, LCLIntf, Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   ExtCtrls, GLZVectorMath,GLZStopWatch;
-  //GLZTypes, GLZVectorMath, GLZGraphic, GLZBitmap, GLZCadencer,GLZStopWatch;
-
 
   { TMainForm }
 Const
@@ -61,7 +59,7 @@ Type
     procedure FormResize(Sender : TObject);
     procedure FormShow(Sender : TObject);
   private
-    FBitmapBuffer : TBitmap; //TGLZBitmap;
+    {$ifdef Windows} FBitmapBuffer : TBitmap; {$endif}
     FCadencer : TTimer; // TGLZCadencer;
     FStopWatch : TGLZStopWatch;
     {$ifdef cpu64}
@@ -79,6 +77,8 @@ Type
     //procedure CadencerProgress(Sender : TObject; const deltaTime, newTime : Double);
     procedure CadencerProgress(Sender : TObject);
   public
+    procedure EraseBackground(DC: HDC); override;
+
     procedure AnimateScene;
     Procedure RenderScene;
     Procedure InitScene;
@@ -100,9 +100,8 @@ var
  l:Single;
 begin
  b1.ST :=b1.ST - b2.ST;
- //angle:=abs(FastArcTangent2(b1.x,b1.y)*c180divPI);
- angle:=abs(ArcTan2(b1.ST.x,b1.ST.y)*180/cPI);
- //b1 := b1*b1; l:=(b1.x+b1.y);
+ angle:=abs(FastArcTangent2(b1.x,b1.y)*c180divPI);
+ //angle:=abs(ArcTan2(b1.ST.x,b1.ST.y)*180/cPI);
  l:=b1.ST.LengthSquare;
  result:=(l<Distance_Max) and (angle<=Angle_Vision);
 end;
@@ -111,7 +110,6 @@ procedure TMainForm.FormCloseQuery(Sender : TObject; var CanClose : boolean);
 begin
   FStopWatch.Stop;
   FCadencer.Enabled := False;
-  //FCadencer.OnProgress := nil;;
   FCadencer.OnTimer := nil;
   CanClose := True;
 end;
@@ -125,7 +123,7 @@ procedure TMainForm.FormDestroy(Sender : TObject);
 begin
   FreeAndNil(FStopWatch);
   FreeAndNil(FCadencer);
-  FreeAndNil(FBitmapBuffer);
+  {$ifdef windows}FreeAndNil(FBitmapBuffer);{$endif}
 end;
 
 procedure TMainForm.FormResize(Sender : TObject);
@@ -147,13 +145,12 @@ begin
   FCadencer.Enabled := True;
 end;
 
-//procedure TMainForm.CadencerProgress(Sender : TObject; const deltaTime,newTime : Double);
 procedure TMainForm.CadencerProgress(Sender : TObject);
 begin
+  AnimateScene;
   RenderScene;
   // affiche le résultat
-  //FBitmapBuffer.DrawTo(Canvas, ClientRect);
-  canvas.Draw(0,0,FBitmapBuffer);
+  {$ifdef WINDOWS} canvas.Draw(0,0,FBitmapBuffer); {$endif}  // DON'T WORK UNDER UNIX !!! LCL BUG ???
   Inc(FrameCounter);
   Caption:='500 BoïdZ Demo : '+Format('%.*f FPS', [3, FStopWatch.getFPS(FrameCounter)]);
 end;
@@ -263,25 +260,18 @@ var
  i,c : Integer;
  CurColor : TColor;
 begin
-  AnimateScene;
-  // on efface le buffer et on affiche les boïdes
 
-  //FBitmapBuffer.ColorFilter.AdjustBrightness(0.85);
-  ////FBitmapBuffer.BlurFilter.FastBlur;
-  //FBitmapBuffer.BlurFilter.FastGaussianBlur(3);
+  // on efface le buffer et on affiche les boïdes
+  {$ifdef WINDOWS}
   FBitmapBuffer.canvas.Brush.color:=clBlack;
   FBitmapBuffer.canvas.FillRect(clientrect);
   for i:=0 to maxboidz do
   begin
     b := FBoidz[i];
     p := b.Round;
-    //P.X:=Round(FBoidz[i].ST.X);
-    //P.Y:=Round(FBoidz[i].ST.Y);
 
     //calcul de la direction de déplacement pour la couleur
-    c:=round(ArcTan2(b.UV.X,b.UV.Y)*180/cPi)+180;
-    //c:=345;
-    //CurColor := FBitmapBuffer.ColorManager.Palette.Colors[c].Value;
+    c:=round(FastArcTangent2(b.UV.X,b.UV.Y)*180/cPi)+180;
     CurColor := FColorMap[c];
     with FBitmapBuffer.Canvas do
     begin
@@ -292,29 +282,27 @@ begin
       LineTo(P.ST.x+P.UV.x,P.ST.y+P.UV.y);
     end;
    end;
+   {$else}
+     mainform.Canvas.Clear;
+     for i:=0 to maxboidz do
+     begin
+       b := FBoidz[i];
+       p := b.Round;
+       //calcul de la direction de déplacement pour la couleur
+       c:=round(FastArcTangent2(b.UV.X,b.UV.Y)*180/cPi)+180;
+       CurColor := FColorMap[c];
 
-  (* With FBitmapBuffer.Canvas do
-   begin
-        Font.Name := 'Arial';
-        Font.Height := 32;
-        Font.Color := CurColor;//clrRed;
-        TextOut(FBitmapBuffer.CenterX-154,20,'Craig Reynolds''s BoidZ');
-        DrawMode.PixelMode := dmSet;
-        DrawMode.AlphaMode := amAlpha;
-        Brush.Style := bsSolid;
-        Brush.Color.Create(192,220,192,192);
-        Pen.Color := clrBlack;
-        Pen.Style := psSolid;
-        Rectangle(FBitmapBuffer.CenterX-154,70,580,110);
+        with MainForm.Canvas do
+       begin
+         Pen.Style := psSolid;
+         Pen.Color :=  CurColor;
+         // dessine un traits de la longueur de la vitesse
+         MoveTo(P.ST.x,P.ST.y);
+         LineTo(P.ST.x+P.UV.x,P.ST.y+P.UV.y);
+       end;
+      end;
+   {$endif}
 
-        Font.Height := 16;
-        Font.Color := clrWhite;
-        Font.Color.Alpha := 192;
-        TextOut(FBitmapBuffer.CenterX-124,80,'Move your mouse around the windows');
-        Font.Color := clrBlack;
-        DrawMode.AlphaMode := amNone;
-        TextOut(FBitmapBuffer.CenterX-122,82,'Move your mouse around the windows');
-    end;   *)
 end;
 
 procedure TMainForm.InitColorMap;
@@ -358,29 +346,23 @@ begin
   //FCadencer := TGLZCadencer.Create(self);
   FCadencer := TTimer.Create(self);
   FCadencer.Enabled := False;
-  FCadencer.Interval := 60;
+  FCadencer.Interval := 10;
   //FCadencer.OnProgress := @CadencerProgress;
   FCadencer.OnTimer := @CadencerProgress;
 
   FStopWatch := TGLZStopWatch.Create(self);
 
   Randomize;
-  //FBitmapBuffer := TGLZBitmap.Create;
-  //FBitmapBuffer.SetSize(Width,Height);
-  //FBitmapBuffer.Clear(clrBlack);
-  //FBitmapBuffer.UsePalette := True;
+  {$ifdef windows}
   FBitmapBuffer := TBitmap.Create;
   FBitmapBuffer.SetSize(Width,Height);
   FBitmapBuffer.PixelFormat := pf32bit;
-
+  {$endif}
 
   // Create Color Map
   InitColorMap;
 
   FrameCounter:=0;
-
-
- // cDistanceMax.Create(Distance_Max,Distance_Max);
 
   // on initialise une vitesse et une place aléatoire pour le départ
   for i:=0 to maxboidz do
@@ -395,6 +377,11 @@ begin
   aCounter :=0;
 end;
 
+procedure Tmainform.EraseBackground(DC: HDC);
+begin
+ // if EraseBackgroundEnabled then
+    inherited EraseBackground(DC);
+end;
 
 end.
 
