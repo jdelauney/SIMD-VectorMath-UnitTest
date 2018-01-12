@@ -10,3 +10,6 @@ bin/
 # Unix executables
 ./VectorClassesUnitTest* 
 VectorClassesUnitTest/VectorClassesUnitTest*
+
+# local config files
+*/extrafpc.cfg

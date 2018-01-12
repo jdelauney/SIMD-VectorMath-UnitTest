@@ -33,4 +33,4 @@ results/
 *.app/
 
 # local config file
-extrafpc.cfg
+*.cfg
