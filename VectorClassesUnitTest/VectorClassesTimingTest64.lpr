@@ -35,7 +35,7 @@ uses
   AABBComparatorTest,
 {$ifndef NO_TIMING_TEST}
   // Vector2f Timing Test Case
-  Vector2OperatorsTimingTest,
+  Vector2fTimingTest,
   // Vector3b Timing Test Case
   Vector3bTimingTest,
   // Vector4b Timing Test Case

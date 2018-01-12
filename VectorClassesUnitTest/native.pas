@@ -847,6 +847,10 @@ type
 {%region%----[ Vector Const ]---------------------------------------------------}
 
 Const
+
+  NativeNullVector2f : TNativeGLZVector2f = (x:0;y:0);
+
+
   // standard affine vectors
   NativeXVector :    TNativeGLZAffineVector = (X:1; Y:0; Z:0);
   NativeYVector :    TNativeGLZAffineVector = (X:0; Y:1; Z:0);

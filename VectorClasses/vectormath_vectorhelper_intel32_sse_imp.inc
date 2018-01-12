@@ -103,7 +103,6 @@ asm
   sqrtps xmm0, xmm0
   divps  xmm2, xmm0
   movaps xmm0, xmm2
-//  andps  xmm0, [cSSE_MASK_NO_W]
   mov    ebx,  [Result]
   vmovups [ebx], xmm0
 end;
