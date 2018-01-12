@@ -31,3 +31,6 @@ results/
 
 # Application bundle for Mac OS
 *.app/
+
+# local config file
+extrafpc.cfg

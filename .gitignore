@@ -7,9 +7,6 @@ Results/
 *.ini
 bin/
 
-# local config file
-extrafpc.cfg
-
 # Unix executables
 ./VectorClassesUnitTest* 
 VectorClassesUnitTest/VectorClassesUnitTest*
