@@ -558,6 +558,10 @@ begin
   vt2i :=  vtt1.Trunc;
   AssertEquals('Trunc:Sub3 X failed ', 5, vt2i.X);
   AssertEquals('Trunc:Sub4 Y failed ', 6, vt2i.Y);
+  vtt1.Create(1.5,2.5);
+  vt2i :=  vtt1.Trunc;
+  AssertEquals('Trunc:Sub5 X failed ', 1, vt2i.X);
+  AssertEquals('Trunc:Sub6 Y failed ', 2, vt2i.Y);
 end;
 
 procedure TVector2fFunctionalTest.TestRound;
@@ -570,6 +574,11 @@ begin
   vt2i :=  vtt1.Round;
   AssertEquals('Round:Sub3 X failed ', 5, vt2i.X);
   AssertEquals('Round:Sub4 Y failed ', 6, vt2i.Y);
+  // rounding to even for 0.5
+  vtt1.Create(1.5,2.5);
+  vt2i :=  vtt1.Round;
+  AssertEquals('Round:Sub3 X failed ', 2, vt2i.X);
+  AssertEquals('Round:Sub4 Y failed ', 2, vt2i.Y);
 end;
 
 initialization

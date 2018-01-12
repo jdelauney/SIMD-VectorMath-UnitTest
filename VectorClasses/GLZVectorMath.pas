@@ -965,8 +965,7 @@ type
     }
     function ShiftObjectFromCenter(Constref ACenter: TGLZVector; const ADistance: Single; const AFromCenterSpot: Boolean): TGLZVector;
 
-    function AverageNormal4(constref up, left, down, right: TGLZVector
-      ): TGLZVector; register;
+    function AverageNormal4(constref up, left, down, right: TGLZVector): TGLZVector;
 
     function ExtendClipRect(vX, vY: Single) : TGLZClipRect;
 
@@ -1028,6 +1027,9 @@ type
 {%region%----[ Vectors Const ]--------------------------------------------------}
 
 Const
+  NullVector2f   : TGLZVector2f = (x:0;y:0);
+
+
   // standard affine vectors
   XVector :    TGLZAffineVector = (X:1; Y:0; Z:0);
   YVector :    TGLZAffineVector = (X:0; Y:1; Z:0);
