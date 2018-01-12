@@ -937,6 +937,7 @@ Const
   function Compare(constref A: TGLZBoundingSphere; constref B: TGLZBoundingSphere; Epsilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TNativeGLZAxisAlignedBoundingBox; constref B: TGLZAxisAlignedBoundingBox; Epsilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TNativeGLZAABBCorners; constref B: TGLZAABBCorners; Epsilon: Single = 1e-10): boolean; overload;
+  function Compare(constref A: TGLZMatrix4f; constref B: TGLZMatrix4f; Epsilon: Single = 1e-10): boolean; overload;
 
   function IsEqual(A,B: Single; Epsilon: single = 1e-10): boolean; inline;
 
@@ -1120,7 +1121,16 @@ begin
     if not compare(A[i],B[i]) then Result := False;
 end;
 
-{$i native.inc}
+function Compare(constref A: TGLZMatrix4f; constref B: TGLZMatrix4f;
+  Epsilon: Single): boolean;
+begin
+  Result := True;
+  if not compare(A.V[0], B.V[0]) then Result := False;
+  if not compare(A.V[1], B.V[1]) then Result := False;
+  if not compare(A.V[2], B.V[2]) then Result := False;
+  if not compare(A.V[3], B.V[3]) then Result := False;
+end;
 
+{$i native.inc}
 
 end.
