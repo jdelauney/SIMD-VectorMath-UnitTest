@@ -495,7 +495,7 @@ begin
   Result.X := ClampByte(Round((A.X * B)));
   Result.Y := ClampByte(Round((A.Y * B)));
   Result.Z := ClampByte(Round((A.Z * B)));
-  Result.Z := ClampByte(Round((A.W * B)));
+  Result.W := ClampByte(Round((A.W * B)));
 end;
 
 class operator TNativeGLZVector4b.div(constref A: TNativeGLZVector4b; constref B: Byte ): TNativeGLZVector4b;
