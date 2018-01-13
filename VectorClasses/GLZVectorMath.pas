@@ -1130,7 +1130,7 @@ procedure sse_SetRoundMode(Round_Mode: sse_Rounding_Mode);
 
 Implementation
 
-Uses Math, GLZMath, GLZUtils;
+Uses Math, GLZMath, GLZUtils, GLZFastMath;
 
 {%region%----[ Internal Types and Const ]---------------------------------------}
 

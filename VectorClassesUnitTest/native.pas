@@ -949,7 +949,7 @@ Const
 implementation
 
 uses
-  Math, GLZMath, GLZUtils;
+  Math, GLZMath, GLZUtils, GLZFastMath;
 
 function IsEqual(A,B: Single; Epsilon: single): boolean;
 begin

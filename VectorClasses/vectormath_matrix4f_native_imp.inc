@@ -305,7 +305,7 @@ begin
   end;
 
   // now, get the rotations out, as described in the gem
-  Tran[ttRotateY]:=GLZMath.ArcSine(-row0.Z);
+  Tran[ttRotateY]:= FastArcSine(-row0.Z);
   if cos(Tran[ttRotateY]) <> 0 then
   begin
     Tran[ttRotateX]:=GLZMath.ArcTan2(row1.Z, row2.Z);
