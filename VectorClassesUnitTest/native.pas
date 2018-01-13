@@ -929,6 +929,7 @@ Const
   function Compare(constref A: TGLZHmgPlane; constref B: TGLZHmgPlane;Epsilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TGLZVector4f; constref B: TGLZVector4f;Epsilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TNativeGLZVector3b; constref B: TGLZVector3b): boolean; overload;
+  function Compare(constref A: TGLZVector3b; constref B: TGLZVector3b): boolean; overload;
   function Compare(constref A: TNativeGLZVector4b; constref B: TGLZVector4b): boolean; overload;
   function Compare(constref A: TNativeGLZVector4i; constref B: TGLZVector4i): boolean; overload;
   function CompareWithRound(constref A: TNativeGLZVector4i; constref B: TGLZVector4i): boolean; overload;
@@ -1004,6 +1005,14 @@ begin
 end;
 
 function Compare(constref A: TNativeGLZVector3b; constref B: TGLZVector3b): boolean;
+begin
+  Result := True;
+  if A.Red <> B.Red then Result := False;
+  if A.Green <> B.Green then Result := False;
+  if A.Blue <> B.Blue then Result := False;
+end;
+
+function Compare(constref A: TGLZVector3b; constref B: TGLZVector3b): boolean;
 begin
   Result := True;
   if A.Red <> B.Red then Result := False;

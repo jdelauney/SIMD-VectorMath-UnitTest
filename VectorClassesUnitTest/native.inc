@@ -353,48 +353,58 @@ end;
 
 function TNativeGLZVector3b.Swizzle(const ASwizzle: TGLZVector3SwizzleRef ): TNativeGLZVector3b;
 begin
-   //FSwizzleMode := ASwizzle;
-   case ASwizzle of
-     swXXX, swRRR :
-     begin
-       Result.X := Self.X;
-       Result.Y := Self.X;
-       Result.Z := Self.X;
-     end;
-     swYYY, swGGG :
-     begin
-       Result.X := Self.Y;
-       Result.Y := Self.Y;
-       Result.Z := Self.Y;
-     end;
-     swZZZ, swBBB :
-     begin
-       Result.X := Self.Z;
-       Result.Y := Self.Z;
-       Result.Z := Self.Z;
-     end;
-//     swWWW, swAAA :
-     swZYX, swBGR :
-     begin
-       Result.X := Self.Z;
-       Result.Y := Self.Y;
-       Result.Z := Self.X;
-     end;
-     swYXZ, swGRB :
-     begin
-       Result.X := Self.Y;
-       Result.Y := Self.X;
-       Result.Z := Self.Z;
-     end;
-     swYZX, swGBR :
-     begin
-       Result.X := Self.Y;
-       Result.Y := Self.Z;
-       Result.Z := Self.X;
-     end;
+  case ASwizzle of
+    swXXX, swRRR :
+    begin
+      Result.X := Self.X;
+      Result.Y := Self.X;
+      Result.Z := Self.X;
+    end;
+    swYYY, swGGG :
+    begin
+      Result.X := Self.Y;
+      Result.Y := Self.Y;
+      Result.Z := Self.Y;
+    end;
+    swZZZ, swBBB :
+    begin
+      Result.X := Self.Z;
+      Result.Y := Self.Z;
+      Result.Z := Self.Z;
+    end;
+    swXZY, swRBG :
+    begin
+      Result.X := Self.X;
+      Result.Y := Self.Z;
+      Result.Z := Self.Y;
+    end;
+    swZYX, swBGR :
+    begin
+      Result.X := Self.Z;
+      Result.Y := Self.Y;
+      Result.Z := Self.X;
+    end;
+    swZXY, swBRG :
+    begin
+      Result.X := Self.Z;
+      Result.Y := Self.X;
+      Result.Z := Self.Y;
+    end;
+    swYXZ, swGRB :
+    begin
+      Result.X := Self.Y;
+      Result.Y := Self.X;
+      Result.Z := Self.Z;
+    end;
+    swYZX, swGBR :
+    begin
+      Result.X := Self.Y;
+      Result.Y := Self.Z;
+      Result.Z := Self.X;
+    end;
 
-     else result := self;
-   end;
+    else result := self;
+  end;
 end;
 
 {%endregion%}
