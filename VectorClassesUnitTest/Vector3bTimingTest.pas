@@ -26,6 +26,7 @@ type
        procedure TestTimeOpSubByte;
        procedure TestTimeOpMul;
        procedure TestTimeOpMulByte;
+       procedure TestTimeOpMulSingle;
        procedure TestTimeOpDiv;
        procedure TestTimeOpDivByte;
        procedure TestTimeOpEquality;
@@ -132,6 +133,19 @@ begin
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;
   For cnt:= 1 to Iterations do begin abt3 := abt1 * b2; end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVector3bTimingTest.TestTimeOpMulSingle;
+begin
+  TestDispName := 'Vector Op Mul Single';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin nbt3 := nbt1 * fs1; end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  For cnt:= 1 to Iterations do begin abt3 := abt1 * fs1; end;
   GlobalProfiler[1].Stop;
 end;
 

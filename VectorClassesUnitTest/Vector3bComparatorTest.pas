@@ -22,6 +22,7 @@ type
       procedure TestOpSubByte;
       procedure TestOpMul;
       procedure TestOpMulByte;
+      procedure TestOpMulSingle;
       procedure TestOpDiv;
       procedure TestOpDivByte;
       procedure TestOpEquality;
@@ -88,6 +89,13 @@ begin
    nbt3 := nbt1 * b1;
    abt3 := abt1 * b1;
    AssertTrue('Vector * Byte no match'+nbt3.ToString+' --> '+abt3.ToString, Compare(nbt3,abt3));
+end;
+
+procedure TVector3bComparatorTest.TestOpMulSingle;
+begin
+   nbt3 := nbt1 * fs1;
+   abt3 := abt1 * fs1;
+   AssertTrue('Vector * Single no match'+nbt3.ToString+' --> '+abt3.ToString, Compare(nbt3,abt3));
 end;
 
 procedure TVector3bComparatorTest.TestOpDiv;
