@@ -152,12 +152,12 @@ procedure PrepareSinCosCache(var s, c : array of Single;
 
 function  ArcCos(const x : Single) : Single; overload;
 function  ArcTan2(const Y, X : Single) : Single; overload;
-{ Fast ArcTan2 approximation, about 0.07 rads accuracy. }
+
 function  Tan(const X : Single) : Single; overload;
 function  CoTan(const X : Single) : Single; overload;
 
-Function FastArcTangent2(y, x: Single): Single;
-Function ArcSine(Const x: Single): Single;
+
+//Function ArcSine(Const x: Single): Single;
 
 Function ArcCsc(Const X: Single): Single;
 Function ArcSec(Const X: Single): Single;
@@ -282,27 +282,7 @@ Begin
     Result := Result + 2 * PI;
 End;
 
-Function FastArcTangent2(y, x: Single): Single; inline;// accuracy of about 0.07 rads
-Var
-  abs_y: Single;
-Begin
-  abs_y := Abs(y) + cEpsilon;      // prevent 0/0 condition
-  If y < 0 Then
-  Begin
-    If x >= 0 Then
-      Result := cPIdiv4 * (x - abs_y) / (x + abs_y) - cPIdiv4
-    Else
-      Result := cPIdiv4 * (x + abs_y) / (abs_y - x) - c3PIdiv4;
-  End
-  Else
-  Begin
-    If x >= 0 Then
-      Result := cPIdiv4 - cPIdiv4 * (x - abs_y) / (x + abs_y)
-    Else
-      Result := c3PIdiv4 - cPIdiv4 * (x + abs_y) / (abs_y - x);
-  End;
 
-End;
 
 
 // SinCos (Single)
@@ -405,10 +385,7 @@ begin
 end;
 
 
-Function ArcSine(Const x: Single): Single;
-Begin
-  Result := FastArcTangent2(X, Sqrt(1 - (X*X)));
-End;
+
 
 Function IsZero(Const A: Extended; Const Epsilon: Extended = 0.0): Boolean;
 Var
@@ -1354,14 +1331,7 @@ End;
 {$endif}
 
 
-Function FastInvSqrt(Const Value: Single): Single;Inline;
-Var
-  IntCst: Cardinal absolute Result;
-Begin
-  Result := Value;
-  IntCst := ($BE6EB50C - IntCst) Shr 1;
-  Result := 0.5 * Result * (3 - Value * Sqr(Result));
-End;
+
 
 Procedure ScaleFloatArray(values: PSingleArray; nb: Integer; Var factor: Single);
 Var

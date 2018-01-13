@@ -88,7 +88,7 @@ begin
   ph1.Create(vt1,vt3);
   nph1.Normalize;
   ph1.Normalize;
-  AssertTrue('THmgPlane NormalizeSelf does not match', Compare(nph1,ph1,1e-5));
+  AssertTrue('THmgPlane NormalizeSelf does not match ', Compare(nph1,ph1,1e-5));
 end;
 
 procedure THmgPlaneComparatorTest.TestNormalized;
