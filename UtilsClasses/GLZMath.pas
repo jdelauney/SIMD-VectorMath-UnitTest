@@ -39,8 +39,11 @@ Historique : @br
  *==============================================================================*)
 Unit GLZMath;
 
-{.$i glzscene_options.inc}
+{$i glzscene_options.inc}
+
 {$ASMMODE INTEL}
+
+{$DEFINE USE_FASTMATH}
 
 Interface
 
@@ -50,8 +53,9 @@ Uses
   Classes, SysUtils, Math,
   GLZTypes;
 
-// On defini quelques valeurs en vue d'optimiser les calculs
+{%region%-----[ Usefull Math Constants ]----------------------------------------}
 Const
+  cInfinity = 1e1000;
   EpsilonFuzzFactor = 1000;
   EpsilonXTResolution = 1E-19 * EpsilonFuzzFactor;
   cPI: Double = 3.1415926535897932384626433832795; //3.141592654;
@@ -83,6 +87,7 @@ Const
   cEulerNumber = 2.71828182846;
   cInvSqrt2   = 1.0 / sqrt(2.0);
   cInvThree   = 1.0 / 3.0;
+  cInv255 = 1/255;
   // portées maximal les types de points flottants IEEE
   // Compatible avec Math.pas
   MinSingle   = 1.5e-45;
@@ -95,126 +100,124 @@ Const
   MinComp     = -9.223372036854775807e+18;
   MaxComp     = 9.223372036854775807e+18;
 
-//--------[ INTEGER ]-----------------------------------------------------------
-Function Sign(x: Single): Integer;
-Function SignStrict(x: Single): Integer;
-Function Val2Percent(min, val, max: Single): Integer;
+{%endregion%}
+
+{%region%-----[ Reintroduced some general functions ]---------------------------}
+
 Function Ceil(v: Single): Integer; Overload;
 Function Floor(v: Single): Integer; Overload;
 Function Round(v: Single): Integer; Overload;
-
-Function NewRound(x: Double): Integer;
-
 Function Trunc(v: Single): Integer; Overload;
-Function Max3i(Const A, B, C: Integer): Integer;
-Function Min3i(Const A, B, C: Integer): Integer;
-Function PowerInt(Const Base, Power: Integer): Single;
-
-Function NextPowerOfTwo(Value: Cardinal): Cardinal;
-Function PreviousPowerOfTwo(Value: Cardinal): Cardinal;
-Function pow3(x: Single): Single;
-
-//--------[ SINGLE ]------------------------------------------------------------
-Function Max2s(Const v1, v2 : Single): Single;
-Function Min2s(Const v1, v2 : Single): Single;
-Function Max3s(Const v1, v2, v3: Single): Single;
-Function Min3s(Const v1, v2, v3: Single): Single;
-
-Function DegToRadian(Const Degrees: Single): Single;
-Function RadianToDeg(Const Radians: Single): Single;
-Function NormalizeRadAngle(angle: Single): Single;
-Function NormalizeDegAngle(angle: Single): Single;
-
-Function InterpolateAngleLinear(start, stop, t: Single): Single;
-Function InterpolateValue(Const Start, Stop, Delta: Single; Const DistortionDegree: Single; Const InterpolationType: TGLZInterpolationType): Single;
-Function InterpolateValueFast(Const OriginalStart, OriginalStop, OriginalCurrent: Single; Const TargetStart, TargetStop: Single;
-  Const DistortionDegree: Single; Const InterpolationType: TGLZInterpolationType): Single;
-Function InterpolateValueSafe(Const OriginalStart, OriginalStop, OriginalCurrent: Single; Const TargetStart, TargetStop: Single;
-  Const DistortionDegree: Single; Const InterpolationType: TGLZInterpolationType): Single;
-
-Function DistanceBetweenAngles(angle1, angle2: Single): Single;
-
-Function IsZero(Const A: Extended; Const Epsilon: Extended = 0.0): Boolean;
-
-
 // Calculates sine and cosine from the given angle Theta
 procedure SinCos(const Theta: Single; out Sin, Cos: Single); overload;
 { Calculates sine and cosine from the given angle Theta and Radius.
    sin and cos values calculated from theta are multiplicated by radius. }
 procedure SinCos(const theta, radius : Single; out Sin, Cos: Single); overload;
+function Sin(x:Single):Single; overload;
+function Cos(x:Single):Single; overload;
+
+
+{%endregion%}
+
+{%region%-----[ General utilities functions ]-----------------------------------}
+
+Function IsZero(Const A: Extended; Const Epsilon: Extended = 0.0): Boolean;
+Function Sign(x: Single): Integer;
+Function SignStrict(x: Single): Integer;
+Function RoundInt(v: Single): Single;
+Function NewRound(x: Single): Integer;
+Function Max(Const A, B, C: Integer): Integer; overload;
+Function Min(Const A, B, C: Integer): Integer; overload;
+Function Max(Const v1, v2 : Single): Single;
+Function Min(Const v1, v2 : Single): Single;
+Function Max(Const v1, v2, v3: Single): Single;
+Function Min(Const v1, v2, v3: Single): Single;
+Function ComputeReciprocal(Const x: Single): Single;
+
+{%endregion%}
+
+{%region%-----[ Utilities functions for Angle ]---------------------------------}
+
+Function NormalizeRadAngle(angle: Single): Single;
+Function NormalizeDegAngle(angle: Single): Single;
+Function DistanceBetweenAngles(angle1, angle2: Single): Single;
+Function DegToRadian(Const Degrees: Single): Single;
+Function RadianToDeg(Const Radians: Single): Single;
+
+{%endregion%}
+
+{%region%-----[ Utilities functions for Power ]---------------------------------}
+
+Function IsPowerOfTwo(Value: Longword): Boolean;
+Function NextPowerOfTwo(Value: Cardinal): Cardinal;
+Function PreviousPowerOfTwo(Value: Cardinal): Cardinal;
+{Raise base to any power. For fractional exponents, or |exponents| > MaxInt, base must be > 0. }
+function PowerSingle(const Base, Exponent: Single): Single; overload;
+function PowerInteger(Const Base: Single; Exponent: Integer): Single; overload;
+Function PowerInt(Const Base, Power: Integer): Single;
+Function pow3(x: Single): Single;
+
+{%endregion%}
+
+{%region%-----[ Trigonometric functions ]---------------------------------------}
 
 { Fills up the two given dynamic arrays with sin cos values.
    start and stop angles must be given in degrees, the number of steps is
    determined by the length of the given arrays. }
-procedure PrepareSinCosCache(var s, c : array of Single;
-                             startAngle, stopAngle : Single);
-
-
-function  ArcCos(const x : Single) : Single; overload;
-function  ArcTan2(const Y, X : Single) : Single; overload;
-
+procedure PrepareSinCosCache(var s, c : array of Single; startAngle, stopAngle : Single);
 function  Tan(const X : Single) : Single; overload;
+function  ArcCos(const x : Single) : Single; overload;
+Function  ArcSin(Const x: Single): Single;
+function  ArcTan2(const Y, X : Single) : Single; overload;
 function  CoTan(const X : Single) : Single; overload;
-
-
-//Function ArcSine(Const x: Single): Single;
-
 Function ArcCsc(Const X: Single): Single;
 Function ArcSec(Const X: Single): Single;
 Function ArcCot(Const X: Single): Single;
-
 function Sinh(const x : Single) : Single; overload;
 function Cosh(const x : Single) : Single; overload;
 Function CscH(Const X: Single): Single;
 Function SecH(Const X: Single): Single;
 Function CotH(Const X: Extended): Extended;
-
 Function ArcCscH(Const X: Single): Single;
 Function ArcSecH(Const X: Single): Single;
 Function ArcCotH(Const X: Single): Single;
-
 Function SinCosh(Const x: Single): Single;
-
-Function RSqrt(v: Single): Single;
-Function RoundInt(v: Single): Single;
-
-{Raise base to an integer. }
-//function PowerInteger(Base: Single; Exponent: Integer): Single; overload;
-Function PowerInteger(Base: Single; Const Power: Integer): Single; Overload;
-
-Function PowerInt64(Base: Single; Exponent: Int64): Single; Overload;
-{Raise base to any power.
- For fractional exponents, or |exponents| > MaxInt, base must be > 0. }
-function PowerSingle(const Base, Exponent: Single): Single; overload;
-//Function PowerSingle(Const Base, Power: Single): Single; overload;
+Function InvSqrt(v: Single): Single;
 Function Log2(X: Single): Single; Overload;
 Function Exp(Const X: Single): Single;
 Function Ln(Const X: Single): Single;
-Function LnXP1(Const x: Single): Single;
+Function LnXP1(x: Single): Single;
 
-Function Sinc(x: Double): Double;
-Function FastSinc(x: Double): Double;
+// ldexp() multiplies x by 2**n.
+// Interpolation Lineaire
+// Interpolation Logarythmique
+// Interpolation Exponentielle
+//Interpolation par puissance
+// Interpolation Sinuosidale Alt
+// Interpolation Sinuosidale Alt
+// Interpolation par tangente
+Function Sinc(x: Single): Single;
+Function Hypot(Const X, Y: Single): Single;
+
+{%endregion%}
+
+{%region%-----[ Interpolation functions ]---------------------------------------}
 
 Function BesselOrderOne(x: Double): Double;
 Function Bessel(x: Double): Double;
 Function BesselIO(x: Double): Double;
 Function Blackman(x: Double): Double;
+Function InterpolateAngleLinear(start, stop, t: Single): Single;
+Function InterpolateValue(Const Start, Stop, Delta: Single; Const DistortionDegree: Single; Const InterpolationType: TGLZInterpolationType): Single;
+Function InterpolateValueFast(Const OriginalStart, OriginalStop, OriginalCurrent: Single; Const TargetStart, TargetStop: Single;Const DistortionDegree: Single; Const InterpolationType: TGLZInterpolationType): Single;
+Function InterpolateValueSafe(Const OriginalStart, OriginalStop, OriginalCurrent: Single; Const TargetStart, TargetStop: Single;Const DistortionDegree: Single; Const InterpolationType: TGLZInterpolationType): Single;
 
-Function atan2(y, x: Single): Single;
+{%endregion%}
 
-//--------[ EXTEND ]------------------------------------------------------------
-{Return ln(1 + X),  accurate for X near 0. }
-Function LnXP1(X: Extended): Extended; Overload;
-{Log base 10 of X}
-Function Log10(X: Extended): Extended;
-{Log base 2 of X }
-Function Log2(X: Extended): Extended; Overload;
-{Log base N of X }
-Function LogN(Base, X: Extended): Extended;
-{Raise base to an integer. }
-Function IntPower(Base: Extended; Exponent: Integer): Extended;
+{%region%-----[ Others functions ]----------------------------------------------}
 
-Function IsPowerOfTwo(Value: Longword): Boolean;
+Function Val2Percent(min, val, max: Single): Integer;
+
 { : Multiplies values in the array by factor.<p>
   This function is especially efficient for large arrays, it is not recommended
   for arrays that have less than 10 items.<br>
@@ -229,22 +232,107 @@ Procedure OffsetFloatArray(values: PSingleArray; nb: Integer; Var delta: Single)
 Procedure OffsetFloatArray(Var values: Array Of Single; delta: Single); Overload;
 Procedure OffsetFloatArray(valuesDest, valuesDelta: PSingleArray; nb: Integer); Overload;
 
-Function ComputeReciprocal(Const x: Double): Double;
+{%endregion%}
 
 Implementation
 
-Function Sign(x: Single): Integer;
+uses GLZFastMath;
+
+{%region%-----[ Reintroduced some general functions ]---------------------------}
+
+Function Round(v: Single): Integer;
 Begin
-  If x < 0 Then
-    Result := -1
-  Else If x > 0 Then
-    Result := 1
-  Else
-    Result := 0;
+  {$HINTS OFF}
+  Result := System.round(v);
+  {$HINTS ON}
 End;
 
+Function Trunc(v: Single): Integer;
+Begin
+  {$HINTS OFF}
+  Result := System.Trunc(v);
+  {$HINTS ON}
+End;
 
-Function SignStrict(x: Single): Integer;
+function Sin(x:Single):Single;
+begin
+  {$IFDEF USE_FASTMATH}
+    result := RemezSin(x);
+  {$ELSE}
+    result := Math.Sin(x);
+  {$ENDIF}
+end;
+
+function Cos(x:Single):Single;
+begin
+  {$IFDEF USE_FASTMATH}
+    result := RemezCos(x);
+  {$ELSE}
+    result := Math.Cos(x);
+  {$ENDIF}
+end;
+
+procedure SinCos(const Theta: Single; out Sin, Cos: Single);
+var
+   s, c : Single;
+begin
+  {$ifdef USE_FASTMATH}
+    C := RemezCos(Theta);
+    S := RemezCos(cPIdiv2-Theta);
+  {$else}
+     Math.SinCos(Theta, s, c);
+  {$endif}
+  {$HINTS OFF}
+     Sin:=s; Cos:=c;
+  {$HINTS ON}
+end;
+
+procedure SinCos(const theta, radius : Single; out Sin, Cos: Single);
+var
+   s, c : Single;
+begin
+  {$ifdef USE_FASTMATH}
+    C := RemezCos(Theta);
+    S := RemezCos(cPIdiv2-Theta);
+  {$else}
+     Math.SinCos(Theta, s, c);
+  {$endif}
+  {$HINTS OFF}
+     Sin:=s; Cos:=c;
+  {$HINTS ON}
+   Sin:=s*radius; Cos:=c*radius;
+end;
+
+{$endregion}
+
+{%region%-----[ General utilities functions ]-----------------------------------}
+
+Function IsZero(Const A: Extended; Const Epsilon: Extended = 0.0): Boolean;
+Var
+  e: Extended;
+Begin
+  If Epsilon = 0 Then
+    E := EpsilonXTResolution
+  Else
+    E := Epsilon;
+  Result := Abs(A) <= E;
+End;
+
+Function Sign(x: Single): Integer;  Inline;
+Begin
+  {$IFDEF USE_FASTMATH}
+    Result := FastSign(x);
+  {$ELSE}
+    If x < 0 Then
+      Result := -1
+    Else If x > 0 Then
+      Result := 1
+    Else
+      Result := 0;
+  {$ENDIF}
+End;
+
+Function SignStrict(x: Single): Integer; Inline;
 Begin
   If x < 0 Then
     Result := -1
@@ -252,66 +340,292 @@ Begin
     Result := 1;
 End;
 
-Function Val2Percent(min, val, max: Single): Integer;
-Var
-  S: Single;
+Function RoundInt(v: Single): Single; Inline;
 Begin
-  If max = min Then
-    S := 0
-  Else If max < min Then
-    S := 100 * ((val - max) / (min - max))
-  Else
-    S := 100 * ((val - min) / (max - min));
-  If S < 0 Then
-    S := 0;
-  If S > 100 Then
-    S := 100;
-  Result := round(S);
+  {$HINTS OFF}
+  Result := system.int(v + cOneDotFive);
+  {$HINTS ON}
 End;
 
-//==============================================================================
-// Fonctions sur les Angles
-//==============================================================================
+Function NewRound(x: Single): Integer;
+Var
+  y: Integer;
+Begin
+  y := 0;
+  If (x - floor(x) < 0.5) Then
+    y := floor(x)
+  Else If (x - floor(x) = 0) Then
+    y := Trunc(x)
+  Else
+    y := Trunc(x) + 1;
+  Result := y;
+End;
+
+Function Ceil(v: Single): Integer;
+Begin
+  {$HINTS OFF}
+  If System.Frac(v) > 0 Then
+    Result := System.Trunc(v) + 1
+  Else
+    Result := System.Trunc(v);
+  {$HINTS ON}
+End;
+
+Function Floor(v: Single): Integer;
+Begin
+   {$HINTS OFF}
+  If v < 0 Then
+    Result := System.Trunc(v) - 1
+  Else
+    Result := System.Trunc(v);
+   {$HINTS ON}
+End;
+
+function Min(const v1, v2 : Single) : Single; Inline;
+begin
+   if v1<v2 then Result:=v1
+   else Result:=v2;
+end;
+
+function Max(const v1, v2 : Single) : Single; Inline;
+begin
+   if v1>v2 then Result:=v1
+   else Result:=v2;
+end;
+
+Function Min(Const v1, v2, v3: Single): Single; Inline;
+Var
+  N: Single;
+Begin
+  N := v3;
+  If v1 < N Then N := v1;
+  If v2 < N Then N := v2;
+  Result := N;
+End;
+
+Function Max(Const v1, v2, v3: Single): Single; Inline;
+Var
+  N: Single;
+Begin
+  N := v3;
+  If v1 > N Then N := v1;
+  If v2 > N Then N := v2;
+  Result := N;
+End;
+
+{$IFDEF USE_ASM}
+Function Max(Const A, B, C: Integer): Integer;   Assembler; Register;
+asm
+{$IFDEF CPU64}
+         MOV       RAX,RCX
+         MOV       RCX,R8
+{$ENDIF}
+         CMP       EDX,EAX
+         CMOVG     EAX,EDX
+         CMP       ECX,EAX
+         CMOVG     EAX,ECX
+End;
+{$else}
+Function Max(Const A, B, C: Integer): Integer; Inline;
+Var
+  n: Integer;
+Begin
+  If A > C Then
+    N := A
+  Else
+    N := C;
+  If B > N Then
+    N := B;
+  Result := N;
+End;
+{$endif}
+
+{$IFDEF USE_ASM}
+Function Min(Const A, B, C: Integer): Integer;  Assembler; Register;
+Asm
+{$IFDEF CPU64}
+         MOV       RAX,RCX
+         MOV       RCX,R8
+{$ENDIF}
+         CMP       EDX,EAX
+         CMOVL     EAX,EDX
+         CMP       ECX,EAX
+         CMOVL     EAX,ECX
+End;
+{$else}
+Function Min(Const A, B, C: Integer): Integer; Inline;
+Var
+  n: Integer;
+Begin
+  If A < C Then
+    N := A
+  Else
+    N := C;
+  If B < N Then
+    N := B;
+  Result := N;
+End;
+{$endif}
+
+Function ComputeReciprocal(Const x: Single): Single; Inline;
+Var
+  a: Integer;
+Begin
+  Result := 0;
+  If x = 0 Then exit;
+  a := Sign(x);
+  If ((a * x) >= cEpsilon) Then
+    Result := 1.0 / x
+  Else
+    Result := a * (1.0 / cEpsilon);
+End;
+
+{%endregion%}
+
+{%region%-----[ Utilities functions for Angle ]---------------------------------}
 
 Function NormalizeRadAngle(angle: Single): Single;inline;
 Begin
   Result := angle - RoundInt(angle * cInv2PI) * c2PI;
-  If Result > PI Then
-    Result := Result - 2 * PI
-  Else If Result < -PI Then
-    Result := Result + 2 * PI;
+  If Result > cPI Then Result := Result -  c2PI
+  Else If Result < -PI Then Result := Result +  c2PI;
 End;
 
+Function NormalizeDegAngle(angle: Single): Single;
+Begin
+  Result := angle - RoundInt(angle * cInv360) * c360;
+  If Result > c180 Then Result := Result - c360
+  Else If Result < -c180 Then Result := Result + c360;
+End;
 
+Function DistanceBetweenAngles(angle1, angle2: Single): Single;
+Begin
+  angle1 := NormalizeRadAngle(angle1);
+  angle2 := NormalizeRadAngle(angle2);
+  Result := Abs(angle2 - angle1);
+  If Result > cPI Then Result := c2PI - Result;
+End;
 
+Function DegToRadian(Const Degrees: Single): Single;
+Begin
+  Result := Degrees * cPIdiv180;
+End;
 
-// SinCos (Single)
-//
-procedure SinCos(const Theta: Single; out Sin, Cos: Single);
-var
-   s, c : Extended;
+Function RadianToDeg(Const Radians: Single): Single;
+Begin
+  Result := Radians * c180divPI;
+End;
+
+{%endregion}
+
+{%region%-----[ Utilities functions for Power ]---------------------------------}
+
+Function IsPowerOfTwo(Value: Longword): Boolean;
+Const
+  BitCountTable: Array[0..255] Of Byte =
+    (0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,
+    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+    4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8);
+
+  Function BitCount(Value: Longword): Longword; inline;
+  Var
+    V: Array[0..3] Of Byte absolute Value;
+  Begin
+    Result := BitCountTable[V[0]] + BitCountTable[V[1]] + BitCountTable[V[2]] + BitCountTable[V[3]];
+  End;
+Begin
+  Result := BitCount(Value) = 1;
+End;
+
+Function PreviousPowerOfTwo(Value: Cardinal): Cardinal;
+Var
+  I, N: Cardinal;
+Begin
+  Result := 0;
+  For I := 14 Downto 2 Do
+  Begin
+    N := (1 Shl I);
+    If N < Value Then
+      Break
+    Else
+      Result := N;
+  End;
+End;
+
+Function NextPowerOfTwo(Value: Cardinal): Cardinal;
+Begin
+  If (Value > 0) Then
+  Begin
+    Dec(Value);
+    Value := Value Or (Value Shr 1);
+    Value := Value Or (Value Shr 2);
+    Value := Value Or (Value Shr 4);
+    Value := Value Or (Value Shr 8);
+    Value := Value Or (Value Shr 16);
+  End;
+
+  Result := Value + 1;
+End;
+
+function PowerSingle(const base, exponent : Single) : Single;
 begin
-   Math.SinCos(Theta, s, c);
-   {$HINTS OFF}
-   Sin:=s; Cos:=c;
-   {$HINTS ON}
+  {$IFDEF USE_FASTMATH}
+    if exponent=cZero then Result:=cOne
+    else if (base=cZero) and (exponent>cZero) then Result:=cZero
+    else if RoundInt(exponent)=exponent then Result:=FastPower(base, Integer(Round(exponent)))
+    else Result:=FastExp(exponent*FastLn(base));
+  {$ELSE}
+    {$HINTS OFF}
+    if exponent=cZero then Result:=cOne
+    else if (base=cZero) and (exponent>cZero) then Result:=cZero
+    else if RoundInt(exponent)=exponent then Result:=Power(base, Integer(Round(exponent)))
+    else Result:=Exp(exponent*Ln(base));
+    {$HINTS ON}
+   {$ENDIF}
 end;
 
-
-// SinCos (Single w radius)
-//
-procedure SinCos(const theta, radius : Single; out Sin, Cos: Single);
-var
-   s, c : Extended;
+function PowerInteger(Const Base: Single; Exponent: Integer): Single;
 begin
-   Math.SinCos(Theta, s, c);
-   Sin:=s*radius; Cos:=c*radius;
+  {$IFDEF USE_FASTMATH}
+    result := FastPower(Base,Exponent);
+  {$ELSE}
+    {$HINTS OFF}
+    Result:=Math.Power(Base, Exponent);
+    {$HINTS ON}
+  {$ENDIF}
 end;
 
-// PrepareSinCosCache
-//
-procedure PrepareSinCosCache(var s, c : array of Single;
-                             startAngle, stopAngle : Single);
+Function PowerInt(Const Base, Power: Integer): Single;
+Var
+  I:    Integer;
+  Temp: Double;
+Begin
+  Temp := 1;
+
+  For I := 0 To Pred(Power) Do
+    Temp := Temp * Base;
+
+  Result := Temp;
+End;
+
+{%endregion}
+
+{%region%-----[ Trigonometric functions ]---------------------------------------}
+
+procedure PrepareSinCosCache(var s, c : array of Single;startAngle, stopAngle : Single);
 var
    i : Integer;
    d, alpha, beta : Single;
@@ -342,87 +656,66 @@ begin
    end;
 end;
 
-
-// ArcCos (Single)
-//
-
-// Result:=ArcTan2(Sqrt(c1 - X * X), X);
 function ArcCos(const x : Single): Single;
 begin
-   {$HINTS OFF}
-   if Abs(X) > 1.0 then
-     Result := Math.ArcCos(Sign(X))
-   else
-   Result:=Math.ArcCos(X);
+  {$IFDEF USE_FASTMATH}
+    if Abs(X) > 1.0 then
+       Result := FastArcCosine(Sign(X))
+     else
+     Result:=FastArcCosine(X);
+  {$ELSE}
+    {$HINTS OFF}
+     if Abs(X) > 1.0 then
+       Result := Math.ArcCos(Sign(X))
+     else
+     Result:=Math.ArcCos(X);
    {$HINTS ON}
+  {$ENDIF}
 end;
-
-// ArcSin (Extended)
-//
-function ArcSin(const x : Extended) : Extended;
-begin
-   Result:= GLZMath.ArcTan2(X, Sqrt(1 - Sqr(X)))
-end;
-
-// ArcSin (Single)
-//
 
 function ArcSin(const x : Single) : Single;
 begin
-   {$HINTS OFF}
-   Result:=Math.ArcSin(X);
-   {$HINTS ON}
+  {$IFDEF USE_FASTMATH}
+    Result:= FastArcTan2(X, Sqrt(1 - Sqr(X)))
+  {$ELSE}
+    Result:= Math.ArcTan2(X, Sqrt(1 - Sqr(X)))
+  {$ENDIF}
 end;
 
-
-// ArcTan2 (Single)
-//
 function ArcTan2(const y, x : Single) : Single;
 begin
-   {$HINTS OFF}
-   Result:=Math.ArcTan2(y, x);
-   {$HINTS ON}
+  {$IFDEF USE_FASTMATH}
+    Result:= FastArcTan2(x, y)
+  {$ELSE}
+    Result:= Math.ArcTan2(x,y)
+  {$ENDIF}
 end;
 
-
-
-
-Function IsZero(Const A: Extended; Const Epsilon: Extended = 0.0): Boolean;
-Var
-  e: Extended;
-Begin
-  If Epsilon = 0 Then
-    E := EpsilonXTResolution
-  Else
-    E := Epsilon;
-  Result := Abs(A) <= E;
-End;
-
-// next only for single case
 Function ArcCsc(Const X: Single): Single;
 Begin
-
   If IsZero(X) Then
-    Result := Infinity
+    Result := cInfinity
   Else
     Result := ArcSin(1 / X);
-
 End;
 
 Function ArcSec(Const X: Single): Single;
 Begin
   If IsZero(X) Then
-    Result := Infinity
+    Result := cInfinity
   Else
     Result := ArcCos(1 / X);
 End;
 
 Function ArcCot(Const X: Single): Single;
 Begin
-  If IsZero(X) Then
-    Result := PI / 2
+  If IsZero(X) Then Result := cPIDiv2
   Else
-    Result := ArcTan(1 / X);
+    {$IFDEF USE_FASTMATH}
+      Result := FastArcTan(1 / X);
+    {$ELSE}
+      Result := ArcTan(1 / X);
+    {$ENDIF}
 End;
 
 Function CscH(Const X: Single): Single;
@@ -442,48 +735,65 @@ End;
 
 Function ArcCscH(Const X: Single): Single;
 Begin
-  If IsZero(X) Then
-    Result := Infinity
-  Else
-  If X < 0 Then
-    Result := Ln((1 - Sqrt(1 + X * X)) / X)
-  Else
-    Result := Ln((1 + Sqrt(1 + X * X)) / X);
+  {$IFDEF USE_FASTMATH}
+    If IsZero(X) Then Result := cInfinity
+    Else
+    If X < 0 Then
+      Result := FastLn((1 - FastInvSqrt(1 + X * X)) * X)
+    Else
+      Result := FastLn((1 + FastInvSqrt(1 + X * X)) * X);
+  {$ELSE}
+    If IsZero(X) Then
+      Result := Infinity
+    Else
+    If X < 0 Then
+      Result := Ln((1 - Sqrt(1 + X * X)) / X)
+    Else
+      Result := Ln((1 + Sqrt(1 + X * X)) / X);
+  {$ENDIF}
 End;
 
 Function ArcSecH(Const X: Single): Single;
 Begin
-  If IsZero(X) Then
-    Result := Infinity
-  Else If SameValue(X, 1) Then
-    Result := 0
+  {$IFDEF USE_FASTMATH}
+  If IsZero(X) Then Result := cInfinity
+  Else If SameValue(X, 1) Then Result := 0
   Else
-    Result := Ln((Sqrt(1 - X * X) + 1) / X);
+    Result := FastLn((FastInvSqrt(1 - X * X) + 1) * X);
+  {$ELSE}
+    If IsZero(X) Then Result := cInfinity
+    Else If SameValue(X, 1) Then Result := 0
+    Else
+      Result := Ln((Sqrt(1 - X * X) + 1) / X);
+  {$ENDIF}
 End;
 
 Function ArcCotH(Const X: Single): Single;
 Begin
-  If SameValue(X, 1) Then
-    Result := Infinity // 1.0 / 0.0
-  Else If SameValue(X, -1) Then
-    Result := NegInfinity // -1.0 / 0.0
-  Else
-    Result := 0.5 * Ln((X + 1) / (X - 1));
+  {$IFDEF USE_FASTMATH}
+    If SameValue(X, 1) Then Result := cInfinity // 1.0 / 0.0
+    Else If SameValue(X, -1) Then Result := -cInfinity // -1.0 / 0.0
+    Else
+      Result := 0.5 * FastLn((X + 1) / (X - 1));
+  {$ELSE}
+    If SameValue(X, 1) Then Result := cInfinity // 1.0 / 0.0
+    Else If SameValue(X, -1) Then Result := -cInfinity // -1.0 / 0.0
+    Else
+      Result := 0.5 * Ln((X + 1) / (X - 1));
+  {$ENDIF}
 End;
 
-
-// Tan (Single)
-//
 function Tan(const x : Single) : Single;
 begin
-   {$HINTS OFF}
-   Result:=Math.Tan(x);
-   {$HINTS ON}
+  {$IFDEF USE_FASTMATH}
+    Result := FastTan(x);
+  {$ELSE}
+    {$HINTS OFF}
+    Result:=Math.Tan(x);
+    {$HINTS ON}
+  {$ENDIF}
 end;
 
-
-// CoTan (Single)
-//
 function CoTan(const x : Single) : Single;
 begin
    {$HINTS OFF}
@@ -491,202 +801,95 @@ begin
    {$HINTS ON}
 end;
 
-// Sinh
-//
-
 function Sinh(const x : Single) : Single;
 begin
-   Result:=0.5*(Exp(x)-Exp(-x));
+   {$IFDEF USE_FASTMATH}
+      Result:=0.5*(FastExp(x) - FastExp(-x));
+   {$ELSE}
+     Result:=0.5*(Exp(x)- Exp(-x));
+   {$ENDIF}
 end;
-
-
-function Sinh(const x : Double) : Double;
-begin
-   Result:=0.5*(Exp(x)-Exp(-x));
-end;
-
 
 function Cosh(const x : Single) : Single;
 begin
-   Result:=0.5*(Exp(x)+Exp(-x));
+  {$IFDEF USE_FASTMATH}
+     Result:=0.5*(FastExp(x)+ FastExp(-x));
+  {$ELSE}
+    Result:=0.5*(Exp(x)+ Exp(-x));
+  {$ENDIF}
 end;
-
-
-function Cosh(const x : Double) : Double;
-begin
-   Result:=0.5*(Exp(x)+Exp(-x));
-end;
-
-
-Function NormalizeDegAngle(angle: Single): Single;
-Begin
-  Result := angle - RoundInt(angle * cInv360) * c360;
-  If Result > c180 Then
-    Result := Result - c360
-  Else If Result < -c180 Then
-    Result := Result + c360;
-End;
-
-Function InterpolateAngleLinear(start, stop, t: Single): Single;
-Var
-  d: Single;
-Begin
-  start := NormalizeRadAngle(start);
-  stop := NormalizeRadAngle(stop);
-  d := stop - start;
-  If d > PI Then
-  Begin
-    // positive d, angle on opposite side, becomes negative i.e. changes direction
-    d := -d - c2PI;
-  End
-  Else If d < -PI Then
-  Begin
-    // negative d, angle on opposite side, becomes positive i.e. changes direction
-    d := d + c2PI;
-  End;
-  Result := start + d * t;
-End;
-
-Function DistanceBetweenAngles(angle1, angle2: Single): Single;
-Begin
-  angle1 := NormalizeRadAngle(angle1);
-  angle2 := NormalizeRadAngle(angle2);
-  Result := Abs(angle2 - angle1);
-  If Result > PI Then
-    Result := c2PI - Result;
-End;
-
-Function DegToRadian(Const Degrees: Single): Single;
-Begin
-  Result := Degrees * cPIdiv180;
-End;
-
-Function RadianToDeg(Const Radians: Single): Single;
-Begin
-  Result := Radians * c180divPI;
-End;
 
 Function SinCosh(Const x: Single): Single;
 Begin
-  Result := 0.5 * (Exp(x) - Exp(-x));
+  {$IFDEF USE_FASTMATH}
+    Result := 0.5 * (FastExp(x) - FastExp(-x));
+  {$ELSE}
+    Result := 0.5 * (Exp(x) - Exp(-x));
+  {$ENDIF}
 End;
 
-Function RSqrt(v: Single): Single;
+Function InvSqrt(v: Single): Single;
 Begin
-  Result := 1 / Sqrt(v);
+  {$IFDEF USE_FASTMATH}
+    Result := FastInvSqrt(v);
+  {$ELSE}
+    Result := 1 / Sqrt(v);
+  {$ENDIF}
 End;
 
-Function RoundInt(v: Single): Single;
+Function LnXP1(X: Single): Single;
+{$IFDEF USE_FASTMATH}   Var  y: Single; {$ENDIF}
 Begin
-   {$HINTS OFF}
-  Result := system.int(v + cOneDotFive);
-   {$HINTS ON}
+  {$IFDEF USE_FASTMATH}
+    If (x >= 4.0) Then
+      Result := FastLn(1.0 + x)
+    Else
+    Begin
+      y := 1.0 + x;
+      If (y = 1.0) Then
+        Result := x
+      Else
+      Begin
+        Result := FastLn(y);     // lnxp1(-1) = ln(0) = -Inf
+        If y > 0.0 Then
+          Result := Result + (x - (y - 1.0)) / y;
+      End;
+    End;
+  {$ELSE}
+    Result := Math.LnXP1(X);
+  {$ENDIF}
 End;
 
-
-Function LnXP1(X: Extended): Extended;
+Function Log10(X: Single): Single;
+// Log10(X):=Log2(X) * Log10(2)
 Begin
-  Result := Math.LnXP1(X);
+  {$IFDEF USE_FASTMATH}
+     Result := FastLog10(x);
+  {$ELSE}
+     Result := Math.Log10(X);
+    //Result := Ln(x) * 0.4342944819;    // 1/ln(10)
+  {$ENDIF}
 End;
-
-
-Function Log10(X: Extended): Extended;
-  // Log10(X):=Log2(X) * Log10(2)
-Begin
-  //    Result := Math.Log10(X);
-  Result := Ln(x) * 0.4342944819;    // 1/ln(10)
-End;
-
-Function Log2(X: Extended): Extended;
-Begin
- // Result := Math.Log2(X);
-  Result := Ln(x) * 1.4426950408889634079;    // 1/ln(2)
-End;
-
 
 Function Log2(X: Single): Single;
 Begin
-    {$HINTS OFF}
-  // Result := Math.Log2(X);
-  Result := Ln(x) * 1.4426950408889634079;    // 1/ln(2)
-    {$HINTS ON}
+  {$IFDEF USE_FASTMATH}
+     Result := FastLog2(x);
+  {$ELSE}
+    Result := Math.Log2(X);
+   //Result := Ln(x) * 1.4426950408889634079;    // 1/ln(2)
+  {$ENDIF}
+
 End;
 
 Function LogN(Base, X: Extended): Extended;
 Begin
-  // Log.N(X):=Log.2(X) / Log.2(N)
-  Result := Math.LogN(Base, X);
-End;
-
-Function IntPower(Base: Extended; Exponent: Integer): Extended;
-Begin
-  Result := IntPower(Base, Exponent);
-End;
-
-function PowerSingle(const base, exponent : Single) : Single;
-begin
-   {$HINTS OFF}
-   if exponent=cZero then Result:=cOne
-   else if (base=cZero) and (exponent>cZero) then Result:=cZero
-   else if RoundInt(exponent)=exponent then Result:=Power(base, Integer(Round(exponent)))
-   else Result:=Exp(exponent*Ln(base));
-   {$HINTS ON}
-end;
-
-{Function PowerSingle(Const Base, Power: Single): Single;
-Begin
-  Result := Exp(Power * Ln(Base));
-End;}
-
-(* function PowerInteger(Base: Single; Exponent: Integer): Single;
-begin
-   {$HINTS OFF}
-   Result:=Math.Power(Base, Exponent);
-   {$HINTS ON}
-end; *)
-
-Function PowerInteger(Base: Single; Const Power: Integer): Single;
-Var
-  Y:    Integer;
-  Temp: Double;
-Begin
-  Y := Abs(Power);
-  Temp := cOne;
-  While Y > cZero Do
-  Begin
-    While Not Odd(Y) Do
-    Begin
-      Y := Y Shr 1;
-      Base := Base * Base;
-    End;
-    Dec(Y);
-    Temp := Temp * Base;
-  End;
-
-  If Power < cZero Then
-    Temp := cOne / Temp;
-
-  Result := Temp;
-End;
-
-Function PowerInt64(Base: Single; Exponent: Int64): Single;
-Begin
-   {$HINTS OFF}
-  Result := Math.Power(Base, Exponent);
-   {$HINTS ON}
-End;
-
-Function PowerInt(Const Base, Power: Integer): Single;
-Var
-  I:    Integer;
-  Temp: Double;
-Begin
-  Temp := 1;
-
-  For I := 0 To Pred(Power) Do
-    Temp := Temp * Base;
-
-  Result := Temp;
+  {$IFDEF USE_FASTMATH}
+    // LogN(X):=Log2(X) / Log2(N)
+    Result := FastLog2(Base) / FastLog2(X);
+  {$ELSE}
+    Result := Math.LogN(Base, X);
+  {$ENDIF}
 End;
 
 Function Exp(Const X: Single): Single;
@@ -716,7 +919,6 @@ Begin
   End;
 End;
 
-// LN reimplemented here because FPC implementation of LN crashes on Android devices with Tegra 2 cpus..
 Function Ln(Const X: Single): Single;
 Var
   Lo, Hi, Mid, Val: Single;
@@ -761,7 +963,6 @@ Begin
   End;
 End;
 
-// ldexp() multiplies x by 2**n.
 Function ldexp(x: Single; N: Integer): Single;
 Var
   r: Single;
@@ -787,72 +988,6 @@ Begin
   Result := x * R;
 End;
 
-Function LNXP1(Const x: Single): Single;
-Var
-  y: Single;
-Begin
-  If (x >= 4.0) Then
-    Result := ln(1.0 + x)
-  Else
-  Begin
-    y := 1.0 + x;
-    If (y = 1.0) Then
-      Result := x
-    Else
-    Begin
-      Result := ln(y);     // lnxp1(-1) = ln(0) = -Inf
-
-      If y > 0.0 Then
-        Result := Result + (x - (y - 1.0)) / y;
-    End;
-  End;
-End;
-
-{Function Pow(X, Y:Double):Double;
-Begin
-  If (X<=0) Then
-    Result := 0
-  Else
-  If Y = 0.0 Then
-    Result := 1.0
-  Else if (X = 0.0) and (Y > 0.0) Then
-    Result := 0.0
-  Else if (Frac(Y) = 0.0) and (Abs(Y) <= MaxInt) then
-    Result := IntPower(X, Integer(Trunc(Y)))
-  Else
-    Result := Exp(Y * Ln(X));
-End;}
-
-Function PreviousPowerOfTwo(Value: Cardinal): Cardinal;
-Var
-  I, N: Cardinal;
-Begin
-  Result := 0;
-  For I := 14 Downto 2 Do
-  Begin
-    N := (1 Shl I);
-    If N < Value Then
-      Break
-    Else
-      Result := N;
-  End;
-End;
-
-Function NextPowerOfTwo(Value: Cardinal): Cardinal;
-Begin
-  If (Value > 0) Then
-  Begin
-    Dec(Value);
-    Value := Value Or (Value Shr 1);
-    Value := Value Or (Value Shr 2);
-    Value := Value Or (Value Shr 4);
-    Value := Value Or (Value Shr 8);
-    Value := Value Or (Value Shr 16);
-  End;
-
-  Result := Value + 1;
-End;
-
 Function pow3(x: Single): Single;
 Begin
   If x <= 0.0 Then
@@ -861,78 +996,36 @@ Begin
     Result := x * x * x;
 End;
 
-Function Sinc(x: Double): Double;
-Var
-  xx: Double;
+Function Sinc(x: Single): Single;
+{$IFNDEF USE_FASTMATH} Var xx: Single; {$ENDIF}
 Begin
-  If x = 0.0 Then
-    Result := 1.0
-  Else
-  Begin
-    xx := PI * x;
-    Result := sin(xx) / (xx);
-  End;
+  {$IFDEF USE_FASTMATH}
+  If x = 0.0 Then Result := 1.0
+  Else FastSinC(x);
+  {$ELSE}
+    If x = 0.0 Then
+      Result := 1.0
+    Else
+    Begin
+      xx := cPI * x;
+      Result := Math.Sin(xx) / (xx);
+    End;
+  {$ENDIF}
 End;
 
-Function FastSinc(x: Double): Double;  //Source ImageMagick
-
-  //  Max. abs. rel. error 1.2e-12 < 1/2^39.
-Const
-  c0: Double = 0.173611111110910715186413700076827593074e-2;
-  c1: Double = -0.289105544717893415815859968653611245425e-3;
-  c2: Double = 0.206952161241815727624413291940849294025e-4;
-  c3: Double = -0.834446180169727178193268528095341741698e-6;
-  c4: Double = 0.207010104171026718629622453275917944941e-7;
-  c5: Double = -0.319724784938507108101517564300855542655e-9;
-  c6: Double = 0.288101675249103266147006509214934493930e-11;
-  c7: Double = -0.118218971804934245819960233886876537953e-13;
-  d0: Double = 1.0;
-  d1: Double = 0.547981619622284827495856984100563583948e-1;
-  d2: Double = 0.134226268835357312626304688047086921806e-2;
-  d3: Double = 0.178994697503371051002463656833597608689e-4;
-  d4: Double = 0.114633394140438168641246022557689759090e-6;
-Var
-  xx, p, q: Double;
+Function Hypot(Const X, Y: Single): Single; Inline;
 Begin
-{
-  Approximations of the sinc function sin(pi x)/(pi x) over the interval
-  [-4,4] constructed by Nicolas Robidoux and Chantal Racette with funding
-  from the Natural Sciences and Engineering Research Council of Canada.
-
-  Although the approximations are polynomials (for low order of
-  approximation) and quotients of polynomials (for higher order of
-  approximation) and consequently are similar in form to Taylor polynomials /
-  Pade approximants, the approximations are computed with a completely
-  different technique.
-
-  Summary: These approximations are "the best" in terms of bang (accuracy)
-  for the buck (flops). More specifically: Among the polynomial quotients
-  that can be computed using a fixed number of flops (with a given "+ - * /
-  budget"), the chosen polynomial quotient is the one closest to the
-  approximated function with respect to maximum absolute relative error over
-  the given interval.
-
-  The Remez algorithm, as implemented in the boost library's minimax package,
-  is the key to the construction: http://www.boost.org/doc/libs/1_36_0/libs/
-  math/doc/sf_and_dist/html/math_toolkit/backgrounders/remez.html
-
-  If outside of the interval of approximation, use the standard trig formula.
-}
-  If x > 4.0 Then
-  Begin
-    p := cPI * x;
-    Result := sin(p) / p;
-  End
-  Else
-  Begin
-    xx := x;
-    p := c0 + xx * (c1 + xx * (c2 + xx * (c3 + xx * (c4 + xx * (c5 + xx * (c6 + xx * c7))))));
-    q := d0 + xx * (d1 + xx * (d2 + xx * (d3 + xx * d4)));
-    Result := ((xx - 1.0) * (xx - 4.0) * (xx - 9.0) * (xx - 16.0) / q * p);
-  End;
+  {$IFDEF USE_FASTMATH}
+    Result := FastSqrt((X*X) + (Y*Y));
+  {$ELSE}
+    Result := Sqrt(Sqr(X) + Sqr(Y));
+  {$ENDIF}
 End;
 
-// Convertit depuis le code C de ImageMagick
+{%endregion%}
+
+{%region%-----[ Interpolation functions ]---------------------------------------}
+
 Function BesselOrderOne(x: Double): Double;
 Var
   p, q: Double;
@@ -1103,40 +1196,41 @@ Begin
   Result := 0.42 + 0.5 * cos(xpi) + 0.08 * cos(2 * xpi);
 End;
 
-Function atan2(y, x: Single): Single;
+Function InterpolateAngleLinear(start, stop, t: Single): Single;
+Var
+  d: Single;
 Begin
-  If x > 0 Then
-    Result := arctan(y / x)
-  Else
-  If x < 0 Then
-    Result := arctan(y / x) + PI
-  Else
-    Result := cPIdiv2 * sign(y);
+  start := NormalizeRadAngle(start);
+  stop := NormalizeRadAngle(stop);
+  d := stop - start;
+  If d > PI Then
+  Begin
+    // positive d, angle on opposite side, becomes negative i.e. changes direction
+    d := -d - c2PI;
+  End
+  Else If d < -PI Then
+  Begin
+    // negative d, angle on opposite side, becomes positive i.e. changes direction
+    d := d + c2PI;
+  End;
+  Result := start + d * t;
 End;
 
-//==============================================================================
-// Fonctions pour calculer une interpolation
-//==============================================================================
-
-// Interpolation Lineaire
 Function InterpolateLinear(Const start, stop, t: Single): Single;
 Begin
   Result := start + (stop - start) * t;
 End;
 
-// Interpolation Logarythmique
 Function InterpolateLn(Const Start, Stop, Delta: Single; Const DistortionDegree: Single): Single;
 Begin
   Result := (Stop - Start) * Ln(1 + Delta * DistortionDegree) / Ln(1 + DistortionDegree) + Start;
 End;
 
-// Interpolation Exponentielle
 Function InterpolateExp(Const Start, Stop, Delta: Single; Const DistortionDegree: Single): Single;
 Begin
   Result := (Stop - Start) * Exp(-DistortionDegree * (1 - Delta)) + Start;
 End;
 
-//Interpolation par puissance
 Function InterpolatePower(Const Start, Stop, Delta: Single; Const DistortionDegree: Single): Single;
 Var
   i: Integer;
@@ -1150,19 +1244,16 @@ Begin
     Result := (Stop - Start) * Power(Delta, DistortionDegree) + Start;
 End;
 
-// Interpolation Sinuosidale Alt
 Function InterpolateSinAlt(Const Start, Stop, Delta: Single): Single;
 Begin
   Result := (Stop - Start) * Delta * Sin(Delta * cPIDiv2) + Start;
 End;
 
-// Interpolation Sinuosidale Alt
 Function InterpolateSin(Const Start, Stop, Delta: Single): Single;
 Begin
   Result := (Stop - Start) * Sin(Delta * cPIDiv2) + Start;
 End;
 
-// Interpolation par tangente
 Function InterpolateTan(Const Start, Stop, Delta: Single): Single;
 Begin
   Result := (Stop - Start) * Tan(Delta * cPIDiv4) + Start;
@@ -1208,130 +1299,26 @@ Begin
   Result := InterpolateValue(TargetStart, TargetStop, ChangeDelta, DistortionDegree, InterpolationType);
 End;
 
-//------------------------------------------------------------------------------
+{%endregion%}
 
-function Min2s(const v1, v2 : Single) : Single;
-begin
-   if v1<v2 then
-      Result:=v1
-   else Result:=v2;
-end;
+{%region%-----[ Others functions ]----------------------------------------------}
 
-function Max2s(const v1, v2 : Single) : Single;
-begin
-   if v1>v2 then
-      Result:=v1
-   else Result:=v2;
-end;
-
-Function Min3s(Const v1, v2, v3: Single): Single;
+Function Val2Percent(min, val, max: Single): Integer;
 Var
-  N: Single;
+  S: Single;
 Begin
-  N := v3;
-  If v1 < N Then
-    N := v1;
-  If v2 < N Then
-    N := v2;
-  Result := N;
-End;
-
-Function Max3s(Const v1, v2, v3: Single): Single;
-Var
-  N: Single;
-Begin
-  N := v3;
-  If v1 > N Then
-    N := v1;
-  If v2 > N Then
-    N := v2;
-  Result := N;
-End;
-
-{$IFNDEF NO_ASM_OPTIMIZATIONS}
-Function Max3i(Const A, B, C: Integer): Integer;   Assembler; Register; nostackframe;
-asm
-{$IFDEF CPU64}
-  {$IFDEF UNIX}
-        MOV       EAX, EDI
-        CMP       ESI, EAX
-        CMOVG     EAX, ESI
-        CMP       EDX, EAX
-        CMOVG     EAX, EDX
-  {$ELSE}
-        MOV       RAX,RCX
-        MOV       RCX,R8
-        CMP       EDX,EAX
-        CMOVG     EAX,EDX
-        CMP       ECX,EAX
-        CMOVG     EAX,ECX
-  {$ENDIF}
-{$ELSE}
-        CMP       EDX,EAX
-        CMOVG     EAX,EDX
-        CMP       ECX,EAX
-        CMOVG     EAX,ECX
-{$ENDIF}
-End;
-{$else}
-Function Max3i(Const A, B, C: Integer): Integer;
-Var
-  n: Integer;
-Begin
-  If A > C Then
-    N := A
+  If max = min Then
+    S := 0
+  Else If max < min Then
+    S := 100 * ((val - max) / (min - max))
   Else
-    N := C;
-  If B > N Then
-    N := B;
-  Result := N;
+    S := 100 * ((val - min) / (max - min));
+  If S < 0 Then
+    S := 0;
+  If S > 100 Then
+    S := 100;
+  Result := round(S);
 End;
-
-{$endif}
-
-{$IFNDEF NO_ASM_OPTIMIZATIONS}
-Function Min3i(Const A, B, C: Integer): Integer;  Assembler; Register; NoStackFrame;
-Asm
-{$IFDEF CPU64}
-  {$IFDEF UNIX}
-        MOV       EAX, EDI
-        CMP       ESI, EAX
-        CMOVL     EAX, ESI
-        CMP       EDX, EAX
-        CMOVL     EAX, EDX
-  {$ELSE}
-        MOV       RAX, RCX
-        MOV       RCX, R8
-        CMP       EDX, EAX
-        CMOVL     EAX, EDX
-        CMP       ECX, EAX
-        CMOVL     EAX, ECX
-  {$ENDIF}
-{$ELSE}
-        CMP       EDX, EAX
-        CMOVL     EAX, EDX
-        CMP       ECX, EAX
-        CMOVL     EAX, ECX
-{$ENDIF}
-End;
-{$else}
-Function Min3i(Const A, B, C: Integer): Integer;
-Var
-  n: Integer;
-Begin
-  If A < C Then
-    N := A
-  Else
-    N := C;
-  If B < N Then
-    N := B;
-  Result := N;
-End;
-
-{$endif}
-
-
-
 
 Procedure ScaleFloatArray(values: PSingleArray; nb: Integer; Var factor: Single);
 Var
@@ -1369,106 +1356,7 @@ Begin
     valuesDest^[i] := valuesDest^[i] + valuesDelta^[i];
 End;
 
-Function IsPowerOfTwo(Value: Longword): Boolean;
-
-Const
-  BitCountTable: Array[0..255] Of Byte =
-    (0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,
-    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
-    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
-    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
-    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
-    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
-    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
-    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
-    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
-    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
-    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
-    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
-    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
-    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
-    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
-    4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8);
-
-  Function BitCount(Value: Longword): Longword; inline;
-  Var
-    V: Array[0..3] Of Byte absolute Value;
-  Begin
-    Result := BitCountTable[V[0]] + BitCountTable[V[1]] + BitCountTable[V[2]] + BitCountTable[V[3]];
-  End;
-Begin
-  Result := BitCount(Value) = 1;
-End;
-
-Function Ceil(v: Single): Integer;
-Begin
-  {$HINTS OFF}
-  If System.Frac(v) > 0 Then
-    Result := System.Trunc(v) + 1
-  Else
-    Result := System.Trunc(v);
-  {$HINTS ON}
-End;
-
-Function Floor(v: Single): Integer;
-Begin
-   {$HINTS OFF}
-  If v < 0 Then
-    Result := System.Trunc(v) - 1
-  Else
-    Result := System.Trunc(v);
-   {$HINTS ON}
-End;
-
-Function Round(v: Single): Integer;
-Begin
-  {$HINTS OFF}
-  Result := System.round(v);
-  {$HINTS ON}
-End;
-
-Function Trunc(v: Single): Integer;
-Begin
-  {$HINTS OFF}
-  Result := System.Trunc(v);
-  {$HINTS ON}
-End;
-
-Function Hypot(Const X, Y: Single): Single;
-Begin
-  Result := Sqrt(Sqr(X) + Sqr(Y));
-End;
-
-
-
-// Renvoi l'élément le plus proche
-Function NewRound(x: Double): Integer;
-Var
-  y: Integer;
-Begin
-  y := 0;
-  If (x - floor(x) < 0.5) Then
-    y := floor(x)
-  Else If (x - floor(x) = 0) Then
-    y := Trunc(x)
-  Else
-    y := Trunc(x) + 1;
-  Result := y;
-End;
-
-Function ComputeReciprocal(Const x: Double): Double; Inline;
-Var
-  a: Integer;
-Begin
-  Result := 0;
-  If x = 0 Then exit;
-  a := Sign(x);
-  If ((a * x) >= cEpsilon) Then
-    Result := 1.0 / x
-  Else
-    Result := a * (1.0 / cEpsilon);
-End;
-
+{%endregion%}
 
 Initialization
 
