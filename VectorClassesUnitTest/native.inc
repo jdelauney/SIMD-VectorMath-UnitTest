@@ -803,12 +803,12 @@ end;
 
 function TNativeGLZVector4b.MinXYZComponent : Byte;
 begin
-  Result:=Min3i(Self.X, Self.Y, Self.Z);
+  Result:=GLZMath.Min(Self.X, Self.Y, Self.Z);
 end;
 
 function TNativeGLZVector4b.MaxXYZComponent : Byte;
 begin
-  Result:=Max3i(Self.X, Self.Y, Self.Z);
+  Result:=GLZMath.Max(Self.X, Self.Y, Self.Z);
 end;
 {%endregion%}
 
@@ -1019,12 +1019,12 @@ end;
 
 function TNativeGLZVector4i.MinXYZComponent : LongInt;
 begin
-  Result:=Min3i(Self.X, Self.Y, Self.Z);
+  Result:=GLZMath.Min(Self.X, Self.Y, Self.Z);
 end;
 
 function TNativeGLZVector4i.MaxXYZComponent : LongInt;
 begin
-  Result:=Max3i(Self.X, Self.Y, Self.Z);
+  Result:=GLZMath.Max(Self.X, Self.Y, Self.Z);
 end;
 
 {%region%----[ Operators ]------------------------------------------------------}
@@ -1287,12 +1287,12 @@ End;
 
 function TNativeGLZVector4f.MinXYZComponent : Single;
 begin
-   Result:=Min3s(Self.X, Self.Y, Self.Z);
+   Result:=GLZMath.Min(Self.X, Self.Y, Self.Z);
 end;
 
 function TNativeGLZVector4f.MaxXYZComponent : Single;
 begin
-   Result:=Max3s(Self.X, Self.Y, Self.Z);
+   Result:=GLZMath.Max(Self.X, Self.Y, Self.Z);
 end;
 
 class operator TNativeGLZVector4f.+(constref A, B: TNativeGLZVector4f): TNativeGLZVector4f;
@@ -2538,7 +2538,7 @@ begin
 
   // compute X scale factor and normalize first row
   Tran[ttScaleX]:=Row0.Norm;
-  Row0 := Row0 * RSqrt(Tran[ttScaleX]); //VectorScale(row0, RSqrt(Tran[ttScaleX]));
+  Row0 := Row0 * InvSqrt(Tran[ttScaleX]); //VectorScale(row0, RSqrt(Tran[ttScaleX]));
 
   // compute XY shear factor and make 2nd row orthogonal to 1st
   Tran[ttShearXY]:=row0.DotProduct(row1);
@@ -2547,7 +2547,7 @@ begin
 
   // now, compute Y scale and normalize 2nd row
   Tran[ttScaleY]:=Row1.Norm;
-  Row1 := Row1 * RSqrt(Tran[ttScaleY]); //VectorScale(row1, RSqrt(Tran[ttScaleY]));
+  Row1 := Row1 * InvSqrt(Tran[ttScaleY]); //VectorScale(row1, RSqrt(Tran[ttScaleY]));
   Tran[ttShearXY]:=Tran[ttShearXY]/Tran[ttScaleY];
 
   // compute XZ and YZ shears, orthogonalize 3rd row
@@ -2560,7 +2560,7 @@ begin
 
   // next, get Z scale and normalize 3rd row
   Tran[ttScaleZ]:=Row2.Norm;
-  Row2:=row2* RSqrt(Tran[ttScaleZ]);
+  Row2:=row2* InvSqrt(Tran[ttScaleZ]);
   Tran[ttShearXZ]:=Tran[ttShearXZ] / tran[ttScaleZ];
   Tran[ttShearYZ]:=Tran[ttShearYZ] / Tran[ttScaleZ];
 
@@ -2640,7 +2640,7 @@ procedure TNativeGLZMatrix4f.CreatePerspectiveMatrix(FOV, Aspect, ZNear, ZFar: S
 var
   xx, yy: Single;
 begin
-  FOV := Min2s(179.9, Max2s(0, FOV));
+  FOV := GLZMath.Min(179.9, GLZMath.Max(0, FOV));
   yy:= ZNear * GLZMath.Tan(GLZMath.DegToRadian(FOV) * 0.5);
   xx:= yy * Aspect;
   CreateMatrixFromFrustum(-xx, xx, -yy, yy, ZNear, ZFar);
@@ -3092,7 +3092,7 @@ begin
    if s=0 then ArcFrom := NativeAffineVectorMake( 0, 1, 0)
    else
    begin
-      invS:=RSqrt(s);
+      invS:=InvSqrt(s);
       ArcFrom := NativeAffineVectorMake( -Self.ImagePart.Y*invS, Self.ImagePart.X*invS, 0);
    end;
    ArcTo.X:=Self.RealPart*ArcFrom.X-Self.ImagePart.Z*ArcFrom.Y;
