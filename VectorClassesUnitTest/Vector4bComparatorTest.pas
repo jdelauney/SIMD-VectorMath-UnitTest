@@ -9,7 +9,6 @@ uses
   native, GLZVectorMath;
 
 type
-  { TVector4bComparatorTest }
 
   TVector4bComparatorTest = class(TByteVectorBaseTestCase)
     published
@@ -294,8 +293,8 @@ end;
 
 procedure TVector4bComparatorTest.TestCombine2;
 begin
-   nbf3 := nbf1.Combine2(nbf2, b1, b2);
-   abf3 := abf1.Combine2(abf2, b1, b2);
+   nbf3 := nbf1.Combine2(nbf2, 0.8, 0.21);
+   abf3 := abf1.Combine2(abf2, 0.8, 0.21);
    AssertTrue('Vector Combine2 no match'+nbf3.ToString+' --> '+abf3.ToString, Compare(nbf3,abf3));
 end;
 
@@ -303,10 +302,9 @@ procedure TVector4bComparatorTest.TestCombine3;
 begin
    nbf4 := nbf1.Swizzle(swAGRB);
    abf4 := abf1.Swizzle(swAGRB);
-   nbf3 := nbf1.Combine3(nbf2, nbf4, b1, b2, b3);
-   abf3 := abf1.Combine3(abf2, abf4, b1, b2, b3);
+   nbf3 := nbf1.Combine3(nbf2, nbf4, 0.3, 0.4, 0.2);
+   abf3 := abf1.Combine3(abf2, abf4, 0.3, 0.4, 0.2);
    AssertTrue('Vector Combine3 no match'+nbf3.ToString+' --> '+abf3.ToString, Compare(nbf3,abf3));
-
 end;
 
 procedure TVector4bComparatorTest.TestMinXYZComponent;

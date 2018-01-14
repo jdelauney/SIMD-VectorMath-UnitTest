@@ -14,6 +14,7 @@ uses
   Vector3bFunctionalTest,
   Vector3bComparatorTest,
   // Vector4b Test Case
+  Vector4bFunctionalTest,
   Vector4bComparatorTest,
   Vector4iComparatorTest,
   // Vector4f Test Case

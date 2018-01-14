@@ -932,7 +932,6 @@ Const
   function Compare(constref A: TGLZVector3b; constref B: TGLZVector3b): boolean; overload;
   function Compare(constref A: TNativeGLZVector4b; constref B: TGLZVector4b): boolean; overload;
   function Compare(constref A: TNativeGLZVector4i; constref B: TGLZVector4i): boolean; overload;
-  function CompareWithRound(constref A: TNativeGLZVector4i; constref B: TGLZVector4i): boolean; overload;
   function Compare(constref A: TNativeGLZVector2i; constref B: TGLZVector2i): boolean; overload;
   function Compare(constref A: TNativeGLZVector2f; constref B: TGLZVector2f;Epsilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TNativeGLZBoundingBox; constref B: TGLZBoundingBox;Epsilon: Single = 1e-10): boolean; overload;
@@ -1038,16 +1037,6 @@ begin
   if A.Alpha<> B.Alpha then Result := False;
 end;
 
-function CompareWithRound(constref A: TNativeGLZVector4i; constref
-  B: TGLZVector4i): boolean;
-begin
-  Result := True;
-  if Abs(A.Red - B.Red) > 1 then Result := False;
-  if Abs(A.Green - B.Green) > 1 then Result := False;
-  if Abs(A.Blue - B.Blue) > 1 then Result := False;
-  if Abs(A.Alpha - B.Alpha) > 1 then Result := False;
-end;
-
 function Compare(constref A: TNativeGLZVector2i; constref B: TGLZVector2i): boolean;
 begin
   Result := True;
@@ -1055,7 +1044,6 @@ begin
   if A.Y <> B.Y then Result := False;
 
 end;
-
 
 function Compare(constref A: TNativeGLZVector2f; constref B: TGLZVector2f; Epsilon: Single): boolean;
 begin

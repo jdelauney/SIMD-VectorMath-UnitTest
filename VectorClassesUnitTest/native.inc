@@ -642,10 +642,10 @@ end;
 
 function TNativeGLZVector4b.Shuffle(const x,y,z,w : Byte):TNativeGLZVector4b;
 begin
-  Result.V[x]:=Self.X;
-  Result.V[y]:=Self.Y;
-  Result.V[z]:=Self.Z;
-  Result.V[w]:=Self.W;
+  Result.X := Self.V[x];
+  Result.Y := Self.V[y];
+  Result.Z := Self.V[z];
+  Result.W := Self.V[w];
 End;
 
 function TNativeGLZVector4b.Swizzle(const ASwizzle: TGLZVector4SwizzleRef ): TNativeGLZVector4b;
@@ -772,28 +772,33 @@ begin
 End;
 
 function TNativeGLZVector4b.Combine2(constref V2: TNativeGLZVector4b; const F1, F2: Single): TNativeGLZVector4b;
-Var
-  va, vb : TNativeGLZVector4b;
-  ws : Byte;
 begin
-  ws:=Self.W;
-  va := Self * F1;
-  vb := v2 * F2;
-  result := va + vb;
-  result.W := ws;
+  //ws:=Self.W;
+  //va := Self * F1;
+  //vb := v2 * F2;
+  //result := va + vb;
+  //result.W := ws;
+  result.X := ClampByte(Round(Self.X * F1 + V2.X * F2));
+  result.Y := ClampByte(Round(Self.Y * F1 + V2.Y * F2));
+  result.Z := ClampByte(Round(Self.Z * F1 + V2.Z * F2));
+  result.W := Self.W;
 end;
 
 function TNativeGLZVector4b.Combine3(constref V2, V3: TNativeGLZVector4b; const F1, F2, F3: Single): TNativeGLZVector4b;
-Var
-  va, vb, vc : TNativeGLZVector4b;
-  ws : Byte;
+//Var
+//  va, vb, vc : TGLZVector4b;
+//  ws : Byte;
 begin
-  ws:=Self.W;
-  va := Self * F1;
-  vb := v2 * F2;
-  vc := v3 * F3;
-  result := va + vb + vc;
-  result.W := ws;
+  //ws:=Self.W;
+  //va := Self * F1;
+  //vb := v2 * F2;
+  //vc := v3 * F3;
+  //result := va + vb + vc;
+  //result.W := ws;
+  result.X := ClampByte(Round(Self.X * F1 + V2.X * F2 + V3.X * F3));
+  result.Y := ClampByte(Round(Self.Y * F1 + V2.Y * F2 + V3.Y * F3));
+  result.Z := ClampByte(Round(Self.Z * F1 + V2.Z * F2 + V3.Z * F3));
+  result.W := Self.W;
 end;
 
 function TNativeGLZVector4b.MinXYZComponent : Byte;
@@ -980,28 +985,36 @@ begin
 end;
 
 function TNativeGLZVector4i.Combine2(constref V2 : TNativeGLZVector4i; const F1, F2 : Single) : TNativeGLZVector4i;
-Var
-  va, vb : TNativeGLZVector4i;
-  ws : integer;
+//Var
+//  va, vb : TNativeGLZVector4i;
+//  ws : integer;
 begin
-  ws:=Self.W;
-  va := Self * F1;
-  vb := v2 * F2;
-  result := va + vb;
-  result.W := ws;
+  //ws:=Self.W;
+  //va := Self * F1;
+  //vb := v2 * F2;
+  //result := va + vb;
+  //result.W := ws;
+  result.X := Round(Self.X * F1 + V2.X * F2);
+  result.Y := Round(Self.Y * F1 + V2.Y * F2);
+  result.Z := Round(Self.Z * F1 + V2.Z * F2);
+  result.W := Self.W;
 end;
 
 function TNativeGLZVector4i.Combine3(constref V2, V3 : TNativeGLZVector4i; const F1, F2, F3 : Single) : TNativeGLZVector4i;
-Var
-  va, vb, vc : TNativeGLZVector4i;
-  ws : integer;
+//Var
+//  va, vb, vc : TNativeGLZVector4i;
+//  ws : integer;
 begin
-  ws:=Self.W;
-  va := Self * F1;
-  vb := v2 * F2;
-  vc := v3 * F3;
-  result := va + vb + vc;
-  result.W := ws;
+  //ws:=Self.W;
+  //va := Self * F1;
+  //vb := v2 * F2;
+  //vc := v3 * F3;
+  //result := va + vb + vc;
+  //result.W := ws;
+  result.X := Round(Self.X * F1 + V2.X * F2 + V3.X * F3);
+  result.Y := Round(Self.Y * F1 + V2.Y * F2 + V3.Y * F3);
+  result.Z := Round(Self.Z * F1 + V2.Z * F2 + V3.Z * F3);
+  result.W := Self.W;
 end;
 
 function TNativeGLZVector4i.MinXYZComponent : LongInt;
