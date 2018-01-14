@@ -266,7 +266,7 @@ begin
 
   // compute X scale factor and normalize first row
   Tran[ttScaleX]:=Row0.Norm;
-  Row0 := Row0 * RSqrt(Tran[ttScaleX]); //VectorScale(row0, RSqrt(Tran[ttScaleX]));
+  Row0 := Row0 * InvSqrt(Tran[ttScaleX]); //VectorScale(row0, RSqrt(Tran[ttScaleX]));
 
   // compute XY shear factor and make 2nd row orthogonal to 1st
   Tran[ttShearXY]:=row0.DotProduct(row1);
@@ -275,7 +275,7 @@ begin
 
   // now, compute Y scale and normalize 2nd row
   Tran[ttScaleY]:=Row1.Norm;
-  Row1 := Row1 * RSqrt(Tran[ttScaleY]); //VectorScale(row1, RSqrt(Tran[ttScaleY]));
+  Row1 := Row1 * InvSqrt(Tran[ttScaleY]); //VectorScale(row1, RSqrt(Tran[ttScaleY]));
   Tran[ttShearXY]:=Tran[ttShearXY]/Tran[ttScaleY];
 
   // compute XZ and YZ shears, orthogonalize 3rd row
@@ -288,7 +288,7 @@ begin
 
   // next, get Z scale and normalize 3rd row
   Tran[ttScaleZ]:=Row2.Norm;
-  Row2:=row2* RSqrt(Tran[ttScaleZ]);
+  Row2:=row2* InvSqrt(Tran[ttScaleZ]);
   Tran[ttShearXZ]:=Tran[ttShearXZ] / tran[ttScaleZ];
   Tran[ttShearYZ]:=Tran[ttShearYZ] / Tran[ttScaleZ];
 
@@ -305,7 +305,7 @@ begin
   end;
 
   // now, get the rotations out, as described in the gem
-  Tran[ttRotateY]:= FastArcSine(-row0.Z);
+  Tran[ttRotateY]:= GLZMath.ArcSin(-row0.Z);
   if cos(Tran[ttRotateY]) <> 0 then
   begin
     Tran[ttRotateX]:=GLZMath.ArcTan2(row1.Z, row2.Z);
@@ -347,7 +347,7 @@ procedure TGLZMatrix4f.CreatePerspectiveMatrix(FOV, Aspect, ZNear, ZFar: Single)
 var
   xx, yy: Single;
 begin
-  FOV := Min2s(179.9, Max2s(0, FOV));
+  FOV := GLZMath.Min(179.9, GLZMath.Max(0, FOV));
   yy:= ZNear * GLZMath.Tan(GLZMath.DegToRadian(FOV) * 0.5);
   xx:= yy * Aspect;
   CreateMatrixFromFrustum(-xx, xx, -yy, yy, ZNear, ZFar);

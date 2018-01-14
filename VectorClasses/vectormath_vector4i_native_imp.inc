@@ -168,12 +168,12 @@ end;
 
 function TGLZVector4i.MinXYZComponent : LongInt;
 begin
-  Result:=Min3i(Self.X, Self.Y, Self.Z);
+  Result:=GLZMath.Min(Self.X, Self.Y, Self.Z);
 end;
 
 function TGLZVector4i.MaxXYZComponent : LongInt;
 begin
-  Result:=Max3i(Self.X, Self.Y, Self.Z);
+  Result:=GLZMath.Max(Self.X, Self.Y, Self.Z);
 end;
 
 {%endregion}

@@ -446,12 +446,12 @@ end;
 
 function TGLZVector4b.MinXYZComponent : Byte;
 begin
-  Result:=Min3i(Self.X, Self.Y, Self.Z);
+  Result:=GLZMath.Min(Self.X, Self.Y, Self.Z);
 end;
 
 function TGLZVector4b.MaxXYZComponent : Byte;
 begin
-  Result:=Max3i(Self.X, Self.Y, Self.Z);
+  Result:=GLZMath.Max(Self.X, Self.Y, Self.Z);
 end;
 
 {%endregion}
