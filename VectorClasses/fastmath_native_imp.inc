@@ -558,19 +558,7 @@ End; *)
 
 {%endregion%}
 
-function RoundInt(V: Single): Single; Inline;
-begin
-{$HINTS OFF}
-  result := Int(V + 0.5);
-{$HINTS ON}
-end;
 
-Function IsInRange(const X, a, b: Single): Boolean; Inline;
-begin
-  if a < b then
-    result := (a <= X) and (X <= b)
-  else
-    result := (b <= X) and (X <= a);
-end;
+
 
 

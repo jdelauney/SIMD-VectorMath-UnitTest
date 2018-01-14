@@ -121,12 +121,6 @@ Function FastSign(f:single):longint;
 function FastPower(i:single;n:integer):single;
 
 
-// a passer dans glz math
-Function RoundInt(V: Single): Single;
-
-Function IsInRange(const X, a, b: Single): Boolean;
-
-
 
 implementation
 
