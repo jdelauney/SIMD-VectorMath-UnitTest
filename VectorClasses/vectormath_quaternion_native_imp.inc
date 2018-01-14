@@ -182,7 +182,7 @@ begin
    if s=0 then ArcFrom := AffineVectorMake( 0, 1, 0)
    else
    begin
-      invS:=RSqrt(s);
+      invS:=InvSqrt(s);
       ArcFrom := AffineVectorMake( -Self.ImagePart.Y*invS, Self.ImagePart.X*invS, 0);
    end;
    ArcTo.X:=Self.RealPart*ArcFrom.X-Self.ImagePart.Z*ArcFrom.Y;
