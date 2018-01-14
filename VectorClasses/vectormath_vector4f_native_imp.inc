@@ -36,12 +36,12 @@ End;
 
 function TGLZVector4f.MinXYZComponent : Single;
 begin
-   Result:=Min3s(Self.X, Self.Y, Self.Z);
+   Result:=GLZMath.Min(Self.X, Self.Y, Self.Z);
 end;
 
 function TGLZVector4f.MaxXYZComponent : Single;
 begin
-   Result:=Max3s(Self.X, Self.Y, Self.Z);
+   Result:=GLZMath.Max(Self.X, Self.Y, Self.Z);
 end;
 
 {%endregion}
