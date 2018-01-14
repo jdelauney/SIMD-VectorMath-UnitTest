@@ -43,7 +43,7 @@ interface
 
 uses
   LCLType, LCLIntf, Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-  ExtCtrls, GLZVectorMath,GLZStopWatch;
+  ExtCtrls, GLZVectorMath,GLZStopWatch, GLZFastMath;
 
   { TMainForm }
 Const

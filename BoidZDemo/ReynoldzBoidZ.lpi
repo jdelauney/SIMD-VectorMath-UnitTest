@@ -59,6 +59,9 @@
             <TargetCPU Value="i386"/>
           </CodeGeneration>
           <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+            </Debugging>
             <Options>
               <Win32>
                 <GraphicApplication Value="True"/>
@@ -67,6 +70,7 @@
           </Linking>
           <Other>
             <CustomOptions Value="-CfSSE3
+-Sv
 -dUSE_ASM_SSE_3"/>
           </Other>
         </CompilerOptions>
@@ -87,6 +91,9 @@
             <TargetCPU Value="i386"/>
           </CodeGeneration>
           <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+            </Debugging>
             <Options>
               <Win32>
                 <GraphicApplication Value="True"/>

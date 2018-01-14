@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="10"/>
-    <BuildModes Active="Cpu64_SSE_3 "/>
+    <BuildModes Active="Cpu32_SSE_3"/>
     <Units Count="41">
       <Unit0>
         <Filename Value="ReynoldzBoidZ.lpr"/>
@@ -18,9 +18,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="248"/>
-        <CursorPos X="45" Y="58"/>
-        <FoldState Value=" T3jM0601513q"/>
+        <TopLine Value="25"/>
+        <CursorPos X="52" Y="46"/>
         <UsageCount Value="27"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -339,7 +338,7 @@
       </Position5>
       <Position6>
         <Filename Value="umainform.pas"/>
-        <Caret Line="105" Column="49" TopLine="275"/>
+        <Caret Line="58" Column="45" TopLine="58"/>
       </Position6>
     </JumpHistory>
   </ProjectSession>

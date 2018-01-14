@@ -1,17 +1,15 @@
 object MainForm: TMainForm
   Left = 0
   Height = 600
-  Top = 0
+  Top = 24
   Width = 800
   Caption = 'GLZScene Demo BoïdZ'
-  ClientHeight = 600
-  ClientWidth = 800
+  DesignTimePPI = 97
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnResize = FormResize
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.8.0.6'
-  Visible = False
+  LCLVersion = '1.8.0.5'
 end
