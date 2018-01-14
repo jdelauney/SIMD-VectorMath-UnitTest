@@ -39,7 +39,7 @@ Historique : @br
  *==============================================================================*)
 Unit GLZMath;
 
-{$i glzscene_options.inc}
+{.$i glzscene_options.inc}
 
 {$ASMMODE INTEL}
 
@@ -133,6 +133,8 @@ Function Min(Const v1, v2 : Single): Single;
 Function Max(Const v1, v2, v3: Single): Single;
 Function Min(Const v1, v2, v3: Single): Single;
 Function ComputeReciprocal(Const x: Single): Single;
+Function IsInRange(const X, a, b: Single): Boolean;
+
 
 {%endregion%}
 
@@ -479,6 +481,14 @@ Begin
   Else
     Result := a * (1.0 / cEpsilon);
 End;
+
+Function IsInRange(const X, a, b: Single): Boolean; Inline;
+begin
+  if a < b then
+    result := (a <= X) and (X <= b)
+  else
+    result := (b <= X) and (X <= a);
+end;
 
 {%endregion%}
 
