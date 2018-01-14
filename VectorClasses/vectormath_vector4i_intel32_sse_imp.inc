@@ -265,7 +265,7 @@ asm
   movdqu [edx], xmm0
 end;
 
-function TGLZVector4i.MulDiv(Constref B, C: TGLZVector4i): TGLZVector4i; assembler;
+function TGLZVector4i.MulDiv(Constref B, C: TGLZVector4i): TGLZVector4i; assembler;  nostackframe; register;
 asm
   movdqu xmm0,[EAX]
   movdqu  xmm1,[B]
@@ -273,33 +273,27 @@ asm
   cvtdq2ps xmm0,xmm0
   cvtdq2ps xmm1,xmm1
   cvtdq2ps xmm2,xmm2
-  // andps xmm2,[ cOneVector4f]
   mulps  xmm0, xmm1
   divps  xmm0, xmm2
-
+//  cvtps2dq xmm0, xmm0
   {$i macro_sse_win64_trunc_xmm0-xmm0.inc}
-
-  mov edx, [RESULT]
-  movdqu [edx], xmm0
+//  mov edx, [RESULT]
+//  movdqu [edx], xmm0
 end;
 
- function TGLZVector4i.Combine(constref V2: TGLZVector4i; constref F1: Single): TGLZVector4i;assembler;
+ function TGLZVector4i.Combine(constref V2: TGLZVector4i; constref F1: Single): TGLZVector4i;assembler;  nostackframe; register;
 asm
   movdqu xmm1,[EAX]
   movdqu  xmm0,[V2]
   cvtdq2ps xmm0,xmm0
   movlps  xmm2,[F1]
-  shufps xmm2, xmm2, $00 // replicate
-  //unpcklps xmm2, xmm2
-  //unpcklps xmm2, xmm2
+  shufps xmm2, xmm2, $00
   andps xmm0, [cSSE_MASK_NO_W]
-  mulps xmm0, xmm2 //V2*F1
-  //andps xmm0, [cSSE_MASK_NO_W]
-//  cvtps2dq xmm0, xmm0
-  {$i macro_sse_win64_trunc_xmm0-xmm0.inc}
+  mulps xmm0, xmm2
+  cvtps2dq xmm0, xmm0
   paddd xmm0, xmm1
-  mov edx, [RESULT]
-  movdqu [edx], xmm0
+//  mov edx, [RESULT]
+//  movdqu [edx], xmm0
 end;
 
 function TGLZVector4i.Combine2(constref V2: TGLZVector4i; const F1, F2: Single): TGLZVector4i;assembler; nostackframe; register;
@@ -310,7 +304,7 @@ asm
   cvtdq2ps xmm1,xmm1
   movlps  xmm2,[F2]
   movlps  xmm3,[F1]
-  shufps xmm2, xmm2, $00 // replicate F2
+  shufps xmm2, xmm2, $00
   //unpcklps xmm2, xmm2
   //unpcklps xmm2, xmm2
   shufps xmm3, xmm3, $00 // replicate F1
