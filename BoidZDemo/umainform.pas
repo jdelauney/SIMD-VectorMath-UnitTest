@@ -43,7 +43,7 @@ interface
 
 uses
   LCLType, LCLIntf, Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-  ExtCtrls, GLZVectorMath,GLZStopWatch, GLZFastMath;
+  ExtCtrls, GLZVectorMath,GLZStopWatch;
 
   { TMainForm }
 Const
@@ -107,7 +107,7 @@ var
  l:Single;
 begin
  b1.ST :=b1.ST - b2.ST;
- angle:=abs(FastArcTangent2(b1.x,b1.y)*c180divPI);
+ angle:=abs(GLZMath.ArcTan2(b1.x,b1.y)*c180divPI);
  //angle:=abs(ArcTan2(b1.ST.x,b1.ST.y)*180/cPI);
  l:=b1.ST.LengthSquare;
  result:=(l<Distance_Max) and (angle<=Angle_Vision);
@@ -288,7 +288,7 @@ begin
     p := b.Round;
 
     //calcul de la direction de déplacement pour la couleur
-    c:=round(FastArcTangent2(b.UV.X,b.UV.Y)*180/cPi)+180;
+    c:=round(GLZMath.ArcTan2(b.UV.X,b.UV.Y)*180/cPi)+180;
     CurColor := FColorMap[c];
     with FBitmapBuffer.Canvas do
     begin
