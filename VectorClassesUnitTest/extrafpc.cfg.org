@@ -26,3 +26,5 @@
 #-dVALGRIND
 #-gv
 
+# Turn off timing tests if you uncomment ths
+#-dNO_TIMING_TEST
