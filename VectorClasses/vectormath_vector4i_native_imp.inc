@@ -40,10 +40,10 @@ end;
 
 function TGLZVector4i.Shuffle(const x, y, z, w : Byte) : TGLZVector4i;
 begin
-  Result.V[x]:=Self.X;
-  Result.V[y]:=Self.Y;
-  Result.V[z]:=Self.Z;
-  Result.V[w]:=Self.W;
+  Result.X:=Self.V[x];
+  Result.Y:=Self.V[y];
+  Result.Z:=Self.V[z];
+  Result.W:=Self.V[w];
 end;
 
 function TGLZVector4i.Swizzle(const ASwizzle : TGLZVector4SwizzleRef) : TGLZVector4i;
