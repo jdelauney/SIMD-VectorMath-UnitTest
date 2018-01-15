@@ -263,7 +263,7 @@ end;
 
 class operator TGLZVector4i.<> (constref A, B : TGLZVector4i) : Boolean;
 begin
-  Result := (A.X <> B.X) and (A.Y <> B.Y) and (A.Z <> B.Z) and (A.W <> B.W);
+  Result := (A.X <> B.X) or (A.Y <> B.Y) or (A.Z <> B.Z) or (A.W <> B.W);
 end;
 
 class operator TGLZVector4i.-(constref A : TGLZVector4i) : TGLZVector4i;
