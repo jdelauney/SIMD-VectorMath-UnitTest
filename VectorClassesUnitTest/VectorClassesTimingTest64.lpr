@@ -16,6 +16,7 @@ uses
   // Vector4b Test Case
   Vector4bFunctionalTest,
   Vector4bComparatorTest,
+  Vector4iFunctionalTest,
   Vector4iComparatorTest,
   // Vector4f Test Case
   VectorOperatorsTestCase,

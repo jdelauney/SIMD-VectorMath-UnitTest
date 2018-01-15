@@ -127,7 +127,7 @@ begin
   vtt3 := vtt2 - -5;
   AssertEquals('OpSubSingle:Sub3 X failed ', 8.0, vtt3.X);
   AssertEquals('OpSubSingle:Sub4 Y failed ', 7.0, vtt3.Y);
-  end;
+end;
 
 procedure TVector2fFunctionalTest.TestOpDivSingle;
 begin
@@ -151,7 +151,7 @@ begin
   vtt3 := vtt2 * 3;
   AssertEquals('OpMulSingle:Sub3 X failed ', 9.0, vtt3.X);
   AssertEquals('OpMulSingle:Sub4 Y failed ', 6.0, vtt3.Y);
-  end;
+end;
 
 procedure TVector2fFunctionalTest.TestOpNegate;
 begin
@@ -167,7 +167,6 @@ begin
   vtt3 := -(vtt1 + vtt2);
   AssertEquals('Negate:Sub5 X failed ', -4.0, vtt3.X);
   AssertEquals('Negate:Sub6 Y failed ', -4.0, vtt3.Y);
-
 end;
 
 procedure TVector2fFunctionalTest.TestEquals;

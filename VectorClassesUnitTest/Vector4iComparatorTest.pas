@@ -10,8 +10,6 @@ uses
 
 type
 
-  { TVector4iComparatorTest }
-
   TVector4iComparatorTest = class(TIntVectorBaseTestCase)
     published
       procedure TestCompare;
@@ -54,9 +52,6 @@ type
   end;
 
 implementation
-
-
-{ TVector4iComparatorTest }
 
 procedure TVector4iComparatorTest.TestCompare;
 begin
