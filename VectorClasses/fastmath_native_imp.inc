@@ -211,8 +211,27 @@ Begin
 End;
 
 Function FastArcCosine(const X: Single): Single;
+var ret, t:single;
 begin
-  result := FastArcTan2(FastSqrt(1 - (x*x)), X);
+  //result := FastArcTan2(FastSqrt(1 - (x*x)), X); WRONG
+
+  // cubic approximation, the Lagrange polynomial for x  {-1, -½, 0, ½, 1},
+  // not enough accurate in some case
+  //result:= (-0.69813170079773212 * x * x - 0.87266462599716477) * x + 1.5707963267948966;
+
+  t:=x;
+  // From NVidia accuracy 0.0001
+   ret := -0.0187293 * x;
+   ret := ret + 0.0742610;
+   ret := ret * x;
+   ret := ret - 0.2121144;
+   ret := ret * x;
+   ret := ret + 1.5707288;
+   ret := ret * Sqrt(1.0-x); // Do not use FastSqrt here
+   ret := ret - 2 * t * ret;
+   result := t * _cPI + ret;
+   // polynomial
+   // result := x*(1+x*x*(1/6+ x*x*(3/(2*4*5) + x*x*((1*3*5)/(2*4*6*7))))); no enougth accurate
 end;
 
 Function FastSinc(x: Single): Single;  //Source ImageMagick
