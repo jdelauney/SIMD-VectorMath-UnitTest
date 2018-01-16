@@ -2,6 +2,9 @@ unit Vector4iFunctionalTest;
 
 {$mode objfpc}{$H+}
 
+{$CODEALIGN LOCALMIN=16}
+{$CODEALIGN CONSTMIN=16}
+
 interface
 
 uses

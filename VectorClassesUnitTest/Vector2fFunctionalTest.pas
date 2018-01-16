@@ -1,6 +1,7 @@
 unit Vector2fFunctionalTest;
 
 {$mode objfpc}{$H+}
+{$CODEALIGN LOCALMIN=16}
 
 interface
 
