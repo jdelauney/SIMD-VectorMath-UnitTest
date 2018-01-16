@@ -105,7 +105,7 @@ asm
   movq  xmm0, [RCX]
   movq  xmm1, [B]
   maxps xmm0, xmm1
-  movq  [RAX], xmm0 //RAX ????
+  movq  [RESULT],  {%H-}xmm0 //RAX ????
 end;
 
 function TGLZVector2f.Clamp(constref AMin, AMax: Single): TGLZVector2f;Assembler;//nostackframe;register;
@@ -117,7 +117,7 @@ asm
   shufps xmm2, xmm2, $00 // Replicate AMax
   maxps  xmm0, xmm1
   minps  xmm0, xmm2
-  movq  [RAX], xmm0
+  movq  [RESULT],  {%H-}xmm0
 end;
 
 function TGLZVector2f.Clamp(constref AMin, AMax: TGLZVector2f): TGLZVector2f;Assembler;//nostackframe;register;
@@ -127,7 +127,7 @@ asm
   movq   xmm2, [AMax]
   maxps  xmm0, xmm1
   minps  xmm0, xmm2
-  movq   [RAX], xmm0
+  movq   [RESULT],  {%H-}xmm0
 end;
 
 function TGLZVector2f.MulAdd(constref A,B:TGLZVector2f): TGLZVector2f;Assembler;//nostackframe;register;
@@ -198,7 +198,7 @@ asm
   divps  xmm0, xmm2
   //rsqrtps xmm0, xmm0      // (1 / Sqrt(X*X + Y*Y)) (4x)
   //mulps   xmm0, xmm2      // A * (1 / Sqrt(Dot(A, A)))
-  //movq    rax, xmm0
+  movq    RAX, xmm0
 end;
 
 // function Reflect(I, NRef : TVector2f):TVector2f
@@ -215,7 +215,9 @@ end;
 function TGLZVector2f.Trunc: TGLZVector2i;assembler;nostackframe;register;
 asm
   movq     xmm0, [RCX]
+ // push rax
  {$i macro_sse_win64_trunc_xmm0-xmm0.inc}
+ // pop rax
   movq   rax, xmm0
 end;
 
