@@ -68,7 +68,7 @@ Unit GLZVectorMath;
 {$IFDEF USE_ASM_SSE_4}
   {$DEFINE USE_ASM_SSE_3}
 {$ENDIF}
-// In case of
+
 {$IFDEF USE_ASM_SSE_3}
   {$DEFINE USE_ASM}
 {$ENDIF}
@@ -76,6 +76,12 @@ Unit GLZVectorMath;
 {$IFDEF USE_ASM_AVX}
   {$DEFINE USE_ASM}
 {$ENDIF}
+
+// In case of
+{$IFDEF USE_ASM_SSE}
+  {$DEFINE USE_ASM}
+{$ENDIF}
+
 
 {$DEFINE USE_ASM_SIMD_HIGHPRECISION}
 
@@ -132,6 +138,7 @@ Const
 {%region%----[ Vectors ]--------------------------------------------------------}
 
 type
+  {$PACKRECORD 16}
   TGLZVector2fType = packed array[0..1] of Single;
   TGLZVector2iType = packed array[0..1] of Integer;
 
@@ -1309,6 +1316,7 @@ Var
        {$ELSE}
           {.$I vectormath_vector2i_native_imp.inc}
           {.$I vectormath_vector2i_win64_sse_imp.inc}
+
           {$I vectormath_vector2f_native_imp.inc}
           {$I vectormath_vector2f_win64_sse_imp.inc}
 
