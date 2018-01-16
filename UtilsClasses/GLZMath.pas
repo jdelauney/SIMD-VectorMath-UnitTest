@@ -43,7 +43,7 @@ Unit GLZMath;
 
 {$ASMMODE INTEL}
 
-{$DEFINE USE_FASTMATH}
+{.$DEFINE USE_FASTMATH}
 
 Interface
 
@@ -261,7 +261,7 @@ begin
   {$IFDEF USE_FASTMATH}
     result := RemezSin(x);
   {$ELSE}
-    result := Math.Sin(x);
+    result := System.Sin(x);
   {$ENDIF}
 end;
 
@@ -270,7 +270,7 @@ begin
   {$IFDEF USE_FASTMATH}
     result := RemezCos(x);
   {$ELSE}
-    result := Math.Cos(x);
+    result := System.Cos(x);
   {$ENDIF}
 end;
 
@@ -1018,7 +1018,7 @@ Begin
     Else
     Begin
       xx := cPI * x;
-      Result := Math.Sin(xx) / (xx);
+      Result := System.Sin(xx) / (xx);
     End;
   {$ENDIF}
 End;

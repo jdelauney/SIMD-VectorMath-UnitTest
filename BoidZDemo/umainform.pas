@@ -108,7 +108,6 @@ var
 begin
  b1.ST :=b1.ST - b2.ST;
  angle:=abs(GLZMath.ArcTan2(b1.x,b1.y)*c180divPI);
- //angle:=abs(ArcTan2(b1.ST.x,b1.ST.y)*180/cPI);
  l:=b1.ST.LengthSquare;
  result:=(l<Distance_Max) and (angle<=Angle_Vision);
 end;
@@ -280,45 +279,32 @@ begin
 
   // on efface le buffer et on affiche les boïdes
   {$ifdef USE_FRAMEBUFFER}
-  FBitmapBuffer.canvas.Brush.color:=clBlack;
-  FBitmapBuffer.canvas.FillRect(clientrect);
-  for i:=0 to maxboidz do
-  begin
-    b := FBoidz[i];
-    p := b.Round;
-
-    //calcul de la direction de déplacement pour la couleur
-    c:=round(GLZMath.ArcTan2(b.UV.X,b.UV.Y)*180/cPi)+180;
-    CurColor := FColorMap[c];
-    with FBitmapBuffer.Canvas do
+  With FBitmapBuffer.Canvas do
+   begin
+    FBitmapBuffer.canvas.Brush.color:=clBlack;
+    FBitmapBuffer.canvas.FillRect(clientrect);
+  {$else}
+  with mainform.Canvas do
+   begin
+     Brush.color:=clBlack;
+     Clear;
+  {$endif}
+    for i:=0 to maxboidz do
     begin
+      b := FBoidz[i];
+      p := b.Round;
+
+      //calcul de la direction de déplacement pour la couleur
+      c:=round(GLZMath.ArcTan2(b.UV.X,b.UV.Y)*180/cPi)+180;
+
+      CurColor := FColorMap[c];
       Pen.Style := psSolid;
       Pen.Color :=  CurColor;
       // dessine un traits de la longueur de la vitesse
       MoveTo(P.ST.x,P.ST.y);
       LineTo(P.ST.x+P.UV.x,P.ST.y+P.UV.y);
     end;
-   end;
-   {$else}
-     mainform.canvas.Brush.color:=clBlack;
-     mainform.Canvas.Clear;
-     for i:=0 to maxboidz do
-     begin
-       b := FBoidz[i];
-       p := b.Round;
-       //calcul de la direction de déplacement pour la couleur
-       c:=round(FastArcTangent2(b.UV.X,b.UV.Y)*180/cPi)+180;
-       CurColor := FColorMap[c];
-
-       with MainForm.Canvas do
-       begin
-         Pen.Style := psSolid;
-         Pen.Color :=  CurColor;
-         // dessine un traits de la longueur de la vitesse
-         MoveTo(P.ST.x,P.ST.y);
-         LineTo(P.ST.x+P.UV.x,P.ST.y+P.UV.y);
-       end;
-      end;
+  end;
    {$endif}
 
 end;
@@ -404,7 +390,7 @@ end;
 procedure Tmainform.EraseBackground(DC: HDC);
 begin
  // if EraseBackgroundEnabled then
-    inherited EraseBackground(DC);
+ //   inherited EraseBackground(DC);
 end;
 
 end.
