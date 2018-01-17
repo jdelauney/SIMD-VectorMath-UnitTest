@@ -140,7 +140,7 @@ end;
 
 function TGLZVector4i.Abs: TGLZVector4i; assembler; nostackframe; register;
 asm
-  movdqa   xmm0, [RCX]
+  movdqa    xmm0, [RCX]
   pxor      xmm1, xmm1     // 0 out xmm1
   pcmpgtd   xmm1, xmm0     // set all 1s where neg
   movdqa    xmm2, xmm1     // make copy of above
@@ -310,44 +310,43 @@ asm
   movdqa [RESULT], xmm0
 end;
 
-function TGLZVector4i.Combine2(constref V2: TGLZVector4i; const F1, F2: Single): TGLZVector4i;assembler; nostackframe; register;
+function TGLZVector4i.Combine2(constref V2: TGLZVector4i; const F1, F2: Single): TGLZVector4i;assembler; //nostackframe; register;
 asm
-  movdqa xmm0,[RCX]
-  movdqa  xmm1,[V2]
+  movdqa  xmm0, [RCX]
+  movd    xmm4, [RCX]12
+  movdqa  xmm1, [V2]
 
   cvtdq2ps xmm0,xmm0
   cvtdq2ps xmm1,xmm1
 
-  movlps  xmm2,[F2]
+  movss  xmm2,[F2]
   shufps xmm2, xmm2, $00 // replicate F2
   shufps xmm3, xmm3, $00 // replicate F1
 
   mulps xmm0, xmm3  // Self * F1
   mulps xmm1, xmm2  // V2 * F2
   addps xmm0, xmm1  // (Self * F1) + (V2 * F2)
-
   andps xmm0, [RIP+cSSE_MASK_NO_W]
-
   cvtps2dq xmm0, xmm0
+  shufps xmm4, xmm4, 00111111b
+  paddd   xmm0, xmm4
 
-  movhlps xmm1,xmm0
-  movq     [RDX],  xmm1
-  {.$i macro_sse_win64_trunc_xmm0-xmm0.inc} //RAISE A SIGFPE WITH TIMING TEST
- // movdqa [RDX], xmm0
+  movdqa  [RESULT],  xmm0
 end;
 
-function TGLZVector4i.Combine3(constref V2, V3: TGLZVector4i; const F1, F2, F3: Single): TGLZVector4i;  assembler; nostackframe; register;
+function TGLZVector4i.Combine3(constref V2, V3: TGLZVector4i; const F1, F2, F3: Single): TGLZVector4i;  assembler;// nostackframe; register;
 asm
   movdqa xmm0,[RCX]
   movdqa  xmm1,[V2]
   movdqa  xmm4,[V3]
+  movd    xmm6, [RCX]12
   cvtdq2ps xmm0,xmm0
   cvtdq2ps xmm1,xmm1
   cvtdq2ps xmm4,xmm4
 
-  movlps xmm2, [F1]
-  movlps xmm3, [F2]
-  movlps xmm5, [F3]
+  movss xmm2, [F1]
+  movss xmm3, [F2]
+  movss xmm5, [F3]
 
   shufps xmm2, xmm2, $00 // replicate F2
   shufps xmm3, xmm3, $00 // replicate F2
@@ -362,7 +361,9 @@ asm
 
   andps xmm0, [RIP+cSSE_MASK_NO_W]
   cvtps2dq xmm0, xmm0
-  //movhlps xmm1,xmm0
+  shufps xmm6, xmm6, 00111111b
+  paddd   xmm0, xmm6
+  movdqa  [RESULT],  xmm0
 end;
 
 
