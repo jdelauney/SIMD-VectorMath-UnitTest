@@ -17,7 +17,7 @@ type
   THmgPlaneComparatorTest = class(TVectorBaseTestCase)
     protected
       {$CODEALIGN RECORDMIN=16}
-      vt4, vt5 : TGLZVector;
+      vt5 : TGLZVector;
       nph1, nph2,nph3 : TNativeGLZHmgPlane;
       ph1,ph2,ph3     : TGLZHmgPlane;
       nt4: TNativeGLZVector;

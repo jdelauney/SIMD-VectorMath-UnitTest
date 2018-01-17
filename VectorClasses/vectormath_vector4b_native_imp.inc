@@ -413,14 +413,7 @@ begin
 End;
 
 function TGLZVector4b.Combine2(constref V2: TGLZVector4b; const F1, F2: Single): TGLZVector4b;
-//Var
-//  va, vb : TGLZVector4b;
-//  ws : Byte;
 begin
-  //ws:=Self.W;               // doing it this way is both inefficient and
-  //va := Self * F1;          // inaccurate with 12 calls to clampbyte
-  //vb := v2 * F2;            // reducing the precision. Also more conversions
-  //result := va + vb;        // from int to float and float to int.
   result.X := ClampByte(Round(Self.X * F1 + V2.X * F2));
   result.Y := ClampByte(Round(Self.Y * F1 + V2.Y * F2));
   result.Z := ClampByte(Round(Self.Z * F1 + V2.Z * F2));
@@ -428,16 +421,7 @@ begin
 end;
 
 function TGLZVector4b.Combine3(constref V2, V3: TGLZVector4b; const F1, F2, F3: Single): TGLZVector4b;
-//Var
-//  va, vb, vc : TGLZVector4b;
-//  ws : Byte;
 begin
-  //ws:=Self.W;
-  //va := Self * F1;
-  //vb := v2 * F2;
-  //vc := v3 * F3;
-  //result := va + vb + vc;
-  //result.W := ws;
   result.X := ClampByte(Round(Self.X * F1 + V2.X * F2 + V3.X * F3));
   result.Y := ClampByte(Round(Self.Y * F1 + V2.Y * F2 + V3.Y * F3));
   result.Z := ClampByte(Round(Self.Z * F1 + V2.Z * F2 + V3.Z * F3));

@@ -28,7 +28,7 @@ type
     public
      {$CODEALIGN RECORDMIN=16}
      vtt1,vtt2, vtt3, vtt4: TGLZVector2f;
-     vt1,vt2, vt3 : TGLZVector4f;
+     vt1,vt2, vt3, vt4 : TGLZVector4f;
      at1, at2, at3, at4, vorg: TGLZVector4f;
      ntt1,ntt2, ntt3 : TNativeGLZVector2f;
      vt2i  : TGLZVector2i;

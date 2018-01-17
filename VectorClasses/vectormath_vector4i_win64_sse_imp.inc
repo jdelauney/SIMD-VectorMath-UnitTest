@@ -112,7 +112,7 @@ asm
   movdqa xmm1,[A]
   movdqa xmm0,[RIP+cNullVector4i]
   psubd  xmm0,xmm1
-  movdqu [RESULT],xmm0
+  movdqa [RESULT],xmm0
 End;
 
 class operator TGLZVector4i.= (constref A, B: TGLZVector4i): boolean; assembler; nostackframe; register;

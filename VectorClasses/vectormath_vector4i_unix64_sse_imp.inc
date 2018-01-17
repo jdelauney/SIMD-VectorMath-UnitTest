@@ -48,7 +48,7 @@ asm
   cvtdq2ps xmm0,xmm0
   cvtdq2ps xmm1,xmm1
   divps  xmm0,xmm1
-  cvtps2dq xmm0, xmm0
+  {$i macro_sse_win64_trunc_xmm0-xmm0.inc}
   movhlps  xmm1, xmm0
   movq     RAX,  xmm0
   movq     RDX,  xmm1
@@ -111,7 +111,7 @@ asm
   cvtdq2ps xmm1, xmm1
   shufps   xmm1, xmm1, $00
   divps    xmm0, xmm1
-  cvtps2dq xmm0, xmm0
+ {$i macro_sse_win64_trunc_xmm0-xmm0.inc}
   movhlps  xmm1, xmm0
   movq     RAX,  xmm0
   movq     RDX,  xmm1
@@ -143,8 +143,8 @@ asm
   pcmpeqd  xmm0, [B]
   movmskps eax,  xmm0
   movmskps eax,  xmm0
-  or       eax,  $f
-  setz     al
+  xor       eax,  $f
+  setnz     al
 end;
 
 {%endregion%}
@@ -154,7 +154,12 @@ end;
 function TGLZVector4i.Abs: TGLZVector4i; assembler; nostackframe; register;
 asm
   movdqa   xmm0, [RDI]
-  pand     xmm0, [RIP+cSSE_MASK_ABS]
+  pxor     xmm1, xmm1     // 0 out xmm1
+  pcmpgtd  xmm1, xmm0     // set all 1s where neg
+  movdqa   xmm2, xmm1     // make copy of above
+  pand     xmm2, [RIP+cSSE_MASK_ONE]  // mask off one where negative
+  pxor     xmm0, xmm1     // flip bit if negative
+  paddd    xmm0, xmm2     // +1 if negative
   movhlps  xmm1, xmm0
   movq     RAX,  xmm0
   movq     RDX,  xmm1
@@ -319,7 +324,6 @@ asm
   movlps   xmm2, [F1]
   shufps xmm2, xmm2, $00                     // replicate
 
-  andps    xmm0, [RIP+cSSE_MASK_NO_W]
   mulps    xmm1, xmm2                        //V2*F1
 
   push     rax                               // create a mem area for mxcsr
@@ -336,7 +340,10 @@ asm
   pop      rax                               // free used stack
 
   paddd    xmm0, xmm1                        // Self + (V2*F1)
-
+  andps    xmm0, [RIP+cSSE_MASK_NO_W]
+  movd     xmm4, [RDI]12
+  shufps   xmm4, xmm4, 00111111b
+  paddd    xmm0, xmm4
   movhlps  xmm1, xmm0
   movq     RAX,  xmm0
   movq     RDX,  xmm1
@@ -356,10 +363,11 @@ asm
   mulps    xmm1, xmm3      // V2 * F2
 
   addps    xmm0, xmm1      // (Self * F1) + (V2 * F2)
-
-  andps    xmm0, [RIP+cSSE_MASK_NO_W]
-
   cvtps2dq xmm0, xmm0
+  andps    xmm0, [RIP+cSSE_MASK_NO_W]
+  movd     xmm4, [RDI]12
+  shufps   xmm4, xmm4, 00111111b
+  paddd    xmm0, xmm4
   movhlps  xmm1, xmm0
   movq     RAX,  xmm0
   movq     RDX,  xmm1
@@ -385,8 +393,11 @@ asm
   addps    xmm0, xmm4      // (Self * F1) + (V2 * F2)
   addps    xmm0, xmm5      // ((Self * F1) + (V2 * F2)) + (V3 * F3)
 
-  andps    xmm0, [RIP+cSSE_MASK_NO_W]
   cvtps2dq xmm0, xmm0
+  andps    xmm0, [RIP+cSSE_MASK_NO_W]
+  movd     xmm4, [RDI]12
+  shufps   xmm4, xmm4, 00111111b
+  paddd    xmm0, xmm4
   movhlps  xmm1, xmm0
   movq     RAX,  xmm0
   movq     RDX,  xmm1

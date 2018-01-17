@@ -15,7 +15,7 @@ type
   THmgPlaneFunctionalTest = class(TVectorBaseTestCase)
     protected
       {$CODEALIGN RECORDMIN=16}
-      vt4, vt5 : TGLZVector;
+      vt5 : TGLZVector;
       ph1,ph2,ph3     : TGLZHmgPlane; //TGLZHmgPlaneHelper;
       procedure Setup; override;
     published

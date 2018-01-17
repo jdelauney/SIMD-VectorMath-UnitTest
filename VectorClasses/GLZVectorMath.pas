@@ -407,6 +407,7 @@ type
       6 : (TopLeft,BottomRight : TGLZVector2i);
   end;
 
+
   TGLZVector4f =  record  // With packed record the performance decrease a little
   private
     //FSwizzleMode :  TGLZVector4SwizzleRef;

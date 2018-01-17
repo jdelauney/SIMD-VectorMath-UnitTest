@@ -215,9 +215,7 @@ end;
 function TGLZVector2f.Trunc: TGLZVector2i;assembler;nostackframe;register;
 asm
   movq     xmm0, [RCX]
- // push rax
  {$i macro_sse_win64_trunc_xmm0-xmm0.inc}
- // pop rax
   movq   rax, xmm0
 end;
 

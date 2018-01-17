@@ -406,15 +406,7 @@ begin
 end;  
 
 function TGLZVector4i.Combine2(constref V2: TGLZVector4i; const F1, F2: Single): TGLZVector4i;
-//Var
-//  va, vb : TGLZVector4i;
-//  ws : Byte;
 begin
-  //ws:=Self.W;
-  //va := Self * F1;
-  //vb := v2 * F2;
-  //result := va + vb;
-  //result.W := ws;
   result.X := Round(Self.X * F1 + V2.X * F2);
   result.Y := Round(Self.Y * F1 + V2.Y * F2);
   result.Z := Round(Self.Z * F1 + V2.Z * F2);
@@ -422,16 +414,7 @@ begin
 end;
 
 function TGLZVector4i.Combine3(constref V2, V3: TGLZVector4i; const F1, F2, F3: Single): TGLZVector4i;
-//Var
-//  va, vb, vc : TNativeGLZVector4i;
-//  ws : integer;
 begin
-  //ws:=Self.W;
-  //va := Self * F1;
-  //vb := v2 * F2;
-  //vc := v3 * F3;
-  //result := va + vb + vc;
-  //result.W := ws;
   result.X := Round(Self.X * F1 + V2.X * F2 + V3.X * F3);
   result.Y := Round(Self.Y * F1 + V2.Y * F2 + V3.Y * F3);
   result.Z := Round(Self.Z * F1 + V2.Z * F2 + V3.Z * F3);
