@@ -141,12 +141,13 @@ end;
 function TGLZVector4i.Abs: TGLZVector4i; assembler; nostackframe; register;
 asm
   movdqa   xmm0, [RCX]
-  pand     xmm0, [RIP+cSSE_MASK_ABS]
- // movhlps  xmm1, xmm0
-  movdqa   [RDX], xmm0
-//  movhlps  xmm1, xmm0
-//  movq     RAX,  xmm0
-//  movq     RDX,  xmm1
+  pxor      xmm1, xmm1     // 0 out xmm1
+  pcmpgtd   xmm1, xmm0     // set all 1s where neg
+  movdqa    xmm2, xmm1     // make copy of above
+  pand      xmm2, [RIP+cSSE_MASK_ONE]  // mask off one where negative
+  pxor      xmm0, xmm1     // flip bit if negative
+  paddd     xmm0, xmm2     // +1 if negative
+  movdqa   [RESULT], xmm0
 end;
 
 function TGLZVector4i.DivideBy2:TGLZVector4i;assembler; nostackframe; register;
