@@ -28,3 +28,6 @@
 
 # Turn off timing tests if you uncomment ths
 #-dNO_TIMING_TEST
+
+# Enable fast math over native pascal system and math units
+#-dUSE_FASTMATH
