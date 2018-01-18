@@ -320,27 +320,12 @@ function TGLZVector4i.Combine(constref V2: TGLZVector4i; constref F1: Single): T
 asm
   movdqa   xmm0, [RDI]
   movdqa   xmm1, [V2]
-  cvtdq2ps xmm0, xmm0
+  cvtdq2ps xmm1, xmm1
   movlps   xmm2, [F1]
-  shufps xmm2, xmm2, $00                     // replicate
-
+  shufps xmm2, xmm2, 11000000b                     // replicate
   mulps    xmm1, xmm2                        //V2*F1
-
-  push     rax                               // create a mem area for mxcsr
-  stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
-  mov      eax,  DWORD PTR [rsp]             // get it
-  mov      ecx,  eax                         // make local copy
-  and      eax,  $00009FFF
-  or       eax,  $00006000                   // Set bits
-  mov      DWORD PTR [rsp], eax              // mov bits to mem
-  ldmxcsr  DWORD PTR [rsp]                   // set new bits
-  cvtps2dq xmm0, xmm0
-  mov      DWORD PTR [rsp], ecx              // put old bits in mem
-  ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
-  pop      rax                               // free used stack
-
+  cvtps2dq xmm1, xmm1
   paddd    xmm0, xmm1                        // Self + (V2*F1)
-  andps    xmm0, [RIP+cSSE_MASK_NO_W]
   movd     xmm4, [RDI]12
   shufps   xmm4, xmm4, 00111111b
   paddd    xmm0, xmm4
@@ -356,15 +341,14 @@ asm
   cvtdq2ps xmm2, xmm2
   cvtdq2ps xmm3, xmm3
 
-  shufps   xmm0, xmm0, $00 // replicate  F1
-  shufps   xmm1, xmm1, $00 // replicate  F2
+  shufps   xmm0, xmm0, 11000000b // replicate  F1
+  shufps   xmm1, xmm1, 11000000b // replicate  F2
 
   mulps    xmm0, xmm2      // Self * F1
   mulps    xmm1, xmm3      // V2 * F2
 
   addps    xmm0, xmm1      // (Self * F1) + (V2 * F2)
   cvtps2dq xmm0, xmm0
-  andps    xmm0, [RIP+cSSE_MASK_NO_W]
   movd     xmm4, [RDI]12
   shufps   xmm4, xmm4, 00111111b
   paddd    xmm0, xmm4
@@ -382,9 +366,9 @@ asm
   cvtdq2ps xmm4, xmm4
   cvtdq2ps xmm5, xmm5
 
-  shufps   xmm0, xmm0, $00 // replicate  F1
-  shufps   xmm1, xmm1, $00 // replicate  F2
-  shufps   xmm2, xmm2, $00 // replicate  F3
+  shufps   xmm0, xmm0, 11000000b // replicate  F1
+  shufps   xmm1, xmm1, 11000000b // replicate  F2
+  shufps   xmm2, xmm2, 11000000b // replicate  F3
 
   mulps    xmm0, xmm3      // Self * F1
   mulps    xmm4, xmm1      // V2 * F2
@@ -394,7 +378,6 @@ asm
   addps    xmm0, xmm5      // ((Self * F1) + (V2 * F2)) + (V3 * F3)
 
   cvtps2dq xmm0, xmm0
-  andps    xmm0, [RIP+cSSE_MASK_NO_W]
   movd     xmm4, [RDI]12
   shufps   xmm4, xmm4, 00111111b
   paddd    xmm0, xmm4
