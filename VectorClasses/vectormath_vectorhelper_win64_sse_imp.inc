@@ -1,19 +1,30 @@
-function TGLZVectorHelper.PointProject(constref origin, direction : TGLZVector) : Single;assembler;
+function TGLZVectorHelper.PointProject(constref origin, direction : TGLZVector4f) : Single;assembler;register; nostackframe;
 asm
   movaps xmm0, [RCX]
   movaps xmm1, [Origin]
-  movaps xmm2, [Direction]
   subps  xmm0, xmm1
+  movaps xmm2, [Direction]
   mulps  xmm0, xmm2
-  andps  xmm0, [RIP+cSSE_MASK_NO_W]
-  movaps xmm1, xmm0
-  movaps xmm2, xmm0
-  shufps xmm0, xmm0, 00000000b
-  shufps xmm1, xmm1, 01010101b
-  shufps xmm2, xmm2, 10101010b
-  addss  xmm0, xmm1
-  addss  xmm0, xmm2
-  movss  [RESULT], {%H-}xmm0
+  //andps  xmm0, [RIP+cSSE_MASK_NO_W]
+  {$ifdef USE_ASM_SSE_3} // Horizontal add
+  {$ifdef TEST}
+    haddps xmm0, xmm0  //Slow
+	  haddps xmm0, xmm0
+  {$else}
+    movshdup xmm1,xmm0
+    addps  xmm0,xmm1
+    movhlps xmm1,xmm0
+    addss  xmm0,xmm1
+  {$endif}
+  {$else}
+    movaps xmm1,xmm0
+    movhlps xmm1, xmm1
+  	addps xmm1, xmm0
+  	shufps xmm0, xmm0, 1
+  	addss xmm0, xmm1
+  {$endif}
+
+  //movss  [RDX], {%H-}xmm0
 end;
 
 function TGLZVectorHelper.AverageNormal4(constref up, left, down,right: TGLZVector): TGLZVector; assembler; register; nostackframe;
