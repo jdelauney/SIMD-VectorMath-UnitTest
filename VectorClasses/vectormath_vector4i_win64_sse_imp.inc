@@ -331,7 +331,8 @@ asm
   shufps xmm4, xmm4, 00111111b
   paddd   xmm0, xmm4
 
-  movdqu  [RESULT],  xmm0
+  movdqa  [RESULT],  xmm0
+
 end;
 
 function TGLZVector4i.Combine3(constref V2, V3: TGLZVector4i; const F1, F2, F3: Single): TGLZVector4i;  assembler;// nostackframe; register;
@@ -363,7 +364,7 @@ asm
   cvtps2dq xmm0, xmm0
   shufps xmm6, xmm6, 00111111b
   paddd   xmm0, xmm6
-  movdqu  [RESULT],  xmm0
+  movdqa  [RESULT],  xmm0
 end;
 
 
