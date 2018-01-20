@@ -242,3 +242,4 @@ asm
   mulps xmm0, xmm1
   movaps   [RDX], xmm0
 end;
+
