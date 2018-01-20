@@ -1,6 +1,7 @@
 unit VectorHelperTimingTest;
 
 {$mode objfpc}{$H+}
+{$CODEALIGN LOCALMIN=16}
 
 interface
 
@@ -16,7 +17,7 @@ type
     protected
       {$CODEALIGN RECORDMIN=16}
       nt4,nt5 : TNativeGLZVector;
-      vt4, vt5 : TGLZVector;
+       vt5 : TGLZVector;
       {$CODEALIGN RECORDMIN=4}
       alpha: single;
       procedure Setup; override;
@@ -116,12 +117,26 @@ procedure TVectorHelperTimingTest.TestTimePointProject;
 begin
   TestDispName := 'VectorH Point Project';
   GlobalProfiler[0].Clear;
+  cnt:=0;
   GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin Fs1 := nt1.PointProject(nt2,nt3); end;
+  //for cnt := 1 to Iterations do begin Fs1 := nt1.PointProject(nt2,nt3); end;
+  while cnt<Iterations do
+  begin
+    Fs1 := nt1.PointProject(nt2,nt3);
+    inc(cnt);
+  end;
+  
   GlobalProfiler[0].Stop;
   GlobalProfiler[1].Clear;
+  cnt:=0;
   GlobalProfiler[1].Start;
-  for cnt := 1 to Iterations do begin Fs2 := vt1.PointProject(vt2,vt3); end;
+  
+  while cnt<Iterations do
+  begin
+    Fs2 := vt1.PointProject(vt2,vt3);
+    inc(cnt);
+  end;
+  //for cnt := 1 to Iterations do begin Fs2 := vt1.PointProject(vt2,vt3); end;
   GlobalProfiler[1].Stop;
 end;
 
