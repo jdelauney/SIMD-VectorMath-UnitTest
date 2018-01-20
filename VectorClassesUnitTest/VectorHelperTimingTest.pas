@@ -114,23 +114,24 @@ begin
 end;
 
 procedure TVectorHelperTimingTest.TestTimePointProject;
+var j: byte;
 begin
   TestDispName := 'VectorH Point Project';
   GlobalProfiler[0].Clear;
   cnt:=0;
   GlobalProfiler[0].Start;
+
   //for cnt := 1 to Iterations do begin Fs1 := nt1.PointProject(nt2,nt3); end;
   while cnt<Iterations do
   begin
     Fs1 := nt1.PointProject(nt2,nt3);
     inc(cnt);
   end;
-  
   GlobalProfiler[0].Stop;
   GlobalProfiler[1].Clear;
   cnt:=0;
   GlobalProfiler[1].Start;
-  
+
   while cnt<Iterations do
   begin
     Fs2 := vt1.PointProject(vt2,vt3);

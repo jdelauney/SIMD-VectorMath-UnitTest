@@ -3424,7 +3424,9 @@ begin
            +direction.Z*(Self.Z-origin.Z);
 end;
 
-function TNativeGLZVectorHelper.ShiftObjectFromCenter(constref ACenter: TNativeGLZVector; const ADistance: Single;const AFromCenterSpot: Boolean):TNativeGLZVector;
+function TNativeGLZVectorHelper.ShiftObjectFromCenter(Constref
+  ACenter : TNativeGLZVector; const ADistance : Single;
+  const AFromCenterSpot : Boolean) : TNativeGLZVector;
 var
   lDirection: TNativeGLZVector;
 begin
@@ -3460,6 +3462,38 @@ begin
     if vX > Right then Right := vX;
     if vY > Bottom then Bottom := vY;
   end;
+end;
+
+function TNativeGLZVectorHelper.Step(ConstRef B : TNativeGLZVector) : TNativeGLZVector;
+begin
+  result := Self;
+  if self.X <= B.X then result.X := 0;
+  if self.Y <= B.Y then result.Y := 0;
+  if self.Z <= B.Z then result.Z := 0;
+  if self.W <= B.W then result.W := 0;
+end;
+
+function TNativeGLZVectorHelper.FaceForward(constref A, B : TNativeGLZVector) : TNativeGLZVector;
+begin
+  if (B.DotProduct(A) < 0) then
+     Result := Self
+   else
+     Result := -Self;
+end;
+
+function TNativeGLZVectorHelper.Saturate : TNativeGLZVector;
+begin
+  Result := Self.Min(NativeXYZWHmgVector);
+  Result := Result.Max(NativeNullHmgVector);
+end;
+
+function TNativeGLZVectorHelper.SmoothStep(ConstRef  A,B : TNativeGLZvector): TNativeGLZVector;
+var
+  t: TNativeGLZVector;
+begin
+  t := (Self-a)/(b-a);
+  t := t.Saturate;
+  result :=t*t * ((t*2.0)*3.0);
 end;
 
 

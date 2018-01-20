@@ -748,6 +748,8 @@ type
 
 {%region%----[ TNativeGLZVectorHelper ]-----------------------------------------}
 
+  { TNativeGLZVectorHelper }
+
   TNativeGLZVectorHelper = record helper for TNativeGLZVector
   public
 
@@ -807,6 +809,11 @@ type
     function AverageNormal4(constref up, left, down, right: TNativeGLZVector): TNativeGLZVector;
 
     function ExtendClipRect(vX, vY: Single) : TNativeGLZClipRect;
+
+    function Step(ConstRef B : TNativeGLZVector):TNativeGLZVector;
+    function FaceForward(constref A, B: TNativeGLZVector): TNativeGLZVector;
+    function Saturate : TNativeGLZVector;
+    function SmoothStep(ConstRef  A,B : TNativeGLZvector): TNativeGLZVector;
   end;
 
 {%endregion%}
@@ -870,7 +877,7 @@ Const
   NativeYZHmgVector: TNativeGLZVector = (X: 0; Y: 1; Z: 1; W: 0);
   NativeXZHmgVector: TNativeGLZVector = (X: 1; Y: 0; Z: 1; W: 0);
   NativeXYZHmgVector: TNativeGLZVector = (X: 1; Y: 1; Z: 1; W: 0);
-  NativeXYZWHmgVector: TGLZVector = (X: 1; Y: 1; Z: 1; W: 1);
+  NativeXYZWHmgVector: TNativeGLZVector = (X: 1; Y: 1; Z: 1; W: 1);
 
   // standard homogeneous points
   NativeXHmgPoint :  TNativeGLZVector = (X:1; Y:0; Z:0; W:1);
