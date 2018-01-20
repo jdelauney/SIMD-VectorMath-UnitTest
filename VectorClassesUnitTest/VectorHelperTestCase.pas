@@ -18,7 +18,7 @@ type
     {$CODEALIGN RECORDMIN=16}
     nph1, nph2,nph3 : TNativeGLZHmgPlane;
     nt4,nt5 : TNativeGLZVector;
-    vt4, vt5 : TGLZVector;
+    vt5 : TGLZVector;
     ph1,ph2,ph3     : TGLZHmgPlane;
     {$CODEALIGN RECORDMIN=4}
     alpha: single;
