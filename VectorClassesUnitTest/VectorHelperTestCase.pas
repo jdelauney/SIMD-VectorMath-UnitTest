@@ -18,7 +18,7 @@ type
     {$CODEALIGN RECORDMIN=16}
     nph1, nph2,nph3 : TNativeGLZHmgPlane;
     nt4,nt5 : TNativeGLZVector;
-    vt4, vt5 : TGLZVector;
+    vt5 : TGLZVector;
     ph1,ph2,ph3     : TGLZHmgPlane;
     {$CODEALIGN RECORDMIN=4}
     alpha: single;
@@ -33,6 +33,10 @@ type
     procedure TestMoveAround;
     procedure TestShiftObjectFromCenter;
     procedure TestExtendClipRect;
+    procedure TestStep;
+    procedure TestFaceForward;
+    procedure TestSaturate;
+    procedure TestSmoothStep;
 
   end;
 
@@ -128,6 +132,32 @@ begin
   nCr.ExtendClipRect(Fs1,Fs2);
   aCr.ExtendClipRect(Fs1,Fs2);
   AssertTrue('HmgPlaneHelper ExtendClipRect does not match : '+nCr.ToString+' --> '+nCr.ToString, Compare(nCr,aCr));
+end;
+
+procedure TVectorHelperTestCase.TestStep;
+begin
+  nt3 := nt1.Step(nt2);
+  vt3 := vt1.Step(vt2);
+  AssertTrue('VectorHelper Step does not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
+end;
+
+procedure TVectorHelperTestCase.TestFaceForward;
+begin
+  //nt3 := nt1.Step(nt2);
+  //vt3 := vt1.Step(vt2);
+  //AssertTrue('VectorHelper Step does not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
+end;
+
+procedure TVectorHelperTestCase.TestSaturate;
+begin
+  nt3 := nt1.Saturate;
+  vt3 := vt1.Saturate;
+  AssertTrue('VectorHelper Saturate does not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
+end;
+
+procedure TVectorHelperTestCase.TestSmoothStep;
+begin
+
 end;
 
 {%endregion%}
