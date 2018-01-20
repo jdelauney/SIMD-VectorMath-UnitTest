@@ -15,10 +15,11 @@ type
   THmgPlaneTimingTest  = class(TVectorBaseTimingTest)
     protected
       {$CODEALIGN RECORDMIN=16}
-      vt4, vt5 : TGLZVector;
+       vt5 : TGLZVector;
       nph1, nph2,nph3 : TNativeGLZHmgPlane;
       ph1,ph2,ph3     : TGLZHmgPlane;
       nt4: TNativeGLZVector;
+      {$CODEALIGN RECORDMIN=4}
       procedure Setup; override;
     published
       procedure TestTimeCreate3Vec;
@@ -103,12 +104,24 @@ procedure THmgPlaneTimingTest.TestTimeDistanceToPoint;
 begin
   TestDispName := 'HmgPlane DistanceToPoint';
   GlobalProfiler[0].Clear;
+  cnt := 0;
   GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin fs1 := nph1.Distance(nt3); end;
+  while cnt < iterations do
+  begin
+    fs1 := nph1.Distance(nt3);
+    inc(cnt);
+  end;
+  //for cnt := 1 to Iterations do begin fs1 := nph1.Distance(nt3); end;
   GlobalProfiler[0].Stop;
   GlobalProfiler[1].Clear;
+  cnt := 0;
   GlobalProfiler[1].Start;
-  For cnt:= 1 to Iterations do begin fs2 := ph1.Distance(vt3); end;
+  while cnt < iterations do
+  begin
+    fs2 := ph1.Distance(vt3);
+    inc(cnt);
+  end;
+  //For cnt:= 1 to Iterations do begin fs2 := ph1.Distance(vt3); end;
   GlobalProfiler[1].Stop;
 end;
 
