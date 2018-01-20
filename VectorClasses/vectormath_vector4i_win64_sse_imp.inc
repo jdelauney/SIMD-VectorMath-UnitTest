@@ -319,7 +319,7 @@ asm
   cvtdq2ps xmm0,xmm0
   cvtdq2ps xmm1,xmm1
 
-  movss  xmm2,[F2]
+  movss  xmm2,{%H-}[F2]
   shufps xmm2, xmm2, $00 // replicate F2
   shufps xmm3, xmm3, $00 // replicate F1
 
@@ -345,9 +345,9 @@ asm
   cvtdq2ps xmm1,xmm1
   cvtdq2ps xmm4,xmm4
 
-  movss xmm2, [F1]
-  movss xmm3, [F2]
-  movss xmm5, [F3]
+  movss xmm2, {%H-}[F1]
+  movss xmm3, {%H-}[F2]
+  movss xmm5, {%H-}[F3]
 
   shufps xmm2, xmm2, $00 // replicate F2
   shufps xmm3, xmm3, $00 // replicate F2
