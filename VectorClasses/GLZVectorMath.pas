@@ -8,18 +8,20 @@ Historique : @br
 --------------------------------------------------------------------------------@br
   ------------------------------------------------------------------------------
   Description :
-  L'unité GLZVectorMath regroupe des fonctions mathematiques, optimisées en assembleur
-  SSE/SSE2/SSE3/SSE4 et AVX pour les vecteurs, matrices, quaternion et autres fonctions
-  utiles en 3D
+  GLZVectorMath is an optimized vector classes math library for FreePascal and Lazarus
+  using SIMD (SSE, SSE3, SS4, AVX, AVX2) acceleration
+  It can be used in 2D/3D graphics, computing apps.
+
+  Include :
+    Vectors 2,3 and 4 (Byte, Integer, Float), Matrix4f, Quaternion,
+    Homogenous Plane, BoundBox,....
+
   ------------------------------------------------------------------------------
   @bold(Notes :)
 
-  Quelques liens :
+  Some links :
    @unorderedList(
        @item(http://forum.lazarus.freepascal.org/index.php/topic,32741.0.html)
-       @item()
-       @MatLab
-       @WolFram
      )
   ------------------------------------------------------------------------------@br
 
@@ -35,28 +37,21 @@ Historique : @br
 *==============================================================================*)
 Unit GLZVectorMath;
 
-{.$i glzscene_options.inc}
-
 {$mode objfpc}{$H+}
 
 //-----------------------------
 {$ASMMODE INTEL}
-{.$COPERATORS ON}
 {$INLINE ON}
-
 {$MODESWITCH ADVANCEDRECORDS}
-//-----------------------
+//-----------------------------
 
-// ALIGNEMENT
+//----------------------- DATA ALIGNMENT ---------------------------------------
 {$ALIGN 16}
 
 {$CODEALIGN CONSTMIN=16}
 {$CODEALIGN LOCALMIN=16}
 {$CODEALIGN VARMIN=16}
-
-// with Those the performance decrease a little with SSE but increase a little with AVX
-// Depend of the compiler options with AVX<x> speed is increase with SSE<x> speed decrease
-{.$CODEALIGN RECORDMIN=4}
+//------------------------------------------------------------------------------
 
 // Those options are set in compiler options with the -d command
 {.$DEFINE USE_ASM} // use SIMD SSE/SSE2 by default
@@ -76,12 +71,6 @@ Unit GLZVectorMath;
 {$IFDEF USE_ASM_AVX}
   {$DEFINE USE_ASM}
 {$ENDIF}
-
-// In case of
-{$IFDEF USE_ASM_SSE}
-  {$DEFINE USE_ASM}
-{$ENDIF}
-
 
 {$DEFINE USE_ASM_SIMD_HIGHPRECISION}
 
@@ -139,6 +128,8 @@ Const
 
 type
   {$PACKRECORD 16}
+
+  { Aligned array for vector @groupbegin  }
   TGLZVector2fType = packed array[0..1] of Single;
   TGLZVector2iType = packed array[0..1] of Integer;
 
@@ -149,7 +140,9 @@ type
   TGLZVector4fType = packed array[0..3] of Single;
   TGLZVector4iType = packed array[0..3] of Longint;
   TGLZVector4bType = packed Array[0..3] of Byte;
+  {@groupend}
 
+  { Reference for swizzle (shuffle) vector @groupbegin  }
   TGLZVector3SwizzleRef = (swDefaultSwizzle3,
     swXXX, swYYY, swZZZ, swXYZ, swXZY, swZYX, swZXY, swYXZ, swYZX,
     swRRR, swGGG, swBBB, swRGB, swRBG, swBGR, swBRG, swGRB, swGBR);
@@ -161,108 +154,160 @@ type
     swRRRR, swGGGG, swBBBB, swAAAA,
     swRGBA, swRBGA, swBGRA, swBRGA, swGRBA, swGBRA,
     swARGB, swARBG, swABGR, swABRG, swAGRB, swAGBR);
+  {@groupend}
 
+  { TGLZVector2i : Simple 2D Integer vector }
   TGLZVector2i = record
   case Byte of
     0: (V: TGLZVector2iType);
     1: (X, Y : Integer);
   end;
 
+  { TGLZVector2f : Advanced 2D Float vector }
   TGLZVector2f =  record
+    { Self Create TGLZVector2f }
     procedure Create(aX,aY: single);
-
+    { Return vector as string }
     function ToString : String;
 
+    { Add 2 TGLZVector2f }
     class operator +(constref A, B: TGLZVector2f): TGLZVector2f; overload;
+    { Sub 2 TGLZVector2f }
     class operator -(constref A, B: TGLZVector2f): TGLZVector2f; overload;
+    { Multiply 2 TGLZVector2f }
     class operator *(constref A, B: TGLZVector2f): TGLZVector2f; overload;
+    { Divide 2 TGLZVector2f }
     class operator /(constref A, B: TGLZVector2f): TGLZVector2f; overload;
-
+    { Add one float to one TGLZVector2f }
     class operator +(constref A: TGLZVector2f; constref B:Single): TGLZVector2f; overload;
+    { Sub one float to one TGLZVector2f }
     class operator -(constref A: TGLZVector2f; constref B:Single): TGLZVector2f; overload;
+    { Mul one float to one TGLZVector2f }
     class operator *(constref A: TGLZVector2f; constref B:Single): TGLZVector2f; overload;
+    { Divide one float to one TGLZVector2f }
     class operator /(constref A: TGLZVector2f; constref B:Single): TGLZVector2f; overload;
-
+    { Negate self }
     class operator -(constref A: TGLZVector2f): TGLZVector2f; overload;
 
+    { Compare if two TGLZVector2f are equal }
     class operator =(constref A, B: TGLZVector2f): Boolean;
-    (*class operator >=(constref A, B: TGLZVector2f): Boolean;
+
+    { TODO -oGLZVectorMath -cTGLZVector2f : Add comparator operators <=,<=,>,< }
+    (*
+    class operator >=(constref A, B: TGLZVector2f): Boolean;
     class operator <=(constref A, B: TGLZVector2f): Boolean;
     class operator >(constref A, B: TGLZVector2f): Boolean;
-    class operator <(constref A, B: TGLZVector2f): Boolean;*)
+    class operator <(constref A, B: TGLZVector2f): Boolean;
+    *)
+
+    { Compare if two TGLZVector are not equal }
     class operator <>(constref A, B: TGLZVector2f): Boolean;
 
+    {Return the minimum of each component in TGLZVector2f between self and another TGLZVector2f }
     function Min(constref B: TGLZVector2f): TGLZVector2f; overload;
+    {Return the minimum of each component in TGLZVector2f between self and a float }
     function Min(constref B: Single): TGLZVector2f; overload;
+    {Return the maximum of each component in TGLZVector2f between self and another TGLZVector2f }
     function Max(constref B: TGLZVector2f): TGLZVector2f; overload;
+    {Return the minimum of each component in TGLZVector2f between self and a float }
     function Max(constref B: Single): TGLZVector2f; overload;
 
+    { Clamp Self beetween a min and a max TGLZVector2f }
     function Clamp(constref AMin, AMax: TGLZVector2f): TGLZVector2f;overload;
+    { Clamp each component of Self beatween a min and a max float }
     function Clamp(constref AMin, AMax: Single): TGLZVector2f;overload;
+    { Multiply Self by a TGLZVector2f and add an another TGLZVector2f }
     function MulAdd(constref A,B:TGLZVector2f): TGLZVector2f;
+    { Multiply Self by a TGLZVector2f and div with an another TGLZVector2f }
     function MulDiv(constref A,B:TGLZVector2f): TGLZVector2f;
+    { Return self length }
     function Length:Single;
+    { Return self length squared }
     function LengthSquare:Single;
+    { Return distance from self to an another TGLZVector2f }
     function Distance(constref A:TGLZVector2f):Single;
+    { Return Self distance squared }
     function DistanceSquare(constref A:TGLZVector2f):Single;
+    { Return self normalized TGLZVector2f }
     function Normalize : TGLZVector2f;
+    { Return the dot product of self and an another TGLZVector2f}
     function DotProduct(A:TGLZVector2f):Single;
+    { Return angle between Self and an another TGLZVector2f, relative to a TGLZVector2f as a Center Point }
     function AngleBetween(Constref A, ACenterPoint : TGLZVector2f): Single;
+    { Return the angle cosine between Self and an another TGLZVector2f}
     function AngleCosine(constref A: TGLZVector2f): Single;
+
     // function Reflect(I, NRef : TVector2f):TVector2f
 
+    function Edge(ConstRef A, B : TGLZVector2f):Single; // @TODO : a passer dans TGLZVector2fHelper ???
+
+    { Round Self to an TGLZVector2i }
     function Round: TGLZVector2i;
+    { Round Truc to an TGLZVector2i }
     function Trunc: TGLZVector2i;
 
+    { Access modes }
     case Byte of
       0: (V: TGLZVector2fType);
       1: (X, Y : Single);
       2: (Width, Height : Single);
   End;
 
-  TGLZTexPoint = TGLZVector2f;
-  TGLZTexPointArray = array [0..MaxInt shr 4] of TGLZTexPoint;
-  PGLZTexPointArray = ^TGLZTexPointArray;
-
+  { TGLZVector3b : Advanced 3D Byte vector }
   TGLZVector3b = Record
     private
     public
-
+      { Self Create TGLZVector3b }
       procedure Create(const aX, aY, aZ: Byte);
-
+      { Return vector as string }
       function ToString : String;
 
+      { Add 2 TGLZVector3b }
       class operator +(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+      { Sub 2 TGLZVector3b }
       class operator -(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+      { Multiply 2 TGLZVector3b }
       class operator *(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+      { Divide 2 TGLZVector3b }
       class operator Div(constref A, B: TGLZVector3b): TGLZVector3b; overload;
-
+      { Add one Byte in each component of a TGLZVector3b }
       class operator +(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+      { Sub one Byte in each component of a TGLZVector3b }
       class operator -(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+      { Multiply one Byte in each component of a TGLZVector3b }
       class operator *(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+      { Multiply one Float in each component of a TGLZVector3b }
       class operator *(constref A: TGLZVector3b; constref B:Single): TGLZVector3b; overload;
+      { Divide one Byte in each component of a TGLZVector3b }
       class operator Div(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
-
+      { Compare if two TGLZVector3b are equal }
       class operator =(constref A, B: TGLZVector3b): Boolean;
+      { Compare if two TGLZVector3b are not equal }
       class operator <>(constref A, B: TGLZVector3b): Boolean;
-
+      { Operator and two TGLZVector3b }
       class operator And(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+      { Operator or two TGLZVector3b }
       class operator Or(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+      { Operator xor two TGLZVector3b }
       class operator Xor(constref A, B: TGLZVector3b): TGLZVector3b; overload;
+      { Operator and one TGLZVector3b and one Byte }
       class operator And(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+      { Operator or one TGLZVector3b and one Byte }
       class operator or(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
+      { Operator xor one TGLZVector3b and one Byte }
       class operator Xor(constref A: TGLZVector3b; constref B:Byte): TGLZVector3b; overload;
 
-      //function AsVector3f : TGLZVector3i;
-
+      { Return swizzle (shuffle) components of self }
       function Swizzle(Const ASwizzle : TGLZVector3SwizzleRef): TGLZVector3b;
 
-      Case Integer of
+      { Access modes }
+      Case Byte of
         0 : (V:TGLZVector3bType);
         1 : (X, Y, Z:Byte);
         2 : (Red, Green, Blue:Byte);
     end;
 
+  { TGLZVector3i : Simple 3D Integer vector }
   TGLZVector3i = record
   case Byte of
     0: (V: TGLZVector3iType);
@@ -270,6 +315,7 @@ type
     2: (Red, Green, Blue : Integer);
   end;
 
+  { TGLZVector3f : Simple 3D Float vector }
   TGLZVector3f =  record
     case Byte of
       0: (V: TGLZVector3fType);
@@ -277,61 +323,97 @@ type
       2: (Red, Green, Blue: Single);
   End;
 
+  { Just for convenience }
   TGLZAffineVector = TGLZVector3f;
   PGLZAffineVector = ^TGLZAffineVector;
 
+  { TGLZVector4b : Advanced 4D Byte vector }
   TGLZVector4b = Record
   private
 
   public
+    { Self Create TGLZVector4b from x,y,z,w value }
     procedure Create(Const aX,aY,aZ: Byte; const aW : Byte = 255); overload;
+    { Self Create TGLZVector4b from a TGLZVector3b and w value }
     procedure Create(Const aValue : TGLZVector3b; const aW : Byte = 255); overload;
-
+    { Return vector as string }
     function ToString : String;
 
+    { Add 2 TGLZVector4b }
     class operator +(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+    { Sub 2 TGLZVector4b }
     class operator -(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+    { Multiply 2 TGLZVector4b }
     class operator *(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+    { Divide 2 TGLZVector4b }
     class operator Div(constref A, B: TGLZVector4b): TGLZVector4b; overload;
 
+    { Add one Byte to each component of a TGLZVector4b }
     class operator +(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+    { Sub one Byte to each component of a TGLZVector4b }
     class operator -(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+    { Multiply each component of a TGLZVector4b by one Byte }
     class operator *(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+    { Multiply each componentof a TGLZVector4b by one Float}
     class operator *(constref A: TGLZVector4b; constref B:Single): TGLZVector4b; overload;
+    { Divide each component of a TGLZVector4bby one Byte }
     class operator Div(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
 
+    { Compare if two TGLZVector4b are equal }
     class operator =(constref A, B: TGLZVector4b): Boolean;
+    { Compare if two TGLZVector4b are not equal }
     class operator <>(constref A, B: TGLZVector4b): Boolean;
 
+    { Operator and two TGLZVector4b }
     class operator And(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+    { Operator Or two TGLZVector4b }
     class operator Or(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+    { Operator Xor two TGLZVector4b }
     class operator Xor(constref A, B: TGLZVector4b): TGLZVector4b; overload;
+    { Operator and one TGLZVector4b and one Byte }
     class operator And(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+    { Operator or one TGLZVector4b and one Byte }
     class operator or(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
+    { Operator xor one TGLZVector4b and one Byte }
     class operator Xor(constref A: TGLZVector4b; constref B:Byte): TGLZVector4b; overload;
 
+    { Fast self divide by 2 }
     function DivideBy2 : TGLZVector4b;
-
+    { Return the minimum of each component in TGLZVector4b between self and another TGLZVector4b }
     function Min(Constref B : TGLZVector4b):TGLZVector4b; overload;
+    { Return the minimum of each component in TGLZVector4b between self and a float }
     function Min(Constref B : Byte):TGLZVector4b; overload;
+    { Return the maximum of each component in TGLZVector4b between self and another TGLZVector4b }
     function Max(Constref B : TGLZVector4b):TGLZVector4b; overload;
+    { Return the maximum of each component in TGLZVector4b between self and a float }
     function Max(Constref B : Byte):TGLZVector4b; overload;
+    { Clamp Self between a min and a max TGLZVector4b }
     function Clamp(Constref AMin, AMax : TGLZVector4b):TGLZVector4b; overload;
+    { Clamp each component of Self between a min and a max float }
     function Clamp(Constref AMin, AMax : Byte):TGLZVector4b; overload;
-
+    { Multiply Self by a TGLZVector4b and add an another TGLZVector4b }
     function MulAdd(Constref B, C : TGLZVector4b):TGLZVector4b;
-    function MulDiv(Constref B, C : Byte):TGLZVector4b;
+    { Multiply Self by a TGLZVector4b and div by an another TGLZVector4b }
+    function MulDiv(Constref B, C : TGLZVector4b):TGLZVector4b;
 
+    { Return shuffle components of self following params orders }
     function Shuffle(const x,y,z,w : Byte):TGLZVector4b;
+    { Return swizzle (shuffle) components of self from  TGLZVector4SwizzleRef mask }
     function Swizzle(const ASwizzle: TGLZVector4SwizzleRef ): TGLZVector4b;
 
+    { Return Combine = Self + (V2 * F1) }
     function Combine(constref V2: TGLZVector4b; constref F1: Single): TGLZVector4b;
+    { Return Combine2 = (Self * F1) + (V2 * F2) }
     function Combine2(constref V2: TGLZVector4b; const F1, F2: Single): TGLZVector4b;
+    { Return Combine3 = (Self * F1) + (V2 * F2) + (V3 * F3) }
     function Combine3(constref V2, V3: TGLZVector4b; const F1, F2, F3: Single): TGLZVector4b;
 
+    { Return the minimum component value in XYZ }
     function MinXYZComponent : Byte;
+    { Return the maximum component value in XYZ }
     function MaxXYZComponent : Byte;
 
+    { Access modes }
     Case Integer of
      0 : (V:TGLZVector4bType);
      1 : (X, Y, Z, W:Byte);
@@ -340,28 +422,49 @@ type
      4 : (AsInteger : Integer);
   end;
 
-  { TGLZVector4i }
+  { TGLZVector4i : Advanced 4D Integer vector }
   TGLZVector4i = Record
   public
+    { Self Create TGLZVector4i from x,y,z,w value }
     procedure Create(Const aX,aY,aZ: Longint; const aW : Longint = 0); overload;
-    procedure Create(Const aValue : TGLZVector3i; const aW : Longint = MaxInt); overload;
-    procedure Create(Const aValue : TGLZVector3b; const aW : Longint = MaxInt); overload;
+    { Self Create TGLZVector4i from a TGLZVector3i and w value }
+    procedure Create(Const aValue : TGLZVector3i; const aW : Longint = 0); overload;
+    { Self Create TGLZVector4i from a TGLZVector3b and w value }
+    procedure Create(Const aValue : TGLZVector3b; const aW : Longint = 0); overload;
 
+    //procedure Create(Const aX,aY,aZ: Longint); overload; @TODO ADD as Affine creation
+    //procedure Create(Const aValue : TGLZVector3i); overload;
+    //procedure Create(Const aValue : TGLZVector3b); overload;
+
+    { Return vector as string }
     function ToString : String;
 
+    { Add 2 TGLZVector4i }
     class operator +(constref A, B: TGLZVector4i): TGLZVector4i; overload;
+    { Sub 2 TGLZVector4i }
     class operator -(constref A, B: TGLZVector4i): TGLZVector4i; overload;
+    { Multiply 2 TGLZVector4i }
     class operator *(constref A, B: TGLZVector4i): TGLZVector4i; overload;
+    { Divide 2 TGLZVector4i }
     class operator Div(constref A, B: TGLZVector4i): TGLZVector4i; overload;
 
+    { Add one Int to each component of a TGLZVector4i }
     class operator +(constref A: TGLZVector4i; constref B:Longint): TGLZVector4i; overload;
+    { Sub one Int to each component of a TGLZVector4i }
     class operator -(constref A: TGLZVector4i; constref B:Longint): TGLZVector4i; overload;
+    { Multiply one Int to each component of a TGLZVector4i }
     class operator *(constref A: TGLZVector4i; constref B:Longint): TGLZVector4i; overload;
+    { Multiply one Float to each component of a TGLZVector4i }
     class operator *(constref A: TGLZVector4i; constref B:Single): TGLZVector4i; overload;
+    { Divide each component of a TGLZVector4i by one Int}
     class operator Div(constref A: TGLZVector4i; constref B:Longint): TGLZVector4i; overload;
 
+    { Negate Self}
     class operator -(constref A: TGLZVector4i): TGLZVector4i; overload;
+
+    { Compare if two TGLZVector4i are equal }
     class operator =(constref A, B: TGLZVector4i): Boolean;
+    { Compare if two TGLZVector4i are not equal }
     class operator <>(constref A, B: TGLZVector4i): Boolean;
 
     (* class operator And(constref A, B: TGLZVector4i): TGLZVector4i; overload;
@@ -371,32 +474,48 @@ type
     class operator or(constref A: TGLZVector4i; constref B:LongInt): TGLZVector4i; overload;
     class operator Xor(constref A: TGLZVector4i; constref B:LongInt): TGLZVector4i; overload; *)
 
+    { Fast self divide by 2 }
     function DivideBy2 : TGLZVector4i;
+    { Return absolute value of self }
     function Abs: TGLZVector4i;
-
+    { Return the minimum of each component in TGLZVector4i between self and another TGLZVector4i }
     function Min(Constref B : TGLZVector4i):TGLZVector4i; overload;
+    { Return the minimum of each component in TGLZVector4i between self and a float }
     function Min(Constref B : LongInt):TGLZVector4i; overload;
+    { Return the maximum of each component in TGLZVector4i between self and another TGLZVector4i }
     function Max(Constref B : TGLZVector4i):TGLZVector4i; overload;
+    { Return the maximum of each component in TGLZVector4i between self and a float }
     function Max(Constref B : LongInt):TGLZVector4i; overload;
+    { Clamp Self between a min and a max TGLZVector4i }
     function Clamp(Constref AMin, AMax : TGLZVector4i):TGLZVector4i; overload;
+    { Clamp each component of Self between a min and a max float }
     function Clamp(Constref AMin, AMax : LongInt):TGLZVector4i; overload;
 
+    { Multiply Self by a TGLZVector4i and Add an another TGLZVector4i }
     function MulAdd(Constref B, C : TGLZVector4i):TGLZVector4i;
+    { Multiply Self by a TGLZVector4b and Divide by an another TGLZVector4b }
     function MulDiv(Constref B, C : TGLZVector4i):TGLZVector4i;
 
-    //function GetSwizzleMode : TGLZVector4SwizzleRef;
-    //function AsVector4f : TGLZVector4f;
-
+    { Return shuffle components of self following params orders }
     function Shuffle(const x,y,z,w : Byte):TGLZVector4i;
+    //function Shuffle(Constref A : TGLZVector4i; const x,y,z,w : Byte):TGLZVector4i; overload; ????
+
+    { Return swizzle (shuffle) components of self from  TGLZVector4SwizzleRef mask }
     function Swizzle(const ASwizzle: TGLZVector4SwizzleRef ): TGLZVector4i;
 
+    { Return Combine = Self  + (V2 * F2) }
     function Combine(constref V2: TGLZVector4i; constref F1: Single): TGLZVector4i;
+    { Return Combine2 = (Self * F1) + (V2 * F2) }
     function Combine2(constref V2: TGLZVector4i; const F1, F2: Single): TGLZVector4i;
+    { Return Combine3 = (Self * F1) + (V2 * F2) + (V3 * F3) }
     function Combine3(constref V2, V3: TGLZVector4i; const F1, F2, F3: Single): TGLZVector4i;
 
+    { Return the minimum component value in XYZ }
     function MinXYZComponent : LongInt;
+    { Return the maximum component value in XYZ }
     function MaxXYZComponent : LongInt;
 
+    { Access Modes }
     case Byte of
       0 : (V: TGLZVector4iType);
       1 : (X,Y,Z,W: longint);
@@ -407,36 +526,49 @@ type
       6 : (TopLeft,BottomRight : TGLZVector2i);
   end;
 
-
-  TGLZVector4f =  record  // With packed record the performance decrease a little
-  private
-    //FSwizzleMode :  TGLZVector4SwizzleRef;
+  { TGLZVector4f : Advanced 4D Float vector }
+  TGLZVector4f =  record
   public
+    { Self Create TGLZVector4f from x,y,z and w value set by default to 0.0}
     procedure Create(Const aX,aY,aZ: single; const aW : Single = 0); overload;
+    { Self Create TGLZVector4f from a TGLZVector3f and w value set by default to 1.0 }
     procedure Create(Const anAffineVector: TGLZVector3f; const aW : Single = 1); overload;
 
-    //function Make(Const aX,aY,aZ: single; const aW : Single = 0):TGLZVector4f; overload;
-    //function Make(Const anAffineVector: TGLZVector3f; const aW : Single = 1):TGLZVector4f; overload;
-
+    { Return vector as string }
     function ToString : String;
 
+    { Add 2 TGLZVector4f }
     class operator +(constref A, B: TGLZVector4f): TGLZVector4f; overload;
+    { Sub 2 TGLZVector4f }
     class operator -(constref A, B: TGLZVector4f): TGLZVector4f; overload;
+    { Multiply 2 TGLZVector4f }
     class operator *(constref A, B: TGLZVector4f): TGLZVector4f; overload;
+    { Divide 2 TGLZVector4f }
     class operator /(constref A, B: TGLZVector4f): TGLZVector4f; overload;
 
+    { Add one Float to each component of a TGLZVector4f }
     class operator +(constref A: TGLZVector4f; constref B:Single): TGLZVector4f; overload;
+    { Sub one Float to each component of a TGLZVector4f }
     class operator -(constref A: TGLZVector4f; constref B:Single): TGLZVector4f; overload;
+    { Multiply one Float to each component of a TGLZVector4f }
     class operator *(constref A: TGLZVector4f; constref B:Single): TGLZVector4f; overload;
+    { Divide each component of a TGLZVector4f by one Float}
     class operator /(constref A: TGLZVector4f; constref B:Single): TGLZVector4f; overload;
 
+    { Negate Self }
     class operator -(constref A: TGLZVector4f): TGLZVector4f; overload;
 
+    { Compare if two TGLZVector4f are equal }
     class operator =(constref A, B: TGLZVector4f): Boolean;
+    { Compare if two TGLZVector4f are greater or equal }
     class operator >=(constref A, B: TGLZVector4f): Boolean;
+    { Compare if two TGLZVector4f are less or equal }
     class operator <=(constref A, B: TGLZVector4f): Boolean;
+    { Compare if two TGLZVector4f are greater }
     class operator >(constref A, B: TGLZVector4f): Boolean;
+    { Compare if two TGLZVector4f are less }
     class operator <(constref A, B: TGLZVector4f): Boolean;
+    { Compare if two TGLZVector4f are not equal }
     class operator <>(constref A, B: TGLZVector4f): Boolean;
 
     (* class operator And(constref A, B: TGLZVector4f.): TGLZVector4f.; overload;
@@ -446,51 +578,90 @@ type
     class operator or(constref A: TGLZVector4f.; constref B:Single): TGLZVector4f.; overload;
     class operator Xor(constref A: TGLZVector4f.; constref B:Single): TGLZVector4f.; overload; *)
 
+    { Return shuffle components of self following params orders }
     function Shuffle(const x,y,z,w : Byte):TGLZVector4f;
+    { Return swizzle (shuffle) components of self from  TGLZVector4SwizzleRef mask }
     function Swizzle(const ASwizzle: TGLZVector4SwizzleRef ): TGLZVector4f;
 
+    { Return the minimum component value in XYZ }
     function MinXYZComponent : Single;
+    { Return the maximum component value in XYZ }
     function MaxXYZComponent : Single;
 
+    { Return absolute value of self }
     function Abs:TGLZVector4f;overload;
+
+    { Negate }
     function Negate:TGLZVector4f;
+
+    { Fast Self Divide by 2 }
     function DivideBy2:TGLZVector4f;
-    function Distance(constref A: TGLZVector4f):Single;
+
+    { Return self length }
     function Length:Single;
-    function DistanceSquare(constref A: TGLZVector4f):Single;
+    { Return self length squared }
     function LengthSquare:Single;
+    { Return Distance from self to A }
+    function Distance(constref A: TGLZVector4f):Single;
+    { Return Distance squared from self to A }
+    function DistanceSquare(constref A: TGLZVector4f):Single;
+    { Calculates Abs(v1[x]-v2[x])+Abs(v1[y]-v2[y])+..., also know as "Norm1". }
     function spacing(constref A: TGLZVector4f):Single;
+    { Return the Dot product of self and an another TGLZVector4f}
     function DotProduct(constref A: TGLZVector4f):Single;
+    { Return the Cross product of self and an another TGLZVector2f}
     function CrossProduct(constref A: TGLZVector4f): TGLZVector4f;
+    { Return self normalized TGLZVector4f }
     function Normalize: TGLZVector4f;
+    { Return normal }
     function Norm:Single;
+
+    { Return the minimum of each component in TGLZVector4f between self and another TGLZVector4f }
     function Min(constref B: TGLZVector4f): TGLZVector4f; overload;
+    { Return the minimum of each component in TGLZVector4f between self and a float }
     function Min(constref B: Single): TGLZVector4f; overload;
+    { Return the maximum of each component in TGLZVector4f between self and another TGLZVector4f }
     function Max(constref B: TGLZVector4f): TGLZVector4f; overload;
+    { Return the maximum of each component in TGLZVector4f between self and a float }
     function Max(constref B: Single): TGLZVector4f; overload;
+    { Clamp Self beetween a min and a max TGLZVector4f }
     function Clamp(Constref AMin, AMax: TGLZVector4f): TGLZVector4f; overload;
+    { Clamp each component of Self beatween a min and a max float }
     function Clamp(constref AMin, AMax: Single): TGLZVector4f; overload;
+
+    { Multiply Self by a TGLZVector4f and Add an another TGLZVector4f }
     function MulAdd(Constref B, C: TGLZVector4f): TGLZVector4f;
+    { Multiply Self by a TGLZVector4f and Divide by an another TGLZVector4f }
     function MulDiv(Constref B, C: TGLZVector4f): TGLZVector4f;
 
-
+    { Return linear interpolate value at T between self and B }
     function Lerp(Constref B: TGLZVector4f; Constref T:Single): TGLZVector4f;
+
+    { Return the angle cosine between Self and an another TGLZVector4f}
     function AngleCosine(constref A : TGLZVector4f): Single;
+    { Return angle between Self and an another TGLZVector4f, relative to a TGLZVector4f as a Center Point }
     function AngleBetween(Constref A, ACenterPoint : TGLZVector4f): Single;
 
+    { Return Combine3 = Self + (V2 * F2)}
     function Combine(constref V2: TGLZVector4f; constref F1: Single): TGLZVector4f;
+    { Return Combine2 = (Self * F1) + (V2 * F2) }
     function Combine2(constref V2: TGLZVector4f; const F1, F2: Single): TGLZVector4f;
+    { Return Combine3 = (Self * F1) + (V2 * F2) + (V3 * F3) }
     function Combine3(constref V2, V3: TGLZVector4f; const F1, F2, F3: Single): TGLZVector4f;
 
+    { Calculates a vector perpendicular to N.
+      N is assumed to be of unit length, subtract out any component parallel to N }
     function Perpendicular(constref N : TGLZVector4f) : TGLZVector4f;
 
+    { Reflects vector V against N (assumes N is normalized) }
     function Reflect(constref N: TGLZVector4f): TGLZVector4f;
 
+    { Round Self to an TGLZVector4i }
     function Round: TGLZVector4i;
+    { Trunc Self to an TGLZVector4i }
     function Trunc: TGLZVector4i;
 
- //   function MoveAround(constRef AMovingUp, ATargetPosition: TGLZVector4f; pitchDelta, turnDelta: Single): TGLZVector4f;
-
+    { ALL PROCEDURE ABOVE WILL BE ERASED }
     procedure pAdd(constref A: TGLZVector4f);overload;
     procedure pSub(constref A: TGLZVector4f);overload;
     procedure pMul(constref A: TGLZVector4f);overload;
@@ -513,8 +684,9 @@ type
     procedure pClamp(constref AMin, AMax: Single); overload;
     procedure pMulAdd(Constref B, C: TGLZVector4f); // (Self*B)+c
     procedure pMulDiv(Constref B, C: TGLZVector4f); // (Self*B)-c
-    //procedure Lerp(Constref B: TGLZVector4f; Constref T:Single): TGLZVector4f;
 
+
+    { Access modes }
     case Byte of
       0: (V: TGLZVector4fType);
       1: (X, Y, Z, W: Single);
@@ -526,13 +698,14 @@ type
 
   end;
 
+  { Spelling convenience for vector4f }
   TGLZVector = TGLZVector4f;
   PGLZVector = ^TGLZVector;
   PGLZVectorArray = ^TGLZVectorArray;
   TGLZVectorArray = array[0..MAXINT shr 5] of TGLZVector4f;
 
   TGLZColorVector = TGLZVector;
-  PGLZColorVector = ^TGLZColorVector;
+  PGLZColorVector = ^TGLZColorVector; // Make Independant like TGLZHmgPlane ?????
 
   TGLZClipRect = TGLZVector;
 
@@ -946,7 +1119,7 @@ type
     // Returns given vector rotated around the Z axis (alpha is in rad)
     function RotateAroundZ(alpha : Single) : TGLZVector;
     // Self is the point
-    function PointProject(constref origin, direction : TGLZVector) : Single;
+    function PointProject(constref origin, direction : TGLZVector4f) : Single;
     // Returns true if both vector are colinear
     function IsColinear(constref v2: TGLZVector) : Boolean;
     //function IsPerpendicular(constref v2: TGLZVector) : Boolean;
@@ -977,7 +1150,10 @@ type
 
     function ExtendClipRect(vX, vY: Single) : TGLZClipRect;
 
-
+    function Step(ConstRef B : TGLZVector4f):TGLZVector4f;
+    function FaceForward(constref A, B: TGLZVector4f): TGLZVector4f;
+    function Saturate : TGLZVector4f;
+    function SmoothStep(ConstRef A,B : TGLZVector4f): TGLZVector4f;
   end;
 
 {%endregion%}
@@ -1112,8 +1288,14 @@ const
 
 {%region%----[ Misc Vector Helpers functions ]----------------------------------}
 
+// To place in new unit : GLZVectorMathUtils  ?????
+
 function AffineVectorMake(const x, y, z : Single) : TGLZAffineVector;overload;
 function AffineVectorMake(const v : TGLZVector) : TGLZAffineVector;overload;
+
+//function MakeVector(Const aX,aY,aZ: single; const aW : Single = 0):TGLZVector4f; overload;
+//function MakeVector(Const anAffineVector: TGLZVector3f; const aW : Single = 1):TGLZVector4f; overload;
+//function MakeAffineVector(Const aX,aY,aZ: single):TGLZVector3f; overload;
 
 
 //procedure VectorArrayAdd(const src : PGLZVectorArray; const delta : TGLZVector4f; const nb : Integer; dest : PGLZVectorArray);
@@ -1207,7 +1389,6 @@ const
 // ---- Used by ASM Round & Trunc functions ------------------------------------
 var
   _bakMXCSR, _tmpMXCSR : DWord;
-
 
 procedure SetPlanBB(Var A:TGLZBoundingBox;const NumPlan: Integer; const Valeur: Double);
 var
