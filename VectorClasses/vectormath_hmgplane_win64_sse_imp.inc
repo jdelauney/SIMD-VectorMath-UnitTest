@@ -1,177 +1,96 @@
 procedure TGLZHmgPlane.Create(constref p1, p2, p3 : TGLZVector);assembler; register; nostackframe;
 asm
-{$ifdef TEST}
-  movaps xmm0, [p2]
-  movaps xmm1, [p3]
-  movaps xmm2, [p1]
-  movaps xmm7, xmm2
+  //A := p1y * (p2Z - p3Z) + p2Y * (p3Z - p1Z) + p3Y * (p1Z - p2Z);
+  //B := p1Z * (p2X - p3X) + p2Z * (p3X - p1X) + p3Z * (p1X - p2X);
+  //C := p1X * (p2Y - p3Y) + p2X * (p3Y - p1y) + p3X * (p1y - p2Y);
+  //     NT1     T1(2-3)     NT2     T1(3-1)     NT3     T1(1-2)   NT order currently |-|B|A|C|
+  // shuffle Z -> X  Y -> Z   X ->Y    NT = |W|Z|Y|X|  T1 = |W|X|Z|Y| = 11001001b
+  // keep  p1 p2 p3 for later
 
-  subps xmm0, xmm2
-  subps xmm1, xmm2
-                                   // xmm1 = v2
-  movaps xmm2, xmm0                // xmm2 = v1 // move aligned data
-  movaps xmm3, xmm1                // xmm3 = v2
+  movaps xmm0, [p1]
+  movaps xmm1, [p2]
+  movaps xmm2, [p3]
 
+  movaps xmm4, xmm0
+  movaps xmm5, xmm2
+  movaps xmm6, xmm1
 
-  shufps  xmm0, xmm0, $C9
+  shufps xmm4, xmm4, 11001001b   //|p1 T1|
+  shufps xmm5, xmm5, 11001001b   //|p3 T1|
+  shufps xmm6, xmm6, 11001001b   //|p2 T1|
 
-  shufps  xmm1, xmm1, $D2
-  shufps  xmm2, xmm2, $D2
-  shufps  xmm3, xmm3, $C9
-  // scale
-  mulps   xmm0, xmm1
-  mulps   xmm2, xmm3
-  // sub the results
-  subps   xmm0, xmm2
-  addps   xmm0, [rip+cWOnevector4f]
+  movaps xmm3, xmm6
+  subps  xmm3, xmm5              //|T1(2-3)|
+  subps  xmm5, xmm4              //|T1(3-1)|
+  subps  xmm4, xmm6              //|T1(1-2)|
 
-//Self:=Self.Normalize;
-  movaps xmm3, xmm0
-  andps  xmm3, [RIP+cSSE_MASK_ONLY_W]
-  andps  xmm0, [RIP+cSSE_MASK_NO_W]
-  movaps xmm2, xmm0
-  {$IFDEF USE_ASM_SSE_3}
-    movaps xmm1, xmm0
-    mulps  xmm0, xmm0
-    haddps xmm0, xmm0
-    haddps xmm0, xmm0
-  {$ELSE}
-    mulps  xmm0, xmm0
-    movaps xmm1, xmm0
-    shufps xmm0, xmm1, $4e
-    addps  xmm0, xmm1
-    movaps xmm1, xmm0
-    shufps xmm1, xmm1, $11
-    addps  xmm0, xmm1
-  {$ENDIF}
-    sqrtps xmm0, xmm0
-    divps  xmm2, xmm0
+  movaps xmm6, xmm0              // stash p1 for later
 
-  addps   xmm2, xmm3
+  mulps  xmm0, xmm3              // NT1*(T1(2-3))
+  mulps  xmm1, xmm5              // NT2*(T1(3-1))
+  mulps  xmm2, xmm4              // NT3*(T1(1-2))
+  addps  xmm1, xmm0              // NT1*(T1(2-3)) + NT2*(T1(3-1))
+  addps  xmm1, xmm2              // NT1*(T1(2-3)) + NT2*(T1(3-1)) + NT3*(T1(1-2))
+                                 // xmm1 now holds |-|B|A|C|
+  movaps xmm0, xmm1              // stash for result
 
-  // Self.W:=-p1.DotProduct(Self);
-  // Calculation of 'd' component      // pi, p2, p3 trashed at this point
-
-  andps xmm2, [RIP+cSSE_MASK_NO_W]
-
-  movaps xmm4, xmm2
-
-  //negate has precedence over method
-  xorps xmm2, [RIP+cSSE_MASK_NEGATE]
-
-  // Multiply with point 'p1' on the polygon (saved in xmm7): xmm2 = 0 | a.z*z | a.y*y | a.x*x
-  mulps xmm2, xmm7
-  {$ifdef USE_ASM_SSE_3}
-    // horizontally add, xmm2 = x^2+y^2+z^2 | x^2+y^2+z^2 | x^2+y^2+z^2 | x^2+y^2+z^2
-    haddps xmm2, xmm2
-    haddps xmm2, xmm2
-
-    // Change sign for top component, remove bits for others
-     // xmm2 = -(x^2+y^2+z^2) | .... | ...
-    andps xmm2, [RIP+cSSE_MASK_ONLY_W]	  // xmm2 = (x^2+y^2+z^2) | 0 | 0 | 0
-    orps xmm4, xmm2                       // xmm4 = (x^2+y^2+z^2) | z | y | x
+  {$ifdef USE_ASM_SSE_4}
+    dpps     xmm1, xmm1, 01111111b  // result in all bytes
+    sqrtps   xmm1, xmm1
   {$else}
+    mulps    xmm1, xmm1
+    {$ifdef USE_ASM_SSE_3}
+      //movhlps xmm2, xmm1
+      //haddps  xmm1, xmm1
+      //addss   xmm1, xmm2
+      movshdup xmm2,xmm1
+      addps  xmm1,xmm2
+      movhlps xmm2,xmm1
+      addss  xmm1,xmm2
+    {$else}
+      movhlps xmm2, xmm1
+      addss   xmm2, xmm1
+      shufps  xmm1, xmm1, 01010101b
+      addss   xmm1, xmm2
+    {$endif}
+    sqrtss  xmm1, xmm1
+    shufps  xmm1, xmm1, 00000000b // fill all byte with result.
+  {$endif}
+    divps   xmm0, xmm1            // xmm0 now holds (|-|B|A|C|)unitvector
+    shufps  xmm0, xmm0, 11001001b // xmm0 now holds (|-|C|B|A|)unitvector
 
-    movhlps xmm3, xmm2     // xmm3 = ?   | ?   | 0   |  z^2
-    addss xmm3, xmm2       // xmm3 = ?   | ?   | 0   | z^2 + x^2
-    shufps xmm2, xmm2, $55 // xmm2 = y^2 | y^2 | y^2 | y^2
-    addss xmm3, xmm2       // xmm3 = ?   | ?   | ?   | x^2+y^2+z^2
-    // Change sign
-//    xorps xmm3, [RIP+cSSE_SIGN_MASK_NPPP] // xmm3 = ? | ? | ? | -(x^2+y^2+z^2)
-    // Move to w component location, mask off xyz, and OR with saved portions
-    shufps xmm3,xmm3, $00                // xmm3 = -(x^2+y^2+z^2) | -(x^2+y^2+z^2) | -(x^2+y^2+z^2) | -(x^2+y^2+z^2)
-    andps xmm3, [RIP+cSSE_MASK_ONLY_W]   // xmm3 = -(x^2+y^2+z^2) | 0 | 0 | 0
-    orps xmm4, xmm3                      // xmm4 = -(x^2+y^2+z^2) | z | y | x */
+  // now a choice of two
+  // D := -(p1X * (p2Y * p3Z - p3Y * p2Z) + p2X * (p3Y * p1Z - p1y * p3Z) + p3X * (p1y * p2Z - p2Y * p1Z)
+  // or
+  // D := -(p1.DotProduct(Self))  <-------
+
+  {$ifdef USE_ASM_SSE_4}
+    dpps     xmm6, xmm0, 01110001b
+  {$else}
+    mulps    xmm6, xmm0
+    {$ifdef USE_ASM_SSE_3}
+      //movhlps xmm2, xmm6
+      //haddps  xmm6, xmm6
+      //addss   xmm6, xmm2
+
+      movshdup xmm2,xmm6
+      addps  xmm6,xmm2
+      movhlps xmm2,xmm6
+      addss  xmm6,xmm2
+    {$else}
+      movhlps xmm2, xmm6
+      addss   xmm2, xmm6
+      shufps  xmm6, xmm6, 01010101b
+      addss   xmm6, xmm2
+    {$endif}
   {$endif}
 
-  // Save plane coefficients
-  movaps [RCX],xmm4                        // SF 6.7
-{$else}
-//A := p1y * (p2Z - p3Z) + p2Y * (p3Z - p1Z) + p3Y * (p1Z - p2Z);
-//B := p1Z * (p2X - p3X) + p2Z * (p3X - p1X) + p3Z * (p1X - p2X);
-//C := p1X * (p2Y - p3Y) + p2X * (p3Y - p1y) + p3X * (p1y - p2Y);
+    xorps   xmm6, [RIP+cSSE_MASK_NEGATE] // xmm6 now holds |-|-|-|D|
+    shufps  xmm6, xmm0, 10100000b        // xmm6 now holds |C|C|D|D|
+    shufps  xmm6, xmm6, 00000011b        // xmm6 now holds |D|D|D|C|
+    movlhps xmm0, xmm6
+    movaps [RCX], xmm0                      //SF 7.14
 
-//     NT1       T1(2-3)   NT2    T1(3-1)      NT3     T1(1-2)            NT order currently |-|B|A|C|
-
-// shuffle Z -> X  Y -> Z   X -Y    NT = |W|Z|Y|X|  T1 = |W|X|Z|Y| = 11001001b
-// keep  p1 p2 p3 for later
-
-movaps xmm0, [p1]
-movaps xmm1, [p2]
-movaps xmm2, [p3]
-
-movaps xmm4, xmm0
-movaps xmm5, xmm2
-movaps xmm6, xmm1
-
-shufps xmm4, xmm4, 11001001b   //|p1 T1|
-shufps xmm5, xmm5, 11001001b   //|p3 T1|
-shufps xmm6, xmm6, 11001001b   //|p2 T1|
-
-movaps xmm3, xmm6
-subps  xmm3, xmm5              //|T1(2-3)|
-subps  xmm5, xmm4              //|T1(3-1)|
-subps  xmm4, xmm6              //|T1(1-2)|
-
-movaps xmm6, xmm0              // stash p1 for later
-
-mulps  xmm0, xmm3              // NT1*(T1(2-3))
-mulps  xmm1, xmm5              // NT2*(T1(3-1))
-mulps  xmm2, xmm4              // NT3*(T1(1-2))
-addps  xmm1, xmm0              // NT1*(T1(2-3)) + NT2*(T1(3-1))
-addps  xmm1, xmm2              // NT1*(T1(2-3)) + NT2*(T1(3-1)) + NT3*(T1(1-2))
-                               // xmm1 now holds |-|B|A|C|
-movaps xmm0, xmm1              // stash for result
-
-{$ifdef USE_ASM_SSE_4}
-  dpps     xmm1, xmm1, 01111111b  // result in all bytes
-  sqrtps   xmm1, xmm1
-{$else}
-  mulps    xmm1, xmm1
-  {$ifdef USE_ASM_SSE_3}
-    movhlps xmm2, xmm1
-    haddps  xmm1, xmm1
-    addss   xmm1, xmm2
-  {$else}
-    movhlps xmm2, xmm1
-    addss   xmm2, xmm1
-    shufps  xmm1, xmm1, 01010101b
-    addss   xmm1, xmm2
-  {$endif}
-  sqrtss  xmm1, xmm1
-  shufps  xmm1, xmm1, 00000000b // fill all byte with result.
-{$endif}
-  divps   xmm0, xmm1            // xmm0 now holds (|-|B|A|C|)unitvector
-  shufps  xmm0, xmm0, 11001001b // xmm0 now holds (|-|C|B|A|)unitvector
-
-// now a choice of two
-// D := -(p1X * (p2Y * p3Z - p3Y * p2Z) + p2X * (p3Y * p1Z - p1y * p3Z) + p3X * (p1y * p2Z - p2Y * p1Z)
-// or
-// D := -(p1.DotProduct(Self))  <-------
-
-{$ifdef USE_ASM_SSE_4}
-  dpps     xmm6, xmm0, 01110001b
-{$else}
-  mulps    xmm6, xmm0
-  {$ifdef USE_ASM_SSE_3}
-    movhlps xmm2, xmm6
-    haddps  xmm6, xmm6
-    addss   xmm6, xmm2
-  {$else}
-    movhlps xmm2, xmm6
-    addss   xmm2, xmm6
-    shufps  xmm6, xmm6, 01010101b
-    addss   xmm6, xmm2
-  {$endif}
-{$endif}
-
-  xorps   xmm6, [RIP+cSSE_MASK_NEGATE] // xmm6 now holds |-|-|-|D|
-  shufps  xmm6, xmm0, 10100000b        // xmm6 now holds |C|C|D|D|
-  shufps  xmm6, xmm6, 00000011b        // xmm6 now holds |D|D|D|C|
-  movlhps xmm0, xmm6
-  movaps [RCX], xmm0                      //SF 7.14
-
-{$endif}
 end;
 
 
@@ -186,9 +105,15 @@ asm
 {$else}
   mulps    xmm2, xmm2
   {$ifdef USE_ASM_SSE_3}
+    //movhlps xmm3, xmm2
+    //haddps  xmm2, xmm2
+    //addss   xmm2, xmm3
     movhlps xmm3, xmm2
-    haddps  xmm2, xmm2
-    addss   xmm2, xmm3
+    movaps xmm5, xmm2
+    andps xmm5, [RIP+cSSE_MASK_NO_W]
+    movshdup xmm4,xmm5
+    addps  xmm2,xmm4
+    addss   xmm2, xmm3 // x + w
   {$else}
     movhlps xmm1, xmm2
     addss   xmm1, xmm2
@@ -213,9 +138,16 @@ asm
   {$else}
   mulps    xmm2, xmm2
   {$ifdef USE_ASM_SSE_3}
-    movhlps xmm3, xmm2
-    haddps  xmm2, xmm2
-    addss   xmm2, xmm3
+    movhlps xmm3, xmm2  //zwzw
+   // haddps  xmm2, xmm2 //x+y+z
+    movaps xmm5, xmm2
+    andps xmm5, [RIP+cSSE_MASK_NO_W]
+    movshdup xmm4,xmm5
+    addps  xmm2,xmm4
+
+    addss   xmm2, xmm3 // x + w
+
+
   {$else}
     movhlps xmm1, xmm2
     addss   xmm1, xmm2
@@ -231,46 +163,37 @@ end;
 
 function TGLZHmgPlane.Distance(constref point : TGLZVector) : Single; assembler; register; nostackframe;
 asm
-{$ifdef TEST}
+{.$ifdef TEST}
   movaps xmm0, [RCX]     // xmm0 = Plane->d | Plane->c | Plane->b | Plane->a
   movaps xmm1, [POINT]   // xmm1 = ???????? | Point->z | Point->y | Point->x
 
-
-{$ifdef USE_ASM_SSE_4}
-  dpps    xmm0, xmm1, 01110111b    //12% slower
-  addss   xmm0, [RCX]12
-{$else}
-  //result:=  (Self.X*Point.X) + (Self.Y*Point.Y) + (Self.Z*Point.Z) + Self.W ;
-
-  andps xmm1, [RIP+cSSE_MASK_NO_W] // xmm1 = 0 | ...
-  movaps xmm7, xmm0                // xmm7 = Plane...
-
-  mulps xmm0, xmm1        // xmm1 = d*0.0 | c*z | b*y | a*x
-  shufps xmm7, xmm7, $FF  // xmm7 = d | d | d | d
-
-  {$ifdef USE_ASM_SSE_3}        // 20% slower
-    haddps xmm0, xmm0               // xmm1 = ... | ... | z*c + 0 | x*a + y*b
-    haddps xmm0, xmm0               // xmm1 = ... | ... | dot(Plane, Point)
-    addss  xmm0, xmm7                // xmm1 = ? | ? | ? | dot(Plane, Point) + Plane->d
+  //andps xmm1, [RIP+cSSE_MASK_NO_W] // xmm1 = 0 | ...
+  {$ifdef USE_ASM_SSE_4}
+    dpps    xmm0, xmm1, 01110111b    //12% slower (6% slower with while..do loop)
+    addss   xmm0, [RCX]12
   {$else}
-    movhlps xmm2, xmm0              // xmm2 = ???? | ???? | d*0.0 | z*c */
-    addss xmm2, xmm0                // xmm2 = ???? | ???? | ????  | x*a + z*c*/
-    shufps xmm0, xmm0, $55          // xmm1 = ???? | ???? | ????  | y*b */
-    addss xmm0, xmm2
-    addss xmm0, xmm7                // xmm1 = + Plane.W
+    {$ifdef USE_ASM_SSE_3}  // (1,2%<>4.800% fastest with while..do loop)
+      movss xmm4, [RCX]12
+      //movaps xmm4, xmm0 WHY WE MUST USE THIS INSTRUCTION BEFORE SHUFFLE ?????????
+      //shufps xmm4, xmm0, $FF
+      mulps xmm0, xmm1
+      movshdup xmm2,xmm0
+      movhlps xmm3, xmm0
+      addps  xmm0, xmm2    //x+y
+      addps  xmm0,xmm3     //(x+y)+z
+      addss  xmm0, xmm4    // (x+y+z) + plane.w
+    {$else}
+      movss xmm0, [RCX]           // fastest 0-4% slower --> +4,249% with while..do loop
+      mulss xmm0, [POINT]
+      movss xmm1, [RCX]4
+      mulss xmm1, [POINT]4
+      addss xmm0, xmm1
+      movss xmm2, [RCX]8
+      mulss xmm2, [POINT]8
+      addss xmm0, [RCX]12
+      addss xmm0, xmm2
+    {$endif}
   {$endif}
-{$endif}
-{$else}
-  movss xmm0, [RCX]           // fastest 0-4% slower
-  mulss xmm0, [POINT]
-  movss xmm1, [RCX]4
-  mulss xmm1, [POINT]4
-  addss xmm0, xmm1
-  movss xmm2, [RCX]8
-  mulss xmm2, [POINT]8
-  addss xmm0, [RCX]12
-  addss xmm0, xmm2
-{$endif}
 end;
 
 function TGLZHmgPlane.AbsDistance(constref point : TGLZVector) : Single; assembler; register; nostackframe;
@@ -286,8 +209,12 @@ asm
   shufps xmm7, xmm7, $FF  // xmm7 = d | d | d | d
 
   {$ifdef USE_ASM_SSE_3}
-    haddps xmm0, xmm0               // xmm1 = ... | ... | z*c + 0 | x*a + y*b
-    haddps xmm0, xmm0               // xmm1 = ... | ... | dot(Plane, Point)
+    movshdup xmm1,xmm0
+    addps  xmm0,xmm1
+    movhlps xmm1,xmm0
+    addss  xmm0,xmm1
+    //haddps xmm0, xmm0               // xmm1 = ... | ... | z*c + 0 | x*a + y*b
+    //haddps xmm0, xmm0               // xmm1 = ... | ... | dot(Plane, Point)
     addss xmm0, xmm7                // xmm1 = ? | ? | ? | fabsf(dot(Plane, Point)) + Plane->d
     andps xmm0, [RIP+cSSE_MASK_ABS] // xmm1 = ??? | ??? | ??? | abs(dot(Plane, Point))
   {$else}
