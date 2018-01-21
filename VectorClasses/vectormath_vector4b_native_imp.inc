@@ -266,19 +266,17 @@ begin
   result := (self*B)+C;
 end;
 
-function TGLZVector4b.MulDiv(Constref B, C : Byte) : TGLZVector4b;
+function TGLZVector4b.MulDiv(Constref B, C : TGLZVector4b) : TGLZVector4b;
 var tmp: integer;
 begin
-  tmp := self.x * B;
-  result.x := ClampByte(tmp div C);
-  tmp := self.y * B;
-  result.y := ClampByte(tmp div C);
-  tmp := self.z * B;
-  result.z := ClampByte(tmp div C);
-  tmp := self.w * B;
-  result.w := ClampByte(tmp div C);
-
-//  result := (self*B) div C;   clampbyte messes this up
+  tmp := self.x * B.X;
+  result.x := ClampByte(tmp div C.X);
+  tmp := self.y * B.Y;
+  result.y := ClampByte(tmp div C.Y);
+  tmp := self.z * B.Z;
+  result.z := ClampByte(tmp div C.Z);
+  tmp := self.w * B.W;
+  result.w := ClampByte(tmp div C.W);
 end;
 
 function TGLZVector4b.Shuffle(const x,y,z,w : Byte):TGLZVector4b;
