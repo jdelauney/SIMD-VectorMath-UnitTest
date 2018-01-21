@@ -1,7 +1,7 @@
 unit BSphereComparatorTest;
 
 {$mode objfpc}{$H+}
-
+{$CODEALIGN LOCALMIN=16}
 interface
 
 uses

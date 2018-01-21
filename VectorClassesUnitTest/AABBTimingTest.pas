@@ -1,7 +1,7 @@
 unit AABBTimingTest;
 
 {$mode objfpc}{$H+}
-
+{$CODEALIGN LOCALMIN=16}
 interface
 
 uses
@@ -21,6 +21,7 @@ type
       abs1,abs2,abs3: TGLZBoundingSphere;
       naabb1,naabb2,naabb3: TNativeGLZAxisAlignedBoundingBox;
       aaabb1,aaabb2,aaabb3: TGLZAxisAlignedBoundingBox;
+      {$CODEALIGN RECORDMIN=4}
       procedure Setup; override;
     published
       procedure TestTimeCreateVector;

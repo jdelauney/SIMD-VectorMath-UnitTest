@@ -1,6 +1,7 @@
 unit MatrixTimingTest;
 
 {$mode objfpc}{$H+}
+{$CODEALIGN LOCALMIN=16}
 
 interface
 

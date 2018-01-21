@@ -1,7 +1,7 @@
 unit BoundingBoxTimingTest;
 
 {$mode objfpc}{$H+}
-
+{$CODEALIGN LOCALMIN=16}
 interface
 
 uses
@@ -17,6 +17,7 @@ type
        {$CODEALIGN RECORDMIN=16}
        nbb1,nbb2,nbb3: TNativeGLZBoundingBox;
        abb1,abb2,abb3: TGLZBoundingBox;
+       {$CODEALIGN RECORDMIN=4}
        procedure Setup; override;
      published
        procedure TestTimeOpAdd;
