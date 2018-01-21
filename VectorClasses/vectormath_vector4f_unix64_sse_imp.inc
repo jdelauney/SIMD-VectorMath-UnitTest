@@ -128,12 +128,12 @@ end;
 
 class operator TGLZVector4f.<> (constref A, B: TGLZVector4f): boolean; assembler; nostackframe; register;
 asm
-  movaps  xmm0, [A]
-  movaps  xmm1, [B]
-  cmpps   xmm0, xmm1, cSSE_OPERATOR_NOT_EQUAL    //  Yes: $FFFFFFFF, No: $00000000 ; 4 = Operator Not Equal
-  movmskps eax, xmm0
-  xor eax, $f
-  setz al
+  movaps   xmm0, [A]
+  movaps   xmm1, [B]
+  cmpps    xmm0, xmm1, cSSE_OPERATOR_NOT_EQUAL    //  Yes: $FFFFFFFF, No: $00000000 ; 4 = Operator Not Equal
+  movmskps eax,  xmm0
+  or       eax,  eax
+  setnz    al
 end;
 
 {%endregion%}
