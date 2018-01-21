@@ -97,7 +97,7 @@ begin
   AssertEquals('Create3i:Sub1 X failed ',   -100, a4it1.X);
   AssertEquals('Create3i:Sub2 Y failed ',    100, a4it1.Y);
   AssertEquals('Create3i:Sub3 Z failed ',    200, a4it1.Z);
-  AssertEquals('Create3i:Sub4 W failed ', MaxInt, a4it1.W);
+  AssertEquals('Create3i:Sub4 W failed ',      0, a4it1.W);
   a4it1.Create(a3it1, 2000);
   AssertEquals('Create3i:Sub5 X failed ',   -100, a4it1.X);
   AssertEquals('Create3i:Sub6 Y failed ',    100, a4it1.Y);
@@ -113,7 +113,7 @@ begin
   AssertEquals('Create3b:Sub1 X failed ',    200, a4it1.X);
   AssertEquals('Create3b:Sub2 Y failed ',    140, a4it1.Y);
   AssertEquals('Create3b:Sub3 Z failed ',    170, a4it1.Z);
-  AssertEquals('Create3b:Sub4 W failed ', MaxInt, a4it1.W);
+  AssertEquals('Create3b:Sub4 W failed ',      0, a4it1.W);
   a4it1.Create(abt1, 2000);
   AssertEquals('Create3b:Sub5 X failed ',   200, a4it1.X);
   AssertEquals('Create3b:Sub6 Y failed ',   140, a4it1.Y);

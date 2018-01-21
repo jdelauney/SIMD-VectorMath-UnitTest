@@ -265,8 +265,8 @@ end;
 
 procedure TVector4bComparatorTest.TestMulDiv;
 begin
-   nbf3 := nbf1.MulDiv(b2, b5);
-   abf3 := abf1.MulDiv(b2, b5);
+   nbf3 := nbf1.MulDiv(nbf2,nbf2);
+   abf3 := abf1.MulDiv(abf2,abf2);
    AssertTrue('Vector MulDiv byte no match'+nbf3.ToString+' --> '+abf3.ToString, Compare(nbf3,abf3));
 end;
 

@@ -145,6 +145,38 @@ begin
   Result := Result.Normalize;
 end;
 
+function TGLZVectorHelper.Step(ConstRef B : TGLZVector4f):TGLZVector4f;
+begin
+  result := Self;
+  if self.X <= B.X then result.X := 0;
+  if self.Y <= B.Y then result.Y := 0;
+  if self.Z <= B.Z then result.Z := 0;
+  if self.W <= B.W then result.W := 0;
+end;
+
+function TGLZVectorHelper.FaceForward(constref A, B: TGLZVector4f): TGLZVector4f;
+begin
+  if (B.DotProduct(A) < 0) then
+     Result := Self
+   else
+     Result := -Self;
+end;
+
+function TGLZVectorHelper.Saturate : TGLZVector4f;
+begin
+  Result := Self.Min(XYZWHmgVector);
+  Result := Result.Max(NullHmgVector);
+end;
+
+function TGLZVectorHelper.SmoothStep(ConstRef A,B : TGLZVector4f): TGLZVector4f;
+var
+  t: TGLZVector;
+begin
+  t := (Self-a)/(b-a);
+  t := t.Saturate;
+  result :=t*t * ((t*2.0)*3.0);
+end;
+
 {%endregion%}
 
 {%endregion%}

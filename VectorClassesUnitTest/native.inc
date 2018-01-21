@@ -626,18 +626,17 @@ begin
   result := (self*B)+C;
 end;
 
-function TNativeGLZVector4b.MulDiv(Constref B, C : Byte) : TNativeGLZVector4b;
+function TNativeGLZVector4b.MulDiv(Constref B, C : TNativeGLZVector4b) : TNativeGLZVector4b;
 var tmp: integer;
 begin
-  tmp := self.x * B;
-  result.x := ClampByte(tmp div C);
-  tmp := self.y * B;
-  result.y := ClampByte(tmp div C);
-  tmp := self.z * B;
-  result.z := ClampByte(tmp div C);
-  tmp := self.w * B;
-  result.w := ClampByte(tmp div C);
-//  result := (self*B) div C;
+  tmp := self.x * B.X;
+  result.x := ClampByte(tmp div C.X);
+  tmp := self.y * B.Y;
+  result.y := ClampByte(tmp div C.Y);
+  tmp := self.z * B.Z;
+  result.z := ClampByte(tmp div C.Z);
+  tmp := self.w * B.W;
+  result.w := ClampByte(tmp div C.W);
 end;
 
 function TNativeGLZVector4b.Shuffle(const x,y,z,w : Byte):TNativeGLZVector4b;

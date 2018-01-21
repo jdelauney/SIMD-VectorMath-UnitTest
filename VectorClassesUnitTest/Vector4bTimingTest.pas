@@ -399,11 +399,11 @@ begin
   TestDispName := 'Vector MulDiv';
   GlobalProfiler[0].Clear;
   GlobalProfiler[0].Start;
-  for cnt := 1 to IterationsQuarter do begin nbt3 := nbt1.MulDiv(b2, b5); end;
+  for cnt := 1 to IterationsQuarter do begin nbt3 := nbt1.MulDiv(nbt2, nbt2); end;
   GlobalProfiler[0].Stop;
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;
-  For cnt:= 1 to IterationsQuarter do begin abt3 := abt1.MulDiv(b2, b5); end;
+  For cnt:= 1 to IterationsQuarter do begin abt3 := abt1.MulDiv(abt2, abt2); end;
   GlobalProfiler[1].Stop;
 end;
 

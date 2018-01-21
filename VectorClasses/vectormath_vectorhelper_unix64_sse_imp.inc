@@ -163,10 +163,73 @@ asm
   movhlps xmm1,xmm0
 end;
 
+function TGLZVectorHelper.Step(ConstRef B : TGLZVector4f):TGLZVector4f;  assembler; register; nostackframe;
+asm
+  movaps   xmm1, [RDI]
+  movaps   xmm0, xmm1
+  cmpnleps xmm1, XMMWORD PTR [B] //xmm1
+  andps    xmm1, XMMWORD PTR [RIP+cOneVector4f]
+  mulps    xmm0, xmm1
+  movhlps  xmm1, xmm0
+end;
+
+function TGLZVectorHelper.FaceForward(constref A, B: TGLZVector4f): TGLZVector4f;assembler; register; nostackframe;
+asm
+  movaps   xmm0, [RDI]
+  movaps   xmm1, [A]
+  movaps   xmm2, [B]
+  xorps    xmm3, xmm3
+ // movups   xmm4, [RIP+cSSE_MASK_NEGATE]
+
+  // Dotproduct(A, B)
+  mulps  xmm2, xmm1
+  {$IFDEF USE_ASM_SSE_3}
+     movshdup    xmm1, xmm2
+     addps       xmm2, xmm1
+     movhlps     xmm1, xmm2
+     addss       xmm2, xmm1
+  {$ELSE}
+     movhlps xmm1, xmm2
+     addps xmm1, xmm2
+     shufps xmm2, xmm2, 00000001b
+     addps xmm2, xmm1
+  {$ENDIF}
+  cmpnltps xmm2, xmm3 // >= 0?  Yes: $FFFFFFFF, No: $00000000
+  andps    xmm2, [RIP+cSSE_MASK_NEGATE] //xmm4 // Yes: $80000000, No: $00000000
+  xorps    xmm0, xmm2   // Flip sign >= 0
+  movhlps  xmm1, xmm0
+end;
 
 
+function TGLZVectorHelper.Saturate : TGLZVector4f; assembler; register; nostackframe;
+asm
+  movaps  xmm0, [RDI]
+  minps   xmm0, [RIP+cOneVector4f]
+  maxps   xmm0, [RIP+cNullVector4f]
+  movhlps xmm1, xmm0
+end;
 
-
-
+function TGLZVectorHelper.SmoothStep(ConstRef A,B : TGLZVector4f): TGLZVector4f;Assembler; register; nostackframe;
+Const
+  cVecSet2 : TGLZVector4f = (x:2.0;y:2.0;z:2.0;w:2.0);
+  cVecSet3 : TGLZVector4f = (x:3.0;y:3.0;z:3.0;w:3.0);
+asm
+  movaps xmm0, [RDI]
+  //Saturate((self-a)/(b-a))
+  movaps  xmm1, [A]
+  subps   xmm0, xmm1
+  movaps  xmm2, [B]
+  subps   xmm2, xmm1
+  divps   xmm0, xmm1
+  minps   xmm0, [RIP+cOneVector4f]
+  maxps   xmm0, [RIP+cNullVector4f]
+  //result :=t*t * ((t*2.0)*3.0)
+  movaps  xmm1, xmm0
+  mulps   xmm0, xmm0
+  mulps   xmm1, [RIP+cVecSet2]
+  mulps   xmm1, [RIP+cVecSet3]
+  mulps   xmm0, xmm1
+  movhlps xmm1, xmm0
+end;
 
 

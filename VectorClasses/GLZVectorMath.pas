@@ -1293,6 +1293,7 @@ const
 function AffineVectorMake(const x, y, z : Single) : TGLZAffineVector;overload;
 function AffineVectorMake(const v : TGLZVector) : TGLZAffineVector;overload;
 
+
 //function MakeVector(Const aX,aY,aZ: single; const aW : Single = 0):TGLZVector4f; overload;
 //function MakeVector(Const anAffineVector: TGLZVector3f; const aW : Single = 1):TGLZVector4f; overload;
 //function MakeAffineVector(Const aX,aY,aZ: single):TGLZVector3f; overload;

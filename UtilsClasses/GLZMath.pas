@@ -418,14 +418,27 @@ End;
 {$IFDEF USE_ASM}
 Function Max(Const A, B, C: Integer): Integer;   Assembler; Register;
 asm
-{$IFDEF CPU64}
-         MOV       RAX,RCX
-         MOV       RCX,R8
-{$ENDIF}
-         CMP       EDX,EAX
-         CMOVG     EAX,EDX
-         CMP       ECX,EAX
-         CMOVG     EAX,ECX
+  {$IFDEF CPU64}
+    {$IFDEF UNIX}
+        MOV       EAX, EDI
+        CMP       ESI, EAX
+        CMOVG     EAX, ESI
+        CMP       EDX, EAX
+        CMOVG     EAX, EDX
+    {$ELSE}
+        MOV       RAX, RCX
+        MOV       RCX, R8
+        CMP       EDX, EAX
+        CMOVG     EAX, EDX
+        CMP       ECX, EAX
+        CMOVG     EAX, ECX
+    {$ENDIF}
+  {$ELSE}
+        CMP       EDX, EAX
+        CMOVG     EAX, EDX
+        CMP       ECX, EAX
+        CMOVG     EAX, ECX
+  {$ENDIF}
 End;
 {$else}
 Function Max(Const A, B, C: Integer): Integer; Inline;
@@ -445,14 +458,27 @@ End;
 {$IFDEF USE_ASM}
 Function Min(Const A, B, C: Integer): Integer;  Assembler; Register;
 Asm
-{$IFDEF CPU64}
-         MOV       RAX,RCX
-         MOV       RCX,R8
+  {$IFDEF CPU64}
+    {$IFDEF UNIX}
+        MOV       EAX, EDI
+        CMP       ESI, EAX
+        CMOVL     EAX, ESI
+        CMP       EDX, EAX
+        CMOVL     EAX, EDX
+    {$ELSE}
+        MOV       RAX, RCX
+        MOV       RCX, R8
+        CMP       EDX, EAX
+        CMOVL     EAX, EDX
+        CMP       ECX, EAX
+        CMOVL     EAX, ECX
+    {$ENDIF}
+{$ELSE}
+        CMP       EDX, EAX
+        CMOVL     EAX, EDX
+        CMP       ECX, EAX
+        CMOVL     EAX, ECX
 {$ENDIF}
-         CMP       EDX,EAX
-         CMOVL     EAX,EDX
-         CMP       ECX,EAX
-         CMOVL     EAX,ECX
 End;
 {$else}
 Function Min(Const A, B, C: Integer): Integer; Inline;

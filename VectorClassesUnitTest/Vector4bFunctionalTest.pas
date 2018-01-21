@@ -633,12 +633,15 @@ end;
 procedure TVector4bFunctionalTest.TestMulDiv;
 begin
   abf1.Create(90,80,70,60);
-  abf3 := abf1.MulDiv(10, 9);
+  abf2.Create(10,10,10,10);
+  abf4.Create(9,9,9,9);
+  abf3 := abf1.MulDiv(abf2,abf4);
   AssertEquals('MulDiv:Sub1 X failed ', 100, abf3.X);
   AssertEquals('MulDiv:Sub2 Y failed ',  88, abf3.Y);
   AssertEquals('MulDiv:Sub3 Z failed ',  77, abf3.Z);
   AssertEquals('MulDiv:Sub4 W failed ',  66, abf3.W);
-  abf3 := abf1.MulDiv(10, 2);
+  abf4.Create(2,2,2,2);
+  abf3 := abf1.MulDiv(abf2,abf4);
   AssertEquals('MulDiv:Sub1 X failed ', 255, abf3.X);
   AssertEquals('MulDiv:Sub2 Y failed ', 255, abf3.Y);
   AssertEquals('MulDiv:Sub3 Z failed ', 255, abf3.Z);

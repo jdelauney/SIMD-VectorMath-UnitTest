@@ -180,7 +180,7 @@ type
     function Clamp(Constref AMin, AMax : Byte):TNativeGLZVector4b; overload;
 
     function MulAdd(Constref B, C : TNativeGLZVector4b):TNativeGLZVector4b;
-    function MulDiv(Constref B, C : Byte):TNativeGLZVector4b;
+    function MulDiv(Constref B, C : TNativeGLZVector4b):TNativeGLZVector4b;
 
     function Shuffle(const x,y,z,w : Byte):TNativeGLZVector4b;
     function Swizzle(const ASwizzle: TGLZVector4SwizzleRef ): TNativeGLZVector4b;

@@ -321,14 +321,11 @@ asm
   movdqa   xmm0, [RDI]
   movdqa   xmm1, [V2]
   cvtdq2ps xmm1, xmm1
-  movlps   xmm2, [F1]
-  shufps xmm2, xmm2, 11000000b                     // replicate
-  mulps    xmm1, xmm2                        //V2*F1
+  movss    xmm2, [F1]
+  shufps   xmm2, xmm2, 11000000b             // replicate
+  mulps    xmm1, xmm2                        // V2*F1
   cvtps2dq xmm1, xmm1
-  paddd    xmm0, xmm1                        // Self + (V2*F1)
-  movd     xmm4, [RDI]12
-  shufps   xmm4, xmm4, 00111111b
-  paddd    xmm0, xmm4
+  paddd    xmm0, xmm1
   movhlps  xmm1, xmm0
   movq     RAX,  xmm0
   movq     RDX,  xmm1
