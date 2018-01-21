@@ -239,7 +239,7 @@ type
 
     // function Reflect(I, NRef : TVector2f):TVector2f
 
-    function Edge(ConstRef A, B : TGLZVector2f):Single; // @TODO : a passer dans TGLZVector2fHelper ???
+ //   function Edge(ConstRef A, B : TGLZVector2f):Single; // @TODO : a passer dans TGLZVector2fHelper ???
 
     { Round Self to an TGLZVector2i }
     function Round: TGLZVector2i;
