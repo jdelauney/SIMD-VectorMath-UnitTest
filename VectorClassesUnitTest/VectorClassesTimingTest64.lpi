@@ -468,7 +468,7 @@
         <PackageName Value="FCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="51">
+    <Units Count="54">
       <Unit0>
         <Filename Value="VectorClassesTimingTest64.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -673,6 +673,18 @@
         <Filename Value="Vector4fFunctionalTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit50>
+      <Unit51>
+        <Filename Value="VectorHelperTestCase.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit51>
+      <Unit52>
+        <Filename Value="config.inc"/>
+        <IsPartOfProject Value="True"/>
+      </Unit52>
+      <Unit53>
+        <Filename Value="VectorOnSelfTimingTest.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit53>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -1,7 +1,7 @@
 unit BSphereTimingTest;
 
 {$mode objfpc}{$H+}
-
+{$CODEALIGN LOCALMIN=16}
 interface
 
 uses
@@ -17,6 +17,7 @@ type
     {$CODEALIGN RECORDMIN=16}
     nbs1,nbs2,nbs3: TNativeGLZBoundingSphere;
     abs1,abs2,abs3: TGLZBoundingSphere;
+    {$CODEALIGN RECORDMIN=4}
     procedure Setup; override;
   published
     procedure TestTimeContains;

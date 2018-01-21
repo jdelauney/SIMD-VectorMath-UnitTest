@@ -1,6 +1,7 @@
 unit MatrixTestCase;
 
 {$mode objfpc}{$H+}
+{$CODEALIGN LOCALMIN=16}
 
 interface
 

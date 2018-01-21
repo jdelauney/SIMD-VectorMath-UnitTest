@@ -142,7 +142,6 @@ asm
   movdqa   xmm0, [A]
   pcmpeqd  xmm0, [B]
   movmskps eax,  xmm0
-  movmskps eax,  xmm0
   xor       eax,  $f
   setnz     al
 end;

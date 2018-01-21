@@ -1,6 +1,7 @@
 unit Vector2NumericsTestCase;
 
 {$mode objfpc}{$H+}
+{$CODEALIGN LOCALMIN=16}
 
 interface
 

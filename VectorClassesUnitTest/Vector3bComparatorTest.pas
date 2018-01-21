@@ -1,6 +1,7 @@
 unit Vector3bComparatorTest;
 
 {$mode objfpc}{$H+}
+{$CODEALIGN LOCALMIN=16}
 
 interface
 
