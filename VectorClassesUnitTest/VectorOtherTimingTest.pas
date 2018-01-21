@@ -1,6 +1,7 @@
 unit VectorOtherTimingTest;
 
 {$mode objfpc}{$H+}
+{$CODEALIGN LOCALMIN=16}
 
 interface
 
@@ -27,8 +28,6 @@ type
       procedure TestTimeClampVector;
       procedure TestTimeClampSingle;
       procedure TestTimeLerp;
-      procedure TestTimePerp;
-      procedure TestTimeReflect;
   //      procedure TestMoveAround;
       procedure TestTimeCombine;
       procedure TestTimeCombine2;
@@ -188,31 +187,7 @@ begin
   GlobalProfiler[1].Stop;
 end;
 
-procedure TVectorOtherTimingTest.TestTimePerp;
-begin
-  TestDispName := 'Vector4f Perp';
-  GlobalProfiler[0].Clear;
-  GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin nt3 := nt1.Perpendicular(nt2); end;
-  GlobalProfiler[0].Stop;
-  GlobalProfiler[1].Clear;
-  GlobalProfiler[1].Start;
-  For cnt := 1 to Iterations do begin vt3 := vt1.Perpendicular(vt2); end;
-  GlobalProfiler[1].Stop;
-end;
 
-procedure TVectorOtherTimingTest.TestTimeReflect;
-begin
-  TestDispName := 'Vector4f Reflect';
-  GlobalProfiler[0].Clear;
-  GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin nt3 := nt1.Reflect(nt2); end;
-  GlobalProfiler[0].Stop;
-  GlobalProfiler[1].Clear;
-  GlobalProfiler[1].Start;
-  For cnt := 1 to Iterations do begin vt3 := vt1.Reflect(vt2); end;
-  GlobalProfiler[1].Stop;
-end;
 
 procedure TVectorOtherTimingTest.TestTimeCombine;
 begin
