@@ -19,6 +19,7 @@ uses
   Vector4iFunctionalTest,
   Vector4iComparatorTest,
   // Vector4f Test Case
+  Vector4fFunctionalTest,
   VectorOperatorsTestCase,
   VectorNumericsTestCase,
   VectorOtherTestCase,

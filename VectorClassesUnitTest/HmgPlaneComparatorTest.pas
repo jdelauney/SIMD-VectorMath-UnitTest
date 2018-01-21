@@ -32,6 +32,8 @@ type
       procedure TestDistanceToPoint;
       procedure TestAbsDistanceToPoint;
       procedure TestDistanceToSphere;
+      procedure TestPerp;
+      procedure TestReflect;
       procedure TestIsInHalfSpace;
 
       // helpers
@@ -127,6 +129,22 @@ begin
   ab := ph1.IsInHalfSpace(vt3);
   AssertTrue('THmgPlane IsInHalfSpace does not match', (nb = ab));
 end;
+
+procedure THmgPlaneComparatorTest.TestPerp;
+begin
+  nt3 := nph1.Perpendicular(nt2);
+  vt3 := ph1.Perpendicular(vt2);
+  AssertTrue('Vector Perpendiculars do not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3, 1e-4));
+end;
+
+procedure THmgPlaneComparatorTest.TestReflect;
+begin
+  nt3 := nph1.Reflect(nt2);
+  vt3 := ph1.Reflect(vt2);
+  AssertTrue('Vector Reflects do not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3, 1e-4));
+end;
+
+
 
 procedure THmgPlaneComparatorTest.TestContainsBSphere;
 var

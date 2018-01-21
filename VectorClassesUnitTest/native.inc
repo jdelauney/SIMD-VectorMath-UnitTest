@@ -1585,24 +1585,6 @@ begin
   Result.W:=0;
 end;
 
-function TNativeGLZVector4f.Perpendicular(constref N : TNativeGLZVector4f) : TNativeGLZVector4f;
-var
-   dot : Single;
-begin
-   dot:=Self.DotProduct(N);
-   Result.X:=Self.X-Dot * Self.X;
-   Result.Y:=Self.Y-Dot * Self.Y;
-   Result.Z:=Self.Z-Dot * Self.Z;
-   Result.W:=0;
-end;
-
-function TNativeGLZVector4f.Reflect(constref N: TNativeGLZVector4f): TNativeGLZVector4f;
-begin
-  //  Result:=Self.Combine(Self, N, 1, -2*VectorDotProduct(Self, N));
-  Result := Self - (N*(2 * N.Dotproduct(Self)));
- // Result.W:=0;
-end;
-
 function TNativeGLZVector4f.Round:TNativeGLZVector4i;
 begin
   result.X:=System.Round(Self.X);
@@ -3319,7 +3301,24 @@ function TNativeGLZHmgPlane.IsInHalfSpace(constref point: TNativeGLZVector) : Bo
 begin
  Result := ((Self.X*Point.X) + (Self.Y*Point.Y) + (Self.Z*Point.Z) + Self.W) > 0;
 end;
+function TNativeGLZHmgPlane.Perpendicular(constref P : TNativeGLZVector4f) : TNativeGLZVector4f;
+var
+   dot : Single;
+begin
+  dot:= P.DotProduct(Self.AsVector);
+  Result.X:=P.X-Dot * P.X;
+  Result.Y:=P.Y-Dot * P.Y;
+  Result.Z:=P.Z-Dot * P.Z;
+  Result.W:=0;
+end;
 
+function TNativeGLZHmgPlane.Reflect(constref V: TNativeGLZVector4f): TNativeGLZVector4f;
+begin
+  //  Result:=Self.Combine(Self, N, 1, -2*VectorDotProduct(Self, N));
+  //  Result := Self - (N*(2 * N.Dotproduct(Self)));
+    Result :=  V - (Self.AsVector * (2 * V.DotProduct(Self.AsVector)));
+ // Result.W:=0;
+end;
 function TNativeGLZHmgPlaneHelper.Contains(const TestBSphere: TNativeGLZBoundingSphere): TGLZSpaceContains;
 var
    Dist: Single;

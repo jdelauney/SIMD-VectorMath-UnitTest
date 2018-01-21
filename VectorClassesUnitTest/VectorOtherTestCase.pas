@@ -25,8 +25,6 @@ type
     procedure TestClampVector;
     procedure TestClampSingle;
     procedure TestLerp;
-    procedure TestPerp;
-    procedure TestReflect;
 //      procedure TestMoveAround;
     procedure TestCombine;
     procedure TestCombine2;
@@ -123,20 +121,6 @@ begin
   nt3 := nt1.Lerp(nt1,0.8);
   vt3 := vt1.Lerp(vt1,0.8);
   AssertTrue('Vector Clamp vectors do not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
-end;
-
-procedure TVectorOtherTestCase.TestPerp;
-begin
-  nt3 := nt1.Perpendicular(nt2);
-  vt3 := vt1.Perpendicular(vt2);
-  AssertTrue('Vector Perpendiculars do not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3, 1e-4));
-end;
-
-procedure TVectorOtherTestCase.TestReflect;
-begin
-  nt3 := nt1.Reflect(nt2);
-  vt3 := vt1.Reflect(vt2);
-  AssertTrue('Vector Reflects do not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3, 1e-4));
 end;
 
 procedure TVectorOtherTestCase.TestCombine;

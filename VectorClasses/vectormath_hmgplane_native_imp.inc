@@ -88,6 +88,28 @@ end;
 
 {%region%----[ Functions ]------------------------------------------------------}
 
+function TGLZHmgPlane.Perpendicular(constref P : TGLZVector4f) : TGLZVector4f;
+var
+   dot : Single;
+begin
+   dot:= P.DotProduct(Self.AsVector);
+   Result.X:=P.X-Dot * P.X;
+   Result.Y:=P.Y-Dot * P.Y;
+   Result.Z:=P.Z-Dot * P.Z;
+   Result.W:=0;
+end;
+
+function TGLZHmgPlane.Reflect(constref V: TGLZVector4f): TGLZVector4f;
+begin
+  //  Result:=Self.Combine(Self, N, 1, -2*VectorDotProduct(Self, N));
+//  Result := Self - (N*(2 * N.Dotproduct(Self)));
+  Result :=  V - (Self.AsVector * (2 * V.DotProduct(Self.AsVector)));
+  // Result.W:=0;
+end;
+
+
+
+
 function TGLZHmgPlane.Distance(constref point : TGLZVector) : Single;
 begin
   result:= (Self.X*Point.X) + (Self.Y*Point.Y) + (Self.Z*Point.Z) + Self.W;

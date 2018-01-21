@@ -367,7 +367,7 @@ begin
   v2.x := Self.X*Self.X;
   v2.y := Self.Y*Self.Y;
   v2.z := Self.Z*Self.Z;
-  v2.w := Self.W*Self.W;
+//  v2.w := Self.W*Self.W;
   Result := v2.X + v2.Y + v2.Z; //+ v2.w;
 end;
 
@@ -497,24 +497,6 @@ begin
   Result.Y:=( Self.Y*F1) + (V2.Y*F2) + (V3.Y*F3);
   Result.Z:=( Self.Z*F1) + (V2.Z*F2) + (V3.Z*F3);
   Result.W:=0;
-end;
-
-function TGLZVector4f.Perpendicular(constref N : TGLZVector4f) : TGLZVector4f;
-var
-   dot : Single;
-begin
-   dot:=Self.DotProduct(N);
-   Result.X:=Self.X-Dot * Self.X;
-   Result.Y:=Self.Y-Dot * Self.Y;
-   Result.Z:=Self.Z-Dot * Self.Z;
-   Result.W:=0;
-end;
-
-function TGLZVector4f.Reflect(constref N: TGLZVector4f): TGLZVector4f;
-begin
-  //  Result:=Self.Combine(Self, N, 1, -2*VectorDotProduct(Self, N));
-  Result := Self - (N*(2 * N.Dotproduct(Self)));
- // Result.W:=0;
 end;
 
 function TGLZVector4f.Round:TGLZVector4i;

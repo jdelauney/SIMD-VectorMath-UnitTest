@@ -606,7 +606,7 @@ type
     { Return Distance squared from self to A }
     function DistanceSquare(constref A: TGLZVector4f):Single;
     { Calculates Abs(v1[x]-v2[x])+Abs(v1[y]-v2[y])+..., also know as "Norm1". }
-    function spacing(constref A: TGLZVector4f):Single;
+    function Spacing(constref A: TGLZVector4f):Single;
     { Return the Dot product of self and an another TGLZVector4f}
     function DotProduct(constref A: TGLZVector4f):Single;
     { Return the Cross product of self and an another TGLZVector2f}
@@ -648,13 +648,6 @@ type
     function Combine2(constref V2: TGLZVector4f; const F1, F2: Single): TGLZVector4f;
     { Return Combine3 = (Self * F1) + (V2 * F2) + (V3 * F3) }
     function Combine3(constref V2, V3: TGLZVector4f; const F1, F2, F3: Single): TGLZVector4f;
-
-    { Calculates a vector perpendicular to N.
-      N is assumed to be of unit length, subtract out any component parallel to N }
-    function Perpendicular(constref N : TGLZVector4f) : TGLZVector4f;
-
-    { Reflects vector V against N (assumes N is normalized) }
-    function Reflect(constref N: TGLZVector4f): TGLZVector4f;
 
     { Round Self to an TGLZVector4i }
     function Round: TGLZVector4i;
@@ -735,6 +728,14 @@ type
     function AbsDistance(constref point : TGLZVector) : Single;
     function Distance(constref point : TGLZVector) : Single; overload;
     function Distance(constref Center : TGLZVector; constref Radius:Single) : Single; overload;
+
+    { Calculates a vector perpendicular to P.
+     self is assumed to be of unit length, subtract out any component parallel to Self }
+    function Perpendicular(constref P : TGLZVector4f) : TGLZVector4f;
+
+    { Reflects vector V against Self (assumes self is normalized) }
+    function Reflect(constref V: TGLZVector4f): TGLZVector4f;
+
     function IsInHalfSpace(constref point: TGLZVector) : Boolean;
 
     case Byte of

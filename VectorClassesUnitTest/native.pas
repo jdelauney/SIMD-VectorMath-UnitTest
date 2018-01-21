@@ -328,9 +328,6 @@ type
     function Combine2(constref V2: TNativeGLZVector4f; const F1, F2: Single): TNativeGLZVector4f;
     function Combine3(constref V2, V3: TNativeGLZVector4f; const F1, F2, F3: Single): TNativeGLZVector4f;
 
-    function Perpendicular(constref N : TNativeGLZVector4f) : TNativeGLZVector4f;
-
-    function Reflect(constref N: TNativeGLZVector4f): TNativeGLZVector4f;
 
     function Round: TNativeGLZVector4i;
     function Trunc: TNativeGLZVector4i;
@@ -396,6 +393,8 @@ type
      function AbsDistance(constref point : TNativeGLZVector) : Single;
      function Distance(constref point : TNativeGLZVector) : Single; overload;
      function Distance(constref Center : TNativeGLZVector; constref Radius:Single) : Single; overload;
+     function Perpendicular(constref P : TNativeGLZVector4f) : TNativeGLZVector4f;
+     function Reflect(constref V: TNativeGLZVector4f): TNativeGLZVector4f;
      function IsInHalfSpace(constref point: TNativeGLZVector) : Boolean;
 
      case Byte of

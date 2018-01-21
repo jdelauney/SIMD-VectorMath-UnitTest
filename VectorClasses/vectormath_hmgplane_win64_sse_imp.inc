@@ -227,6 +227,72 @@ asm
   {$endif}
 end;
 
+function TGLZHmgPlane.Perpendicular(constref P : TGLZVector4f) : TGLZVector4f; assembler; nostackframe; register;
+asm
+  movaps xmm0,[P]
+  movaps xmm1, [RCX]
+  andps xmm0, [RIP+cSSE_MASK_NO_W]
+  movaps xmm2, xmm0
+  // Self.Dot(N) Result in xmm0
+  {$IFDEF USE_ASM_SSE_4}
+     dpps xmm0, xmm1, 01110001b //or $F1
+  {$ELSE}
+    {$IFDEF USE_ASM_SSE_3}
+      //andps xmm0, [RIP+cSSE_MASK_NO_W]
+      mulps xmm0, xmm1
+      haddps xmm0, xmm0
+      haddps xmm0, xmm0
+    {$ELSE}
+      mulps  xmm0, xmm1             //   xmm0 =  w | z  | y  | x  |
+      movhlps xmm1, xmm0            //   xmm1 =  - | -  | w  | z  |
+      addps xmm1, xmm0              // x + z
+      shufps xmm0, xmm0, 00000001b  //   xmm0 =  - | -  | -  | y  |
+      addps xmm0, xmm1              // (x + z ) + y
+    {$ENDIF}
+  {$ENDIF}
+  Shufps xmm0,xmm0, $0
+  mulps xmm0, xmm2    // (Dot * Self)
+  subps xmm2, xmm0    //Self - (Dot * Self)
+  movaps [RESULT], xmm2
+end;
+
+function TGLZHmgPlane.Reflect(constref V: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
+asm
+  movaps xmm0,[V]
+  movaps xmm1, [RCX]
+  movaps xmm2, xmm1
+  movaps xmm3, xmm0
+  // Self.Dot(V) Result in xmm1
+  {$IFDEF USE_ASM_SSE_4}
+     dpps xmm1, xmm0, 01110001b //or $F1
+  {$ELSE}
+    {$IFDEF USE_ASM_SSE_3}
+    {$ifdef CPU64}
+      andps xmm0, [RIP+cSSE_MASK_NO_W]
+    {$else}
+      andps xmm0, [cSSE_MASK_NO_W]
+    {$endif}
+      mulps xmm1, xmm0
+      haddps xmm1, xmm1
+      haddps xmm1, xmm1
+    {$ELSE}
+      andps xmm0, [RIP+cSSE_MASK_NO_W]
+      mulps  xmm1, xmm0             //   xmm0 =  w | z  | y  | x  |
+      movhlps xmm0, xmm1            //   xmm1 =  - | -  | w  | z  |
+      addps xmm0, xmm1              // x + z
+      shufps xmm1, xmm1, 00000001b  //   xmm1 =  - | -  | -  | y  |
+      addps xmm1, xmm0              // (x + z ) + y
+    {$ENDIF}
+  {$ENDIF}
+  Shufps xmm1,xmm1, $0
+  addps xmm1,xmm1  // (2 * N.Dot(Self))
+  mulps xmm1, xmm2 // ((2 * N.Dot(Self)) * N)
+  subps xmm3, xmm1 // Self - ((2 * N.Dot(Self)) * N)
+  movaps [RESULT], xmm3
+
+end;
+
+
 //function TGLZHmgPlane.Distance(constref Center : TGLZVector; constref Radius:Single) : Single; assembler;
 //asm
 //  movaps xmm0, [RCX]    // xmm0 = Plane->d | Plane->c | Plane->b | Plane->a

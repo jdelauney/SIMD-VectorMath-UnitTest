@@ -152,4 +152,64 @@ asm
   movss [RESULT], {%H-}xmm0
 end;
 
+function TGLZHmgPlane.Perpendicular(constref P : TGLZVector4f) : TGLZVector4f; assembler; nostackframe; register;
+asm
+  movups xmm0, [P]
+  movups xmm1, [EAX]
+  andps  xmm0, [cSSE_MASK_NO_W]
+  movups xmm2, xmm0
+  // Self.Dot(N) Result in xmm0
+  {$IFDEF USE_ASM_SSE_4}
+     dpps xmm0, xmm1, 01110001b //or $F1
+  {$ELSE}
+    {$IFDEF USE_ASM_SSE_3}
+      //andps xmm0, [RIP+cSSE_MASK_NO_W]
+      mulps   xmm0, xmm1
+      haddps  xmm0, xmm0
+      haddps  xmm0, xmm0
+    {$ELSE}
+      mulps   xmm0, xmm1             //   xmm0 =  w | z  | y  | x  |
+      movhlps xmm1, xmm0             //   xmm1 =  - | -  | w  | z  |
+      addps   xmm1, xmm0             // x + z
+      shufps  xmm0, xmm0, 00000001b  //   xmm1 =  - | -  | -  | y  |
+      addps   xmm0, xmm1             // (x + z ) + y
+    {$ENDIF}
+  {$ENDIF}
+  shufps xmm0, xmm0, $0
+  mulps  xmm0, xmm2    // (Dot * Self)
+  subps  xmm2, xmm0    //Self - (Dot * Self)
+  movups [RESULT], xmm2
+end;
+
+function TGLZHmgPlane.Reflect(constref V: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
+asm
+  movups xmm0, [V]
+  movups xmm1, [EAX]
+  movups xmm2, xmm1
+  movups xmm3, xmm0
+  // N.Dot(SELF) Result in xmm1
+  {$IFDEF USE_ASM_SSE_4}
+     dpps xmm1, xmm0, 01110001b //or $F1
+  {$ELSE}
+    {$IFDEF USE_ASM_SSE_3}
+      andps  xmm0, [cSSE_MASK_NO_W]
+      mulps  xmm1, xmm0
+      haddps xmm1, xmm1
+      haddps xmm1, xmm1
+    {$ELSE}
+      andps   xmm0, [cSSE_MASK_NO_W]
+      mulps   xmm1, xmm0             //   xmm0 =  w | z  | y  | x  |
+      movhlps xmm0, xmm1             //   xmm1 =  - | -  | w  | z  |
+      addps   xmm0, xmm1             // x + z
+      shufps  xmm1, xmm1, 00000001b  //   xmm1 =  - | -  | -  | y  |
+      addps   xmm1, xmm0             // (x + z ) + y
+    {$ENDIF}
+  {$ENDIF}
+  shufps xmm1, xmm1, $0
+  addps  xmm1, xmm1     // (2 * N.Dot(Self))
+  mulps  xmm1, xmm2     // ((2 * N.Dot(Self)) * N)
+  subps  xmm3, xmm1     // Self - ((2 * N.Dot(Self)) * N)
+  movups [RESULT], xmm3
+end;
+
 

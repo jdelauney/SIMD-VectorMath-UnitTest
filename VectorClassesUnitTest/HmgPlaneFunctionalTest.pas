@@ -27,6 +27,8 @@ type
       procedure TestDistanceToPoint;
       procedure TestAbsDistanceToPoint;
       procedure TestDistanceToSphere;
+      procedure TestPerpendicular;
+      procedure TestReflect;
       procedure TestIsInHalfSpace;
 
       // helpers
@@ -203,6 +205,30 @@ begin
    else
      AssertTrue('TGLZHmgPlane:InHalfSpace:Sub3 half space failed', nb);
 end;
+
+procedure THmgPlaneFunctionalTest.TestPerpendicular;
+begin
+  //vt1.Create(1,1,1,1);
+  //vt2 := vt1.Normalize;
+  //vt4 := ph1.Perpendicular(YHmgPoint);
+  //AssertEquals('Perpendicular:Sub1 X failed ',  0, vt4.X);
+  //AssertEquals('Perpendicular:Sub2 Y failed ',  0, vt4.Y);
+  //AssertEquals('Perpendicular:Sub3 Z failed ',  1, vt4.Z);
+  //AssertEquals('Perpendicular:Sub4 W failed ',  0, vt4.W);
+  //vt4 := ph1.Perpendicular(ZHmgVector);
+  //AssertEquals('Perpendicular:Sub4 X failed ',  0, vt4.X);
+  //AssertEquals('Perpendicular:Sub5 Y failed ',  0, vt4.Y);
+  //AssertEquals('Perpendicular:Sub6 Z failed ',  1, vt4.Z);
+  //AssertEquals('Perpendicular:Sub7 W failed ',  0, vt4.W);
+end;
+
+// Result := Self - (N*(2 * N.Dotproduct(Self)));
+
+procedure THmgPlaneFunctionalTest.TestReflect;
+begin
+
+end;
+
 
 procedure THmgPlaneFunctionalTest.TestContainsBSphere;
 var
