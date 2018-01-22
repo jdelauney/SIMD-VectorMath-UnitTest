@@ -304,16 +304,16 @@ begin
   AssertEquals('OpNotEquals:Sub1 should not match ', False, nb);
   vt2.Create(120,60,181,240);
   nb := vt1 <> vt2;
-  AssertEquals('OpNotEquals:Sub2 does not match ', True, nb);
+  AssertEquals('OpNotEquals:Sub2 does not match ('+vt1.ToString+ '<>'+vt2.ToString+')', True, nb);
   vt2.Create(120,61,180,240);
   nb := vt1 <> vt2;
-  AssertEquals('OpNotEquals:Sub3 does not match ', True, nb);
+  AssertEquals('OpNotEquals:Sub3 does not match ('+vt1.ToString+ '<>'+vt2.ToString+')', True, nb);
   vt2.Create(119,60,180,240);
   nb := vt1 <> vt2;
-  AssertEquals('OpNotEquals:Sub4 does not match ', True, nb);
+  AssertEquals('OpNotEquals:Sub4 does not match ('+vt1.ToString+ '<>'+vt2.ToString+')', True, nb);
   vt2.Create(120,60,180,241);
   nb := vt1 <> vt2;
-  AssertEquals('OpNotEquals:Sub5 does not match ', True, nb);
+  AssertEquals('OpNotEquals:Sub5 does not match ('+vt1.ToString+ '<>'+vt2.ToString+')', True, nb);
 end;
 
 procedure TVector4fFunctionalTest.TestOpGTE;
@@ -1075,7 +1075,7 @@ begin
   AssertEquals('AngleBetween:Sub12 Z->X failed ', (pi/2), fs1);
   fs1 := XHmgVector.AngleBetween(XYHmgVector,NullHmgPoint);
   AssertEquals('AngleBetween:Sub13 X->XY failed ', (pi/4), fs1);
-  fs1 := -XHmgVector.AngleBetween(XYHmgVector,NullHmgPoint);
+  fs1 := XHmgVector.AngleBetween(-XYHmgVector,NullHmgPoint);
   AssertEquals('AngleBetween:Sub14 -X->XY failed ', (3*pi/4), fs1);
   fs1 := -XHmgVector.AngleBetween(XHmgVector,NullHmgPoint);
   AssertEquals('AngleBetween:Sub15 X->XY failed ', (pi), fs1);

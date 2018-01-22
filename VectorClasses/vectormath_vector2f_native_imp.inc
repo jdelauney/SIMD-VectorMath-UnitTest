@@ -56,9 +56,6 @@ begin
   Result := ArcCos(vt1.AngleCosine(vt2));
 end;
 
-{%endregion}
-
-{%region%----[ Pure Pascal may Convert at some point ]--------------------------}
 
 {%endregion}
 
