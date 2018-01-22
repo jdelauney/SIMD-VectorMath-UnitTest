@@ -380,7 +380,7 @@ begin
   if vn=0 then
   begin
     result := Self;
-    result.W := 0; //cZero;
+//    result.W := 0; //cZero;   // either passed in a Vec or point ensure Result is of same type,
   end
   else
   begin

@@ -1466,7 +1466,7 @@ begin
   if vn=0 then
   begin
     result := Self;
-    result.W := 0; //cZero;
+//    result.W := 0; //cZero;
   end
   else
   begin
@@ -1842,7 +1842,7 @@ begin
   if vn=0 then
   begin
 //    result := Self;
-    Self.W := 0; //cZero;
+//    Self.W := 0; //cZero;
   end
   else
   begin

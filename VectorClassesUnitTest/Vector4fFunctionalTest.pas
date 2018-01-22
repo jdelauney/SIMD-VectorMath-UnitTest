@@ -9,9 +9,19 @@ uses
   Classes, SysUtils, fpcunit, testregistry, BaseTestCase,
   native, GLZVectorMath;
 
-type
 
-  { TVector2fFunctionalTest }
+const
+  // some standard ortho and diagonal Vectors in anticlockwise order from east
+  c0DegVec :   TGLZVector4f = (X:1; Y:0; Z:0; W:0);       // cos 1                      0
+  c45DegVec :  TGLZVector4f = (X:1; Y:1; Z:0; W:0);       //  0.707106781187            0.7853981634
+  c90DegVec :  TGLZVector4f = (X:0; Y:1; Z:0; W:0);       //  0                         1.570796
+  c135DegVec : TGLZVector4f = (X:-1; Y:1; Z:0; W:0);      // -0.707106781187            2.3561945
+  c180DegVec : TGLZVector4f = (X:-1; Y:0; Z:0; W:0);      // -1                         3.14159265
+  c225DegVec : TGLZVector4f = (X:-1; Y:-1; Z:0; W:0);     // -0.707106781187            3.92699
+  c270DegVec : TGLZVector4f = (X:0; Y:-1; Z:0; W:0);      // -0  //this can happen      4.71238898
+  c315DegVec : TGLZVector4f = (X:1; Y:-1; Z:0; W:0);      //  0.707106781187            5.497787
+
+type
 
   TVector4fFunctionalTest = class(TVectorBaseTestCase)
     published
@@ -314,6 +324,9 @@ begin
   vt2.Create(120,60,180,241);
   nb := vt1 <> vt2;
   AssertEquals('OpNotEquals:Sub5 does not match ', True, nb);
+  vt2.Create(121,61,181,241);
+  nb := vt1 <> vt2;
+  AssertEquals('OpNotEquals:Sub6 does not match ', True, nb);
 end;
 
 procedure TVector4fFunctionalTest.TestOpGTE;
@@ -753,7 +766,7 @@ begin
   AssertEquals('Normalize:Sub1 X failed ',  0.0, vt4.X);
   AssertEquals('Normalize:Sub2 Y failed ',  0.0, vt4.Y);
   AssertEquals('Normalize:Sub3 Z failed ',  0.0, vt4.Z);
-  AssertEquals('Normalize:Sub4 W failed ',  0.0, vt4.W);
+  AssertEquals('Normalize:Sub4 W failed ',  1.0, vt4.W);
   vt1.Create(6.0,0.0,0.0,1.0);
   vt4 := vt1.Normalize;
   AssertEquals('Normalize:Sub5 X failed ',  1.0, vt4.X);
@@ -1073,16 +1086,36 @@ begin
   AssertEquals('AngleBetween:Sub11 X->Z failed ', (pi/2), fs1);
   fs1 := ZHmgVector.AngleBetween(-XHmgVector,NullHmgPoint);
   AssertEquals('AngleBetween:Sub12 Z->X failed ', (pi/2), fs1);
-  fs1 := XHmgVector.AngleBetween(XYHmgVector,NullHmgPoint);
-  AssertEquals('AngleBetween:Sub13 X->XY failed ', (pi/4), fs1);
-  fs1 := -XHmgVector.AngleBetween(XYHmgVector,NullHmgPoint);
-  AssertEquals('AngleBetween:Sub14 -X->XY failed ', (3*pi/4), fs1);
-  fs1 := -XHmgVector.AngleBetween(XHmgVector,NullHmgPoint);
-  AssertEquals('AngleBetween:Sub15 X->XY failed ', (pi), fs1);
-  fs1 := -YHmgVector.AngleBetween(YHmgVector,NullHmgPoint);
-  AssertEquals('AngleBetween:Sub16 X->XY failed ', (pi), fs1);
-  fs1 := -ZHmgVector.AngleBetween(ZHmgVector,NullHmgPoint);
-  AssertEquals('AngleBetween:Sub17 X->XY failed ', (pi), fs1);
+  // cycle around in 45 deg inc in AntiClockWise order
+  fs1 := c0DegVec.AngleBetween(c45DegVec, NullHmgPoint);
+  AssertEquals('AngleBetween:Sub13 Z->X failed ', (pi/4), fs1);
+  fs1 := c0DegVec.AngleBetween(c90DegVec, NullHmgPoint);
+  AssertEquals('AngleBetween:Sub14 Z->X failed ', (pi/2), fs1);
+  fs1 := c0DegVec.AngleBetween(c135DegVec, NullHmgPoint);
+  AssertEquals('AngleBetween:Sub15 Z->X failed ', (3*pi/4), fs1);
+  fs1 := c0DegVec.AngleBetween(c180DegVec, NullHmgPoint);
+  AssertEquals('AngleBetween:Sub16 Z->X failed ', (pi), fs1);
+  fs1 := c0DegVec.AngleBetween(c225DegVec, NullHmgPoint);
+  AssertEquals('AngleBetween:Sub17 Z->X failed ', (3*pi/4), fs1);
+  fs1 := c0DegVec.AngleBetween(c270DegVec, NullHmgPoint);
+  AssertEquals('AngleBetween:Sub18 Z->X failed ', (pi/2), fs1);
+  fs1 := c0DegVec.AngleBetween(c315DegVec, NullHmgPoint);
+  AssertEquals('AngleBetween:Sub19 Z->X failed ', (pi/4), fs1);
+  // cycle around in 45 deg inc in AntiClockWise order  from -x
+  fs1 := c180DegVec.AngleBetween(c225DegVec, NullHmgPoint);
+  AssertEquals('AngleBetween:Sub20 Z->X failed ', (pi/4), fs1);
+  fs1 := c180DegVec.AngleBetween(c270DegVec, NullHmgPoint);
+  AssertEquals('AngleBetween:Sub21 Z->X failed ', (pi/2), fs1);
+  fs1 := c180DegVec.AngleBetween(c315DegVec, NullHmgPoint);
+  AssertEquals('AngleBetween:Sub22 Z->X failed ', (3*pi/4), fs1);
+  fs1 := c180DegVec.AngleBetween(c0DegVec, NullHmgPoint);
+  AssertEquals('AngleBetween:Sub23 Z->X failed ', (pi), fs1);
+  fs1 := c180DegVec.AngleBetween(c45DegVec, NullHmgPoint);
+  AssertEquals('AngleBetween:Sub24 Z->X failed ', (3*pi/4), fs1);
+  fs1 := c180DegVec.AngleBetween(c90DegVec, NullHmgPoint);
+  AssertEquals('AngleBetween:Sub25 Z->X failed ', (pi/2), fs1);
+  fs1 := c180DegVec.AngleBetween(c135DegVec, NullHmgPoint);
+  AssertEquals('AngleBetween:Sub26 Z->X failed ', (pi/4), fs1);
 end;
 
 procedure TVector4fFunctionalTest.TestCombine;
