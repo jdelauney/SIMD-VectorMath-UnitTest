@@ -22,7 +22,7 @@ unit umainform;
 {===============================================================================
  D'après le code source original en delphi :
  Licence : Creative Common
- - http://codes-sources.commentcamarche.net/source/46214-boids-de-craig-reynolds Auteur  : cs_barbichetteDate    : 03/08/2013
+ - http://codes-sources.commentcamarche.net/source/46214-boids-de-craig-reynoldsAuteur  : cs_barbichetteDate    : 03/08/2013
 
  Description :
  =============
@@ -305,7 +305,7 @@ begin
       LineTo(P.ST.x+P.UV.x,P.ST.y+P.UV.y);
     end;
   end;
- //  {$endif}
+   {$endif}
 
 end;
 

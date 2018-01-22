@@ -304,31 +304,31 @@ end;
 
 function TGLZHmgPlane.Perpendicular(constref P : TGLZVector4f) : TGLZVector4f; assembler; nostackframe; register;
 asm
-  movaps xmm0, [P]
-  movaps xmm1, [RDI]
-  andps  xmm0, [RIP+cSSE_MASK_NO_W]
+  movaps xmm0, [RDI]
+  movaps xmm1, [P]
+//  andps  xmm1, [RIP+cSSE_MASK_NO_W]  // use this to zero out final W if required
   movaps xmm2, xmm0
-  // Self.Dot(N) Result in xmm0
   {$IFDEF USE_ASM_SSE_4}
-     dpps xmm0, xmm1, 01110001b //or $F1
+     dpps xmm0, xmm1, 01110111b // |dot|dot|dot|0|
   {$ELSE}
     {$IFDEF USE_ASM_SSE_3}
-      //andps xmm0, [RIP+cSSE_MASK_NO_W]
       mulps   xmm0, xmm1
+      movhlps xmm3, xmm0
       haddps  xmm0, xmm0
-      haddps  xmm0, xmm0
+      addss   xmm0, xmm3
     {$ELSE}
       mulps   xmm0, xmm1             //   xmm0 =  w | z  | y  | x  |
-      movhlps xmm1, xmm0             //   xmm1 =  - | -  | w  | z  |
-      addps   xmm1, xmm0             // x + z
+      movhlps xmm3, xmm0             //   xmm1 =  - | -  | w  | z  |
+      addps   xmm3, xmm0             // x + z
       shufps  xmm0, xmm0, 00000001b  //   xmm1 =  - | -  | -  | y  |
-      addps   xmm0, xmm1             // (x + z ) + y
+      addps   xmm0, xmm3             // (x + z ) + y
+      andps   xmm0, [RIP+cSSE_MASK_NO_W]   // only SSE2 needs one of these.
     {$ENDIF}
+    shufps  xmm0, xmm0, 11000000b    // SSE4 does not need this.
   {$ENDIF}
-  Shufps  xmm0, xmm0, $0
   mulps   xmm0, xmm2                 // (Dot * Self)
-  subps   xmm2, xmm0                 // Self - (Dot * Self)
-  movaps  xmm0, xmm2
+  subps   xmm1, xmm0                 // Self - (Dot * Self) xxx should be P-Dot*Self
+  movaps  xmm0, xmm1
   movhlps xmm1, xmm0
 end;
 

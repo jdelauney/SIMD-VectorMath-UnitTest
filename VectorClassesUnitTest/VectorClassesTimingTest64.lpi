@@ -82,11 +82,9 @@
             </Debugging>
           </Linking>
           <Other>
-            <ConfigFile>
-              <CustomConfigFile Value="True"/>
-            </ConfigFile>
             <CustomOptions Value="-CfSSE3
 -Sv
+-O3
 -al
 -an
 -ar

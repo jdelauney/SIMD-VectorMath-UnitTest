@@ -3,13 +3,13 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="10"/>
-    <BuildModes Active="Cpu64_SSE_3 "/>
-    <Units Count="42">
+    <BuildModes Active="Cpu32_SSE_3"/>
+    <Units Count="41">
       <Unit0>
         <Filename Value="ReynoldzBoidZ.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="27"/>
       </Unit0>
       <Unit1>
         <Filename Value="umainform.pas"/>
@@ -17,21 +17,21 @@
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="194"/>
-        <CursorPos X="4" Y="308"/>
-        <UsageCount Value="28"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="25"/>
+        <CursorPos X="52" Y="46"/>
+        <UsageCount Value="27"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="..\UtilsClasses\GLZMath.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="619"/>
-        <CursorPos X="3" Y="42"/>
-        <UsageCount Value="24"/>
-        <Loaded Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="23"/>
       </Unit2>
       <Unit3>
         <Filename Value="..\UtilsClasses\GLZStopWatch.pas"/>
@@ -40,7 +40,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="23"/>
       </Unit3>
       <Unit4>
         <Filename Value="..\VectorClasses\GLZVectorMath.pas"/>
@@ -48,7 +48,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="381"/>
         <CursorPos X="14" Y="394"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="21"/>
       </Unit4>
       <Unit5>
         <Filename Value="..\FireZ\umainform.pas"/>
@@ -281,11 +281,10 @@
       </Unit35>
       <Unit36>
         <Filename Value="..\VectorClasses\vectormath_vector4i_native_imp.inc"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="157"/>
-        <CursorPos X="19" Y="176"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="388"/>
+        <CursorPos X="57" Y="408"/>
+        <UsageCount Value="10"/>
       </Unit36>
       <Unit37>
         <Filename Value="..\VectorClasses\vectormath_vector4i_win64_sse_imp.inc"/>
@@ -310,22 +309,13 @@
       </Unit39>
       <Unit40>
         <Filename Value="..\VectorClasses\vectormath_vector4b_native_imp.inc"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="435"/>
-        <CursorPos X="19" Y="454"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="409"/>
+        <CursorPos Y="415"/>
+        <UsageCount Value="10"/>
       </Unit40>
-      <Unit41>
-        <Filename Value="..\VectorClasses\vectormath_matrix4f_native_imp.inc"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="336"/>
-        <CursorPos X="40" Y="350"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
-      </Unit41>
     </Units>
-    <JumpHistory Count="16" HistoryIndex="15">
+    <JumpHistory Count="6" HistoryIndex="5">
       <Position1>
         <Filename Value="umainform.pas"/>
         <Caret Line="156" Column="5" TopLine="149"/>
@@ -350,46 +340,6 @@
         <Filename Value="umainform.pas"/>
         <Caret Line="58" Column="45" TopLine="58"/>
       </Position6>
-      <Position7>
-        <Filename Value="umainform.pas"/>
-        <Caret Line="46" Column="39" TopLine="25"/>
-      </Position7>
-      <Position8>
-        <Filename Value="..\UtilsClasses\GLZMath.pas"/>
-        <Caret Line="42" Column="3" TopLine="28"/>
-      </Position8>
-      <Position9>
-        <Filename Value="..\VectorClasses\vectormath_vector4b_native_imp.inc"/>
-        <Caret Line="454" Column="19" TopLine="435"/>
-      </Position9>
-      <Position10>
-        <Filename Value="..\VectorClasses\vectormath_vector4i_native_imp.inc"/>
-        <Caret Line="176" Column="19" TopLine="157"/>
-      </Position10>
-      <Position11>
-        <Filename Value="..\VectorClasses\vectormath_matrix4f_native_imp.inc"/>
-        <Caret Line="278" Column="21" TopLine="255"/>
-      </Position11>
-      <Position12>
-        <Filename Value="..\VectorClasses\vectormath_matrix4f_native_imp.inc"/>
-        <Caret Line="291" Column="18" TopLine="277"/>
-      </Position12>
-      <Position13>
-        <Filename Value="..\VectorClasses\vectormath_matrix4f_native_imp.inc"/>
-        <Caret Line="308" Column="35" TopLine="294"/>
-      </Position13>
-      <Position14>
-        <Filename Value="..\VectorClasses\vectormath_matrix4f_native_imp.inc"/>
-        <Caret Line="350" Column="40" TopLine="336"/>
-      </Position14>
-      <Position15>
-        <Filename Value="umainform.pas"/>
-        <Caret Line="110" Column="27" TopLine="96"/>
-      </Position15>
-      <Position16>
-        <Filename Value="umainform.pas"/>
-        <Caret Line="291" Column="28" TopLine="52"/>
-      </Position16>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>

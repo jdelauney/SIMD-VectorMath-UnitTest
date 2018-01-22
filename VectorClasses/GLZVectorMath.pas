@@ -645,9 +645,9 @@ type
     { Return Combine3 = Self + (V2 * F2)}
     function Combine(constref V2: TGLZVector4f; constref F1: Single): TGLZVector4f;
     { Return Combine2 = (Self * F1) + (V2 * F2) }
-    function Combine2(constref V2: TGLZVector4f; constref F1, F2: Single): TGLZVector4f;
+    function Combine2(constref V2: TGLZVector4f; const F1, F2: Single): TGLZVector4f;
     { Return Combine3 = (Self * F1) + (V2 * F2) + (V3 * F3) }
-    function Combine3(constref V2, V3: TGLZVector4f; constref F1, F2, F3: Single): TGLZVector4f;
+    function Combine3(constref V2, V3: TGLZVector4f; const F1, F2, F3: Single): TGLZVector4f;
 
     { Round Self to an TGLZVector4i }
     function Round: TGLZVector4i;

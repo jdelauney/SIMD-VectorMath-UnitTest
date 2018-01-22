@@ -440,36 +440,27 @@ end;
 
 function TGLZVector4f.Normalize: TGLZVector4f;  assembler; nostackframe; register;
 asm
-  movaps xmm0, [RDI]
-  movaps xmm3, xmm0
-  andps  xmm3, [RIP+cSSE_MASK_ONLY_W]
-  andps  xmm0, [RIP+cSSE_MASK_NO_W]
-  movaps xmm2, xmm0
-  {$IFDEF USE_ASM_SSE_3}
-    mulps  xmm0, xmm0
-    haddps xmm0, xmm0
-    haddps xmm0, xmm0
-  {$ELSE}
-    mulps  xmm0, xmm0
-    movaps xmm1, xmm0
-    shufps xmm0, xmm1, $4e
-    addps  xmm0, xmm1
-    movaps xmm1, xmm0
-    shufps xmm1, xmm1, $11
-    addps  xmm0, xmm1
-  {$ENDIF}
-  {$IFDEF USE_ASM_SIMD_HIGHPRECISION}
-    // High Precision
-    sqrtps xmm0, xmm0
-    divps  xmm2, xmm0
-  {$ELSE}
-    // Low precision
-    rsqrtps xmm0, xmm0       //approximate reciprocal
-    mulps   xmm2, xmm0
-  {$ENDIF}
-  addps   xmm2, xmm3
-  movaps  xmm0, xmm2
-  movhlps xmm1, xmm0
+  // 3 reg usage so could unroll loops 5 at a time in 64bit
+  movaps  xmm0, [RDI]
+  movaps  xmm2, xmm0
+  mulps   xmm2, xmm2
+  movaps  xmm1, [RIP+cOneVector4f]
+  movhlps xmm1, xmm2        //  |Z^2|*|1|1|
+{$ifdef USE_ASM_SSE_3}
+  haddps  xmm2, xmm2
+{$else}
+  addss   xmm1, xmm2         //    |z^2+x^2*|1|1|
+  shufps  xmm2, xmm2, 01010101b
+{$endif}
+  addss   xmm1, xmm2         //  |x^2 + y^2 + z^2|*|1|1|
+  sqrtps  xmm1, xmm1         //  |Sqrt(x^2 + y^2 + z^2)|*|1|1|
+  movd    eax,  xmm1
+  add     eax,  eax            // get rid of sign bit if it exists
+  jz @origin
+  shufps  xmm1, xmm1, 11000000b  // |sqrt(Norm)|sqrt(Norm)|sqrt(Norm)|1|
+  divps   xmm0, xmm1
+@origin:
+  movhlps xmm1, xmm0          // sf 5.48
 end;
 
 function TGLZVector4f.Min(constref B: Single): TGLZVector4f; assembler; nostackframe; register;

@@ -477,10 +477,10 @@ begin
   b4 := 0;   //00000000;
   abf1.Create(b1,b2,b3,b4);
   abf3 := abf1.DivideBy2;
-  AssertEquals('OpXorByte:Sub1 X failed ',  b2,       abf3.X);
-  AssertEquals('OpXorByte:Sub2 Y failed ',  b2 shr 1, abf3.Y);
-  AssertEquals('OpXorByte:Sub3 Z failed ',  127,      abf3.Z);
-  AssertEquals('OpXorByte:Sub4 W failed ',  b4,       abf3.W);
+  AssertEquals('DivideBy2:Sub1 X failed ',  b2,       abf3.X);
+  AssertEquals('DivideBy2:Sub2 Y failed ',  b2 shr 1, abf3.Y);
+  AssertEquals('DivideBy2:Sub3 Z failed ',  128,      abf3.Z);
+  AssertEquals('DivideBy2:Sub4 W failed ',  b4,       abf3.W);
 end;
 
 procedure TVector4bFunctionalTest.TestMin;

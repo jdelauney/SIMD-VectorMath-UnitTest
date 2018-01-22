@@ -208,25 +208,86 @@ end;
 
 procedure THmgPlaneFunctionalTest.TestPerpendicular;
 begin
-  //vt1.Create(1,1,1,1);
-  //vt2 := vt1.Normalize;
-  //vt4 := ph1.Perpendicular(YHmgPoint);
-  //AssertEquals('Perpendicular:Sub1 X failed ',  0, vt4.X);
-  //AssertEquals('Perpendicular:Sub2 Y failed ',  0, vt4.Y);
-  //AssertEquals('Perpendicular:Sub3 Z failed ',  1, vt4.Z);
-  //AssertEquals('Perpendicular:Sub4 W failed ',  0, vt4.W);
-  //vt4 := ph1.Perpendicular(ZHmgVector);
-  //AssertEquals('Perpendicular:Sub4 X failed ',  0, vt4.X);
-  //AssertEquals('Perpendicular:Sub5 Y failed ',  0, vt4.Y);
-  //AssertEquals('Perpendicular:Sub6 Z failed ',  1, vt4.Z);
-  //AssertEquals('Perpendicular:Sub7 W failed ',  0, vt4.W);
+  vt1.Create(2,2,2,1);
+  ph1.Create(NullHmgPoint,XHmgPoint,YHmgPoint);   // z perp
+  vt4 := ph1.Perpendicular(vt1);
+  AssertEquals('Perpendicular:Sub1 X failed ',  2, vt4.X);
+  AssertEquals('Perpendicular:Sub2 Y failed ',  2, vt4.Y);
+  AssertEquals('Perpendicular:Sub3 Z failed ',  0, vt4.Z); // Z cancelled out
+  AssertEquals('Perpendicular:Sub4 W failed ',  1, vt4.W);
+  ph1.Create(NullHmgPoint,YHmgPoint,XHmgPoint);   // -z perp
+  vt4 := ph1.Perpendicular(vt1);
+  AssertEquals('Perpendicular:Sub5 X failed ',  2, vt4.X);
+  AssertEquals('Perpendicular:Sub6 Y failed ',  2, vt4.Y);
+  AssertEquals('Perpendicular:Sub7 Z failed ',  0, vt4.Z);
+  AssertEquals('Perpendicular:Sub8 W failed ',  1, vt4.W);
+  ph1.Create(NullHmgPoint,YHmgPoint,ZHmgPoint);   // x perp
+  vt4 := ph1.Perpendicular(vt1);
+  AssertEquals('Perpendicular:Sub9 X failed ',   0, vt4.X);
+  AssertEquals('Perpendicular:Sub10 Y failed ',  2, vt4.Y);
+  AssertEquals('Perpendicular:Sub11 Z failed ',  2, vt4.Z);
+  AssertEquals('Perpendicular:Sub12 W failed ',  1, vt4.W);
+  ph1.Create(NullHmgPoint,ZHmgPoint,YHmgPoint);   // -x perp
+  vt4 := ph1.Perpendicular(vt1);
+  AssertEquals('Perpendicular:Sub13 X failed ',  0, vt4.X);
+  AssertEquals('Perpendicular:Sub14 Y failed ',  2, vt4.Y);
+  AssertEquals('Perpendicular:Sub15 Z failed ',  2, vt4.Z);
+  AssertEquals('Perpendicular:Sub16 W failed ',  1, vt4.W);
+  ph1.Create(NullHmgPoint,ZHmgPoint,XHmgPoint);   // y perp
+  vt4 := ph1.Perpendicular(vt1);
+  AssertEquals('Perpendicular:Sub21 X failed ',  2, vt4.X);
+  AssertEquals('Perpendicular:Sub22 Y failed ',  0, vt4.Y);
+  AssertEquals('Perpendicular:Sub23 Z failed ',  2, vt4.Z);
+  AssertEquals('Perpendicular:Sub24 W failed ',  1, vt4.W);
+  ph1.Create(NullHmgPoint,XHmgPoint,ZHmgPoint);   // -y perp
+  vt4 := ph1.Perpendicular(vt1);
+  AssertEquals('Perpendicular:Sub17 X failed ',  2, vt4.X);
+  AssertEquals('Perpendicular:Sub18 Y failed ',  0, vt4.Y);
+  AssertEquals('Perpendicular:Sub19 Z failed ',  2, vt4.Z);
+  AssertEquals('Perpendicular:Sub20 W failed ',  1, vt4.W);
 end;
-
-// Result := Self - (N*(2 * N.Dotproduct(Self)));
 
 procedure THmgPlaneFunctionalTest.TestReflect;
 begin
-
+  ph1.Create(NullHmgPoint,XHmgPoint,YHmgPoint);   // z perp  normalised plane.
+  vt1.Create(1,0,-1,0);  // vector heading in x dir down towards plane
+  vt4:= ph1.Reflect(vt1);
+  AssertEquals('Reflect:Sub1 X failed ',  1, vt4.X);  // should continue in x dir
+  AssertEquals('Reflect:Sub2 Y failed ',  0, vt4.Y);  // get no y component
+  AssertEquals('Reflect:Sub3 Z failed ',  1, vt4.Z);  // same angle but upward i.e. reversed Z
+  AssertEquals('Reflect:Sub4 W failed ',  0, vt4.W);
+  vt1.Create(1,0,1,0);  // vector  heading in x dir up towards plane
+  vt4:= ph1.Reflect(vt1);
+  AssertEquals('Reflect:Sub5 X failed ',  1, vt4.X);  // should continue in x dir
+  AssertEquals('Reflect:Sub6 Y failed ',  0, vt4.Y);  // get no y component
+  AssertEquals('Reflect:Sub7 Z failed ', -1, vt4.Z);  // same angle but downward i.e. reversed Z
+  AssertEquals('Reflect:Sub8 W failed ',  0, vt4.W);
+  ph1.Create(NullHmgPoint,YHmgPoint,ZHmgPoint);   // x perp
+  vt1.Create(-1,1,1,0);  // vector  heading in y,z dir down towards plane
+  vt4:= ph1.Reflect(vt1);
+  AssertEquals('Reflect:Sub9 X failed ',   1, vt4.X);  // same angle but upward i.e. reversed x
+  AssertEquals('Reflect:Sub10 Y failed ',  1, vt4.Y);  // should continue in y dir
+  AssertEquals('Reflect:Sub11 Z failed ',  1, vt4.Z);  // should continue in z dir
+  AssertEquals('Reflect:Sub12 W failed ',  0, vt4.W);
+  vt1.Create(1,1,1,0);  // vector  heading in y,z dir up towards plane
+  vt4:= ph1.Reflect(vt1);
+  AssertEquals('Reflect:Sub13 X failed ',  -1, vt4.X);  // same angle but downward i.e. reversed x
+  AssertEquals('Reflect:Sub14 Y failed ',  1, vt4.Y);  // should continue in y dir
+  AssertEquals('Reflect:Sub15 Z failed ',  1, vt4.Z);  // should continue in z dir
+  AssertEquals('Reflect:Sub16 W failed ',  0, vt4.W);
+  ph1.Create(NullHmgPoint,ZHmgPoint,XHmgPoint);   // y perp
+  vt1.Create(1,-1,1,0);  // vector  heading in x,z dir down towards plane
+  vt4:= ph1.Reflect(vt1);
+  AssertEquals('Reflect:Sub17 X failed ',  1, vt4.X);  // should continue in x dir
+  AssertEquals('Reflect:Sub18 Y failed ',  1, vt4.Y);  // same angle but upward i.e. reversed y
+  AssertEquals('Reflect:Sub19 Z failed ',  1, vt4.Z);  // should continue in z dir
+  AssertEquals('Reflect:Sub20 W failed ',  0, vt4.W);
+  vt1.Create(1,1,1,0);  // vector  heading in y,z dir up towards plane
+  vt4:= ph1.Reflect(vt1);
+  AssertEquals('Reflect:Sub21 X failed ',  1, vt4.X);  // should continue in x dir
+  AssertEquals('Reflect:Sub22 Y failed ', -1, vt4.Y);  // same angle but downward i.e. reversed y
+  AssertEquals('Reflect:Sub23 Z failed ',  1, vt4.Z);  // should continue in z dir
+  AssertEquals('Reflect:Sub24 W failed ',  0, vt4.W);
 end;
 
 
