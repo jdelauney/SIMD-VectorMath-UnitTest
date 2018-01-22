@@ -498,16 +498,9 @@ asm
      dpps xmm0, xmm4, 11110001b //or $F1
   {$ELSE}
     {$IFDEF USE_ASM_SSE_3}
-       mulps xmm0, xmm4
-       {$ifdef TEST}
-         movshdup    xmm4, xmm10
-         addps       xmm10, xmm4
-         movhlps     xmm4, xmm10
-         addss       xmm10, xmm4
-       {$else}
-         haddps xmm0, xmm0
-         haddps xmm0, xmm0
-       {$endif}
+        mulps xmm0, xmm4
+        haddps xmm0, xmm0
+        haddps xmm0, xmm0
     {$ELSE}
       mulps   xmm0, xmm4
       movhlps xmm4, xmm0
