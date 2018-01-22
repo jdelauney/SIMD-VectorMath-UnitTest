@@ -3306,9 +3306,9 @@ var
    dot : Single;
 begin
   dot:= P.DotProduct(Self.AsVector);
-  Result.X:=P.X-Dot * P.X;
-  Result.Y:=P.Y-Dot * P.Y;
-  Result.Z:=P.Z-Dot * P.Z;
+  Result.X:=P.X-Dot * Self.X;
+  Result.Y:=P.Y-Dot * Self.Y;
+  Result.Z:=P.Z-Dot * Self.Z;
   Result.W:=0;
 end;
 
