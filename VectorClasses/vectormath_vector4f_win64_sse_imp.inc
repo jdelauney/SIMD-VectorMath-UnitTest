@@ -155,7 +155,7 @@ class operator TGLZVector4f.>= (constref A, B: TGLZVector4f): boolean; assembler
 asm
   movaps xmm0,[A]
   movaps xmm1,[B]
-  cmpps  xmm0, xmm1, cSSE_OPERATOR_NOT_LESS_OR_EQUAL    //  Yes: $FFFFFFFF, No: $00000000 ; 6 = Operator Not Less Or Equal
+  cmpps  xmm0, xmm1, cSSE_OPERATOR_NOT_LESS     //  Yes: $FFFFFFFF, No: $00000000 ; 6 = Operator Not Less Or Equal
   movmskps eax, xmm0
   xor eax, $f
   setz al
@@ -175,7 +175,7 @@ class operator TGLZVector4f.>(constref A, B: TGLZVector4f): boolean; assembler; 
 asm
   movaps xmm0,[A]
   movaps xmm1,[B]
-  cmpps  xmm0, xmm1, cSSE_OPERATOR_NOT_LESS    //  Yes: $FFFFFFFF, No: $00000000 ; 5 = Operator Not Less Than
+  cmpps  xmm0, xmm1,  cSSE_OPERATOR_NOT_LESS_OR_EQUAL   //  Yes: $FFFFFFFF, No: $00000000 ; 5 = Operator Not Less Than
   movmskps eax, xmm0
   xor eax, $f
   setz al
@@ -187,8 +187,8 @@ asm
   movaps xmm1,[B]
   cmpps  xmm0, xmm1, cSSE_OPERATOR_NOT_EQUAL    //  Yes: $FFFFFFFF, No: $00000000 ; 4 = Operator Not Equal
   movmskps eax, xmm0
-  xor eax, $f
-  setz al
+  or eax, eax
+  setnz al
 end;
 
 {%endregion%}
