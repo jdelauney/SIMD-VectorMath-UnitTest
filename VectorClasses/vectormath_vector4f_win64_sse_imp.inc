@@ -985,8 +985,8 @@ asm
   addps xmm0, xmm1  // (Self * F1) + (V2 * F2)
 
   andps xmm0, [RIP+cSSE_MASK_NO_W]
-  movhlps xmm1,xmm0
-  //movups [RESULT], xmm0
+  //movhlps xmm1,xmm0
+  movups [RESULT], xmm0
 
 end;
 
@@ -1018,8 +1018,8 @@ asm
   addps xmm0, xmm4 // ((Self * F1) + (V2 * F2)) + (V3 * F3)
 
   andps xmm0, [RIP+cSSE_MASK_NO_W]
-  movhlps xmm1,xmm0
-  //movups [RESULT], xmm0
+  //movhlps xmm1,xmm0
+  movups [RESULT], xmm0
 end;
 
 function TGLZVector4f.Round: TGLZVector4i;assembler;nostackframe;register;
