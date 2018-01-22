@@ -965,12 +965,12 @@ asm
   movaps [RESULT], xmm0
 end;
 
-function TGLZVector4f.Combine2(constref V2: TGLZVector4f; const F1, F2: Single): TGLZVector4f;assembler; nostackframe; register;
+function TGLZVector4f.Combine2(constref V2: TGLZVector4f; const F1, F2: Single): TGLZVector4f;assembler; // nostackframe; register;
 asm
   movaps xmm0,[RCX]
   movaps xmm1, [V2]
   {$ifdef TEST}
-    movlps xmm2, [F2{%H-}]
+    movss xmm2, [F2{%H-}]
   {$else}
     movss xmm2, [F2{%H-}]
   {$endif}
@@ -990,7 +990,7 @@ asm
 
 end;
 
-function TGLZVector4f.Combine3(constref V2, V3: TGLZVector4f; const F1, F2, F3: Single): TGLZVector4f;  assembler; nostackframe; register;
+function TGLZVector4f.Combine3(constref V2, V3: TGLZVector4f; const F1, F2, F3: Single): TGLZVector4f;  assembler; //nostackframe; register;
 asm
   movaps xmm0,[RCX]
 
