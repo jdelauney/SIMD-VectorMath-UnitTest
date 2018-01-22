@@ -96,7 +96,7 @@ begin
    Result.X:=P.X-Dot * Self.X;
    Result.Y:=P.Y-Dot * Self.Y;
    Result.Z:=P.Z-Dot * Self.Z;
-   Result.W:=0;
+   Result.W:=P.W;
 end;
 
 function TGLZHmgPlane.Reflect(constref V: TGLZVector4f): TGLZVector4f;

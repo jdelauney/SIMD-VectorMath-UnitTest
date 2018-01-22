@@ -3305,11 +3305,11 @@ function TNativeGLZHmgPlane.Perpendicular(constref P : TNativeGLZVector4f) : TNa
 var
    dot : Single;
 begin
-  dot:= P.DotProduct(Self.AsVector);
-  Result.X:=P.X-Dot * Self.X;
-  Result.Y:=P.Y-Dot * Self.Y;
-  Result.Z:=P.Z-Dot * Self.Z;
-  Result.W:=0;
+  dot:= Self.AsVector.DotProduct(P);
+  Result.X:=P.X - (Dot * Self.X);
+  Result.Y:=P.Y - (Dot * Self.Y);
+  Result.Z:=P.Z - (Dot * Self.Z);
+  Result.W:=P.W;
 end;
 
 function TNativeGLZHmgPlane.Reflect(constref V: TNativeGLZVector4f): TNativeGLZVector4f;

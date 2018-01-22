@@ -214,37 +214,37 @@ begin
   AssertEquals('Perpendicular:Sub1 X failed ',  2, vt4.X);
   AssertEquals('Perpendicular:Sub2 Y failed ',  2, vt4.Y);
   AssertEquals('Perpendicular:Sub3 Z failed ',  0, vt4.Z); // Z cancelled out
-  AssertEquals('Perpendicular:Sub4 W failed ',  0, vt4.W);
+  AssertEquals('Perpendicular:Sub4 W failed ',  1, vt4.W);
   ph1.Create(NullHmgPoint,YHmgPoint,XHmgPoint);   // -z perp
   vt4 := ph1.Perpendicular(vt1);
   AssertEquals('Perpendicular:Sub5 X failed ',  2, vt4.X);
   AssertEquals('Perpendicular:Sub6 Y failed ',  2, vt4.Y);
   AssertEquals('Perpendicular:Sub7 Z failed ',  0, vt4.Z);
-  AssertEquals('Perpendicular:Sub8 W failed ',  0, vt4.W);
+  AssertEquals('Perpendicular:Sub8 W failed ',  1, vt4.W);
   ph1.Create(NullHmgPoint,YHmgPoint,ZHmgPoint);   // x perp
   vt4 := ph1.Perpendicular(vt1);
   AssertEquals('Perpendicular:Sub9 X failed ',   0, vt4.X);
   AssertEquals('Perpendicular:Sub10 Y failed ',  2, vt4.Y);
   AssertEquals('Perpendicular:Sub11 Z failed ',  2, vt4.Z);
-  AssertEquals('Perpendicular:Sub12 W failed ',  0, vt4.W);
+  AssertEquals('Perpendicular:Sub12 W failed ',  1, vt4.W);
   ph1.Create(NullHmgPoint,ZHmgPoint,YHmgPoint);   // -x perp
   vt4 := ph1.Perpendicular(vt1);
   AssertEquals('Perpendicular:Sub13 X failed ',  0, vt4.X);
   AssertEquals('Perpendicular:Sub14 Y failed ',  2, vt4.Y);
   AssertEquals('Perpendicular:Sub15 Z failed ',  2, vt4.Z);
-  AssertEquals('Perpendicular:Sub16 W failed ',  0, vt4.W);
+  AssertEquals('Perpendicular:Sub16 W failed ',  1, vt4.W);
   ph1.Create(NullHmgPoint,ZHmgPoint,XHmgPoint);   // y perp
   vt4 := ph1.Perpendicular(vt1);
   AssertEquals('Perpendicular:Sub21 X failed ',  2, vt4.X);
   AssertEquals('Perpendicular:Sub22 Y failed ',  0, vt4.Y);
   AssertEquals('Perpendicular:Sub23 Z failed ',  2, vt4.Z);
-  AssertEquals('Perpendicular:Sub24 W failed ',  0, vt4.W);
+  AssertEquals('Perpendicular:Sub24 W failed ',  1, vt4.W);
   ph1.Create(NullHmgPoint,XHmgPoint,ZHmgPoint);   // -y perp
   vt4 := ph1.Perpendicular(vt1);
   AssertEquals('Perpendicular:Sub17 X failed ',  2, vt4.X);
   AssertEquals('Perpendicular:Sub18 Y failed ',  0, vt4.Y);
   AssertEquals('Perpendicular:Sub19 Z failed ',  2, vt4.Z);
-  AssertEquals('Perpendicular:Sub20 W failed ',  0, vt4.W);
+  AssertEquals('Perpendicular:Sub20 W failed ',  1, vt4.W);
 end;
 
 procedure THmgPlaneFunctionalTest.TestReflect;
