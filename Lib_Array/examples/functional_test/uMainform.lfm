@@ -1,0 +1,107 @@
+object MainForm: TMainForm
+  Left = 0
+  Height = 456
+  Top = 0
+  Width = 902
+  ActiveControl = Memo1
+  Caption = 'GLZArrays Functional Test'
+  ClientHeight = 456
+  ClientWidth = 902
+  Visible = False
+  object GroupBox1: TGroupBox
+    Left = 16
+    Height = 312
+    Top = 64
+    Width = 144
+    BorderSpacing.InnerBorder = 4
+    Caption = 'Byte List'
+    ClientHeight = 292
+    ClientWidth = 140
+    TabOrder = 0
+    object Memo1: TMemo
+      Left = 4
+      Height = 284
+      Top = 4
+      Width = 132
+      Align = alClient
+      BorderSpacing.Around = 4
+      ScrollBars = ssAutoBoth
+      TabOrder = 0
+    end
+  end
+  object GroupBox2: TGroupBox
+    Left = 160
+    Height = 312
+    Top = 64
+    Width = 168
+    BorderSpacing.InnerBorder = 4
+    Caption = 'Integer List'
+    ClientHeight = 292
+    ClientWidth = 164
+    TabOrder = 1
+    object Memo2: TMemo
+      Left = 4
+      Height = 284
+      Top = 4
+      Width = 156
+      Align = alClient
+      BorderSpacing.Around = 4
+      Lines.Strings = (
+        ''
+      )
+      ScrollBars = ssAutoBoth
+      TabOrder = 0
+    end
+  end
+  object GroupBox3: TGroupBox
+    Left = 328
+    Height = 312
+    Top = 64
+    Width = 200
+    BorderSpacing.InnerBorder = 4
+    Caption = 'Single 2D Map'
+    ClientHeight = 292
+    ClientWidth = 196
+    TabOrder = 2
+    object Memo3: TMemo
+      Left = 4
+      Height = 284
+      Top = 4
+      Width = 188
+      Align = alClient
+      BorderSpacing.Around = 4
+      ScrollBars = ssAutoBoth
+      TabOrder = 0
+    end
+  end
+  object GroupBox4: TGroupBox
+    Left = 528
+    Height = 312
+    Top = 64
+    Width = 360
+    BorderSpacing.InnerBorder = 4
+    Caption = 'Vector List'
+    ClientHeight = 292
+    ClientWidth = 356
+    TabOrder = 3
+    object Memo4: TMemo
+      Left = 4
+      Height = 284
+      Top = 4
+      Width = 348
+      Align = alClient
+      BorderSpacing.Around = 4
+      ScrollBars = ssAutoBoth
+      TabOrder = 0
+    end
+  end
+  object Button1: TButton
+    Left = 24
+    Height = 25
+    Top = 392
+    Width = 176
+    Caption = 'Init and Fill'
+    OnClick = Button1Click
+    TabOrder = 4
+  end
+end

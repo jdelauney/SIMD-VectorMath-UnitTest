@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="10"/>
+    <BuildModes Active="Default"/>
+    <Units Count="17">
+      <Unit0>
+        <Filename Value="functional_test.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="1"/>
+        <CursorPos Y="20"/>
+        <UsageCount Value="53"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="uMainform.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <TopLine Value="77"/>
+        <CursorPos Y="94"/>
+        <UsageCount Value="53"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\..\source\base\GLZArrayClasses.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="145"/>
+        <CursorPos X="72" Y="635"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\..\source\GLZArrays.pas"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="49"/>
+        <CursorPos Y="64"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\..\VectorClasses\GLZVectorMath.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="20"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\..\..\UtilsClasses\GLZTypes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="20"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\..\..\..\Source\Basis\GLZ3DObjectClasses.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="53"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\..\..\..\Source\Basis\GLZ3DBaseEngine.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="217"/>
+        <CursorPos X="7" Y="176"/>
+        <UsageCount Value="38"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\..\..\..\..\GLZScene-Common\Source\Basis\GLZArrayClasses.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="362"/>
+        <CursorPos X="88" Y="368"/>
+        <UsageCount Value="34"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="..\..\..\..\..\GLZScene-Common\Source\GLZArrays.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="37"/>
+        <CursorPos X="11" Y="51"/>
+        <UsageCount Value="27"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="..\..\..\..\..\GLZScene-Common\Source\Basis\GLZClasses.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="127"/>
+        <CursorPos X="3" Y="174"/>
+        <UsageCount Value="25"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="..\..\..\..\..\GLZScene-Common\Source\Basis\GLZVectorList.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="37"/>
+        <CursorPos X="21" Y="144"/>
+        <UsageCount Value="25"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="..\..\..\..\..\GLZScene-Common\Source\Basis\GLZPersistentClasses.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="503"/>
+        <CursorPos X="3" Y="293"/>
+        <UsageCount Value="24"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="..\..\..\..\..\..\ArrayTest\GLZArrays.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="13"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="..\..\..\..\..\..\ArrayTest\GLZBaseArray.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="211"/>
+        <CursorPos X="47" Y="12"/>
+        <UsageCount Value="17"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\inc\systemh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="643"/>
+        <CursorPos X="11" Y="337"/>
+        <UsageCount Value="17"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="..\..\..\..\..\GLZScene-Common\Source\Basis\GLZTypes.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="3" Y="56"/>
+        <UsageCount Value="13"/>
+      </Unit16>
+    </Units>
+    <JumpHistory Count="12" HistoryIndex="11">
+      <Position1>
+        <Filename Value="uMainform.pas"/>
+        <Caret Line="59" Column="22" TopLine="48"/>
+      </Position1>
+      <Position2>
+        <Filename Value="..\..\source\base\GLZArrayClasses.pas"/>
+        <Caret Line="364" Column="3" TopLine="350"/>
+      </Position2>
+      <Position3>
+        <Filename Value="..\..\source\base\GLZArrayClasses.pas"/>
+        <Caret Line="247" TopLine="234"/>
+      </Position3>
+      <Position4>
+        <Filename Value="..\..\source\base\GLZArrayClasses.pas"/>
+        <Caret Line="280" Column="11" TopLine="267"/>
+      </Position4>
+      <Position5>
+        <Filename Value="..\..\source\base\GLZArrayClasses.pas"/>
+        <Caret Line="361" Column="6" TopLine="352"/>
+      </Position5>
+      <Position6>
+        <Filename Value="uMainform.pas"/>
+        <Caret Line="97" Column="29"/>
+      </Position6>
+      <Position7>
+        <Filename Value="uMainform.pas"/>
+        <Caret Line="99" Column="53" TopLine="89"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\..\source\GLZArrays.pas"/>
+        <Caret Line="61" Column="46" TopLine="49"/>
+      </Position8>
+      <Position9>
+        <Filename Value="uMainform.pas"/>
+        <Caret Line="80" Column="10" TopLine="74"/>
+      </Position9>
+      <Position10>
+        <Filename Value="..\..\source\base\GLZArrayClasses.pas"/>
+        <Caret Line="217" Column="14" TopLine="203"/>
+      </Position10>
+      <Position11>
+        <Filename Value="..\..\source\base\GLZArrayClasses.pas"/>
+        <Caret Line="207" Column="15" TopLine="193"/>
+      </Position11>
+      <Position12>
+        <Filename Value="uMainform.pas"/>
+        <Caret Line="94" TopLine="77"/>
+      </Position12>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>
