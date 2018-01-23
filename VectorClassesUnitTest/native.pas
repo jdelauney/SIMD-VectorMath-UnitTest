@@ -773,16 +773,27 @@ type
   //function IntersectLinePlane(const point, direction : TGLZVector; intersectPoint : PGLZVector = nil) : Integer;
 
     function Rotate(constref axis : TNativeGLZVector; angle : Single):TNativeGLZVector;
+    // Returns given vector rotated around the X axis (alpha is in rad, use Pure Math Model)
+    function RotateWithMatrixAroundX(alpha : Single) : TGLZVector;
+    // Returns given vector rotated around the Y axis (alpha is in rad, use Pure Math Model)
+    function RotateWithMatrixAroundY(alpha : Single) : TGLZVector;
+    // Returns given vector rotated around the Z axis (alpha is in rad, use Pure Math Model)
+    function RotateWithMatrixAroundZ(alpha : Single) : TGLZVector;
+
     // Returns given vector rotated around the X axis (alpha is in rad)
     function RotateAroundX(alpha : Single) : TNativeGLZVector;
     // Returns given vector rotated around the Y axis (alpha is in rad)
     function RotateAroundY(alpha : Single) : TNativeGLZVector;
     // Returns given vector rotated around the Z axis (alpha is in rad)
     function RotateAroundZ(alpha : Single) : TNativeGLZVector;
+
+    { Extracted from Camera.MoveAroundTarget(pitch, turn). }
+    function MoveAround(constref AMovingObjectUp, ATargetPosition: TNativeGLZVector; pitchDelta, turnDelta: Single): TNativeGLZVector;
+
+
     // Self is the point
     function PointProject(constref origin, direction : TNativeGLZVector) : Single;
-    // Returns true if both vector are colinear
-    function IsColinear(constref v2: TNativeGLZVector) : Boolean;
+
     //function IsPerpendicular(constref v2: TGLZVector) : Boolean;
     //function IsParallel(constref v2: TGLZVector) : Boolean;
     // Returns true if line intersect ABCD quad. Quad have to be flat and convex
@@ -795,8 +806,7 @@ type
     //function PointLineClosestPoint(const linePoint, lineDirection : TGLZVector) : TGLZVector;
     { Computes algebraic distance between point and line.}
     //function PointLineDistance(const linePoint, lineDirection : TGLZVector) : Single;
-    { Extracted from Camera.MoveAroundTarget(pitch, turn). }
-    function MoveAround(constref AMovingObjectUp, ATargetPosition: TNativeGLZVector; pitchDelta, turnDelta: Single): TNativeGLZVector;
+
     { AOriginalPosition - Object initial position.
        ACenter - some point, from which is should be distanced.
 

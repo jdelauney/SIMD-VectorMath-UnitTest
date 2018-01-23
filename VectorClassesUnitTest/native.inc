@@ -3345,6 +3345,30 @@ begin
    Result:=rotMatrix*Self;
 end;
 
+function TNativeGLZVectorHelper.RotateWithMatrixAroundX(alpha : Single) : TNativeGLZVector;
+var
+   rotMatrix : TNativeGLZMatrix;
+begin
+   rotMatrix.CreateRotationMatrixX(Angle);
+   Result:=rotMatrix*Self;
+end;
+
+function TNativeGLZVectorHelper.RotateWithMatrixAroundY(alpha : Single) : TNativeGLZVector;
+var
+   rotMatrix : TNativeGLZMatrix;
+begin
+   rotMatrix.CreateRotationMatrixY(Angle);
+   Result:=rotMatrix*Self;
+end;
+
+function TNativeGLZVectorHelper.RotateWithMatrixAroundZ(alpha : Single) : TNativeGLZVector;
+var
+   rotMatrix : TNativeGLZMatrix;
+begin
+   rotMatrix.CreateRotationMatrixZ(Angle);
+   Result:=rotMatrix*Self;
+end;
+
 function TNativeGLZVectorHelper.RotateAroundX( alpha : Single) : TNativeGLZVector;
 var
    c, s : Single;
@@ -3375,15 +3399,6 @@ begin
    Result.Z:=Self.Z;
 end;
 
-function TNativeGLZVectorHelper.IsColinear(constref v2: TNativeGLZVector) : Boolean;
-var
-  a, b, c : Single;
-begin
-  a := Self.DotProduct(Self);
-  b := Self.DotProduct(v2);
-  c := v2.DotProduct(v2);
-  Result :=  (a*c - b*b) < cColinearBias;
-end;
 
 function TNativeGLZVectorHelper.MoveAround(constref AMovingObjectUp, ATargetPosition: TNativeGLZVector;pitchDelta, turnDelta: Single): TNativeGLZVector;
 var
@@ -3409,8 +3424,8 @@ begin
     // create a new vector pointing up and then rotate it down
     // into the new position
     normalT2C := AMovingObjectUp;
-    normalT2C := normalT2C.Rotate(normalCameraRight, -pitchNow);
-    normalT2C := normalT2C.Rotate(AMovingObjectUp, -DegToRadian(turnDelta));
+    normalT2C := normalT2C.Rotate(normalCameraRight, pitchNow);
+    normalT2C := normalT2C.Rotate(AMovingObjectUp, DegToRadian(turnDelta));
     normalT2C := normalT2C * dist;
     Result := Self + (normalT2C - originalT2C);
 end;
