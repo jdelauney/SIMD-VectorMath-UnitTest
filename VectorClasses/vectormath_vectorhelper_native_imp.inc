@@ -14,7 +14,7 @@ function TGLZVectorHelper.RotateWithMatrixAroundX(alpha : Single) : TGLZVector;
 var
    rotMatrix : TGLZMatrix;
 begin
-   rotMatrix.CreateRotationMatrixX(Angle);
+   rotMatrix.CreateRotationMatrixX(Alpha);
    Result:=rotMatrix*Self;
 end;
 
@@ -22,7 +22,7 @@ function TGLZVectorHelper.RotateWithMatrixAroundY(alpha : Single) : TGLZVector;
 var
    rotMatrix : TGLZMatrix;
 begin
-   rotMatrix.CreateRotationMatrixY(Angle);
+   rotMatrix.CreateRotationMatrixY(Alpha);
    Result:=rotMatrix*Self;
 end;
 
@@ -30,7 +30,7 @@ function TGLZVectorHelper.RotateWithMatrixAroundZ(alpha : Single) : TGLZVector;
 var
    rotMatrix : TGLZMatrix;
 begin
-   rotMatrix.CreateRotationMatrixZ(Angle);
+   rotMatrix.CreateRotationMatrixZ(Alpha);
    Result:=rotMatrix*Self;
 end;
 
