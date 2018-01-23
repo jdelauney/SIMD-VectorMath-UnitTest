@@ -1110,21 +1110,30 @@ type
 
 {%region%----[ TGLZVectorHelper ]-----------------------------------------------}
 
+  { TGLZVectorHelper }
+
   TGLZVectorHelper = record helper for TGLZVector
   public
+    // Returns  given vector rotated around arbitery axis (alpha is in rad, , use Pure Math Model)
     function Rotate(constref axis : TGLZVector; angle : Single):TGLZVector;
+    // Returns given vector rotated around the X axis (alpha is in rad, use Pure Math Model)
+    function RotateWithMatrixAroundX(alpha : Single) : TGLZVector;
+    // Returns given vector rotated around the Y axis (alpha is in rad, use Pure Math Model)
+    function RotateWithMatrixAroundY(alpha : Single) : TGLZVector;
+    // Returns given vector rotated around the Z axis (alpha is in rad, use Pure Math Model)
+    function RotateWithMatrixAroundZ(alpha : Single) : TGLZVector;
+
+    { note : used in places such as File 3DS, particles,.... }
     // Returns given vector rotated around the X axis (alpha is in rad)
     function RotateAroundX(alpha : Single) : TGLZVector;
     // Returns given vector rotated around the Y axis (alpha is in rad)
     function RotateAroundY(alpha : Single) : TGLZVector;
     // Returns given vector rotated around the Z axis (alpha is in rad)
     function RotateAroundZ(alpha : Single) : TGLZVector;
+
     // Self is the point
     function PointProject(constref origin, direction : TGLZVector4f) : Single;
-    // Returns true if both vector are colinear
-    function IsColinear(constref v2: TGLZVector) : Boolean;
-    //function IsPerpendicular(constref v2: TGLZVector) : Boolean;
-    //function IsParallel(constref v2: TGLZVector) : Boolean;
+
 
     // Returns true if line intersect ABCD quad. Quad have to be flat and convex
     //function IsLineIntersectQuad(const direction, ptA, ptB, ptC, ptD : TGLZVector) : Boolean;
@@ -1136,6 +1145,7 @@ type
     //function PointLineClosestPoint(const linePoint, lineDirection : TGLZVector) : TGLZVector;
     { Computes algebraic distance between point and line.}
     //function PointLineDistance(const linePoint, lineDirection : TGLZVector) : Single;
+
     { Extracted from Camera.MoveAroundTarget(pitch, turn). pitch and turn in deg }
     function MoveAround(constref AMovingObjectUp, ATargetPosition: TGLZVector; pitchDelta, turnDelta: Single): TGLZVector;
     { AOriginalPosition - Object initial position.

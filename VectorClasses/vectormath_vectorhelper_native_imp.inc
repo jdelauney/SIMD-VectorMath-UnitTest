@@ -10,6 +10,30 @@ begin
    Result:=rotMatrix*Self;
 end;
 
+function TGLZVectorHelper.RotateWithMatrixAroundX(alpha : Single) : TGLZVector;
+var
+   rotMatrix : TGLZMatrix;
+begin
+   rotMatrix.CreateRotationMatrixX(Angle);
+   Result:=rotMatrix*Self;
+end;
+
+function TGLZVectorHelper.RotateWithMatrixAroundY(alpha : Single) : TGLZVector;
+var
+   rotMatrix : TGLZMatrix;
+begin
+   rotMatrix.CreateRotationMatrixY(Angle);
+   Result:=rotMatrix*Self;
+end;
+
+function TGLZVectorHelper.RotateWithMatrixAroundZ(alpha : Single) : TGLZVector;
+var
+   rotMatrix : TGLZMatrix;
+begin
+   rotMatrix.CreateRotationMatrixZ(Angle);
+   Result:=rotMatrix*Self;
+end;
+
 function TGLZVectorHelper.RotateAroundX( alpha : Single) : TGLZVector;
 var
    c, s : Single;
@@ -40,17 +64,6 @@ begin
    Result.Z:=Self.Z;
 end;
 
-{ TODO 1 -oASM -cVectorHelper : IsColinear(v2) Add ASM version }
-function TGLZVectorHelper.IsColinear(constref v2: TGLZVector) : Boolean;
-var
-  a, b, c : Single;
-begin
-  a := Self.DotProduct(Self);
-  b := Self.DotProduct(v2);
-  c := v2.DotProduct(v2);
-  Result :=  (a*c - b*b) < cColinearBias;
-end;
-
 function TGLZVectorHelper.MoveAround(constref AMovingObjectUp, ATargetPosition: TGLZVector; pitchDelta, turnDelta: Single): TGLZVector;
 var
   originalT2C, normalT2C, normalCameraRight: TGLZVector;
@@ -75,14 +88,15 @@ begin
     // create a new vector pointing up and then rotate it down
     // into the new position
     normalT2C := AMovingObjectUp;
-    normalT2C := normalT2C.Rotate(normalCameraRight, -pitchNow);
-    normalT2C := normalT2C.Rotate(AMovingObjectUp, -DegToRadian(turnDelta));
+    normalT2C := normalT2C.Rotate(normalCameraRight, pitchNow);
+    normalT2C := normalT2C.Rotate(AMovingObjectUp, DegToRadian(turnDelta));
     normalT2C := normalT2C * dist;
     Result := Self + (normalT2C - originalT2C);
 end;
 
 
-function TGLZVectorHelper.ShiftObjectFromCenter(constref ACenter: TGLZVector; const ADistance: Single;const AFromCenterSpot: Boolean):TGLZVector;
+function TGLZVectorHelper.ShiftObjectFromCenter(Constref ACenter : TGLZVector;
+  const ADistance : Single; const AFromCenterSpot : Boolean) : TGLZVector;
 var
   lDirection: TGLZVector;
 begin
