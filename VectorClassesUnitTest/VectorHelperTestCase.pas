@@ -25,6 +25,9 @@ type
     alpha: single;
   published
     procedure TestRotate;
+    procedure TestRotateWithMatrixAroundX;
+    procedure TestRotateWithMatrixAroundY;
+    procedure TestRotateWithMatrixAroundZ;
     procedure TestRotateAroundX;
     procedure TestRotateAroundY;
     procedure TestRotateAroundZ;
@@ -89,6 +92,27 @@ begin
    AssertEquals('Rotate:Sub16 W failed ',  1.0, vt4.W);
 end;
 
+procedure TVectorHelperTestCase.TestRotateWithMatrixAroundX;
+begin
+  nt3 := nt1.RotateWithMatrixAroundX(alpha);
+  vt3 := vt1.RotateWithMatrixAroundX(alpha);
+  AssertTrue('VectorHelper Rotate WithMatrix Around X do not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
+end;
+
+procedure TVectorHelperTestCase.TestRotateWithMatrixAroundY;
+begin
+  nt3 := nt1.RotateWithMatrixAroundY(alpha);
+  vt3 := vt1.RotateWithMatrixAroundY(alpha);
+  AssertTrue('VectorHelper Rotate WithMatrix Around Y do not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
+end;
+
+procedure TVectorHelperTestCase.TestRotateWithMatrixAroundZ;
+begin
+  nt3 := nt1.RotateWithMatrixAroundZ(alpha);
+  vt3 := vt1.RotateWithMatrixAroundZ(alpha);
+  AssertTrue('VectorHelper Rotate WithMatrix Around Z do not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
+end;
+
 procedure TVectorHelperTestCase.TestRotateAroundX;
 begin
   nt3 := nt1.RotateAroundX(alpha);
@@ -105,8 +129,8 @@ end;
 
 procedure TVectorHelperTestCase.TestRotateAroundZ;
 begin
-  nt3 := nt1.RotateAroundZ(pi/2);
-  vt3 := vt1.RotateAroundZ(pi/2);
+  nt3 := nt1.RotateAroundZ(alpha);
+  vt3 := vt1.RotateAroundZ(alpha);
   AssertTrue('VectorHelper Rotate Around Z do not match : '+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
 end;
 
