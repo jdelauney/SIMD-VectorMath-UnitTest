@@ -20,6 +20,7 @@ uses
   Vector4iComparatorTest,
   // Vector4f Test Case
   Vector4fFunctionalTest,
+  Vector4fHelperFunctionalTest,
   VectorOperatorsTestCase,
   VectorNumericsTestCase,
   VectorOtherTestCase,

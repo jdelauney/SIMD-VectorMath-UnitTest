@@ -33,7 +33,6 @@ type
     procedure TestRotateAroundZ;
     procedure TestAverageNormal4;
     procedure TestPointProject;
-
     procedure TestMoveAround;
     procedure TestShiftObjectFromCenter;
     procedure TestExtendClipRect;
@@ -147,8 +146,6 @@ begin
   Fs2 := vt1.PointProject(vt2,vt3);
   AssertTrue('VectorHelper PointProject do not match : '+FLoattostrF(fs1,fffixed,3,3)+' --> '+FLoattostrF(fs2,fffixed,3,3), IsEqual(Fs1,Fs2));
 end;
-
-
 
 procedure TVectorHelperTestCase.TestMoveAround;
 begin

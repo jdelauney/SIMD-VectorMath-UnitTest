@@ -3373,32 +3373,34 @@ function TNativeGLZVectorHelper.RotateAroundX( alpha : Single) : TNativeGLZVecto
 var
    c, s : Single;
 begin
-   SinCos(alpha, s, c);
-   Result.X:=Self.X;
-   Result.Y:=c*Self.Y+s*Self.Z;
-   Result.Z:=c*Self.Z-s*Self.Y;
+  SinCos(alpha, s, c);
+  Result.X := Self.X;
+  Result.Y := c * Self.Y - s * Self.Z;
+  Result.Z := c * Self.Z + s * Self.Y;
+  Result.W := Self.W
 end;
 
 function TNativeGLZVectorHelper.RotateAroundY(alpha : Single) : TNativeGLZVector;
 var
    c, s : Single;
 begin
-   SinCos(alpha, s, c);
-   Result.Y:=Self.Y;
-   Result.X:=c*Self.X+s*Self.Z;
-   Result.Z:=c*Self.Z-s*Self.X;
+  SinCos(alpha, s, c);
+  Result.X := c * Self.Z - s * Self.X;
+  Result.Y := Self.Y;
+  Result.Z := c * Self.X + s * Self.Z;
+  Result.W := Self.W
 end;
 
 function TNativeGLZVectorHelper.RotateAroundZ(alpha : Single) : TNativeGLZVector;
 var
    c, s : Single;
 begin
-   SinCos(alpha, s, c);
-   Result.X:=c*Self.X+s*Self.Y;
-   Result.Y:=c*Self.Y-s*Self.X;
-   Result.Z:=Self.Z;
+  SinCos(alpha, s, c);
+  Result.X := c * Self.Y - s * Self.X;
+  Result.Y := c * Self.X + s * Self.Y;
+  Result.Z := Self.Z;
+  Result.W := Self.W
 end;
-
 
 function TNativeGLZVectorHelper.MoveAround(constref AMovingObjectUp, ATargetPosition: TNativeGLZVector;pitchDelta, turnDelta: Single): TNativeGLZVector;
 var

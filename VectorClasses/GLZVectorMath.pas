@@ -1110,8 +1110,6 @@ type
 
 {%region%----[ TGLZVectorHelper ]-----------------------------------------------}
 
-  { TGLZVectorHelper }
-
   TGLZVectorHelper = record helper for TGLZVector
   public
     // Returns  given vector rotated around arbitery axis (alpha is in rad, , use Pure Math Model)
@@ -1145,7 +1143,6 @@ type
     //function PointLineClosestPoint(const linePoint, lineDirection : TGLZVector) : TGLZVector;
     { Computes algebraic distance between point and line.}
     //function PointLineDistance(const linePoint, lineDirection : TGLZVector) : Single;
-
     { Extracted from Camera.MoveAroundTarget(pitch, turn). pitch and turn in deg }
     function MoveAround(constref AMovingObjectUp, ATargetPosition: TGLZVector; pitchDelta, turnDelta: Single): TGLZVector;
     { AOriginalPosition - Object initial position.

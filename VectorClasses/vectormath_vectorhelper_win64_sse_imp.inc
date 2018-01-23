@@ -1,4 +1,4 @@
-function TGLZVectorHelper.PointProject(constref origin,direction : TGLZVector4f) : Single; assembler; register; nostackframe;
+function TGLZVectorHelper.PointProject(constref origin, direction : TGLZVector4f) : Single;assembler;register; nostackframe;
 asm
   movaps xmm0, [RCX]
   movaps xmm1, [Origin]

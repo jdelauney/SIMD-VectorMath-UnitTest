@@ -140,7 +140,6 @@ begin
   GlobalProfiler[1].Stop;
 end;
 
-
 procedure TVectorHelperTimingTest.TestTimeMoveAround;
 begin
   TestDispName := 'VectorH MoveAround';
