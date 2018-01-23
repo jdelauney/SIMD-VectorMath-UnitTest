@@ -28,7 +28,6 @@ type
       procedure TestTimeRotateAroundZ;
       procedure TestTimeAverageNormal4;
       procedure TestTimePointProject;
-      procedure TestTimeIsColinear;
       procedure TestTimeMoveAround;
       procedure TestTimeShiftObjectFromCenter;
       procedure TestTimeExtendClipRect;
@@ -141,18 +140,6 @@ begin
   GlobalProfiler[1].Stop;
 end;
 
-procedure TVectorHelperTimingTest.TestTimeIsColinear;
-begin
-  TestDispName := 'VectorH IsCoLinear';
-  GlobalProfiler[0].Clear;
-  GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin nb := nt1.IsColinear(nt2); end;
-  GlobalProfiler[0].Stop;
-  GlobalProfiler[1].Clear;
-  GlobalProfiler[1].Start;
-  for cnt := 1 to Iterations do begin vb := vt1.IsColinear(vt2); end;
-  GlobalProfiler[1].Stop;
-end;
 
 procedure TVectorHelperTimingTest.TestTimeMoveAround;
 begin

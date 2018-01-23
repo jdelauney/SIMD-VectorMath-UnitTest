@@ -3349,7 +3349,7 @@ function TNativeGLZVectorHelper.RotateWithMatrixAroundX(alpha : Single) : TNativ
 var
    rotMatrix : TNativeGLZMatrix;
 begin
-   rotMatrix.CreateRotationMatrixX(Angle);
+   rotMatrix.CreateRotationMatrixX(Alpha);
    Result:=rotMatrix*Self;
 end;
 
@@ -3357,7 +3357,7 @@ function TNativeGLZVectorHelper.RotateWithMatrixAroundY(alpha : Single) : TNativ
 var
    rotMatrix : TNativeGLZMatrix;
 begin
-   rotMatrix.CreateRotationMatrixY(Angle);
+   rotMatrix.CreateRotationMatrixY(Alpha);
    Result:=rotMatrix*Self;
 end;
 
@@ -3365,7 +3365,7 @@ function TNativeGLZVectorHelper.RotateWithMatrixAroundZ(alpha : Single) : TNativ
 var
    rotMatrix : TNativeGLZMatrix;
 begin
-   rotMatrix.CreateRotationMatrixZ(Angle);
+   rotMatrix.CreateRotationMatrixZ(Alpha);
    Result:=rotMatrix*Self;
 end;
 

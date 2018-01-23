@@ -774,11 +774,11 @@ type
 
     function Rotate(constref axis : TNativeGLZVector; angle : Single):TNativeGLZVector;
     // Returns given vector rotated around the X axis (alpha is in rad, use Pure Math Model)
-    function RotateWithMatrixAroundX(alpha : Single) : TGLZVector;
+    function RotateWithMatrixAroundX(alpha : Single) : TNativeGLZVector;
     // Returns given vector rotated around the Y axis (alpha is in rad, use Pure Math Model)
-    function RotateWithMatrixAroundY(alpha : Single) : TGLZVector;
+    function RotateWithMatrixAroundY(alpha : Single) : TNativeGLZVector;
     // Returns given vector rotated around the Z axis (alpha is in rad, use Pure Math Model)
-    function RotateWithMatrixAroundZ(alpha : Single) : TGLZVector;
+    function RotateWithMatrixAroundZ(alpha : Single) : TNativeGLZVector;
 
     // Returns given vector rotated around the X axis (alpha is in rad)
     function RotateAroundX(alpha : Single) : TNativeGLZVector;
