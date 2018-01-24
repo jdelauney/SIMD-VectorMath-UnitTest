@@ -16,6 +16,9 @@ type
       procedure TestRotateX;
       procedure TestRotateY;
       procedure TestRotateZ;
+      procedure TestRotateWithMatrixAroundX;
+      procedure TestRotateWithMatrixAroundY;
+      procedure TestRotateWithMatrixAroundZ;
       procedure TestPointProject;
       procedure TestMoveAround;
       procedure TestShiftObjectFromCenter;
@@ -25,7 +28,6 @@ type
       procedure TestFaceForward;
       procedure TestSaturate;
       procedure TestSmoothStep;
-      //procedure Test;
       //procedure Test;
 
   end;
@@ -48,7 +50,7 @@ begin
   AssertEquals('Rotate:Sub2 Y failed ',  1.0, vt4.Y);
   AssertEquals('Rotate:Sub3 Z failed ',  1.0, vt4.Z);
   AssertEquals('Rotate:Sub4 W failed ',  1.0, vt4.W);
-  // negative rotation around z, y bevome negative
+  // negative rotation around z, y becomes negative
   vt4 := vt1.Rotate(ZHmgVector, -pi/2);
   AssertEquals('Rotate:Sub5 X failed ',  1.0, vt4.X);
   AssertEquals('Rotate:Sub6 Y failed ', -1.0, vt4.Y);
@@ -98,17 +100,17 @@ begin
   vt1.Create(1,1,1,1);  // unit point
   // with +X pointing at you positive Y is to the left positive Z is up
   // positive rotation around x, Y becomes negative
-  vt4 := vt1.Rotate(XHmgVector, pi/2);
-  AssertEquals('Rotate:Sub17 X failed ',  1.0, vt4.X);
-  AssertEquals('Rotate:Sub18 Y failed ', -1.0, vt4.Y);
-  AssertEquals('Rotate:Sub19 Z failed ',  1.0, vt4.Z);
-  AssertEquals('Rotate:Sub20 W failed ',  1.0, vt4.W);
+  vt4 := vt1.RotateAroundX(pi/2);
+  AssertEquals('RotateX:Sub1 X failed ',  1.0, vt4.X);
+  AssertEquals('RotateX:Sub2 Y failed ', -1.0, vt4.Y);
+  AssertEquals('RotateX:Sub3 Z failed ',  1.0, vt4.Z);
+  AssertEquals('RotateX:Sub4 W failed ',  1.0, vt4.W);
   // negative rotation around x, Z becomes negative
-  vt4 := vt1.Rotate(XHmgVector, -pi/2);
-  AssertEquals('Rotate:Sub21 X failed ',  1.0, vt4.X);
-  AssertEquals('Rotate:Sub22 Y failed ',  1.0, vt4.Y);
-  AssertEquals('Rotate:Sub23 Z failed ', -1.0, vt4.Z);
-  AssertEquals('Rotate:Sub24 W failed ',  1.0, vt4.W);
+  vt4 := vt1.RotateAroundX(-pi/2);
+  AssertEquals('RotateX:Sub5 X failed ',  1.0, vt4.X);
+  AssertEquals('RotateX:Sub6 Y failed ',  1.0, vt4.Y);
+  AssertEquals('RotateX:Sub7 Z failed ', -1.0, vt4.Z);
+  AssertEquals('RotateX:Sub8 W failed ',  1.0, vt4.W);
 end;
 
 procedure TVector4fHelperFunctionalTest.TestRotateY;
@@ -116,17 +118,17 @@ begin
   vt1.Create(1,1,1,1);  // unit point
   // with +Y pointing at you positive Z is to the right positive X is Up
   // positive rotation around y, Z becomes negative
-  vt4 := vt1.Rotate(YHmgVector, pi/2);
-  AssertEquals('Rotate:Sub25 X failed ',  1.0, vt4.X);
-  AssertEquals('Rotate:Sub26 Y failed ',  1.0, vt4.Y);
-  AssertEquals('Rotate:Sub27 Z failed ', -1.0, vt4.Z);
-  AssertEquals('Rotate:Sub28 W failed ',  1.0, vt4.W);
+  vt4 := vt1.RotateAroundY(pi/2);
+  AssertEquals('RotateY:Sub1 X failed ',  1.0, vt4.X);
+  AssertEquals('RotateY:Sub2 Y failed ',  1.0, vt4.Y);
+  AssertEquals('RotateY:Sub3 Z failed ', -1.0, vt4.Z);
+  AssertEquals('RotateY:Sub4 W failed ',  1.0, vt4.W);
   // negative rotation around y, X becomes negative
-  vt4 := vt1.Rotate(YHmgVector, -pi/2);
-  AssertEquals('Rotate:Sub29 X failed ', -1.0, vt4.X);
-  AssertEquals('Rotate:Sub30 Y failed ',  1.0, vt4.Y);
-  AssertEquals('Rotate:Sub31 Z failed ',  1.0, vt4.Z);
-  AssertEquals('Rotate:Sub32 W failed ',  1.0, vt4.W);
+  vt4 := vt1.RotateAroundY(-pi/2);
+  AssertEquals('RotateY:Sub5 X failed ', -1.0, vt4.X);
+  AssertEquals('RotateY:Sub6 Y failed ',  1.0, vt4.Y);
+  AssertEquals('RotateY:Sub7 Z failed ',  1.0, vt4.Z);
+  AssertEquals('RotateY:Sub8 W failed ',  1.0, vt4.W);
 end;
 
 procedure TVector4fHelperFunctionalTest.TestRotateZ;
@@ -134,17 +136,71 @@ begin
   vt1.Create(1,1,1,1);  // unit point
   // with +Z pointing at you (as screen) positive X is to the right positive Y is Up
   // positive rotation aroound z, X becomes negative
-  vt4 := vt1.Rotate(ZHmgVector, pi/2);
-  AssertEquals('Rotate:Sub1 X failed ', -1.0, vt4.X);
-  AssertEquals('Rotate:Sub2 Y failed ',  1.0, vt4.Y);
-  AssertEquals('Rotate:Sub3 Z failed ',  1.0, vt4.Z);
-  AssertEquals('Rotate:Sub4 W failed ',  1.0, vt4.W);
+  vt4 := vt1.RotateAroundZ(pi/2);
+  AssertEquals('RotateZ:Sub1 X failed ', -1.0, vt4.X);
+  AssertEquals('RotateZ:Sub2 Y failed ',  1.0, vt4.Y);
+  AssertEquals('RotateZ:Sub3 Z failed ',  1.0, vt4.Z);
+  AssertEquals('RotateZ:Sub4 W failed ',  1.0, vt4.W);
+  // negative rotation around z, y becomes negative
+  vt4 := vt1.RotateAroundZ(-pi/2);
+  AssertEquals('RotateZ:Sub5 X failed ',  1.0, vt4.X);
+  AssertEquals('RotateZ:Sub6 Y failed ', -1.0, vt4.Y);
+  AssertEquals('RotateZ:Sub7 Z failed ',  1.0, vt4.Z);
+  AssertEquals('RotateZ:Sub8 W failed ',  1.0, vt4.W);
+end;
+
+procedure TVector4fHelperFunctionalTest.TestRotateWithMatrixAroundX;
+begin
+  vt1.Create(1,1,1,1);  // unit point
+  // with +X pointing at you positive Y is to the left positive Z is up
+  // positive rotation around x, Y becomes negative
+  vt4 := vt1.RotateAroundX(pi/2);
+  AssertEquals('RotateWithMatrixAroundX:Sub1 X failed ',  1.0, vt4.X);
+  AssertEquals('RotateWithMatrixAroundX:Sub2 Y failed ', -1.0, vt4.Y);
+  AssertEquals('RotateWithMatrixAroundX:Sub3 Z failed ',  1.0, vt4.Z);
+  AssertEquals('RotateWithMatrixAroundX:Sub4 W failed ',  1.0, vt4.W);
+  // negative rotation around x, Z becomes negative
+  vt4 := vt1.RotateAroundX(-pi/2);
+  AssertEquals('RotateWithMatrixAroundX:Sub5 X failed ',  1.0, vt4.X);
+  AssertEquals('RotateWithMatrixAroundX:Sub6 Y failed ',  1.0, vt4.Y);
+  AssertEquals('RotateWithMatrixAroundX:Sub7 Z failed ', -1.0, vt4.Z);
+  AssertEquals('RotateWithMatrixAroundX:Sub8 W failed ',  1.0, vt4.W);
+end;
+
+procedure TVector4fHelperFunctionalTest.TestRotateWithMatrixAroundY;
+begin
+  vt1.Create(1,1,1,1);  // unit point
+  // with +Y pointing at you positive Z is to the right positive X is Up
+  // positive rotation around y, Z becomes negative
+  vt4 := vt1.RotateAroundY(pi/2);
+  AssertEquals('RotateWithMatrixAroundY:Sub1 X failed ',  1.0, vt4.X);
+  AssertEquals('RotateWithMatrixAroundY:Sub2 Y failed ',  1.0, vt4.Y);
+  AssertEquals('RotateWithMatrixAroundY:Sub3 Z failed ', -1.0, vt4.Z);
+  AssertEquals('RotateWithMatrixAroundY:Sub4 W failed ',  1.0, vt4.W);
+  // negative rotation around y, X becomes negative
+  vt4 := vt1.RotateAroundY(-pi/2);
+  AssertEquals('RotateWithMatrixAroundY:Sub5 X failed ', -1.0, vt4.X);
+  AssertEquals('RotateWithMatrixAroundY:Sub6 Y failed ',  1.0, vt4.Y);
+  AssertEquals('RotateWithMatrixAroundY:Sub7 Z failed ',  1.0, vt4.Z);
+  AssertEquals('RotateWithMatrixAroundY:Sub8 W failed ',  1.0, vt4.W);
+end;
+
+procedure TVector4fHelperFunctionalTest.TestRotateWithMatrixAroundZ;
+begin
+  vt1.Create(1,1,1,1);  // unit point
+  // with +Z pointing at you (as screen) positive X is to the right positive Y is Up
+  // positive rotation aroound z, X becomes negative
+  vt4 := vt1.RotateWithMatrixAroundZ(pi/2);
+  AssertEquals('RotateWithMatrixAroundZ:Sub1 X failed ', -1.0, vt4.X);
+  AssertEquals('RotateWithMatrixAroundZ:Sub2 Y failed ',  1.0, vt4.Y);
+  AssertEquals('RotateWithMatrixAroundZ:Sub3 Z failed ',  1.0, vt4.Z);
+  AssertEquals('RotateWithMatrixAroundZ:Sub4 W failed ',  1.0, vt4.W);
   // negative rotation around z, y bevome negative
-  vt4 := vt1.Rotate(ZHmgVector, -pi/2);
-  AssertEquals('Rotate:Sub5 X failed ',  1.0, vt4.X);
-  AssertEquals('Rotate:Sub6 Y failed ', -1.0, vt4.Y);
-  AssertEquals('Rotate:Sub7 Z failed ',  1.0, vt4.Z);
-  AssertEquals('Rotate:Sub8 W failed ',  1.0, vt4.W);
+  vt4 := vt1.RotateWithMatrixAroundZ(-pi/2);
+  AssertEquals('RotateWithMatrixAroundZ:Sub5 X failed ',  1.0, vt4.X);
+  AssertEquals('RotateWithMatrixAroundZ:Sub6 Y failed ', -1.0, vt4.Y);
+  AssertEquals('RotateWithMatrixAroundZ:Sub7 Z failed ',  1.0, vt4.Z);
+  AssertEquals('RotateWithMatrixAroundZ:Sub8 W failed ',  1.0, vt4.W);
 end;
 
 

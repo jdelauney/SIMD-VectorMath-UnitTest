@@ -50,9 +50,9 @@ var
    c, s : Single;
 begin
    SinCos(alpha, s, c);
-   Result.X := c * Self.Z - s * Self.X;
+   Result.X := c * Self.X + s * Self.Z;
    Result.Y := Self.Y;
-   Result.Z := c * Self.X + s * Self.Z;
+   Result.Z := c * Self.Z - s * Self.X;
    Result.W := Self.W
 end;
 
