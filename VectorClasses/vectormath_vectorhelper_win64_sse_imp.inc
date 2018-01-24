@@ -183,9 +183,8 @@ asm
   movaps   xmm0, [RCX]
   movaps   xmm1, [A]
   movaps   xmm2, [B]
-  xorps    xmm3, xmm3
-  //movups   xmm3, [RIP+cNullVector4f]
-  andps    xmm2, [RIP+cSSE_MASK_NO_W]
+
+  //andps    xmm2, [RIP+cSSE_MASK_NO_W]
   // Dotproduct(A, B)
   mulps  xmm2, xmm1
   {$IFDEF USE_ASM_SSE_3}
@@ -199,13 +198,26 @@ asm
      shufps xmm2, xmm2, 00000001b
      addps xmm2, xmm1
   {$ENDIF}
-  cmpnltps xmm2, xmm3 // >= 0?  Yes: $FFFFFFFF, No: $00000000
-  andps    xmm2, [RIP+cSSE_MASK_NEGATE] //xmm4 // Yes: $80000000, No: $00000000
-  //andps xmm2, [RIP+cOneMinusVector4f]
-  //mulps xmm0, xmm2
-  xorps    xmm0, xmm2   // Flip sign >= 0
-  movaps   [RDX], xmm0
+  shufps xmm2, xmm2, $00 // Broadcast
+  // get sign of xmm2
+  movaps xmm3, xmm2
+  movaps xmm5, [RIP+cOneMinusVector4f]
+  movaps xmm4, [RIP+cOneVector4f]
+
+  xorps xmm1, xmm1   // reset to 0
+  cmpltps  xmm2, xmm1 // < 0 ???
+  cmpnltps xmm3, xmm1 // > 0 ???
+
+  andps xmm2, xmm5
+  andps xmm3, xmm4
+  orps  xmm2, xmm3   // xmm2 contain signs -1.0 or 1.0
+  //---------------
+  //mulps xmm2, xmm5
+  mulps xmm0, xmm2  // Flip sign >= 0
+
+  movaps   [Result], xmm0
 end;
+
 
 function TGLZVectorHelper.Step(ConstRef B : TGLZVector4f) : TGLZVector4f;assembler; register; nostackframe;
 asm
