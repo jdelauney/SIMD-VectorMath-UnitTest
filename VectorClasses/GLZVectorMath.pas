@@ -1113,8 +1113,9 @@ type
   public
     { : Returns given vector rotated around arbitrary axis (alpha is in rad, , use Pure Math Model)
       We are using right hand rule coordinate system
-      Positive rotations are anticlock wise.
-      - Axis orientation to view positives in Upper Right quadrant [as graph axes]
+      Positive rotations are anticlockwise with postive axis toward you
+      Posiitve rotations are clockwise viewed from origin along positive axis
+        - Axis orientation to view positives in Upper Right quadrant [as graph axes]
         - with +Z pointing at you (as screen) positive X is to the right positive Y is Up
         - with +Y pointing at you positive Z is to the right positive X is Up
         - with +X pointing at you positive Y is to the left positive Z is up

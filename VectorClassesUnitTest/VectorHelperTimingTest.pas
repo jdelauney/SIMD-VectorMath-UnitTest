@@ -26,11 +26,16 @@ type
       procedure TestTimeRotateAroundX;
       procedure TestTimeRotateAroundY;
       procedure TestTimeRotateAroundZ;
+      procedure TestTimeRotateWithMatrixAroundX;
+      procedure TestTimeRotateWithMatrixAroundY;
+      procedure TestTimeRotateWithMatrixAroundZ;
       procedure TestTimeAverageNormal4;
       procedure TestTimePointProject;
       procedure TestTimeMoveAround;
       procedure TestTimeShiftObjectFromCenter;
       procedure TestTimeExtendClipRect;
+      procedure TestTimeStep;
+      procedure TestTimeFaceForward;
   end;
 implementation
 
@@ -96,6 +101,45 @@ begin
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;
   for cnt := 1 to IterationsQuarter do begin vt3 := vt1.RotateAroundZ(alpha); end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVectorHelperTimingTest.TestTimeRotateWithMatrixAroundX;
+begin
+  TestDispName := 'VectorH Rotate with Matrix Around X';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to IterationsQuarter do begin nt3 := nt1.RotateWithMatrixAroundX(alpha); end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  for cnt := 1 to IterationsQuarter do begin vt3 := vt1.RotateWithMatrixAroundX(alpha); end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVectorHelperTimingTest.TestTimeRotateWithMatrixAroundY;
+begin
+  TestDispName := 'VectorH Rotate with Matrix Around Y';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to IterationsQuarter do begin nt3 := nt1.RotateWithMatrixAroundY(alpha); end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  for cnt := 1 to IterationsQuarter do begin vt3 := vt1.RotateWithMatrixAroundY(alpha); end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVectorHelperTimingTest.TestTimeRotateWithMatrixAroundZ;
+begin
+  TestDispName := 'VectorH Rotate with Matrix Around Z';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to IterationsQuarter do begin nt3 := nt1.RotateWithMatrixAroundZ(alpha); end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  for cnt := 1 to IterationsQuarter do begin vt3 := vt1.RotateWithMatrixAroundZ(alpha); end;
   GlobalProfiler[1].Stop;
 end;
 
@@ -181,6 +225,32 @@ begin
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;
   for cnt := 1 to Iterations do begin aCr.ExtendClipRect(Fs1,Fs2); end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVectorHelperTimingTest.TestTimeStep;
+begin
+  TestDispName := 'VectorH Step';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin nt3 := nt1.Step(nt2);  end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  for cnt := 1 to Iterations do begin vt3 := vt1.Step(nt2);  end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVectorHelperTimingTest.TestTimeFaceForward;
+begin
+  TestDispName := 'VectorH FaceForward';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin vt4 := vt1.FaceForward(vt2,vt3); end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  for cnt := 1 to Iterations do begin vt4 := vt1.FaceForward(vt2,vt3); end;
   GlobalProfiler[1].Stop;
 end;
 

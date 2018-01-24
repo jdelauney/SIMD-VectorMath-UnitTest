@@ -174,9 +174,9 @@ end;
 function TGLZVectorHelper.FaceForward(constref A, B: TGLZVector4f): TGLZVector4f;
 begin
   if (B.DotProduct(A) < 0) then
-     Result := Self
+     Result := -Self
    else
-     Result := -Self;
+     Result := Self;
 end;
 
 function TGLZVectorHelper.Saturate : TGLZVector4f;

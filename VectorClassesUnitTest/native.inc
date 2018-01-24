@@ -3491,9 +3491,9 @@ end;
 function TNativeGLZVectorHelper.FaceForward(constref A, B : TNativeGLZVector) : TNativeGLZVector;
 begin
   if (B.DotProduct(A) < 0) then
-     Result := Self
+     Result := -Self
    else
-     Result := -Self;
+     Result := Self;
 end;
 
 function TNativeGLZVectorHelper.Saturate : TNativeGLZVector;

@@ -399,33 +399,79 @@ begin
   AssertEquals('Step:Sub28 W failed ',  3.0, vt4.W);
 end;
 
-// no idea what this does negates a point/vector? based on the
-// dot product of two vectors. Assume winding here vectors are probably
-// unit vectors and self is a ???
-// self is negated which is not hmg safe for points.
+
+// self is N = normal vector of face /texel
+// A is view vector
+// B is perturbed Vector
 procedure TVector4fHelperFunctionalTest.TestFaceForward;
 begin
-  vt1.Create(1,1,1,0);
-  vt2.Create(1,0,0,0);
-  vt3.create(0,1,0,0);
+  vt1.Create(1,1,1,0);  // test result vector, does not play a part in calcs
+  vt2.Create(0,0,-1,0); // this is eye to screen +z out -z eye to screen
+  vt3.create(0,0, 1,0); // pV is towards eye hidden face we want to show
   vt4 := vt1.FaceForward(vt2,vt3);
   AssertEquals('Step:Sub1 X failed ',  -1.0, vt4.X);
   AssertEquals('Step:Sub2 Y failed ',  -1.0, vt4.Y);
   AssertEquals('Step:Sub3 Z failed ',  -1.0, vt4.Z);
   AssertEquals('Step:Sub4 W failed ',   0.0, vt4.W);
-
-  // this fails so I do not know what is going on
-  // not a winding style test needed then.
-  vt4 :=  vt1.FaceForward(vt3,vt2);
+  vt3.create(0,0,-1,0); // pV is away from eye remain hidden face
+  vt4 :=  vt1.FaceForward(vt2,vt3);
   AssertEquals('Step:Sub5 X failed ',  1.0, vt4.X);
   AssertEquals('Step:Sub6 Y failed ',  1.0, vt4.Y);
   AssertEquals('Step:Sub7 Z failed ',  1.0, vt4.Z);
   AssertEquals('Step:Sub8 W failed ',  0.0, vt4.W);
+  vt3.create(0,0,-1,0); // pV is away from eye remain hidden face
+  vt4 :=  vt1.FaceForward(vt3,vt2);  // you can swap eyeV and pV same result.
+  AssertEquals('Step:Sub9 X failed ',   1.0, vt4.X);
+  AssertEquals('Step:Sub10 Y failed ',  1.0, vt4.Y);
+  AssertEquals('Step:Sub11 Z failed ',  1.0, vt4.Z);
+  AssertEquals('Step:Sub12 W failed ',  0.0, vt4.W);
 end;
 
+// Clamp anything to between 0 and 1 preserves hmg point
 procedure TVector4fHelperFunctionalTest.TestSaturate;
 begin
-
+   vt1.Create(0.5,0.5,0.5,1);
+   vt4 := vt1.Saturate;
+   AssertEquals('Saturate:Sub1 X failed ',   0.5, vt4.X);
+   AssertEquals('Saturate:Sub2 Y failed ',   0.5, vt4.Y);
+   AssertEquals('Saturate:Sub3 Z failed ',   0.5, vt4.Z);
+   AssertEquals('Saturate:Sub4 W failed ',   1.0, vt4.W);
+   vt1.Create(1.5,0.5,0.5,0);
+   vt4 := vt1.Saturate;
+   AssertEquals('Saturate:Sub5 X failed ',   1.0, vt4.X);
+   AssertEquals('Saturate:Sub6 Y failed ',   0.5, vt4.Y);
+   AssertEquals('Saturate:Sub7 Z failed ',   0.5, vt4.Z);
+   AssertEquals('Saturate:Sub8 W failed ',   0.0, vt4.W);
+   vt1.Create(0.5,1.5,0.5,1);
+   vt4 := vt1.Saturate;
+   AssertEquals('Saturate:Sub9 X failed ',    0.5, vt4.X);
+   AssertEquals('Saturate:Sub10 Y failed ',   1.0, vt4.Y);
+   AssertEquals('Saturate:Sub11 Z failed ',   0.5, vt4.Z);
+   AssertEquals('Saturate:Sub12 W failed ',   1.0, vt4.W);
+   vt1.Create(0.5,0.5,1.5,0);
+   vt4 := vt1.Saturate;
+   AssertEquals('Saturate:Sub13 X failed ',   0.5, vt4.X);
+   AssertEquals('Saturate:Sub14 Y failed ',   0.5, vt4.Y);
+   AssertEquals('Saturate:Sub15 Z failed ',   1.0, vt4.Z);
+   AssertEquals('Saturate:Sub16 W failed ',   0.0, vt4.W);
+   vt1.Create(-0.5,0.5,0.5,1);
+   vt4 := vt1.Saturate;
+   AssertEquals('Saturate:Sub17 X failed ',   0.0, vt4.X);
+   AssertEquals('Saturate:Sub18 Y failed ',   0.5, vt4.Y);
+   AssertEquals('Saturate:Sub19 Z failed ',   0.5, vt4.Z);
+   AssertEquals('Saturate:Sub20 W failed ',   1.0, vt4.W);
+   vt1.Create(0.5,-0.5,0.5,0);
+   vt4 := vt1.Saturate;
+   AssertEquals('Saturate:Sub21 X failed ',   0.5, vt4.X);
+   AssertEquals('Saturate:Sub22 Y failed ',   0.0, vt4.Y);
+   AssertEquals('Saturate:Sub23 Z failed ',   0.5, vt4.Z);
+   AssertEquals('Saturate:Sub24 W failed ',   0.0, vt4.W);
+   vt1.Create(0.5,0.5,-0.5,1);
+   vt4 := vt1.Saturate;
+   AssertEquals('Saturate:Sub25 X failed ',   0.5, vt4.X);
+   AssertEquals('Saturate:Sub26 Y failed ',   0.5, vt4.Y);
+   AssertEquals('Saturate:Sub27 Z failed ',   0.0, vt4.Z);
+   AssertEquals('Saturate:Sub28 W failed ',   1.0, vt4.W);
 end;
 
 procedure TVector4fHelperFunctionalTest.TestSmoothStep;

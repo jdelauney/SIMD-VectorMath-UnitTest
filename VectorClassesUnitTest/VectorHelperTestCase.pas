@@ -25,12 +25,12 @@ type
     alpha: single;
   published
     procedure TestRotate;
-    procedure TestRotateWithMatrixAroundX;
-    procedure TestRotateWithMatrixAroundY;
-    procedure TestRotateWithMatrixAroundZ;
     procedure TestRotateAroundX;
     procedure TestRotateAroundY;
     procedure TestRotateAroundZ;
+    procedure TestRotateWithMatrixAroundX;
+    procedure TestRotateWithMatrixAroundY;
+    procedure TestRotateWithMatrixAroundZ;
     procedure TestAverageNormal4;
     procedure TestPointProject;
     procedure TestMoveAround;
