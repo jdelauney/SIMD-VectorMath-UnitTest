@@ -1409,6 +1409,7 @@ Const
   cNullVector4f   : TGLZVector = (x:0;y:0;z:0;w:0);
   cNullVector4i   : TGLZVector4i = (x:0;y:0;z:0;w:0);
   cOneVector4f    : TGLZVector = (x:1;y:1;z:1;w:1);
+  cOneMinusVector4f    : TGLZVector = (x:-1;y:-1;z:-1;w:-1);
   cNegateVector4f_PNPN    : TGLZVector = (x:1;y:-1;z:1;w:-1);
   cWOneVector4f   : TGLZVector = (x:0;y:0;z:0;w:1);
   cWOneSSEVector4f : TGLZVector = (X:0; Y:0; Z:0; W:1);

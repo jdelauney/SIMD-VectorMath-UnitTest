@@ -180,8 +180,8 @@ asm
   movaps   xmm1, [A]
   movaps   xmm2, [B]
   xorps    xmm3, xmm3
- // movups   xmm4, [RIP+cSSE_MASK_NEGATE]
-
+  //movups   xmm3, [RIP+cNullVector4f]
+  andps    xmm2, [RIP+cSSE_MASK_NO_W]
   // Dotproduct(A, B)
   mulps  xmm2, xmm1
   {$IFDEF USE_ASM_SSE_3}
@@ -197,6 +197,8 @@ asm
   {$ENDIF}
   cmpnltps xmm2, xmm3 // >= 0?  Yes: $FFFFFFFF, No: $00000000
   andps    xmm2, [RIP+cSSE_MASK_NEGATE] //xmm4 // Yes: $80000000, No: $00000000
+  //andps xmm2, [RIP+cOneMinusVector4f]
+  //mulps xmm0, xmm2
   xorps    xmm0, xmm2   // Flip sign >= 0
   movaps   [RDX], xmm0
 end;

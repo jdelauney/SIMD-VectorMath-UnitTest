@@ -78,11 +78,24 @@ end;
 procedure TGLZMatrix4f.CreateRotationMatrixX(const sine, cosine: Single);
 begin
    Self:=EmptyHmgMatrix;
+
+   // Right Hand Rotation Matrix around X
+   // For Left Hand invert the sign of Sin
+   {    X     Y     Z    W
+    X | 1 |   0  |  0  | 0
+    Y | 0 |  cos | sin | 0
+    Z | 0 | -sin | cos | 0
+    W | 0 |   0  |  0  | 1
+   }
+
    Self.X.X:=1;
+
    Self.Y.Y:=cosine;
-   Self.Y.Z:=sine;
-   Self.Z.Y:=-sine;
+   Self.Y.Z:=-sine;
+
+   Self.Z.Y:=sine;
    Self.Z.Z:=cosine;
+
    Self.W.W:=1;
 end;
 
@@ -98,10 +111,20 @@ end;
 procedure TGLZMatrix4f.CreateRotationMatrixY(const sine, cosine: Single);
 begin
    Self:=EmptyHmgMatrix;
+
+   // Right Hand Rotation Matrix around Y
+   // For Left Hand invert the sign of Sin
+   {     X      Y      Z     W
+    X | Cos |   0  |  Sin  | 0
+    Y |  0  |   1  |   0   | 0
+    Z |-Sin |   0  |  cos  | 0
+    W |  0  |   0  |   0   | 1
+   }
+
    Self.X.X:=cosine;
-   Self.X.Z:=-sine;
+   Self.X.Z:=sine;
    Self.Y.Y:=1;
-   Self.Z.X:=sine;
+   Self.Z.X:=-sine;
    Self.Z.Z:=cosine;
    Self.W.W:=1;
 end;
@@ -118,9 +141,19 @@ end;
 procedure TGLZMatrix4f.CreateRotationMatrixZ(const sine, cosine: Single);
 begin
    Self:=EmptyHmgMatrix;
+
+   // Right Hand Rotation Matrix around Z
+   // For Left Hand invert the sign of Sin
+   {     X      Y      Z     W
+    X | Cos | -Sin |   0   | 0
+    Y | Sin |  Cos |   0   | 0
+    Z |  0  |   0  |   1   | 0
+    W |  0  |   0  |   0   | 1
+   }
+
    Self.X.X:=cosine;
-   Self.X.Y:=sine;
-   Self.Y.X:=-sine;
+   Self.X.Y:=-sine;
+   Self.Y.X:=sine;
    Self.Y.Y:=cosine;
    Self.Z.Z:=1;
    Self.W.W:=1;
@@ -139,26 +172,56 @@ procedure TGLZMatrix4f.CreateRotationMatrix(const anAxis : TGLZAffineVector; ang
 var
    axis : TGLZVector;
    cosine, sine, one_minus_cosine : Single;
+   omcx,omcy,omcz, omcyz, omczx, omcxy, sineX, sineY, SineZ : Single;
 begin
-   axis.AsVector3f := anAxis;
+
+ // Notice the rotation matrice is for a left handed system.
+ // To change them for a right handed system, just remember the sine function
+ // is an odd function, so
+ //    sin(-Angle) = -Sin(Angle)
+ // Change the signs of all the sine terms to change the handedness.
+
+//  [Rotation Matrix Left Hand] =
+//  1 + (1-cos(angle))*(x*x-1)       | -z*sin(angle)+(1-cos(angle))*x*y | y*sin(angle)+(1-cos(angle))*x*z
+//  z*sin(angle)+(1-cos(angle))*x*y  | 1 + (1-cos(angle))*(y*y-1)       | -x*sin(angle)+(1-cos(angle))*y*z
+//  -y*sin(angle)+(1-cos(angle))*x*z | x*sin(angle)+(1-cos(angle))*y*z	| 1 + (1-cos(angle))*(z*z-1)
+//  where: x,y and z represent a unit vector
+//  angle is the angle of rotation about this unit vector.
+
+// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/index.htm
+// http://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/index.htm
+
+   //axis.AsVector3f := anAxis;
+   axis.Create(anAxis);
    //GLZMath.
    SinCos(angle, sine, cosine);
    one_minus_cosine:=1-cosine;
    axis.Normalize;
 
-   Self.X.X:=(one_minus_cosine * axis.V[0] * axis.V[0]) + cosine;
-   Self.X.Y:=(one_minus_cosine * axis.V[0] * axis.V[1]) - (axis.V[2] * sine);
-   Self.X.Z:=(one_minus_cosine * axis.V[2] * axis.V[0]) + (axis.V[1] * sine);
+   omcx := one_minus_cosine * axis.V[0];
+   omcy := one_minus_cosine * axis.V[1];
+   omcz := one_minus_cosine * axis.V[2];
+   omczx := omcz * axis.V[0];
+   omcyz := omcy * axis.V[2];
+   omcxy := omcx * axis.V[1];
+
+   sineX := axis.V[0] * sine;
+   sineY := axis.V[1] * sine;
+   sineZ := axis.V[2] * sine;
+
+   Self.X.X:=(omcx * axis.V[0]) + cosine;
+   Self.X.Y:= omcxy - SineZ;
+   Self.X.Z:= omczx + SineY;
    Self.X.W:=0;
 
-   Self.Y.X:=(one_minus_cosine * axis.V[0] * axis.V[1]) + (axis.V[2] * sine);
-   Self.Y.Y:=(one_minus_cosine * axis.V[1] * axis.V[1]) + cosine;
-   Self.Y.Z:=(one_minus_cosine * axis.V[1] * axis.V[2]) - (axis.V[0] * sine);
+   Self.Y.X:= omcxy + SineZ;
+   Self.Y.Y:=(omcy * axis.V[1]) + cosine;
+   Self.Y.Z:= omcyz - SineX;
    Self.Y.W:=0;
 
-   Self.Z.X:=(one_minus_cosine * axis.V[2] * axis.V[0]) - (axis.V[1] * sine);
-   Self.Z.Y:=(one_minus_cosine * axis.V[1] * axis.V[2]) + (axis.V[0] * sine);
-   Self.Z.Z:=(one_minus_cosine * axis.V[2] * axis.V[2]) + cosine;
+   Self.Z.X:= omczx - SineY;
+   Self.Z.Y:= omcyz + SineX;
+   Self.Z.Z:=(omcz * axis.V[2]) + cosine;
    Self.Z.W:=0;
 
    Self.W.X:=0;
