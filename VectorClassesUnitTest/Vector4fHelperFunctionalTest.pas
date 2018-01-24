@@ -247,14 +247,80 @@ begin
   AssertEquals('PointProject:Sub9 failed ', Sqrt(3) ,fs1);
 end;
 
+// self is the camera or similar
+// AMovingObjectUp  is the const vector to determine the orientation of looked at
+//    object. We can only go up to down in this up axis over a range of 0 to pi
+// This could be any orientation wanted not just target or world.
+// NOTE Should this be named AReferenceUp as the routine does not care what the orientation is.
+// ATargetPosition: The point at which the camera is pointing and the sphere center for lookat angle.
+// Assuming we are looking at a sphere....
+// pitch delta is change in latitude around the center clamped from 0 N to pi S  (values in degrees)
+// turnDelta is the change in longitude around the polar axis
+// the routine seems to calc the current lat, long as polar vector in up oriented coords
+// add deltas and return the new point.
+// good this conforms to postive east negative west polar convention used in longitude notation
 procedure TVector4fHelperFunctionalTest.TestMoveAround;
 begin
-
+  // first test scenario looking at screen coords with camera start pos at eye
+  vt1.Create(0,0,1,1); // camera in pos z
+  vt2.Create(0,0,0,1); // origin as center point
+  vt3.Create(0,1,0,0); // affine vector for Y as up
+  vt4 :=  vt1.MoveAround(vt3,vt2,0,90);  // move camera east
+  AssertEquals('MoveAround:Sub5 X failed ',  1.0, vt4.X);  // camera sits on +x axis
+  AssertEquals('MoveAround:Sub6 Y failed ',  0.0, vt4.Y);
+  AssertEquals('MoveAround:Sub7 Z failed ',  0.0, vt4.Z);
+  AssertEquals('MoveAround:Sub8 W failed ',  1.0, vt4.W);  // still a point
+  vt4 :=  vt1.MoveAround(vt3,vt2,0,-90);  // move camera west
+  AssertEquals('MoveAround:Sub5 X failed ', -1.0, vt4.X);  // camera sits on -x axis
+  AssertEquals('MoveAround:Sub6 Y failed ',  0.0, vt4.Y);
+  AssertEquals('MoveAround:Sub7 Z failed ',  0.0, vt4.Z);
+  AssertEquals('MoveAround:Sub8 W failed ',  1.0, vt4.W);  // still a point
+  vt3.Create(0,-1,0,0); // affine vector for -Y as up
+  vt4 :=  vt1.MoveAround(vt3,vt2,0,90);  // move camera east
+  AssertEquals('MoveAround:Sub5 X failed ', -1.0, vt4.X);  // camera sits on -x axis
+  AssertEquals('MoveAround:Sub6 Y failed ',  0.0, vt4.Y);
+  AssertEquals('MoveAround:Sub7 Z failed ',  0.0, vt4.Z);
+  AssertEquals('MoveAround:Sub8 W failed ',  1.0, vt4.W);  // still a point
+  vt4 :=  vt1.MoveAround(vt3,vt2,0,-90);  // move camera west
+  AssertEquals('MoveAround:Sub5 X failed ',  1.0, vt4.X);  // camera sits on +x axis
+  AssertEquals('MoveAround:Sub6 Y failed ',  0.0, vt4.Y);
+  AssertEquals('MoveAround:Sub7 Z failed ',  0.0, vt4.Z);
+  AssertEquals('MoveAround:Sub8 W failed ',  1.0, vt4.W);  // still a point
+  // now test up and down for pos neg should be pos to go north and neg to go south
+  vt4 :=  vt1.MoveAround(vt3,vt2,90,0);  // move camera north
+  AssertEquals('MoveAround:Sub5 X failed ',  0.0, vt4.X);
+  // fails using this test as lat is clamped by small delta so never hit true 90
+  //  AssertEquals('MoveAround:Sub6 Y failed ',  1.0, vt4.Y);  // camera sits on +y axis
+  AssertTrue('MoveAround:Sub6 Y failed ',  IsEqual(1.0, vt4.Y, 1e-3));  // camera sits near +y axis
+  AssertTrue('MoveAround:Sub7 Z failed ',  IsEqual(0.0, vt4.Z, 0.03));
+  AssertEquals('MoveAround:Sub8 W failed ',  1.0, vt4.W);  // still a point
+  vt4 :=  vt1.MoveAround(vt3,vt2,-90,0);  // move camera south
+  AssertEquals('MoveAround:Sub5 X failed ',  0.0, vt4.X);
+  AssertTrue('MoveAround:Sub6 Y failed ',  IsEqual(-1.0, vt4.Y, 1e-3));  // camera sits near +y axis
+  AssertTrue('MoveAround:Sub7 Z failed ',  IsEqual(0.0, vt4.Z, 0.03));
+  AssertEquals('MoveAround:Sub8 W failed ',  1.0, vt4.W);  // still a point
 end;
 
+// this should be hmg safe, test as such
 procedure TVector4fHelperFunctionalTest.TestShiftObjectFromCenter;
 begin
-
+  vt1.Create(1,1,1,1);  // self is unit point in positive octant
+  vt3.Create(1,1,1,0);
+  vt3 := vt3.Normalize; // direction vec normalised so we can calc expect result
+  vt2.Create(0,0,0,1);  // keep it simple use orgin point as ACenter
+  fs1 := 4.0;           // distance to move
+  fs2 := 4.0 * vt3.X + 1;
+  vt4 := vt1.ShiftObjectFromCenter(vt2, fs1, False);   // dist from self
+  AssertEquals('ShiftObjectFromCenter:Sub5 X failed ',  fs2, vt4.X);
+  AssertEquals('ShiftObjectFromCenter:Sub6 Y failed ',  fs2, vt4.Y);
+  AssertEquals('ShiftObjectFromCenter:Sub7 Z failed ',  fs2, vt4.Z);
+  AssertEquals('ShiftObjectFromCenter:Sub8 W failed ',  1.0, vt4.W);
+  fs2 := 4.0 * vt3.X;
+  vt4 := vt1.ShiftObjectFromCenter(vt2, fs1, True);   // dist from cen
+  AssertEquals('ShiftObjectFromCenter:Sub5 X failed ',  fs2, vt4.X);
+  AssertEquals('ShiftObjectFromCenter:Sub6 Y failed ',  fs2, vt4.Y);
+  AssertEquals('ShiftObjectFromCenter:Sub7 Z failed ',  fs2, vt4.Z);
+  AssertEquals('ShiftObjectFromCenter:Sub8 W failed ',  1.0, vt4.W);
 end;
 
 procedure TVector4fHelperFunctionalTest.TestAverageNormal4;
@@ -398,7 +464,6 @@ begin
   AssertEquals('Step:Sub27 Z failed ',  0.0, vt4.Z);
   AssertEquals('Step:Sub28 W failed ',  3.0, vt4.W);
 end;
-
 
 // self is N = normal vector of face /texel
 // A is view vector
