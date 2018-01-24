@@ -27,21 +27,24 @@ asm
   //movss  [RDX], {%H-}xmm0
 end;
 
-function TGLZVectorHelper.AverageNormal4(constref up, left, down,right : TGLZVector) : TGLZVector;assembler; register; nostackframe;
+function TGLZVectorHelper.AverageNormal4(constref up, left, down,right : TGLZVector) : TGLZVector;assembler; //register; nostackframe;
 asm
   movaps xmm1, [RCX] // cen
 
   //VectorSubtract(up^,cen^,s{%H-});
   movaps xmm2, [up]   //s
-  subps  xmm2, xmm1
   //VectorSubtract(left^,cen^,t{%H-});
   movaps xmm3, [left]  //t
-  subps  xmm3, xmm1
   //VectorSubtract(down^,cen^,u{%H-});
-  movaps xmm4, [down]   //u
-  subps  xmm4, xmm1
+  mov    rax,  [down]
+  movaps xmm4, [rax]   //u
   //VectorSubtract(right^,cen^,v{%H-});
-  movups xmm5, [right]  //v   //Here we use MOVUPS. On Win64 all Args over the stack become unaligned
+  mov    rax,  [right]
+  movaps xmm5, [rax]  //v
+
+  subps  xmm4, xmm1
+  subps  xmm3, xmm1
+  subps  xmm2, xmm1
   subps  xmm5, xmm1
 
   movaps xmm0, [RIP+cSSE_MASK_NO_W]
@@ -172,6 +175,7 @@ asm
   sqrtps xmm0, xmm0
   divps  xmm2, xmm0
   movaps xmm0, xmm2
+  movaps [RESULT], xmm0
 end;
 
 function TGLZVectorHelper.FaceForward(constref A, B : TGLZVector4f) : TGLZVector4f;assembler; register; nostackframe;
