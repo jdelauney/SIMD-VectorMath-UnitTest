@@ -255,10 +255,13 @@ end;
 // ATargetPosition: The point at which the camera is pointing and the sphere center for lookat angle.
 // Assuming we are looking at a sphere....
 // pitch delta is change in latitude around the center clamped from 0 N to pi S  (values in degrees)
-// turnDelta is the change in longitude around the polar axis
+// turnDelta is the change in longitude around the polar axis (AMovingAxisUp)
 // the routine seems to calc the current lat, long as polar vector in up oriented coords
 // add deltas and return the new point.
 // good this conforms to postive east negative west polar convention used in longitude notation
+// now conforms to North Positive South negative as per latitude convention 
+// now the only anomily between this and spherical geometry is that equator is is pi/2 instead of 0
+// this is the cheapest option.
 procedure TVector4fHelperFunctionalTest.TestMoveAround;
 begin
   // first test scenario looking at screen coords with camera start pos at eye
@@ -266,10 +269,10 @@ begin
   vt2.Create(0,0,0,1); // origin as center point
   vt3.Create(0,1,0,0); // affine vector for Y as up
   vt4 :=  vt1.MoveAround(vt3,vt2,0,90);  // move camera east
-  AssertEquals('MoveAround:Sub5 X failed ',  1.0, vt4.X);  // camera sits on +x axis
-  AssertEquals('MoveAround:Sub6 Y failed ',  0.0, vt4.Y);
-  AssertEquals('MoveAround:Sub7 Z failed ',  0.0, vt4.Z);
-  AssertEquals('MoveAround:Sub8 W failed ',  1.0, vt4.W);  // still a point
+  AssertEquals('MoveAround:Sub1 X failed ',  1.0, vt4.X);  // camera sits on +x axis
+  AssertEquals('MoveAround:Sub2 Y failed ',  0.0, vt4.Y);
+  AssertEquals('MoveAround:Sub3 Z failed ',  0.0, vt4.Z);
+  AssertEquals('MoveAround:Sub4 W failed ',  1.0, vt4.W);  // still a point
   vt4 :=  vt1.MoveAround(vt3,vt2,0,-90);  // move camera west
   AssertEquals('MoveAround:Sub5 X failed ', -1.0, vt4.X);  // camera sits on -x axis
   AssertEquals('MoveAround:Sub6 Y failed ',  0.0, vt4.Y);
@@ -277,28 +280,29 @@ begin
   AssertEquals('MoveAround:Sub8 W failed ',  1.0, vt4.W);  // still a point
   vt3.Create(0,-1,0,0); // affine vector for -Y as up
   vt4 :=  vt1.MoveAround(vt3,vt2,0,90);  // move camera east
-  AssertEquals('MoveAround:Sub5 X failed ', -1.0, vt4.X);  // camera sits on -x axis
-  AssertEquals('MoveAround:Sub6 Y failed ',  0.0, vt4.Y);
-  AssertEquals('MoveAround:Sub7 Z failed ',  0.0, vt4.Z);
-  AssertEquals('MoveAround:Sub8 W failed ',  1.0, vt4.W);  // still a point
+  AssertEquals('MoveAround:Sub9 X failed ', -1.0, vt4.X);  // camera sits on -x axis
+  AssertEquals('MoveAround:Sub10 Y failed ',  0.0, vt4.Y);
+  AssertEquals('MoveAround:Sub11 Z failed ',  0.0, vt4.Z);
+  AssertEquals('MoveAround:Sub12 W failed ',  1.0, vt4.W);  // still a point
   vt4 :=  vt1.MoveAround(vt3,vt2,0,-90);  // move camera west
-  AssertEquals('MoveAround:Sub5 X failed ',  1.0, vt4.X);  // camera sits on +x axis
-  AssertEquals('MoveAround:Sub6 Y failed ',  0.0, vt4.Y);
-  AssertEquals('MoveAround:Sub7 Z failed ',  0.0, vt4.Z);
-  AssertEquals('MoveAround:Sub8 W failed ',  1.0, vt4.W);  // still a point
+  AssertEquals('MoveAround:Sub13 X failed ',  1.0, vt4.X);  // camera sits on +x axis
+  AssertEquals('MoveAround:Sub14 Y failed ',  0.0, vt4.Y);
+  AssertEquals('MoveAround:Sub15 Z failed ',  0.0, vt4.Z);
+  AssertEquals('MoveAround:Sub16 W failed ',  1.0, vt4.W);  // still a point
   // now test up and down for pos neg should be pos to go north and neg to go south
+  vt3.Create(0,1,0,0); // affine vector for Y as up
   vt4 :=  vt1.MoveAround(vt3,vt2,90,0);  // move camera north
-  AssertEquals('MoveAround:Sub5 X failed ',  0.0, vt4.X);
+  AssertEquals('MoveAround:Sub17 X failed ',  0.0, vt4.X);
   // fails using this test as lat is clamped by small delta so never hit true 90
   //  AssertEquals('MoveAround:Sub6 Y failed ',  1.0, vt4.Y);  // camera sits on +y axis
-  AssertTrue('MoveAround:Sub6 Y failed ',  IsEqual(1.0, vt4.Y, 1e-3));  // camera sits near +y axis
-  AssertTrue('MoveAround:Sub7 Z failed ',  IsEqual(0.0, vt4.Z, 0.03));
-  AssertEquals('MoveAround:Sub8 W failed ',  1.0, vt4.W);  // still a point
+  AssertTrue('MoveAround:Sub18 Y failed 1.0 --> '+FLoattostrF(vt4.Y,fffixed,3,3),  IsEqual(1.0, vt4.Y, 1e-3));  // camera sits near +y axis
+  AssertTrue('MoveAround:Sub19 Z failed 0.0 --> '+FLoattostrF(vt4.Z,fffixed,3,3),  IsEqual(0.0, vt4.Z, 0.03));
+  AssertEquals('MoveAround:Sub20 W failed ',  1.0, vt4.W);  // still a point
   vt4 :=  vt1.MoveAround(vt3,vt2,-90,0);  // move camera south
-  AssertEquals('MoveAround:Sub5 X failed ',  0.0, vt4.X);
-  AssertTrue('MoveAround:Sub6 Y failed ',  IsEqual(-1.0, vt4.Y, 1e-3));  // camera sits near +y axis
-  AssertTrue('MoveAround:Sub7 Z failed ',  IsEqual(0.0, vt4.Z, 0.03));
-  AssertEquals('MoveAround:Sub8 W failed ',  1.0, vt4.W);  // still a point
+  AssertEquals('MoveAround:Sub21 X failed ',  0.0, vt4.X);
+  AssertTrue('MoveAround:Sub22 Y failed -1.0 --> '+FLoattostrF(vt4.Y,fffixed,3,3),  IsEqual(-1.0, vt4.Y, 1e-3));  // camera sits near +y axis
+  AssertTrue('MoveAround:Sub23 Z failed 0.0 --> '+FLoattostrF(vt4.Z,fffixed,3,3),  IsEqual(0.0, vt4.Z, 0.03));
+  AssertEquals('MoveAround:Sub24 W failed ',  1.0, vt4.W);  // still a point
 end;
 
 // this should be hmg safe, test as such

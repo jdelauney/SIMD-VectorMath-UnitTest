@@ -87,7 +87,7 @@ begin
     // calculate the current pitch.
     // 0 is looking down and PI is looking up
     pitchNow := ArcCos(AMovingObjectUp.DotProduct(normalT2C));
-    pitchNow := GLZUtils.Clamp(pitchNow + DegToRadian(pitchDelta), 0 + 0.025, cPI - 0.025);
+    pitchNow := GLZUtils.Clamp(pitchNow - DegToRadian(pitchDelta), 0 + 0.025, cPI - 0.025);
     // create a new vector pointing up and then rotate it down
     // into the new position
     normalT2C := AMovingObjectUp;
