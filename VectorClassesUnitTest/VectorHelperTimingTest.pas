@@ -237,7 +237,7 @@ begin
   GlobalProfiler[0].Stop;
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;
-  for cnt := 1 to Iterations do begin vt3 := vt1.Step(nt2);  end;
+  for cnt := 1 to Iterations do begin vt3 := vt1.Step(vt2);  end;
   GlobalProfiler[1].Stop;
 end;
 

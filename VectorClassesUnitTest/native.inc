@@ -2077,13 +2077,26 @@ end;
 
 procedure TNativeGLZMatrix4f.CreateRotationMatrixX(const sine, cosine: Single);
 begin
-   Self:=NativeEmptyHmgMatrix;
-   Self.X.X:=1;
-   Self.Y.Y:=cosine;
-   Self.Y.Z:=sine;
-   Self.Z.Y:=-sine;
-   Self.Z.Z:=cosine;
-   Self.W.W:=1;
+  Self:=NativeEmptyHmgMatrix;
+
+  // Right Hand Rotation Matrix around X
+  // For Left Hand invert the sign of Sin
+  {    X     Y     Z    W
+   X | 1 |   0  |  0  | 0
+   Y | 0 |  cos | sin | 0
+   Z | 0 | -sin | cos | 0
+   W | 0 |   0  |  0  | 1
+  }
+
+  Self.X.X:=1;
+
+  Self.Y.Y:=cosine;
+  Self.Y.Z:=-sine;
+
+  Self.Z.Y:=sine;
+  Self.Z.Z:=cosine;
+
+  Self.W.W:=1;
 end;
 
 procedure TNativeGLZMatrix4f.CreateRotationMatrixX(const angle : Single);
@@ -2097,13 +2110,23 @@ end;
 
 procedure TNativeGLZMatrix4f.CreateRotationMatrixY(const sine, cosine: Single);
 begin
-   Self:=NativeEmptyHmgMatrix;
-   Self.X.X:=cosine;
-   Self.X.Z:=-sine;
-   Self.Y.Y:=1;
-   Self.Z.X:=sine;
-   Self.Z.Z:=cosine;
-   Self.W.W:=1;
+  Self:=NativeEmptyHmgMatrix;
+
+  // Right Hand Rotation Matrix around Y
+  // For Left Hand invert the sign of Sin
+  {     X      Y      Z     W
+   X | Cos |   0  |  Sin  | 0
+   Y |  0  |   1  |   0   | 0
+   Z |-Sin |   0  |  cos  | 0
+   W |  0  |   0  |   0   | 1
+  }
+
+  Self.X.X:=cosine;
+  Self.X.Z:=sine;
+  Self.Y.Y:=1;
+  Self.Z.X:=-sine;
+  Self.Z.Z:=cosine;
+  Self.W.W:=1;
 end;
 
 procedure TNativeGLZMatrix4f.CreateRotationMatrixY(const angle : Single);
@@ -2117,13 +2140,23 @@ end;
 
 procedure TNativeGLZMatrix4f.CreateRotationMatrixZ(const sine, cosine: Single);
 begin
-   Self:=NativeEmptyHmgMatrix;
-   Self.X.X:=cosine;
-   Self.X.Y:=sine;
-   Self.Y.X:=-sine;
-   Self.Y.Y:=cosine;
-   Self.Z.Z:=1;
-   Self.W.W:=1;
+  Self:=NativeEmptyHmgMatrix;
+
+  // Right Hand Rotation Matrix around Z
+  // For Left Hand invert the sign of Sin
+  {     X      Y      Z     W
+   X | Cos | -Sin |   0   | 0
+   Y | Sin |  Cos |   0   | 0
+   Z |  0  |   0  |   1   | 0
+   W |  0  |   0  |   0   | 1
+  }
+
+  Self.X.X:=cosine;
+  Self.X.Y:=-sine;
+  Self.Y.X:=sine;
+  Self.Y.Y:=cosine;
+  Self.Z.Z:=1;
+  Self.W.W:=1;
 end;
 
 procedure TNativeGLZMatrix4f.CreateRotationMatrixZ(const angle : Single);

@@ -154,13 +154,13 @@ begin
   vt1.Create(1,1,1,1);  // unit point
   // with +X pointing at you positive Y is to the left positive Z is up
   // positive rotation around x, Y becomes negative
-  vt4 := vt1.RotateAroundX(pi/2);
+  vt4 := vt1.RotateWithMatrixAroundX(pi/2);
   AssertEquals('RotateWithMatrixAroundX:Sub1 X failed ',  1.0, vt4.X);
   AssertEquals('RotateWithMatrixAroundX:Sub2 Y failed ', -1.0, vt4.Y);
   AssertEquals('RotateWithMatrixAroundX:Sub3 Z failed ',  1.0, vt4.Z);
   AssertEquals('RotateWithMatrixAroundX:Sub4 W failed ',  1.0, vt4.W);
   // negative rotation around x, Z becomes negative
-  vt4 := vt1.RotateAroundX(-pi/2);
+  vt4 := vt1.RotateWithMatrixAroundX(-pi/2);
   AssertEquals('RotateWithMatrixAroundX:Sub5 X failed ',  1.0, vt4.X);
   AssertEquals('RotateWithMatrixAroundX:Sub6 Y failed ',  1.0, vt4.Y);
   AssertEquals('RotateWithMatrixAroundX:Sub7 Z failed ', -1.0, vt4.Z);
@@ -172,13 +172,13 @@ begin
   vt1.Create(1,1,1,1);  // unit point
   // with +Y pointing at you positive Z is to the right positive X is Up
   // positive rotation around y, Z becomes negative
-  vt4 := vt1.RotateAroundY(pi/2);
+  vt4 := vt1.RotateWithMatrixAroundY(pi/2);
   AssertEquals('RotateWithMatrixAroundY:Sub1 X failed ',  1.0, vt4.X);
   AssertEquals('RotateWithMatrixAroundY:Sub2 Y failed ',  1.0, vt4.Y);
   AssertEquals('RotateWithMatrixAroundY:Sub3 Z failed ', -1.0, vt4.Z);
   AssertEquals('RotateWithMatrixAroundY:Sub4 W failed ',  1.0, vt4.W);
   // negative rotation around y, X becomes negative
-  vt4 := vt1.RotateAroundY(-pi/2);
+  vt4 := vt1.RotateWithMatrixAroundY(-pi/2);
   AssertEquals('RotateWithMatrixAroundY:Sub5 X failed ', -1.0, vt4.X);
   AssertEquals('RotateWithMatrixAroundY:Sub6 Y failed ',  1.0, vt4.Y);
   AssertEquals('RotateWithMatrixAroundY:Sub7 Z failed ',  1.0, vt4.Z);
@@ -409,22 +409,22 @@ begin
   vt2.Create(0,0,-1,0); // this is eye to screen +z out -z eye to screen
   vt3.create(0,0, 1,0); // pV is towards eye hidden face we want to show
   vt4 := vt1.FaceForward(vt2,vt3);
-  AssertEquals('Step:Sub1 X failed ',  -1.0, vt4.X);
-  AssertEquals('Step:Sub2 Y failed ',  -1.0, vt4.Y);
-  AssertEquals('Step:Sub3 Z failed ',  -1.0, vt4.Z);
-  AssertEquals('Step:Sub4 W failed ',   0.0, vt4.W);
+  AssertEquals('FaceForward:Sub1 X failed ',  -1.0, vt4.X);
+  AssertEquals('FaceForward:Sub2 Y failed ',  -1.0, vt4.Y);
+  AssertEquals('FaceForward:Sub3 Z failed ',  -1.0, vt4.Z);
+  AssertEquals('FaceForward:Sub4 W failed ',   0.0, vt4.W);
   vt3.create(0,0,-1,0); // pV is away from eye remain hidden face
   vt4 :=  vt1.FaceForward(vt2,vt3);
-  AssertEquals('Step:Sub5 X failed ',  1.0, vt4.X);
-  AssertEquals('Step:Sub6 Y failed ',  1.0, vt4.Y);
-  AssertEquals('Step:Sub7 Z failed ',  1.0, vt4.Z);
-  AssertEquals('Step:Sub8 W failed ',  0.0, vt4.W);
+  AssertEquals('FaceForward:Sub5 X failed ',  1.0, vt4.X);
+  AssertEquals('FaceForward:Sub6 Y failed ',  1.0, vt4.Y);
+  AssertEquals('FaceForward:Sub7 Z failed ',  1.0, vt4.Z);
+  AssertEquals('FaceForward:Sub8 W failed ',  0.0, vt4.W);
   vt3.create(0,0,-1,0); // pV is away from eye remain hidden face
   vt4 :=  vt1.FaceForward(vt3,vt2);  // you can swap eyeV and pV same result.
-  AssertEquals('Step:Sub9 X failed ',   1.0, vt4.X);
-  AssertEquals('Step:Sub10 Y failed ',  1.0, vt4.Y);
-  AssertEquals('Step:Sub11 Z failed ',  1.0, vt4.Z);
-  AssertEquals('Step:Sub12 W failed ',  0.0, vt4.W);
+  AssertEquals('FaceForward:Sub9 X failed ',   1.0, vt4.X);
+  AssertEquals('FaceForward:Sub10 Y failed ',  1.0, vt4.Y);
+  AssertEquals('FaceForward:Sub11 Z failed ',  1.0, vt4.Z);
+  AssertEquals('FaceForward:Sub12 W failed ',  0.0, vt4.W);
 end;
 
 // Clamp anything to between 0 and 1 preserves hmg point
