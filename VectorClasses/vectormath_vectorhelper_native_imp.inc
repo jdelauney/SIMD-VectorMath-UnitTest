@@ -105,9 +105,8 @@ var
 begin
   lDirection := Self - ACenter;
   lDirection := lDirection.Normalize;
-  ldirection := lDirection * ADistance;
-  if AFromCenterSpot then Result := ACenter + lDirection
-  else Result := Self + lDirection;
+  if AFromCenterSpot then Result := ACenter + lDirection * ADistance
+  else Result := Self + lDirection * ADistance;
 end;
 
 function TGLZVectorHelper.ExtendClipRect(vX, vY: Single) : TGLZClipRect;
