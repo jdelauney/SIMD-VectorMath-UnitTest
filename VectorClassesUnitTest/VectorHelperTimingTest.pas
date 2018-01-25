@@ -11,8 +11,6 @@ uses
 
 type
 
-  { TVectorHelperTimingTest }
-
   TVectorHelperTimingTest = class(TVectorBaseTimingTest)
     protected
       {$CODEALIGN RECORDMIN=16}
@@ -36,10 +34,12 @@ type
       procedure TestTimeExtendClipRect;
       procedure TestTimeStep;
       procedure TestTimeFaceForward;
+      procedure TestTimeSaturate;
+      procedure TestTimeSmoothStep;
   end;
+  
 implementation
 
-{ TVectorHelperTimingTest }
 procedure TVectorHelperTimingTest.Setup;
 begin
   inherited Setup;
@@ -50,7 +50,6 @@ begin
   vt4.V := nt4.V;
   alpha := pi / 6;
 end;
-
 
 procedure TVectorHelperTimingTest.TestTimeRotate;
 begin
@@ -246,11 +245,40 @@ begin
   TestDispName := 'VectorH FaceForward';
   GlobalProfiler[0].Clear;
   GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin vt4 := vt1.FaceForward(vt2,vt3); end;
+  for cnt := 1 to Iterations do begin nt4 := nt1.FaceForward(nt2,nt3); end;
   GlobalProfiler[0].Stop;
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;
   for cnt := 1 to Iterations do begin vt4 := vt1.FaceForward(vt2,vt3); end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVectorHelperTimingTest.TestTimeSaturate;
+begin
+  TestDispName := 'VectorH Saturate';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin nt4 := nt1.Saturate; end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  for cnt := 1 to Iterations do begin vt4 := vt1.Saturate; end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVectorHelperTimingTest.TestTimeSmoothStep;
+begin
+  vt1.Create(1,1,1,1);  // self
+  vt2.Create(0,0,0,0);  // A
+  vt3.Create(2,2,2,2);  // B
+  TestDispName := 'VectorH SmoothStep';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin vt4 := nt1.SmoothStep(nt2,nt3); end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  for cnt := 1 to Iterations do begin vt4 := vt1.SmoothStep(vt2,vt3); end;
   GlobalProfiler[1].Stop;
 end;
 

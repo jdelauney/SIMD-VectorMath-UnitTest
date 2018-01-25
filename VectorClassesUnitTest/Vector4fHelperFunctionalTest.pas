@@ -264,7 +264,7 @@ end;
 // this is the cheapest option.
 procedure TVector4fHelperFunctionalTest.TestMoveAround;
 begin
-  // first test scenario looking at screen coords with camera start pos at eye
+  // first test scenario looking at screen graph coords with camera start pos at eye
   vt1.Create(0,0,1,1); // camera in pos z
   vt2.Create(0,0,0,1); // origin as center point
   vt3.Create(0,1,0,0); // affine vector for Y as up
@@ -300,9 +300,23 @@ begin
   AssertEquals('MoveAround:Sub20 W failed ',  1.0, vt4.W);  // still a point
   vt4 :=  vt1.MoveAround(vt3,vt2,-90,0);  // move camera south
   AssertEquals('MoveAround:Sub21 X failed ',  0.0, vt4.X);
-  AssertTrue('MoveAround:Sub22 Y failed -1.0 --> '+FLoattostrF(vt4.Y,fffixed,3,3),  IsEqual(-1.0, vt4.Y, 1e-3));  // camera sits near +y axis
-  AssertTrue('MoveAround:Sub23 Z failed 0.0 --> '+FLoattostrF(vt4.Z,fffixed,3,3),  IsEqual(0.0, vt4.Z, 0.03));
+  AssertTrue('MoveAround:Sub22 Y failed -1.0 --> '+FLoattostrF(vt4.Y,fffixed,3,3), IsEqual(-1.0, vt4.Y, 1e-3));  // camera sits near +y axis
+  AssertTrue('MoveAround:Sub23 Z failed  0.0 --> '+FLoattostrF(vt4.Z,fffixed,3,3), IsEqual( 0.0, vt4.Z, 0.03));
   AssertEquals('MoveAround:Sub24 W failed ',  1.0, vt4.W);  // still a point
+  // second scenario real world coordinates
+  vt1.Create(1,0,0,1); // camera in pos x
+  vt2.Create(0,0,0,1); // origin as center point
+  vt3.Create(0,0,1,0); // affine vector for Z as up
+  vt4 :=  vt1.MoveAround(vt3,vt2,0,90);  // move camera east
+  AssertEquals('MoveAround:Sub25 X failed ',  0.0, vt4.X);
+  AssertEquals('MoveAround:Sub26 Y failed ',  1.0, vt4.Y);  // camera sits on +y axis
+  AssertEquals('MoveAround:Sub27 Z failed ',  0.0, vt4.Z);
+  AssertEquals('MoveAround:Sub28 W failed ',  1.0, vt4.W);  // still a point
+  vt4 :=  vt1.MoveAround(vt3,vt2,0,-90);  // move camera west
+  AssertEquals('MoveAround:Sub25 X failed ',  0.0, vt4.X);
+  AssertEquals('MoveAround:Sub26 Y failed ', -1.0, vt4.Y);  // camera sits on -y axis
+  AssertEquals('MoveAround:Sub27 Z failed ',  0.0, vt4.Z);
+  AssertEquals('MoveAround:Sub28 W failed ',  1.0, vt4.W);  // still a point
 end;
 
 // this should be hmg safe, test as such
@@ -472,6 +486,8 @@ end;
 // self is N = normal vector of face /texel
 // A is view vector
 // B is perturbed Vector
+// Note for this to work self must be part of a list of backfaces to test.
+// this function will hide visible faces.
 procedure TVector4fHelperFunctionalTest.TestFaceForward;
 begin
   vt1.Create(1,1,1,0);  // test result vector, does not play a part in calcs
@@ -543,9 +559,41 @@ begin
    AssertEquals('Saturate:Sub28 W failed ',   1.0, vt4.W);
 end;
 
+
+// t := (Self - a) / (b - a);   <--- dangerous for point and vec, W will always be 0
+// t := t.Saturate;             <--- saturate clamps -inf to 0, saved by this
+// result := t * t * (3.0 - (t * 2.0));
+// above function behaves like some form of a normal distribution
+// if used as add this fraction of diff to A then we get a transition
+// which has less mid and more of the ends.  (spotlight/highlight?)
 procedure TVector4fHelperFunctionalTest.TestSmoothStep;
 begin
-
+   vt1.Create(1,1,1,1);  // self
+   vt2.Create(0,0,0,0);  // A
+   vt3.Create(2,2,2,2);  // B   lerp would return 0.5 for this
+   vt4 := vt1.SmoothStep(vt2,vt3);
+   AssertEquals('TestSmoothStep:Sub1 X failed ',   0.5, vt4.X);
+   AssertEquals('TestSmoothStep:Sub2 Y failed ',   0.5, vt4.Y);
+   AssertEquals('TestSmoothStep:Sub3 Z failed ',   0.5, vt4.Z);
+   AssertEquals('TestSmoothStep:Sub4 W failed ',   0.5, vt4.W);
+   vt1.Create(0.5,0.5,0.5,0.5);  // self
+   vt4 := vt1.SmoothStep(vt2,vt3);   // lerp would return 0.25 for this
+   AssertEquals('TestSmoothStep:Sub5 X failed ',   0.15625, vt4.X,1e-4);
+   AssertEquals('TestSmoothStep:Sub6 Y failed ',   0.15625, vt4.Y,1e-4);
+   AssertEquals('TestSmoothStep:Sub7 Z failed ',   0.15625, vt4.Z,1e-4);
+   AssertEquals('TestSmoothStep:Sub8 W failed ',   0.15625, vt4.W,1e-4);
+   vt1.Create(1.5,1.5,1.5,1.5);  // self
+   vt4 := vt1.SmoothStep(vt2,vt3);   // lerp would return 0.75 for this
+   AssertEquals('TestSmoothStep:Sub9 X failed ',    0.84375, vt4.X,1e-4);
+   AssertEquals('TestSmoothStep:Sub10 Y failed ',   0.84375, vt4.Y,1e-4);
+   AssertEquals('TestSmoothStep:Sub11 Z failed ',   0.84375, vt4.Z,1e-4);
+   AssertEquals('TestSmoothStep:Sub12 W failed ',   0.84375, vt4.W,1e-4);
+   vt2.Create(0,0,2,0);  // Make one item the same as upper
+   vt4 := vt1.SmoothStep(vt2,vt3);   // lerp would return 0.75 for this
+   AssertEquals('TestSmoothStep:Sub9 X failed ',    0.84375, vt4.X,1e-4);
+   AssertEquals('TestSmoothStep:Sub10 Y failed ',   0.84375, vt4.Y,1e-4);
+   AssertEquals('TestSmoothStep:Sub11 Z failed ',   0.0    , vt4.Z,1e-4);
+   AssertEquals('TestSmoothStep:Sub12 W failed ',   0.84375, vt4.W,1e-4);
 end;
 
 initialization

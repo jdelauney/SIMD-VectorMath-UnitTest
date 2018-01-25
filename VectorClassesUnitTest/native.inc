@@ -3541,7 +3541,8 @@ var
 begin
   t := (Self-a)/(b-a);
   t := t.Saturate;
-  result :=t*t * ((t*2.0)*3.0);
+  // t * t * (3.0 - (t * 2.0)); <--- no overload for single - vector
+  result := t * t * -((t * 2.0) + -3);
 end;
 
 
