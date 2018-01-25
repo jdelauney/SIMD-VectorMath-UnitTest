@@ -3058,7 +3058,7 @@ begin
         eulYXZ, eulZXY: quat2 := EulerToQuat(x + SMALL_ANGLE, y, z, EulerOrder);
         eulXZY, eulYZX: quat2 := EulerToQuat(x, y, z + SMALL_ANGLE, EulerOrder);
       end;
-      Self := Quat1.Slerp(quat2, 0.5);
+      Self := Quat1.Slerp(quat2{%H-}, 0.5);
    end
    else
    begin
@@ -3315,8 +3315,6 @@ begin
 end;
 
 function TNativeGLZHmgPlane.Normalized:TNativeGLZHmgPlane;
-var
-   n : Single;
 begin
    Result := Self;
    Result.Normalize;

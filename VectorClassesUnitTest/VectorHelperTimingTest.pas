@@ -274,7 +274,7 @@ begin
   TestDispName := 'VectorH SmoothStep';
   GlobalProfiler[0].Clear;
   GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin vt4 := nt1.SmoothStep(nt2,nt3); end;
+  for cnt := 1 to Iterations do begin nt4 := nt1.SmoothStep(nt2,nt3); end;
   GlobalProfiler[0].Stop;
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;

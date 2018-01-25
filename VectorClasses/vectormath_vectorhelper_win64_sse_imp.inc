@@ -240,34 +240,26 @@ end;
 
 function TGLZVectorHelper.SmoothStep(ConstRef A, B : TGLZVector4f) : TGLZVector4f; assembler; register; nostackframe;
 Const
-  cVecSet2 : TGLZVector4f = (x:2.0;y:2.0;z:2.0;w:2.0);
   cVecSet3 : TGLZVector4f = (x:3.0;y:3.0;z:3.0;w:3.0);
-  //cVecSet6 : TGLZVector4f = (x:6.0;y:6.0;z:6.0;w:6.0);
 asm
   movaps xmm0, [RCX]
   //Saturate((self-a)/(b-a))
-  movaps xmm1, [A]
-  subps xmm0, xmm1
-  movaps xmm2, [B]
-  subps xmm2, xmm1
-  divps xmm0,xmm2
-  { Approximation
-  rcpps xmm2,xmm1
-  mulps xmm0, xmm2
-  }
-  minps xmm0,[RIP+cOneVector4f]
-  maxps xmm0,[RIP+cNullVector4f]
+  movaps  xmm1, [A]
+  subps   xmm0, xmm1
+  movaps  xmm2, [B]
+  subps   xmm2, xmm1
+  divps   xmm0, xmm2
+  minps   xmm0, [RIP+cOneVector4f]
+  maxps   xmm0, [RIP+cNullVector4f]
 
-  //result :=t*t * ((t*2.0)*3.0)  // = t^2 * 6t = 6t^3
-  movaps xmm1,xmm0
-  mulps xmm0, xmm0
-  mulps xmm1, [RIP+cVecSet2]
-  mulps xmm1, [RIP+cVecSet3]
-  mulps xmm0, xmm1
-  //mulps xmm0,[RIP+cVecSet3]
-  //mulps xmm0,xmm0
-  //mulps xmm0,xmm0
-  //mulps xmm0,Xmm0
+  //result :=t*t * ((3.0 - t*2.0))
+  movaps  xmm1, xmm0
+
+  mulps   xmm0, xmm0
+  movaps  xmm2, [RIP+cVecSet3]
+  addps   xmm1, xmm1            //t*2
+  subps   xmm2, xmm1
+  mulps   xmm0, xmm2
   movaps   [RDX], xmm0
 end;
 

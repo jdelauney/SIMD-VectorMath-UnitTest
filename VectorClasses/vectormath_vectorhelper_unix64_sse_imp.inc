@@ -178,9 +178,7 @@ asm
   movaps   xmm0, [RDI]
   movaps   xmm1, [A]
   movaps   xmm2, [B]
-  xorps    xmm3, xmm3
- // movups   xmm4, [RIP+cSSE_MASK_NEGATE]
-
+  //andps    xmm2, [RIP+cSSE_MASK_NO_W]
   // Dotproduct(A, B)
   mulps  xmm2, xmm1
   {$IFDEF USE_ASM_SSE_3}
@@ -194,9 +192,22 @@ asm
      shufps xmm2, xmm2, 00000001b
      addps xmm2, xmm1
   {$ENDIF}
-  cmpnltps xmm2, xmm3 // >= 0?  Yes: $FFFFFFFF, No: $00000000
-  andps    xmm2, [RIP+cSSE_MASK_NEGATE] //xmm4 // Yes: $80000000, No: $00000000
-  xorps    xmm0, xmm2   // Flip sign >= 0
+  shufps xmm2, xmm2, $00 // Broadcast
+  // get sign of xmm2
+  movaps xmm3, xmm2
+  movaps xmm5, [RIP+cOneMinusVector4f]
+  movaps xmm4, [RIP+cOneVector4f]
+
+  xorps xmm1, xmm1   // reset to 0
+  cmpltps  xmm2, xmm1 // < 0 ???
+  cmpnltps xmm3, xmm1 // > 0 ???
+
+  andps xmm2, xmm5
+  andps xmm3, xmm4
+  orps  xmm2, xmm3   // xmm2 contain signs -1.0 or 1.0
+  //---------------
+  //mulps xmm2, xmm5
+  mulps xmm0, xmm2  // Flip sign >= 0
   movhlps  xmm1, xmm0
 end;
 
@@ -211,7 +222,6 @@ end;
 
 function TGLZVectorHelper.SmoothStep(ConstRef A,B : TGLZVector4f): TGLZVector4f;Assembler; register; nostackframe;
 Const
-  cVecSet2 : TGLZVector4f = (x:2.0;y:2.0;z:2.0;w:2.0);
   cVecSet3 : TGLZVector4f = (x:3.0;y:3.0;z:3.0;w:3.0);
 asm
   movaps xmm0, [RDI]
@@ -220,15 +230,18 @@ asm
   subps   xmm0, xmm1
   movaps  xmm2, [B]
   subps   xmm2, xmm1
-  divps   xmm0, xmm1
+  divps   xmm0, xmm2
   minps   xmm0, [RIP+cOneVector4f]
   maxps   xmm0, [RIP+cNullVector4f]
-  //result :=t*t * ((t*2.0)*3.0)
+
+  //result :=t*t * ((3.0 - t*2.0))
   movaps  xmm1, xmm0
+
   mulps   xmm0, xmm0
-  mulps   xmm1, [RIP+cVecSet2]
-  mulps   xmm1, [RIP+cVecSet3]
-  mulps   xmm0, xmm1
+  movaps  xmm2, [RIP+cVecSet3]
+  addps   xmm1, xmm1            //t*2
+  subps   xmm2, xmm1
+  mulps   xmm0, xmm2
   movhlps xmm1, xmm0
 end;
 

@@ -165,7 +165,7 @@ Const
   _A = 0.0776509570923569;
   _B = -0.287434475393028;
 var
- xx,c: Double;
+ xx: Double;
 begin
   xx := x * x;
   result := ((_A*xx + _B)* xx + (_cPIDiv4 - _A - _B )*x);
