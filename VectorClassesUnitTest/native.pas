@@ -527,22 +527,10 @@ type
   TNativeGLZQuaternion = record
   private
   public
-    class operator +(constref A, B: TNativeGLZQuaternion): TNativeGLZQuaternion; overload;
-    class operator -(constref A, B: TNativeGLZQuaternion): TNativeGLZQuaternion; overload;
-    class operator -(constref A: TNativeGLZQuaternion): TNativeGLZQuaternion; overload;
     { Returns quaternion product qL * qR.
        Note: order is important!
-       To combine rotations, use the product Muliply(qSecond, qFirst),
-       which gives the effect of rotating by qFirst then qSecond.
     }
     class operator *(constref A, B: TNativeGLZQuaternion): TNativeGLZQuaternion;  overload;
-    //class operator /(constref A, B: TNativeGLZQuaternion): TGLZQuaternion;overload;
-
-    class operator +(constref A : TNativeGLZQuaternion; constref B:Single): TNativeGLZQuaternion; overload;
-    class operator -(constref A : TNativeGLZQuaternion; constref B:Single): TNativeGLZQuaternion; overload;
-    class operator *(constref A : TNativeGLZQuaternion; constref B:Single): TNativeGLZQuaternion; overload;
-    class operator /(constref A : TNativeGLZQuaternion; constref B:Single): TNativeGLZQuaternion; overload;
-
     class operator =(constref A, B: TNativeGLZQuaternion): Boolean;
     class operator <>(constref A, B: TNativeGLZQuaternion): Boolean;
 
@@ -554,7 +542,7 @@ type
 
     // Constructs a unit quaternion from two points on unit sphere
     procedure Create(const V1, V2: TNativeGLZAffineVector); overload;
-    //procedure Create(const V1, V2: TGLZVector); overload;
+    procedure Create(const V1, V2: TNativeGLZVector); overload;
 
     // Constructs a unit quaternion from a rotation matrix
     //procedure Create(const mat : TGLZMatrix); overload;
@@ -592,11 +580,12 @@ type
     // Normalizes the given quaternion
     function Normalize : TNativeGLZQuaternion;
     //procedure pNormalize;
+    // Applies rotation to V around local axes.
+    function Transform(constref V: TNativeGLZVector): TNativeGLZVector;
 
     { Returns quaternion product qL * qR.
        Note: order is important!
-       To combine rotations, use the product Muliply(qSecond, qFirst),
-       which gives the effect of rotating by qFirst then qSecond.
+       which gives the effect of rotating by qFirst then Self.
       }
     //function MultiplyAsFirst(const qSecond : TNativeGLZQuaternion): TNativeGLZQuaternion;
     function MultiplyAsSecond(const qFirst : TNativeGLZQuaternion): TNativeGLZQuaternion;

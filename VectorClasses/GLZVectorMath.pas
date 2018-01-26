@@ -886,22 +886,10 @@ type
   TGLZQuaternion = record
   private
   public
-    class operator +(constref A, B: TGLZQuaternion): TGLZQuaternion; overload;
-    class operator -(constref A, B: TGLZQuaternion): TGLZQuaternion; overload;
-    class operator -(constref A: TGLZQuaternion): TGLZQuaternion; overload;
     { Returns quaternion product qL * qR.
        Note: order is important!
-       To combine rotations, use the product Muliply(qSecond, qFirst),
-       which gives the effect of rotating by qFirst then qSecond.
     }
-    class operator *(constref A, B: TGLZQuaternion): TGLZQuaternion;  overload;
-    //class operator /(constref A, B: TGLZQuaternion): TGLZQuaternion;overload;
-
-    class operator +(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion; overload;
-    class operator -(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion; overload;
-    class operator *(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion; overload;
-    class operator /(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion; overload;
-
+    class operator *(constref A, B: TGLZQuaternion): TGLZQuaternion;
     class operator =(constref A, B: TGLZQuaternion): Boolean;
     class operator <>(constref A, B: TGLZQuaternion): Boolean;
 
@@ -911,9 +899,11 @@ type
     // Creates a quaternion from the given values
     procedure Create(const Imag: array of Single; Real : Single); overload;
 
-    // Constructs a unit quaternion from two points on unit sphere
+    // Constructs a unit quaternion from two unit vectors
     procedure Create(const V1, V2: TGLZAffineVector); overload;
-    //procedure Create(const V1, V2: TGLZVector); overload;
+
+    // Constructs a unit quaternion from two unit vectors or two points or on unit sphere
+    procedure Create(const V1, V2: TGLZVector); overload;
 
     // Constructs a unit quaternion from a rotation matrix
     //procedure Create(const mat : TGLZMatrix); overload;

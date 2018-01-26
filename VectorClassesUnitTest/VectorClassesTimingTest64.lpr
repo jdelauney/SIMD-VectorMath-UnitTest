@@ -6,6 +6,7 @@ program VectorClassesTimingTest64;
 
 uses
   Interfaces, Forms, GuiTestRunner,
+  GLZMathFunctionalTest,
   // Vector2f Test Case
   Vector2fFunctionalTest,
   Vector2OperatorsTestCase,
@@ -33,6 +34,7 @@ uses
   MatrixFunctionalTest,
   MatrixTestCase,
   // Quaternion Test Case
+  QuaternionFunctionalTestCase,
   QuaternionTestCase,
   // bounding box et al
   BoundingBoxComparatorTest,

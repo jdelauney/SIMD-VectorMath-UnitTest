@@ -31,6 +31,18 @@ begin
 end;
 
 
+function TGLZQuaternion.Transform(constref V: TGLZVector): TGLZVector;
+var
+  res, v2, Conj: TGLZQuaternion;
+begin
+    conj := self.Conjugate;
+    v2.Create(V.X,V.Y,V.Z,0);
+    res := Self * v2;
+    res := res * conj;
+    Result := Res.AsVector4f;
+    Result.W := 1;
+end;
+
 {%endregion%}
 
 {%region%----[ Pure Pascal may Convert at some point ]--------------------------}
@@ -41,14 +53,20 @@ end;
 
 procedure TGLZQuaternion.Create(const V1, V2: TGLZAffineVector);
 Var
- //av : TGLZAffineVector;
  vv, vv1,vv2 : TGLZVector;
 begin
    vv1.AsVector3f := V1;
    vv2.AsVector3f := V2;
-   vv:=vv1.CrossProduct(vv2);
-   Self.ImagePart:= vv.AsVector3f;
-   Self.RealPart:= Sqrt((vv1.DotProduct(vv2) + 1)/2);
+   Self.AsVector4f:=vv1.CrossProduct(vv2);
+   Self.RealPart:= vv1.DotProduct(vv2) + 1;
+   self.Normalize;
+end;
+
+procedure TGLZQuaternion.Create(const V1, V2: TGLZVector); overload;
+begin
+   Self.AsVector4f := v1.CrossProduct(v2);
+   Self.RealPart := v1.DotProduct(v2) + 1;
+   self.Normalize;
 end;
 
 //procedure TGLZQuaternion.Create(const V1, V2: TGLZVector);
@@ -97,7 +115,7 @@ var
    f, s, c : Single;
    vaxis : TGLZVector;
 begin
-   GLZMath.SinCos(DegToRadian(angle*cOneDotFive), s, c);
+   GLZMath.SinCos(DegToRadian(angle*cOneHalf), s, c);
    Self.RealPart:=c;
    vaxis.AsVector3f := axis;
    f:=s/vAxis.Length;
@@ -136,41 +154,42 @@ var
       q[cOrder[eulerOrder][2]].Create(Y, YVector);
       q[cOrder[eulerOrder][3]].Create(Z, ZVector);
       result:=(q[2] * q[3]);
-      result:=(q[1] * Self);
+      result:=(q[1] * result);
    end;
 
 const
    SMALL_ANGLE = 0.001;
 begin
-   NormalizeDegAngle(x);
-   NormalizeDegAngle(y);
-   NormalizeDegAngle(z);
-   case EulerOrder of
-      eulXYZ, eulZYX: GimbalLock := Abs(Abs(y) - 90.0) <= cEpsilon30; // cos(Y) = 0;
-      eulYXZ, eulZXY: GimbalLock := Abs(Abs(x) - 90.0) <= cEpsilon30; // cos(X) = 0;
-      eulXZY, eulYZX: GimbalLock := Abs(Abs(z) - 90.0) <= cEpsilon30; // cos(Z) = 0;
-   else
-      Assert(False);
-      gimbalLock:=False;
-   end;
-   if gimbalLock then
-   begin
-      case EulerOrder of
-        eulXYZ, eulZYX: quat1 := EulerToQuat(x, y - SMALL_ANGLE, z, EulerOrder);
-        eulYXZ, eulZXY: quat1 := EulerToQuat(x - SMALL_ANGLE, y, z, EulerOrder);
-        eulXZY, eulYZX: quat1 := EulerToQuat(x, y, z - SMALL_ANGLE, EulerOrder);
-      end;
-      case EulerOrder of
-        eulXYZ, eulZYX: quat2 := EulerToQuat(x, y + SMALL_ANGLE, z, EulerOrder);
-        eulYXZ, eulZXY: quat2 := EulerToQuat(x + SMALL_ANGLE, y, z, EulerOrder);
-        eulXZY, eulYZX: quat2 := EulerToQuat(x, y, z + SMALL_ANGLE, EulerOrder);
-      end;
-      Self := Quat1.Slerp(quat2{%H-}, 0.5);
-   end
-   else
-   begin
+
+//   NormalizeDegAngle(x);
+//   NormalizeDegAngle(y);
+//   NormalizeDegAngle(z);
+   //case EulerOrder of
+   //   eulXYZ, eulZYX: GimbalLock := Abs(Abs(y) - 90.0) <= cEpsilon30; // cos(Y) = 0;
+   //   eulYXZ, eulZXY: GimbalLock := Abs(Abs(x) - 90.0) <= cEpsilon30; // cos(X) = 0;
+   //   eulXZY, eulYZX: GimbalLock := Abs(Abs(z) - 90.0) <= cEpsilon30; // cos(Z) = 0;
+   //else
+   //   Assert(False);
+   //   gimbalLock:=False;
+   //end;
+   //if gimbalLock then
+   //begin
+   //   case EulerOrder of
+   //     eulXYZ, eulZYX: quat1 := EulerToQuat(x, y - SMALL_ANGLE, z, EulerOrder);
+   //     eulYXZ, eulZXY: quat1 := EulerToQuat(x - SMALL_ANGLE, y, z, EulerOrder);
+   //     eulXZY, eulYZX: quat1 := EulerToQuat(x, y, z - SMALL_ANGLE, EulerOrder);
+   //   end;
+   //   case EulerOrder of
+   //     eulXYZ, eulZYX: quat2 := EulerToQuat(x, y + SMALL_ANGLE, z, EulerOrder);
+   //     eulYXZ, eulZXY: quat2 := EulerToQuat(x + SMALL_ANGLE, y, z, EulerOrder);
+   //     eulXZY, eulYZX: quat2 := EulerToQuat(x, y, z + SMALL_ANGLE, EulerOrder);
+   //   end;
+   //   Self := Quat1.Slerp(quat2{%H-}, 0.5);
+   //end
+   //else
+   //begin
       Self := EulerToQuat(x, y, z, EulerOrder);
-   end;
+   //end;
 end;
 
 procedure TGLZQuaternion.ConvertToPoints(var ArcFrom, ArcTo: TGLZAffineVector);
@@ -272,31 +291,16 @@ end; }
 
 {%region%----[ Operators ]------------------------------------------------------}
 
-class operator TGLZQuaternion.+(constref A, B: TGLZQuaternion): TGLZQuaternion;
-begin
-  Result.X := A.X + B.X;
-  Result.Y := A.Y + B.Y;
-  Result.Z := A.Z + B.Z;
-  Result.W := A.W + B.W;
-end;
 
-class operator TGLZQuaternion.-(constref A, B: TGLZQuaternion): TGLZQuaternion;
-begin
-  Result.X := A.X - B.X;
-  Result.Y := A.Y - B.Y;
-  Result.Z := A.Z - B.Z;
-  Result.W := A.W - B.W;
-end;
 
+// Returns the product A*B (which is the concatenation of a rotation Q1 followed by the rotation Q2)
+// Order is important reverted to A prod B as B prod A gave wrong results.
 class operator TGLZQuaternion.*(constref A, B: TGLZQuaternion): TGLZQuaternion;
 begin
-
-  // Returns the product B*A (which is the concatenation of a rotation Q1 followed by the rotation Q2)
-
-  Result.X :=  (B.w * A.x) + (B.x * A.w) + (B.y * A.z) - (B.z * A.y);
-  Result.Y :=  (B.w * A.y) - (B.x * A.z) + (B.y * A.w) + (B.z * A.x);
-  Result.Z :=  (B.w * A.z) + (B.x * A.y) - (B.y * A.x) + (B.z * A.w);
-  Result.W :=  (B.w * A.w) - (B.x * A.x) - (B.y * A.y) - (B.z * A.z);
+  Result.X :=  (A.w * B.x) + (A.x * B.w) + (A.y * B.z) - (A.z * B.y);
+  Result.Y :=  (A.w * B.y) - (A.x * B.z) + (A.y * B.w) + (A.z * B.x);
+  Result.Z :=  (A.w * B.z) + (A.x * B.y) - (A.y * B.x) + (A.z * B.w);
+  Result.W :=  (A.w * B.w) - (A.x * B.x) - (A.y * B.y) - (A.z * B.z);
 end;
 {*
 class operator TGLZQuaternion.*(constref A, B: TGLZQuaternion): TGLZQuaternion;
@@ -318,45 +322,7 @@ begin
 end;
 *}
 
-class operator TGLZQuaternion.+(constref A: TGLZQuaternion; constref B:Single): TGLZQuaternion; overload;
-begin
-  Result.X := A.X + B;
-  Result.Y := A.Y + B;
-  Result.Z := A.Z + B;
-  Result.W := A.W + B;
-end;
 
-class operator TGLZQuaternion.-(constref A: TGLZQuaternion; constref B:Single): TGLZQuaternion; overload;
-begin
-  Result.X := A.X - B;
-  Result.Y := A.Y - B;
-  Result.Z := A.Z - B;
-  Result.W := A.W - B;
-end;
-
-class operator TGLZQuaternion.*(constref A: TGLZQuaternion; constref B:Single): TGLZQuaternion; overload;
-begin
-  Result.X := A.X * B;
-  Result.Y := A.Y * B;
-  Result.Z := A.Z * B;
-  Result.W := A.W * B;
-end;
-
-class operator TGLZQuaternion./(constref A: TGLZQuaternion; constref B:Single): TGLZQuaternion; overload;
-begin
-  Result.X := A.X / B;
-  Result.Y := A.Y / B;
-  Result.Z := A.Z / B;
-  Result.W := A.W / B;
-end;
-
-class operator TGLZQuaternion.-(constref A : TGLZQuaternion): TGLZQuaternion;
-begin
-  Result.X := -A.X;
-  Result.Y := -A.Y;
-  Result.Z := -A.Z;
-  Result.W := -A.W;
-end;
 
 class operator TGLZQuaternion.=(constref A, B: TGLZQuaternion): Boolean;
 begin
@@ -377,7 +343,7 @@ begin
   Result.X:=-Self.X;
   Result.Y:=-Self.Y;
   Result.Z:=-Self.Z;
-  Result.W:=Self.W;
+  Result.W:= Self.W;
 end;
 
 function TGLZQuaternion.Magnitude : Single;

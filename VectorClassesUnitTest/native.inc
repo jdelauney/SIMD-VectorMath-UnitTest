@@ -2794,73 +2794,6 @@ end; *)
 
 {%region%-----[ TNativeGLZQuaternion ]------------------------------------------}
 
-class operator TNativeGLZQuaternion.-(constref A: TNativeGLZQuaternion): TNativeGLZQuaternion;
-begin
-  Result.X := -A.X;
-  Result.Y := -A.Y;
-  Result.Z := -A.Z;
-  Result.W := -A.W;
-end;
-
-class operator TNativeGLZQuaternion.+(constref A, B: TNativeGLZQuaternion): TNativeGLZQuaternion;
-begin
-  Result.X := A.X + B.X;
-  Result.Y := A.Y + B.Y;
-  Result.Z := A.Z + B.Z;
-  Result.W := A.W + B.W;
-end;
-
-class operator TNativeGLZQuaternion.-(constref A, B: TNativeGLZQuaternion): TNativeGLZQuaternion;
-begin
-  Result.X := A.X - B.X;
-  Result.Y := A.Y - B.Y;
-  Result.Z := A.Z - B.Z;
-  Result.W := A.W - B.W;
-end;
-
-class operator TNativeGLZQuaternion.+(constref A : TNativeGLZQuaternion; constref B:Single): TNativeGLZQuaternion;
-begin
-  Result.X := A.X + B;
-  Result.Y := A.Y + B;
-  Result.Z := A.Z + B;
-  Result.W := A.W + B;
-end;
-
-class operator TNativeGLZQuaternion.-(constref A : TNativeGLZQuaternion; constref B:Single): TNativeGLZQuaternion;
-begin
-  Result.X := A.X - B;
-  Result.Y := A.Y - B;
-  Result.Z := A.Z - B;
-  Result.W := A.W - B;
-end;
-
-class operator TNativeGLZQuaternion./(constref A : TNativeGLZQuaternion; constref B:Single): TNativeGLZQuaternion;
-begin
-  Result.X := A.X / B;
-  Result.Y := A.Y / B;
-  Result.Z := A.Z / B;
-  Result.W := A.W / B;
-end;
-
-class operator TNativeGLZQuaternion.*(constref A: TNativeGLZQuaternion; constref B: Single): TNativeGLZQuaternion;
-begin
-  Result.X := A.X * B;
-  Result.Y := A.Y * B;
-  Result.Z := A.Z * B;
-  Result.W := A.W * B;
-end;
-
-
-class operator TNativeGLZQuaternion.*(constref A, B: TNativeGLZQuaternion): TNativeGLZQuaternion;
-begin
-
-  // Returns the product B*A (which is the concatenation of a rotation Q1 followed by the rotation Q2)
-
-  Result.X :=  (B.w * A.x) + (B.x * A.w) + (B.y * A.z) - (B.z * A.y);
-  Result.Y :=  (B.w * A.y) - (B.x * A.z) + (B.y * A.w) + (B.z * A.x);
-  Result.Z :=  (B.w * A.z) + (B.x * A.y) - (B.y * A.x) + (B.z * A.w);
-  Result.W :=  (B.w * A.w) - (B.x * A.x) - (B.y * A.y) - (B.z * A.z);
-end;
 
 class operator TNativeGLZQuaternion.=(constref A, B: TNativeGLZQuaternion): Boolean;
 begin
@@ -2899,9 +2832,9 @@ begin
    if m>cEpsilon30 then
    begin
       f:=1/m;
-      result := Self * f;
+      Result.AsVector4f := Self.AsVector4f * f;
    end
-   else result:=NativeIdentityQuaternion;
+   else Result:=NativeIdentityQuaternion;
 end;
 
 {%region%====[ Commons functions ]==============================================}
@@ -2944,6 +2877,27 @@ begin
    Self.ImagePart:= vv.AsVector3f;
    Self.RealPart:= Sqrt((vv1.DotProduct(vv2) + 1)/2);
 end;
+
+procedure TNativeGLZQuaternion.Create(const V1, V2: TNativeGLZVector); overload;
+begin
+   Self.AsVector4f := v1.CrossProduct(v2);
+   Self.RealPart := v1.DotProduct(v2) + 1;
+   self.Normalize;
+end;
+
+function TNativeGLZQuaternion.Transform(constref V: TNativeGLZVector): TNativeGLZVector;
+var
+  res, v2, Conj: TNativeGLZQuaternion;
+begin
+    conj := self.Conjugate;
+    v2.Create(V.X,V.Y,V.Z,0);
+    res := Self * v2;
+    res := res * conj;
+    Result := Res.AsVector4f;
+    Result.W := 1;
+end;
+
+
 //procedure TNativeGLZQuaternion.Create(const V1, V2: TGLZVector);
 
 //procedure TNativeGLZQuaternion.Create(const mat : TGLZMatrix);
@@ -3082,6 +3036,14 @@ begin
    ArcTo.Y:=Self.RealPart*ArcFrom.Y+Self.ImagePart.Z*ArcFrom.X;
    ArcTo.Z:=Self.ImagePart.X*ArcFrom.Y-Self.ImagePart.Y*ArcFrom.X;
    if Self.RealPart<0 then ArcFrom := NativeAffineVectorMake( -ArcFrom.X, -ArcFrom.Y, 0);
+end;
+
+class operator TNativeGLZQuaternion.*(constref A, B: TNativeGLZQuaternion): TNativeGLZQuaternion;
+begin
+  Result.X :=  (A.w * B.x) + (A.x * B.w) + (A.y * B.z) - (A.z * B.y);
+  Result.Y :=  (A.w * B.y) - (A.x * B.z) + (A.y * B.w) + (A.z * B.x);
+  Result.Z :=  (A.w * B.z) + (A.x * B.y) - (A.y * B.x) + (A.z * B.w);
+  Result.W :=  (A.w * B.w) - (A.x * B.x) - (A.y * B.y) - (A.z * B.z);
 end;
 
 function TNativeGLZQuaternion.MultiplyAsSecond(const qFirst : TNativeGLZQuaternion): TNativeGLZQuaternion;

@@ -90,11 +90,12 @@ type
   end;
 
 
-  TReportGroup = (rgVector2f, rgVector3b, rgVector4b, rgVector4i, rgVector4f, rgMatrix4f,
-                  rgQuaterion, rgBBox, rgBSphere, rgAABB, rgPlaneHelper);
+  TReportGroup = (rgBaseMath, rgVector2f, rgVector3b, rgVector4b, rgVector4i,
+                   rgVector4f, rgMatrix4f, rgQuaterion, rgBBox, rgBSphere,
+                   rgAABB, rgPlaneHelper);
 
 const
-
+  REPORT_GROUP_BASE = 'Base Math';
   REPORT_GROUP_VECTOR2F = 'Vector2f';
   REPORT_GROUP_VECTOR3B = 'Vector3b';
   REPORT_GROUP_VECTOR4B = 'Vector4b';
@@ -108,6 +109,7 @@ const
   REPORT_GROUP_PLANE_HELP = 'HmgPlane';
 
   rgArray: Array[TReportGroup] of string = (
+              REPORT_GROUP_BASE,
               REPORT_GROUP_VECTOR2F,
               REPORT_GROUP_VECTOR3B,
               REPORT_GROUP_VECTOR4B,

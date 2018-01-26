@@ -193,7 +193,9 @@ const
   DelayTime = 200;
 var
   x, y: UInt64;
+  {$IFDEF WINDOWS}
   PriorityClass, Priority: Integer;
+  {$ENDIF}
 begin
   {$IFDEF WINDOWS}
   PriorityClass := GetPriorityClass(GetCurrentProcess);
