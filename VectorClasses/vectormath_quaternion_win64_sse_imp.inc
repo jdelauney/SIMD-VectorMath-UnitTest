@@ -1,49 +1,49 @@
 {.$I vectormath_quaternion_native_imp.inc}
 
 {%region%----[ Operators ]--------------------------------------------------------}
-
-class operator TGLZQuaternion.+(constref A, B: TGLZQuaternion): TGLZQuaternion; assembler; nostackframe; register;
-asm
-  movaps xmm0, [A]
-  movaps xmm1, [B]
-  addps  xmm0, xmm1
-  movaps [RESULT], xmm0
-end;
-
-class operator TGLZQuaternion.+(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion;  assembler; nostackframe; register;
-asm
-  movaps xmm0, [A]
-  movss  xmm1, [B]
-  shufps xmm1, xmm1, $00
-  addps  xmm0, xmm1
-  movaps [RESULT], xmm0
-end;
-
-class operator TGLZQuaternion.-(constref A, B: TGLZQuaternion): TGLZQuaternion; assembler; nostackframe; register;
-asm
-  movaps xmm0, [A]
-  movaps xmm1, [B]
-  subps  xmm0, xmm1
-  movaps [RESULT], xmm0
-end;
-
-class operator TGLZQuaternion.-(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion; assembler; nostackframe; register;
-asm
-  movaps xmm0, [A]
-  movss  xmm1, [B]
-  shufps xmm1, xmm1, $00
-  subps  xmm0, xmm1
-  movaps [RESULT], xmm0
-end;
-
-class operator TGLZQuaternion.-(constref A: TGLZQuaternion): TGLZQuaternion; assembler; nostackframe; register;
-asm
-  movups xmm1, [A]
-  movups xmm0, [RIP+cNullVector4f]
-  subps  xmm0, xmm1
-  movaps [RESULT],xmm0
-End;
-
+//
+//class operator TGLZQuaternion.+(constref A, B: TGLZQuaternion): TGLZQuaternion; assembler; nostackframe; register;
+//asm
+//  movaps xmm0, [A]
+//  movaps xmm1, [B]
+//  addps  xmm0, xmm1
+//  movaps [RESULT], xmm0
+//end;
+//
+//class operator TGLZQuaternion.+(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion;  assembler; nostackframe; register;
+//asm
+//  movaps xmm0, [A]
+//  movss  xmm1, [B]
+//  shufps xmm1, xmm1, $00
+//  addps  xmm0, xmm1
+//  movaps [RESULT], xmm0
+//end;
+//
+//class operator TGLZQuaternion.-(constref A, B: TGLZQuaternion): TGLZQuaternion; assembler; nostackframe; register;
+//asm
+//  movaps xmm0, [A]
+//  movaps xmm1, [B]
+//  subps  xmm0, xmm1
+//  movaps [RESULT], xmm0
+//end;
+//
+//class operator TGLZQuaternion.-(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion; assembler; nostackframe; register;
+//asm
+//  movaps xmm0, [A]
+//  movss  xmm1, [B]
+//  shufps xmm1, xmm1, $00
+//  subps  xmm0, xmm1
+//  movaps [RESULT], xmm0
+//end;
+//
+//class operator TGLZQuaternion.-(constref A: TGLZQuaternion): TGLZQuaternion; assembler; nostackframe; register;
+//asm
+//  movups xmm1, [A]
+//  movups xmm0, [RIP+cNullVector4f]
+//  subps  xmm0, xmm1
+//  movaps [RESULT],xmm0
+//End;
+//
 
 class operator TGLZQuaternion.*(constref A, B: TGLZQuaternion): TGLZQuaternion; assembler;
 Const
@@ -101,23 +101,23 @@ asm
  movaps [RESULT], xmm5
 end;
 
-class operator TGLZQuaternion.*(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion; assembler; nostackframe; register;
-asm
-  movaps xmm0, [A]
-  movss  xmm1, [B]
-  shufps xmm1, xmm1, $00
-  mulps  xmm0, xmm1
-  movaps [RESULT], xmm0
-end;
-
-class operator TGLZQuaternion./(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion; assembler; nostackframe; register;
-asm
-  movaps xmm0, [A]
-  movss  xmm1, [B]
-  shufps xmm1, xmm1, $00
-  divps  xmm0, xmm1
-  movaps [RESULT], xmm0
-end;
+//class operator TGLZQuaternion.*(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion; assembler; nostackframe; register;
+//asm
+//  movaps xmm0, [A]
+//  movss  xmm1, [B]
+//  shufps xmm1, xmm1, $00
+//  mulps  xmm0, xmm1
+//  movaps [RESULT], xmm0
+//end;
+//
+//class operator TGLZQuaternion./(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion; assembler; nostackframe; register;
+//asm
+//  movaps xmm0, [A]
+//  movss  xmm1, [B]
+//  shufps xmm1, xmm1, $00
+//  divps  xmm0, xmm1
+//  movaps [RESULT], xmm0
+//end;
 
 class operator TGLZQuaternion.=(constref A, B: TGLZQuaternion): Boolean; assembler; nostackframe; register;
 asm

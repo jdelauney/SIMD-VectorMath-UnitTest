@@ -20,14 +20,7 @@ type
     qt1,qt2,qt3     : TGLZQuaternion;
     {$CODEALIGN RECORDMIN=4}
   published
-    procedure TestAddQuaternion;
-    procedure TestAddSingle;
-    procedure TestSubQuaternion;
-    procedure TestSubSingle;
     procedure TestMulQuaternion;
-    procedure TestMulSingle;
-    procedure TestDivSingle;
-    procedure TestNegate;
     procedure TestConjugate;
     procedure TestMagnitude;
     procedure TestNormalize;
@@ -51,58 +44,6 @@ end;
 
 {%region%====[ TQuaternionTimingTest ]============================================}
 
-procedure TQuaternionTimingTest.TestAddQuaternion;
-begin
-  TestDispName := 'Quaternion Add Quaternion';
-  GlobalProfiler[0].Clear;
-  GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin nqt3 := nqt1 + nqt2; end;
-  GlobalProfiler[0].Stop;
-  GlobalProfiler[1].Clear;
-  GlobalProfiler[1].Start;
-  For cnt:= 1 to Iterations do begin qt3 := qt1 + qt2; end;
-  GlobalProfiler[1].Stop;
-end;
-
-procedure TQuaternionTimingTest.TestAddSingle;
-begin
-  TestDispName := 'Quaternion Add Single';
-  GlobalProfiler[0].Clear;
-  GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin nqt3 := nqt1 + FS1; end;
-  GlobalProfiler[0].Stop;
-  GlobalProfiler[1].Clear;
-  GlobalProfiler[1].Start;
-  For cnt:= 1 to Iterations do begin qt3 := qt1 + FS1; end;
-  GlobalProfiler[1].Stop;
-end;
-
-procedure TQuaternionTimingTest.TestSubQuaternion;
-begin
-  TestDispName := 'Quaternion Sub Quaternion';
-  GlobalProfiler[0].Clear;
-  GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin nqt3 := nqt1 - nqt2; end;
-  GlobalProfiler[0].Stop;
-  GlobalProfiler[1].Clear;
-  GlobalProfiler[1].Start;
-  For cnt:= 1 to Iterations do begin qt3 := qt1 - qt2; end;
-  GlobalProfiler[1].Stop;
-end;
-
-procedure TQuaternionTimingTest.TestSubSingle;
-begin
-  TestDispName := 'Quaternion Sub Single';
-  GlobalProfiler[0].Clear;
-  GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin nqt3 := nqt1 - FS1; end;
-  GlobalProfiler[0].Stop;
-  GlobalProfiler[1].Clear;
-  GlobalProfiler[1].Start;
-  For cnt:= 1 to Iterations do begin qt3 := qt1 - FS1; end;
-  GlobalProfiler[1].Stop;
-end;
-
 procedure TQuaternionTimingTest.TestMulQuaternion;
 begin
   TestDispName := 'Quaternion Multiply Quaternion';
@@ -113,45 +54,6 @@ begin
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;
   For cnt:= 1 to Iterations do begin qt3 := qt1 * qt2; end;
-  GlobalProfiler[1].Stop;
-end;
-
-procedure TQuaternionTimingTest.TestMulSingle;
-begin
-  TestDispName := 'Quaternion Multiply Single';
-  GlobalProfiler[0].Clear;
-  GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin nqt3 := nqt1 * FS1; end;
-  GlobalProfiler[0].Stop;
-  GlobalProfiler[1].Clear;
-  GlobalProfiler[1].Start;
-  For cnt:= 1 to Iterations do begin qt3 := qt1 * FS1; end;
-  GlobalProfiler[1].Stop;
-end;
-
-procedure TQuaternionTimingTest.TestDivSingle;
-begin
-  TestDispName := 'Quaternion Divide Single';
-  GlobalProfiler[0].Clear;
-  GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin nqt3 := nqt1 / FS1; end;
-  GlobalProfiler[0].Stop;
-  GlobalProfiler[1].Clear;
-  GlobalProfiler[1].Start;
-  For cnt:= 1 to Iterations do begin qt3 := qt1 / FS1; end;
-  GlobalProfiler[1].Stop;
-end;
-
-procedure TQuaternionTimingTest.TestNegate;
-begin
-  TestDispName := 'Quaternion Negate';
-  GlobalProfiler[0].Clear;
-  GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin nqt3 := -nqt1; end;
-  GlobalProfiler[0].Stop;
-  GlobalProfiler[1].Clear;
-  GlobalProfiler[1].Start;
-  For cnt:= 1 to Iterations do begin qt3 := -qt1; end;
   GlobalProfiler[1].Stop;
 end;
 
