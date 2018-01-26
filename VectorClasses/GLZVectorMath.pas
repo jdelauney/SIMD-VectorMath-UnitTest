@@ -940,6 +940,9 @@ type
     // Normalizes the given quaternion
     function Normalize : TGLZQuaternion;
 
+    // Applies rotation to V around local axes.
+    function Transform(constref V: TGLZVector): TGLZVector;
+
     { Returns quaternion product qL * qR.
        Note: order is important!
        To combine rotations, use the product Muliply(qSecond, qFirst),
