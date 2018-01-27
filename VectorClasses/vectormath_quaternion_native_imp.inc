@@ -219,7 +219,7 @@ function TGLZQuaternion.ConvertToMatrix : TGLZMatrix;
  var
    xx, xy, xz, xw, yy, yz, yw, zz, zw: Single;
 begin
-   NormalizeQuaternion(quat);
+   Self.Normalize;
    xx := x * x;
    xy := x * y;
    xz := x * z;
