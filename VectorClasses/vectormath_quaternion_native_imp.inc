@@ -331,7 +331,7 @@ end;
 
 class operator TGLZQuaternion.<>(constref A, B: TGLZQuaternion): Boolean;
 begin
-  Result := (A.X <> B.X) and (A.Y <> B.Y) and (A.Z <> B.Z) and (A.W <> B.W);
+  Result := (A.X <> B.X) or (A.Y <> B.Y) or (A.Z <> B.Z) or (A.W <> B.W);
 end;
 
 {%endregion%}
@@ -351,7 +351,7 @@ begin
   Result:=Sqrt(Self.AsVector4f.Norm + Sqr(Self.RealPart));
 end;
 
-function TGLZQuaternion.Normalize : TGLZQuaternion;
+procedure TGLZQuaternion.Normalize;
 var
    m, f: Single;
 begin
@@ -392,7 +392,7 @@ var
     bflip: Boolean;         // use negativ t?
 begin
   // cosine theta
-  cost:=Self.AsVector4f.AngleCosine(QEnd.AsVector4f);
+  cost:=Self.AsVector4f.AngleCosine(QEnd.AsVector4f);  // q.imag half rot angle
 
    // if QEnd is on opposite hemisphere from QStart, use -QEnd instead
    if cost < 0 then
@@ -407,8 +407,8 @@ begin
    // just linear interpolate between QStart and QEnd.
    // Can't do spins, since we don't know what direction to spin.
 
-   if (1 - cost) < cEpsilon then
-   begin
+   if (1 - cost) < cEpsilon then  // full rotation would yield half angle 180
+   begin                          // then CosT would come out at -1
       beta:=1 - t
    end
    else
@@ -423,7 +423,8 @@ begin
 
    if bflip then t:=-t;
 
-   // interpolate
+   // interpolate   ?? direct mult on a Vector changes length to use quats
+   // effectivly they must be normalized after most operations.???
    Result.ImagePart.X:=beta * Self.ImagePart.X + t * QEnd.ImagePart.X;
    Result.ImagePart.Y:=beta * Self.ImagePart.Y + t * QEnd.ImagePart.Y;
    Result.ImagePart.Z:=beta * Self.ImagePart.Z + t * QEnd.ImagePart.Z;
@@ -479,7 +480,7 @@ begin
    Result.RealPart := scale0 * Self.RealPart + scale1 * to1[3];
    //NormalizeQuaternion(Result);
    //Result.pNormalize;
-   Result := Result.Normalize;
+   Result.Normalize;
 end;
 
 
