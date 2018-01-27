@@ -229,7 +229,7 @@ begin
    yw := y * w;
    zz := z * z;
    zw := z * w;
-   Result.V[0].V[0] := 1 - 2 * ( yy + zz ) ;
+   Result.V[0].V[0] := 1 - 2 * ( yy + zz );
    Result.V[1].V[0] :=     2 * ( xy + zw );
    Result.V[2].V[0] :=     2 * ( xz - yw );
    Result.V[3].V[0] := 0;
@@ -239,7 +239,7 @@ begin
    Result.V[3].V[1] := 0;
    Result.V[0].V[2] :=     2 * ( xz + yw );
    Result.V[1].V[2] :=     2 * ( yz - xw );
-   Result.V[2].V[2] := 1 - 2 * ( xx - yy );
+   Result.V[2].V[2] := 1 - 2 * ( xx + yy );
    Result.V[3].V[2] := 0;
    Result.V[0].V[3] := 0;
    Result.V[1].V[3] := 0;
