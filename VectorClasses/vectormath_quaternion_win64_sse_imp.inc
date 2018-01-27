@@ -51,8 +51,8 @@ Const
  cControlZWXY : TGLZQuaternion =(x:1.0;y:1.0;z:-1.0;w:-1.0);
  cControlYXWZ : TGLZQuaternion =(x:-1.0;y:1.0;z:1.0;w:-1.0);
 asm
- movaps xmm0, [A]
- movaps xmm1, [B]
+ movaps xmm0, [B]
+ movaps xmm1, [A]
 
  movaps xmm2, xmm1
  movaps xmm3, xmm1
@@ -135,8 +135,8 @@ asm
   movaps   xmm1, [B]
   cmpps    xmm0, xmm1, cSSE_OPERATOR_NOT_EQUAL    //  Yes: $FFFFFFFF, No: $00000000 ; 4 = Operator Not Equal
   movmskps eax,  xmm0
-  xor eax, $f
-  setz al
+  or eax, eax
+  setnz al
 end;
 
 {%endregion%}
@@ -185,7 +185,7 @@ asm
   movaps  xmm0, [RCX]
   movaps  xmm2, xmm0
   movlps  xmm1, [RCX]12
-  andps   xmm2, [RIP+cSSE_MASK_NO_W]
+//  andps   xmm2, [RIP+cSSE_MASK_NO_W]
 
   mulps   xmm2, xmm2
   pshufd  xmm1, xmm2, $0E
