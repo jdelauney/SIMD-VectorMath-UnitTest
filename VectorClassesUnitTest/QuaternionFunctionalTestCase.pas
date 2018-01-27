@@ -37,7 +37,7 @@ type
       procedure TestSlerpSingle;
       procedure TestSlerpSpin;
       procedure TestConvertToMatrix;
-      //procedure Test;
+      procedure TestTransform;
       //procedure Test;
   end;
 
@@ -754,7 +754,6 @@ begin
    AssertEquals('SlerpSpin:Sub10 Y failed ',  0.0, aqt4.Y);
    AssertEquals('SlerpSpin:Sub11 Z failed ', 0.9848078, aqt4.Z);
    AssertEquals('SlerpSpin:Sub12 W failed ', 0.1736482, aqt4.W);
-
 end;
 
 procedure TQuaternionFunctionalTestCase.TestConvertToMatrix;
@@ -769,47 +768,79 @@ begin
   // [  0.7390738, -0.5369685,  0.4067366;
   //    0.6433555,  0.7416318, -0.1899368;
   //   -0.1996588,  0.4020536,  0.8935823 ] as 3f
-  AssertEquals('ConvertToMatrix:Sub1 m11 failed ',  0.7390738, Mat.m11);
-  AssertEquals('ConvertToMatrix:Sub1 m12 failed ', -0.5369685, Mat.m12);
-  AssertEquals('ConvertToMatrix:Sub1 m13 failed ',  0.4067366, Mat.m13);
-  AssertEquals('ConvertToMatrix:Sub1 m14 failed ',  0.0, Mat.m14);
-  AssertEquals('ConvertToMatrix:Sub1 m21 failed ',  0.6433555, Mat.m21);
-  AssertEquals('ConvertToMatrix:Sub1 m22 failed ',  0.7416318, Mat.m22);
-  AssertEquals('ConvertToMatrix:Sub1 m23 failed ', -0.1899368, Mat.m23);
-  AssertEquals('ConvertToMatrix:Sub1 m24 failed ',  0.0, Mat.m24);
-  AssertEquals('ConvertToMatrix:Sub1 m31 failed ', -0.1996588, Mat.m31);
-  AssertEquals('ConvertToMatrix:Sub1 m32 failed ',  0.4020536, Mat.m32);
-  AssertEquals('ConvertToMatrix:Sub1 m33 failed ',  0.8935823, Mat.m33);
-  AssertEquals('ConvertToMatrix:Sub1 m34 failed ',  0.0, Mat.m34);
-  AssertEquals('ConvertToMatrix:Sub1 m41 failed ',  0.0, Mat.m41);
-  AssertEquals('ConvertToMatrix:Sub1 m42 failed ',  0.0, Mat.m42);
-  AssertEquals('ConvertToMatrix:Sub1 m43 failed ',  0.0, Mat.m43);
-  AssertEquals('ConvertToMatrix:Sub1 m44 failed ',  1.0, Mat.m44);
+  AssertEquals('ConvertToMatrix:Sub5 m11 failed ',  0.7390738, Mat.m11);
+  AssertEquals('ConvertToMatrix:Sub6 m12 failed ', -0.5369685, Mat.m12);
+  AssertEquals('ConvertToMatrix:Sub7 m13 failed ',  0.4067366, Mat.m13);
+  AssertEquals('ConvertToMatrix:Sub8 m14 failed ',  0.0, Mat.m14);
+  AssertEquals('ConvertToMatrix:Sub9 m21 failed ',  0.6433555, Mat.m21);
+  AssertEquals('ConvertToMatrix:Sub10 m22 failed ',  0.7416318, Mat.m22);
+  AssertEquals('ConvertToMatrix:Sub11 m23 failed ', -0.1899368, Mat.m23);
+  AssertEquals('ConvertToMatrix:Sub12 m24 failed ',  0.0, Mat.m24);
+  AssertEquals('ConvertToMatrix:Sub13 m31 failed ', -0.1996588, Mat.m31);
+  AssertEquals('ConvertToMatrix:Sub14 m32 failed ',  0.4020536, Mat.m32);
+  AssertEquals('ConvertToMatrix:Sub15 m33 failed ',  0.8935823, Mat.m33);
+  AssertEquals('ConvertToMatrix:Sub16 m34 failed ',  0.0, Mat.m34);
+  AssertEquals('ConvertToMatrix:Sub17 m41 failed ',  0.0, Mat.m41);
+  AssertEquals('ConvertToMatrix:Sub18 m42 failed ',  0.0, Mat.m42);
+  AssertEquals('ConvertToMatrix:Sub19 m43 failed ',  0.0, Mat.m43);
+  AssertEquals('ConvertToMatrix:Sub20 m44 failed ',  1.0, Mat.m44);
   aqt1.Create(12,24,36,eulZYX);  // [ 0.0333438, 0.2282478, 0.2799394, 0.9318933 ]
-  AssertEquals('ConvertToMatrix:Sub1 X failed ', 0.0333438, aqt1.X);
-  AssertEquals('ConvertToMatrix:Sub2 Y failed ', 0.2282478, aqt1.Y);
-  AssertEquals('ConvertToMatrix:Sub3 Z failed ', 0.2799394, aqt1.Z);
-  AssertEquals('ConvertToMatrix:Sub4 W failed ', 0.9318933, aqt1.W);
+  AssertEquals('ConvertToMatrix:Sub21 X failed ', 0.0333438, aqt1.X);
+  AssertEquals('ConvertToMatrix:Sub22 Y failed ', 0.2282478, aqt1.Y);
+  AssertEquals('ConvertToMatrix:Sub23 Z failed ', 0.2799394, aqt1.Z);
+  AssertEquals('ConvertToMatrix:Sub24 W failed ', 0.9318933, aqt1.W);
   mat := aqt1.ConvertToMatrix;
   //[  0.7390738, -0.5065260,  0.4440736;
   //   0.5369685,  0.8410442,  0.0656454;
   //  -0.4067366,  0.1899368,  0.8935823 ]
-  AssertEquals('ConvertToMatrix:Sub1 m11 failed ',  0.7390738, Mat.m11);
-  AssertEquals('ConvertToMatrix:Sub1 m12 failed ', -0.5065260, Mat.m12);
-  AssertEquals('ConvertToMatrix:Sub1 m13 failed ',  0.4440736, Mat.m13);
-  AssertEquals('ConvertToMatrix:Sub1 m14 failed ',  0.0, Mat.m14);
-  AssertEquals('ConvertToMatrix:Sub1 m21 failed ',  0.5369685, Mat.m21);
-  AssertEquals('ConvertToMatrix:Sub1 m22 failed ',  0.8410442, Mat.m22);
-  AssertEquals('ConvertToMatrix:Sub1 m23 failed ',  0.0656454, Mat.m23);
-  AssertEquals('ConvertToMatrix:Sub1 m24 failed ',  0.0, Mat.m24);
-  AssertEquals('ConvertToMatrix:Sub1 m31 failed ', -0.4067366, Mat.m31);
-  AssertEquals('ConvertToMatrix:Sub1 m32 failed ',  0.1899368, Mat.m32);
-  AssertEquals('ConvertToMatrix:Sub1 m33 failed ',  0.8935823, Mat.m33);
-  AssertEquals('ConvertToMatrix:Sub1 m34 failed ',  0.0, Mat.m34);
-  AssertEquals('ConvertToMatrix:Sub1 m41 failed ',  0.0, Mat.m41);
-  AssertEquals('ConvertToMatrix:Sub1 m42 failed ',  0.0, Mat.m42);
-  AssertEquals('ConvertToMatrix:Sub1 m43 failed ',  0.0, Mat.m43);
-  AssertEquals('ConvertToMatrix:Sub1 m44 failed ',  1.0, Mat.m44);
+  AssertEquals('ConvertToMatrix:Sub25 m11 failed ',  0.7390738, Mat.m11);
+  AssertEquals('ConvertToMatrix:Sub26 m12 failed ', -0.5065260, Mat.m12);
+  AssertEquals('ConvertToMatrix:Sub27 m13 failed ',  0.4440736, Mat.m13);
+  AssertEquals('ConvertToMatrix:Sub28 m14 failed ',  0.0, Mat.m14);
+  AssertEquals('ConvertToMatrix:Sub29 m21 failed ',  0.5369685, Mat.m21);
+  AssertEquals('ConvertToMatrix:Sub30 m22 failed ',  0.8410442, Mat.m22);
+  AssertEquals('ConvertToMatrix:Sub31 m23 failed ',  0.0656454, Mat.m23);
+  AssertEquals('ConvertToMatrix:Sub32 m24 failed ',  0.0, Mat.m24);
+  AssertEquals('ConvertToMatrix:Sub33 m31 failed ', -0.4067366, Mat.m31);
+  AssertEquals('ConvertToMatrix:Sub34 m32 failed ',  0.1899368, Mat.m32);
+  AssertEquals('ConvertToMatrix:Sub35 m33 failed ',  0.8935823, Mat.m33);
+  AssertEquals('ConvertToMatrix:Sub36 m34 failed ',  0.0, Mat.m34);
+  AssertEquals('ConvertToMatrix:Sub37 m41 failed ',  0.0, Mat.m41);
+  AssertEquals('ConvertToMatrix:Sub38 m42 failed ',  0.0, Mat.m42);
+  AssertEquals('ConvertToMatrix:Sub39 m43 failed ',  0.0, Mat.m43);
+  AssertEquals('ConvertToMatrix:Sub40 m44 failed ',  1.0, Mat.m44);
+end;
+
+
+
+// good tranforms the same way as axis rotations.
+procedure TQuaternionFunctionalTestCase.TestTransform;
+begin
+  aqt1.Create(90,ZVector); // create a postive rotation in Z
+  vt1.Create(2,0,0,1);     // create a point on the x axis
+  vt1 := aqt1.Transform(vt1);  // this should move point to pos y
+  AssertEquals('Transform:Sub1 X failed ', 0.0, vt1.X);
+  AssertEquals('Transform:Sub2 Y failed ', 2.0, vt1.Y);
+  AssertEquals('Transform:Sub3 Z failed ', 0.0, vt1.Z);
+  AssertEquals('Transform:Sub4 W failed ', 1.0, vt1.W);
+  vt1 := aqt1.Transform(vt1);  // this should move point to neg x
+  AssertEquals('Transform:Sub1 X failed ', -2.0, vt1.X);
+  AssertEquals('Transform:Sub2 Y failed ',  0.0, vt1.Y);
+  AssertEquals('Transform:Sub3 Z failed ',  0.0, vt1.Z);
+  AssertEquals('Transform:Sub4 W failed ',  1.0, vt1.W);
+  aqt1.Create(90,YVector); // create a positive rotation in y
+  vt1 := aqt1.Transform(vt1);  // this should move point to poitive Z
+  AssertEquals('Transform:Sub1 X failed ',  0.0, vt1.X);
+  AssertEquals('Transform:Sub2 Y failed ',  0.0, vt1.Y);
+  AssertEquals('Transform:Sub3 Z failed ',  2.0, vt1.Z);
+  AssertEquals('Transform:Sub4 W failed ',  1.0, vt1.W);
+  vt1 := aqt1.Transform(vt1);  // this should move point to poitive X
+  AssertEquals('Transform:Sub1 X failed ',  2.0, vt1.X);
+  AssertEquals('Transform:Sub2 Y failed ',  0.0, vt1.Y);
+  AssertEquals('Transform:Sub3 Z failed ',  0.0, vt1.Z);
+  AssertEquals('Transform:Sub4 W failed ',  1.0, vt1.W);
+
+
 end;
 
 

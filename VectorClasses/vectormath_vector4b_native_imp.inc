@@ -200,7 +200,7 @@ begin
 end;
 
 function TGLZVector4b.DivideBy2 : TGLZVector4b;
-var  tmp: integer;
+//var  tmp: integer;
 begin
   Result.x := Round(Self.X*0.5);
   Result.y := Round(Self.Y*0.5);
