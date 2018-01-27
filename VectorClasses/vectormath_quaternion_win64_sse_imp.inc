@@ -164,7 +164,7 @@ asm
 end;
 
 
-function TGLZQuaternion.Normalize : TGLZQuaternion; assembler; nostackframe; register;
+procedure TGLZQuaternion.Normalize; assembler; nostackframe; register;
 asm
 {$ifdef TEST}
   // Normalize fast
@@ -205,7 +205,7 @@ asm
 @LessThan:
   movaps  xmm0, [RIP+IdentityQuaternion]
 @Finish:
-  movaps  [RESULT], {%H-}xmm0
+  movaps  [RCX], {%H-}xmm0
 {$endif}
 
 end;
@@ -365,7 +365,7 @@ begin
    Result.RealPart := scale0 * Self.RealPart + scale1 * to1[3];
    //NormalizeQuaternion(Result);
    //Result.pNormalize;
-   Result := Result.Normalize;
+   Result.Normalize;
 end;
 
 
