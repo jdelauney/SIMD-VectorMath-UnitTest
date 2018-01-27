@@ -36,7 +36,7 @@ type
       procedure TestMultiplyAsSecond;
       procedure TestSlerpSingle;
       procedure TestSlerpSpin;
-      //procedure Test;
+      procedure TestConvertToMatrix;
       //procedure Test;
       //procedure Test;
   end;
@@ -740,21 +740,76 @@ begin
    aqt1.create(1e-14,ZVector);  // null rotation as start point.
    aqt2.Create(90,ZVector); // 90 + 360 = 450
    aqt4 := aqt1.Slerp(aqt2, 2, 0.5); //  225  [ 0, 0, 0.9238795, -0.3826834 ]
-   AssertEquals('SlerpSingle:Sub1 X failed ', 0.0, aqt4.X);
-   AssertEquals('SlerpSingle:Sub2 Y failed ', 0.0, aqt4.Y);
-   AssertEquals('SlerpSingle:Sub3 Z failed ', 0.9238795, aqt4.Z);
-   AssertEquals('SlerpSingle:Sub4 W failed ', -0.3826834, aqt4.W);
+   AssertEquals('SlerpSpin:Sub1 X failed ', 0.0, aqt4.X);
+   AssertEquals('SlerpSpin:Sub2 Y failed ', 0.0, aqt4.Y);
+   AssertEquals('SlerpSpin:Sub3 Z failed ', 0.9238795, aqt4.Z);
+   AssertEquals('SlerpSpin:Sub4 W failed ', -0.3826834, aqt4.W);
    aqt4 := aqt1.Slerp(aqt2,2,2/9); // 100  [ 0, 0, 0.7660444, 0.6427876 ]
-   AssertEquals('SlerpSingle:Sub5 X failed ', 0.0, aqt4.X);
-   AssertEquals('SlerpSingle:Sub6 Y failed ', 0.0, aqt4.Y);
-   AssertEquals('SlerpSingle:Sub7 Z failed ', 0.7660444, aqt4.Z);
-   AssertEquals('SlerpSingle:Sub8 W failed ', 0.6427876, aqt4.W);
+   AssertEquals('SlerpSpin:Sub5 X failed ', 0.0, aqt4.X);
+   AssertEquals('SlerpSpin:Sub6 Y failed ', 0.0, aqt4.Y);
+   AssertEquals('SlerpSpin:Sub7 Z failed ', 0.7660444, aqt4.Z);
+   AssertEquals('SlerpSpin:Sub8 W failed ', 0.6427876, aqt4.W);
    aqt4 := aqt1.Slerp(aqt2,2,8/9); // 400  [ 0, 0, -0.3420201, -0.9396926 ]
-   AssertEquals('SlerpSingle:Sub9 X failed ',   0.0, aqt4.X);
-   AssertEquals('SlerpSingle:Sub10 Y failed ',  0.0, aqt4.Y);
-   AssertEquals('SlerpSingle:Sub11 Z failed ', -0.3420201, aqt4.Z);
-   AssertEquals('SlerpSingle:Sub12 W failed ', -0.9396926, aqt4.W);
+   AssertEquals('SlerpSpin:Sub9 X failed ',   0.0, aqt4.X);
+   AssertEquals('SlerpSpin:Sub10 Y failed ',  0.0, aqt4.Y);
+   AssertEquals('SlerpSpin:Sub11 Z failed ', -0.3420201, aqt4.Z);
+   AssertEquals('SlerpSpin:Sub12 W failed ', -0.9396926, aqt4.W);
 
+end;
+
+procedure TQuaternionFunctionalTestCase.TestConvertToMatrix;
+var Mat: TGLZMatrix;
+begin
+   aqt1.Create(12,24,36,eulXYZ);
+   AssertEquals('ConvertToMatrix:Sub1 X failed ', 0.1611364, aqt1.X);
+   AssertEquals('ConvertToMatrix:Sub2 Y failed ', 0.1650573, aqt1.Y);
+   AssertEquals('ConvertToMatrix:Sub3 Z failed ', 0.3212774, aqt1.Z);
+   AssertEquals('ConvertToMatrix:Sub4 W failed ', 0.9184617, aqt1.W);
+   mat := aqt1.ConvertToMatrix;
+  // [  0.7390738, -0.5369685,  0.4067366;
+  //    0.6433555,  0.7416318, -0.1899368;
+  //   -0.1996588,  0.4020536,  0.8935823 ] as 3f
+  AssertEquals('ConvertToMatrix:Sub1 m11 failed ',  0.7390738, Mat.m11);
+  AssertEquals('ConvertToMatrix:Sub1 m12 failed ', -0.5369685, Mat.m12);
+  AssertEquals('ConvertToMatrix:Sub1 m13 failed ',  0.4067366, Mat.m13);
+  AssertEquals('ConvertToMatrix:Sub1 m14 failed ',  0.0, Mat.m14);
+  AssertEquals('ConvertToMatrix:Sub1 m21 failed ',  0.6433555, Mat.m21);
+  AssertEquals('ConvertToMatrix:Sub1 m22 failed ',  0.7416318, Mat.m22);
+  AssertEquals('ConvertToMatrix:Sub1 m23 failed ', -0.1899368, Mat.m23);
+  AssertEquals('ConvertToMatrix:Sub1 m24 failed ',  0.0, Mat.m24);
+  AssertEquals('ConvertToMatrix:Sub1 m31 failed ', -0.1996588, Mat.m31);
+  AssertEquals('ConvertToMatrix:Sub1 m32 failed ',  0.4020536, Mat.m32);
+  AssertEquals('ConvertToMatrix:Sub1 m33 failed ',  0.8935823, Mat.m33);
+  AssertEquals('ConvertToMatrix:Sub1 m34 failed ',  0.0, Mat.m34);
+  AssertEquals('ConvertToMatrix:Sub1 m41 failed ',  0.0, Mat.m41);
+  AssertEquals('ConvertToMatrix:Sub1 m42 failed ',  0.0, Mat.m42);
+  AssertEquals('ConvertToMatrix:Sub1 m43 failed ',  0.0, Mat.m43);
+  AssertEquals('ConvertToMatrix:Sub1 m44 failed ',  1.0, Mat.m44);
+  aqt1.Create(12,24,36,eulZYX);  // [ 0.0333438, 0.2282478, 0.2799394, 0.9318933 ]
+  AssertEquals('ConvertToMatrix:Sub1 X failed ', 0.0333438, aqt1.X);
+  AssertEquals('ConvertToMatrix:Sub2 Y failed ', 0.2282478, aqt1.Y);
+  AssertEquals('ConvertToMatrix:Sub3 Z failed ', 0.2799394, aqt1.Z);
+  AssertEquals('ConvertToMatrix:Sub4 W failed ', 0.9318933, aqt1.W);
+  mat := aqt1.ConvertToMatrix;
+  //[  0.7390738, -0.5065260,  0.4440736;
+  //   0.5369685,  0.8410442,  0.0656454;
+  //  -0.4067366,  0.1899368,  0.8935823 ]
+  AssertEquals('ConvertToMatrix:Sub1 m11 failed ',  0.7390738, Mat.m11);
+  AssertEquals('ConvertToMatrix:Sub1 m12 failed ', -0.5065260, Mat.m12);
+  AssertEquals('ConvertToMatrix:Sub1 m13 failed ',  0.4440736, Mat.m13);
+  AssertEquals('ConvertToMatrix:Sub1 m14 failed ',  0.0, Mat.m14);
+  AssertEquals('ConvertToMatrix:Sub1 m21 failed ',  0.5369685, Mat.m21);
+  AssertEquals('ConvertToMatrix:Sub1 m22 failed ',  0.8410442, Mat.m22);
+  AssertEquals('ConvertToMatrix:Sub1 m23 failed ',  0.0656454, Mat.m23);
+  AssertEquals('ConvertToMatrix:Sub1 m24 failed ',  0.0, Mat.m24);
+  AssertEquals('ConvertToMatrix:Sub1 m31 failed ', -0.4067366, Mat.m31);
+  AssertEquals('ConvertToMatrix:Sub1 m32 failed ',  0.1899368, Mat.m32);
+  AssertEquals('ConvertToMatrix:Sub1 m33 failed ',  0.8935823, Mat.m33);
+  AssertEquals('ConvertToMatrix:Sub1 m34 failed ',  0.0, Mat.m34);
+  AssertEquals('ConvertToMatrix:Sub1 m41 failed ',  0.0, Mat.m41);
+  AssertEquals('ConvertToMatrix:Sub1 m42 failed ',  0.0, Mat.m42);
+  AssertEquals('ConvertToMatrix:Sub1 m43 failed ',  0.0, Mat.m43);
+  AssertEquals('ConvertToMatrix:Sub1 m44 failed ',  1.0, Mat.m44);
 end;
 
 

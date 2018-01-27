@@ -926,7 +926,7 @@ type
        Assumes matrix is used to multiply column vector on the left:
        vnew = mat vold.
        Works correctly for right-handed coordinate system and right-handed rotations. }
-    //function ConvertToMatrix : TGLZMatrix;
+    function ConvertToMatrix : TGLZMatrix;
 
     { Constructs an affine rotation matrix from (possibly non-unit) quaternion. }
     //function ConvertToAffineMatrix : TGLZAffineMatrix;
