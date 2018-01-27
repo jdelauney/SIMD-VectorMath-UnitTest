@@ -2802,7 +2802,7 @@ end;
 
 class operator TNativeGLZQuaternion.<>(constref A, B: TNativeGLZQuaternion): Boolean;
 begin
-  Result := (A.X <> B.X) and (A.Y <> B.Y) and (A.Z <> B.Z) and (A.W <> B.W);
+   Result := (A.X <> B.X) or (A.Y <> B.Y) or (A.Z <> B.Z) or (A.W <> B.W);
 end;
 
 function TNativeGLZQuaternion.Conjugate : TNativeGLZQuaternion;
@@ -2824,7 +2824,7 @@ begin
   Result := Sqrt((X * X) + (Y * Y) + (Z * Z) + (W * W));
 end;
 
-function TNativeGLZQuaternion.Normalize : TNativeGLZQuaternion;
+procedure TNativeGLZQuaternion.Normalize;
 var
    m, f : Single;
 begin
@@ -2832,9 +2832,9 @@ begin
    if m>cEpsilon30 then
    begin
       f:=1/m;
-      Result.AsVector4f := Self.AsVector4f * f;
+      Self.AsVector4f := Self.AsVector4f * f;
    end
-   else Result:=NativeIdentityQuaternion;
+   else Self:=NativeIdentityQuaternion;
 end;
 
 {%region%====[ Commons functions ]==============================================}
@@ -3151,7 +3151,7 @@ begin
    Result.RealPart       := scale0 * Self.RealPart       + scale1 * to1[3];
    //NormalizeQuaternion(Result);
    //Result.pNormalize;
-   Result := Result.Normalize;
+   Result.Normalize;
 end;
 
 { Constructs a rotation matrix from (possibly non-unit) quaternion.

@@ -578,8 +578,8 @@ type
     function Magnitude : Single;
 
     // Normalizes the given quaternion
-    function Normalize : TNativeGLZQuaternion;
-    //procedure pNormalize;
+    procedure Normalize;
+
     // Applies rotation to V around local axes.
     function Transform(constref V: TNativeGLZVector): TNativeGLZVector;
 

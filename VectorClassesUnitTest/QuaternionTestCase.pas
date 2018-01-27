@@ -68,9 +68,9 @@ end;
 
 procedure TQuaternionTestCase.TestNormalize;
 begin
-  nqt3 := nqt1.Normalize;
-  qt3 := qt1.Normalize;
-  AssertTrue('Quaternion Normalize no match'+nqt3.ToString+' --> '+qt3.ToString, CompareQuaternion(nqt3,qt3,1e-2));
+  nqt1.Normalize;
+  qt1.Normalize;
+  AssertTrue('Quaternion Normalize no match'+nqt3.ToString+' --> '+qt3.ToString, CompareQuaternion(nqt1,qt1,1e-2));
 end;
 
 procedure TQuaternionTestCase.TestMultiplyAsSecond;

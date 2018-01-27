@@ -29,7 +29,13 @@ type
       procedure TestCreateEulerOrder;
       procedure TestConjugate;
       procedure TestOpMul;
-      //procedure Test;
+      procedure TestOpEquals;
+      procedure TestOpNotEquals;
+      procedure TestMagnitude;
+      procedure TestNormalize;
+      procedure TestMultiplyAsSecond;
+      procedure TestSlerpSingle;
+      procedure TestSlerpSpin;
       //procedure Test;
       //procedure Test;
       //procedure Test;
@@ -607,6 +613,151 @@ begin
    AssertEquals('TestOpMul:Sub120 W failed ',  0.0, aqt2.W);
 
 end;
+
+procedure TQuaternionFunctionalTestCase.TestOpEquals;
+begin
+   aqt1.Create(120,60,180,240);
+   aqt2.Create(120,60,180,240);
+   nb := aqt1 = aqt2;
+   AssertEquals('OpEquality:Sub1 does not match ', True, nb);
+   aqt2.Create(120,60,179,240);
+   nb := aqt1 = aqt2;
+   AssertEquals('OpEquality:Sub2 should not match ', False, nb);
+   aqt2.Create(120,61,180,240);
+   nb := aqt1 = aqt2;
+   AssertEquals('OpEquality:Sub3 should not match ', False, nb);
+   aqt2.Create(119,60,180,240);
+   nb := aqt1 = aqt2;
+   AssertEquals('OpEquality:Sub4 should not match ', False, nb);
+   aqt2.Create(120,60,180,241);
+   nb := aqt1 = aqt2;
+   AssertEquals('OpEquality:Sub5 should not match ', False, nb);
+end;
+
+procedure TQuaternionFunctionalTestCase.TestOpNotEquals;
+begin
+   aqt1.Create(120,60,180,240);
+   aqt2.Create(120,60,180,240);
+   nb := aqt1 <> aqt2;
+   AssertEquals('OpNotEquals:Sub1 should not match ', False, nb);
+   aqt2.Create(120,60,123,240);
+   nb := aqt1 <> aqt2;
+   AssertEquals('OpNotEquals:Sub2 does not match ', True, nb);
+   aqt2.Create(120,61,180,240);
+   nb := aqt1 <> aqt2;
+   AssertEquals('OpNotEquals:Sub3 does not match ', True, nb);
+   aqt2.Create(119,60,180,240);
+   nb := aqt1 <> aqt2;
+   AssertEquals('OpNotEquals:Sub4 does not match ', True, nb);
+   aqt2.Create(120,60,180,241);
+   nb := aqt1 <> aqt2;
+   AssertEquals('OpNotEquals:Sub5 does not match ', True, nb);
+   aqt2.Create(121,61,181,241);
+   nb := aqt1 <> aqt2;
+   AssertEquals('OpNotEquals:Sub6 does not match ', True, nb);
+end;
+
+procedure TQuaternionFunctionalTestCase.TestMagnitude;
+begin
+   // Sqrt(4 * 4 ) = 4
+  aqt1.Create(2,2,2,2);
+  fs1 := aqt1.Magnitude;
+  AssertEquals('Magnitude:Sub1 X failed ',  4, fs1);
+end;
+
+procedure TQuaternionFunctionalTestCase.TestNormalize;
+begin
+  aqt1.Create(2,2,2,2);
+  aqt1.Normalize;
+  AssertEquals('Normalize:Sub1 X failed ',  0.5, aqt1.X);
+  AssertEquals('Normalize:Sub2 Y failed ',  0.5, aqt1.Y);
+  AssertEquals('Normalize:Sub3 Z failed ',  0.5, aqt1.Z);
+  AssertEquals('Normalize:Sub4 W failed ',  0.5, aqt1.W);
+  aqt1.Create(-2,2,-2,2);
+  aqt1.Normalize;
+  AssertEquals('Normalize:Sub5 X failed ', -0.5, aqt1.X);
+  AssertEquals('Normalize:Sub6 Y failed ',  0.5, aqt1.Y);
+  AssertEquals('Normalize:Sub7 Z failed ', -0.5, aqt1.Z);
+  AssertEquals('Normalize:Sub8 W failed ',  0.5, aqt1.W);
+  aqt1.Create(2,-2,2,-2);
+  aqt1.Normalize;
+  AssertEquals('Normalize:Sub9 X failed ',   0.5, aqt1.X);
+  AssertEquals('Normalize:Sub10 Y failed ', -0.5, aqt1.Y);
+  AssertEquals('Normalize:Sub11 Z failed ',  0.5, aqt1.Z);
+  AssertEquals('Normalize:Sub12 W failed ', -0.5, aqt1.W);
+end;
+
+procedure TQuaternionFunctionalTestCase.TestMultiplyAsSecond;
+begin
+   aqt1.Create(90, ZVector);
+  // should be a positive rotation in Z
+  AssertEquals('MultiplyAsSecond:Sub1 X failed ', 0.0, aqt1.X);
+  AssertEquals('MultiplyAsSecond:Sub2 Y failed ', 0.0, aqt1.Y);
+  AssertEquals('MultiplyAsSecond:Sub3 Z failed ', 0.707106781187, aqt1.Z);
+  AssertEquals('MultiplyAsSecond:Sub4 W failed ', 0.707106781187, aqt1.W);
+    aqt2.Create(90, XVector);
+  // should be a positive rotation in
+  AssertEquals('MultiplyAsSecond:Sub5 X failed ', 0.707106781187, aqt2.X);
+  AssertEquals('MultiplyAsSecond:Sub6 Y failed ', 0.0, aqt2.Y);
+  AssertEquals('MultiplyAsSecond:Sub7 Z failed ', 0.0, aqt2.Z);
+  AssertEquals('MultiplyAsSecond:Sub8 W failed ', 0.707106781187, aqt2.W);
+  aqt4 := aqt1 * aqt2;
+  AssertEquals('MultiplyAsSecond:Sub9 X failed ',  0.5, aqt4.X);
+  AssertEquals('MultiplyAsSecond:Sub10 Y failed ',  0.5, aqt4.Y);
+  AssertEquals('MultiplyAsSecond:Sub11 Z failed ',  0.5, aqt4.Z);
+  AssertEquals('MultiplyAsSecond:Sub12 W failed ',  0.5, aqt4.W);
+  aqt4 :=  aqt2.MultiplyAsSecond(aqt1);   // equiv to aqt1 * aqt2;
+  AssertEquals('MultiplyAsSecond:Sub13 X failed ',  0.5, aqt4.X);
+  AssertEquals('MultiplyAsSecond:Sub14 Y failed ',  0.5, aqt4.Y);
+  AssertEquals('MultiplyAsSecond:Sub15 Z failed ',  0.5, aqt4.Z);
+  AssertEquals('MultiplyAsSecond:Sub16 W failed ',  0.5, aqt4.W);
+end;
+
+procedure TQuaternionFunctionalTestCase.TestSlerpSingle;
+begin
+   aqt1.AsVector4f := WHmgVector;  // null rotation as start point.
+   aqt2.Create(90,ZVector);
+   aqt4 := aqt1.Slerp(aqt2,0.5); // [ 0, 0, 0.3826834, 0.9238795 ]
+   AssertEquals('SlerpSingle:Sub1 X failed ', 0.0, aqt4.X);
+   AssertEquals('SlerpSingle:Sub2 Y failed ', 0.0, aqt4.Y);
+   AssertEquals('SlerpSingle:Sub3 Z failed ', 0.3826834, aqt4.Z);
+   AssertEquals('SlerpSingle:Sub4 W failed ', 0.9238795, aqt4.W);
+   aqt4 := aqt1.Slerp(aqt2,1/3); // [ 0, 0, 0.258819, 0.9659258 ]
+   AssertEquals('SlerpSingle:Sub5 X failed ', 0.0, aqt4.X);
+   AssertEquals('SlerpSingle:Sub6 Y failed ', 0.0, aqt4.Y);
+   AssertEquals('SlerpSingle:Sub7 Z failed ', 0.258819, aqt4.Z);
+   AssertEquals('SlerpSingle:Sub8 W failed ', 0.9659258, aqt4.W);
+   aqt4 := aqt1.Slerp(aqt2,2/3); // [ 0, 0, 0.5, 0.8660254 ]
+   AssertEquals('SlerpSingle:Sub9 X failed ', 0.0, aqt4.X);
+   AssertEquals('SlerpSingle:Sub10 Y failed ', 0.0, aqt4.Y);
+   AssertEquals('SlerpSingle:Sub11 Z failed ', 0.5, aqt4.Z);
+   AssertEquals('SlerpSingle:Sub12 W failed ', 0.8660254, aqt4.W);
+end;
+
+procedure TQuaternionFunctionalTestCase.TestSlerpSpin;
+begin
+//   aqt1.AsVector4f := WHmgVector;  // null rotation as start point.
+   aqt1.create(1e-14,ZVector);  // null rotation as start point.
+   aqt2.Create(90,ZVector); // 90 + 360 = 450
+   aqt4 := aqt1.Slerp(aqt2, 2, 0.5); //  225  [ 0, 0, 0.9238795, -0.3826834 ]
+   AssertEquals('SlerpSingle:Sub1 X failed ', 0.0, aqt4.X);
+   AssertEquals('SlerpSingle:Sub2 Y failed ', 0.0, aqt4.Y);
+   AssertEquals('SlerpSingle:Sub3 Z failed ', 0.9238795, aqt4.Z);
+   AssertEquals('SlerpSingle:Sub4 W failed ', -0.3826834, aqt4.W);
+   aqt4 := aqt1.Slerp(aqt2,2,2/9); // 100  [ 0, 0, 0.7660444, 0.6427876 ]
+   AssertEquals('SlerpSingle:Sub5 X failed ', 0.0, aqt4.X);
+   AssertEquals('SlerpSingle:Sub6 Y failed ', 0.0, aqt4.Y);
+   AssertEquals('SlerpSingle:Sub7 Z failed ', 0.7660444, aqt4.Z);
+   AssertEquals('SlerpSingle:Sub8 W failed ', 0.6427876, aqt4.W);
+   aqt4 := aqt1.Slerp(aqt2,2,8/9); // 400  [ 0, 0, -0.3420201, -0.9396926 ]
+   AssertEquals('SlerpSingle:Sub9 X failed ',   0.0, aqt4.X);
+   AssertEquals('SlerpSingle:Sub10 Y failed ',  0.0, aqt4.Y);
+   AssertEquals('SlerpSingle:Sub11 Z failed ', -0.3420201, aqt4.Z);
+   AssertEquals('SlerpSingle:Sub12 W failed ', -0.9396926, aqt4.W);
+
+end;
+
+
 
 
 

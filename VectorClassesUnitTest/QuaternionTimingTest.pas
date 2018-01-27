@@ -88,11 +88,11 @@ begin
   TestDispName := 'Quaternion Normalize';
   GlobalProfiler[0].Clear;
   GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin nqt3 := nqt1.Normalize; end;
+  for cnt := 1 to Iterations do begin nqt1.Normalize; end;
   GlobalProfiler[0].Stop;
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;
-  For cnt:= 1 to Iterations do begin qt3 := qt1.Normalize; end;
+  For cnt:= 1 to Iterations do begin qt1.Normalize; end;
   GlobalProfiler[1].Stop;
 end;
 
