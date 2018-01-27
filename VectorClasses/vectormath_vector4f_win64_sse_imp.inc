@@ -537,15 +537,15 @@ asm
        movaps xmm0, [A]
        andps xmm1, [RIP+cSSE_MASK_NO_W]
        mulps xmm0, xmm1
-       {$ifdef TEST}
+      // {$ifdef TEST}
          movshdup    xmm1, xmm0
          addps       xmm0, xmm1
          movhlps     xmm1, xmm0
          addss       xmm0, xmm1
-       {$else}
-         haddps xmm0, xmm0
-         haddps xmm0, xmm0
-       {$endif}
+      // {$else}
+         //haddps xmm0, xmm0
+         //haddps xmm0, xmm0
+      // {$endif}
        // movss [RESULT], xmm1
     {$ELSE}
       movaps xmm0,[RCX]
@@ -1018,7 +1018,6 @@ asm
   addps xmm0, xmm4 // ((Self * F1) + (V2 * F2)) + (V3 * F3)
 
   andps xmm0, [RIP+cSSE_MASK_NO_W]
-  //movhlps xmm1,xmm0
   movups [RESULT], xmm0
 end;
 

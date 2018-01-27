@@ -269,52 +269,156 @@ asm
   movaps [RESULT], xmm5
 end;
 
-function TGLZQuaternion.Slerp(const QEnd: TGLZQuaternion; Spin: Integer; t: Single): TGLZQuaternion;
+
+(*function Slerp(const q1,q2: TQuaternion; value:single):TQuaternion;
 var
+omega, cosom, sinom, scale0, scale1:single;
+i:integer;
+q2o:TQuaternion;
+begin
+
+
+
+//Adjust signs (if necessary)
+if cosom < 0 then
+begin
+cosom := -cosom;
+q2o.x := -q2.x;
+q2o.y := -q2.y;
+q2o.z := -q2.z;
+q2o.w := -q2.w;
+end
+else
+begin
+q2o := q2;
+end;
+
+
+//Calculate coefficients
+if (1-cosom) > EPSILON then
+begin
+//Standard case (slerp)
+omega := arccos(cosom);
+sinom := sin(omega);
+scale0 := sin( (1-value) * omega) / sinom;
+scale1 := sin( value*omega ) / sinom;
+end
+else
+begin
+//"from" and "to" quaternions are very close
+//... so we can do a linear interpolation
+scale0 := 1-value;
+scale1 := value;
+end;
+
+//Calculate final values
+result.x := scale0 * q1.x + scale1 * q2o.x;
+result.y := scale0 * q1.y + scale1 * q2o.y;
+result.z := scale0 * q1.z + scale1 * q2o.z;
+result.w := scale0 * q1.w + scale1 * q2o.w;
+
+end; *)
+
+
+
+(*var
     beta,                   // complementary interp parameter
     theta,                  // Angle between A and B
     sint, cost,             // sine, cosine of theta
     phi: Single;            // theta plus spins
     bflip: Boolean;         // use negativ t?
+    qo : TGLZQuaternion;
 begin
-  // cosine theta
-  cost:=Self.AsVector4f.AngleCosine(QEnd.AsVector4f);
 
-   // if QEnd is on opposite hemisphere from QStart, use -QEnd instead
+  //Calc cosine
+  //cost := Self.x*qEnd.x + Self.y*qEnd.y + Self.z*QEnd.z + Self.w*qEnd.w;
+  //cost:=Self.AsVector4f.AngleCosine(QEnd.AsVector4f);
+   cost:= Self.ImagePart.X*QEnd.ImagePart.X
+          +Self.ImagePart.Y*QEnd.ImagePart.Y
+          +Self.ImagePart.Z*QEnd.ImagePart.Z
+	  +Self.RealPart*QEnd.RealPart;
+
+   qO := qEnd;
+   //if cost < 0 then
+   //begin
+   //   cost:=-cost;
+   //   //qO := -qEnd;
+   //   bflip:=True;
+   //end
+   //else
+     bflip:=False;
+
+   //  if QEnd is on opposite hemisphere from QStart, use -QEnd instead
+   //  Adjust signs (if necessary)
    if cost < 0 then
    begin
-      cost:=-cost;
-      bflip:=True;
+     cost := -cost;
+
+     qo.x := -qEnd.x;
+     qo.y := -qEnd.y;
+     qo.z := -qEnd.z;
+     qo.w := -qEnd.w;
+
+     bflip := true;
    end
    else
-     bflip:=False;
+   begin
+     qo := qEnd;
+     bflip := false;
+   end;
 
    // if QEnd is (within precision limits) the same as QStart,
    // just linear interpolate between QStart and QEnd.
    // Can't do spins, since we don't know what direction to spin.
-
+   //if not(bflip) then t:=-t;
    if (1 - cost) < cEpsilon then
    begin
-      beta:=1 - t
+      beta:= 1 - t;
+      t:=-t;
    end
    else
    begin
       // normal case
       theta:=arccos(cost);
       phi:=theta + Spin * Pi;
-      sint:=sin(theta);
-      beta:=sin(theta - t * phi) / sint;
-      t:=sin(t * phi) / sint;
+      sint:=1/sin(theta);
+      //t:=-t;
+      beta:=sin(theta - t * phi) * sint;
+      t:=sin(t * phi) * sint;
+
    end;
 
-   if bflip then t:=-t;
+
+   //Calculate coefficients
+(*   if (1-cost) > cEPSILON then
+   begin
+     //Standard case (slerp)
+     theta := arccos(cost);
+
+     phi:=theta + Spin * cPi;
+
+     sint := sin(phi);
+     beta := sin( (1-t) * phi) / sint;
+     t := sin( t*phi ) / sint;
+     // beta:=sin(theta - t * phi) / sint;
+     //t:=sin(t * phi) / sint;
+   end
+   else
+   begin
+     //"from" and "to" quaternions are very close
+     //... so we can do a linear interpolation
+     beta := 1-t;
+     //t := t;
+   end;  *)
 
    // interpolate
-   Result.ImagePart.X:=beta * Self.ImagePart.X + t * QEnd.ImagePart.X;
-   Result.ImagePart.Y:=beta * Self.ImagePart.Y + t * QEnd.ImagePart.Y;
-   Result.ImagePart.Z:=beta * Self.ImagePart.Z + t * QEnd.ImagePart.Z;
-   Result.RealPart:=beta * Self.RealPart + t * QEnd.RealPart;
-end;
+   Result.ImagePart.X:=beta * Self.ImagePart.X + t * Qo.ImagePart.X;
+   Result.ImagePart.Y:=beta * Self.ImagePart.Y + t * Qo.ImagePart.Y;
+   Result.ImagePart.Z:=beta * Self.ImagePart.Z + t * Qo.ImagePart.Z;
+   Result.RealPart:=-(beta * Self.RealPart + t * Qo.RealPart);
+
+   //Result.Normalize;
+end; *)
 
 function TGLZQuaternion.Slerp(const QEnd: TGLZQuaternion; const t : Single) : TGLZQuaternion;
 var
@@ -324,10 +428,10 @@ var
 // absolute rotations
 begin
    // calc cosine
-   cosom:= Self.ImagePart.V[0]*QEnd.ImagePart.X
-          +Self.ImagePart.V[1]*QEnd.ImagePart.Y
-          +Self.ImagePart.V[2]*QEnd.ImagePart.Z
-	  +Self.RealPart   *QEnd.RealPart;
+   cosom:= Self.ImagePart.X*QEnd.ImagePart.X
+          +Self.ImagePart.Y*QEnd.ImagePart.Y
+          +Self.ImagePart.Z*QEnd.ImagePart.Z
+	  +Self.RealPart*QEnd.RealPart;
    // adjust signs (if necessary)
    if cosom<0 then
    begin
@@ -345,7 +449,7 @@ begin
       to1[3] := QEnd.RealPart;
    end;
    // calculate coefficients
-   if ((1.0-cosom)>cEpsilon30) then // standard case (slerp)
+   if ((1.0-cosom)>cEpsilon) then // standard case (slerp)
    begin
       omega:=GLZMath.ArcCos(cosom);
       sinom:=1/Sin(omega);
@@ -355,7 +459,7 @@ begin
    else  // "from" and "to" quaternions are very close
    begin
       //  ... so we can do a linear interpolation
-      scale0:=1.0-t;
+      scale0:=1.0-t; //1.0-t;
       scale1:=t;
    end;
    // calculate final values
@@ -366,6 +470,62 @@ begin
    //NormalizeQuaternion(Result);
    //Result.pNormalize;
    Result.Normalize;
+end;
+
+function TGLZQuaternion.Slerp(const QEnd: TGLZQuaternion; Spin: Integer; t: Single): TGLZQuaternion;
+//var
+//   to1: array[0..4] of Single;
+//   phi,omega, cosom, sinom, scale0, scale1: Extended;
+// t goes from 0 to 1
+// absolute rotations
+begin
+   Result := Self.Slerp(Qend,t*spin);
+   // calc cosine
+ (*  cosom:= Self.ImagePart.X*QEnd.ImagePart.X
+          +Self.ImagePart.Y*QEnd.ImagePart.Y
+          +Self.ImagePart.Z*QEnd.ImagePart.Z
+	  +Self.RealPart*QEnd.RealPart;
+   // adjust signs (if necessary)
+   if cosom<0 then
+   begin
+      cosom := -cosom;
+      to1[0] := - QEnd.ImagePart.X;
+      to1[1] := - QEnd.ImagePart.Y;
+      to1[2] := - QEnd.ImagePart.Z;
+      to1[3] := - QEnd.RealPart;
+   end
+   else
+   begin
+      to1[0] := QEnd.ImagePart.X;
+      to1[1] := QEnd.ImagePart.Y;
+      to1[2] := QEnd.ImagePart.Z;
+      to1[3] := QEnd.RealPart;
+   end;
+   // calculate coefficients
+   if ((1.0-cosom)>cEpsilon) then
+   begin
+      //Cosom := Cosom
+      omega:=GLZMath.ArcCos(cosom);
+      Omega :=(Omega + DegToRadian(Spin*360));
+      sinom:=1/Sin(omega);
+      phi:=omega;// + Spin * cPi;
+      scale0:=sin(omega - t * phi) * sinom;
+      scale1:=sin(t * phi) * sinom;
+      //scale0:=Sin((1.0-t)*omega)*sinom;
+      //scale1:=Sin(t*omega)*sinom;
+   end
+   else  // "from" and "to" quaternions are very close
+   begin
+      //  ... so we can do a linear interpolation
+      scale0:=1.0-t;
+      scale1:=t;
+   end;
+   // calculate final values
+   Result.ImagePart.V[0] := scale0 * Self.ImagePart.V[0] + scale1 * to1[0];
+   Result.ImagePart.V[1] := scale0 * Self.ImagePart.V[1] + scale1 * to1[1];
+   Result.ImagePart.V[2] := -(scale0 * Self.ImagePart.V[2] + scale1 * to1[2]); // Don't understand why we need negate here
+   Result.RealPart := (scale0 * Self.RealPart + scale1 * to1[3]);
+   Result.Normalize;*)
 end;
 
 
