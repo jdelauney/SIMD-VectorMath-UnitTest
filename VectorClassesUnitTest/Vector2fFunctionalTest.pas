@@ -6,7 +6,7 @@ unit Vector2fFunctionalTest;
 interface
 
 uses
-  Classes, SysUtils, fpcunit, testregistry, BaseTestCase,
+  Classes, SysUtils, math, fpcunit, testregistry, BaseTestCase,
   GLZVectorMath;
 
 type
@@ -617,12 +617,16 @@ procedure TVector2fFunctionalTest.TestCeil;
 begin
   vtt1.Create(5.699999,6.699999);
   vt2i :=  vtt1.Ceil;
-  AssertEquals('Ceil:Sub1 X failed ', 6, vt2i.X);
-  AssertEquals('Ceil:Sub2 Y failed ', 7, vt2i.Y);
+  fs1 := Math.Ceil(vtt1.X);
+  fs2 := Math.Ceil(vtt1.y);
+  AssertEquals('Ceil:Sub1 X failed ', fs1, vt2i.X);
+  AssertEquals('Ceil:Sub2 Y failed ', fs2, vt2i.Y);
   vtt1.Create(-5.699999,-6.699999);
   vt2i :=  vtt1.Ceil;
-  AssertEquals('Ceil:Sub3 X failed ', -5, vt2i.X);
-  AssertEquals('Ceil:Sub4 Y failed ', -6, vt2i.Y);
+  fs1 := Math.Ceil(vtt1.X);
+  fs2 := Math.Ceil(vtt1.y);
+  AssertEquals('Ceil:Sub3 X failed ', fs1, vt2i.X);
+  AssertEquals('Ceil:Sub4 Y failed ', fs2, vt2i.Y);
 end;
 
 procedure TVector2fFunctionalTest.TestFract;
