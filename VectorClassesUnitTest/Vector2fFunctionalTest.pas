@@ -24,6 +24,7 @@ type
       procedure TestOpSubSingle;
       procedure TestOpDivSingle;
       procedure TestOpMulSingle;
+      procedure TestOpMul2i;
       procedure TestOpNegate;
       procedure TestEquals;
       procedure TestNotEquals;
@@ -45,6 +46,12 @@ type
       procedure TestAngleCosine;
       procedure TestTrunc;
       procedure TestRound;
+      procedure TestFloor;
+      procedure TestCeil;
+      procedure TestFract;
+      procedure TestSqrt;
+      procedure TestModF;
+      procedure TestfMod;
   end;
 
 implementation
@@ -152,6 +159,19 @@ begin
   vtt3 := vtt2 * 3;
   AssertEquals('OpMulSingle:Sub3 X failed ', 9.0, vtt3.X);
   AssertEquals('OpMulSingle:Sub4 Y failed ', 6.0, vtt3.Y);
+end;
+
+procedure TVector2fFunctionalTest.TestOpMul2i;
+begin
+  vtt1.Create(1.234,2.345);
+  vt2i.X := 2;
+  vt2i.Y := 2;
+  vtt2 := vtt1 * vt2i;
+  AssertEquals('Mul2i:Sub1 X failed ',  2.468, vtt2.X);
+  AssertEquals('Mul2i:Sub2 Y failed ',  4.69, vtt2.Y);
+  vtt2 := -vtt1 * vt2i;
+  AssertEquals('Mul2i:Sub3 X failed ', -2.468, vtt2.X);
+  AssertEquals('Mul2i:Sub4 Y failed ', -4.69, vtt2.Y);
 end;
 
 procedure TVector2fFunctionalTest.TestOpNegate;
@@ -579,6 +599,72 @@ begin
   vt2i :=  vtt1.Round;
   AssertEquals('Round:Sub3 X failed ', 2, vt2i.X);
   AssertEquals('Round:Sub4 Y failed ', 2, vt2i.Y);
+end;
+
+procedure TVector2fFunctionalTest.TestFloor;
+begin
+  vtt1.Create(5.699999,6.699999);
+  vt2i :=  vtt1.Floor;
+  AssertEquals('Floor:Sub1 X failed ', 5, vt2i.X);
+  AssertEquals('Floor:Sub2 Y failed ', 6, vt2i.Y);
+  vtt1.Create(-5.699999,-6.699999);
+  vt2i :=  vtt1.Floor;
+  AssertEquals('Floor:Sub3 X failed ', -6, vt2i.X);
+  AssertEquals('Floor:Sub4 Y failed ', -7, vt2i.Y);
+end;
+
+procedure TVector2fFunctionalTest.TestCeil;
+begin
+  vtt1.Create(5.699999,6.699999);
+  vt2i :=  vtt1.Ceil;
+  AssertEquals('Ceil:Sub1 X failed ', 6, vt2i.X);
+  AssertEquals('Ceil:Sub2 Y failed ', 7, vt2i.Y);
+  vtt1.Create(-5.699999,-6.699999);
+  vt2i :=  vtt1.Ceil;
+  AssertEquals('Ceil:Sub3 X failed ', -5, vt2i.X);
+  AssertEquals('Ceil:Sub4 Y failed ', -6, vt2i.Y);
+end;
+
+procedure TVector2fFunctionalTest.TestFract;
+begin
+  vtt1.Create(5.699999,6.699999);
+  vtt2 :=  vtt1.Fract;
+  fs1 := System.frac(vtt1.X);
+  fs2 := System.frac(vtt1.y);
+  AssertEquals('Fract:Sub1 X failed ', fs1, vtt2.X);
+  AssertEquals('Fract:Sub2 Y failed ', fs2, vtt2.Y);
+  vtt1.Create(-5.699999,-6.699999);
+  vtt2 :=  vtt1.Fract;
+  fs1 := System.frac(vtt1.X);
+  fs2 := System.frac(vtt1.y);
+  AssertEquals('Fract:Sub3 X failed ', fs1, vtt2.X);
+  AssertEquals('Fract:Sub4 Y failed ', fs2, vtt2.Y);
+end;
+
+procedure TVector2fFunctionalTest.TestSqrt;
+begin
+  vtt1.Create(4.0,9.0);
+  vtt2 :=  vtt1.Sqrt;
+  AssertEquals('Sqrt:Sub1 X failed ', 2.0, vtt2.X);
+  AssertEquals('Sqrt:Sub2 Y failed ', 3.0, vtt2.Y);
+end;
+
+procedure TVector2fFunctionalTest.TestModF;
+begin
+  vtt1.Create(4.0,9.0);
+  vtt2.Create(2,2);
+  vtt3 := vtt1.Modf(vtt2);
+  AssertEquals('Modf:Sub1 X failed ', 2.0, vtt2.X);
+  AssertEquals('Modf:Sub2 Y failed ', 3.0, vtt2.Y);
+end;
+
+procedure TVector2fFunctionalTest.TestfMod;
+begin
+  vtt1.Create(4.0,9.0);
+  vtt2.Create(2,2);
+  vt2i := vtt1.fMod(vtt2);
+  AssertEquals('fMod:Sub1 X failed ', 0.0, vt2i.X);
+  AssertEquals('fMod:Sub2 Y failed ', 1.0, vt2i.Y);
 end;
 
 initialization

@@ -53,6 +53,13 @@ asm
   mulps  xmm0, xmm1
 end;
 
+class operator TGLZVector2f.*(constref A:TGLZVector2f; Constref B: TGLZVector2i): TGLZVector2f; assembler; nostackframe; register;
+asm
+  movq     xmm0, [A]
+  cvtpi2ps xmm2, [B]
+  mulps    xmm0, xmm2
+end;
+
 class operator TGLZVector2f./(constref A: TGLZVector2f; constref B:Single): TGLZVector2f; assembler; nostackframe; register;
 asm
   movq   xmm0, [A]
@@ -206,5 +213,133 @@ asm
   cvtps2dq xmm0, xmm0
   movq     rax,  xmm0
 end;
+
+function TGLZVector2f.Floor: TGLZVector2i; assembler; nostackframe; register;
+asm
+  movq     xmm0, [RDI]
+  push     rax                               // create a mem area for mxcsr
+  stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
+  mov      eax, DWORD PTR [rsp]              // get it
+  mov      ecx, eax                          // make local copy   self is done with at this point
+  // smaller opcode no mem access required.
+  and      eax, $00009FFF
+  or       eax, $00002000;                    // Set bits Round Mask Down
+  //{$endif}
+  mov      DWORD PTR [rsp], eax              // mov bits to mem
+  ldmxcsr  DWORD PTR [rsp]                   // set new bits
+  cvtps2dq xmm0, xmm0
+  mov      DWORD PTR [rsp], ecx              // put old bits in mem
+  ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
+  pop      rax
+  movq     rax, xmm0
+end;
+
+function TGLZVector2f.Ceil : TGLZVector2i; assembler; nostackframe; register;
+asm
+  movq     xmm0, [RDI]
+  push     rax                               // create a mem area for mxcsr
+  stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
+  mov      eax,  DWORD PTR [rsp]              // get it
+  mov      ecx,  eax                          // make local copy   self is done with at this point
+  // smaller opcode no mem access required.
+  and      eax, $00009FFF
+  or       eax, $00004000;                    // Set bits Round Mask up
+  //{$endif}
+  mov      DWORD PTR [rsp], eax              // mov bits to mem
+  ldmxcsr  DWORD PTR [rsp]                   // set new bits
+  cvtps2dq xmm0, xmm0
+  mov      DWORD PTR [rsp], ecx              // put old bits in mem
+  ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
+  pop      rax
+  movq     rax, xmm0
+end;
+
+function TGLZVector2f.Fract : TGLZVector2f; assembler; nostackframe; register;
+asm
+  movq     xmm0, [RDI]
+  movaps   xmm1, xmm0
+  push     rax                               // create a mem area for mxcsr
+  stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
+  mov      eax,  DWORD PTR [rsp]              // get it
+  mov      ecx,  eax                          // make local copy   self is done with at this point
+  // smaller opcode no mem access required.
+  and      eax, $00009FFF
+  or       eax, $00006000                    // Set bits
+  mov      DWORD PTR [rsp], eax              // mov bits to mem
+  ldmxcsr  DWORD PTR [rsp]                   // set new bits
+  cvtps2dq xmm0, xmm0
+  mov      DWORD PTR [rsp], ecx              // put old bits in mem
+  ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
+  pop      rax
+  cvtdq2ps xmm0, xmm0
+  subps    xmm1, xmm0 // A - Trunc(A)
+end;
+
+function TGLZVector2f.Sqrt : TGLZVector2f; overload; assembler; nostackframe; register;
+asm
+  movq   xmm0, [RDI]
+  sqrtps xmm0, xmm0
+end;
+
+function TGLZVector2f.InvSqrt : TGLZVector2f; overload; assembler; nostackframe; register;
+asm
+  movq    xmm0,[RDI]
+  rsqrtps xmm0, xmm0
+end;
+
+function TGLZVector2f.Modf(constref A : TGLZVector2f): TGLZVector2f; assembler; nostackframe; register;
+asm
+  movq     xmm0, [RDI]
+  movaps   xmm1, xmm0
+  movq     xmm2, [A]
+  divps    xmm1, xmm2
+  push     rax                               // create a mem area for mxcsr
+  stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
+  mov      eax, DWORD PTR [rsp]              // get it
+  mov      ecx, eax                          // make local copy   self is done with at this point
+  // smaller opcode no mem access required.
+  and      eax, $00009FFF
+  or       eax, $00006000                    // Set bits
+  mov      DWORD PTR [rsp], eax              // mov bits to mem
+  ldmxcsr  DWORD PTR [rsp]                   // set new bits
+  cvtps2dq xmm1, xmm1
+  mov      DWORD PTR [rsp], ecx              // put old bits in mem
+  ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
+  pop      rax
+  cvtdq2ps xmm1, xmm1
+  mulps    xmm1, xmm2
+  subps    xmm0, xmm1 // A - Trunc(A)
+//  movq     rax, xmm1
+end;
+
+function TGLZVector2f.fMod(Constref A : TGLZVector2f): TGLZVector2i; assembler; nostackframe; register;
+asm
+  movq     xmm0, [RCX]
+  movaps   xmm1, xmm0
+  movq     xmm2, [A]
+
+  divps    xmm1, xmm2
+  push     rax                               // create a mem area for mxcsr
+  stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
+  mov      eax, DWORD PTR [rsp]              // get it
+  mov      ecx, eax                          // make local copy   self is done with at this point
+  // smaller opcode no mem access required.
+  and      eax, $00009FFF
+  or       eax, $00006000                    // Set bits
+  mov      DWORD PTR [rsp], eax              // mov bits to mem
+  ldmxcsr  DWORD PTR [rsp]                   // set new bits
+  cvtps2dq xmm1, xmm1
+  mov      DWORD PTR [rsp], ecx              // put old bits in mem
+  ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
+  pop      rax
+
+  cvtdq2ps xmm1, xmm1
+  mulps    xmm1, xmm2
+  subps    xmm0, xmm1 // A - Trunc(A)
+  cvtps2dq xmm0, xmm0
+//  movq rax, xmm1
+end;
+
+
 
 {%endregion%}
