@@ -37,8 +37,9 @@ type
       procedure TestSlerpSingle;
       procedure TestSlerpSpin;
       procedure TestConvertToMatrix;
+      procedure TestCreateMatrix;
       procedure TestTransform;
-      //procedure Test;
+      procedure TestScale;
   end;
 
 implementation
@@ -736,24 +737,24 @@ end;
 
 procedure TQuaternionFunctionalTestCase.TestSlerpSpin;
 begin
-//   aqt1.AsVector4f := WHmgVector;  // null rotation as start point.
-   aqt1.create(1e-14,ZVector);  // null rotation as start point.
-   aqt2.Create(90,ZVector); // 90  = 90
-   aqt4 := aqt1.Slerp(aqt2, 2, 0.5); //  90 [ 0, 0, 0.7071068, 0.7071068 ]
-   AssertEquals('SlerpSpin:Sub1 X failed ', 0.0, aqt4.X);
-   AssertEquals('SlerpSpin:Sub2 Y failed ', 0.0, aqt4.Y);
-   AssertEquals('SlerpSpin:Sub3 Z failed ', 0.7071068, aqt4.Z);
-   AssertEquals('SlerpSpin:Sub4 W failed ', 0.7071068, aqt4.W);
-   aqt4 := aqt1.Slerp(aqt2,2,2/9); // 40  [ 0, 0, 0.3420185, 0.9396932 ]
-   AssertEquals('SlerpSpin:Sub5 X failed ', 0.0, aqt4.X);
-   AssertEquals('SlerpSpin:Sub6 Y failed ', 0.0, aqt4.Y);
-   AssertEquals('SlerpSpin:Sub7 Z failed ',  0.3420185, aqt4.Z);
-   AssertEquals('SlerpSpin:Sub8 W failed ', 0.9396932, aqt4.W);
-   aqt4 := aqt1.Slerp(aqt2,2,8/9); // 160  [ 0, 0, 0.9848078, 0.1736482 ]
-   AssertEquals('SlerpSpin:Sub9 X failed ',   0.0, aqt4.X);
-   AssertEquals('SlerpSpin:Sub10 Y failed ',  0.0, aqt4.Y);
-   AssertEquals('SlerpSpin:Sub11 Z failed ', 0.9848078, aqt4.Z);
-   AssertEquals('SlerpSpin:Sub12 W failed ', 0.1736482, aqt4.W);
+  //   aqt1.AsVector4f := WHmgVector;  // null rotation as start point.
+  aqt1.create(1e-14,ZVector);  // null rotation as start point.
+  aqt2.Create(90,ZVector); // 90  = 90
+  aqt4 := aqt1.Slerp(aqt2, 2, 0.5); //  90 [ 0, 0, 0.7071068, 0.7071068 ]
+  AssertEquals('SlerpSpin:Sub1 X failed ', 0.0, aqt4.X);
+  AssertEquals('SlerpSpin:Sub2 Y failed ', 0.0, aqt4.Y);
+  AssertEquals('SlerpSpin:Sub3 Z failed ', 0.7071068, aqt4.Z);
+  AssertEquals('SlerpSpin:Sub4 W failed ', 0.7071068, aqt4.W);
+  aqt4 := aqt1.Slerp(aqt2,2,2/9); // 40  [ 0, 0, 0.3420185, 0.9396932 ]
+  AssertEquals('SlerpSpin:Sub5 X failed ', 0.0, aqt4.X);
+  AssertEquals('SlerpSpin:Sub6 Y failed ', 0.0, aqt4.Y);
+  AssertEquals('SlerpSpin:Sub7 Z failed ',  0.3420185, aqt4.Z);
+  AssertEquals('SlerpSpin:Sub8 W failed ', 0.9396932, aqt4.W);
+  aqt4 := aqt1.Slerp(aqt2,2,8/9); // 160  [ 0, 0, 0.9848078, 0.1736482 ]
+  AssertEquals('SlerpSpin:Sub9 X failed ',   0.0, aqt4.X);
+  AssertEquals('SlerpSpin:Sub10 Y failed ',  0.0, aqt4.Y);
+  AssertEquals('SlerpSpin:Sub11 Z failed ', 0.9848078, aqt4.Z);
+  AssertEquals('SlerpSpin:Sub12 W failed ', 0.1736482, aqt4.W);
 end;
 
 procedure TQuaternionFunctionalTestCase.TestConvertToMatrix;
@@ -811,7 +812,85 @@ begin
   AssertEquals('ConvertToMatrix:Sub40 m44 failed ',  1.0, Mat.m44);
 end;
 
+// NOTE -0 will change signs and break tests. As pascal
+// seems to strip -0 to 0 at some point these negations
+// may or may not cause inverse of ans which for a
+// quaterion is the same rotation. It just breaks tests.
+// Therefore avoid -0 in tests.
+procedure TQuaternionFunctionalTestCase.TestCreateMatrix;
+var mat : TGLZMatrix;
+begin
+  // < 0 on diag   m11 is largest
+  //[  0.6479819,  0.7454178, -0.1564345;
+  //   0.7312050, -0.5513194,  0.4017290;
+  //   0.2132106, -0.3746988, -0.9022982 ] //uses row0
+  mat.V[0].Create( 0.6479819,  0.7454178, -0.1564345, 0);
+  mat.V[1].Create( 0.7312050, -0.5513194,  0.4017290, 0);
+  mat.V[2].Create( 0.2132106, -0.3746988, -0.9022982, 0);
+  mat.V[3].Create(0,0,0,1);
+  aqt1.Create(mat);   //  [ 0.8805679, 0.4192246, 0.0161192, -0.2204338 ]
+  AssertEquals('CreateMatrix:Sub1 X failed ',  0.8805679, aqt1.X);
+  AssertEquals('CreateMatrix:Sub2 Y failed ',  0.4192246, aqt1.Y);
+  AssertEquals('CreateMatrix:Sub3 Z failed ',  0.0161192, aqt1.Z);
+  AssertEquals('CreateMatrix:Sub4 W failed ', -0.2204338, aqt1.W);
 
+  // < 0 on diag   m11 = m22 m22 > m33
+  //[  0.0000000,  1.0000000,  0.0000000;
+  //   0.7071068,  0.0000000,  0.7071068;
+  //   0.7071068,  0.0000000, -0.7071068 ] // uses row 1
+  mat.V[0].Create( 0.0000000,  1.0000000,  0.0000000, 0);
+  mat.V[1].Create( 0.7071068,  0.0000000,  0.7071068, 0);
+  mat.V[2].Create( 0.7071068,  0.0000000, -0.7071068, 0);
+  mat.V[3].Create(0,0,0,1);
+  aqt1.Create(mat);   //  [ 0.6532815, 0.6532815, 0.2705981, -0.2705981 ]
+  AssertEquals('CreateMatrix:Sub5 X failed ',  0.6532815, aqt1.X);
+  AssertEquals('CreateMatrix:Sub6 Y failed ',  0.6532815, aqt1.Y);
+  AssertEquals('CreateMatrix:Sub7 Z failed ',  0.2705981, aqt1.Z);
+  AssertEquals('CreateMatrix:Sub8 W failed ', -0.2705981, aqt1.W);
+
+  // 0 on diag  m11 = m22 = m33  drop through to bottom
+  //[  0.0000000, -1.0000000, -0.0000000;
+  //   0.0000000,  0.0000000, -1.0000000;
+  //   1.0000000,  0.0000000,  0.0000000 ]  // uses Row2
+  mat.V[0].Create(0,-1,0,0);
+  mat.V[1].Create(0,0,-1,0);
+  mat.V[2].Create(1,0,0,0);
+  mat.V[3].Create(0,0,0,1);
+  aqt1.Create(mat);   //  [ 0.5, -0.5, 0.5, 0.5 ]
+  AssertEquals('CreateMatrix:Sub9 X failed ',  0.5, aqt1.X);
+  AssertEquals('CreateMatrix:Sub10 Y failed ', -0.5, aqt1.Y);
+  AssertEquals('CreateMatrix:Sub11 Z failed ',  0.5, aqt1.Z);
+  AssertEquals('CreateMatrix:Sub12 W failed ',  0.5, aqt1.W);
+
+  // > 0 on diag
+  //[  0.0000000, -1.0000000,  0.0000000;
+  // 1.0000000,  0.0000000,  0.0000000;        orthogonal but uses
+  // 0.0000000,  0.0000000,  1.0000000 ]   default path due to m33 being non 0
+  mat.V[0].Create(0,-1,0,0);
+  mat.V[1].Create(1,0,0,0);
+  mat.V[2].Create(0,0,1,0);
+  mat.V[3].Create(0,0,0,1);
+  aqt1.Create(mat);  //  [ 0, 0, 0.7071068, 0.7071068 ]
+  AssertEquals('CreateMatrix:Sub13 X failed ', 0.0, aqt1.X);
+  AssertEquals('CreateMatrix:Sub14 Y failed ', 0.0, aqt1.Y);
+  AssertEquals('CreateMatrix:Sub15 Z failed ', 0.707106781187, aqt1.Z);
+  AssertEquals('CreateMatrix:Sub16 W failed ', 0.707106781187, aqt1.W);
+
+  // > 0 on diag
+  // use matrix from above
+  // [  0.7390738, -0.5369685,  0.4067366;
+  //    0.6433555,  0.7416318, -0.1899368;
+  //   -0.1996588,  0.4020536,  0.8935823 ] as 3f   // Uses default top path
+  mat.V[0].Create(0.7390738, -0.5369685,  0.4067366, 0);
+  mat.V[1].Create(0.6433555,  0.7416318, -0.1899368, 0);
+  mat.V[2].Create(-0.1996588, 0.4020536,  0.8935823, 0);
+  mat.V[3].Create(0,0,0,1);
+  aqt1.Create(mat);
+  AssertEquals('CreateMatrix:Sub17 X failed ', 0.1611364, aqt1.X);
+  AssertEquals('CreateMatrix:Sub18 Y failed ', 0.1650573, aqt1.Y);
+  AssertEquals('CreateMatrix:Sub19 Z failed ', 0.3212774, aqt1.Z);
+  AssertEquals('CreateMatrix:Sub20 W failed ', 0.9184617, aqt1.W);
+end;
 
 // good tranforms the same way as axis rotations.
 procedure TQuaternionFunctionalTestCase.TestTransform;
@@ -824,21 +903,52 @@ begin
   AssertEquals('Transform:Sub3 Z failed ', 0.0, vt1.Z);
   AssertEquals('Transform:Sub4 W failed ', 1.0, vt1.W);
   vt1 := aqt1.Transform(vt1);  // this should move point to neg x
-  AssertEquals('Transform:Sub1 X failed ', -2.0, vt1.X);
-  AssertEquals('Transform:Sub2 Y failed ',  0.0, vt1.Y);
-  AssertEquals('Transform:Sub3 Z failed ',  0.0, vt1.Z);
-  AssertEquals('Transform:Sub4 W failed ',  1.0, vt1.W);
+  AssertEquals('Transform:Sub5 X failed ', -2.0, vt1.X);
+  AssertEquals('Transform:Sub6 Y failed ',  0.0, vt1.Y);
+  AssertEquals('Transform:Sub7 Z failed ',  0.0, vt1.Z);
+  AssertEquals('Transform:Sub8 W failed ',  1.0, vt1.W);
   aqt1.Create(90,YVector); // create a positive rotation in y
   vt1 := aqt1.Transform(vt1);  // this should move point to poitive Z
-  AssertEquals('Transform:Sub1 X failed ',  0.0, vt1.X);
-  AssertEquals('Transform:Sub2 Y failed ',  0.0, vt1.Y);
-  AssertEquals('Transform:Sub3 Z failed ',  2.0, vt1.Z);
-  AssertEquals('Transform:Sub4 W failed ',  1.0, vt1.W);
+  AssertEquals('Transform:Sub9 X failed ',  0.0, vt1.X);
+  AssertEquals('Transform:Sub10 Y failed ',  0.0, vt1.Y);
+  AssertEquals('Transform:Sub11 Z failed ',  2.0, vt1.Z);
+  AssertEquals('Transform:Sub12 W failed ',  1.0, vt1.W);
   vt1 := aqt1.Transform(vt1);  // this should move point to poitive X
-  AssertEquals('Transform:Sub1 X failed ',  2.0, vt1.X);
-  AssertEquals('Transform:Sub2 Y failed ',  0.0, vt1.Y);
-  AssertEquals('Transform:Sub3 Z failed ',  0.0, vt1.Z);
-  AssertEquals('Transform:Sub4 W failed ',  1.0, vt1.W);
+  AssertEquals('Transform:Sub13 X failed ',  2.0, vt1.X);
+  AssertEquals('Transform:Sub14 Y failed ',  0.0, vt1.Y);
+  AssertEquals('Transform:Sub15 Z failed ',  0.0, vt1.Z);
+  AssertEquals('Transform:Sub16 W failed ',  1.0, vt1.W);
+end;
+
+// ok new stuff does this actually work and if so what is its
+// behaviour
+procedure TQuaternionFunctionalTestCase.TestScale;
+var i: integer;
+begin
+  aqt1.Create(90,ZVector); // create a normalised postive rotation in Z
+  aqt1.Scale(2);
+  vt1.create(4,1,0,1); // point on xy plane 4,1
+  vt4 := aqt1.Transform(vt1);
+  AssertEquals('Scale:Sub1 X failed ', -2.0, vt4.X);
+  AssertEquals('Scale:Sub2 Y failed ',  8.0, vt4.Y);
+  AssertEquals('Scale:Sub3 Z failed ',  0.0, vt4.Z);
+  AssertEquals('Scale:Sub4 W failed ',  1.0, vt4.W);
+  // ok that worked so how does it Slerp
+  for i := 1 to 9 do
+  begin
+     fs1 := i/10;
+     aqt2 := IdentityQuaternion.Slerp(aqt1,fs1);
+     vt4 := aqt2.Transform(vt1);
+     vt4.Normalize;
+  end;
+  aqt2 := IdentityQuaternion.Slerp(aqt1,0.925);
+  vt4 := aqt2.Transform(vt1);
+  aqt2 := IdentityQuaternion.Slerp(aqt1,0.95);
+  vt4 := aqt2.Transform(vt1);
+  aqt2 := IdentityQuaternion.Slerp(aqt1,0.975);
+  vt4 := aqt2.Transform(vt1);
+
+  vt4 := aqt2.Transform(vt1);
 
 
 end;

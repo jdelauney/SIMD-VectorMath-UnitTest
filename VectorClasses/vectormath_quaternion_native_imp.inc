@@ -43,6 +43,11 @@ begin
     Result.W := 1;
 end;
 
+procedure TGLZQuaternion.Scale(ScaleVal: single);
+begin
+   Self.AsVector4f := Self.AsVector4f * Sqrt(ScaleVal);
+end;
+
 {%endregion%}
 
 {%region%----[ Pure Pascal may Convert at some point ]--------------------------}
@@ -53,7 +58,7 @@ end;
 
 procedure TGLZQuaternion.Create(const V1, V2: TGLZAffineVector);
 Var
- vv, vv1,vv2 : TGLZVector;
+  vv1,vv2 : TGLZVector;
 begin
    vv1.AsVector3f := V1;
    vv2.AsVector3f := V2;
@@ -71,43 +76,44 @@ end;
 
 //procedure TGLZQuaternion.Create(const V1, V2: TGLZVector);
 
-//procedure TGLZQuaternion.Create(const mat : TGLZMatrix);
-{// the matrix must be a rotation matrix!
+
+procedure TGLZQuaternion.Create(const mat : TGLZMatrix);
+// the matrix must be a rotation matrix!
 var
    traceMat, s, invS : Double;
 begin
-   traceMat := 1 + mat.V[0].V[0] + mat.V[1].V[1] + mat.V[2].V[2];
-   if traceMat>EPSILON2 then begin
-      s:=Sqrt(traceMat)*2;
+   traceMat := mat.m11 + mat.m22 + mat.m33;
+   if traceMat > cFullEpsilon then begin
+      s := 2 * Sqrt(1 + traceMat);
+      invS := 1 / s;
+      Self.X := (mat.m32 - mat.m23) * invS;
+      Self.Y := (mat.m13 - mat.m31) * invS;
+      Self.Z := (mat.m21 - mat.m12) * invS;
+      Self.W := 0.25 * s;
+   end else if ((mat.m11 > mat.m22) and (mat.m11 > mat.m33)) then begin  // Row 0:
+      s := 2 * Sqrt(Max(cEpsilon30, cOne + mat.m11 - mat.m22 - mat.m33));
       invS:=1/s;
-      Result.ImagPart.V[0]:=(mat.V[1].V[2]-mat.V[2].V[1])*invS;
-      Result.ImagPart.V[1]:=(mat.V[2].V[0]-mat.V[0].V[2])*invS;
-      Result.ImagPart.V[2]:=(mat.V[0].V[1]-mat.V[1].V[0])*invS;
-      Result.RealPart         :=0.25*s;
-   end else if (mat.V[0].V[0]>mat.V[1].V[1]) and (mat.V[0].V[0]>mat.V[2].V[2]) then begin  // Row 0:
-      s:=Sqrt(MaxFloat(EPSILON2, cOne+mat.V[0].V[0]-mat.V[1].V[1]-mat.V[2].V[2]))*2;
-      invS:=1/s;
-      Result.ImagPart.V[0]:=0.25*s;
-      Result.ImagPart.V[1]:=(mat.V[0].V[1]+mat.V[1].V[0])*invS;
-      Result.ImagPart.V[2]:=(mat.V[2].V[0]+mat.V[0].V[2])*invS;
-      Result.RealPart         :=(mat.V[1].V[2]-mat.V[2].V[1])*invS;
-   end else if (mat.V[1].V[1]>mat.V[2].V[2]) then begin  // Row 1:
-      s:=Sqrt(MaxFloat(EPSILON2, cOne+mat.V[1].V[1]-mat.V[0].V[0]-mat.V[2].V[2]))*2;
-      invS:=1/s;
-      Result.ImagPart.V[0]:=(mat.V[0].V[1]+mat.V[1].V[0])*invS;
-      Result.ImagPart.V[1]:=0.25*s;
-      Result.ImagPart.V[2]:=(mat.V[1].V[2]+mat.V[2].V[1])*invS;
-      Result.RealPart         :=(mat.V[2].V[0]-mat.V[0].V[2])*invS;
+      Self.X := 0.25 * s;
+      Self.Y := (mat.m12 + mat.m21) * invS;
+      Self.Z := (mat.m31 + mat.m13) * invS;
+      Self.W := (mat.m32 - mat.m23) * invS;
+   end else if (mat.m22 > mat.m33) then begin  // Row 1:
+      s:= 2 * Sqrt(Max(cEpsilon30, cOne + mat.m22 - mat.m11 - mat.m33));
+      invS := 1 / s;
+      Self.X := (mat.m12 + mat.m21) * invS;
+      Self.Y := 0.25 * s;
+      Self.Z := (mat.m23 + mat.m32) * invS;
+      Self.W := (mat.m13 - mat.m31) * invS;
    end else begin  // Row 2:
-      s:=Sqrt(MaxFloat(EPSILON2, cOne+mat.V[2].V[2]-mat.V[0].V[0]-mat.V[1].V[1]))*2;
-      invS:=1/s;
-      Result.ImagPart.V[0]:=(mat.V[2].V[0]+mat.V[0].V[2])*invS;
-      Result.ImagPart.V[1]:=(mat.V[1].V[2]+mat.V[2].V[1])*invS;
-      Result.ImagPart.V[2]:=0.25*s;
-      Result.RealPart         :=(mat.V[0].V[1]-mat.V[1].V[0])*invS;
+      s := 2 * Sqrt(Max(cEpsilon30, cOne + mat.m33 - mat.m11 - mat.m22));
+      invS := 1 / s;
+      Self.X := (mat.m13 + mat.m31) * invS;
+      Self.Y := (mat.m23 + mat.m32) * invS;
+      Self.Z := 0.25 * s;
+      Self.W := (mat.m21 - mat.m12) * invS;
    end;
-   NormalizeQuaternion(Result);
-end; }
+   Self.Normalize;
+end;
 
 procedure TGLZQuaternion.Create(const angle  : Single; const axis : TGLZAffineVector);
 //procedure TGLZQuaternion.Create(const angle  : Single; const axis : TGLZVector);
@@ -380,51 +386,8 @@ begin
 end;
 
 function TGLZQuaternion.Slerp(const QEnd: TGLZQuaternion; Spin: Integer; t: Single): TGLZQuaternion;
-var
-    beta,                   // complementary interp parameter
-    theta,                  // Angle between A and B
-    sint, cost,             // sine, cosine of theta
-    phi: Single;            // theta plus spins
-    bflip: Boolean;         // use negativ t?
-begin
-  // cosine theta
-  cost:=Self.AsVector4f.AngleCosine(QEnd.AsVector4f);  // q.imag half rot angle
-
-   // if QEnd is on opposite hemisphere from QStart, use -QEnd instead
-   if cost < 0 then
-   begin
-      cost:=-cost;
-      bflip:=True;
-   end
-   else
-     bflip:=False;
-
-   // if QEnd is (within precision limits) the same as QStart,
-   // just linear interpolate between QStart and QEnd.
-   // Can't do spins, since we don't know what direction to spin.
-
-   if (1 - cost) < cEpsilon then  // full rotation would yield half angle 180
    begin                          // then CosT would come out at -1
-      beta:=1 - t
-   end
-   else
-   begin
-      // normal case
-      theta:=arccos(cost);
-      phi:=theta + Spin * Pi;
-      sint:=sin(theta);
-      beta:=sin(theta - t * phi) / sint;
-      t:=sin(t * phi) / sint;
-   end;
-
-   if bflip then t:=-t;
-
-   // interpolate   ?? direct mult on a Vector changes length to use quats
-   // effectivly they must be normalized after most operations.???
-   Result.ImagePart.X:=beta * Self.ImagePart.X + t * QEnd.ImagePart.X;
-   Result.ImagePart.Y:=beta * Self.ImagePart.Y + t * QEnd.ImagePart.Y;
-   Result.ImagePart.Z:=beta * Self.ImagePart.Z + t * QEnd.ImagePart.Z;
-   Result.RealPart:=beta * Self.RealPart + t * QEnd.RealPart;
+Result := Self.Slerp(Qend,t*spin);
 end;
 
 function TGLZQuaternion.Slerp(const QEnd: TGLZQuaternion; const t : Single) : TGLZQuaternion;

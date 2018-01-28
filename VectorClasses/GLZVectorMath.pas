@@ -906,7 +906,7 @@ type
     procedure Create(const V1, V2: TGLZVector); overload;
 
     // Constructs a unit quaternion from a rotation matrix
-    //procedure Create(const mat : TGLZMatrix); overload;
+    procedure Create(const mat : TGLZMatrix); overload;
 
     // Constructs quaternion from angle (in deg) and axis
     procedure Create(const angle  : Single; const axis : TGLZAffineVector); overload;
@@ -942,6 +942,11 @@ type
 
     // Applies rotation to V around local axes.
     function Transform(constref V: TGLZVector): TGLZVector;
+
+    { if a scale factor is applied to a quaternion then the rotation will
+    scale vectors when transforming them. Assumes quaternion is already normalized}
+    procedure Scale(ScaleVal: single);
+
 
     { Returns quaternion product qL * qR.
        Note: order is important!
