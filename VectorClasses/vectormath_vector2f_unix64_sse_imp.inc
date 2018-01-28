@@ -267,12 +267,12 @@ asm
   or       eax, $00006000                    // Set bits
   mov      DWORD PTR [rsp], eax              // mov bits to mem
   ldmxcsr  DWORD PTR [rsp]                   // set new bits
-  cvtps2dq xmm0, xmm0
+  cvtps2dq xmm1, xmm1
   mov      DWORD PTR [rsp], ecx              // put old bits in mem
   ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
   pop      rax
-  cvtdq2ps xmm0, xmm0
-  subps    xmm1, xmm0 // A - Trunc(A)
+  cvtdq2ps xmm1, xmm1
+  subps    xmm0, xmm1 // A - Trunc(A)
 end;
 
 function TGLZVector2f.Sqrt : TGLZVector2f; overload; assembler; nostackframe; register;
@@ -309,12 +309,12 @@ asm
   cvtdq2ps xmm1, xmm1
   mulps    xmm1, xmm2
   subps    xmm0, xmm1 // A - Trunc(A)
-//  movq     rax, xmm1
+  movq     rax,  xmm0
 end;
 
 function TGLZVector2f.fMod(Constref A : TGLZVector2f): TGLZVector2i; assembler; nostackframe; register;
 asm
-  movq     xmm0, [RCX]
+  movq     xmm0, [RDI]
   movaps   xmm1, xmm0
   movq     xmm2, [A]
 
@@ -325,7 +325,7 @@ asm
   mov      ecx, eax                          // make local copy   self is done with at this point
   // smaller opcode no mem access required.
   and      eax, $00009FFF
-  or       eax, $00006000                    // Set bits
+  or       eax, $00002000                    // Set bits
   mov      DWORD PTR [rsp], eax              // mov bits to mem
   ldmxcsr  DWORD PTR [rsp]                   // set new bits
   cvtps2dq xmm1, xmm1
@@ -337,7 +337,7 @@ asm
   mulps    xmm1, xmm2
   subps    xmm0, xmm1 // A - Trunc(A)
   cvtps2dq xmm0, xmm0
-//  movq rax, xmm1
+  movq     rax,  xmm0
 end;
 
 
