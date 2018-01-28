@@ -58,6 +58,7 @@ Unit GLZVectorMath;
 {.$DEFINE USE_ASM_AVX}
 {.$DEFINE USE_ASM_SSE_4}
 {.$DEFINE USE_ASM_SSE_3}
+{.$DEFINE TEST}
 
 // Some function don't have SSE4 instruction, so enable SSE3
 {$IFDEF USE_ASM_SSE_4}
@@ -127,8 +128,6 @@ Const
 {%region%----[ Vectors ]--------------------------------------------------------}
 
 type
-  {$PACKRECORD 16}
-
   { Aligned array for vector @groupbegin  }
   TGLZVector2fType = packed array[0..1] of Single;
   TGLZVector2iType = packed array[0..1] of Integer;
@@ -176,6 +175,8 @@ type
     class operator -(constref A, B: TGLZVector2f): TGLZVector2f; overload;
     { Multiply 2 TGLZVector2f }
     class operator *(constref A, B: TGLZVector2f): TGLZVector2f; overload;
+     { Multiply 1 TGLZVector2f and 1 1 TGLZVector2f}
+    class operator *(constref A:TGLZVector2f; Constref B: TGLZVector2i): TGLZVector2f; overload;
     { Divide 2 TGLZVector2f }
     class operator /(constref A, B: TGLZVector2f): TGLZVector2f; overload;
     { Add one float to one TGLZVector2f }
@@ -191,6 +192,8 @@ type
 
     { Compare if two TGLZVector2f are equal }
     class operator =(constref A, B: TGLZVector2f): Boolean;
+
+    //class operator mod(const a,b:TGLZVector2f): TGLZVector2f;
 
     { TODO -oGLZVectorMath -cTGLZVector2f : Add comparator operators <=,<=,>,< }
     (*
@@ -242,9 +245,19 @@ type
  //   function Edge(ConstRef A, B : TGLZVector2f):Single; // @TODO : a passer dans TGLZVector2fHelper ???
 
     { Round Self to an TGLZVector2i }
-    function Round: TGLZVector2i;
+    function Round: TGLZVector2i; overload;
     { Round Truc to an TGLZVector2i }
-    function Trunc: TGLZVector2i;
+    function Trunc: TGLZVector2i; overload;
+
+    function Floor: TGLZVector2i; overload;
+    function Ceil : TGLZVector2i; overload;
+    function Fract : TGLZVector2f; overload;
+
+    function Modf(constref A : TGLZVector2f): TGLZVector2f;
+    function fMod(Constref A : TGLZVector2f): TGLZVector2i;
+
+    function Sqrt : TGLZVector2f; overload;
+    function InvSqrt : TGLZVector2f; overload;
 
     { Access modes }
     case Byte of
@@ -1361,6 +1374,63 @@ const
 function AffineVectorMake(const x, y, z : Single) : TGLZAffineVector;overload;
 function AffineVectorMake(const v : TGLZVector) : TGLZAffineVector;overload;
 
+function vec2(vx,vy:single):TGLZVector2f;
+function vec4(vx,vy,vz,vw:single):TGLZVector4f;
+function AffineVec4(vx,vy,vz:single):TGLZVector4f;
+
+//-----[ Algebra and Trigonometric functions ]----------------------------------
+
+//--- For TGLZVector2f ---------------------------------------------------------
+
+//--- Inline functions
+function Trunc(Constref v:TGLZVector2f):TGLZVector2i; overload;
+function Round(Constref v:TGLZVector2f):TGLZVector2i; overload;
+function Floor(Constref v:TGLZVector2f):TGLZVector2i; overload;
+function Fract(Constref v:TGLZVector2f):TGLZVector2f; overload;
+
+//function Length(v:TGLZVector2f):Single;overload;
+//function Distance(v1,v2:TGLZVector2f):Single;
+//function Normalize(v:TGLZVector2f):TGLZVector2f;
+
+//function fma(v,m,a:TGLZVector2f): TGLZVector2f; overload;
+//function fma(v:TGLZVector2f; m,a:Single): TGLZVector2f; overload;
+//function fma(v,m:TGLZVector2f;a:Single): TGLZVector2f; overload;
+//function fma(v:TGLZVector2f;m:Single; a:TGLZvector2f): TGLZVector2f; overload;
+
+//function faceforward
+//function SmoothStep;
+//function Step;
+//function Saturate;
+
+
+
+//--- Trigonometrics functions
+
+function Sqrt(Constref v:TGLZVector2f):TGLZVector2f; overload;
+function InvSqrt(Constref v:TGLZVector2f):TGLZVector2f; overload;
+
+function Sin(v:TGLZVector2f):TGLZVector2f; overload;
+function Cos(v:TGLZVector2f):TGLZVector2f; overload;
+function SinCos(x:Single):TGLZvector2f; overload;
+function SinCos(v:TGLZVector2f):TGLZvector2f; overload;
+
+// function Exp;
+// function Ln;
+
+//--- For TGLZVector4f ---------------------------------------------------------
+
+//function Trunc(v:TGLZVector4f):TGLZVector4i; overload;
+//function Round(v:TGLZVector4f):TGLZVector4i; overload;
+//function Floor(v:TGLZVector4f):TGLZVector4i; overload;
+//function Fract(v:TGLZVector4f):TGLZVector4i; overload;
+
+//function Sqrt(v:TGLZVector2f):TGLZVector4f; overload;
+//function InvSqrt(v:TGLZVector2f):TGLZVector4f; overload;
+
+//function Sin(v:TGLZVector4f):TGLZVector4f; overload;
+//function Cos(v:TGLZVector4f):TGLZVector4f; overload;
+//function SinCos(v:TGLZVector4f):TGLZVector4f; overload; // retun SinCos, SinCos (x and z = sin, y and w = cos)
+
 
 //function MakeVector(Const aX,aY,aZ: single; const aW : Single = 0):TGLZVector4f; overload;
 //function MakeVector(Const anAffineVector: TGLZVector3f; const aW : Single = 1):TGLZVector4f; overload;
@@ -1401,8 +1471,8 @@ Const
   cSSE_ROUND_MASK_NEAREST : DWord = $00000000;
   cSSE_ROUND_MASK_TRUNC   : DWord = $00006000;
 
-//  SSE_ROUND_DOWN    = $00002000;
-//  SSE_ROUND_UP      = $00004000;
+//  cSSE_ROUND_MASK_DOWN    = $00002000;
+//  cSSE_ROUND_MASK_UP      = $00004000;
 
   cNullVector4f   : TGLZVector = (x:0;y:0;z:0;w:0);
   cNullVector4i   : TGLZVector4i = (x:0;y:0;z:0;w:0);
@@ -1518,6 +1588,8 @@ Var
          {.$I vectormath_boundingboxhelper_native_imp.inc}
          {.$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
          {.$I vectormath_frustrumhelper_native_imp.inc}
+         {$I vectormath_utils_native_imp.inc}
+         {$I vectormath_utils_sse_imp.inc}
 
       {$ELSE}
 
@@ -1552,6 +1624,8 @@ Var
          {.$I vectormath_boundingboxhelper_native_imp.inc}
          {.$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
          {.$I vectormath_frustrumhelper_native_imp.inc}
+         {$I vectormath_utils_native_imp.inc}
+         {$I vectormath_utils_sse_imp.inc}
 
       {$ENDIF}
     {$else} // win64
@@ -1610,6 +1684,9 @@ Var
           {$I vectormath_matrixhelper_native_imp.inc}
           {.$I vectormath_matrixhelper_win64_sse_imp.inc}
 
+          {$I vectormath_utils_native_imp.inc}
+          {$I vectormath_utils_sse_imp.inc}
+
        {$ENDIF}
     {$endif}  //unix
   {$else} // CPU32
@@ -1642,6 +1719,8 @@ Var
          {.$I vectormath_boundingboxhelper_native_imp.inc}
          {.$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
          {.$I vectormath_frustrumhelper_native_imp.inc}
+         {$I vectormath_utils_native_imp.inc}
+         {$I vectormath_utils_sse_imp.inc}
 
      {$ELSE}
         {$I vectormath_vector2f_native_imp.inc}
@@ -1674,6 +1753,8 @@ Var
         {.$I vectormath_boundingboxhelper_native_imp.inc}
         {.$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
         {.$I vectormath_frustrumhelper_native_imp.inc}
+        {$I vectormath_utils_native_imp.inc}
+        {$I vectormath_utils_sse_imp.inc}
 
      {$ENDIF}
   {$endif}
@@ -1703,26 +1784,11 @@ Var
   {.$I vectormath_boundingboxhelper_native_imp.inc}
   {.$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
   {.$I vectormath_frustrumhelper_native_imp.inc}
+  {$I vectormath_utils_native_imp.inc}
 {$endif}
 
 
-{%region%----[ Misc Vector Helpers functions ]----------------------------------}
 
-function AffineVectorMake(const x, y, z : Single) : TGLZAffineVector;
-begin
-   Result.X:=x;
-   Result.Y:=y;
-   Result.Z:=z;
-end;
-
-function AffineVectorMake(const v : TGLZVector) : TGLZAffineVector;
-begin
-   Result.X:=v.X;
-   Result.Y:=v.Y;
-   Result.Z:=v.Z;
-end;
-
-{%endregion%}
 
 {%region%----[ SSE Register States and utils Funcs ]----------------------------}
 

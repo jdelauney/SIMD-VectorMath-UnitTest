@@ -19,6 +19,7 @@
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="77"/>
         <CursorPos Y="94"/>
         <UsageCount Value="53"/>
@@ -37,7 +38,6 @@
       <Unit3>
         <Filename Value="..\..\source\GLZArrays.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="49"/>
         <CursorPos Y="64"/>

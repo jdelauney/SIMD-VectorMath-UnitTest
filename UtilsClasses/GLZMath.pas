@@ -100,14 +100,36 @@ Const
   MinComp     = -9.223372036854775807e+18;
   MaxComp     = 9.223372036854775807e+18;
 
+
+type
+  {$ifdef USE_DOUBLE}
+  TSinCos = record
+    sin: double;
+    cos: double;
+  end;
+  PSinCos = ^TSinCos;
+  {$else}
+  TSinCos = record
+    sin: single;
+    cos: single;
+  end;
+  PSinCos = ^TSinCos;
+  {$endif}
+
 {%endregion%}
 
 {%region%-----[ Reintroduced some general functions ]---------------------------}
 
-Function Ceil(v: Single): Integer; Overload;
-Function Floor(v: Single): Integer; Overload;
+//operator mod(const a,b:Single):Single;inline;overload;
+function fmodf(const a,b:Single):Single;
+//function fmod(const a,b:Single):Integer;inline;
+
 Function Round(v: Single): Integer; Overload;
 Function Trunc(v: Single): Integer; Overload;
+Function Floor(v: Single): Integer; Overload;
+Function Fract(v:Single):Single;
+Function Ceil(v: Single): Integer; Overload;
+
 // Calculates sine and cosine from the given angle Theta
 procedure SinCos(const Theta: Single; out Sin, Cos: Single); overload;
 { Calculates sine and cosine from the given angle Theta and Radius.
@@ -198,7 +220,13 @@ Function LnXP1(x: Single): Single;
 // Interpolation Sinuosidale Alt
 // Interpolation Sinuosidale Alt
 // Interpolation par tangente
+
+{ : A phase shifter sinc curve can be useful if it starts at zero and ends at zero,
+  for some bouncing behaviors (suggested by Hubert-Jan). Give k different integer values
+  to tweak the amount of bounces. It peaks at 1.0, but that take negative values, which
+  can make it unusable in some applications. }
 Function Sinc(x: Single): Single;
+
 Function Hypot(Const X, Y: Single): Single;
 
 {%endregion%}
@@ -213,6 +241,38 @@ Function InterpolateAngleLinear(start, stop, t: Single): Single;
 Function InterpolateValue(Const Start, Stop, Delta: Single; Const DistortionDegree: Single; Const InterpolationType: TGLZInterpolationType): Single;
 Function InterpolateValueFast(Const OriginalStart, OriginalStop, OriginalCurrent: Single; Const TargetStart, TargetStop: Single;Const DistortionDegree: Single; Const InterpolationType: TGLZInterpolationType): Single;
 Function InterpolateValueSafe(Const OriginalStart, OriginalStop, OriginalCurrent: Single; Const TargetStart, TargetStop: Single;Const DistortionDegree: Single; Const InterpolationType: TGLZInterpolationType): Single;
+
+{%endregion%}
+
+{%region%-----[ Pixel Shader and Raymarch functions ]---------------------------}
+
+{ : perform Hermite interpolation between two values }
+function SmoothStep(Edge0,Edge1,x: Single): Single;
+{: perform linear interpolation between two values }
+function Mix(Edge0,Edge1,x: Single): Single;
+{: Generate a step function by comparing two values
+   0.0 is returned if x < edge, and 1.0 is returned otherwise }
+function Step(Edge,x: Single): Single;
+
+// Return the lenght of vector 1D
+Function Length1D(x:Single):Single; overload;
+
+{%endregion%}
+
+{%region%-----[Others useful functions for shader ]-----------------------------}
+
+// For Animation or Interpolation
+Function AlmostIdentity( x,m,n : single ):single;
+function Impulse(k,x : Single):Single;
+Function CubicPulse(c,w,x : Single) : Single;
+Function ExpStep(x,k,n:Single):Single;
+Function Parabola(x,k:Single):Single;
+Function pcurve(x,a,b:Single):Single;
+Function Sinc(x,k:Single):Single;overload;
+
+
+
+//------------------------------------------------------------------------------
 
 {%endregion%}
 
@@ -238,25 +298,37 @@ Procedure OffsetFloatArray(valuesDest, valuesDelta: PSingleArray; nb: Integer); 
 
 Implementation
 
-uses GLZFastMath;
+uses GLZUtils, GLZFastMath;
 
 {%region%-----[ Reintroduced some general functions ]---------------------------}
 
-Function Round(v: Single): Integer;
+//operator mod(const a,b:Single):Single;
+function fmodf(const a,b:Single):Single; Inline;
+begin
+    result := a-b * trunc(a/b);
+end;
+
+
+Function Round(v: Single): Integer;Inline;
 Begin
   {$HINTS OFF}
   Result := System.round(v);
   {$HINTS ON}
 End;
 
-Function Trunc(v: Single): Integer;
+Function Trunc(v: Single): Integer;Inline;
 Begin
   {$HINTS OFF}
   Result := System.Trunc(v);
   {$HINTS ON}
 End;
 
-function Sin(x:Single):Single;
+function Fract(v : Single) : Single;Inline;
+begin
+  result := v - floor(v);
+end;
+
+function Sin(x:Single):Single;Inline;
 begin
   {$IFDEF USE_FASTMATH}
     result := RemezSin(x);
@@ -265,7 +337,7 @@ begin
   {$ENDIF}
 end;
 
-function Cos(x:Single):Single;
+function Cos(x:Single):Single; Inline;
 begin
   {$IFDEF USE_FASTMATH}
     result := RemezCos(x);
@@ -309,7 +381,7 @@ end;
 
 {%region%-----[ General utilities functions ]-----------------------------------}
 
-Function IsZero(Const A: Extended; Const Epsilon: Extended = 0.0): Boolean;
+Function IsZero(Const A: Extended; Const Epsilon: Extended = 0.0): Boolean; Inline;
 Var
   e: Extended;
 Begin
@@ -342,14 +414,14 @@ Begin
     Result := 1;
 End;
 
-Function RoundInt(v: Single): Single; Inline;
+Function RoundInt(v: Single): Single;Inline;
 Begin
   {$HINTS OFF}
   Result := system.int(v + cOneDotFive);
   {$HINTS ON}
 End;
 
-Function NewRound(x: Single): Integer;
+Function NewRound(x: Single): Integer; Inline;
 Var
   y: Integer;
 Begin
@@ -363,17 +435,17 @@ Begin
   Result := y;
 End;
 
-Function Ceil(v: Single): Integer;
+Function Ceil(v: Single): Integer; Inline;
 Begin
   {$HINTS OFF}
-  If System.Frac(v) > 0 Then
-    Result := System.Trunc(v) + 1
+  If Fract(v) > 0 Then
+    Result := Trunc(v) + 1
   Else
-    Result := System.Trunc(v);
+    Result := Trunc(v);
   {$HINTS ON}
 End;
 
-Function Floor(v: Single): Integer;
+Function Floor(v: Single): Integer;Inline;
 Begin
    {$HINTS OFF}
   If v < 0 Then
@@ -1337,6 +1409,103 @@ End;
 
 {%endregion%}
 
+{%region%-----[ Pixel Shader functions ]----------------------------------------}
+
+function SmoothStep(Edge0,Edge1,x: Single): Single;Inline;
+var
+  t:single;
+begin
+  t:= Clamp((x-Edge0) / (Edge1 - Edge0),0.0,1.0);
+  result := t * t * (3.0 - 2.0 * t); //t*t * ((t*2.0)*3.0);
+end;
+
+function Mix(Edge0,Edge1,x: Single): Single; Inline;
+begin
+  result := Edge0 * (1 - x) + (Edge1 * x);
+end;
+
+function Step(Edge,x: Single): Single;
+begin
+  if x<Edge then result := 0.0 else result := 1.0;
+end;
+
+Function Length1D(x:Single):Single; Inline;
+begin
+  Result := Sqrt(x*x);
+end;
+
+//------------------------------------------------------------------
+
+{%endregion%}
+
+{%region%-----[Others useful functions for shader ]-----------------------------}
+
+// Converted from http://www.iquilezles.org/www/articles/functions/functions.htm
+
+// Useful for animation
+
+Function AlmostIdentity( x,m,n : single ):single;Inline;
+var
+  a,b,t : Single;
+begin
+    if (x>m) then
+    begin
+      result:= x;
+      exit;
+    end;
+    a := 2.0*n - m;
+    b := 2.0*m - 3.0*n;
+    t := x/m;
+    result := (a*t + b)*t*t + n;
+end;
+
+function Impulse(k,x : Single):Single; Inline;
+var
+  h:Single;
+begin
+  h := k*x;
+  result := h * exp(1.0-h);
+end;
+
+Function CubicPulse(c,w,x : Single) : Single; Inline;
+begin
+  result := 0.0;
+  x := abs(x - c);
+  if(x>w ) then exit;
+  x := x / w;
+  Result := 1.0 - x * x * (3.0-2.0 * x);
+end;
+
+Function ExpStep(x,k,n:Single):Single;Inline;
+begin
+  result := Exp(-k * powersingle(x,n));
+end;
+
+Function Parabola(x,k:Single):Single;Inline;
+begin
+  result := powersingle( 4.0*x*(1.0-x), k );
+end;
+
+Function pcurve(x,a,b:Single):Single;Inline;
+var
+  k : Single;
+begin
+    k := powersingle(a+b,a+b) / (powersingle(a,a) * powersingle(b,b));
+    result := k * powersingle(x, a) * powersingle(1.0-x, b);
+end;
+
+Function Sinc(x,k:Single):Single;Inline;
+var
+  a : Single;
+begin
+  a := cPI * (k*x-1.0);
+  Result := sin(a)/a;
+end;
+
+{%endregion%}
+
+
+
 {%region%-----[ Others functions ]----------------------------------------------}
 
 Function Val2Percent(min, val, max: Single): Integer;
@@ -1366,8 +1535,8 @@ End;
 
 Procedure ScaleFloatArray(Var values: TSingleArray; factor: Single);
 Begin
-  If Length(values) > 0 Then
-    ScaleFloatArray(@values[0], Length(values), factor);
+  If System.Length(values) > 0 Then
+    ScaleFloatArray(@values[0], System.Length(values), factor);
 End;
 
 Procedure OffsetFloatArray(values: PSingleArray; nb: Integer; Var delta: Single);
@@ -1376,12 +1545,13 @@ Var
 Begin
   For i := 0 To nb - 1 Do
     values^[i] := values^[i] + delta;
+
 End;
 
 Procedure OffsetFloatArray(Var values: Array Of Single; delta: Single);
 Begin
-  If Length(values) > 0 Then
-    OffsetFloatArray(@values[0], Length(values), delta);
+  If System.Length(values) > 0 Then
+    OffsetFloatArray(@values[0], System.Length(values), delta);
 End;
 
 Procedure OffsetFloatArray(valuesDest, valuesDelta: PSingleArray; nb: Integer);

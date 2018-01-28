@@ -60,6 +60,17 @@ end;
 
 {%region%----[ Pure Pascal may Convert at some point ]--------------------------}
 
+//class operator TGLZVector2f.mod(const a,b:TGLZVector2f): TGLZVector2f;
+//var
+//  c: TGLZVector2f;
+//begin
+//  c:=a/b;
+//  result := a-b * c.Trunc;//GLZVectorMath.trunc(c);
+//end;
+
+
+
+
 {%endregion}
 
 {$IFNDEF USE_ASM}
@@ -80,6 +91,12 @@ begin
 end;
 
 class operator TGLZVector2f.*(constref A, B: TGLZVector2f): TGLZVector2f;
+begin
+  Result.X := A.X * B.X;
+  Result.Y := A.Y * B.Y;
+end;
+
+class operator TGLZVector2f.*(constref A:TGLZVector2f; Constref B: TGLZVector2i): TGLZVector2f;
 begin
   Result.X := A.X * B.X;
   Result.Y := A.Y * B.Y;
@@ -117,6 +134,7 @@ begin
   Result.X := A.X * d;
   Result.Y := A.Y * d;
 end;
+
 
 
 {%endregion%}
@@ -171,7 +189,7 @@ end;
 
 function TGLZVector2f.Length:Single;
 begin
-  Result := Sqrt((Self.X * Self.X) + (Self.Y * Self.Y));
+  Result := System.Sqrt((Self.X * Self.X) + (Self.Y * Self.Y));
 end;
 
 function TGLZVector2f.LengthSquare:Single;
@@ -207,6 +225,61 @@ function TGLZVector2f.Trunc : TGLZVector2i;
 begin
  result.X := System.Trunc(Self.X);
  result.Y := System.Trunc(Self.Y);
+end;
+
+function TGLZVector2f.Floor : TGLZVector2i;
+begin
+ result.X := GLZMath.Floor(Self.X);
+ result.Y := GLZMath.Floor(Self.Y);
+end;
+
+function TGLZVector2f.Ceil : TGLZVector2i;
+begin
+ result.X := GLZMath.Ceil(Self.X);
+ result.Y := GLZMath.Ceil(Self.Y);
+end;
+
+function TGLZVector2f.Fract : TGLZVector2f;
+begin
+ result.X := GLZMath.Fract(Self.X);
+ result.Y := GLZMath.Fract(Self.Y);
+end;
+
+function TGLZVector2f.Sqrt : TGLZVector2f;
+begin
+ result.X := System.Sqrt(Self.X);
+ result.Y := System.Sqrt(Self.Y);
+end;
+
+function TGLZVector2f.InvSqrt : TGLZVector2f;
+begin
+ result.X := GLZMath.InvSqrt(Self.X);
+ result.Y := GLZMath.InvSqrt(Self.Y);
+end;
+
+function TGLZVector2f.ModF(Constref A : TGLZVector2f): TGLZVector2f;
+var
+  t : TGLZVector2i;
+  vt : TGLZVector2f;
+begin
+  vt := (Self / a);
+  t := vt.floor;
+  vt.x:=t.x;
+  vt.y:=t.y;
+  result := (Self - (a*vt));
+end;
+
+function TGLZVector2f.fMod(Constref A : TGLZVector2f): TGLZVector2i;
+var
+  t : TGLZVector2i;
+  vt : TGLZVector2f;
+begin
+  vt := (Self / A);
+  t := vt.floor;
+  vt.x:=t.x;
+  vt.y:=t.y;
+  vt := (Self - (A*vt));
+  result := vt.Trunc;
 end;
 
 {%endregion%}
