@@ -545,7 +545,7 @@ type
     procedure Create(const V1, V2: TNativeGLZVector); overload;
 
     // Constructs a unit quaternion from a rotation matrix
-    //procedure Create(const mat : TGLZMatrix); overload;
+    procedure Create(const mat : TNativeGLZMatrix); overload;
 
     // Constructs quaternion from angle (in deg) and axis
     procedure Create(const angle  : Single; const axis : TNativeGLZAffineVector); overload;
@@ -565,7 +565,7 @@ type
        Assumes matrix is used to multiply column vector on the left:
        vnew = mat vold.
        Works correctly for right-handed coordinate system and right-handed rotations. }
-    //function ConvertToMatrix : TGLZMatrix;
+    function ConvertToMatrix : TNativeGLZMatrix;
 
     { Constructs an affine rotation matrix from (possibly non-unit) quaternion. }
     //function ConvertToAffineMatrix : TGLZAffineMatrix;
@@ -583,7 +583,9 @@ type
     // Applies rotation to V around local axes.
     function Transform(constref V: TNativeGLZVector): TNativeGLZVector;
 
-    { Returns quaternion product qL * qR.
+    procedure Scale(ScaleVal: single);
+
+   { Returns quaternion product qL * qR.
        Note: order is important!
        which gives the effect of rotating by qFirst then Self.
       }
@@ -941,7 +943,7 @@ Const
   function Compare(constref A: TNativeGLZVector2f; constref B: TGLZVector2f;Epsilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TNativeGLZBoundingBox; constref B: TGLZBoundingBox;Epsilon: Single = 1e-10): boolean; overload;
   function CompareMatrix(constref A: TNativeGLZMatrix4f; constref B: TGLZMatrix4f; Epsilon: Single = 1e-10): boolean;
-  function CompareQuaternion(constref A: TNativeGLZQuaternion; constref B: TGLZQuaternion; Epsilon: Single = 1e-10): boolean;
+  function Compare(constref A: TNativeGLZQuaternion; constref B: TGLZQuaternion; Epsilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TNativeGLZBoundingSphere; constref B: TGLZBoundingSphere; Epsilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TGLZBoundingSphere; constref B: TGLZBoundingSphere; Epsilon: Single = 1e-10): boolean; overload;
   function Compare(constref A: TNativeGLZAxisAlignedBoundingBox; constref B: TGLZAxisAlignedBoundingBox; Epsilon: Single = 1e-10): boolean; overload;
@@ -1085,7 +1087,7 @@ begin
   end;
 end;
 
-function CompareQuaternion(constref A: TNativeGLZQuaternion; constref B: TGLZQuaternion; Epsilon: Single): boolean;
+function Compare(constref A: TNativeGLZQuaternion; constref B: TGLZQuaternion; Epsilon: Single): boolean;
 begin
   Result := true;
   if not IsEqual (A.X, B.X, Epsilon) then Result := False;

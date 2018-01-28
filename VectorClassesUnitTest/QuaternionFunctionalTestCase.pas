@@ -921,7 +921,7 @@ begin
 end;
 
 // ok new stuff does this actually work and if so what is its
-// behaviour
+// behaviour.
 procedure TQuaternionFunctionalTestCase.TestScale;
 var i: integer;
 begin
@@ -934,21 +934,23 @@ begin
   AssertEquals('Scale:Sub3 Z failed ',  0.0, vt4.Z);
   AssertEquals('Scale:Sub4 W failed ',  1.0, vt4.W);
   // ok that worked so how does it Slerp
-  for i := 1 to 9 do
-  begin
-     fs1 := i/10;
-     aqt2 := IdentityQuaternion.Slerp(aqt1,fs1);
-     vt4 := aqt2.Transform(vt1);
-     vt4.Normalize;
-  end;
-  aqt2 := IdentityQuaternion.Slerp(aqt1,0.925);
-  vt4 := aqt2.Transform(vt1);
-  aqt2 := IdentityQuaternion.Slerp(aqt1,0.95);
-  vt4 := aqt2.Transform(vt1);
-  aqt2 := IdentityQuaternion.Slerp(aqt1,0.975);
-  vt4 := aqt2.Transform(vt1);
-
-  vt4 := aqt2.Transform(vt1);
+  // no it does not as Slerp normalises the result of slerp
+  // so removes the scaling.
+  //for i := 1 to 9 do
+  //begin
+  //   fs1 := i/10;
+  //   aqt2 := IdentityQuaternion.Slerp(aqt1,fs1);
+  //   vt4 := aqt2.Transform(vt1);
+  //   vt4.Normalize;
+  //end;
+  //aqt2 := IdentityQuaternion.Slerp(aqt1,0.925);
+  //vt4 := aqt2.Transform(vt1);
+  //aqt2 := IdentityQuaternion.Slerp(aqt1,0.95);
+  //vt4 := aqt2.Transform(vt1);
+  //aqt2 := IdentityQuaternion.Slerp(aqt1,0.975);
+  //vt4 := aqt2.Transform(vt1);
+  //
+  //vt4 := aqt2.Transform(vt1);
 
 
 end;

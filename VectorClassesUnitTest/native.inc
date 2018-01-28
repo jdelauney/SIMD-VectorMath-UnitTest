@@ -2868,14 +2868,13 @@ end;
 
 procedure TNativeGLZQuaternion.Create(const V1, V2: TNativeGLZAffineVector);
 Var
- //av : TGLZAffineVector;
- vv, vv1,vv2 : TNativeGLZVector;
+  vv1,vv2 : TNativeGLZVector;
 begin
-   vv1.AsVector3f := V1;
-   vv2.AsVector3f := V2;
-   vv:=vv1.CrossProduct(vv2);
-   Self.ImagePart:= vv.AsVector3f;
-   Self.RealPart:= Sqrt((vv1.DotProduct(vv2) + 1)/2);
+  vv1.AsVector3f := V1;
+  vv2.AsVector3f := V2;
+  Self.AsVector4f:=vv1.CrossProduct(vv2);
+  Self.RealPart:= vv1.DotProduct(vv2) + 1;
+  self.Normalize;
 end;
 
 procedure TNativeGLZQuaternion.Create(const V1, V2: TNativeGLZVector); overload;
@@ -2897,46 +2896,49 @@ begin
     Result.W := 1;
 end;
 
-
+procedure TNativeGLZQuaternion.Scale(ScaleVal: single);
+begin
+   Self.AsVector4f := Self.AsVector4f * Sqrt(ScaleVal);
+end;
 //procedure TNativeGLZQuaternion.Create(const V1, V2: TGLZVector);
 
-//procedure TNativeGLZQuaternion.Create(const mat : TGLZMatrix);
-{// the matrix must be a rotation matrix!
+procedure TNativeGLZQuaternion.Create(const mat : TNativeGLZMatrix);
+// the matrix must be a rotation matrix!
 var
    traceMat, s, invS : Double;
 begin
-   traceMat := 1 + mat.V[0].V[0] + mat.V[1].V[1] + mat.V[2].V[2];
-   if traceMat>EPSILON2 then begin
-      s:=Sqrt(traceMat)*2;
+   traceMat := mat.m11 + mat.m22 + mat.m33;
+   if traceMat > cFullEpsilon then begin
+      s := 2 * Sqrt(1 + traceMat);
+      invS := 1 / s;
+      Self.X := (mat.m32 - mat.m23) * invS;
+      Self.Y := (mat.m13 - mat.m31) * invS;
+      Self.Z := (mat.m21 - mat.m12) * invS;
+      Self.W := 0.25 * s;
+   end else if ((mat.m11 > mat.m22) and (mat.m11 > mat.m33)) then begin  // Row 0:
+      s := 2 * Sqrt(Max(cEpsilon30, cOne + mat.m11 - mat.m22 - mat.m33));
       invS:=1/s;
-      Result.ImagPart.V[0]:=(mat.V[1].V[2]-mat.V[2].V[1])*invS;
-      Result.ImagPart.V[1]:=(mat.V[2].V[0]-mat.V[0].V[2])*invS;
-      Result.ImagPart.V[2]:=(mat.V[0].V[1]-mat.V[1].V[0])*invS;
-      Result.RealPart         :=0.25*s;
-   end else if (mat.V[0].V[0]>mat.V[1].V[1]) and (mat.V[0].V[0]>mat.V[2].V[2]) then begin  // Row 0:
-      s:=Sqrt(MaxFloat(EPSILON2, cOne+mat.V[0].V[0]-mat.V[1].V[1]-mat.V[2].V[2]))*2;
-      invS:=1/s;
-      Result.ImagPart.V[0]:=0.25*s;
-      Result.ImagPart.V[1]:=(mat.V[0].V[1]+mat.V[1].V[0])*invS;
-      Result.ImagPart.V[2]:=(mat.V[2].V[0]+mat.V[0].V[2])*invS;
-      Result.RealPart         :=(mat.V[1].V[2]-mat.V[2].V[1])*invS;
-   end else if (mat.V[1].V[1]>mat.V[2].V[2]) then begin  // Row 1:
-      s:=Sqrt(MaxFloat(EPSILON2, cOne+mat.V[1].V[1]-mat.V[0].V[0]-mat.V[2].V[2]))*2;
-      invS:=1/s;
-      Result.ImagPart.V[0]:=(mat.V[0].V[1]+mat.V[1].V[0])*invS;
-      Result.ImagPart.V[1]:=0.25*s;
-      Result.ImagPart.V[2]:=(mat.V[1].V[2]+mat.V[2].V[1])*invS;
-      Result.RealPart         :=(mat.V[2].V[0]-mat.V[0].V[2])*invS;
+      Self.X := 0.25 * s;
+      Self.Y := (mat.m12 + mat.m21) * invS;
+      Self.Z := (mat.m31 + mat.m13) * invS;
+      Self.W := (mat.m32 - mat.m23) * invS;
+   end else if (mat.m22 > mat.m33) then begin  // Row 1:
+      s:= 2 * Sqrt(Max(cEpsilon30, cOne + mat.m22 - mat.m11 - mat.m33));
+      invS := 1 / s;
+      Self.X := (mat.m12 + mat.m21) * invS;
+      Self.Y := 0.25 * s;
+      Self.Z := (mat.m23 + mat.m32) * invS;
+      Self.W := (mat.m13 - mat.m31) * invS;
    end else begin  // Row 2:
-      s:=Sqrt(MaxFloat(EPSILON2, cOne+mat.V[2].V[2]-mat.V[0].V[0]-mat.V[1].V[1]))*2;
-      invS:=1/s;
-      Result.ImagPart.V[0]:=(mat.V[2].V[0]+mat.V[0].V[2])*invS;
-      Result.ImagPart.V[1]:=(mat.V[1].V[2]+mat.V[2].V[1])*invS;
-      Result.ImagPart.V[2]:=0.25*s;
-      Result.RealPart         :=(mat.V[0].V[1]-mat.V[1].V[0])*invS;
+      s := 2 * Sqrt(Max(cEpsilon30, cOne + mat.m33 - mat.m11 - mat.m22));
+      invS := 1 / s;
+      Self.X := (mat.m13 + mat.m31) * invS;
+      Self.Y := (mat.m23 + mat.m32) * invS;
+      Self.Z := 0.25 * s;
+      Self.W := (mat.m21 - mat.m12) * invS;
    end;
-   NormalizeQuaternion(Result);
-end; }
+   Self.Normalize;
+end;
 
 procedure TNativeGLZQuaternion.Create(const angle  : Single; const axis : TNativeGLZAffineVector);
 //procedure TNativeGLZQuaternion.Create(const angle  : Single; const axis : TGLZVector);
@@ -2983,41 +2985,42 @@ var
       q[cOrder[eulerOrder][2]].Create(Y, NativeYVector);
       q[cOrder[eulerOrder][3]].Create(Z, NativeZVector);
       result:=(q[2] * q[3]);
-      result:=(q[1] * Self);
+      result:=(q[1] * result);
    end;
 
 const
    SMALL_ANGLE = 0.001;
 begin
-   NormalizeDegAngle(x);
-   NormalizeDegAngle(y);
-   NormalizeDegAngle(z);
-   case EulerOrder of
-      eulXYZ, eulZYX: GimbalLock := Abs(Abs(y) - 90.0) <= cEpsilon30; // cos(Y) = 0;
-      eulYXZ, eulZXY: GimbalLock := Abs(Abs(x) - 90.0) <= cEpsilon30; // cos(X) = 0;
-      eulXZY, eulYZX: GimbalLock := Abs(Abs(z) - 90.0) <= cEpsilon30; // cos(Z) = 0;
-   else
-      Assert(False);
-      gimbalLock:=False;
-   end;
-   if gimbalLock then
-   begin
-      case EulerOrder of
-        eulXYZ, eulZYX: quat1 := EulerToQuat(x, y - SMALL_ANGLE, z, EulerOrder);
-        eulYXZ, eulZXY: quat1 := EulerToQuat(x - SMALL_ANGLE, y, z, EulerOrder);
-        eulXZY, eulYZX: quat1 := EulerToQuat(x, y, z - SMALL_ANGLE, EulerOrder);
-      end;
-      case EulerOrder of
-        eulXYZ, eulZYX: quat2 := EulerToQuat(x, y + SMALL_ANGLE, z, EulerOrder);
-        eulYXZ, eulZXY: quat2 := EulerToQuat(x + SMALL_ANGLE, y, z, EulerOrder);
-        eulXZY, eulYZX: quat2 := EulerToQuat(x, y, z + SMALL_ANGLE, EulerOrder);
-      end;
-      Self := Quat1.Slerp(quat2{%H-}, 0.5);
-   end
-   else
-   begin
+
+//   NormalizeDegAngle(x);
+//   NormalizeDegAngle(y);
+//   NormalizeDegAngle(z);
+   //case EulerOrder of
+   //   eulXYZ, eulZYX: GimbalLock := Abs(Abs(y) - 90.0) <= cEpsilon30; // cos(Y) = 0;
+   //   eulYXZ, eulZXY: GimbalLock := Abs(Abs(x) - 90.0) <= cEpsilon30; // cos(X) = 0;
+   //   eulXZY, eulYZX: GimbalLock := Abs(Abs(z) - 90.0) <= cEpsilon30; // cos(Z) = 0;
+   //else
+   //   Assert(False);
+   //   gimbalLock:=False;
+   //end;
+   //if gimbalLock then
+   //begin
+   //   case EulerOrder of
+   //     eulXYZ, eulZYX: quat1 := EulerToQuat(x, y - SMALL_ANGLE, z, EulerOrder);
+   //     eulYXZ, eulZXY: quat1 := EulerToQuat(x - SMALL_ANGLE, y, z, EulerOrder);
+   //     eulXZY, eulYZX: quat1 := EulerToQuat(x, y, z - SMALL_ANGLE, EulerOrder);
+   //   end;
+   //   case EulerOrder of
+   //     eulXYZ, eulZYX: quat2 := EulerToQuat(x, y + SMALL_ANGLE, z, EulerOrder);
+   //     eulYXZ, eulZXY: quat2 := EulerToQuat(x + SMALL_ANGLE, y, z, EulerOrder);
+   //     eulXZY, eulYZX: quat2 := EulerToQuat(x, y, z + SMALL_ANGLE, EulerOrder);
+   //   end;
+   //   Self := Quat1.Slerp(quat2{%H-}, 0.5);
+   //end
+   //else
+   //begin
       Self := EulerToQuat(x, y, z, EulerOrder);
-   end;
+   //end;
 end;
 
 procedure TNativeGLZQuaternion.ConvertToPoints(var ArcFrom, ArcTo: TNativeGLZAffineVector);
@@ -3038,6 +3041,38 @@ begin
    if Self.RealPart<0 then ArcFrom := NativeAffineVectorMake( -ArcFrom.X, -ArcFrom.Y, 0);
 end;
 
+function TNativeGLZQuaternion.ConvertToMatrix : TNativeGLZMatrix;
+ var
+   xx, xy, xz, xw, yy, yz, yw, zz, zw: Single;
+begin
+   Self.Normalize;
+   xx := x * x;
+   xy := x * y;
+   xz := x * z;
+   xw := x * w;
+   yy := y * y;
+   yz := y * z;
+   yw := y * w;
+   zz := z * z;
+   zw := z * w;
+   Result.V[0].V[0] := 1 - 2 * ( yy + zz );
+   Result.V[1].V[0] :=     2 * ( xy + zw );
+   Result.V[2].V[0] :=     2 * ( xz - yw );
+   Result.V[3].V[0] := 0;
+   Result.V[0].V[1] :=     2 * ( xy - zw );
+   Result.V[1].V[1] := 1 - 2 * ( xx + zz );
+   Result.V[2].V[1] :=     2 * ( yz + xw );
+   Result.V[3].V[1] := 0;
+   Result.V[0].V[2] :=     2 * ( xz + yw );
+   Result.V[1].V[2] :=     2 * ( yz - xw );
+   Result.V[2].V[2] := 1 - 2 * ( xx + yy );
+   Result.V[3].V[2] := 0;
+   Result.V[0].V[3] := 0;
+   Result.V[1].V[3] := 0;
+   Result.V[2].V[3] := 0;
+   Result.V[3].V[3] := 1;
+end;
+
 class operator TNativeGLZQuaternion.*(constref A, B: TNativeGLZQuaternion): TNativeGLZQuaternion;
 begin
   Result.X :=  (A.w * B.x) + (A.x * B.w) + (A.y * B.z) - (A.z * B.y);
@@ -3056,50 +3091,8 @@ end;
 
 
 function TNativeGLZQuaternion.Slerp(const QEnd: TNativeGLZQuaternion; Spin: Integer; t: Single): TNativeGLZQuaternion;
-var
-    beta,                   // complementary interp parameter
-    theta,                  // Angle between A and B
-    sint, cost,             // sine, cosine of theta
-    phi: Single;            // theta plus spins
-    bflip: Boolean;         // use negativ t?
 begin
-  // cosine theta
-  cost:=Self.AsVector4f.AngleCosine(QEnd.AsVector4f);
-
-   // if QEnd is on opposite hemisphere from QStart, use -QEnd instead
-   if cost < 0 then
-   begin
-      cost:=-cost;
-      bflip:=True;
-   end
-   else
-     bflip:=False;
-
-   // if QEnd is (within precision limits) the same as QStart,
-   // just linear interpolate between QStart and QEnd.
-   // Can't do spins, since we don't know what direction to spin.
-
-   if (1 - cost) < cEpsilon then
-   begin
-      beta:=1 - t
-   end
-   else
-   begin
-      // normal case
-      theta:=arccos(cost);
-      phi:=theta + Spin * Pi;
-      sint:=sin(theta);
-      beta:=sin(theta - t * phi) / sint;
-      t:=sin(t * phi) / sint;
-   end;
-
-   if bflip then t:=-t;
-
-   // interpolate
-   Result.ImagePart.X:=beta * Self.ImagePart.X + t * QEnd.ImagePart.X;
-   Result.ImagePart.Y:=beta * Self.ImagePart.Y + t * QEnd.ImagePart.Y;
-   Result.ImagePart.Z:=beta * Self.ImagePart.Z + t * QEnd.ImagePart.Z;
-   Result.RealPart:=beta * Self.RealPart + t * QEnd.RealPart;
+  Result := Self.Slerp(Qend,t*spin);
 end;
 
 function TNativeGLZQuaternion.Slerp(const QEnd: TNativeGLZQuaternion; const t : Single) : TNativeGLZQuaternion;

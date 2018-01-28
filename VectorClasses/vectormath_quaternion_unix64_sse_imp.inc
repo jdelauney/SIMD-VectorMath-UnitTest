@@ -1,56 +1,13 @@
 {%region%----[ Operators ]--------------------------------------------------------}
 
-class operator TGLZQuaternion.+(constref A, B: TGLZQuaternion): TGLZQuaternion; assembler; nostackframe; register;
-asm
-  movaps  xmm0, [A]
-  movaps  xmm1, [B]
-  addps   xmm0, xmm1
-  movhlps xmm1, xmm0
-end;
-
-class operator TGLZQuaternion.+(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion;  assembler; nostackframe; register;
-asm
-  movaps  xmm0, [A]
-  movss   xmm1, [B]
-  shufps  xmm1, xmm1, $00
-  addps   xmm0, xmm1
-  movhlps xmm1, xmm0
-end;
-
-class operator TGLZQuaternion.-(constref A, B: TGLZQuaternion): TGLZQuaternion; assembler; nostackframe; register;
-asm
-  movaps  xmm0, [A]
-  movaps  xmm1, [B]
-  subps   xmm0, xmm1
-  movhlps xmm1, xmm0
-end;
-
-class operator TGLZQuaternion.-(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion; assembler; nostackframe; register;
-asm
-  movaps  xmm0, [A]
-  movss   xmm1, [B]
-  shufps  xmm1, xmm1, $00
-  subps   xmm0, xmm1
-  movhlps xmm1, xmm0
-end;
-
-class operator TGLZQuaternion.-(constref A: TGLZQuaternion): TGLZQuaternion; assembler; nostackframe; register;
-asm
-  movups  xmm1, [A]
-  movups  xmm0, [RIP+cNullVector4f]
-  subps   xmm0, xmm1
-  movhlps xmm1, xmm0
-End;
-
-
 class operator TGLZQuaternion.*(constref A, B: TGLZQuaternion): TGLZQuaternion; assembler;
 Const
  cControlWZYX : TGLZQuaternion =(x:1.0;y:-1.0;z:1.0;w:-1.0);
  cControlZWXY : TGLZQuaternion =(x:1.0;y:1.0;z:-1.0;w:-1.0);
  cControlYXWZ : TGLZQuaternion =(x:-1.0;y:1.0;z:1.0;w:-1.0);
 asm
- movaps xmm0, [A]
- movaps xmm1, [B]
+ movaps xmm1, [A]
+ movaps xmm0, [B]
 
  movaps xmm2, xmm1
  movaps xmm3, xmm1
@@ -99,32 +56,14 @@ asm
  movaps [RESULT], xmm5
 end;
 
-class operator TGLZQuaternion.*(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion; assembler; nostackframe; register;
-asm
-  movaps  xmm0, [A]
-  movss   xmm1, [B]
-  shufps  xmm1, xmm1, $00
-  mulps   xmm0, xmm1
-  movhlps xmm1,xmm0
-end;
-
-class operator TGLZQuaternion./(constref A : TGLZQuaternion; constref B:Single): TGLZQuaternion; assembler; nostackframe; register;
-asm
-  movaps  xmm0, [A]
-  movss   xmm1, [B]
-  shufps  xmm1, xmm1, $00
-  divps   xmm0, xmm1
-  movhlps xmm1, xmm0
-end;
-
 class operator TGLZQuaternion.=(constref A, B: TGLZQuaternion): Boolean; assembler; nostackframe; register;
 asm
   movaps   xmm1, [A]
   movaps   xmm0, [B]
   cmpps    xmm0, xmm1, cSSE_OPERATOR_EQUAL    //  Yes: $FFFFFFFF, No: $00000000 ; 0 = Operator Equal
   movmskps eax,  xmm0
-  xor eax, $F
-  setz al
+  xor      eax,  $F
+  setz     al
 end;
 
 class operator TGLZQuaternion.<>(constref A, B: TGLZQuaternion): Boolean; assembler; nostackframe; register;
@@ -133,8 +72,8 @@ asm
   movaps   xmm1, [B]
   cmpps    xmm0, xmm1, cSSE_OPERATOR_NOT_EQUAL    //  Yes: $FFFFFFFF, No: $00000000 ; 4 = Operator Not Equal
   movmskps eax,  xmm0
-  xor eax, $f
-  setz al
+  or       eax,  eax
+  setnz    al
 end;
 
 {%endregion%}
@@ -163,7 +102,7 @@ asm
 end;
 
 
-function TGLZQuaternion.Normalize : TGLZQuaternion; assembler;
+procedure TGLZQuaternion.Normalize; assembler;
 asm
 {$ifdef TEST}
   // Normalize fast
@@ -184,12 +123,12 @@ asm
   movaps  xmm0, [RDI]
   movaps  xmm2, xmm0
   movlps  xmm1, [RDI]12
-  andps   xmm2, [RIP+cSSE_MASK_NO_W]
+//  andps   xmm2, [RIP+cSSE_MASK_NO_W]
 
   mulps   xmm2, xmm2
-  pshufd  xmm1, xmm2, $0E
+  pshufd  xmm1, xmm2, $4E
   addps   xmm2, xmm1
-  pshufd  xmm1, xmm2, $01
+  pshufd  xmm1, xmm2, $11
   addss   xmm2, xmm1
   sqrtss  xmm2, xmm2
   movlps  xmm5, [RIP+cEpsilon30]
@@ -204,7 +143,7 @@ asm
 @LessThan:
   movaps  xmm0, [RIP+IdentityQuaternion]
 @Finish:
-  movhlps xmm1, xmm0
+  movaps [RDI], xmm0
 {$endif}
 
 end;
@@ -271,50 +210,8 @@ asm
 end;
 
 function TGLZQuaternion.Slerp(const QEnd: TGLZQuaternion; Spin: Integer; t: Single): TGLZQuaternion;
-var
-    beta,                   // complementary interp parameter
-    theta,                  // Angle between A and B
-    sint, cost,             // sine, cosine of theta
-    phi: Single;            // theta plus spins
-    bflip: Boolean;         // use negativ t?
 begin
-  // cosine theta
-  cost:=Self.AsVector4f.AngleCosine(QEnd.AsVector4f);
-
-   // if QEnd is on opposite hemisphere from QStart, use -QEnd instead
-   if cost < 0 then
-   begin
-      cost:=-cost;
-      bflip:=True;
-   end
-   else
-     bflip:=False;
-
-   // if QEnd is (within precision limits) the same as QStart,
-   // just linear interpolate between QStart and QEnd.
-   // Can't do spins, since we don't know what direction to spin.
-
-   if (1 - cost) < cEpsilon then
-   begin
-      beta:=1 - t
-   end
-   else
-   begin
-      // normal case
-      theta:=arccos(cost);
-      phi:=theta + Spin * Pi;
-      sint:=sin(theta);
-      beta:=sin(theta - t * phi) / sint;
-      t:=sin(t * phi) / sint;
-   end;
-
-   if bflip then t:=-t;
-
-   // interpolate
-   Result.ImagePart.X:=beta * Self.ImagePart.X + t * QEnd.ImagePart.X;
-   Result.ImagePart.Y:=beta * Self.ImagePart.Y + t * QEnd.ImagePart.Y;
-   Result.ImagePart.Z:=beta * Self.ImagePart.Z + t * QEnd.ImagePart.Z;
-   Result.RealPart:=beta * Self.RealPart + t * QEnd.RealPart;
+Result := Self.Slerp(Qend,t*spin);
 end;
 
 function TGLZQuaternion.Slerp(const QEnd: TGLZQuaternion; const t : Single) : TGLZQuaternion;
@@ -366,7 +263,7 @@ begin
    Result.RealPart := scale0 * Self.RealPart + scale1 * to1[3];
    //NormalizeQuaternion(Result);
    //Result.pNormalize;
-   Result := Result.Normalize;
+   Result.Normalize;
 end;
 
 

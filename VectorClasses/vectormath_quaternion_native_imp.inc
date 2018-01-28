@@ -386,7 +386,7 @@ begin
 end;
 
 function TGLZQuaternion.Slerp(const QEnd: TGLZQuaternion; Spin: Integer; t: Single): TGLZQuaternion;
-   begin                          // then CosT would come out at -1
+begin
 Result := Self.Slerp(Qend,t*spin);
 end;
 
