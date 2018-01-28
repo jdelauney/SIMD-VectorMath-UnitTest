@@ -654,8 +654,8 @@ begin
   vtt1.Create(4.0,9.0);
   vtt2.Create(2,2);
   vtt3 := vtt1.Modf(vtt2);
-  AssertEquals('Modf:Sub1 X failed ', 2.0, vtt2.X);
-  AssertEquals('Modf:Sub2 Y failed ', 3.0, vtt2.Y);
+  AssertEquals('Modf:Sub1 X failed ', 0.0, vtt3.X);
+  AssertEquals('Modf:Sub2 Y failed ', 1.0, vtt3.Y);
 end;
 
 procedure TVector2fFunctionalTest.TestfMod;

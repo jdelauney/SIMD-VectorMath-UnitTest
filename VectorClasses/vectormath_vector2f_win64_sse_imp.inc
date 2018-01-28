@@ -318,7 +318,7 @@ asm
   mov      ecx, eax                          // make local copy   self is done with at this point
   // smaller opcode no mem access required.
   and      eax, $00009FFF
-  or       eax, $00006000                    // Set bits
+  or       eax, $00006000                   // Set bits
   mov      DWORD PTR [rsp], eax              // mov bits to mem
   ldmxcsr  DWORD PTR [rsp]                   // set new bits
   cvtps2dq xmm0, xmm0
@@ -344,7 +344,7 @@ asm
   mov      ecx, eax                          // make local copy   self is done with at this point
   // smaller opcode no mem access required.
   and      eax, $00009FFF
-  or       eax, $00006000                    // Set bits
+  or       eax, $00002000                    // Set bits
   mov      DWORD PTR [rsp], eax              // mov bits to mem
   ldmxcsr  DWORD PTR [rsp]                   // set new bits
   cvtps2dq xmm0, xmm0
