@@ -79,7 +79,6 @@ type
     function Sqrt : TNativeGLZVector2f; overload;
     function InvSqrt : TNativeGLZVector2f; overload;
 
-
     case Byte of
       0: (V: TGLZVector2fType);
       1: (X, Y : Single);
@@ -1054,9 +1053,8 @@ end;
 function Compare(constref A: TNativeGLZVector2i; constref B: TGLZVector2i): boolean;
 begin
   Result := True;
-  if A.X <> B.Y then Result := False;
+  if A.X <> B.X then Result := False;
   if A.Y <> B.Y then Result := False;
-
 end;
 
 function Compare(constref A: TNativeGLZVector2f; constref B: TGLZVector2f; Epsilon: Single): boolean;
