@@ -101,50 +101,82 @@ asm
   movss [RESULT], {%H-}xmm0
 end;
 
-
-procedure TGLZQuaternion.Normalize; assembler;
+// three working regs + one for epsilon
+// commis is non destructive :)
+// loop unroll factor of 5 for 64bit 2 for 32bit.
+procedure TGLZQuaternion.Normalize; assembler; nostackframe; register;
 asm
-{$ifdef TEST}
-  // Normalize fast
-  movaps  xmm0, [RDI]
-  movaps  xmm2, xmm0
-
-  // Dot(A, A)
-  mulps   xmm0, xmm0
-  pshufd  xmm1, xmm0, $4E
-  addps   xmm0, xmm1
-  pshufd  xmm1, xmm0, $11
-  addps   xmm0, xmm1
-
-  rsqrtps xmm0, xmm0
-  mulps   xmm0, xmm2
-  movhlps xmm1, xmm0
+  movaps   xmm0, [RDI]
+  movaps   xmm2, xmm0
+  mulps    xmm2, xmm0
+{$ifdef USE_ASM_SSE_3}
+  movshdup xmm1, xmm2
+  addps    xmm2, xmm1
+  movhlps  xmm1, xmm2
+  addss    xmm2, xmm1
 {$else}
-  movaps  xmm0, [RDI]
-  movaps  xmm2, xmm0
-  movlps  xmm1, [RDI]12
-//  andps   xmm2, [RIP+cSSE_MASK_NO_W]
-
-  mulps   xmm2, xmm2
-  pshufd  xmm1, xmm2, $4E
-  addps   xmm2, xmm1
-  pshufd  xmm1, xmm2, $11
-  addss   xmm2, xmm1
-  sqrtss  xmm2, xmm2
-  movlps  xmm5, [RIP+cEpsilon30]
-  comiss  xmm2, xmm5
+  movaps   xmm1, xmm2
+  shufps   xmm1, xmm2, 10110001b //177
+  addps    xmm2, xmm1
+  movhlps  xmm1, xmm2
+  addss    xmm2, xmm1
+{$endif}
+  sqrtss   xmm2, xmm2
+  movlps   xmm1, [RIP+cEpsilon30]
+  comiss   xmm2, xmm1
   jb  @LessThan
-  //rcpss xmm2,xmm2
-  shufps  xmm2, xmm2, $00
-  movaps  xmm3, [RIP+cOneVector4f]
-  divps   xmm3, xmm2
-  mulps   xmm0, xmm3
+  shufps   xmm2, xmm2, $00
+  divps    xmm0, xmm2
   jmp @Finish
 @LessThan:
-  movaps  xmm0, [RIP+IdentityQuaternion]
+  movaps   xmm0, [RIP+IdentityQuaternion]
 @Finish:
-  movaps [RDI], xmm0
-{$endif}
+  movaps  [RDI], xmm0             // SF 2.88
+
+
+//{$ifdef TEST}
+//  // Normalize fast
+//  movaps  xmm0, [RDI]
+//  movaps  xmm2, xmm0
+//
+//  // Dot(A, A)
+//  mulps   xmm0, xmm0
+//  pshufd  xmm1, xmm0, $4E
+//  addps   xmm0, xmm1
+//  pshufd  xmm1, xmm0, $11
+//  addps   xmm0, xmm1
+//
+//  rsqrtps xmm0, xmm0          <-- not needed slow and inaccurate
+//  mulps   xmm0, xmm2
+//  movhlps xmm1, xmm0
+//{$else}
+//  movaps  xmm0, [RDI]
+//  movaps  xmm2, xmm0
+//  movlps  xmm1, [RDI]12
+////  andps   xmm2, [RIP+cSSE_MASK_NO_W]
+//
+//  mulps   xmm2, xmm2
+//  pshufd  xmm1, xmm2, $4E
+//  addps   xmm2, xmm1
+//  pshufd  xmm1, xmm2, $11
+//  addss   xmm2, xmm1
+//
+//
+//  sqrtss  xmm2, xmm2
+//  movlps  xmm5, [RIP+cEpsilon30]
+//  comiss  xmm2, xmm5
+//  jb  @LessThan
+//  //rcpss xmm2,xmm2
+//  shufps  xmm2, xmm2, $00
+//  movaps  xmm3, [RIP+cOneVector4f]    <---- not needed wasteful
+//  divps   xmm3, xmm2                  <---- not needed wasteful
+//  mulps   xmm0, xmm3              <--- just div this instead x * 1/Y == x/y this is a scalar
+//  jmp @Finish                          optimisation which does not hold for vectors.
+//@LessThan:
+//  movaps  xmm0, [RIP+IdentityQuaternion]
+//@Finish:
+//  movaps [RDI], xmm0                           SF 1.9
+//{$endif}
 
 end;
 
@@ -158,10 +190,10 @@ Const
 asm
   movlhps xmm0, xmm1     // get upper half from xmm1
   movaps  xmm2, xmm0
-  movaps  xmm3, xmm0
-  movaps  xmm4, xmm0
-  movaps  xmm5, xmm0
-  movaps  xmm0, [RDI]
+  movaps  xmm3, xmm0      //<-- todo do not need lots of aps
+  movaps  xmm4, xmm0      //  can use the fact that xmm1 hold low and high
+  movaps  xmm5, xmm0      // and 64 bit copy (faster) as items below
+  movaps  xmm0, [RDI]     // need low or high bits
 
   shufps  xmm5, xmm5, 11111111b //w
   shufps  xmm2, xmm2, 00000000b //x

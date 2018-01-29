@@ -12,6 +12,12 @@ begin
    Result.Z:=v.Z;
 end;
 
+function TNativeGLZVector2i.ToString : String;
+begin
+   Result := '(X: '+IntToStr(Self.X)+
+            ' ,Y: '+IntToStr(Self.Y)+')';
+End;
+
 
 {%region%-----[ TNativeGLZVector2f ]--------------------------------------------}
 
@@ -132,7 +138,7 @@ end;
 
 function TNativeGLZVector2f.Length:Single;
 begin
-  Result := Sqrt((Self.X * Self.X) + (Self.Y * Self.Y));
+  Result := System.Sqrt((Self.X * Self.X) + (Self.Y * Self.Y));
 end;
 
 function TNativeGLZVector2f.LengthSquare:Single;
@@ -215,6 +221,62 @@ begin
  result.X := System.Trunc(Self.X);
  result.Y := System.Trunc(Self.Y);
 end;
+
+function TNativeGLZVector2f.Floor : TNativeGLZVector2i;
+begin
+ result.X := GLZMath.Floor(Self.X);
+ result.Y := GLZMath.Floor(Self.Y);
+end;
+
+function TNativeGLZVector2f.Ceil : TNativeGLZVector2i;
+begin
+ result.X := GLZMath.Ceil(Self.X);
+ result.Y := GLZMath.Ceil(Self.Y);
+end;
+
+function TNativeGLZVector2f.Fract : TNativeGLZVector2f;
+begin
+ result.X := GLZMath.Fract(Self.X);
+ result.Y := GLZMath.Fract(Self.Y);
+end;
+
+function TNativeGLZVector2f.Sqrt : TNativeGLZVector2f;
+begin
+ result.X := System.Sqrt(Self.X);
+ result.Y := System.Sqrt(Self.Y);
+end;
+
+function TNativeGLZVector2f.InvSqrt : TNativeGLZVector2f;
+begin
+ result.X := GLZMath.InvSqrt(Self.X);
+ result.Y := GLZMath.InvSqrt(Self.Y);
+end;
+
+function TNativeGLZVector2f.ModF(Constref A : TNativeGLZVector2f): TNativeGLZVector2f;
+var
+  t : TNativeGLZVector2i;
+  vt : TNativeGLZVector2f;
+begin
+  vt := (Self / a);
+  t := vt.floor;
+  vt.x:=t.x;
+  vt.y:=t.y;
+  result := (Self - (a*vt));
+end;
+
+function TNativeGLZVector2f.fMod(Constref A : TNativeGLZVector2f): TNativeGLZVector2i;
+var
+  t : TNativeGLZVector2i;
+  vt : TNativeGLZVector2f;
+begin
+  vt := (Self / A);
+  t := vt.floor;
+  vt.x:=t.x;
+  vt.y:=t.y;
+  vt := (Self - (A*vt));
+  result := vt.Trunc;
+end;
+
 
 {%endregion%}
 {%endregion%}

@@ -50,6 +50,7 @@ type
       procedure TestCeil;
       procedure TestFract;
       procedure TestSqrt;
+      procedure TestInvSqrt;
       procedure TestModF;
       procedure TestfMod;
   end;
@@ -651,6 +652,14 @@ begin
   vtt2 :=  vtt1.Sqrt;
   AssertEquals('Sqrt:Sub1 X failed ', 2.0, vtt2.X);
   AssertEquals('Sqrt:Sub2 Y failed ', 3.0, vtt2.Y);
+end;
+
+procedure TVector2fFunctionalTest.TestInvSqrt;
+begin
+  vtt1.Create(4.0,9.0);
+  vtt2 :=  vtt1.InvSqrt;
+  AssertEquals('InvSqrt:Sub1 X failed ', 0.5, vtt2.X);
+  AssertEquals('InvSqrt:Sub2 Y failed ', 1/3, vtt2.Y);
 end;
 
 procedure TVector2fFunctionalTest.TestModF;

@@ -33,6 +33,13 @@ type
     procedure TestAngleCosine;
     procedure TestRound;
     procedure TestTrunc;
+    procedure TestFloor;
+    procedure TestCeil;
+    procedure TestFract;
+    procedure TestSqrt;
+    procedure TestInvSqrt;
+    procedure TestModF;
+    procedure TestfMod;
   end;
 
 implementation
@@ -165,14 +172,67 @@ procedure TVector2NumericsTestCase.TestRound;
 begin
   nt2i := ntt1.Round;
   vt2i := vtt1.Round;
-  AssertTrue('Vector2f  Round do not match : '+ntt3.ToString+' --> '+vtt3.ToString, Compare(ntt3,vtt3));
+  AssertTrue('Vector2f  Round do not match : '+nt2i.ToString+' --> '+vt2i.ToString, Compare(nt2i,vt2i));
 end;
 
 procedure TVector2NumericsTestCase.TestTrunc;
 begin
   nt2i := ntt1.Trunc;
   vt2i := vtt1.Trunc;
-  AssertTrue('Vector2f  Trunc do not match : '+ntt3.ToString+' --> '+vtt3.ToString, Compare(ntt3,vtt3));
+  AssertTrue('Vector2f  Trunc do not match : '+nt2i.ToString+' --> '+vt2i.ToString, Compare(nt2i,vt2i));
+end;
+
+procedure TVector2NumericsTestCase.TestFloor;
+begin
+  nt2i := ntt1.Floor;
+  vt2i := vtt1.Floor;
+  AssertTrue('Vector2f  Floor do not match : '+nt2i.ToString+' --> '+vt2i.ToString, Compare(nt2i,vt2i));
+end;
+
+procedure TVector2NumericsTestCase.TestCeil;
+begin
+  nt2i := ntt1.Ceil;
+  vt2i := vtt1.Ceil;
+  AssertTrue('Vector2f  Ceil do not match : '+nt2i.ToString+' --> '+vt2i.ToString, Compare(nt2i,vt2i));
+end;
+
+procedure TVector2NumericsTestCase.TestFract;
+begin
+  ntt3 := ntt1.Fract;
+  vtt3 := vtt1.Fract;
+  AssertTrue('Vector2f  Fract does not match : '+ntt3.ToString+' --> '+vtt3.ToString, Compare(ntt3,vtt3));
+end;
+
+procedure TVector2NumericsTestCase.TestSqrt;
+begin
+  ntt3 := ntt1.Sqrt;
+  vtt3 := vtt1.Sqrt;
+  AssertTrue('Vector2f  Sqrt does not match : '+ntt3.ToString+' --> '+vtt3.ToString, Compare(ntt3,vtt3));
+end;
+
+procedure TVector2NumericsTestCase.TestInvSqrt;
+begin
+  ntt3 := ntt1.InvSqrt;
+  vtt3 := vtt1.InvSqrt;
+  AssertTrue('Vector2f  InvSqrt does not match : '+ntt3.ToString+' --> '+vtt3.ToString, Compare(ntt3,vtt3,1e-6));
+end;
+
+procedure TVector2NumericsTestCase.TestModF;
+begin
+  ntt2.Create(2,2);
+  vtt2.Create(2,2);
+  ntt3 := ntt1.Modf(ntt2);
+  vtt3 := vtt1.Modf(vtt2);
+  AssertTrue('Vector2f  ModF does not match : '+ntt3.ToString+' --> '+vtt3.ToString, Compare(ntt3,vtt3,1e-8));
+end;
+
+procedure TVector2NumericsTestCase.TestfMod;
+begin
+  ntt2.Create(2,2);
+  vtt2.Create(2,2);
+  nt2i := ntt1.fMod(ntt2);
+  vt2i := vtt1.fMod(vtt2);
+  AssertTrue('Vector2f  fMod do not match : '+nt2i.ToString+' --> '+vt2i.ToString, Compare(nt2i,vt2i));
 end;
 
 

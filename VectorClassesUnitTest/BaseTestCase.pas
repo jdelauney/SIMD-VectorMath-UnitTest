@@ -188,7 +188,6 @@ begin
   b5 := 245;  // three large bytes
   b6 := 248;
   b7 := 255;  //b8 can be used as a result.
-
 end;
 
 procedure TVectorBaseTestCase.Setup;

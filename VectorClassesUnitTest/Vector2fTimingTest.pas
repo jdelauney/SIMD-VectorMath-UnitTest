@@ -47,6 +47,13 @@ type
     procedure TimeAngleCosine;
     procedure TimeRound;
     procedure TimeTrunc;
+    procedure TimeFloor;
+    procedure TimeCeil;
+    procedure TimeFract;
+    procedure TimeSqrt;
+    procedure TimeInvSqrt;
+    procedure TimeModF;
+    procedure TimefMod;
   end;
 
 implementation
@@ -434,7 +441,101 @@ begin
   GlobalProfiler[1].Start;
   for cnt := 1 to Iterations do begin vt2i := vtt1.Trunc; end;
   GlobalProfiler[1].Stop;
+end;
 
+procedure TVector2OperatorsTimingTest.TimeFloor;
+begin
+  TestDispName := 'Vector2f Floor';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin nt2i := ntt1.Floor; end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  for cnt := 1 to Iterations do begin vt2i := vtt1.Floor; end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVector2OperatorsTimingTest.TimeCeil;
+begin
+  TestDispName := 'Vector2f Ceil';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin nt2i := ntt1.Ceil; end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  for cnt := 1 to Iterations do begin vt2i := vtt1.Ceil; end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVector2OperatorsTimingTest.TimeFract;
+begin
+  TestDispName := 'Vector2f Fract';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin ntt2 := ntt1.Fract; end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  for cnt := 1 to Iterations do begin vtt2 := vtt1.Fract; end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVector2OperatorsTimingTest.TimeSqrt;
+begin
+  TestDispName := 'Vector2f Sqrt';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin ntt2 := ntt1.Sqrt; end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  for cnt := 1 to Iterations do begin vtt2 := vtt1.Sqrt; end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVector2OperatorsTimingTest.TimeInvSqrt;
+begin
+  TestDispName := 'Vector2f InvSqrt';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin ntt2 := ntt1.InvSqrt; end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  for cnt := 1 to Iterations do begin vtt2 := vtt1.InvSqrt; end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVector2OperatorsTimingTest.TimeModF;
+begin
+  ntt2.Create(2,2);
+  vtt2.Create(2,2);
+  TestDispName := 'Vector2f ModF';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin ntt3 := ntt1.ModF(ntt2); end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  for cnt := 1 to Iterations do begin vtt3 := vtt1.ModF(vtt2); end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVector2OperatorsTimingTest.TimefMod;
+begin
+  ntt2.Create(2,2);
+  vtt2.Create(2,2);
+  TestDispName := 'Vector2f fMod';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin nt2i := ntt1.fMod(ntt2); end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  for cnt := 1 to Iterations do begin vt2i := vtt1.fMod(vtt2); end;
+  GlobalProfiler[1].Stop;
 end;
 
 {%endregion%}

@@ -157,6 +157,8 @@ type
 
   { TGLZVector2i : Simple 2D Integer vector }
   TGLZVector2i = record
+    { Return vector as string }
+    function ToString : String;
   case Byte of
     0: (V: TGLZVector2iType);
     1: (X, Y : Integer);
@@ -935,7 +937,7 @@ type
     // PD this is a nonsense function. It does not do this. It makes assumtions
     // There is no Z component in the calcs. It tries to use imaginary part
     // as a vector which you cannot do with a quat, it is a 4D object which must
-    // use other methods to transform 3d objects.
+    // use other methods to transform 3d objects. it holds no position info.
     //procedure ConvertToPoints(var ArcFrom, ArcTo: TGLZAffineVector); //overload;
     //procedure ConvertToPoints(var ArcFrom, ArcTo: TGLZVector); //overload;
 

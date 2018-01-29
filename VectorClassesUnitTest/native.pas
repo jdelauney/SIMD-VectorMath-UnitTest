@@ -16,6 +16,8 @@ uses
 type
 {%region%----[ TNativeGLZVector2i ]---------------------------------------------}
   TNativeGLZVector2i = record
+    { Return vector as string }
+    function ToString : String;
   case Byte of
     0: (V: TGLZVector2iType);
     1: (X, Y : Integer);

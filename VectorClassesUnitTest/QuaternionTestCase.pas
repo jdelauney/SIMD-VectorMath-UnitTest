@@ -81,21 +81,21 @@ procedure TQuaternionTestCase.TestCreateImagArrayWithReal;
 begin
   nqt3.Create(3.0,nt1.AsVector3f);
   aqt3.Create(3.0,vt1.AsVector3f);
-  AssertTrue('Quaternion.CreateImagArrayWithReal no match'+nqt3.ToString+' --> '+aqt3.ToString, Compare(nqt3,aqt3));
+  AssertTrue('Quaternion.CreateImagArrayWithReal no match'+nqt3.ToString+' --> '+aqt3.ToString, Compare(nqt3,aqt3,1e-8));
 end;
 
 procedure TQuaternionTestCase.TestCreateTwoUnitAffine;
 begin
   nqt3.Create(nt1.AsVector3f,nt2.AsVector3f);
   aqt3.Create(vt1.AsVector3f,vt2.AsVector3f);
-  AssertTrue('Quaternion.CreateTwoUnitAffine no match'+nqt3.ToString+' --> '+aqt3.ToString, Compare(nqt3,aqt3));
+  AssertTrue('Quaternion.CreateTwoUnitAffine no match'+nqt3.ToString+' --> '+aqt3.ToString, Compare(nqt3,aqt3,1e-6));
 end;
 
 procedure TQuaternionTestCase.TestCreateTwoUnitHmg;
 begin
   nqt3.Create(nt1,nt2);
   aqt3.Create(vt1,vt2);
-  AssertTrue('Quaternion.CreateTwoUnitHmg no match'+nqt3.ToString+' --> '+aqt3.ToString, Compare(nqt3,aqt3));
+  AssertTrue('Quaternion.CreateTwoUnitHmg no match'+nqt3.ToString+' --> '+aqt3.ToString, Compare(nqt3,aqt3,1e-6));
 end;
 
 procedure TQuaternionTestCase.TestCreateAngleAxis;
@@ -183,7 +183,7 @@ begin
   aqt1.Create(90,ZVector);
   nqt3 := NativeIdentityQuaternion.Slerp(nqt1,3,0.5);
   aqt3 := IdentityQuaternion.Slerp(aqt1,3,0.5);
-  AssertTrue('Quaternion SlerpSpin no match'+nqt3.ToString+' --> '+aqt3.ToString, Compare(nqt3,aqt3));
+  AssertTrue('Quaternion SlerpSpin no match'+nqt3.ToString+' --> '+aqt3.ToString, Compare(nqt3,aqt3,1e-6));
 end;
 
 procedure TQuaternionTestCase.TestConvertToMatrix;
