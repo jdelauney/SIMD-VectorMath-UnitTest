@@ -3023,23 +3023,23 @@ begin
    //end;
 end;
 
-procedure TNativeGLZQuaternion.ConvertToPoints(var ArcFrom, ArcTo: TNativeGLZAffineVector);
-//procedure ConvertToPoints(var ArcFrom, ArcTo: TGLZVector); //overload;
-var
-   s, invS : Single;
-begin
-   s:=Self.ImagePart.X*Self.ImagePart.X+Self.ImagePart.Y*Self.ImagePart.Y;
-   if s=0 then ArcFrom := NativeAffineVectorMake( 0, 1, 0)
-   else
-   begin
-      invS:=InvSqrt(s);
-      ArcFrom := NativeAffineVectorMake( -Self.ImagePart.Y*invS, Self.ImagePart.X*invS, 0);
-   end;
-   ArcTo.X:=Self.RealPart*ArcFrom.X-Self.ImagePart.Z*ArcFrom.Y;
-   ArcTo.Y:=Self.RealPart*ArcFrom.Y+Self.ImagePart.Z*ArcFrom.X;
-   ArcTo.Z:=Self.ImagePart.X*ArcFrom.Y-Self.ImagePart.Y*ArcFrom.X;
-   if Self.RealPart<0 then ArcFrom := NativeAffineVectorMake( -ArcFrom.X, -ArcFrom.Y, 0);
-end;
+//procedure TNativeGLZQuaternion.ConvertToPoints(var ArcFrom, ArcTo: TNativeGLZAffineVector);
+////procedure ConvertToPoints(var ArcFrom, ArcTo: TGLZVector); //overload;
+//var
+//   s, invS : Single;
+//begin
+//   s:=Self.ImagePart.X*Self.ImagePart.X+Self.ImagePart.Y*Self.ImagePart.Y;
+//   if s=0 then ArcFrom := NativeAffineVectorMake( 0, 1, 0)
+//   else
+//   begin
+//      invS:=InvSqrt(s);
+//      ArcFrom := NativeAffineVectorMake( -Self.ImagePart.Y*invS, Self.ImagePart.X*invS, 0);
+//   end;
+//   ArcTo.X:=Self.RealPart*ArcFrom.X-Self.ImagePart.Z*ArcFrom.Y;
+//   ArcTo.Y:=Self.RealPart*ArcFrom.Y+Self.ImagePart.Z*ArcFrom.X;
+//   ArcTo.Z:=Self.ImagePart.X*ArcFrom.Y-Self.ImagePart.Y*ArcFrom.X;
+//   if Self.RealPart<0 then ArcFrom := NativeAffineVectorMake( -ArcFrom.X, -ArcFrom.Y, 0);
+//end;
 
 function TNativeGLZQuaternion.ConvertToMatrix : TNativeGLZMatrix;
  var

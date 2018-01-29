@@ -932,7 +932,11 @@ type
     procedure Create(const x, y, z: Single; eulerOrder : TGLZEulerOrder); overload;
 
     // Converts a unit quaternion into two points on a unit sphere
-    procedure ConvertToPoints(var ArcFrom, ArcTo: TGLZAffineVector); //overload;
+    // PD this is a nonsense function. It does not do this. It makes assumtions
+    // There is no Z component in the calcs. It tries to use imaginary part
+    // as a vector which you cannot do with a quat, it is a 4D object which must
+    // use other methods to transform 3d objects.
+    //procedure ConvertToPoints(var ArcFrom, ArcTo: TGLZAffineVector); //overload;
     //procedure ConvertToPoints(var ArcFrom, ArcTo: TGLZVector); //overload;
 
     { Constructs a rotation matrix from (possibly non-unit) quaternion.

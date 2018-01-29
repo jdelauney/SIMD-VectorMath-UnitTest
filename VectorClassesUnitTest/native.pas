@@ -557,10 +557,6 @@ type
     // Constructs quaternion from Euler angles in arbitrary order (angles in degrees)
     procedure Create(const x, y, z: Single; eulerOrder : TGLZEulerOrder); overload;
 
-    // Converts a unit quaternion into two points on a unit sphere
-    procedure ConvertToPoints(var ArcFrom, ArcTo: TNativeGLZAffineVector); //overload;
-    //procedure ConvertToPoints(var ArcFrom, ArcTo: TGLZVector); //overload;
-
     { Constructs a rotation matrix from (possibly non-unit) quaternion.
        Assumes matrix is used to multiply column vector on the left:
        vnew = mat vold.
