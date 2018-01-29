@@ -69,6 +69,15 @@ type
     // function Reflect(I, NRef : TVector2f):TVector2f
     function Round: TNativeGLZVector2i;
     function Trunc: TNativeGLZVector2i;
+    function Floor: TNativeGLZVector2i; overload;
+    function Ceil : TNativeGLZVector2i; overload;
+    function Fract : TNativeGLZVector2f; overload;
+
+    function Modf(constref A : TNativeGLZVector2f): TNativeGLZVector2f;
+    function fMod(Constref A : TNativeGLZVector2f): TNativeGLZVector2i;
+
+    function Sqrt : TNativeGLZVector2f; overload;
+    function InvSqrt : TNativeGLZVector2f; overload;
 
 
     case Byte of
