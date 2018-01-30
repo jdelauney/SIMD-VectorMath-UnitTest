@@ -1138,10 +1138,10 @@ function Compare(constref A: TGLZMatrix4f; constref B: TGLZMatrix4f;
   Epsilon: Single): boolean;
 begin
   Result := True;
-  if not compare(A.V[0], B.V[0]) then Result := False;
-  if not compare(A.V[1], B.V[1]) then Result := False;
-  if not compare(A.V[2], B.V[2]) then Result := False;
-  if not compare(A.V[3], B.V[3]) then Result := False;
+  if not compare(A.V[0], B.V[0], Epsilon) then Result := False;
+  if not compare(A.V[1], B.V[1], Epsilon) then Result := False;
+  if not compare(A.V[2], B.V[2], Epsilon) then Result := False;
+  if not compare(A.V[3], B.V[3], Epsilon) then Result := False;
 end;
 
 {$i native.inc}

@@ -852,8 +852,9 @@ begin
    if Abs(Det)<cEPSILON then  result:=IdentityHmgMatrix
    else
    begin
-      Self.Adjoint;
-      result := Self * (1/det);
+      Result := Self;
+      Result.Adjoint;
+      Result := Result * (1/det);
    end;
 end;
 
