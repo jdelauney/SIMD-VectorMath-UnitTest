@@ -152,9 +152,9 @@ end;
 
 procedure TMatrix4TestCase.TestInvert;
 begin
-  nmtx3 := nmtx2.Invert;
-  mtx3  := mtx2.Invert;
-  AssertTrue('Matrix Translate no match'+#13+#10+nmtx3.ToString+#13+#10+' --> '+#13+#10+mtx3.ToString, CompareMatrix(nmtx3,mtx3));
+  nmtx3 := nmtx1.Invert;
+  mtx3  := mtx1.Invert;
+  AssertTrue('Matrix Invert no match'+#13+#10+nmtx3.ToString+#13+#10+' --> '+#13+#10+mtx3.ToString, CompareMatrix(nmtx3,mtx3));
 end;
 
 {%endregion%}

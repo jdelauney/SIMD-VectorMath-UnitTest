@@ -1,6 +1,6 @@
 {%region%----[ Operators ]--------------------------------------------------------}
 
-class operator TGLZQuaternion.*(constref A, B: TGLZQuaternion): TGLZQuaternion; assembler;
+class operator TGLZQuaternion.*(constref A, B: TGLZQuaternion): TGLZQuaternion; assembler; nostackframe; register;
 Const
  cControlWZYX : TGLZQuaternion =(x:1.0;y:-1.0;z:1.0;w:-1.0);
  cControlZWXY : TGLZQuaternion =(x:1.0;y:1.0;z:-1.0;w:-1.0);
@@ -52,8 +52,9 @@ asm
  addps xmm5, xmm2
  addps xmm5, xmm3
  addps xmm5, xmm4
-
- movaps [RESULT], xmm5
+ movaps xmm0, xmm5
+ movhlps xmm1,xmm0
+// movaps [RESULT], xmm5
 end;
 
 class operator TGLZQuaternion.=(constref A, B: TGLZQuaternion): Boolean; assembler; nostackframe; register;
@@ -89,16 +90,33 @@ asm
   movhlps xmm1, xmm0
 end;
 
-function TGLZQuaternion.Magnitude : Single; assembler;
+
+// base before opts 0.939547 slightly slower that pascal
+// add nostackframe 1.311267
+// use Peter Cordes code 1.762932
+function TGLZQuaternion.Magnitude : Single; assembler; nostackframe; register;
 asm
-  movaps xmm0, [RDI]
-  mulps  xmm0, xmm0
-  pshufd xmm1, xmm0, $0E
-  addps  xmm0, xmm1
-  pshufd xmm1, xmm0, $01
-  addss  xmm0, xmm1
-  sqrtss xmm0, xmm0
-  movss [RESULT], {%H-}xmm0
+  movaps   xmm0, [RDI]
+  mulps    xmm0, xmm0
+{$ifdef USE_ASM_SSE_3}
+  movshdup xmm1, xmm0
+  addps    xmm0, xmm1
+  movhlps  xmm1, xmm0
+  addss    xmm0, xmm1
+{$else}
+  movaps   xmm1, xmm0
+  shufps   xmm1, xmm0, 10110001b //177
+  addps    xmm0, xmm1
+  movhlps  xmm1, xmm0
+  addss    xmm0, xmm1
+{$endif}
+  sqrtss    xmm0, xmm0
+ // pshufd xmm1, xmm0, $0E
+ // addps  xmm0, xmm1
+ // pshufd xmm1, xmm0, $01
+ // addss  xmm0, xmm1
+ // sqrtss xmm0, xmm0
+ //// movss [RESULT], {%H-}xmm0
 end;
 
 // three working regs + one for epsilon

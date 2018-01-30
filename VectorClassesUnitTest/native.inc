@@ -2277,7 +2277,7 @@ begin
    begin
       Result := Self;
       Result.Adjoint;
-      Result := Self * (1/det);
+      Result := Result * (1/det);
    end;
 end;
 
