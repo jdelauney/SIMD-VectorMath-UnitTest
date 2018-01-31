@@ -6,8 +6,8 @@ asm
   {$ifdef TEST}
     addps  xmm0,[B]
   {$else}
-    movaps xmm1,[B]
-    addps  xmm0, xmm1
+    //movaps xmm1,[B]
+    addps  xmm0, XMMWORD PTR [B] //xmm1
   {$endif}
   movaps [RESULT], xmm0
 end;
@@ -18,8 +18,8 @@ asm
   {$ifdef TEST}
     subps  xmm0,[B]
   {$else}
-    movaps xmm1,[B]
-    subps  xmm0, xmm1
+    //movaps xmm1,[B]
+    subps  xmm0, XMMWORD PTR [B] //xmm1
   {$endif}
   movaps [RESULT], xmm0
 end;
@@ -30,8 +30,8 @@ asm
   {$ifdef TEST}
     mulps  xmm0,[B]
   {$else}
-    movaps xmm1,[B]
-    mulps  xmm0, xmm1
+   // movaps xmm1,[B]
+    mulps  xmm0, XMMWORD PTR [B] //xmm1
   {$endif}
   movaps [RESULT], xmm0
 end;
@@ -121,7 +121,7 @@ end;
 class operator TGLZVector4f.-(constref A: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
 asm
   movaps xmm1,[A]
-  movaps xmm0,[RIP+cNullVector4f]
+  movaps xmm0, XMMWORD PTR [RIP+cNullVector4f]
   subps xmm0,xmm1
   movaps [RESULT],xmm0
 End;
@@ -201,8 +201,8 @@ asm
   {$ifdef TEST}
     andps    xmm0, [RIP+cSSE_MASK_ABS]
   {$else}
-    movaps   xmm1, [RIP+cSSE_MASK_ABS]
-    andps    xmm0, xmm1
+    //movaps   xmm1, [RIP+cSSE_MASK_ABS]
+    andps    xmm0, XMMWORD PTR [RIP+cSSE_MASK_ABS]//xmm1
   {$endif}
   movaps   [RESULT], xmm0
 end;
@@ -213,8 +213,8 @@ asm
   {$ifdef TEST}
     xorps xmm0,[RIP+cSSE_MASK_NEGATE]
   {$else}
-  movaps xmm1,[RIP+cSSE_MASK_NEGATE]
-  xorps xmm0, xmm1
+  //movaps xmm1, XMMWORD PTR [RIP+cSSE_MASK_NEGATE]
+  xorps xmm0, XMMWORD PTR [RIP+cSSE_MASK_NEGATE]//xmm1
   {$endif}
   movaps [RESULT],xmm0
 End;
@@ -225,8 +225,8 @@ asm
   {$ifdef TEST}
     mulps xmm0,[RIP+cHalfOneVector4f]
   {$else}
-    movaps xmm1,[RIP+cHalfOneVector4f]
-    mulps xmm0, xmm1
+    //movaps xmm1,[RIP+cHalfOneVector4f]
+    mulps xmm0, XMMWORD PTR [RIP+cHalfOneVector4f]//xmm1
   {$endif}
   movaps [RESULT],xmm0
 end;
@@ -234,49 +234,49 @@ end;
 function TGLZVector4f.Distance(constref A: TGLZVector4f):Single;assembler; nostackframe; register;
 Asm
 
-  {$IFDEF USE_ASM_SSE_4}
-    movaps xmm0,[RCX]
-    movaps  xmm1, [A]
-    subps   xmm0, xmm1
-    andps xmm0, [RIP+cSSE_MASK_NO_W]
-    dpps xmm0, xmm0, $FF
-    sqrtss xmm0, xmm0
-    // movss [RESULT], {%H-}xmm0
-  {$ELSE}
-    {$IFDEF USE_ASM_SSE_3}
-       {$ifdef TEST}
-          movq xmm0, [RCX]         // move 64 bits and clear top  x,y,0,0
-          movq xmm1, [A]           // move 64 bits and clear top  x1,y1,0,0
-          subps xmm0, xmm1   // x-x1,y-y1,0,0
-          mulps xmm0, xmm0   // (x-x1)^2,(y-y1)^2,0,0
-          movss xmm1, [rcx]8      // z,0,0,0
-          movss xmm2, [A]8        //z1,0,0,0
-          subps  xmm1, xmm2   //z-z1,0,0,0
-          mulps  xmm1, xmm1   //(z-z1)^2,0,0,0
-          addps  xmm0, xmm1   //(x-x1)^2+(z-z1)^2, (y-y1)^2, 0, 0
-          haddps xmm0, xmm0  //(x-x1)^2+(z-z1)^2 + (y-y1)^2, 0, 0
+  //{$IFDEF USE_ASM_SSE_4}
+  //  movaps xmm0,[RCX]
+  //  movaps  xmm1, [A]
+  //  subps   xmm0, xmm1
+  //  andps xmm0, [RIP+cSSE_MASK_NO_W]
+  //  dpps xmm0, xmm0, $FF
+  //  sqrtss xmm0, xmm0
+  //  // movss [RESULT], {%H-}xmm0
+  //{$ELSE}
+  //  {$IFDEF USE_ASM_SSE_3}
+  //     {$ifdef TEST}
+  //        movq xmm0, [RCX]         // move 64 bits and clear top  x,y,0,0
+  //        movq xmm1, [A]           // move 64 bits and clear top  x1,y1,0,0
+  //        subps xmm0, xmm1   // x-x1,y-y1,0,0
+  //        mulps xmm0, xmm0   // (x-x1)^2,(y-y1)^2,0,0
+  //        movss xmm1, [rcx]8      // z,0,0,0
+  //        movss xmm2, [A]8        //z1,0,0,0
+  //        subps  xmm1, xmm2   //z-z1,0,0,0
+  //        mulps  xmm1, xmm1   //(z-z1)^2,0,0,0
+  //        addps  xmm0, xmm1   //(x-x1)^2+(z-z1)^2, (y-y1)^2, 0, 0
+  //        haddps xmm0, xmm0  //(x-x1)^2+(z-z1)^2 + (y-y1)^2, 0, 0
+  //        //movshdup    xmm1, xmm0
+  //        //addps       xmm0, xmm1
+  //        //movhlps     xmm1, xmm0
+  //        //addss       xmm0, xmm1
+  //     {$else}
+          //movaps xmm0,[RCX]
+          //movaps  xmm1, [A]
+          //subps   xmm0, xmm1
+          //andps xmm0, [RIP+cSSE_MASK_NO_W]
+          //mulps   xmm0, xmm0
+          ////haddps xmm0, xmm0
+          ////haddps xmm0, xmm0
+          //// Instead of haddps :
           //movshdup    xmm1, xmm0
           //addps       xmm0, xmm1
           //movhlps     xmm1, xmm0
           //addss       xmm0, xmm1
-       {$else}
-          movaps xmm0,[RCX]
-          movaps  xmm1, [A]
-          subps   xmm0, xmm1
-          andps xmm0, [RIP+cSSE_MASK_NO_W]
-          mulps   xmm0, xmm0
-          haddps xmm0, xmm0
-          haddps xmm0, xmm0
-          // Instead of haddps :
-          //movshdup    xmm1, xmm0
-          //addps       xmm0, xmm1
-          //movhlps     xmm1, xmm0
-          //addss       xmm0, xmm1
-       {$endif}
-       sqrtss xmm0, xmm0
-       // movss [RESULT], {%H-}xmm0
-    {$ELSE}
-      {$ifdef TEST}
+  //     {$endif}
+  //     sqrtss xmm0, xmm0
+  //     // movss [RESULT], {%H-}xmm0
+  //  {$ELSE}
+  //    {$ifdef TEST}
         movq xmm0, [RCX]         // move 64 bits and clear top  x,y,0,0   ** Not working on Win10 64bit
         movq xmm1, [A]           // move 64 bits and clear top  x1,y1,0,0
         subps xmm0, xmm1   // x-x1,y-y1,0,0
@@ -286,34 +286,39 @@ Asm
         subps  xmm1, xmm2   //z-z1,0,0,0
         mulps  xmm1, xmm1   //(z-z1)^2,0,0,0
         addps  xmm0, xmm1   //(x-x1)^2+(z-z1)^2, (y-y1)^2, 0, 0
-        haddps xmm0, xmm0  //(x-x1)^2+(z-z1)^2 + (y-y1)^2, 0, 0
+        //haddps xmm0, xmm0  //(x-x1)^2+(z-z1)^2 + (y-y1)^2, 0, 0
+        //movaps  xmm2,xmm0
+        //xorps  xmm2,xmm2
+        movshdup  xmm1, xmm0
+        addss  xmm0, xmm1         //    |z^2+x^2*|1|1|
+
         //movshdup    xmm1, xmm0
         //addps       xmm0, xmm1
         //movhlps     xmm1, xmm0
         //addss       xmm0, xmm1
         sqrtss xmm0, xmm0
-      {$else}
-         movaps xmm1,[RCX]
-         movaps  xmm0, [A]
-         subps   xmm1, xmm0
-         andps xmm1, [RIP+cSSE_MASK_NO_W]
-         mulps   xmm1, xmm1
-         movhlps xmm0, xmm1
-         addss xmm0, xmm1
-         shufps xmm1, xmm1, $55
-         addss xmm0, xmm1
-         {.$IFDEF USE_ASM_SIMD_HIGHPRECISION}
-         // High Precision
-         sqrtss xmm0, xmm0
+  //    {$else}
+         //movaps xmm1,[RCX]
+         //movaps  xmm0, [A]
+         //subps   xmm1, xmm0
+         //andps xmm1, [RIP+cSSE_MASK_NO_W]
+         //mulps   xmm1, xmm1
+         //movhlps xmm0, xmm1
+         //addss xmm0, xmm1
+         //shufps xmm1, xmm1, $55
+         //addss xmm0, xmm1
+         //{.$IFDEF USE_ASM_SIMD_HIGHPRECISION}
+         //// High Precision
+         //sqrtss xmm0, xmm0
          {.$ELSE
              // Low precision - note : may be very inaccurate
              rsqrtss xmm0, xmm0
              rcpss xmm0, xmm0
          .$ENDIF}
          //movss [RESULT], {%H-}xmm0
-       {$ENDIF}
-  {$ENDIF}
-{$ENDIF}
+//       {$ENDIF}
+//  {$ENDIF}
+//{$ENDIF}
 end;
 
 //function TGLZVector4f.LengthSquare:Single;assembler; nostackframe; register;
@@ -334,7 +339,7 @@ Asm
 
     {$IFDEF USE_ASM_SSE_3}
       movaps xmm0,[RCX]
-      andps xmm0, [RIP+cSSE_MASK_NO_W] //we need to remove W component
+      andps xmm0, XMMWORD PTR [RIP+cSSE_MASK_NO_W] //we need to remove W component
       mulps   xmm0, xmm0
       {$ifdef TEST}
         movshdup    xmm1, xmm0
@@ -342,8 +347,16 @@ Asm
         movhlps     xmm1, xmm0
         addss       xmm0, xmm1
       {$else}
-        haddps xmm0, xmm0
-        haddps xmm0, xmm0
+        //haddps xmm0, xmm0
+        //haddps xmm0, xmm0
+        movshdup    xmm1, xmm0
+        addps       xmm0, xmm1
+        movhlps     xmm1, xmm0
+        addss       xmm0, xmm1
+        //pshufd  xmm1, xmm0, $0E
+        //addps   xmm0, xmm1
+        //pshufd  xmm1, xmm0, $01
+        //addss   xmm0, xmm1
       {$endif}
       {$IFDEF USE_ASM_SIMD_HIGHPRECISION}
         sqrtss xmm0, xmm0
@@ -402,15 +415,15 @@ Asm
           movaps xmm0,[RCX]
           movaps  xmm1, [A]
           subps   xmm0, xmm1
-          andps xmm0, [RIP+cSSE_MASK_NO_W]
+          andps xmm0, XMMWORD PTR [RIP+cSSE_MASK_NO_W]
           mulps   xmm0, xmm0
-          haddps xmm0, xmm0
-          haddps xmm0, xmm0
+          //haddps xmm0, xmm0
+          //haddps xmm0, xmm0
           // Instead of haddps :
-          //movshdup    xmm1, xmm0
-          //addps       xmm0, xmm1
-          //movhlps     xmm1, xmm0
-          //addss       xmm0, xmm1
+          movshdup    xmm1, xmm0
+          addps       xmm0, xmm1
+          movhlps     xmm1, xmm0
+          addss       xmm0, xmm1
        {$endif}
 
        // movss [RESULT], {%H-}xmm0
@@ -439,7 +452,7 @@ Asm
 
     {$IFDEF USE_ASM_SSE_3}
       movaps xmm0,[RCX]
-      andps xmm0, [RIP+cSSE_MASK_NO_W] //we need to remove W component
+      andps xmm0, XMMWORD PTR [RIP+cSSE_MASK_NO_W] //we need to remove W component
       mulps   xmm0, xmm0
       {$ifdef TEST}
         movshdup    xmm1, xmm0
@@ -447,8 +460,12 @@ Asm
         movhlps     xmm1, xmm0
         addss       xmm0, xmm1
       {$else}
-        haddps xmm0, xmm0
-        haddps xmm0, xmm0
+        //haddps xmm0, xmm0
+        //haddps xmm0, xmm0
+        movshdup    xmm1, xmm0
+        addps       xmm0, xmm1
+        movhlps     xmm1, xmm0
+        addss       xmm0, xmm1
       {$endif}
     {$ELSE}
       movaps xmm1,[RCX]
@@ -468,7 +485,7 @@ asm
   movaps xmm1, [RCX]
   movaps xmm0, [A]
   subps xmm0, xmm1
-  andps xmm0, [RIP+cSSE_MASK_ABS]
+  andps xmm0, XMMWORD PTR [RIP+cSSE_MASK_ABS]
   {$IFDEF USE_ASM_SSE_3}
     {$ifdef TEST}
       movshdup    xmm1, xmm0
@@ -476,8 +493,12 @@ asm
       movhlps     xmm1, xmm0
       addss       xmm0, xmm1
     {$else}
-      haddps xmm0, xmm0
-      haddps xmm0, xmm0
+      //haddps xmm0, xmm0
+      //haddps xmm0, xmm0
+      movshdup    xmm1, xmm0
+      addps       xmm0, xmm1
+      movhlps     xmm1, xmm0
+      addss       xmm0, xmm1
     {$endif}
   {$else}
      movhlps xmm1, xmm0            // xmm1 =  - | -  | w  | z  |
@@ -513,7 +534,7 @@ asm
   // sub the results
   subps  xmm0, xmm2
  // andps xmm0, [rip+cSSE_MASK_NO_W]
-  addps xmm0, [rip+cWOnevector4f] // it would better change by logical operator
+  addps xmm0, XMMWORD PTR [RIP+cWOnevector4f] // it would better change by logical operator
   movaps [RESULT], xmm0      // return result
 end;
 
@@ -535,7 +556,7 @@ asm
     {$IFDEF USE_ASM_SSE_3}
        movaps xmm1,[RCX]
        movaps xmm0, [A]
-       andps xmm1, [RIP+cSSE_MASK_NO_W]
+       andps xmm1, XMMWORD PTR [RIP+cSSE_MASK_NO_W]
        mulps xmm0, xmm1
       // {$ifdef TEST}
          movshdup    xmm1, xmm0
@@ -585,14 +606,12 @@ asm
   movaps  xmm0, [RCX]
   movaps  xmm2, xmm0
   mulps   xmm2, xmm2
-  movaps  xmm1, [RIP+cOneVector4f]
+  movaps  xmm1, XMMWORD PTR [RIP+cOneVector4f]
   movhlps xmm1, xmm2        //  |Z^2|*|1|1|
-  {$ifdef USE_ASM_SSE_3}
-  haddps  xmm2, xmm2
-  {$else}
+
   addss   xmm1, xmm2         //    |z^2+x^2*|1|1|
-  shufps  xmm2, xmm2, 01010101b
-  {$endif}
+  shufps  xmm2, xmm2, 01010101b //movshdup  xmm2, xmm2 is a little slower
+
   addss   xmm1, xmm2         //  |x^2 + y^2 + z^2|*|1|1|
   sqrtps  xmm1, xmm1         //  |Sqrt(x^2 + y^2 + z^2)|*|1|1|
   movd    eax,  xmm1
@@ -600,7 +619,7 @@ asm
   jz @origin
   shufps  xmm1, xmm1, 11000000b  // |sqrt(Norm)|sqrt(Norm)|sqrt(Norm)|1|
   divps   xmm0, xmm1
-  @origin:
+@origin:
  // movhlps xmm1, xmm0          // sf 5.48
   movaps [RESULT], xmm0
 end;
@@ -625,8 +644,8 @@ asm
   {$ifdef TEST}
     minps  xmm0, [B]
   {$else}
-    movaps xmm1, [B]
-    minps  xmm0, xmm1
+    //movaps xmm1, [B]
+    minps  xmm0, XMMWORD PTR [B]// xmm1
   {$endif}
   movaps [RESULT], xmm0
 end;
@@ -652,8 +671,8 @@ asm
   {$ifdef TEST}
     maxps  xmm0, [B]
   {$else}
-    movaps xmm1, [B]
-    maxps  xmm0, xmm1
+    //movaps xmm1, [B]
+    maxps  xmm0, XMMWORD PTR [B] //xmm1
   {$endif}
   movaps [RESULT], xmm0
 end;
@@ -682,10 +701,10 @@ asm
     maxps  xmm0, [AMin]
     minps  xmm0, [AMax]
   {$else}
-    movaps xmm1, [AMin]
-    movaps xmm2, [AMax]
-    maxps  xmm0, xmm1
-    minps  xmm0, xmm2
+    //movaps xmm1, [AMin]
+    //movaps xmm2, [AMax]
+    maxps  xmm0, XMMWORD PTR [AMin]//xmm1
+    minps  xmm0, XMMWORD PTR [AMax] //xmm2
   {$endif}
   movaps [RESULT], xmm0
 end;
@@ -693,44 +712,34 @@ end;
 function TGLZVector4f.MulAdd(Constref B, C: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
 asm
   movaps xmm0,[RCX]
-  {$ifdef TEST}
-    mulps  xmm0, [B]
-    addps  xmm0, [C]
-  {$else}
-    movaps xmm1, [B]
-    movaps xmm2, [C]
-    mulps  xmm0, xmm1
-    addps  xmm0, xmm2
-  {$endif}
+  //movaps xmm1, [B]
+  //movaps xmm2, [C]
+  mulps  xmm0, XMMWORD PTR [B] //xmm1
+  addps  xmm0, XMMWORD PTR [C] //xmm2
   movaps [RESULT], xmm0
 end;
 
 function TGLZVector4f.MulDiv(Constref B, C: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
 asm
   movaps xmm0,[RCX]
-  {$ifdef TEST}
-    mulps  xmm0, [B]
-    Divps  xmm0, [C]
-  {$else}
-    movaps xmm1, [B]
-    movaps xmm2, [C]
-    mulps  xmm0, xmm1
-    Divps  xmm0, xmm2
-  {$endif}
+  //movaps xmm1, [B]
+  //movaps xmm2, [C]
+  mulps  xmm0, XMMWORD PTR [B] //xmm1
+  Divps  xmm0, XMMWORD PTR [C] //xmm2
   movaps [RESULT], xmm0
 end;
 
 function TGLZVector4f.Lerp(Constref B: TGLZVector4f; Constref T:Single): TGLZVector4f; assembler; nostackframe; register;
 asm
   movaps xmm0,[RCX]
-  movups xmm1, [B]
-  {$ifdef TEST}
+  movaps xmm1, [B]
+  //{$ifdef TEST}
     movlps  xmm2,[T]
-  {$else}
-    movss  xmm2,[T]
-  {$endif}
+ // {$else}
+ //   movss  xmm2,[T]
+ // {$endif}
   shufps xmm2,xmm2,0
-  andps xmm2, [RIP+cSSE_MASK_NO_W]
+  andps xmm2,XMMWORD PTR  [RIP+cSSE_MASK_NO_W]
   subps xmm1,xmm0
   mulps xmm1, xmm2
   addps xmm0, xmm1
@@ -750,11 +759,15 @@ asm
     movaps xmm3,xmm0
  {$ELSE}
    {$IFDEF USE_ASM_SSE_3}
-     andps xmm0, [RIP+cSSE_MASK_NO_W]
-     mulps xmm1, xmm0
-     haddps xmm1, xmm1
-     haddps xmm1, xmm1
-     movaps xmm3,xmm1
+     andps xmm0, XMMWORD PTR [RIP+cSSE_MASK_NO_W]
+     mulps xmm0, xmm1
+     //haddps xmm1, xmm1
+     //haddps xmm1, xmm1
+     movshdup    xmm3, xmm0
+     addps       xmm0, xmm3
+     movhlps     xmm3, xmm0
+     addss       xmm0, xmm3
+    // movaps xmm3,xmm1
    {$ELSE}
      mulps  xmm1, xmm0
      movhlps xmm0, xmm1
@@ -765,15 +778,19 @@ asm
    {$ENDIF}
  {$ENDIF}
   // Length Self in xmm2 result in xmm2
-  andps xmm2, [RIP+cSSE_MASK_NO_W]
+  andps xmm2,XMMWORD PTR  [RIP+cSSE_MASK_NO_W]
   {$IFDEF USE_ASM_SSE_4}
     dpps xmm2, xmm2, $FF;
     sqrtss xmm2, xmm2
   {$ELSE}
     mulps   xmm2, xmm2
     {$IFDEF USE_ASM_SSE_3}
-      haddps xmm2, xmm2
-      haddps xmm2, xmm2
+      //haddps xmm2, xmm2
+      //haddps xmm2, xmm2
+      movshdup    xmm3, xmm2
+      addps       xmm2, xmm3
+      movhlps     xmm3, xmm2
+      addss       xmm2, xmm3
       sqrtss xmm2, xmm2
     {$ELSE}
       movhlps xmm1, xmm2
@@ -784,15 +801,19 @@ asm
     {$ENDIF}
   {$ENDIF}
   // Lenght A in xmm4 result in xmm4
-  andps xmm4, [RIP+cSSE_MASK_NO_W]
+  andps xmm4, XMMWORD PTR [RIP+cSSE_MASK_NO_W]
   {$IFDEF USE_ASM_SSE_4}
     dpps xmm4, xmm4, $FF;
     sqrtss xmm4, xmm4
   {$ELSE}
     mulps   xmm4, xmm4
     {$IFDEF USE_ASM_SSE_3}
-      haddps xmm4, xmm4
-      haddps xmm4, xmm4
+      //haddps xmm4, xmm4
+      //haddps xmm4, xmm4
+      movshdup    xmm3, xmm4
+      addps       xmm4, xmm3
+      movhlps     xmm3, xmm4
+      addss       xmm4, xmm3
       sqrtss xmm4, xmm4
     {$ELSE}
       movhlps xmm1, xmm4
@@ -803,9 +824,9 @@ asm
     {$ENDIF}
   {$ENDIF}
   mulps xmm2,xmm4
-  divps xmm3, xmm2
+  divps xmm0, xmm2
   //movss [RESULT], {%H-}xmm3
-  movss xmm0, xmm3
+  //movss xmm0, xmm3
 end;
 
 function TGLZVector4f.AngleBetween(Constref A, ACenterPoint : TGLZVector4f): Single;
@@ -815,16 +836,17 @@ begin
   asm
     movaps xmm0,[RCX]       //self is still in rcx
     mov rax, [A]            // A is a pointer on the stack
-    movups xmm1, [RAX]
+   // movups xmm1, [RAX]
+    movaps xmm1, XMMWORD PTR [RAX]
     mov rax, [ACenterPoint] // ACenterPoint is a pointer on the stack
-    movups xmm2, [RAX]
+    movaps xmm2, XMMWORD PTR  [RAX]
     subps xmm0, xmm2
     subps xmm1, xmm2
 
     // Normalize xmm0 result in xmm2
     movaps xmm3,xmm0
-    andps  xmm3, [RIP+cSSE_MASK_ONLY_W]
-    andps  xmm0, [RIP+cSSE_MASK_NO_W]
+    andps  xmm3, XMMWORD PTR [RIP+cSSE_MASK_ONLY_W]
+    andps  xmm0, XMMWORD PTR [RIP+cSSE_MASK_NO_W]
     movaps xmm2, xmm0
     {$IFDEF USE_ASM_SSE_3}
       mulps  xmm0, xmm0
@@ -851,8 +873,8 @@ begin
     addps xmm2,xmm3
     // Normalize xmm1 result in xmm4
     movaps xmm3,xmm1
-    andps  xmm3, [RIP+cSSE_MASK_ONLY_W]
-    andps  xmm1, [RIP+cSSE_MASK_NO_W]
+    andps  xmm3, XMMWORD PTR [RIP+cSSE_MASK_ONLY_W]
+    andps  xmm1, XMMWORD PTR [RIP+cSSE_MASK_NO_W]
     movaps xmm4, xmm1
     {$IFDEF USE_ASM_SSE_3}
       mulps  xmm1, xmm1
@@ -888,7 +910,7 @@ begin
       movaps xmm3,xmm0
    {$ELSE}
      {$IFDEF USE_ASM_SSE_3}
-       andps xmm0, [RIP+cSSE_MASK_NO_W]
+       andps xmm0, XMMWORD PTR [RIP+cSSE_MASK_NO_W]
        mulps xmm1, xmm0
        haddps xmm1, xmm1
        haddps xmm1, xmm1
@@ -903,7 +925,7 @@ begin
      {$ENDIF}
    {$ENDIF}
     // Length xmm2 result in xmm2
-    andps xmm2, [RIP+cSSE_MASK_NO_W]
+    andps xmm2, XMMWORD PTR [RIP+cSSE_MASK_NO_W]
     {$IFDEF USE_ASM_SSE_4}
       dpps xmm2, xmm2, $FF;
       sqrtss xmm2, xmm2
@@ -922,7 +944,7 @@ begin
       {$ENDIF}
     {$ENDIF}
     // Lenght  xmm4 result in xmm4
-    andps xmm4, [RIP+cSSE_MASK_NO_W]
+    andps xmm4, XMMWORD PTR [RIP+cSSE_MASK_NO_W]
     {$IFDEF USE_ASM_SSE_4}
       dpps xmm4, xmm4, $FF;
       sqrtss xmm4, xmm4
@@ -961,7 +983,7 @@ asm
   mulps xmm1, xmm2 //V2*F1
   addps xmm0, xmm1 // Self + (V2*F1)
 
-  andps xmm0, [RIP+cSSE_MASK_NO_W]
+  andps xmm0, XMMWORD PTR [RIP+cSSE_MASK_NO_W]
   movaps [RESULT], xmm0
 end;
 
@@ -984,7 +1006,7 @@ asm
 
   addps xmm0, xmm1  // (Self * F1) + (V2 * F2)
 
-  andps xmm0, [RIP+cSSE_MASK_NO_W]
+  andps xmm0, XMMWORD PTR [RIP+cSSE_MASK_NO_W]
   //movhlps xmm1,xmm0
   movups [RESULT], xmm0
 
@@ -1017,15 +1039,15 @@ asm
   addps xmm0, xmm1 // (Self * F1) + (V2 * F2)
   addps xmm0, xmm4 // ((Self * F1) + (V2 * F2)) + (V3 * F3)
 
-  andps xmm0, [RIP+cSSE_MASK_NO_W]
+  andps xmm0, XMMWORD PTR [RIP+cSSE_MASK_NO_W]
   movups [RESULT], xmm0
 end;
 
 function TGLZVector4f.Round: TGLZVector4i;assembler;nostackframe;register;
 asm
   // Rounding mode defaults to round-to-nearest
-  movaps     xmm0, [RCX]
-  cvtps2dq xmm0, xmm0
+  //movaps     xmm0, [RCX]
+  cvtps2dq xmm0, XMMWORD PTR [RCX]//xmm0
   movaps     [RESULT], xmm0
 end;
 

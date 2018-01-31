@@ -3384,6 +3384,42 @@ end;
 
 {%endregion%}
 
+{%region%----[ TNativeGLZVector2fHelper ]---------------------------------------}
+
+function TNativeGLZVector2fHelper.Step(ConstRef B : TNativeGLZVector2f):TNativeGLZVector2f;
+begin
+  result := Self;
+  if self.X <= B.X then result.X := 0;
+  if self.Y <= B.Y then result.Y := 0;
+end;
+
+//function TGLZVectorHelper.FaceForward(constref A, B: TGLZVector4f): TGLZVector4f;
+//begin
+//  if (B.DotProduct(A) < 0) then
+//     Result := -Self
+//   else
+//     Result := Self;
+//end;
+
+function TNativeGLZVector2fHelper.Saturate : TNativeGLZVector2f;
+begin
+  Result := self;
+  Result := Result.Max(NativeNullVector2f);
+  Result := Result.Min(NativeOneVector2f);
+end;
+
+function TNativeGLZVector2fHelper.SmoothStep(ConstRef A,B : TNativeGLZVector2f): TNativeGLZVector2f;
+var
+  t: TNativeGLZVector2f;
+begin
+  t := (Self-a)/(b-a);
+  t := t.Saturate;
+  // t * t * (3.0 - (t * 2.0)); <--- no overload for single - vector
+  result := t * t * -((t * 2.0) + -3);
+end;
+
+{%endregion%}
+
 {%region%----[ TNativeGLZVectorHelper ]-----------------------------------------}
 
 function TNativeGLZVectorHelper.Rotate(constref axis : TNativeGLZVector; angle : Single):TNativeGLZVector;

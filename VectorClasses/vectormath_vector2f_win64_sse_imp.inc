@@ -184,7 +184,9 @@ asm
   movq   xmm1, [A]
   subps  xmm0, xmm1
   mulps  xmm0, xmm0
-  haddps xmm0, xmm0
+  //haddps xmm0, xmm0
+  movshdup xmm1, xmm0
+  addps    xmm0, xmm1
   sqrtss xmm0, xmm0
   movq   [Result], {%H-}xmm0
 end;
@@ -195,7 +197,9 @@ asm
   movq   xmm1, [A]
   subps  xmm0, xmm1
   mulps  xmm0, xmm0
-  haddps xmm0, xmm0
+  //haddps xmm0, xmm0
+  movshdup xmm1, xmm0
+  addps    xmm0, xmm1
 end;
 
 function TGLZVector2f.Normalize : TGLZVector2f;Assembler;nostackframe;register;

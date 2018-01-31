@@ -744,6 +744,53 @@ type
 
 {%region%----[ TNativeGLZVectorHelper ]-----------------------------------------}
 
+  TNativeGLZVector2fHelper = record helper for TNativeGLZVector2f
+  public
+    {  : Implement a step function returning either zero or one.
+      Implements a step function returning one for each component of Self that is
+      greater than or equal to the corresponding component in the reference
+      vector B, and zero otherwise.
+      see : http://developer.download.nvidia.com/cg/step.html
+    }
+    function Step(ConstRef B : TNativeGLZVector2f):TNativeGLZVector2f;
+
+    { : Returns a normal as-is if a vertex's eye-space position vector points in the opposite direction of a geometric normal, otherwise return the negated version of the normal
+      Self = Peturbed normal vector.
+      A = Incidence vector (typically a direction vector from the eye to a vertex).
+      B = Geometric normal vector (for some facet the peturbed normal belongs).
+      see : http://developer.download.nvidia.com/cg/faceforward.html
+    }
+    //function FaceForward(constref A, B: TGLZVector2f): TGLZVector2f;
+
+    { : Returns smallest integer not less than a scalar or each vector component.
+      Returns Self saturated to the range [0,1] as follows:
+
+      1) Returns 0 if Self is less than 0; else
+      2) Returns 1 if Self is greater than 1; else
+      3) Returns Self otherwise.
+
+      For vectors, the returned vector contains the saturated result of each element
+      of the vector Self saturated to [0,1].
+      see : http://developer.download.nvidia.com/cg/saturate.html
+    }
+    function Saturate : TNativeGLZVector2f;
+
+    { : Interpolate smoothly between two input values based on a third
+      Interpolates smoothly from 0 to 1 based on Self compared to a and b.
+      1) Returns 0 if Self < a < b or Self > a > b
+      1) Returns 1 if Self < b < a or Self > b > a
+      3) Returns a value in the range [0,1] for the domain [a,b].
+
+      if A = Self
+      The slope of Self.smoothstep(a,b) and b.smoothstep(a,b) is zero.
+
+      For vectors, the returned vector contains the smooth interpolation of each
+      element of the vector x.
+      see : http://developer.download.nvidia.com/cg/smoothstep.html
+    }
+    function SmoothStep(ConstRef A,B : TNativeGLZVector2f): TNativeGLZVector2f;
+  end;
+
   { TNativeGLZVectorHelper }
 
   TNativeGLZVectorHelper = record helper for TNativeGLZVector
@@ -862,7 +909,7 @@ type
 Const
 
   NativeNullVector2f : TNativeGLZVector2f = (x:0;y:0);
-
+  NativeOneVector2f : TNativeGLZVector2f = (x:1;y:1);
 
   // standard affine vectors
   NativeXVector :    TNativeGLZAffineVector = (X:1; Y:0; Z:0);
