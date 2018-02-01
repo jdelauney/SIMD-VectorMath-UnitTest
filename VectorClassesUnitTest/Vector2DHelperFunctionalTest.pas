@@ -10,6 +10,8 @@ uses
   native, GLZVectorMath;
 type
 
+  { TVector2DHelperFunctionalTest }
+
   TVector2DHelperFunctionalTest = class(TVectorBaseTestCase)
     published
       //procedure TestRotate;
@@ -27,6 +29,7 @@ type
       //procedure TestFaceForward;
       procedure TestSaturate;
       procedure TestSmoothStep;
+      procedure TestLerp;
       //procedure Test;
 
   end;
@@ -153,6 +156,26 @@ begin
    vtt4 := vtt1.SmoothStep(vtt2,vtt3);   // lerp would return 0.75 for this
    AssertEquals('TestSmoothStep:Sub7 X failed : <'+vtt1.ToString+'>' +vtt4.ToString,    0.84375, vtt4.X,1e-4);
    AssertEquals('TestSmoothStep:Sub8 Y failed : <'+vtt1.ToString+'>' +vtt4.ToString,   0.0, vtt4.Y,1e-4);
+end;
+
+procedure TVector2DHelperFunctionalTest.TestLerp;
+begin
+  vtt1.Create(60,60);
+  vtt4 := vtt1.Lerp(NullVector2f, 0.5);
+  AssertEquals('Lerp:Sub1 X failed ', 30, vtt4.X);
+  AssertEquals('Lerp:Sub2 Y failed ', 30, vtt4.Y);
+  vtt4 := vtt1.Lerp(NullVector2f, 0.25);
+  AssertEquals('Lerp:Sub3 X failed ', 45, vtt4.X);
+  AssertEquals('Lerp:Sub4 Y failed ', 45, vtt4.Y);
+  vtt4 := vtt1.Lerp(NullVector2f, 0.75);
+  AssertEquals('Lerp:Sub5 X failed ',  15, vtt4.X);
+  AssertEquals('Lerp:Sub6 Y failed ', 15, vtt4.Y);
+  vtt4 := NullVector2f.Lerp(vtt1, 0.75);
+  AssertEquals('Lerp:Sub7 X failed ', 45, vtt4.X);
+  AssertEquals('Lerp:Sub8 Y failed ', 45, vtt4.Y);
+  vtt4 := NullVector2f.Lerp(vtt1, 0.25);
+  AssertEquals('Lerp:Sub9 X failed ', 15, vtt4.X);
+  AssertEquals('Lerp:Sub10 Y failed ', 15, vtt4.Y);
 end;
 
 initialization

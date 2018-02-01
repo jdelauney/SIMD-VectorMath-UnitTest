@@ -51,6 +51,11 @@ begin
   result := t * t * -((t * 2.0) + -3);
 end;
 
+function TGLZVector2DHelper.Lerp(Constref B: TGLZVector2f; Constref T:Single): TGLZVector2f;
+begin
+  result := Self + (b-self)*t;
+end;
+
 {%endregion%}
 
 {%endregion%}

@@ -60,3 +60,14 @@ asm
   movq   rax,  {%H-}xmm0
 end;
 
+function TGLZVector2DHelper.Lerp(Constref B: TGLZVector2f; Constref T:Single): TGLZVector2f;assembler; register; nostackframe;
+asm
+  movq xmm0, [RCX]
+  movq xmm1, [B]
+  movlps xmm2, [T]
+  shufps xmm2, xmm2, 0
+  subps xmm1, xmm0
+  mulps xmm1,xmm2
+  addps xmm0,xmm1
+  movq   rax,  {%H-}xmm0
+end;

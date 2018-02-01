@@ -1174,7 +1174,13 @@ type
       see : http://developer.download.nvidia.com/cg/smoothstep.html
     }
     function SmoothStep(ConstRef A,B : TGLZVector2f): TGLZVector2f;
+
+    { : Returns the linear interpolation of Self and B based on weight T.
+       if T has values outside the [0,1] range, it actually extrapolates.
+    }
+    function Lerp(Constref B: TGLZVector2f; Constref T:Single): TGLZVector2f;
   end;
+
 
   TGLZVectorHelper = record helper for TGLZVector
   public

@@ -3451,6 +3451,11 @@ begin
   result := t * t * -((t * 2.0) + -3);
 end;
 
+function TNativeGLZVector2fHelper.Lerp(Constref B: TNativeGLZVector2f; Constref T:Single): TNativeGLZVector2f;
+begin
+  result := Self + (b-self)*t;
+end;
+
 {%endregion%}
 
 {%region%----[ TNativeGLZVectorHelper ]-----------------------------------------}
