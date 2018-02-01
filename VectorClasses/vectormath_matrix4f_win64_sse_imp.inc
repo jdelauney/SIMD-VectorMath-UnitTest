@@ -424,6 +424,19 @@ asm
     movaps  [RDX]$30, xmm3
   {$endif}
 end;
+{
+NUT_MATH_INLINE inline matrix<simd4f,4> transpose(const matrix<simd4f,4>& m)
+
+    simd4f tmp0 = _mm_unpacklo_ps(m[0],m[1]);
+    simd4f tmp1 = _mm_unpackhi_ps(m[0],m[1]);
+    simd4f tmp2 = _mm_unpacklo_ps(m[2],m[3]);
+    simd4f tmp3 = _mm_unpackhi_ps(m[2],m[3]);
+    return  _mm_movelh_ps(tmp0,tmp2),_mm_movehl_ps(tmp2,tmp0),
+             _mm_movelh_ps(tmp1,tmp3),_mm_movehl_ps(tmp3,tmp1)
+}
+
+
+
 
 // Translated from DirectXMathMatrix.nl
 function TGLZMatrix4f.GetDeterminant : Single;  assembler; register; nostackframe;

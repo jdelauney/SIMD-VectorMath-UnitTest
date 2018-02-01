@@ -201,8 +201,8 @@ asm
   shufps xmm2, xmm2, $00 // Broadcast
   // get sign of xmm2
   movaps xmm3, xmm2
-  movaps xmm5, [RIP+cOneMinusVector4f]
-  movaps xmm4, [RIP+cOneVector4f]
+  movaps xmm5, XMMWORD PTR [RIP+cOneMinusVector4f]
+  movaps xmm4, XMMWORD PTR [RIP+cOneVector4f]
 
   xorps xmm1, xmm1   // reset to 0
   cmpltps  xmm2, xmm1 // < 0 ???
@@ -233,8 +233,8 @@ end;
 function TGLZVectorHelper.Saturate : TGLZVector4f;assembler; register; nostackframe;
 asm
   movaps xmm0, [RCX]
-  minps xmm0,[RIP+cOneVector4f]
-  maxps xmm0,[RIP+cNullVector4f]
+  minps xmm0,XMMWORD PTR [RIP+cOneVector4f]
+  maxps xmm0,XMMWORD PTR [RIP+cNullVector4f]
   movaps   [RDX], xmm0
 end;
 
@@ -249,14 +249,14 @@ asm
   movaps  xmm2, [B]
   subps   xmm2, xmm1
   divps   xmm0, xmm2
-  minps   xmm0, [RIP+cOneVector4f]
-  maxps   xmm0, [RIP+cNullVector4f]
+  minps   xmm0, XMMWORD PTR [RIP+cOneVector4f]
+  maxps   xmm0, XMMWORD PTR [RIP+cNullVector4f]
 
   //result :=t*t * ((3.0 - t*2.0))
   movaps  xmm1, xmm0
 
   mulps   xmm0, xmm0
-  movaps  xmm2, [RIP+cVecSet3]
+  movaps  xmm2, XMMWORD PTR [RIP+cVecSet3]
   addps   xmm1, xmm1            //t*2
   subps   xmm2, xmm1
   mulps   xmm0, xmm2

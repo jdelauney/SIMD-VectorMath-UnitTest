@@ -590,10 +590,10 @@ begin
    AssertEquals('TestSmoothStep:Sub12 W failed ',   0.84375, vt4.W,1e-4);
    vt2.Create(0,0,2,0);  // Make one item the same as upper
    vt4 := vt1.SmoothStep(vt2,vt3);   // lerp would return 0.75 for this
-   AssertEquals('TestSmoothStep:Sub9 X failed ',    0.84375, vt4.X,1e-4);
-   AssertEquals('TestSmoothStep:Sub10 Y failed ',   0.84375, vt4.Y,1e-4);
-   AssertEquals('TestSmoothStep:Sub11 Z failed ',   0.0    , vt4.Z,1e-4);
-   AssertEquals('TestSmoothStep:Sub12 W failed ',   0.84375, vt4.W,1e-4);
+   AssertEquals('TestSmoothStep:Sub13 X failed ',    0.84375, vt4.X,1e-4);
+   AssertEquals('TestSmoothStep:Sub14 Y failed ',   0.84375, vt4.Y,1e-4);
+   AssertEquals('TestSmoothStep:Sub15 Z failed ',   0.0    , vt4.Z,1e-4);
+   AssertEquals('TestSmoothStep:Sub16 W failed ',   0.84375, vt4.W,1e-4);
 end;
 
 initialization

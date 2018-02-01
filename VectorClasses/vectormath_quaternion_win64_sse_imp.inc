@@ -156,43 +156,45 @@ function TGLZQuaternion.Magnitude : Single; assembler;  nostackframe; register;
 asm
   movaps   xmm0, [RCX]
   mulps    xmm0, xmm0
+  //{$ifdef TEST}
   movshdup xmm1, xmm0
   addps    xmm0, xmm1
   movhlps  xmm1, xmm0
   addss    xmm0, xmm1
-  sqrtps   xmm0, xmm0
+  sqrtss   xmm0, xmm0
+  //{$else}
+  //pshufd xmm1, xmm0, $0E
+  //addps  xmm0, xmm1
+  //pshufd xmm1, xmm0, $01
+  //addss  xmm0, xmm1
+  //sqrtss xmm0, xmm0
+
+
+  //{$endif}
 end;
 
 
 procedure TGLZQuaternion.Normalize; assembler; nostackframe; register;
 asm
-{$ifdef TEST}
-  // Normalize fast
-  movaps  xmm0, [RCX]
-  movaps  xmm2, xmm0
-
-  // Dot(A, A)
-  mulps   xmm0, xmm0
-  pshufd  xmm1, xmm0, $4E
-  addps   xmm0, xmm1
-  pshufd  xmm1, xmm0, $11
-  addps   xmm0, xmm1
-
-  rsqrtps xmm0, xmm0
-  mulps   xmm0, xmm2
-  //movaps  [Result], xmm0
-{$else}
   movaps  xmm0, [RCX]
   movaps  xmm2, xmm0
   movlps  xmm1, [RCX]12
 //  andps   xmm2, [RIP+cSSE_MASK_NO_W]
 
   mulps   xmm2, xmm2
+
+  //movshdup xmm1, xmm2
+  //addps    xmm2, xmm1
+  //movhlps  xmm1, xmm2
+  //addss    xmm2, xmm1
+
+
   pshufd  xmm1, xmm2, $0E
   addps   xmm2, xmm1
   pshufd  xmm1, xmm2, $01
   addss   xmm2, xmm1
   sqrtss  xmm2, xmm2
+
   movlps  xmm5, [RIP+cEpsilon30]
   comiss  xmm2, xmm5
   jb  @LessThan
@@ -206,8 +208,6 @@ asm
   movaps  xmm0, [RIP+IdentityQuaternion]
 @Finish:
   movaps  [RCX], {%H-}xmm0
-{$endif}
-
 end;
 
 function TGLZQuaternion.MultiplyAsSecond(const qFirst : TGLZQuaternion): TGLZQuaternion; assembler; nostackframe; register;
