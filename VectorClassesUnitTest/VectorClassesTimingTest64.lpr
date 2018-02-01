@@ -9,7 +9,7 @@ uses
   GLZMathFunctionalTest,
   // Vector2f Test Case
   Vector2fFunctionalTest,
-  Vector2DHelperFunctionalTest,
+  Vector2fHelperFunctionalTest,
   Vector2OperatorsTestCase,
   Vector2NumericsTestCase,
 

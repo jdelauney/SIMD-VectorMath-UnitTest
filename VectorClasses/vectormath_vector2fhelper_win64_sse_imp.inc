@@ -1,7 +1,7 @@
 
 
 
-function TGLZVector2DHelper.Step(ConstRef B : TGLZVector2f) : TGLZVector2f;assembler; //register; nostackframe;
+function TGLZVector2fHelper.Step(ConstRef B : TGLZVector2f) : TGLZVector2f;assembler; //register; nostackframe;
 asm
   //if self.X <= B.X then result.X := 0;
   movlps xmm0, [RCX]
@@ -19,7 +19,7 @@ asm
 @finish:
 end;
 
-function TGLZVector2DHelper.Saturate : TGLZVector2f;assembler; register; nostackframe;
+function TGLZVector2fHelper.Saturate : TGLZVector2f;assembler; register; nostackframe;
 asm
   movq xmm0, [RCX]
   movaps xmm1, [RIP+cOneVector4f]
@@ -34,7 +34,7 @@ asm
   movq   rax,  {%H-}xmm0
 end;
 
-function TGLZVector2DHelper.SmoothStep(ConstRef A, B : TGLZVector2f) : TGLZVector2f; assembler; register; nostackframe;
+function TGLZVector2fHelper.SmoothStep(ConstRef A, B : TGLZVector2f) : TGLZVector2f; assembler; register; nostackframe;
 Const
   cVecSet3 : TGLZVector4f = (x:3.0;y:3.0;z:3.0;w:3.0);
 asm
@@ -60,7 +60,7 @@ asm
   movq   rax,  {%H-}xmm0
 end;
 
-function TGLZVector2DHelper.Lerp(Constref B: TGLZVector2f; Constref T:Single): TGLZVector2f;assembler; register; nostackframe;
+function TGLZVector2fHelper.Lerp(Constref B: TGLZVector2f; Constref T:Single): TGLZVector2f;assembler; register; nostackframe;
 asm
   movq xmm0, [RCX]
   movq xmm1, [B]

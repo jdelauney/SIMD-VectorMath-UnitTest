@@ -359,7 +359,21 @@ asm
   cvtdq2ps xmm0, xmm0
   mulps    xmm0, xmm2
   subps    xmm1, xmm0 // A - Trunc(A)
+
+  push     rax                               // create a mem area for mxcsr
+  stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
+  mov      eax, DWORD PTR [rsp]              // get it
+  mov      ecx, eax                          // make local copy   self is done with at this point
+  // smaller opcode no mem access required.
+  and      eax, $00009FFF
+  or       eax, $00006000                   // Set bits
+  mov      DWORD PTR [rsp], eax              // mov bits to mem
+  ldmxcsr  DWORD PTR [rsp]                   // set new bits
   cvtps2dq xmm1, xmm1
+  mov      DWORD PTR [rsp], ecx              // put old bits in mem
+  ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
+  pop      rax
+
   movq rax, xmm1
 end;
 

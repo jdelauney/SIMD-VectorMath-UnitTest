@@ -676,8 +676,13 @@ begin
   vtt1.Create(4.0,9.0);
   vtt2.Create(2,2);
   vt2i := vtt1.fMod(vtt2);
-  AssertEquals('fMod:Sub1 X failed ', 0.0, vt2i.X);
-  AssertEquals('fMod:Sub2 Y failed ', 1.0, vt2i.Y);
+  AssertEquals('fMod:Sub1 X failed : '+vtt1.ToString+'<==>'+vt2i.ToString, 0.0, vt2i.X);
+  AssertEquals('fMod:Sub2 Y failed : '+vtt1.ToString+'<==>'+vt2i.ToString, 1.0, vt2i.Y);
+
+  vtt1.Create(2.0,2.0);
+  vt2i := vtt1.fMod(vtt2);
+  AssertEquals('fMod:Sub3 X failed : '+vtt1.ToString+'<==>'+vt2i.ToString, 0.0, vt2i.X);
+  AssertEquals('fMod:Sub4 Y failed : '+vtt1.ToString+'<==>'+vt2i.ToString, 0.0, vt2i.Y);
 end;
 
 initialization

@@ -19,14 +19,14 @@
 
 {%region%----[ Functions ]------------------------------------------------------}
 
-function TGLZVector2DHelper.Step(ConstRef B : TGLZVector2f):TGLZVector2f;
+function TGLZVector2fHelper.Step(ConstRef B : TGLZVector2f):TGLZVector2f;
 begin
   result := Self;
   if self.X <= B.X then result.X := 0;
   if self.Y <= B.Y then result.Y := 0;
 end;
 
-//function TGLZVector2DHelper.FaceForward(constref A, B: TGLZVector4f): TGLZVector4f;
+//function TGLZVector2fHelper.FaceForward(constref A, B: TGLZVector4f): TGLZVector4f;
 //begin
 //  if (B.DotProduct(A) < 0) then
 //     Result := -Self
@@ -34,14 +34,14 @@ end;
 //     Result := Self;
 //end;
 
-function TGLZVector2DHelper.Saturate : TGLZVector2f;
+function TGLZVector2fHelper.Saturate : TGLZVector2f;
 begin
   Result := self;
   Result := Result.Max(NullVector2f);
   Result := Result.Min(OneVector2f);
 end;
 
-function TGLZVector2DHelper.SmoothStep(ConstRef A,B : TGLZVector2f): TGLZVector2f;
+function TGLZVector2fHelper.SmoothStep(ConstRef A,B : TGLZVector2f): TGLZVector2f;
 var
   t: TGLZVector2f;
 begin
@@ -51,7 +51,7 @@ begin
   result := t * t * -((t * 2.0) + -3);
 end;
 
-function TGLZVector2DHelper.Lerp(Constref B: TGLZVector2f; Constref T:Single): TGLZVector2f;
+function TGLZVector2fHelper.Lerp(Constref B: TGLZVector2f; Constref T:Single): TGLZVector2f;
 begin
   result := Self + (b-self)*t;
 end;

@@ -232,7 +232,10 @@ begin
   vtt2.Create(2,2);
   nt2i := ntt1.fMod(ntt2);
   vt2i := vtt1.fMod(vtt2);
-  AssertTrue('Vector2f  fMod do not match : '+nt2i.ToString+' --> '+vt2i.ToString, Compare(nt2i,vt2i));
+  AssertTrue('Vector2f  fMod do not match : '+#13+#10+ntt1.ToString+' --> '+vtt1.ToString+#13+#10+
+                                                      ntt2.ToString+' --> '+vtt2.ToString+#13+#10+
+                                                      nt2i.ToString+' --> '+vt2i.ToString,
+                                                      Compare(nt2i,vt2i));
 end;
 
 

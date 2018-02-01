@@ -1,4 +1,4 @@
-unit Vector2DHelperFunctionalTest;
+unit Vector2fHelperFunctionalTest;
 
 {$mode objfpc}{$H+}
 {$CODEALIGN LOCALMIN=16}
@@ -10,9 +10,9 @@ uses
   native, GLZVectorMath;
 type
 
-  { TVector2DHelperFunctionalTest }
+  { TVector2fHelperFunctionalTest }
 
-  TVector2DHelperFunctionalTest = class(TVectorBaseTestCase)
+  TVector2fHelperFunctionalTest = class(TVectorBaseTestCase)
     published
       //procedure TestRotate;
       //procedure TestRotateX;
@@ -39,7 +39,7 @@ implementation
 // more of a CanStep and to where function where it compares two vector and decides
 // if needs to step in one of the directions. Positive only step functionality.
 // or if a colour change transform does this component need changing
-procedure TVector2DHelperFunctionalTest.TestStep;
+procedure TVector2fHelperFunctionalTest.TestStep;
 begin
   vtt2.Create(2,2);
   ntt2.Create(2,2);
@@ -92,7 +92,7 @@ end;
 //end;
 
 // Clamp anything to between 0 and 1 preserves hmg point
-procedure TVector2DHelperFunctionalTest.TestSaturate;
+procedure TVector2fHelperFunctionalTest.TestSaturate;
 begin
    vtt1.Create(0.5,0.5);
    vtt4 := vtt1.Saturate;
@@ -131,7 +131,7 @@ end;
 // above function behaves like some form of a normal distribution
 // if used as add this fraction of diff to A then we get a transition
 // which has less mid and more of the ends.  (spotlight/highlight?)
-procedure TVector2DHelperFunctionalTest.TestSmoothStep;
+procedure TVector2fHelperFunctionalTest.TestSmoothStep;
 begin
    vtt1.Create(1,1);  // self
    vtt2.Create(0,0);  // A
@@ -158,7 +158,7 @@ begin
    AssertEquals('TestSmoothStep:Sub8 Y failed : <'+vtt1.ToString+'>' +vtt4.ToString,   0.0, vtt4.Y,1e-4);
 end;
 
-procedure TVector2DHelperFunctionalTest.TestLerp;
+procedure TVector2fHelperFunctionalTest.TestLerp;
 begin
   vtt1.Create(60,60);
   vtt4 := vtt1.Lerp(NullVector2f, 0.5);
@@ -179,7 +179,7 @@ begin
 end;
 
 initialization
-  RegisterTest(REPORT_GROUP_VECTOR2F, TVector2DHelperFunctionalTest);
+  RegisterTest(REPORT_GROUP_VECTOR2F, TVector2fHelperFunctionalTest);
 end.
 
 

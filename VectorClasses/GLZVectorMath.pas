@@ -1129,7 +1129,7 @@ type
 
 {%region%----[ TGLZVectorHelper ]-----------------------------------------------}
 
-  TGLZVector2DHelper = record helper for TGLZVector2D
+  TGLZVector2fHelper = record helper for TGLZVector2D
   public
     {  : Implement a step function returning either zero or one.
       Implements a step function returning one for each component of Self that is
