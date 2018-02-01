@@ -2267,19 +2267,52 @@ begin
    CreateRotationMatrix(anAxis.AsVector3f, angle);
 end;
 
+// optimised pascal
 function TNativeGLZMatrix4f.Invert:TNativeGLZMatrix4f;
 var
-   det : Single;
+  det: single;
 begin
-   det:=GetDeterminant;
-   if Abs(Det)<cEPSILON then  result:=NativeIdentityHmgMatrix
-   else
-   begin
-      Result := Self;
-      Result.Adjoint;
-      Result := Result * (1/det);
-   end;
+  det := Self.determinant;
+  if Abs(Det)<cEPSILON then  result:=NativeIdentityHmgMatrix
+  else
+  begin
+    det := 1/det;
+    with self do
+    begin
+      Result.m11 := (m23*m34*m42 - m24*m33*m42 + m24*m32*m43 - m22*m34*m43 - m23*m32*m44 + m22*m33*m44) * det;
+      Result.m12 := (m14*m33*m42 - m13*m34*m42 - m14*m32*m43 + m12*m34*m43 + m13*m32*m44 - m12*m33*m44) * det;
+      Result.m13 := (m13*m24*m42 - m14*m23*m42 + m14*m22*m43 - m12*m24*m43 - m13*m22*m44 + m12*m23*m44) * det;
+      Result.m14 := (m14*m23*m32 - m13*m24*m32 - m14*m22*m33 + m12*m24*m33 + m13*m22*m34 - m12*m23*m34) * det;
+      Result.m21 := (m24*m33*m41 - m23*m34*m41 - m24*m31*m43 + m21*m34*m43 + m23*m31*m44 - m21*m33*m44) * det;
+      Result.m22 := (m13*m34*m41 - m14*m33*m41 + m14*m31*m43 - m11*m34*m43 - m13*m31*m44 + m11*m33*m44) * det;
+      Result.m23 := (m14*m23*m41 - m13*m24*m41 - m14*m21*m43 + m11*m24*m43 + m13*m21*m44 - m11*m23*m44) * det;
+      Result.m24 := (m13*m24*m31 - m14*m23*m31 + m14*m21*m33 - m11*m24*m33 - m13*m21*m34 + m11*m23*m34) * det;
+      Result.m31 := (m22*m34*m41 - m24*m32*m41 + m24*m31*m42 - m21*m34*m42 - m22*m31*m44 + m21*m32*m44) * det;
+      Result.m32 := (m14*m32*m41 - m12*m34*m41 - m14*m31*m42 + m11*m34*m42 + m12*m31*m44 - m11*m32*m44) * det;
+      Result.m33 := (m12*m24*m41 - m14*m22*m41 + m14*m21*m42 - m11*m24*m42 - m12*m21*m44 + m11*m22*m44) * det;
+      Result.m34 := (m14*m22*m31 - m12*m24*m31 - m14*m21*m32 + m11*m24*m32 + m12*m21*m34 - m11*m22*m34) * det;
+      Result.m41 := (m23*m32*m41 - m22*m33*m41 - m23*m31*m42 + m21*m33*m42 + m22*m31*m43 - m21*m32*m43) * det;
+      Result.m42 := (m12*m33*m41 - m13*m32*m41 + m13*m31*m42 - m11*m33*m42 - m12*m31*m43 + m11*m32*m43) * det;
+      Result.m43 := (m13*m22*m41 - m12*m23*m41 - m13*m21*m42 + m11*m23*m42 + m12*m21*m43 - m11*m22*m43) * det;
+      Result.m44 := (m12*m23*m31 - m13*m22*m31 + m13*m21*m32 - m11*m23*m32 - m12*m21*m33 + m11*m22*m33) * det;
+    end;
+  end;
 end;
+
+// original
+//function TNativeGLZMatrix4f.Invert:TNativeGLZMatrix4f;
+//var
+//   det : Single;
+//begin
+//   det:=GetDeterminant;
+//   if Abs(Det)<cEPSILON then  result:=NativeIdentityHmgMatrix
+//   else
+//   begin
+//      Result := Self;
+//      Result.Adjoint;
+//      Result := Result * (1/det);
+//   end;
+//end;
 
 (*function TMatrix4.Inverse: TMatrix4;
 var

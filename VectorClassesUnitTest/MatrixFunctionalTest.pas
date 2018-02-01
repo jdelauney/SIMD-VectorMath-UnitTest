@@ -2,6 +2,7 @@ unit MatrixFunctionalTest;
 
 {$mode objfpc}{$H+}
 {$CODEALIGN LOCALMIN=16}
+{$CODEALIGN CONSTMIN=16}
 
 interface
 
@@ -239,7 +240,8 @@ end;
 procedure TMatrixFunctionalTest.TestInverse;
 begin
   // has det of 0 should return IdentityHmgMatrix
-  ResMat := M_LOWER_LEFT_1_9.Invert;
+  mtx1 := M_LOWER_LEFT_1_9;
+  ResMat := mtx1.Invert;
   AssertTrue('Inverse:Sub1 ', compare(ResMat, IdentityHmgMatrix));
   mtx1 := OddPosition(0,1); //default
   mtx3 := mtx1.Invert;
