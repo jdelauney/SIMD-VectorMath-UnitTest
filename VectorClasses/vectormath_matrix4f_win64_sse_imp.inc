@@ -562,7 +562,13 @@ end;
 // https://software.intel.com/en-us/articles/optimized-matrix-library-for-use-with-the-intel-pentiumr-4-processors-sse2-instructions/
 // https://lxjk.github.io/2017/09/03/Fast-4x4-Matrix-Inverse-with-SSE-SIMD-Explained.html
 
-(* Function TGLZMatrix4f.Invert : TGLZMatrix4; assembler;  myfirst try but is wrong
+
+// https://software.intel.com/en-us/articles/optimized-matrix-library-for-use-with-the-intel-pentiumr-4-processors-sse2-instructions/
+// https://lxjk.github.io/2017/09/03/Fast-4x4-Matrix-Inverse-with-SSE-SIMD-Explained.html
+function TGLZMatrix4f.Invert : TGLZMatrix4f; assembler; register; nostackframe;
+const
+  cAdjugateSignMult : TGLZVector4f =(x:1.0; y:-1.0; z:-1.0; w:1.0);
+  cSSE_Epsilon: Single = 1e-10;
 asm
 // Convert from Intel Math Lib
 // https://software.intel.com/en-us/articles/optimized-matrix-library-for-use-with-the-intel-pentiumr-4-processors-sse2-instructions/
@@ -571,25 +577,52 @@ asm
 // register holds four matrix element, the smaller matrices are
 // represented as a registers. Hence we get a better locality of the calculations.
 
-  movaps xmm0, [RCX]$00
-  movaps xmm1, [RCX]$10
-  movaps xmm2, [RCX]$20
-  movaps xmm3, [RCX]$30
+ // Testing array  has Det 81
+ //{ 1,  2,  2,  4},    A { 1,  2,    B { 2,  4,
+ //{ 2,  1,  4,  2},       2,  1 }        4,  2 }
+ //{ 2,  4,  1,  2},    C { 2,  4     D { 1,  2,
+ //{ 4,  2,  2,  1}}        4,  2}        2,  1}
+ // Inverse of above i.e. the result we want.
+ // 0.111111111111111 -0.222222222222222 -0.222222222222222  0.444444444444444
+ //-0.222222222222222  0.111111111111111  0.444444444444444 -0.222222222222222
+ //-0.222222222222222  0.444444444444444  0.111111111111111 -0.222222222222222
+ // 0.444444444444444 -0.222222222222222 -0.222222222222222  0.111111111111111
 
-  movlhps xmm0, xmm1  //A
-  movhlps xmm1, xmm0  //B
-  movlhps xmm2, xmm3  //C
-  movhlps xmm3, xmm2  //D
-   //  AB = A# * B
-  movaps xmm4, xmm0  //xmm4 = AB
-  shufps xmm4, xmm4, $0F
-  mulps  xmm4, xmm1
-  movaps xmm8, xmm0
-  shufps xmm8, xmm8, $A5
-  movaps xmm5,xmm1
+  movaps  xmm0, [RCX]$00
+  movaps  xmm1, [RCX]$10
+  movaps  xmm2, [RCX]$20
+  movaps  xmm3, [RCX]$30
+  movaps  xmm4, xmm0      //  needed temp storage for next hlps
+  movaps  xmm5, xmm2
+  movlhps xmm0, xmm1  //A        // 1 2 2 1
+  movhlps xmm1, xmm4  //B        // 2 4 4 2
+  movlhps xmm2, xmm3  //C        // 2 4 4 2
+  movhlps xmm3, xmm5  //D        // 1 2 2 1
+
+  //  AB = A# * B
+  //         T1        T2    T1-T2Sshuf  |Z|w|X|Y| -> |Y|X|W|Z|  01001110b = $4E
+  // A#B ( A3 * B0 − A1 * B2      1 * 2 - 2 * 4 = -6
+  //       A3 * B1 − A1 * B3      1 * 4 - 2 * 2 =  0
+  //       A0 * B2 − A2 * B0      1 * 4 - 2 * 2 =  0
+  //       A0 * B3 − A2 * B1      1 * 2 - 2 * 4 = -6
+  //)
+  //T1 = B * A3,A3,A0,A0   T1shuf      |W|W|X|X| -> |X|X|W|W|  00001111b = $0F
+  //T2 = B * A2,A2,A1,A1   T2shuf      |Z|Z|Y|Y| -> |Y|Y|Z|Z|  10100101b = $A5
+  movaps xmm4, xmm0        // A
+  shufps xmm4, xmm4, $0F   // A T1 SHUF
+  mulps  xmm4, xmm1        // T1
+  movaps xmm8, xmm0        // A
+  shufps xmm8, xmm8, $A5   // A T2 SHUF
+  movaps xmm5,xmm1         // T2
   shufps xmm5, xmm5, $4E
-  mulps  xmm8, xmm5
-  subps  xmm4, xmm8
+  mulps  xmm5, xmm8
+  subps  xmm4, xmm5         // XMM4 = A#B  = -6,0,0,-6
+
+  // D#C ( D3 * C0 − D1 * C2       1 * 2 - 2 * 4 = -6
+  //       D3 * C1 − D1 * C3       1 * 4 - 2 * 2 =  0
+  //       D0 * C2 − D2 * C0       1 * 4 - 2 * 2 =  0
+  //       D0 * C3 − D2 * C1       1 * 2 - 2 * 4 = -6
+
   //  DC = D# * C
   movaps xmm5, xmm3  //xmm5 = DC
   shufps xmm5, xmm5, $0F
@@ -598,383 +631,217 @@ asm
   shufps xmm8, xmm8, $A5
   movaps xmm6,xmm2
   shufps xmm6, xmm6, $4E
-  mulps  xmm8, xmm6
-  subps  xmm5, xmm8
-  //  dA = |A|
-  movaps xmm6, xmm0 //xmm6 = dA
-  shufps xmm6, xmm6, $5F
-  mulps  xmm6, xmm0
+  mulps  xmm6, xmm8
+  subps  xmm5, xmm6       // XXM5 = D#C =  -6,0,0,-6
+  // for a start lets do this the long way
+  // I am sure there is a shortcut for doing just det
+  // but get it working first as we need these terms later.
+  // A = { 1 2
+  //       2 1 } det -3
+  //  dA = |A|                    // det of 2x2 = x*w - y*z
+  movaps xmm6, xmm0
+  shufps xmm6, xmm6, 01011111b    //$5F |Y|Y|W|W|
+  mulps  xmm6, xmm0               // |X*W|Y*W|Z*Y|Z*W|
+  movhlps xmm7,xmm6
+  subss  xmm6, xmm7               //xmm6 = detA   = -3
   //  dB = |B|
-  movaps xmm7, xmm1 //xmm7 = dB
+  movaps xmm7, xmm1
   shufps xmm7, xmm7, $5F
   mulps  xmm7, xmm1
+  movhlps xmm8,xmm7
+  subss  xmm7, xmm8              //xmm7 = detB   = -12
   //  dC = |C|
-  movaps xmm8, xmm2 //xmm8 = dC
+  movaps xmm8, xmm2
   shufps xmm8, xmm8, $5F
   mulps  xmm8, xmm2
+  movhlps xmm9,xmm8
+  subss  xmm8, xmm9             //xmm8 = detC   = -12
   //  dD = |D|
-  movaps xmm9, xmm3 //xmm9 = dC
+  movaps xmm9, xmm3
   shufps xmm9, xmm9, $5F
   mulps  xmm9, xmm3
-  //  d = trace(AB*DC) = trace(A#*B*D#*C)
-  movaps xmm10,xmm5 //xmm10 = d
-  shufps xmm10, xmm10, $D8
+  movhlps xmm10,xmm9
+  subss  xmm9, xmm10            //xmm9 = detD   = -3
+  // The above all need to fill the regs later on, but do not do now
+  // waste of time if det is 0
+
+  //  d = trace((A#B) * (D#C))
+  // tr(AB)= A0*B0 + A1*B2 + A2*B1 + A3 * B3
+  //         -6 * -6 + 0 + 0 + -6 *-6   = 72
+  movaps xmm10,xmm5               // tr(xmm4,xmm5)
+  shufps xmm10, xmm10, 11011000b  // B8
   mulps xmm10,xmm4
-  //  iD = C*A#*B
-  movaps xmm11, xmm2  //xmm11 = iD
-  shufps xmm11, xmm11, $A0
-  movaps xmm12,xmm4
-  movlhps xmm12, xmm4
-  mulps xmm11, xmm12
-  movaps xmm12, xmm2
-  shufps xmm12, xmm12, $F5
-  movhlps xmm4, xmm4
-  mulps xmm12, xmm4
-  subps xmm11, xmm12
-  //  iA = B*D#*C
-  movaps xmm12, xmm1  //xmm12 = iA
-  shufps xmm12, xmm12, $A0
-  movaps xmm13,xmm5
-  movlhps xmm13, xmm5
-  mulps xmm12, xmm13
-  movaps xmm13, xmm1
-  shufps xmm13, xmm13, $F5
-  movhlps xmm5, xmm5
-  mulps xmm13, xmm5
-  subps xmm12, xmm13
-  //  d = trace(AB*DC) = trace(A#*B*D#*C)
-  movaps xmm15, xmm10
-  movhlps xmm10,xmm10
-  addps xmm10,xmm15
-  //d = _mm_add_ss(d, _mm_shuffle_ps(d, d, 1));  ???????? correct or not
-  shufps xmm15, xmm15, 1
-  addss xmm10, xmm15
-  //  iD = D*|A| - C*A#*B --> iD = D*_mm_shuffle_ps(dA,dA,0) - iD;
-  movaps xmm13, xmm3
-  movaps xmm14, xmm6
-  shufps xmm14, xmm14, $00
-  mulps  xmm13,xmm14
-  subps xmm13, xmm11 //xmm13 = iD
-  //  iA = A*|D| - B*D#*C --> iA = A*_mm_shuffle_ps(dD,dD,0) - iA;
-  movaps xmm14, xmm0
-  movaps xmm15, xmm9
-  shufps xmm15, xmm15, $00
-  mulps  xmm15,xmm15
-  subps xmm14, xmm12 //xmm14 = iA
-  //d1 = dA*dD;
-  //d2 = dB*dC;
-  movaps xmm11, xmm6 //xmm11 = d1
-  mulps xmm11,xmm9
-  movaps xmm12, xmm7 //xmm12 = d2
-  mulps xmm12,xmm8
-  //  det = |A|*|D| + |B|*|C| - trace(A#*B*D#*C)
-  addps xmm4,xmm5
-  subps xmm4, xmm10
+  {$ifdef USE_ASM_SSE_3}
+    movshdup xmm11, xmm10
+    addps    xmm10, xmm11
+    movhlps  xmm11, xmm10
+    addss    xmm10, xmm11
+  {$else}
+    movaps   xmm11, xmm10
+    shufps   xmm11, xmm10, 10110001b //177
+    addps    xmm10, xmm11
+    movhlps  xmm11, xmm10
+    addss    xmm10, xmm11
+  {$endif}
+  // final bit for det do it here as we may have to get out asap if it is 0
+  // |A||D|+|B||C|−tr((A#B)(D#C))  xmm6 * xmm9 + xcmm7 + xmm8
+  movss xmm11, xmm6     // only want singles
+  movss xmm12, xmm7
+  mulss xmm11, xmm9
+  mulss xmm12, xmm8
+  addss xmm11, xmm12     // xmm11 mow hold det
+  subss xmm11, xmm10     //
+
+  // now need to test xmm11 for 0 xmm10 done with for the moment
+
+  movlps  xmm10, [RIP+cSSE_Epsilon]
+  movss   xmm12, xmm11
+  movss   xmm13, [RIP+cSSE_MASK_ABS]
+  andps   xmm11, xmm13
+  comiss  xmm11, xmm10             // non destructive test
+  jb @ZeroDet
+
   movaps xmm10, [RIP+cOneVector4f]
-  divps xmm10, xmm4  //xmm10 =rd
-  //rcpps xmm5, xmm4
+  divps  xmm10, xmm12     // xmm10 now hold 1/det
+  shufps  xmm6, xmm6,  $00  // fill 2x2 dets
+  shufps  xmm7, xmm7,  $00
+  shufps  xmm8, xmm8,  $00
+  shufps  xmm9, xmm9,  $00
+  shufps xmm10, xmm10, $00    // and matrix 1/det
 
-  //  iB = D * (A#B)# = D*B#*A
-  movaps xmm6,xmm3
-  movaps xmm9,xmm4
-  shufps xmm9,xmm9,$33
-  mulps xmm6,xmm9
-  shufps xmm3,xmm3,$B1
-  shufps xmm4,xmm4,$66
-  mulps xmm3,xmm4
-  subps xmm6,xmm3 //xmm6 = iB
-  //  iC = A * (D#C)# = A*C#*D
-  movaps xmm11,xmm0
-  movaps xmm9,xmm8
-  shufps xmm9,xmm9,$33
-  mulps xmm11,xmm9
-  shufps xmm0,xmm0,$B1
-  shufps xmm5,xmm5,$66
-  mulps xmm0,xmm5
-  subps xmm11,xmm0 //xmm11 = iC
+  // We now have enough to calc 2x2 one at a time
+  // only have 5 regs left for intermediates
+  //          xmm5-9   xmm0-3
+  // invA  =  (|D|A − B * (D#C)) #      * 1/det
+  // invB  =  (|B|C − D * ((A#B)#) )#   * 1/det
+  // invC  =  (|C|B − A * ((D#C)#) )#   * 1/det
+  // invD  =  (|A|D − C * (A#B)) #      * 1/det
+  // this is the only calc that uses |A| to |D| so these will be our working reg.
 
-  shufps xmm10, xmm10,$00
-  xorps xmm10, [RIP+cSSE_SIGN_MASK_PNNP]
+  // Scalar mults
+  mulps  xmm9, xmm0   // |D| A   1 2 2 1 * -3 = -3 -6 -6 -3
+  mulps  xmm7, xmm2   // |B| C   2 4 4 2 * -12 = -24 -48 -48 -24
+  mulps  xmm8, xmm1   // |C| B   2 4 4 2 * -12 = -24 -48 -48 -24
+  mulps  xmm6, xmm3   // |A| D   1 2 2 1 * -3 = -3 -6 -6 -3
 
-  //  iB = C*|B| - D*B#*A
-  shufps xmm7,xmm7,$00
-  mulps xmm2,xmm7
-  subps xmm2, xmm6 //xmm2 =iB
-  //  iC = B*|C| - A*C#*D;
-  shufps xmm8,xmm8,$00
-  mulps xmm1, xmm8
-  subps xmm1,xmm11 //xmm1 = iC
+ // Mat Mul expanded to something useful
+ // __m128 Mat2Mul(__m128 vec1, __m128 vec2)
+ //{
+ //        __m128 t1 = VecSwizzle(vec2, 0,3,0,3);
+ //        __m128 t2 = VecSwizzle(vec1, 1,0,3,2);
+ //        __m128 t3 = VecSwizzle(vec2, 2,1,2,1);
+ //        __m128 t4 = _mm_mul_ps(vec1,t1 );
+ //        __m128 t5 = _mm_mul_ps( t2, t3 );
+ //      return _mm_add_ps(t4,t5  );
+ //}
+  // all items need a final adjugate mult
+  // save three mults by multiplying invDet with sign mask
+  movaps xmm15, [RIP+cAdjugateSignMult]
+  mulps  xmm10, xmm15
+  // invA
+  //  B * (D#C)   mat mul order is important. =  -12 -24 -24 -12
+  // B in xmm1, D#C in xmm5 need two copies of D#C one copy B
+  movaps xmm11, xmm5
+  movaps xmm12, xmm5
+  movaps xmm13, xmm1
+  shufps  xmm11, xmm11, 11001100b  // t1
+  shufps  xmm12, xmm12, 01100110b  // t3
+  shufps  xmm13, xmm13, 10110001b  // t2
+  mulps   xmm11, xmm1              // t1 * vec1
+  mulps   xmm12, xmm13
+  addps   xmm11, xmm12             //  B * (D#C)
 
-  //  iX = iX / det
-  mulps xmm14, xmm10
-  mulps xmm2 , xmm10
-  mulps xmm11, xmm10
-  mulps xmm13, xmm10
+  subps   xmm9, xmm11            // |D|A − B * (D#C) = 9 18 18 9 in xmm9
+  shufps  xmm9, xmm9, 00100111b  // adjunct shuffle     4 3 2 1 -> 1 3 2 4 = 00100111
+  mulps   xmm9, xmm10            // adjunct negate * det    .111 .222 .222 .111 in xmm9
 
-  movaps xmm0, xmm14
-  movaps xmm1, xmm11
-  shufps xmm0, xmm2,$77
-  movaps [RESULT]$00, xmm0
-  shufps xmm14, xmm2,$22
-  movaps [RESULT]$10, xmm14
-  shufps xmm1, xmm13,$77
+  // invD  do this first so we can adjugate A#B and D#C in place without a copy
+  //  C * (A#B))
+  // C in xmm2  A#B in xmm4
+  movaps xmm11, xmm4
+  movaps xmm12, xmm4
+  movaps xmm13, xmm2
+  shufps  xmm11, xmm11, 11001100b  // t1
+  shufps  xmm12, xmm12, 01100110b  // t3
+  shufps  xmm13, xmm13, 10110001b  // t2
+  mulps   xmm11, xmm2              // t1 * vec1
+  mulps   xmm12, xmm13
+  addps   xmm11, xmm12             //  C * (A#B)
+
+  subps   xmm6, xmm11            // |A|D − C * (A#B) = 9 18 18 9 in xmm6
+  shufps  xmm6, xmm6, 00100111b  // adjunct shuffle     4 3 2 1 -> 1 3 2 4 = 00100111
+  mulps   xmm6, xmm10            // adjunct negate * det    .111 .222 .222 .111 in xmm6
+
+  // adjugate A#B and D#C in place
+  shufps  xmm4, xmm4, 00100111b
+  shufps  xmm5, xmm5, 00100111b
+  mulps   xmm4, xmm15
+  mulps   xmm5, xmm15
+
+  // invB
+  // D * ((A#B)#)
+  // D in xmm3  (A#B)# in xmm4  only need two copies this time as we are done with xmm4 after this
+  movaps xmm12, xmm4
+  movaps xmm13, xmm3
+  shufps  xmm4, xmm4, 11001100b  // t1
+  shufps  xmm12, xmm12, 01100110b  // t3
+  shufps  xmm13, xmm13, 10110001b  // t2
+  mulps   xmm4, xmm3              // t1 * vec1
+  mulps   xmm12, xmm13
+  addps   xmm4, xmm12             //  D * ((A#B)#)  |B| C in xmm7
+
+  subps   xmm7, xmm4            // |B| C − C * (A#B) = -18 -36 -36 -18 in xmm7
+  shufps  xmm7, xmm7, 00100111b  // adjunct shuffle     4 3 2 1 -> 1 3 2 4 = 00100111
+  mulps   xmm7, xmm10            // adjunct negate * det    .222 .444 .444 .222 in xmm6
+
+  // invC
+  // A * ((D#C)#)
+  // A in xmm0  (D#C)# in xmm5
+  movaps  xmm12, xmm5
+  movaps  xmm13, xmm0
+  shufps   xmm5, xmm5, 11001100b  // t1
+  shufps  xmm12, xmm12, 01100110b  // t3
+  shufps  xmm13, xmm13, 10110001b  // t2
+  mulps   xmm5, xmm0              // t1 * vec1
+  mulps   xmm12, xmm13
+  addps   xmm5, xmm12             //  A * ((D#C)#)  |C|B in xmm8
+
+  subps   xmm8, xmm5            // |C|B − A * ((D#C)#) = -18 -36 -36 -18 in xmm8
+  shufps  xmm8, xmm8, 00100111b  // adjunct shuffle     4 3 2 1 -> 1 3 2 4 = 00100111
+  mulps   xmm8, xmm10            // adjunct negate * det    .222 .444 .444 .222 in xmm6
+
+  // now have result but in wrong order
+  // reverse the start shuffling
+  // invA in xmm9 invB in xmm7 invC in xmm8 invD in xmm6
+  movaps xmm10, xmm9  // copy inv A
+  movaps xmm11, xmm8  // copy inv C
+  movlhps xmm9, xmm7
+  movhlps xmm7, xmm10
+  movlhps xmm8, xmm6
+  movhlps xmm6, xmm11
+
+  movaps [RESULT]$00, xmm9
+  movaps [RESULT]$10, xmm7
+  movaps [RESULT]$20, xmm8
+  movaps [RESULT]$30, xmm6
+  jmp @Finish
+@ZeroDet:
+  // load and store IdentityMatrix
+  movaps xmm0, [RIP+cWOneSSEVector4f]
+  movaps xmm1, xmm0
+  movaps xmm2, xmm0
+  movaps xmm3, xmm0
+  shufps xmm1, xmm1, 00110000b
+  shufps xmm2, xmm2, 00001100b
+  shufps xmm3, xmm3, 00000011b
+  movaps [RESULT]$00, xmm3
+  movaps [RESULT]$10, xmm2
   movaps [RESULT]$20, xmm1
-  shufps xmm11, xmm13,$22
-  movaps [RESULT]$30, xmm11
+  movaps [RESULT]$30, xmm0
 
-
-end; *)
-{  Code Gen GCC 7.2 with https://gcc.godbolt.org/ from this :
-
-#include <immintrin.h>
-
-float Inverse(__m128 *_L1, __m128 *_L2,__m128 *_L3,__m128 *_L4)
-
-    // The inverse is calculated using "Divide and Conquer" technique. The
-    // original matrix is divide into four 2x2 sub-matrices. Since each
-    // register holds four matrix element, the smaller matrices are
-    // represented as a registers. Hence we get a better locality of the
-    // calculations.
-
-    __m128
-           A =_mm_movelh_ps(*_L1, *_L2),    // the four sub-matrices
-           B =_mm_movehl_ps(*_L2, *_L1),
-           C =_mm_movelh_ps(*_L3, *_L4),
-           D =_mm_movehl_ps(*_L4, *_L3);
-
-    __m128 iA, iB, iC, iD,					// partial inverse of the sub-matrices
-            DC, AB;
-    __m128 dA, dB, dC, dD;                 // determinant of the sub-matrices
-    __m128 det, d, d1, d2;
-    __m128 rd;
-
-    //  AB = A# * B
-    AB = _mm_mul_ps(_mm_shuffle_ps(A,A,0x0F), B);
-    AB -= (__m128)_mm_mul_ps(_mm_shuffle_ps(A,A,0xA5), _mm_shuffle_ps(B,B,0x4E));
-    //  DC = D# * C
-    DC = _mm_mul_ps(_mm_shuffle_ps(D,D,0x0F), C);
-    DC -= (__m128)_mm_mul_ps(_mm_shuffle_ps(D,D,0xA5), _mm_shuffle_ps(C,C,0x4E));
-
-    //  dA = |A|
-    dA = _mm_mul_ps(_mm_shuffle_ps(A, A, 0x5F),A);
-    dA = _mm_sub_ss(dA, _mm_movehl_ps(dA,dA));
-    //  dB = |B|
-    dB = _mm_mul_ps(_mm_shuffle_ps(B, B, 0x5F),B);
-    dB = _mm_sub_ss(dB, _mm_movehl_ps(dB,dB));
-
-    //  dC = |C|
-    dC = _mm_mul_ps(_mm_shuffle_ps(C, C, 0x5F),C);
-    dC = _mm_sub_ss(dC, _mm_movehl_ps(dC,dC));
-    //  dD = |D|
-    dD = _mm_mul_ps(_mm_shuffle_ps(D, D, 0x5F),D);
-    dD = _mm_sub_ss(dD, _mm_movehl_ps(dD,dD));
-
-    //  d = trace(AB*DC) = trace(A#*B*D#*C)
-    d = _mm_mul_ps(_mm_shuffle_ps(DC,DC,0xD8),AB);
-
-    //  iD = C*A#*B
-    iD = _mm_mul_ps(_mm_shuffle_ps(C,C,0xA0), _mm_movelh_ps(AB,AB));
-    iD += (__m128)_mm_mul_ps(_mm_shuffle_ps(C,C,0xF5), _mm_movehl_ps(AB,AB));
-    //  iA = B*D#*C
-    iA = _mm_mul_ps(_mm_shuffle_ps(B,B,0xA0), _mm_movelh_ps(DC,DC));
-    iA += (__m128)_mm_mul_ps(_mm_shuffle_ps(B,B,0xF5), _mm_movehl_ps(DC,DC));
-
-    //  d = trace(AB*DC) = trace(A#*B*D#*C) [continue]
-    d = _mm_add_ps(d, _mm_movehl_ps(d, d));
-    d = _mm_add_ss(d, _mm_shuffle_ps(d, d, 1));
-    d1 = dA*dD;
-    d2 = dB*dC;
-
-    //  iD = D*|A| - C*A#*B
-    iD = D*_mm_shuffle_ps(dA,dA,0) - iD;
-
-    //  iA = A*|D| - B*D#*C;
-    iA = A*_mm_shuffle_ps(dD,dD,0) - iA;
-
-    //  det = |A|*|D| + |B|*|C| - trace(A#*B*D#*C)
-    det = d1+d2-d;
-    rd = (__m128)((1.0f)/det);
-    //rd =det;
-    #ifdef ZERO_SINGULAR
-        rd = _mm_and_ps(_mm_cmpneq_ss(det,_mm_setzero_ps()), rd);
-    #endif
-
-    //  iB = D * (A#B)# = D*B#*A
-    iB = _mm_mul_ps(D, _mm_shuffle_ps(AB,AB,0x33));
-    iB -= (__m128)_mm_mul_ps(_mm_shuffle_ps(D,D,0xB1), _mm_shuffle_ps(AB,AB,0x66));
-    //  iC = A * (D#C)# = A*C#*D
-    iC = _mm_mul_ps(A, _mm_shuffle_ps(DC,DC,0x33));
-    iC -= (__m128)_mm_mul_ps(_mm_shuffle_ps(A,A,0xB1), _mm_shuffle_ps(DC,DC,0x66));
-
-    rd = _mm_shuffle_ps(rd,rd,0);
-    //rd ^= Sign_PNNP;
-
-    //  iB = C*|B| - D*B#*A
-    iB = C*_mm_shuffle_ps(dB,dB,0) - iB;
-
-    //  iC = B*|C| - A*C#*D;
-    iC = B*_mm_shuffle_ps(dC,dC,0) - iC;
-
-    //  iX = iX / det
-    iA *= rd;
-    iB *= rd;
-    iC *= rd;
-    iD *= rd;
-
-    *_L1 = _mm_shuffle_ps(iA,iB,0x77);
-    *_L2 = _mm_shuffle_ps(iA,iB,0x22);
-    *_L3 = _mm_shuffle_ps(iC,iD,0x77);
-    *_L4 = _mm_shuffle_ps(iC,iD,0x22);
-
-    return *(float*)&det;
-
-//Note  Xmm0 = Determinant
-}
-
-Function TGLZMatrix4f.Invert : TGLZMatrix4f; assembler;
-asm
-  // Convert from Intel Math Lib
-  // https://software.intel.com/en-us/articles/optimized-matrix-library-for-use-with-the-intel-pentiumr-4-processors-sse2-instructions/
-  // The inverse is calculated using "Divide and Conquer" technique. The
-  // original matrix is divide into four 2x2 sub-matrices. Since each
-  // register holds four matrix element, the smaller matrices are
-  // represented as a registers. Hence we get a better locality of the calculations.
-
-  movaps  xmm12,[RCX]$00
-  //movaps  xmm1, XMMWORD PTR [RCX]$10
-  // movaps  xmm1, XMMWORD PTR [RCX+$10]
-  movaps  xmm1, [RCX]$10
-  movhps  xmm12, QWORD PTR [RCX]$10
-  movaps  xmm2, [RCX]$30
-  movlps  xmm1, QWORD PTR [RCX]$20+8
-  movaps  xmm4, xmm12
-  movaps  xmm5, xmm12
-  movaps  xmm3, [RCX]$20
-  movaps  xmm0, xmm1
-  shufps  xmm5, xmm12, 165
-  shufps  xmm4, xmm12, 15
-  movhps  xmm2, QWORD PTR [RCX]
-  shufps  xmm0, xmm1, 78
-  mulps   xmm4, xmm1
-  movlps  xmm3, QWORD PTR [RCX]$30+8
-  movaps  xmm9, xmm1
-  mulps   xmm0, xmm5
-  movaps  xmm6, xmm3
-  movaps  xmm5, xmm3
-  shufps  xmm9, xmm1, 95
-  shufps  xmm6, xmm3, 165
-  shufps  xmm5, xmm3, 15
-  mulps   xmm5, xmm2
-  movaps  xmm8, xmm2
-  shufps  xmm8, xmm2, 95
-  movsldup        xmm14, xmm2
-  mulps   xmm9, xmm1
-  mulps   xmm8, xmm2
-  subps   xmm4, xmm0
-  movaps  xmm0, xmm2
-  shufps  xmm0, xmm2, 78
-  movshdup        xmm13, xmm2
-  mulps   xmm0, xmm6
-  movsldup        xmm15, xmm1
-  movaps  xmm10, xmm4
-  movlhps xmm10, xmm4
-  subps   xmm5, xmm0
-  mulps   xmm10, xmm14
-  movaps  xmm0, xmm12
-  shufps  xmm0, xmm12, 95
-  movshdup        xmm14, xmm1
-  mulps   xmm0, xmm12
-  movaps  xmm6, xmm0
-  movhlps xmm6, xmm0
-  subss   xmm0, xmm6
-  movaps  xmm6, xmm9
-  movhlps xmm6, xmm9
-  subss   xmm9, xmm6
-  movaps  xmm6, xmm8
-  movhlps xmm6, xmm8
-  subss   xmm8, xmm6
-  movaps  xmm6, xmm3
-  shufps  xmm6, xmm3, 95
-  mulps   xmm6, xmm3
-  movaps  xmm7, xmm6
-  movhlps xmm7, xmm6
-  subss   xmm6, xmm7
-  movaps  xmm7, xmm4
-  movhlps xmm7, xmm4
-  mulps   xmm7, xmm13
-  movaps  xmm13, xmm5
-  movaps  xmm11, xmm6
-  movlhps xmm13, xmm5
-  movaps  xmm6, xmm5
-  shufps  xmm6, xmm5, 216
-  mulps   xmm13, xmm15
-  mulps   xmm6, xmm4
-  addps   xmm7, xmm10
-  movaps  xmm10, xmm5
-  movhlps xmm10, xmm5
-  mulps   xmm10, xmm14
-  addps   xmm13, xmm10
-  movaps  xmm10, xmm6
-  movhlps xmm10, xmm6
-  addps   xmm6, xmm10
-  movaps  xmm10, xmm6
-  shufps  xmm10, xmm6, 1
-  addss   xmm6, xmm10
-  movaps  xmm10, xmm6
-  movaps  xmm6, xmm0
-  shufps  xmm6, xmm0, 0
-  mulps   xmm6, xmm3
-  mulps   xmm0, xmm11
-  subps   xmm6, xmm7
-  movaps  xmm7, xmm11
-  shufps  xmm7, xmm11, 0
-  mulps   xmm7, xmm12
-  movaps  xmm11, xmm9
-  shufps  xmm9, xmm9, 0
-  mulps   xmm11, xmm8
-  shufps  xmm8, xmm8, 0
-  mulps   xmm2, xmm9
-  mulps   xmm1, xmm8
-  subps   xmm7, xmm13
-  movaps  xmm13, xmm4
-  addps   xmm0, xmm11
-  movaps  xmm11, xmm3
-  shufps  xmm13, xmm4, 51
-  shufps  xmm4, xmm4, 102
-  shufps  xmm11, xmm3, 177
-  mulps   xmm3, xmm13
-  mulps   xmm11, xmm4
-  movaps  xmm4, xmm5
-  subps   xmm0, xmm10
-  movaps  xmm10, [RIP+cOneVector4f] // XMMWORD PTR [RIP+cOneVector4f]
-  shufps  xmm4, xmm5, 51
-  shufps  xmm5, xmm5, 102
-  mulps   xmm4, xmm12
-  divps   xmm10, xmm0
-  subps   xmm3, xmm11
-  movaps  xmm11, xmm12
-  shufps  xmm11, xmm12, 177
-  mulps   xmm5, xmm11
-  subps   xmm2, xmm3
-  subps   xmm4, xmm5
-  subps   xmm1, xmm4
-  shufps  xmm10, xmm10, 0
-  xorps   xmm10, [RIP+cSSE_SIGN_MASK_PNNP]
-  mulps   xmm7, xmm10
-  mulps   xmm2, xmm10
-  mulps   xmm1, xmm10
-  mulps   xmm10, xmm6
-  movaps  xmm3, xmm7
-  shufps  xmm3, xmm2, 119
-  shufps  xmm7, xmm2, 34
-  movaps  [RCX]$00, xmm3
-  movaps  xmm2, xmm1
-  movaps  [RCX]$10, xmm7
-  shufps  xmm2, xmm10, 119
-  shufps  xmm1, xmm10, 34
-  movaps  [RCX]$30, xmm2
-  movaps  [RCX]$20, xmm1
+@Finish:
 end;
+
 
 (*function TGLZMatrix4f.Normalize:TGLZMatrix4; assembler;
 asm
