@@ -1,7 +1,7 @@
 
 {%region%----[ Operators ]--------------------------------------------------------}
 
-class operator TGLZMatrix4f.+(constref A, B: TGLZMatrix4f): TGLZMatrix4f; assembler;
+class operator TGLZMatrix4f.+(constref A, B: TGLZMatrix4f): TGLZMatrix4f; assembler; register; nostackframe;
 asm
   movaps xmm0, [A]$00   // Load 4 rows of A  //0
   movaps xmm1, [A]$10                        //16
@@ -102,41 +102,63 @@ asm
 end;
 
 // https://github.com/WojciechMula/toys/blob/master/sse/sse-matvecmult.c
-class operator TGLZMatrix4f.*(constref A: TGLZMatrix4f; constref B: TGLZVector4f): TGLZVector4f; assembler;
+// pd reverse this to make array ops simpler do transpose first
+class operator TGLZMatrix4f.*(constref A: TGLZMatrix4f; constref B: TGLZVector4f): TGLZVector4f; assembler; register; nostackframe;
 asm
-  movaps   xmm0, [B]      // Load vector
-  movaps   xmm4, [A]$00   // Load 1st row
-  movaps   xmm1, xmm0
-  movaps   xmm2, xmm0
-  movaps   xmm3, xmm0
-  movaps   xmm5, [A]$10  // Load 2nd row
-  mulps    xmm0, xmm4    // (Bx * A00), (By * A01), (Bz * A02), (Bw * A03)
-  mulps    xmm1, xmm5    // (Bx * A10), (By * A11), (Bz * A12), (Bw * A13)
-  movups   xmm4, [A]$20  // Load 3rd row
-  movups   xmm5, [A]$30  // Load 4st row
-  mulps    xmm2, xmm4    // (Bx * A20), (By * A21), (Bz * A22), (Bw * A23)
-  mulps    xmm3, xmm5    // (Bx * A30), (By * A31), (Bz * A32), (Bw * A33)
-
-  { Transpose }
-  movaps   xmm4, xmm2
-  unpcklps xmm2, xmm3    // A32 A22 A33 A23
-  unpckhps xmm4, xmm3    // A30 A20 A31 A21
-
-  movaps   xmm3, xmm0
-  unpcklps xmm0, xmm1    // A12 A02 A13 A03
-  unpckhps xmm3, xmm1    // A10 A00 A11 A01
-
-  movaps   xmm1, xmm0
-  unpcklpd xmm0, xmm2    // A33 A23 A13 A03
-  unpckhpd xmm1, xmm2    // A32 A22 A12 A02
-
-  movaps   xmm2, xmm3
-  unpcklpd xmm2, xmm4    // A31 A21 A11 A01
-  unpckhpd xmm3, xmm4    // A30 A20 A10 A00
-
+  movaps   xmm0, [A]$00  // A03 A02 A01 A00
+  movaps   xmm1, [A]$10  // A13 A12 A11 A10
+  movaps   xmm2, [A]$20  // A23 A22 A21 A20
+  movaps   xmm3, [A]$30  // A33 A32 A31 A30
+  movss    xmm4, [B]         // changed to use parallel ops
+  movss    xmm5, [B]4
+  movss    xmm6, [B]8
+  movlps   xmm7, [B]12
+  shufps   xmm4, xmm4, 0
+  shufps   xmm5, xmm5, 0
+  shufps   xmm6, xmm6, 0
+  shufps   xmm7, xmm7, 0
+  mulps    xmm0, xmm4
+  mulps    xmm1, xmm5
+  mulps    xmm2, xmm6
+  mulps    xmm3, xmm7
   addps    xmm0, xmm1    // Add rows
   addps    xmm2, xmm3
   addps    xmm0, xmm2
+ // movhlps  xmm1, xmm0
+
+  //movaps   xmm0, [B]      // Load vector
+  //movaps   xmm4, [A]$00   // Load 1st row
+  //movaps   xmm1, xmm0
+  //movaps   xmm2, xmm0
+  //movaps   xmm3, xmm0
+  //movaps   xmm5, [A]$10  // Load 2nd row
+  //mulps    xmm0, xmm4    // (Bx * A00), (By * A01), (Bz * A02), (Bw * A03)
+  //mulps    xmm1, xmm5    // (Bx * A10), (By * A11), (Bz * A12), (Bw * A13)
+  //movups   xmm4, [A]$20  // Load 3rd row
+  //movups   xmm5, [A]$30  // Load 4st row
+  //mulps    xmm2, xmm4    // (Bx * A20), (By * A21), (Bz * A22), (Bw * A23)
+  //mulps    xmm3, xmm5    // (Bx * A30), (By * A31), (Bz * A32), (Bw * A33)
+  //
+  //{ Transpose }
+  //movaps   xmm4, xmm2
+  //unpcklps xmm2, xmm3    // A32 A22 A33 A23
+  //unpckhps xmm4, xmm3    // A30 A20 A31 A21
+  //
+  //movaps   xmm3, xmm0
+  //unpcklps xmm0, xmm1    // A12 A02 A13 A03
+  //unpckhps xmm3, xmm1    // A10 A00 A11 A01
+  //
+  //movaps   xmm1, xmm0
+  //unpcklpd xmm0, xmm2    // A33 A23 A13 A03
+  //unpckhpd xmm1, xmm2    // A32 A22 A12 A02
+  //
+  //movaps   xmm2, xmm3
+  //unpcklpd xmm2, xmm4    // A31 A21 A11 A01
+  //unpckhpd xmm3, xmm4    // A30 A20 A10 A00
+  //
+  //addps    xmm0, xmm1    // Add rows
+  //addps    xmm2, xmm3
+  //addps    xmm0, xmm2
   movaps   [Result], xmm0
 end;
 
@@ -528,15 +550,24 @@ asm
     {$ELSE}
       {$IFDEF USE_ASM_SSE_3}
          mulps xmm0, xmm4
-         haddps xmm0, xmm0
-         haddps xmm0, xmm0
+         //haddps xmm0, xmm0
+         //haddps xmm0, xmm0
+         movshdup xmm1,xmm0
+         addps  xmm0,xmm1
+         movhlps xmm1,xmm0
+         addss  xmm0,xmm1
       {$ELSE}
         mulps   xmm0, xmm4
-        movhlps xmm4, xmm0
-        addps   xmm4, xmm0     //|W*Y|Z*X|
-        movaps  xmm0, xmm4
-        shufps xmm0, xmm0, 00000001b
-        addps  xmm0, xmm4
+        movaps xmm1,xmm0
+        movhlps xmm1, xmm1
+	      addps xmm1, xmm0
+	      shufps xmm0, xmm0, 1
+	      addss xmm0, xmm1
+        //movhlps xmm4, xmm0
+        //addps   xmm4, xmm0     //|W*Y|Z*X|
+        //movaps  xmm0, xmm4
+        //shufps xmm0, xmm0, 00000001b
+        //addss  xmm0, xmm4
       {$ENDIF}
     {$ENDIF}
 end;

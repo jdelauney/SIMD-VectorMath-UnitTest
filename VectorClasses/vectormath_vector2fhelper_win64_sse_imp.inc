@@ -27,11 +27,6 @@ asm
   movaps xmm2, [RIP+cNullVector4f]
   maxps xmm0,xmm2
   minps xmm0,xmm1
-
-
-  //minps xmm0,xmm2
-  //minps xmm0,xmm1
-  //movhlps xmm1,xmm0
   movq   rax,  {%H-}xmm0
 end;
 
