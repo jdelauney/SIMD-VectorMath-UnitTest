@@ -1675,6 +1675,9 @@ Var
          {$I vectormath_matrix4f_unix64_sse_imp.inc}
          {$I vectormath_matrixhelper_native_imp.inc}
 
+         {$I vectormath_vector2fhelper_native_imp.inc}
+         {$I vectormath_vector2fhelper_unix64_sse_imp.inc}
+
          {$I vectormath_vectorhelper_native_imp.inc}
          {$I vectormath_vectorhelper_unix64_sse_imp.inc}
 
