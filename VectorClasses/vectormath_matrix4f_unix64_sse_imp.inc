@@ -127,8 +127,45 @@ asm                           // mmx order
   movhlps  xmm1, xmm0
 end;
 
+class operator TGLZMatrix4f.*(constref A: TGLZVector; constref B: TGLZMatrix4f): TGLZVector; assembler; register; nostackframe;
+asm
+  movaps   xmm0, [A]      // Load vector
+  movaps   xmm4, [B]$00   // Load 1st row
+  movaps   xmm1, xmm0
+  movaps   xmm2, xmm0
+  movaps   xmm3, xmm0
+  movaps   xmm5, [B]$10  // Load 2nd row
+  mulps    xmm0, xmm4    // (Bx * A00), (By * A01), (Bz * A02), (Bw * A03)
+  mulps    xmm1, xmm5    // (Bx * A10), (By * A11), (Bz * A12), (Bw * A13)
+  movups   xmm4, [B]$20  // Load 3rd row
+  movups   xmm5, [B]$30  // Load 4st row
+  mulps    xmm2, xmm4    // (Bx * A20), (By * A21), (Bz * A22), (Bw * A23)
+  mulps    xmm3, xmm5    // (Bx * A30), (By * A31), (Bz * A32), (Bw * A33)
 
-class operator TGLZMatrix4f./(constref A: TGLZMatrix4f; constref B: Single): TGLZMatrix4f; assembler;
+  { Transpose }
+  movaps   xmm4, xmm2
+  unpcklps xmm2, xmm3    // A32 A22 A33 A23
+  unpckhps xmm4, xmm3    // A30 A20 A31 A21
+
+  movaps   xmm3, xmm0
+  unpcklps xmm0, xmm1    // A12 A02 A13 A03
+  unpckhps xmm3, xmm1    // A10 A00 A11 A01
+
+  movaps   xmm1, xmm0
+  unpcklpd xmm0, xmm2    // A33 A23 A13 A03
+  unpckhpd xmm1, xmm2    // A32 A22 A12 A02
+
+  movaps   xmm2, xmm3
+  unpcklpd xmm2, xmm4    // A31 A21 A11 A01
+  unpckhpd xmm3, xmm4    // A30 A20 A10 A00
+
+  addps    xmm0, xmm1    // Add rows
+  addps    xmm2, xmm3
+  addps    xmm0, xmm2
+  movhlps  xmm1, xmm0
+end;
+
+class operator TGLZMatrix4f./(constref A: TGLZMatrix4f; constref B: Single): TGLZMatrix4f; assembler; register; nostackframe;
 asm
   movaps xmm0, [A]$00
   movaps xmm1, [A]$10
@@ -499,23 +536,27 @@ asm
   {$ENDIF}
 end;
 
-Function TGLZMatrix4f.Translate(constref V : TGLZVector) : TGLZMatrix4f; assembler;
-asm
-   //Self.W.X:=Self.W.X+v.X;
-   //Self.W.Y:=Self.W.Y+v.Y;
-   //Self.W.Z:=Self.W.Z+v.Z;
-  movaps xmm2, [RDI]$00
-  movaps xmm3, [RDI]$10
-  movaps xmm4, [RDI]$20
-  movaps xmm0, [RDI]$30
-  movaps xmm1, [V]
-  andps xmm1, [RIP+cSSE_MASK_NO_W]
-  addps xmm0, xmm1
-  movaps [RESULT]$00, xmm2
-  movaps [RESULT]$10, xmm3
-  movaps [RESULT]$20, xmm4
-  movaps [RESULT]$30, xmm0
+// TODO move this back to pascal only will be really bad if done SSSE
+Function TGLZMatrix4f.Translate(constref V : TGLZVector) : TGLZMatrix4f;  //assembler;
+begin
+   Self.X.W:=Self.X.W+v.X;
+   Self.Y.W:=Self.Y.W+v.Y;
+   Self.Z.W:=Self.Z.W+v.Z;
 end;
+
+//asm
+//  movaps xmm2, [RDI]$00
+//  movaps xmm3, [RDI]$10
+//  movaps xmm4, [RDI]$20
+//  movaps xmm0, [RDI]$30
+//  movaps xmm1, [V]
+//  andps xmm1, [RIP+cSSE_MASK_NO_W]
+//  addps xmm0, xmm1
+//  movaps [RESULT]$00, xmm2
+//  movaps [RESULT]$10, xmm3
+//  movaps [RESULT]$20, xmm4
+//  movaps [RESULT]$30, xmm0
+//end;
 
 // https://software.intel.com/en-us/articles/optimized-matrix-library-for-use-with-the-intel-pentiumr-4-processors-sse2-instructions/
 // https://lxjk.github.io/2017/09/03/Fast-4x4-Matrix-Inverse-with-SSE-SIMD-Explained.html

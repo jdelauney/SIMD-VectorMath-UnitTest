@@ -54,30 +54,30 @@ end;
 procedure TGLZMatrix4f.CreateTranslationMatrix(const V: TGLZAffineVector);
 begin
    Self:=IdentityHmgMatrix;
-   Self.W.X:=V.X;
-   Self.W.Y:=V.Y;
-   Self.W.Z:=V.Z;
+   Self.X.W:=V.X;
+   Self.Y.W:=V.Y;
+   Self.Z.W:=V.Z;
 end;
 
 procedure TGLZMatrix4f.CreateTranslationMatrix(const V: TGLZVector);
 begin
    Self:=IdentityHmgMatrix;
-   Self.W.X:=V.X;
-   Self.W.Y:=V.Y;
-   Self.W.Z:=V.Z;
+   Self.X.W:=V.X;
+   Self.Y.W:=V.Y;
+   Self.Z.W:=V.Z;
 end;
 
 procedure TGLZMatrix4f.CreateScaleAndTranslationMatrix(const ascale, offset : TGLZVector);
 begin
    Self:=IdentityHmgMatrix;
-   Self.X.X:=ascale.X;   Self.W.X:=offset.X;
-   Self.Y.Y:=ascale.Y;   Self.W.Y:=offset.Y;
-   Self.Z.Z:=ascale.Z;   Self.W.Z:=offset.Z;
+   Self.X.X:=ascale.X;   Self.X.W:=offset.X;
+   Self.Y.Y:=ascale.Y;   Self.Y.W:=offset.Y;
+   Self.Z.Z:=ascale.Z;   Self.Z.W:=offset.Z;
 end;
 
 procedure TGLZMatrix4f.CreateRotationMatrixX(const sine, cosine: Single);
 begin
-   Self:=EmptyHmgMatrix;
+   Self:=IdentityHmgMatrix;
 
    // Right Hand Rotation Matrix around X
    // For Left Hand invert the sign of Sin
@@ -88,15 +88,12 @@ begin
     W | 0 |   0  |  0  | 1
    }
 
-   Self.X.X:=1;
-
    Self.Y.Y:=cosine;
    Self.Y.Z:=-sine;
 
    Self.Z.Y:=sine;
    Self.Z.Z:=cosine;
 
-   Self.W.W:=1;
 end;
 
 procedure TGLZMatrix4f.CreateRotationMatrixX(const angle : Single);
@@ -110,7 +107,7 @@ end;
 
 procedure TGLZMatrix4f.CreateRotationMatrixY(const sine, cosine: Single);
 begin
-   Self:=EmptyHmgMatrix;
+   Self:=IdentityHmgMatrix;
 
    // Right Hand Rotation Matrix around Y
    // For Left Hand invert the sign of Sin
@@ -120,13 +117,10 @@ begin
     Z |-Sin |   0  |  cos  | 0
     W |  0  |   0  |   0   | 1
    }
-
    Self.X.X:=cosine;
    Self.X.Z:=sine;
-   Self.Y.Y:=1;
    Self.Z.X:=-sine;
    Self.Z.Z:=cosine;
-   Self.W.W:=1;
 end;
 
 procedure TGLZMatrix4f.CreateRotationMatrixY(const angle : Single);
@@ -140,7 +134,7 @@ end;
 
 procedure TGLZMatrix4f.CreateRotationMatrixZ(const sine, cosine: Single);
 begin
-   Self:=EmptyHmgMatrix;
+   Self:=IdentityHmgMatrix;
 
    // Right Hand Rotation Matrix around Z
    // For Left Hand invert the sign of Sin
@@ -150,13 +144,10 @@ begin
     Z |  0  |   0  |   1   | 0
     W |  0  |   0  |   0   | 1
    }
-
    Self.X.X:=cosine;
    Self.X.Y:=-sine;
    Self.Y.X:=sine;
    Self.Y.Y:=cosine;
-   Self.Z.Z:=1;
-   Self.W.W:=1;
 end;
 
 procedure TGLZMatrix4f.CreateRotationMatrixZ(const angle : Single);
@@ -537,7 +528,7 @@ procedure TGLZMatrix4f.AnglePreservingMatrixInvert(constref mat : TGLZMatrix4f);
 var
    ascale : Single;
 begin
-   ascale:=mat.V[0].Norm;
+   ascale:=mat.V[0].Norm;   // pd this looks wrong in matrix the scale is the diagonal????
 
    // Is the submatrix A singular?
    if Abs(ascale)<cEPSILON then
@@ -782,6 +773,14 @@ begin
   Result.V[3] := -A.V[3];
 end;
 
+class operator TGLZMatrix4f.*(constref A: TGLZVector4f; constref B: TGLZMatrix4f): TGLZVector4f;
+begin
+  Result.X := (A.X * B.M[0,0]) + (A.Y * B.M[0,1]) + (A.Z * B.M[0,2]) + (A.W * B.M[0,3]);
+  Result.Y := (A.X * B.M[1,0]) + (A.Y * B.M[1,1]) + (A.Z * B.M[1,2]) + (A.W * B.M[1,3]);
+  Result.Z := (A.X * B.M[2,0]) + (A.Y * B.M[2,1]) + (A.Z * B.M[2,2]) + (A.W * B.M[2,3]);
+  Result.W := (A.X * B.M[3,0]) + (A.Y * B.M[3,1]) + (A.Z * B.M[3,2]) + (A.W * B.M[3,3]);
+end;
+
 class operator TGLZMatrix4f.*(constref A: TGLZMatrix4f; constref B: TGLZVector4f): TGLZVector4f;
 begin
   Result.X := (B.X * A.M[0,0]) + (B.Y * A.M[1,0]) + (B.Z * A.M[2,0]) + (B.W * A.M[3,0]);
@@ -901,9 +900,9 @@ end;
 function TGLZMatrix4f.Translate(constref v : TGLZVector4f):TGLZMatrix4f;
 begin
    Result := Self;
-   Result.W.X:=Self.W.X+v.X;
-   Result.W.Y:=Self.W.Y+v.Y;
-   Result.W.Z:=Self.W.Z+v.Z;
+   Result.X.W:=Self.X.W+v.X;
+   Result.Y.W:=Self.Y.W+v.Y;
+   Result.Z.W:=Self.Z.W+v.Z;
 end;
 
 function TGLZMatrix4f.Multiply(constref M2 : TGLZMatrix4f): TGLZMatrix4f;

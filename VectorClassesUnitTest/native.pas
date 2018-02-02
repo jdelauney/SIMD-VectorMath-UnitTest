@@ -438,6 +438,7 @@ type
     class operator *(constref A, B: TNativeGLZMatrix4f): TNativeGLZMatrix4f;overload;
     class operator *(constref A: TNativeGLZMatrix4f; constref B: Single): TNativeGLZMatrix4f; overload;
     class operator *(constref A: TNativeGLZMatrix4f; constref B: TNativeGLZVector4f): TNativeGLZVector4f; overload;
+    class operator *(constref A: TNativeGLZVector4f; constref B: TNativeGLZMatrix4f): TNativeGLZVector4f; overload;
     class operator /(constref A: TNativeGLZMatrix4f; constref B: Single): TNativeGLZMatrix4f; overload;
 
     class operator -(constref A: TNativeGLZMatrix4f): TNativeGLZMatrix4f; overload;

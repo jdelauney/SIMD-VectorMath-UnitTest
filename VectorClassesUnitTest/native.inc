@@ -2042,6 +2042,14 @@ begin
   Result.V[3] := -A.V[3];
 end;
 
+class operator TNativeGLZMatrix4f.*(constref A: TNativeGLZVector4f; constref B: TNativeGLZMatrix4f): TNativeGLZVector4f;
+begin
+  Result.X := (A.X * B.M[0,0]) + (A.Y * B.M[0,1]) + (A.Z * B.M[0,2]) + (A.W * B.M[0,3]);
+  Result.Y := (A.X * B.M[1,0]) + (A.Y * B.M[1,1]) + (A.Z * B.M[1,2]) + (A.W * B.M[1,3]);
+  Result.Z := (A.X * B.M[2,0]) + (A.Y * B.M[2,1]) + (A.Z * B.M[2,2]) + (A.W * B.M[2,3]);
+  Result.W := (A.X * B.M[3,0]) + (A.Y * B.M[3,1]) + (A.Z * B.M[3,2]) + (A.W * B.M[3,3]);
+end;
+
 class operator TNativeGLZMatrix4f.*(constref A: TNativeGLZMatrix4f; constref B: TNativeGLZVector4f): TNativeGLZVector4f;
 begin
   Result.X := (B.X * A.M[0,0]) + (B.Y * A.M[1,0]) + (B.Z * A.M[2,0]) + (B.W * A.M[3,0]);
@@ -2116,25 +2124,25 @@ end;
 procedure TNativeGLZMatrix4f.CreateTranslationMatrix(const V: TGLZAffineVector);
 begin
    Self:=NativeIdentityHmgMatrix;
-   Self.W.X:=V.X;
-   Self.W.Y:=V.Y;
-   Self.W.Z:=V.Z;
+   Self.X.W:=V.X;
+   Self.Y.W:=V.Y;
+   Self.Z.W:=V.Z;
 end;
 
 procedure TNativeGLZMatrix4f.CreateTranslationMatrix(const V: TNativeGLZVector4f);
 begin
    Self:=NativeIdentityHmgMatrix;
-   Self.W.X:=V.X;
-   Self.W.Y:=V.Y;
-   Self.W.Z:=V.Z;
+   Self.X.W:=V.X;
+   Self.Y.W:=V.Y;
+   Self.Z.W:=V.Z;
 end;
 
 procedure TNativeGLZMatrix4f.CreateScaleAndTranslationMatrix(const ascale, offset : TNativeGLZVector4f);
 begin
    Self:=NativeIdentityHmgMatrix;
-   Self.X.X:=ascale.X;   Self.W.X:=offset.X;
-   Self.Y.Y:=ascale.Y;   Self.W.Y:=offset.Y;
-   Self.Z.Z:=ascale.Z;   Self.W.Z:=offset.Z;
+   Self.X.X:=ascale.X;   Self.X.W:=offset.X;
+   Self.Y.Y:=ascale.Y;   Self.Y.W:=offset.Y;
+   Self.Z.Z:=ascale.Z;   Self.Z.W:=offset.Z;
 end;
 
 procedure TNativeGLZMatrix4f.CreateRotationMatrixX(const sine, cosine: Single);
@@ -2440,9 +2448,9 @@ end; *)
 function TNativeGLZMatrix4f.Translate(constref v : TNativeGLZVector4f):TNativeGLZMatrix4f;
 begin
    Result := Self;
-   Result.W.X:=Self.W.X+v.X;
-   Result.W.Y:=Self.W.Y+v.Y;
-   Result.W.Z:=Self.W.Z+v.Z;
+   Result.X.W:=Self.X.W+v.X;
+   Result.Y.W:=Self.Y.W+v.Y;
+   Result.Z.W:=Self.Z.W+v.Z;
 end;
 
 function TNativeGLZMatrix4f.Multiply(constref M2 : TNativeGLZMatrix4f): TNativeGLZMatrix4f;
@@ -3465,7 +3473,7 @@ var
    rotMatrix : TNativeGLZMatrix;
 begin
    rotMatrix.CreateRotationMatrix(axis, Angle);
-   Result:=rotMatrix*Self;
+   Result := Self * rotMatrix;
 end;
 
 function TNativeGLZVectorHelper.RotateWithMatrixAroundX(alpha : Single) : TNativeGLZVector;
@@ -3473,7 +3481,7 @@ var
    rotMatrix : TNativeGLZMatrix;
 begin
    rotMatrix.CreateRotationMatrixX(Alpha);
-   Result:=rotMatrix*Self;
+   Result:= Self * rotMatrix;
 end;
 
 function TNativeGLZVectorHelper.RotateWithMatrixAroundY(alpha : Single) : TNativeGLZVector;
@@ -3481,7 +3489,7 @@ var
    rotMatrix : TNativeGLZMatrix;
 begin
    rotMatrix.CreateRotationMatrixY(Alpha);
-   Result:=rotMatrix*Self;
+   Result:= Self * rotMatrix;
 end;
 
 function TNativeGLZVectorHelper.RotateWithMatrixAroundZ(alpha : Single) : TNativeGLZVector;
@@ -3489,7 +3497,7 @@ var
    rotMatrix : TNativeGLZMatrix;
 begin
    rotMatrix.CreateRotationMatrixZ(Alpha);
-   Result:=rotMatrix*Self;
+   Result:= Self * rotMatrix;
 end;
 
 function TNativeGLZVectorHelper.RotateAroundX( alpha : Single) : TNativeGLZVector;

@@ -806,6 +806,7 @@ type
     class operator *(constref A, B: TGLZMatrix4f): TGLZMatrix4f; overload;
     class operator *(constref A: TGLZMatrix4f; constref B: Single): TGLZMatrix4f; overload;
     class operator *(constref A: TGLZMatrix4f; constref B: TGLZVector): TGLZVector; overload;
+    class operator *(constref A: TGLZVector; constref B: TGLZMatrix4f): TGLZVector; overload;
     class operator /(constref A: TGLZMatrix4f; constref B: Single): TGLZMatrix4f; overload;
 
     class operator -(constref A: TGLZMatrix4f): TGLZMatrix4f; overload;
