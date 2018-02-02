@@ -1846,6 +1846,7 @@ Var
   {$I vectormath_matrixhelper_native_imp.inc}
 
   {$I vectormath_hmgplane_native_imp.inc}
+  {$I vectormath_vector2fhelper_native_imp.inc}
   {$I vectormath_vectorhelper_native_imp.inc}
   {.$I vectormath_boundingboxhelper_native_imp.inc}
   {.$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
