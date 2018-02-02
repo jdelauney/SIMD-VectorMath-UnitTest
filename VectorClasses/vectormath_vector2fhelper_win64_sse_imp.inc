@@ -4,8 +4,9 @@
 function TGLZVector2fHelper.Step(ConstRef B : TGLZVector2f) : TGLZVector2f;assembler; //register; nostackframe;
 asm
   //if self.X <= B.X then result.X := 0;
-  movlps xmm0, [RCX]
+  movss xmm0, [RCX]
   movlps xmm1, [B]
+  movhps [Result], xmm0  // insure we have 0s in result
   comiss xmm0, xmm1
   jbe @NextStep
   movss [RESULT]0, {%H-}xmm0
