@@ -1545,7 +1545,6 @@ Var
 Begin
   For i := 0 To nb - 1 Do
     values^[i] := values^[i] + delta;
-
 End;
 
 Procedure OffsetFloatArray(Var values: Array Of Single; delta: Single);
