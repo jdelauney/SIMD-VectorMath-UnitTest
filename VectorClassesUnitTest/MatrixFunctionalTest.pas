@@ -39,6 +39,8 @@ type
     procedure TestTranspose;
     procedure TestGetDeterminant;
     procedure TestInverse;
+    procedure TestOpMultMatrix;
+    procedure TestOpMulVector;
   end;
 implementation
 
@@ -278,6 +280,40 @@ begin
   AssertTrue('Inverse:Sub21 Inverse * Matrix failed ', compare(IdentityHmgMatrix, mtx4, 1e-5));
   mtx2 := mtx3.Invert;
   AssertTrue('Inverse:Sub22 double inverse failed ', compare(mtx2, mtx1, 1e-5));
+
+end;
+
+procedure TMatrixFunctionalTest.TestOpMultMatrix;
+begin
+   mtx1 := M_LOWER_LEFT_1_9;
+   mtx3 := mtx1 * mtx1;
+   AssertEquals('OpMultMatrix:Sub1 m11 ',  13, mtx3.m11);
+   AssertEquals('OpMultMatrix:Sub2 m12 ',  16, mtx3.m12);
+   AssertEquals('OpMultMatrix:Sub3 m13 ',  19, mtx3.m13);
+   AssertEquals('OpMultMatrix:Sub4 m14 ',   4, mtx3.m14);
+   AssertEquals('OpMultMatrix:Sub5 m21 ',  22, mtx3.m21);
+   AssertEquals('OpMultMatrix:Sub6 m22 ',  28, mtx3.m22);
+   AssertEquals('OpMultMatrix:Sub7 m23 ',  34, mtx3.m23);
+   AssertEquals('OpMultMatrix:Sub8 m24 ',   7, mtx3.m24);
+   AssertEquals('OpMultMatrix:Sub9 m31 ',  40, mtx3.m31);
+   AssertEquals('OpMultMatrix:Sub10 m32 ', 52, mtx3.m32);
+   AssertEquals('OpMultMatrix:Sub11 m33 ', 64, mtx3.m33);
+   AssertEquals('OpMultMatrix:Sub12 m34 ', 16, mtx3.m34);
+   AssertEquals('OpMultMatrix:Sub13 m41 ', 58, mtx3.m41);
+   AssertEquals('OpMultMatrix:Sub14 m42 ', 76, mtx3.m42);
+   AssertEquals('OpMultMatrix:Sub15 m43 ', 94, mtx3.m43);
+   AssertEquals('OpMultMatrix:Sub16 m44 ', 25, mtx3.m44);
+end;
+
+procedure TMatrixFunctionalTest.TestOpMulVector;
+begin
+  mtx1 := M_LOWER_LEFT_1_9;
+  vt1.Create(1,3,1,2);
+  vt3 := mtx1 * vt1;
+  AssertEquals('OpMulVector:Sub1 X ',  22, vt3.X);
+  AssertEquals('OpMulVector:Sub2 Y ',  28, vt3.Y);
+  AssertEquals('OpMulVector:Sub3 Z ',  34, vt3.Z);
+  AssertEquals('OpMulVector:Sub4 W ',   7, vt3.W);
 
 end;
 

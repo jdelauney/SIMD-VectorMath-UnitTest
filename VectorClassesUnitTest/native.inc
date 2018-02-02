@@ -2044,10 +2044,10 @@ end;
 
 class operator TNativeGLZMatrix4f.*(constref A: TNativeGLZMatrix4f; constref B: TNativeGLZVector4f): TNativeGLZVector4f;
 begin
-  Result.X := (B.X * A.M[0,0]) + (B.Y * A.M[0,1]) + (B.Z * A.M[0,2]) + (B.W * A.M[0,3]);
-  Result.Y := (B.X * A.M[1,0]) + (B.Y * A.M[1,1]) + (B.Z * A.M[1,2]) + (B.W * A.M[1,3]);
-  Result.Z := (B.X * A.M[2,0]) + (B.Y * A.M[2,1]) + (B.Z * A.M[2,2]) + (B.W * A.M[2,3]);
-  Result.W := (B.X * A.M[3,0]) + (B.Y * A.M[3,1]) + (B.Z * A.M[3,2]) + (B.W * A.M[3,3]);
+  Result.X := (B.X * A.M[0,0]) + (B.Y * A.M[1,0]) + (B.Z * A.M[2,0]) + (B.W * A.M[3,0]);
+  Result.Y := (B.X * A.M[0,1]) + (B.Y * A.M[1,1]) + (B.Z * A.M[2,1]) + (B.W * A.M[3,1]);
+  Result.Z := (B.X * A.M[0,2]) + (B.Y * A.M[1,2]) + (B.Z * A.M[2,2]) + (B.W * A.M[3,2]);
+  Result.W := (B.X * A.M[0,3]) + (B.Y * A.M[1,3]) + (B.Z * A.M[2,3]) + (B.W * A.M[3,3]);
 end;
 
 class operator TNativeGLZMatrix4f.*(constref A, B: TNativeGLZMatrix4f): TNativeGLZMatrix4f;

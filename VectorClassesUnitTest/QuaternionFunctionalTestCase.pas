@@ -923,7 +923,6 @@ end;
 // ok new stuff does this actually work and if so what is its
 // behaviour.
 procedure TQuaternionFunctionalTestCase.TestScale;
-var i: integer;
 begin
   aqt1.Create(90,ZVector); // create a normalised postive rotation in Z
   aqt1.Scale(2);
