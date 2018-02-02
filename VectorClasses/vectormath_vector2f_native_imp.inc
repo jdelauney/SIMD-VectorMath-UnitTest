@@ -143,24 +143,33 @@ end;
 
 function TGLZVector2f.Min(constref B: TGLZVector2f): TGLZVector2f;
 begin
-  Result.X := Math.Min(Self.X, B.X);
-  Result.Y := Math.Min(Self.Y, B.Y);
+  Result := Self;
+  if Result.X > B.X then Result.X := B.X;
+  //:= Math.Min(Self.X, B.X);
+  //Result.Y := Math.Min(Self.Y, B.Y);
+  if Result.Y > B.Y then Result.Y := B.Y;
 end;
 
 function TGLZVector2f.Min(constref B: Single): TGLZVector2f;
 Begin
+  Result := Self;
   Result.X := Math.Min(Self.X, B);
   Result.Y := Math.Min(Self.Y, B);
 end;
 
 function TGLZVector2f.Max(constref B: TGLZVector2f): TGLZVector2f;
 begin
-  Result.X := Math.Max(Self.X, B.X);
-  Result.Y := Math.Max(Self.Y, B.Y);
+  Result := Self;
+  //Result.X := Math.Max(Self.X, B.X);
+  //Result.Y := Math.Max(Self.Y, B.Y);
+  Result := Self;
+  if Result.X < B.X then Result.X := B.X;
+  if Result.Y < B.Y then Result.Y := B.Y;
 end;
 
 function TGLZVector2f.Max(constref B: Single): TGLZVector2f;
 begin
+  Result := Self;
   Result.X := Math.Max(Self.X, B);
   Result.Y := Math.Max(Self.Y, B);
 end;

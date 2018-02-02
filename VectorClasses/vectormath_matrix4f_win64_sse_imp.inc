@@ -713,7 +713,7 @@ asm
   //       2 1 } det -3
   //  dA = |A|                    // det of 2x2 = x*w - y*z
   movaps xmm6, xmm0
-  shufps xmm6, xmm6, 01011111b    //$5F |Y|Y|W|W|
+  shufps xmm6, xmm6, 01011111b    // $5F |Y|Y|W|W|
   mulps  xmm6, xmm0               // |X*W|Y*W|Z*Y|Z*W|
   movhlps xmm7,xmm6
   subss  xmm6, xmm7               //xmm6 = detA   = -3

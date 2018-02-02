@@ -1356,7 +1356,7 @@ type
 
 Const
   NullVector2f   : TGLZVector2f = (x:0;y:0);
-  OneVector2f   : TGLZVector2f = (x:0;y:0);
+  OneVector2f   : TGLZVector2f = (x:1;y:1);
 
 
   // standard affine vectors

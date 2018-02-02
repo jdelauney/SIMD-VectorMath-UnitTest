@@ -298,7 +298,7 @@ Procedure OffsetFloatArray(valuesDest, valuesDelta: PSingleArray; nb: Integer); 
 
 Implementation
 
-uses GLZUtils, GLZFastMath;
+uses GLZUtils {$IFDEF USE_FASTMATH}, GLZFastMath{$ENDIF};
 
 {%region%-----[ Reintroduced some general functions ]---------------------------}
 
@@ -325,7 +325,7 @@ End;
 
 function Fract(v : Single) : Single;Inline;
 begin
-  result := v - floor(v);
+  result := v - trunc(v);
 end;
 
 function Sin(x:Single):Single;Inline;
@@ -438,20 +438,24 @@ End;
 Function Ceil(v: Single): Integer; Inline;
 Begin
   {$HINTS OFF}
-  If Fract(v) > 0 Then
-    Result := Trunc(v) + 1
-  Else
-    Result := Trunc(v);
+  //If Fract(v) > 0 Then
+  //  Result := Trunc(v) + 1
+  //Else
+  //  Result := Trunc(v);
+  Result := Trunc(v);
+  if (v - Result) > 0 then Inc(Result);
   {$HINTS ON}
 End;
 
 Function Floor(v: Single): Integer;Inline;
 Begin
    {$HINTS OFF}
-  If v < 0 Then
-    Result := System.Trunc(v) - 1
-  Else
-    Result := System.Trunc(v);
+  //If v < 0 Then
+  //  Result := System.Trunc(v) - 1
+  //Else
+  //  Result := System.Trunc(v);
+  Result := Trunc(v);
+  if (v - Result) < 0 then Dec(Result);
    {$HINTS ON}
 End;
 
