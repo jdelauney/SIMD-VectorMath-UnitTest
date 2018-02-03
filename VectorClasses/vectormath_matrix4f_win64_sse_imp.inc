@@ -101,18 +101,18 @@ asm
   movaps [Result]$30, xmm3
 end;
 
-class operator TGLZMatrix4f.*(constref A: TGLZVector4f; constref B: TGLZMatrix4f): TGLZVector4f; assembler; register; nostackframe;
+class operator TGLZMatrix4f.*(constref A: TGLZMatrix4f; constref B: TGLZVector4f): TGLZVector4f; assembler; register; nostackframe;
 asm
-  movaps   xmm0, [A]      // Load vector
-  movaps   xmm4, [B]$00   // Load 1st row
+  movaps   xmm0, [B]      // Load vector
+  movaps   xmm4, [A]$00   // Load 1st row
   movaps   xmm1, xmm0
   movaps   xmm2, xmm0
   movaps   xmm3, xmm0
-  movaps   xmm5, [B]$10  // Load 2nd row
+  movaps   xmm5, [A]$10  // Load 2nd row
   mulps    xmm0, xmm4    // (Bx * A00), (By * A01), (Bz * A02), (Bw * A03)
   mulps    xmm1, xmm5    // (Bx * A10), (By * A11), (Bz * A12), (Bw * A13)
-  movups   xmm4, [B]$20  // Load 3rd row
-  movups   xmm5, [B]$30  // Load 4st row
+  movups   xmm4, [A]$20  // Load 3rd row
+  movups   xmm5, [A]$30  // Load 4st row
   mulps    xmm2, xmm4    // (Bx * A20), (By * A21), (Bz * A22), (Bw * A23)
   mulps    xmm3, xmm5    // (Bx * A30), (By * A31), (Bz * A32), (Bw * A33)
 
@@ -142,16 +142,16 @@ end;
 
 // https://github.com/WojciechMula/toys/blob/master/sse/sse-matvecmult.c
 // pd reverse this to make array ops simpler do transpose first
-class operator TGLZMatrix4f.*(constref A: TGLZMatrix4f; constref B: TGLZVector4f): TGLZVector4f; assembler; register; nostackframe;
+class operator TGLZMatrix4f.*(constref A: TGLZVector4f; constref B: TGLZMatrix4f): TGLZVector4f; assembler; register; nostackframe;
 asm
-  movaps   xmm0, [A]$00  // A03 A02 A01 A00
-  movaps   xmm1, [A]$10  // A13 A12 A11 A10
-  movaps   xmm2, [A]$20  // A23 A22 A21 A20
-  movaps   xmm3, [A]$30  // A33 A32 A31 A30
-  movss    xmm4, [B]         // changed to use parallel ops
-  movss    xmm5, [B]4
-  movss    xmm6, [B]8
-  movlps   xmm7, [B]12
+  movaps   xmm0, [B]$00  // A03 A02 A01 A00
+  movaps   xmm1, [B]$10  // A13 A12 A11 A10
+  movaps   xmm2, [B]$20  // A23 A22 A21 A20
+  movaps   xmm3, [B]$30  // A33 A32 A31 A30
+  movss    xmm4, [A]         // changed to use parallel ops
+  movss    xmm5, [A]4
+  movss    xmm6, [A]8
+  movlps   xmm7, [A]12
   shufps   xmm4, xmm4, 0
   shufps   xmm5, xmm5, 0
   shufps   xmm6, xmm6, 0
