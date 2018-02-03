@@ -349,13 +349,13 @@ end;
 procedure TMatrixFunctionalTest.TestTransposeVectorMulMat;
 begin
   mtx1 := M_LOWER_LEFT_1_9;
-  mtx1.Transpose;
+  mtx1 := mtx1.Transpose;
   vt1.Create(1,3,1,2);
   vt3 :=  vt1 * mtx1;
-  AssertEquals('OpMulVector:Sub1 X ',  22, vt3.X);
-  AssertEquals('OpMulVector:Sub2 Y ',  28, vt3.Y);
-  AssertEquals('OpMulVector:Sub3 Z ',  34, vt3.Z);
-  AssertEquals('OpMulVector:Sub4 W ',   7, vt3.W);
+  AssertEquals('OpMulVector:Sub1 X ',   7, vt3.X);
+  AssertEquals('OpMulVector:Sub2 Y ',  12, vt3.Y);
+  AssertEquals('OpMulVector:Sub3 Z ',  27, vt3.Z);
+  AssertEquals('OpMulVector:Sub4 W ',  42, vt3.W);
 end;
 
 //(X:1; Y:1; Z:1; W:1),

@@ -162,14 +162,14 @@ end;
 procedure TMatrixTimingTest.TestTranposeVectorMulMatrix;
 begin
   TestDispName := 'Transpose Vector Multiply Matrix';
-  nmtx1.Transpose;
-  mtx1.Transpose;
   GlobalProfiler[0].Clear;
   GlobalProfiler[0].Start;
+  nmtx1 := nmtx1.Transpose;
   for cnt := 1 to Iterations do begin nt3 := nt1 * nmtx1; end;
   GlobalProfiler[0].Stop;
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;
+  mtx1 := mtx1.Transpose;
   For cnt:= 1 to Iterations do begin vt3  := vt1 * mtx1; end;
   GlobalProfiler[1].Stop;
 end;
