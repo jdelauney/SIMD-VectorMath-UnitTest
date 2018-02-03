@@ -28,6 +28,7 @@ type
     procedure TestMulMatrix;
     procedure TestMulSingle;
     procedure TestMulVector;
+    procedure TestVectorMulMatrix;
     procedure TestDivSingle;
     procedure TestMinus;
     procedure TestMultiply;
@@ -141,6 +142,19 @@ begin
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;
   For cnt:= 1 to Iterations do begin vt3  := mtx1 * vt1; end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TMatrixTimingTest.TestVectorMulMatrix;
+begin
+  TestDispName := 'Vector Multiply Matrix';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin nt3 := nt1 * nmtx1; end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  For cnt:= 1 to Iterations do begin vt3  := vt1 * mtx1; end;
   GlobalProfiler[1].Stop;
 end;
 

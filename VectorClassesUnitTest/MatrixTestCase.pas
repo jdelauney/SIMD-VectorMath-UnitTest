@@ -29,6 +29,7 @@ type
     procedure TestMulMatrix;
     procedure TestMulSingle;
     procedure TestMulVector;
+    procedure TestVectorMulMatrix;
     procedure TestDivSingle;
     procedure TestMinus;
     procedure TestMultiply;
@@ -106,6 +107,13 @@ begin
   nt3 := nmtx1 * nt1;
   vt3  := mtx1 * vt1;
   AssertTrue('Matrix * Vector no match'+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
+end;
+
+procedure TMatrix4TestCase.TestVectorMulMatrix;
+begin
+  nt3 := nt1 * nmtx1;
+  vt3  := vt1 * mtx1;
+  AssertTrue('Vector * Matrix no match'+nt3.ToString+' --> '+vt3.ToString, Compare(nt3,vt3));
 end;
 
 procedure TMatrix4TestCase.TestDivSingle;
