@@ -7,7 +7,7 @@ var
    rotMatrix : TGLZMatrix;
 begin
    rotMatrix.CreateRotationMatrix(axis, Angle);
-   Result := Self * rotMatrix;
+   Result := rotMatrix * Self;
 end;
 
 function TGLZVectorHelper.RotateWithMatrixAroundX(alpha : Single) : TGLZVector;
@@ -15,7 +15,7 @@ var
    rotMatrix : TGLZMatrix;
 begin
    rotMatrix.CreateRotationMatrixX(Alpha);
-   Result:= Self * rotMatrix;
+   Result:= rotMatrix * Self;
 end;
 
 function TGLZVectorHelper.RotateWithMatrixAroundY(alpha : Single) : TGLZVector;
@@ -23,7 +23,7 @@ var
    rotMatrix : TGLZMatrix;
 begin
    rotMatrix.CreateRotationMatrixY(Alpha);
-   Result:= Self * rotMatrix;
+   Result:= rotMatrix * Self;
 end;
 
 function TGLZVectorHelper.RotateWithMatrixAroundZ(alpha : Single) : TGLZVector;
@@ -31,7 +31,7 @@ var
    rotMatrix : TGLZMatrix;
 begin
    rotMatrix.CreateRotationMatrixZ(Alpha);
-   Result:= Self * rotMatrix;
+   Result:= rotMatrix * Self;
 end;
 
 function TGLZVectorHelper.RotateAroundX( alpha : Single) : TGLZVector;
@@ -159,6 +159,7 @@ begin
   Result.X := s.Y*t.Z - s.Z*t.Y + t.Y*u.Z - t.Z*u.Y + u.Y*r.Z - u.Z*r.Y + r.Y*s.Z - r.Z*s.Y;
   Result.Y := s.Z*t.X - s.X*t.Z + t.Z*u.X - t.x*u.Z + u.Z*r.X - u.X*r.Z + r.Z*s.X - r.X*s.Z;
   Result.Z := s.X*t.Y - s.Y*t.X + t.X*u.Y - t.Y*u.X + u.X*r.Y - u.Y*r.X + r.X*s.Y - r.Y*s.X;
+  Result.W := 0;
   Result := Result.Normalize;
 end;
 

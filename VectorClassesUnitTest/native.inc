@@ -2042,20 +2042,20 @@ begin
   Result.V[3] := -A.V[3];
 end;
 
-class operator TNativeGLZMatrix4f.*(constref A: TNativeGLZVector4f; constref B: TNativeGLZMatrix4f): TNativeGLZVector4f;
-begin
-  Result.X := (A.X * B.M[0,0]) + (A.Y * B.M[0,1]) + (A.Z * B.M[0,2]) + (A.W * B.M[0,3]);
-  Result.Y := (A.X * B.M[1,0]) + (A.Y * B.M[1,1]) + (A.Z * B.M[1,2]) + (A.W * B.M[1,3]);
-  Result.Z := (A.X * B.M[2,0]) + (A.Y * B.M[2,1]) + (A.Z * B.M[2,2]) + (A.W * B.M[2,3]);
-  Result.W := (A.X * B.M[3,0]) + (A.Y * B.M[3,1]) + (A.Z * B.M[3,2]) + (A.W * B.M[3,3]);
-end;
-
 class operator TNativeGLZMatrix4f.*(constref A: TNativeGLZMatrix4f; constref B: TNativeGLZVector4f): TNativeGLZVector4f;
 begin
-  Result.X := (B.X * A.M[0,0]) + (B.Y * A.M[1,0]) + (B.Z * A.M[2,0]) + (B.W * A.M[3,0]);
-  Result.Y := (B.X * A.M[0,1]) + (B.Y * A.M[1,1]) + (B.Z * A.M[2,1]) + (B.W * A.M[3,1]);
-  Result.Z := (B.X * A.M[0,2]) + (B.Y * A.M[1,2]) + (B.Z * A.M[2,2]) + (B.W * A.M[3,2]);
-  Result.W := (B.X * A.M[0,3]) + (B.Y * A.M[1,3]) + (B.Z * A.M[2,3]) + (B.W * A.M[3,3]);
+  Result.X := (B.X * A.M[0,0]) + (B.Y * A.M[0,1]) + (B.Z * A.M[0,2]) + (B.W * A.M[0,3]);
+  Result.Y := (B.X * A.M[1,0]) + (B.Y * A.M[1,1]) + (B.Z * A.M[1,2]) + (B.W * A.M[1,3]);
+  Result.Z := (B.X * A.M[2,0]) + (B.Y * A.M[2,1]) + (B.Z * A.M[2,2]) + (B.W * A.M[2,3]);
+  Result.W := (B.X * A.M[3,0]) + (B.Y * A.M[3,1]) + (B.Z * A.M[3,2]) + (B.W * A.M[3,3]);
+end;
+
+class operator TNativeGLZMatrix4f.*(constref A: TNativeGLZVector4f; constref B: TNativeGLZMatrix4f): TNativeGLZVector4f;
+begin
+  Result.X := (A.X * B.M[0,0]) + (A.Y * B.M[1,0]) + (A.Z * B.M[2,0]) + (A.W * B.M[3,0]);
+  Result.Y := (A.X * B.M[0,1]) + (A.Y * B.M[1,1]) + (A.Z * B.M[2,1]) + (A.W * B.M[3,1]);
+  Result.Z := (A.X * B.M[0,2]) + (A.Y * B.M[1,2]) + (A.Z * B.M[2,2]) + (A.W * B.M[3,2]);
+  Result.W := (A.X * B.M[0,3]) + (A.Y * B.M[1,3]) + (A.Z * B.M[2,3]) + (A.W * B.M[3,3]);
 end;
 
 class operator TNativeGLZMatrix4f.*(constref A, B: TNativeGLZMatrix4f): TNativeGLZMatrix4f;
@@ -3473,7 +3473,7 @@ var
    rotMatrix : TNativeGLZMatrix;
 begin
    rotMatrix.CreateRotationMatrix(axis, Angle);
-   Result := Self * rotMatrix;
+   Result := rotMatrix * Self;
 end;
 
 function TNativeGLZVectorHelper.RotateWithMatrixAroundX(alpha : Single) : TNativeGLZVector;
@@ -3481,7 +3481,7 @@ var
    rotMatrix : TNativeGLZMatrix;
 begin
    rotMatrix.CreateRotationMatrixX(Alpha);
-   Result:= Self * rotMatrix;
+   Result:= rotMatrix * Self;
 end;
 
 function TNativeGLZVectorHelper.RotateWithMatrixAroundY(alpha : Single) : TNativeGLZVector;
@@ -3489,7 +3489,7 @@ var
    rotMatrix : TNativeGLZMatrix;
 begin
    rotMatrix.CreateRotationMatrixY(Alpha);
-   Result:= Self * rotMatrix;
+   Result:= rotMatrix * Self;
 end;
 
 function TNativeGLZVectorHelper.RotateWithMatrixAroundZ(alpha : Single) : TNativeGLZVector;
@@ -3497,7 +3497,7 @@ var
    rotMatrix : TNativeGLZMatrix;
 begin
    rotMatrix.CreateRotationMatrixZ(Alpha);
-   Result:= Self * rotMatrix;
+   Result:= rotMatrix * Self;
 end;
 
 function TNativeGLZVectorHelper.RotateAroundX( alpha : Single) : TNativeGLZVector;
@@ -3594,6 +3594,7 @@ begin
   Result.X := s.Y*t.Z - s.Z*t.Y + t.Y*u.Z - t.Z*u.Y + u.Y*r.Z - u.Z*r.Y + r.Y*s.Z - r.Z*s.Y;
   Result.Y := s.Z*t.X - s.X*t.Z + t.Z*u.X - t.x*u.Z + u.Z*r.X - u.X*r.Z + r.Z*s.X - r.X*s.Z;
   Result.Z := s.X*t.Y - s.Y*t.X + t.X*u.Y - t.Y*u.X + u.X*r.Y - u.Y*r.X + r.X*s.Y - r.Y*s.X;
+  Result.W := 0;
   Result := Result.Normalize;
 end;
 

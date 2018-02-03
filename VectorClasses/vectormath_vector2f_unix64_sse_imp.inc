@@ -325,18 +325,18 @@ asm
   mov      ecx, eax                          // make local copy   self is done with at this point
   // smaller opcode no mem access required.
   and      eax, $00009FFF
-  or       eax, $00002000                    // Set bits
+  or       eax, $00006000                    // Set bits
   mov      DWORD PTR [rsp], eax              // mov bits to mem
   ldmxcsr  DWORD PTR [rsp]                   // set new bits
   cvtps2dq xmm1, xmm1
-  mov      DWORD PTR [rsp], ecx              // put old bits in mem
-  ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
-  pop      rax
-
   cvtdq2ps xmm1, xmm1
   mulps    xmm1, xmm2
   subps    xmm0, xmm1 // A - Trunc(A)
   cvtps2dq xmm0, xmm0
+
+  mov      DWORD PTR [rsp], ecx              // put old bits in mem
+  ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
+  pop      rax
   movq     rax,  xmm0
 end;
 

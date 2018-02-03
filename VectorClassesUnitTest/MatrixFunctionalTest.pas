@@ -328,21 +328,21 @@ begin
   mtx1 := M_LOWER_LEFT_1_9;
   vt1.Create(1,3,1,2);
   vt3 := mtx1 * vt1;
-  AssertEquals('OpMulVector:Sub1 X ',  22, vt3.X);
-  AssertEquals('OpMulVector:Sub2 Y ',  28, vt3.Y);
-  AssertEquals('OpMulVector:Sub3 Z ',  34, vt3.Z);
-  AssertEquals('OpMulVector:Sub4 W ',   7, vt3.W);
+  AssertEquals('OpMulVector:Sub1 X ',   7, vt3.X);
+  AssertEquals('OpMulVector:Sub2 Y ',  12, vt3.Y);
+  AssertEquals('OpMulVector:Sub3 Z ',  27, vt3.Z);
+  AssertEquals('OpMulVector:Sub4 W ',  42, vt3.W);
 end;
 
 procedure TMatrixFunctionalTest.TestOpVectorMulMat;
 begin
   mtx1 := M_LOWER_LEFT_1_9;
   vt1.Create(1,3,1,2);
-  vt3 := vt1 * mtx1;
-  AssertEquals('OpVectorMulMat:Sub1 X ',   7, vt3.X);
-  AssertEquals('OpVectorMulMat:Sub2 Y ',  12, vt3.Y);
-  AssertEquals('OpVectorMulMat:Sub3 Z ',  27, vt3.Z);
-  AssertEquals('OpVectorMulMat:Sub4 W ',  42, vt3.W);
+  vt3 :=  vt1 * mtx1;
+  AssertEquals('OpMulVector:Sub1 X ',  22, vt3.X);
+  AssertEquals('OpMulVector:Sub2 Y ',  28, vt3.Y);
+  AssertEquals('OpMulVector:Sub3 Z ',  34, vt3.Z);
+  AssertEquals('OpMulVector:Sub4 W ',   7, vt3.W);
 end;
 
 //(X:1; Y:1; Z:1; W:1),
@@ -406,14 +406,14 @@ procedure TMatrixFunctionalTest.TestCreateScaleVector;
 begin
   vt1.Create(2,2,2,1);  // should a scale vector set the W?
   mtx1.CreateScaleMatrix(vt1);
-  vt3 := vt1 * mtx1;   // use the scale vector to scale itself
+  vt3 := mtx1 * vt1;   // use the scale vector to scale itself
   AssertEquals('ScaleVector:Sub1 X ',  4, vt3.X);
   AssertEquals('ScaleVector:Sub2 Y ',  4, vt3.Y);
   AssertEquals('ScaleVector:Sub3 Z ',  4, vt3.Z);
   AssertEquals('ScaleVector:Sub4 W ',  1, vt3.W);  // vt1 was a point should get point back
   vt1.Create(2,2,2,0);  // should a scale vector set the W?
   mtx1.CreateScaleMatrix(vt1);
-  vt3 := vt1 * mtx1;   // use the scale vector to scale itself
+  vt3 := mtx1 * vt1;   // use the scale vector to scale itself
   AssertEquals('ScaleVector:Sub5 X ',  4, vt3.X);
   AssertEquals('ScaleVector:Sub6 Y ',  4, vt3.Y);
   AssertEquals('ScaleVector:Sub7 Z ',  4, vt3.Z);
@@ -424,14 +424,14 @@ procedure TMatrixFunctionalTest.TestCreateScaleAffine;
 begin
   vt1.Create(2,2,2,1);  // should a scale vector set the W?
   mtx1.CreateScaleMatrix(vt1.AsVector3f);
-  vt3 := vt1 * mtx1;   // use the scale vector to scale itself
+  vt3 := mtx1 * vt1;   // use the scale vector to scale itself
   AssertEquals('ScaleAffine:Sub1 X ',  4, vt3.X);
   AssertEquals('ScaleAffine:Sub2 Y ',  4, vt3.Y);
   AssertEquals('ScaleAffine:Sub3 Z ',  4, vt3.Z);
   AssertEquals('ScaleAffine:Sub4 W ',  1, vt3.W);  // vt1 was a point should get point back
   vt1.Create(2,2,2,0);  // should a scale vector set the W?
   mtx1.CreateScaleMatrix(vt1.AsVector3f);
-  vt3 := vt1 * mtx1;   // use the scale vector to scale itself
+  vt3 := mtx1 * vt1;   // use the scale vector to scale itself
   AssertEquals('ScaleAffine:Sub5 X ',  4, vt3.X);
   AssertEquals('ScaleAffine:Sub6 Y ',  4, vt3.Y);
   AssertEquals('ScaleAffine:Sub7 Z ',  4, vt3.Z);
@@ -442,14 +442,14 @@ procedure TMatrixFunctionalTest.TestCreateTransVector;
 begin
   vt1.Create(3,4,5,1);  // should a scale vector set the W?
   mtx1.CreateTranslationMatrix(vt1);
-  vt3 := vt1 * mtx1;   // use the transform on vector to transform itself
+  vt3 := mtx1 * vt1;   // use the transform on vector to transform itself
   AssertEquals('TransVector:Sub1 X ',  6, vt3.X);
   AssertEquals('TransVector:Sub2 Y ',  8, vt3.Y);
   AssertEquals('TransVector:Sub3 Z ', 10, vt3.Z);
   AssertEquals('TransVector:Sub4 W ',  1, vt3.W);  // vt1 was a point should get point back
   vt1.Create(5,4,3,0);  // should a scale vector set the W?
   mtx1.CreateTranslationMatrix(vt1);
-  vt3 := vt1 * mtx1;   // use the transform on a vector to transform  itself
+  vt3 := mtx1 * vt1;   // use the transform on a vector to transform  itself
   // vt1 was a vec should get vector back but vectors should not transform
   AssertEquals('TransVector:Sub5 X ',  5, vt3.X);
   AssertEquals('TransVector:Sub6 Y ',  4, vt3.Y);
@@ -461,14 +461,14 @@ procedure TMatrixFunctionalTest.TestCreateTransAffine;
 begin
   vt1.Create(3,4,5,1);  // should a scale vector set the W?
   mtx1.CreateTranslationMatrix(vt1.AsVector3f);
-  vt3 := vt1 * mtx1;   // use the transform on vector to transform itself
+  vt3 := mtx1 * vt1;   // use the transform on vector to transform itself
   AssertEquals('TransAffine:Sub1 X ',  6, vt3.X);
   AssertEquals('TransAffine:Sub2 Y ',  8, vt3.Y);
   AssertEquals('TransVector:Sub3 Z ', 10, vt3.Z);
   AssertEquals('TransAffine:Sub4 W ',  1, vt3.W);  // vt1 was a point should get point back
   vt1.Create(5,4,3,0);  // should a scale vector set the W?
   mtx1.CreateTranslationMatrix(vt1.AsVector3f);
-  vt3 := vt1 * mtx1;   // use the transform on a vector to transform  itself
+  vt3 := mtx1 * vt1;   // use the transform on a vector to transform  itself
   // vt1 was a vec should get vector back but vectors should not transform
   AssertEquals('TransAffine:Sub5 X ',  5, vt3.X);
   AssertEquals('TransAffine:Sub6 Y ',  4, vt3.Y);
@@ -481,14 +481,14 @@ begin
   vt1.Create(2,2,2,1);  // should a scale vector set the W?
   vt2.Create(10,10,10,1);
   mtx1.CreateScaleAndTranslationMatrix(vt1,vt2);
-  vt3 := vt1 * mtx1;   // use the scale vector to scale itself
+  vt3 := mtx1 * vt1;   // use the scale vector to scale itself
   AssertEquals('ScaleTransVector:Sub1 X ',  14, vt3.X);
   AssertEquals('ScaleTransVector:Sub2 Y ',  14, vt3.Y);
   AssertEquals('ScaleTransVector:Sub3 Z ',  14, vt3.Z);
   AssertEquals('ScaleTransVector:Sub4 W ',  1, vt3.W);  // vt1 was a point should get point back
   vt1.Create(2,2,2,0);  // should a scale vector set the W?
   mtx1.CreateScaleAndTranslationMatrix(vt1,vt2);
-  vt3 := vt1 * mtx1;   // use the scale vector to scale itself mo transform as it is a vector
+  vt3 := mtx1 * vt1;   // use the scale vector to scale itself mo transform as it is a vector
   AssertEquals('ScaleTransVector:Sub5 X ',  4, vt3.X);
   AssertEquals('ScaleTransVector:Sub6 Y ',  4, vt3.Y);
   AssertEquals('ScaleTransVector:Sub7 Z ',  4, vt3.Z);
@@ -507,26 +507,26 @@ begin
   mtx1.CreateRotationMatrixX(pi/2);
   AssertTrue('RotationMatrixXAngle:Sub0 Quat v Mat do not match ', compare(mtx1,mtx2, 1e-6));
   vt1.Create(0,1,1,1); // point in the pos quad
-  vt3 := vt1 * mtx1; // z remains pos y goes neg
+  vt3 := mtx1 * vt1; // z remains pos y goes neg
   AssertEquals('RotationMatrixXAngle:Sub1 X ',   0, vt3.X);
   AssertEquals('RotationMatrixXAngle:Sub2 Y ',  -1, vt3.Y);
   AssertEquals('RotationMatrixXAngle:Sub3 Z ',   1, vt3.Z);
   AssertEquals('RotationMatrixXAngle:Sub4 W ',   1, vt3.W);  // vt1 was a point should get point back
   vt1.Create(0,1,1,0); // point in the pos quad
-  vt3 := vt1 * mtx1; // z remains pos y goes neg
+  vt3 := mtx1 * vt1; // z remains pos y goes neg
   AssertEquals('RotationMatrixXAngle:Sub5 X ',  0, vt3.X);
   AssertEquals('RotationMatrixXAngle:Sub6 Y ', -1, vt3.Y);
   AssertEquals('RotationMatrixXAngle:Sub7 Z ',  1, vt3.Z);
   AssertEquals('RotationMatrixXAngle:Sub8 W ',  0, vt3.W);  // vt1 was a vec should get vec back
   mtx1.CreateRotationMatrixX(-pi/2);
   vt1.Create(0,1,1,1); // point in the pos quad
-  vt3 := vt1 * mtx1; // y remains pos z goes neg
+  vt3 := mtx1 * vt1; // y remains pos z goes neg
   AssertEquals('RotationMatrixXAngle:Sub9 X ',   0, vt3.X);
   AssertEquals('RotationMatrixXAngle:Sub10 Y ',   1, vt3.Y);
   AssertEquals('RotationMatrixXAngle:Sub11 Z ',  -1, vt3.Z);
   AssertEquals('RotationMatrixXAngle:Sub12 W ',   1, vt3.W);  // vt1 was a point should get point back
   vt1.Create(0,1,1,0); // point in the pos quad
-  vt3 := vt1 * mtx1; // y remains pos z goes neg
+  vt3 := mtx1 * vt1; // y remains pos z goes neg
   AssertEquals('RotationMatrixXAngle:Sub13 X ',  0, vt3.X);
   AssertEquals('RotationMatrixXAngle:Sub14 Y ',  1, vt3.Y);
   AssertEquals('RotationMatrixXAngle:Sub15 Z ', -1, vt3.Z);
@@ -537,26 +537,26 @@ procedure TMatrixFunctionalTest.TestCreateRotationMatrixXSinCos;
 begin
   mtx1.CreateRotationMatrixX(1,0);
   vt1.Create(0,1,1,1); // point in the pos quad
-  vt3 := vt1 * mtx1; // z remains pos y goes neg
+  vt3 := mtx1 * vt1; // z remains pos y goes neg
   AssertEquals('RotationMatrixXSinCos:Sub1 X ',   0, vt3.X);
   AssertEquals('RotationMatrixXSinCos:Sub2 Y ',  -1, vt3.Y);
   AssertEquals('RotationMatrixXSinCos:Sub3 Z ',   1, vt3.Z);
   AssertEquals('RotationMatrixXSinCos:Sub4 W ',   1, vt3.W);  // vt1 was a point should get point back
   vt1.Create(0,1,1,0); // point in the pos quad
-  vt3 := vt1 * mtx1; // z remains pos y goes neg
+  vt3 := mtx1 * vt1; // z remains pos y goes neg
   AssertEquals('RotationMatrixXSinCos:Sub5 X ',  0, vt3.X);
   AssertEquals('RotationMatrixXSinCos:Sub6 Y ', -1, vt3.Y);
   AssertEquals('RotationMatrixXSinCos:Sub7 Z ',  1, vt3.Z);
   AssertEquals('RotationMatrixXSinCos:Sub8 W ',  0, vt3.W);  // vt1 was a vec should get vec back
   mtx1.CreateRotationMatrixX(-1,0);
   vt1.Create(0,1,1,1); // point in the pos quad
-  vt3 := vt1 * mtx1; // y remains pos z goes neg
+  vt3 := mtx1 * vt1; // y remains pos z goes neg
   AssertEquals('RotationMatrixXSinCos:Sub9 X ',   0, vt3.X);
   AssertEquals('RotationMatrixXSinCos:Sub10 Y ',   1, vt3.Y);
   AssertEquals('RotationMatrixXSinCos:Sub11 Z ',  -1, vt3.Z);
   AssertEquals('RotationMatrixXSinCos:Sub12 W ',   1, vt3.W);  // vt1 was a point should get point back
   vt1.Create(0,1,1,0); // point in the pos quad
-  vt3 := vt1 * mtx1; // y remains pos z goes neg
+  vt3 := mtx1 * vt1; // y remains pos z goes neg
   AssertEquals('RotationMatrixXSinCos:Sub13 X ',  0, vt3.X);
   AssertEquals('RotationMatrixXSinCos:Sub14 Y ',  1, vt3.Y);
   AssertEquals('RotationMatrixXSinCos:Sub15 Z ', -1, vt3.Z);
@@ -576,26 +576,26 @@ begin
   mtx2 := aqt1.ConvertToMatrix;
   AssertTrue('RotationMatrixYAngle:Sub0 Quat v Mat do not match ', compare(mtx1,mtx2, 1e-6));
   vt1.Create(1,0,1,1); // point in the pos quad
-  vt3 := vt1 * mtx1; // x remains pos z goes neg
+  vt3 := mtx1 * vt1; // x remains pos z goes neg
   AssertEquals('RotationMatrixYAngle:Sub1 X ',   1, vt3.X);
   AssertEquals('RotationMatrixYAngle:Sub2 Y ',   0, vt3.Y);
   AssertEquals('RotationMatrixYAngle:Sub3 Z ',  -1, vt3.Z);
   AssertEquals('RotationMatrixYAngle:Sub4 W ',   1, vt3.W);  // vt1 was a point should get point back
   vt1.Create(1,0,1,0); // point in the pos quad
-  vt3 := vt1 * mtx1; // x remains pos z goes neg
+  vt3 := mtx1 * vt1; // x remains pos z goes neg
   AssertEquals('RotationMatrixYAngle:Sub5 X ',  1, vt3.X);
   AssertEquals('RotationMatrixYAngle:Sub6 Y ',  0, vt3.Y);
   AssertEquals('RotationMatrixYAngle:Sub7 Z ', -1, vt3.Z);
   AssertEquals('RotationMatrixYAngle:Sub8 W ',  0, vt3.W);  // vt1 was a vec should get vec back
   mtx1.CreateRotationMatrixY(-pi/2);
   vt1.Create(1,0,1,1); // point in the pos quad
-  vt3 := vt1 * mtx1; // z remains pos x goes neg
+  vt3 := mtx1 * vt1; // z remains pos x goes neg
   AssertEquals('RotationMatrixYAngle:Sub9 X ',   -1, vt3.X);
   AssertEquals('RotationMatrixYAngle:Sub10 Y ',   0, vt3.Y);
   AssertEquals('RotationMatrixYAngle:Sub11 Z ',   1, vt3.Z);
   AssertEquals('RotationMatrixYAngle:Sub12 W ',   1, vt3.W);  // vt1 was a point should get point back
   vt1.Create(1,0,1,0); // point in the pos quad
-  vt3 := vt1 * mtx1; // z remains pos x goes neg
+  vt3 := mtx1 * vt1; // z remains pos x goes neg
   AssertEquals('RotationMatrixYAngle:Sub13 X ', -1, vt3.X);
   AssertEquals('RotationMatrixYAngle:Sub14 Y ',  0, vt3.Y);
   AssertEquals('RotationMatrixYAngle:Sub15 Z ',  1, vt3.Z);
@@ -606,26 +606,26 @@ procedure TMatrixFunctionalTest.TestCreateRotationMatrixYSinCos;
 begin
   mtx1.CreateRotationMatrixY(1,0);
   vt1.Create(1,0,1,1); // point in the pos quad
-  vt3 := vt1 * mtx1; // x remains pos z goes neg
+  vt3 := mtx1 * vt1; // x remains pos z goes neg
   AssertEquals('RotationMatrixYSinCos:Sub1 X ',   1, vt3.X);
   AssertEquals('RotationMatrixYSinCos:Sub2 Y ',   0, vt3.Y);
   AssertEquals('RotationMatrixYSinCos:Sub3 Z ',  -1, vt3.Z);
   AssertEquals('RotationMatrixYSinCos:Sub4 W ',   1, vt3.W);  // vt1 was a point should get point back
   vt1.Create(1,0,1,0); // point in the pos quad
-  vt3 := vt1 * mtx1; // x remains pos z goes neg
+  vt3 := mtx1 * vt1; // x remains pos z goes neg
   AssertEquals('RotationMatrixYSinCos:Sub5 X ',  1, vt3.X);
   AssertEquals('RotationMatrixYSinCos:Sub6 Y ',  0, vt3.Y);
   AssertEquals('RotationMatrixYSinCos:Sub7 Z ', -1, vt3.Z);
   AssertEquals('RotationMatrixYSinCos:Sub8 W ',  0, vt3.W);  // vt1 was a vec should get vec back
   mtx1.CreateRotationMatrixY(-1,0);
   vt1.Create(1,0,1,1); // point in the pos quad
-  vt3 := vt1 * mtx1; // z remains pos x goes neg
+  vt3 := mtx1 * vt1; // z remains pos x goes neg
   AssertEquals('RotationMatrixYSinCos:Sub9 X ',   -1, vt3.X);
   AssertEquals('RotationMatrixYSinCos:Sub10 Y ',   0, vt3.Y);
   AssertEquals('RotationMatrixYSinCos:Sub11 Z ',   1, vt3.Z);
   AssertEquals('RotationMatrixYSinCos:Sub12 W ',   1, vt3.W);  // vt1 was a point should get point back
   vt1.Create(1,0,1,0); // point in the pos quad
-  vt3 := vt1 * mtx1; // z remains pos x goes neg
+  vt3 := mtx1 * vt1; // z remains pos x goes neg
   AssertEquals('RotationMatrixYSinCos:Sub13 X ', -1, vt3.X);
   AssertEquals('RotationMatrixYSinCos:Sub14 Y ',  0, vt3.Y);
   AssertEquals('RotationMatrixYSinCos:Sub15 Z ',  1, vt3.Z);
@@ -646,26 +646,26 @@ begin
   AssertTrue('RotationMatrixZAngle:Sub0 Quat v Mat do not match ', compare(mtx1,mtx2, 1e-6));
 
   vt1.Create(1,1,0,1); // point in the pos quad
-  vt3 := vt1 * mtx1; // y remains pos x goes neg
+  vt3 := mtx1 * vt1; // y remains pos x goes neg
   AssertEquals('RotationMatrixZAngle:Sub1 X ',  -1, vt3.X);
   AssertEquals('RotationMatrixZAngle:Sub2 Y ',   1, vt3.Y);
   AssertEquals('RotationMatrixZAngle:Sub3 Z ',   0, vt3.Z);
   AssertEquals('RotationMatrixZAngle:Sub4 W ',   1, vt3.W);  // vt1 was a point should get point back
   vt1.Create(1,1,0,0); // point in the pos quad
-  vt3 := vt1 * mtx1; // y remains pos x goes neg
+  vt3 := mtx1 * vt1; // y remains pos x goes neg
   AssertEquals('RotationMatrixZAngle:Sub5 X ', -1, vt3.X);
   AssertEquals('RotationMatrixZAngle:Sub6 Y ',  1, vt3.Y);
   AssertEquals('RotationMatrixZAngle:Sub7 Z ',  0, vt3.Z);
   AssertEquals('RotationMatrixZAngle:Sub8 W ',  0, vt3.W);  // vt1 was a vec should get vec back
   mtx1.CreateRotationMatrixZ(-pi/2);
   vt1.Create(1,1,0,1); // point in the pos quad
-  vt3 := vt1 * mtx1; // x remains pos y goes neg
+  vt3 := mtx1 * vt1; // x remains pos y goes neg
   AssertEquals('RotationMatrixZAngle:Sub9 X ',    1, vt3.X);
   AssertEquals('RotationMatrixZAngle:Sub10 Y ',  -1, vt3.Y);
   AssertEquals('RotationMatrixZAngle:Sub11 Z ',   0, vt3.Z);
   AssertEquals('RotationMatrixZAngle:Sub12 W ',   1, vt3.W);  // vt1 was a point should get point back
   vt1.Create(1,1,0,0); // point in the pos quad
-  vt3 := vt1 * mtx1; // x remains pos y goes neg
+  vt3 := mtx1 * vt1; // x remains pos y goes neg
   AssertEquals('RotationMatrixZAngle:Sub13 X ',  1, vt3.X);
   AssertEquals('RotationMatrixZAngle:Sub14 Y ', -1, vt3.Y);
   AssertEquals('RotationMatrixZAngle:Sub15 Z ',  0, vt3.Z);
@@ -676,26 +676,26 @@ procedure TMatrixFunctionalTest.TestCreateRotationMatrixZSinCos;
 begin
   mtx1.CreateRotationMatrixZ(1,0);
   vt1.Create(1,1,0,1); // point in the pos quad
-  vt3 := vt1 * mtx1; // y remains pos x goes neg
+  vt3 := mtx1 * vt1; // y remains pos x goes neg
   AssertEquals('RotationMatrixZAngle:Sub1 X ',  -1, vt3.X);
   AssertEquals('RotationMatrixZAngle:Sub2 Y ',   1, vt3.Y);
   AssertEquals('RotationMatrixZAngle:Sub3 Z ',   0, vt3.Z);
   AssertEquals('RotationMatrixZAngle:Sub4 W ',   1, vt3.W);  // vt1 was a point should get point back
   vt1.Create(1,1,0,0); // point in the pos quad
-  vt3 := vt1 * mtx1; // y remains pos x goes neg
+  vt3 := mtx1 * vt1; // y remains pos x goes neg
   AssertEquals('RotationMatrixZAngle:Sub5 X ', -1, vt3.X);
   AssertEquals('RotationMatrixZAngle:Sub6 Y ',  1, vt3.Y);
   AssertEquals('RotationMatrixZAngle:Sub7 Z ',  0, vt3.Z);
   AssertEquals('RotationMatrixZAngle:Sub8 W ',  0, vt3.W);  // vt1 was a vec should get vec back
   mtx1.CreateRotationMatrixZ(-1,0);
   vt1.Create(1,1,0,1); // point in the pos quad
-  vt3 := vt1 * mtx1; // x remains pos y goes neg
+  vt3 := mtx1 * vt1; // x remains pos y goes neg
   AssertEquals('RotationMatrixZAngle:Sub9 X ',    1, vt3.X);
   AssertEquals('RotationMatrixZAngle:Sub10 Y ',  -1, vt3.Y);
   AssertEquals('RotationMatrixZAngle:Sub11 Z ',   0, vt3.Z);
   AssertEquals('RotationMatrixZAngle:Sub12 W ',   1, vt3.W);  // vt1 was a point should get point back
   vt1.Create(1,1,0,0); // point in the pos quad
-  vt3 := vt1 * mtx1; // x remains pos y goes neg
+  vt3 := mtx1 * vt1; // x remains pos y goes neg
   AssertEquals('RotationMatrixZAngle:Sub13 X ',  1, vt3.X);
   AssertEquals('RotationMatrixZAngle:Sub14 Y ', -1, vt3.Y);
   AssertEquals('RotationMatrixZAngle:Sub15 Z ',  0, vt3.Z);
@@ -709,13 +709,13 @@ begin
   mtx2.CreateRotationMatrix(ZHmgVector,pi/2);
   AssertTrue('RotationMatrixAxisAngle:Sub0 Affinve v Hmg do not match ', compare(mtx1,mtx2));
   vt1.Create(1,1,0,1); // point in the pos quad
-  vt3 := vt1 * mtx1; // y remains pos x goes neg
+  vt3 := mtx1 * vt1; // y remains pos x goes neg
   AssertEquals('RotationMatrixAxisAngle:Sub1 X ',  -1, vt3.X);
   AssertEquals('RotationMatrixAxisAngle:Sub2 Y ',   1, vt3.Y);
   AssertEquals('RotationMatrixAxisAngle:Sub3 Z ',   0, vt3.Z);
   AssertEquals('RotationMatrixAxisAngle:Sub4 W ',   1, vt3.W);  // vt1 was a point should get point back
   vt1.Create(1,1,0,0); // point in the pos quad
-  vt3 := vt1 * mtx1; // y remains pos x goes neg
+  vt3 := mtx1 * vt1; // y remains pos x goes neg
   AssertEquals('RotationMatrixAxisAngle:Sub5 X ', -1, vt3.X);
   AssertEquals('RotationMatrixAxisAngle:Sub6 Y ',  1, vt3.Y);
   AssertEquals('RotationMatrixAxisAngle:Sub7 Z ',  0, vt3.Z);
