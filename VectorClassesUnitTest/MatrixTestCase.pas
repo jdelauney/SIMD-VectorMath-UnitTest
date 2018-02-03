@@ -37,6 +37,7 @@ type
     procedure TestGetDeterminant;
     procedure TestTranslate;
     procedure TestInvert;
+    procedure TestCreateLookAtMatrix;
   end;
 
 implementation
@@ -163,6 +164,16 @@ begin
   nmtx3 := nmtx1.Invert;
   mtx3  := mtx1.Invert;
   AssertTrue('Matrix Invert no match'+#13+#10+nmtx3.ToString+#13+#10+' --> '+#13+#10+mtx3.ToString, CompareMatrix(nmtx3,mtx3));
+end;
+
+procedure TMatrix4TestCase.TestCreateLookAtMatrix;
+begin
+
+  vt1.Create(0,0,10,1);  // eye is a point; origin will be center up will be y
+  nt1.V := vt1.V;
+  nmtx3.CreateLookAtMatrix(nt1,NativeNullHmgPoint,NativeYHmgVector); // create look at matrix
+  mtx3.CreateLookAtMatrix(vt1,NullHmgPoint,YHmgVector); // create look at matrix
+  AssertTrue('Matrix CreateLookAtMatrix no match'+#13+#10+nmtx3.ToString+#13+#10+' --> '+#13+#10+mtx3.ToString, CompareMatrix(nmtx3,mtx3));
 end;
 
 {%endregion%}

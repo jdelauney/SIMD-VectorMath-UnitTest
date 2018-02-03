@@ -37,6 +37,7 @@ type
     procedure TestGetDeterminant;
     procedure TestTranslate;
     procedure TestInvert;
+    procedure TestCreateLookAtMatrix;
   end;
 
 implementation
@@ -262,6 +263,21 @@ begin
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;
   For cnt:= 1 to Iterations do begin mtx3  := mtx2.Invert;  end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TMatrixTimingTest.TestCreateLookAtMatrix;
+begin
+  vt1.Create(0,0,10,1);
+  nt1.V := vt1.V;
+  TestDispName := 'Matrix CreateLookAtMatrix;';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to IterationsQuarter do begin nmtx3.CreateLookAtMatrix(nt1,NativeNullHmgPoint,NativeYHmgVector);  end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  For cnt:= 1 to IterationsQuarter do begin mtx3.CreateLookAtMatrix(vt1,NullHmgPoint,YHmgVector);   end;
   GlobalProfiler[1].Stop;
 end;
 

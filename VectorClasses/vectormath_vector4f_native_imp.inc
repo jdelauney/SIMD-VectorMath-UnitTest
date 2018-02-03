@@ -358,7 +358,7 @@ begin
   result.X:=Self.Y*A.Z-Self.Z*A.Y;
   result.Y:=Self.Z*A.X-Self.X*A.Z;
   result.Z:=Self.X*A.Y-Self.Y*A.X;
-  result.W:=1;
+  result.W:=0;
 end;
 
 function TGLZVector4f.Norm : Single;

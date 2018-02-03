@@ -58,8 +58,7 @@ type
     procedure TestCreateRotationMatrixZAngle;
     procedure TestCreateRotationMatrixZSinCos;
     procedure TestCreateRotationMatrixAxisAngle;
-    procedure TestCreateRotationMatrixAxisSinCos;
-
+    procedure TestCreateLookAtMatrix;
   end;
 implementation
 
@@ -733,13 +732,60 @@ begin
   AssertEquals('RotationMatrixAxisAngle:Sub6 Y ',  1, vt3.Y);
   AssertEquals('RotationMatrixAxisAngle:Sub7 Z ',  0, vt3.Z);
   AssertEquals('RotationMatrixAxisAngle:Sub8 W ',  0, vt3.W);  // vt1 was a vec should get vec back
-
-
+  mtx1.CreateRotationMatrix(YVector,pi/2);
+  mtx2.CreateRotationMatrix(YHmgVector,pi/2);
+  AssertTrue('RotationMatrixAxisAngle:Sub9 Affinve v Hmg do not match ', compare(mtx1,mtx2));
+  vt1.Create(1,0,1,1); // point in the pos quad
+  vt3 := mtx1 * vt1; // x remains pos z goes neg
+  AssertEquals('RotationMatrixAxisAngle:Sub10 X ',   1, vt3.X);
+  AssertEquals('RotationMatrixAxisAngle:Sub11 Y ',   0, vt3.Y);
+  AssertEquals('RotationMatrixAxisAngle:Sub12 Z ',  -1, vt3.Z);
+  AssertEquals('RotationMatrixAxisAngle:Sub13 W ',   1, vt3.W);  // vt1 was a point should get point back
+  vt1.Create(1,0,1,0); // point in the pos quad
+  vt3 := mtx1 * vt1; // x remains pos z goes neg
+  AssertEquals('RotationMatrixAxisAngle:Sub14 X ',  1, vt3.X);
+  AssertEquals('RotationMatrixAxisAngle:Sub15 Y ',  0, vt3.Y);
+  AssertEquals('RotationMatrixAxisAngle:Sub16 Z ', -1, vt3.Z);
+  AssertEquals('RotationMatrixAxisAngle:Sub17 W ',  0, vt3.W);  // vt1 was a vec should get vec back
+  mtx1.CreateRotationMatrix(XVector,pi/2);
+  mtx2.CreateRotationMatrix(XHmgVector,pi/2);
+  AssertTrue('RotationMatrixAxisAngle:Sub18 Affinve v Hmg do not match ', compare(mtx1,mtx2));
+  vt1.Create(0,1,1,1); // point in the pos quad
+  vt3 := mtx1 * vt1; // z remains pos y goes neg
+  AssertEquals('RotationMatrixAxisAngle:Sub19 X ',   0, vt3.X);
+  AssertEquals('RotationMatrixAxisAngle:Sub20 Y ',  -1, vt3.Y);
+  AssertEquals('RotationMatrixAxisAngle:Sub21 Z ',   1, vt3.Z);
+  AssertEquals('RotationMatrixAxisAngle:Sub21 W ',   1, vt3.W);  // vt1 was a point should get point back
+  vt1.Create(0,1,1,0); // point in the pos quad
+  vt3 := mtx1 * vt1; // z remains pos y goes neg
+  AssertEquals('RotationMatrixAxisAngle:Sub23 X ',  0, vt3.X);
+  AssertEquals('RotationMatrixAxisAngle:Sub24 Y ', -1, vt3.Y);
+  AssertEquals('RotationMatrixAxisAngle:Sub25 Z ',  1, vt3.Z);
+  AssertEquals('RotationMatrixAxisAngle:Sub26 W ',  0, vt3.W);  // vt1 was a vec should get vec back
 end;
 
-procedure TMatrixFunctionalTest.TestCreateRotationMatrixAxisSinCos;
-begin
 
+// origin for Look at matrix seems to be eye
+// eye is looking along the -Z axis of the new coordinate system
+// center will be -(eye to center)length in -Z
+// ergo should only need to set m34 value others should be 0 ???
+procedure TMatrixFunctionalTest.TestCreateLookAtMatrix;
+begin
+   vt1.Create(0,0,10,1);  // eye is a point; origin will be center up will be y
+   mtx1.CreateLookAtMatrix(vt1,NullHmgPoint,YHmgVector); // create look at matrix
+   vt2.Create(1,1,0,1);   //create usual point on zplane.
+   vt3 := mtx1 * vt2;     // vt2 should be unaffected by this transform
+   AssertEquals('CreateLookAtMatrix:Sub1 X ',   1, vt3.X);
+   AssertEquals('CreateLookAtMatrix:Sub2 Y ',   1, vt3.Y);
+   AssertEquals('CreateLookAtMatrix:Sub3 Z ',  -10, vt3.Z);
+   AssertEquals('CreateLookAtMatrix:Sub4 W ',   1, vt3.W);  // vt1 was a point should get point back
+   mtx1.CreateLookAtMatrix(vt1,NullHmgPoint,XHmgVector); // create look at matrix
+   vt2.Create(1,1,0,1);   //create usual point on zplane.
+   vt3 := mtx1 * vt2;     // vt2 should appear in +y-x quadrant
+   AssertEquals('CreateLookAtMatrix:Sub1 X ',  -1, vt3.X);
+   AssertEquals('CreateLookAtMatrix:Sub2 Y ',   1, vt3.Y);
+   AssertEquals('CreateLookAtMatrix:Sub3 Z ',  -10, vt3.Z);
+   AssertEquals('CreateLookAtMatrix:Sub4 W ',   1, vt3.W);  // vt1 was a point should get point back
 end;
 
 

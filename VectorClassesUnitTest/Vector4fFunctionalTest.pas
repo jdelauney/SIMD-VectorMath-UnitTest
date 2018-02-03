@@ -745,18 +745,32 @@ end;
 
 procedure TVector4fFunctionalTest.TestCrossProduct;
 begin
-  vt1.Create(-1 ,6,-8,1);     // dot is -8 + 36  -8 = -52
+  // cross two points should get vector
+  vt1.Create(-1 ,6,-8, 1);     // dot is -8 + 36  -8 = -52
   vt2.Create(8, -6, 1, 1);
   vt4 := vt1.CrossProduct(vt2);
   AssertEquals('CrossProduct:Sub1 X failed ', -42.0, vt4.X);  // 6 - 48
   AssertEquals('CrossProduct:Sub2 Y failed ', -63.0, vt4.Y);  // -64 - -1
   AssertEquals('CrossProduct:Sub3 Z failed ', -42.0, vt4.Z);  // 6 - 48
-  AssertEquals('CrossProduct:Sub4 W failed ',   1.0, vt4.W);
+  AssertEquals('CrossProduct:Sub4 W failed ',   0.0, vt4.W);
   vt4 := vt2.CrossProduct(vt1);
   AssertEquals('CrossProduct:Sub5 X failed ',  42.0, vt4.X);  // 48 - 6
   AssertEquals('CrossProduct:Sub6 Y failed ',  63.0, vt4.Y);  // -1 - -64
   AssertEquals('CrossProduct:Sub7 Z failed ',  42.0, vt4.Z);  // 48 - 6
-  AssertEquals('CrossProduct:Sub8 W failed ',   1.0, vt4.W);
+  AssertEquals('CrossProduct:Sub8 W failed ',   0.0, vt4.W);
+  // cross two vectors should get vector
+  vt1.Create(-1 ,6,-8, 0);     // dot is -8 + 36  -8 = -52
+  vt2.Create(8, -6, 1, 0);
+  vt4 := vt1.CrossProduct(vt2);
+  AssertEquals('CrossProduct:Sub9 X failed ', -42.0, vt4.X);  // 6 - 48
+  AssertEquals('CrossProduct:Sub10 Y failed ', -63.0, vt4.Y);  // -64 - -1
+  AssertEquals('CrossProduct:Sub11 Z failed ', -42.0, vt4.Z);  // 6 - 48
+  AssertEquals('CrossProduct:Sub12 W failed ',   0.0, vt4.W);
+  vt4 := vt2.CrossProduct(vt1);
+  AssertEquals('CrossProduct:Sub13 X failed ',  42.0, vt4.X);  // 48 - 6
+  AssertEquals('CrossProduct:Sub14 Y failed ',  63.0, vt4.Y);  // -1 - -64
+  AssertEquals('CrossProduct:Sub15 Z failed ',  42.0, vt4.Z);  // 48 - 6
+  AssertEquals('CrossProduct:Sub16 W failed ',   0.0, vt4.W);
 end;
 
 procedure TVector4fFunctionalTest.TestNormalize;

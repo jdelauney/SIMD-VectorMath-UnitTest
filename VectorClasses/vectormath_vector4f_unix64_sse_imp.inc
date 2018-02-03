@@ -382,8 +382,9 @@ asm
   mulps   xmm2, xmm3
   // sub the results
   subps   xmm0, xmm2
-
-  addps   xmm0, [rip+cWOnevector4f] // it would better change by logical operator
+  // cross product will always return a vector this is not needed
+  // even if you cress two points with unit W, resultant W will be 0 due to subraction
+  //  addps   xmm0, [rip+cWOnevector4f] // it would better change by logical operator
   movhlps xmm1, xmm0
 end;
 

@@ -569,22 +569,17 @@ procedure TGLZMatrix4f.CreateLookAtMatrix(const eye, center, normUp: TGLZVector)
 var
   XAxis, YAxis, ZAxis, negEye: TGLZVector;
 begin
-  ZAxis := center - eye;
-  ZAxis.Normalize;
-  XAxis := ZAxis.CrossProduct(normUp);
-  XAxis.Normalize;
-  YAxis := XAxis.CrossProduct(ZAxis);
+  ZAxis := TGLZVector(center - eye).Normalize;
+  XAxis := TGLZVector(ZAxis.CrossProduct(normUp)).Normalize;
+  YAxis := TGLZVector(XAxis.CrossProduct(ZAxis)).Normalize;
   Self.V[0] := XAxis;
   Self.V[1] := YAxis;
-  Self.V[2] := ZAxis;
-  Self.V[2].pNegate;
+  Self.V[2] := -ZAxis;
   Self.V[3] := NullHmgPoint;
-  Self.Transpose;
-  negEye := eye;
-  negEye.pNegate;
-  negEye.V[3] := 1;
-  negEye :=  Self * negEye ; //VectorTransform(negEye, Self);
-  Self.V[3] := negEye;
+//  negEye :=  Self * -Eye ;  // this is a long winded way to get -dist
+//  self.m14 := negEye.X;   // these should always be 0 anyway
+//  self.m24 := negEye.Y;
+  self.m34 := -(center.Distance(eye));  //TODO TEST both methods
 end;
 
 procedure TGLZMatrix4f.CreateParallelProjectionMatrix(const plane : TGLZHmgPlane;const dir : TGLZVector);

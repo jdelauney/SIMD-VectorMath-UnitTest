@@ -1506,7 +1506,7 @@ begin
   result.X:=Self.Y*A.Z-Self.Z*A.Y;
   result.Y:=Self.Z*A.X-Self.X*A.Z;
   result.Z:=Self.X*A.Y-Self.Y*A.X;
-  result.W:=1;
+  result.W:=0;
 end;
 
 function TNativeGLZVector4f.Norm : Single;
@@ -2682,22 +2682,17 @@ procedure TNativeGLZMatrix4f.CreateLookAtMatrix(const eye, center, normUp: TNati
 var
   XAxis, YAxis, ZAxis, negEye: TNativeGLZVector4f;
 begin
-  ZAxis := center - eye;
-  ZAxis.Normalize;
-  XAxis := ZAxis.CrossProduct(normUp);
-  XAxis.Normalize;
-  YAxis := XAxis.CrossProduct(ZAxis);
+  ZAxis := TNativeGLZVector4f(center - eye).Normalize;
+  XAxis := TNativeGLZVector4f(ZAxis.CrossProduct(normUp)).Normalize;
+  YAxis := TNativeGLZVector4f(XAxis.CrossProduct(ZAxis)).Normalize;
   Self.V[0] := XAxis;
   Self.V[1] := YAxis;
-  Self.V[2] := ZAxis;
-  Self.V[2].pNegate;
+  Self.V[2] := -ZAxis;
   Self.V[3] := NativeNullHmgPoint;
-  Self.Transpose;
-  negEye := eye;
-  negEye.pNegate;
-  negEye.V[3] := 1;
-  negEye := Self * negEye;// Self.Transform(negEye) ; //VectorTransform(negEye, Self);
-  Self.V[3] := negEye;
+  negEye :=  Self * -Eye ;
+  self.m14 := negEye.X;
+  self.m24 := negEye.Y;
+  self.m34 := negEye.Z;
 end;
 
 procedure TNativeGLZMatrix4f.CreateMatrixFromFrustum(Left, Right, Bottom, Top, ZNear, ZFar: Single);
