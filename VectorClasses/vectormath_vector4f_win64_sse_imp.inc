@@ -534,7 +534,7 @@ asm
   // sub the results
   subps  xmm0, xmm2
  // andps xmm0, [rip+cSSE_MASK_NO_W]
-  addps xmm0, XMMWORD PTR [RIP+cWOnevector4f] // it would better change by logical operator
+  //addps xmm0, XMMWORD PTR [RIP+cWOnevector4f] // it would better change by logical operator
   movaps [RESULT], xmm0      // return result
 end;
 
@@ -1243,8 +1243,8 @@ asm
   // sub the results
   subps  xmm0, xmm2
 
-  andps xmm0, [rip+cSSE_MASK_NO_W]
-  addps xmm0, [rip+cWOnevector4f] // it would better change by logical operator
+  //andps xmm0, [rip+cSSE_MASK_NO_W]
+  //addps xmm0, [rip+cWOnevector4f] // it would better change by logical operator
   //movhlps xmm1,xmm0
   movaps [RCX], xmm0
 end;

@@ -982,7 +982,7 @@ asm
   mulps   xmm2, xmm3
   // sub the results
   subps   xmm0, xmm2
-  addps   xmm0, [rip+cWOnevector4f]
+//  addps   xmm0, [rip+cWOnevector4f]
   movaps [RDI], xmm0
 end;
 

@@ -1891,7 +1891,7 @@ begin
   Tmp.X:=Self.Y*A.Z-Self.Z*A.Y;
   Tmp.Y:=Self.Z*A.X-Self.X*A.Z;
   Tmp.Z:=Self.X*A.Y-Self.Y*A.X;
-  Tmp.W:=1;
+  Tmp.W:=0;
   Self := Tmp;
 end;
 
