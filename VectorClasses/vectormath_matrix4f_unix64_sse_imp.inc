@@ -539,9 +539,10 @@ end;
 // TODO move this back to pascal only will be really bad if done SSSE
 Function TGLZMatrix4f.Translate(constref V : TGLZVector) : TGLZMatrix4f;  //assembler;
 begin
-   Self.X.W:=Self.X.W+v.X;
-   Self.Y.W:=Self.Y.W+v.Y;
-   Self.Z.W:=Self.Z.W+v.Z;
+   Result := Self;
+   Result.X.W:=Self.X.W+v.X;
+   Result.Y.W:=Self.Y.W+v.Y;
+   Result.Z.W:=Self.Z.W+v.Z;
 end;
 
 //asm

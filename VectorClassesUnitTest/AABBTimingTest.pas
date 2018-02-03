@@ -274,8 +274,8 @@ end;
 
 procedure TAABBTimingTest.TestTimeToClipRect;
 var
-  nCr: TNativeGLZClipRect;
-  aCr: TGLZClipRect;
+  {%H-}nCr: TNativeGLZClipRect;
+  {%H-}aCr: TGLZClipRect;
   nMat: TNativeGLZMatrix;
   aMat: TGLZMatrix;
   nPlane: TNativeGLZHmgPlane;
@@ -381,8 +381,8 @@ end;
 
 procedure TAABBTimingTest.TestTimeExtractCorners;
 var
-  nRes: TNativeGLZAABBCorners;
-  aRes: TGLZAABBCorners;
+  {%H-}nRes: TNativeGLZAABBCorners;
+  {%H-}aRes: TGLZAABBCorners;
 begin
   TestDispName := 'AABB Extract Corners';
   GlobalProfiler[0].Clear;
@@ -396,7 +396,7 @@ begin
 end;
 
 procedure TAABBTimingTest.TestTimeContainsAABB;
-var nCont, aCont: TGLZSpaceContains;
+var {%H-}nCont, {%H-}aCont: TGLZSpaceContains;
 begin
   TestDispName := 'AABB Conains AABB';
   GlobalProfiler[0].Clear;
@@ -410,7 +410,7 @@ begin
 end;
 
 procedure TAABBTimingTest.TestTimeContainsBSphere;
-var nCont, aCont: TGLZSpaceContains;
+var {%H-}nCont, {%H-}aCont: TGLZSpaceContains;
 begin
   TestDispName := 'AABB Conains BSphere';
   GlobalProfiler[0].Clear;

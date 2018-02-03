@@ -288,8 +288,8 @@ end;
 
 procedure TQuaternionTimingTest.TestConvertToMatrix;
 var
-  nMat: TNativeGLZMatrix;
-  aMat: TGLZMatrix;
+  nMat{%H-}: TNativeGLZMatrix;
+  aMat{%H-}: TGLZMatrix;
 begin
   nqt2.Create(90,NativeZVector);
   aqt2.Create(90,ZVector);

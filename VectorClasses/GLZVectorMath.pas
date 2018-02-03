@@ -1528,7 +1528,8 @@ Uses Math, GLZMath, GLZUtils;
 {%region%----[ Internal Types and Const ]---------------------------------------}
 
 Const
-
+  {$WARN 5025 on : Local variable "$1" not used}
+  {$WARN 5028 on : Local const "$1" not used}
      { SSE rounding modes (bits in MXCSR register) }
 //  cSSE_ROUND_MASK         : DWord = $FFFF9FFF;
   cSSE_ROUND_MASK         : DWord = $00009FFF;   // never risk a stray bit being set in MXCSR reserved
@@ -1589,7 +1590,8 @@ const
   CBBPlans: TPlanBB = ((0, 1, 2, 3), (4, 5, 6, 7), (0, 4, 7, 3), (1, 5, 6, 2),
     (0, 1, 5, 4), (2, 3, 7, 6));
   CDirPlan: TDirPlan = (0, 0, 1, 1, 2, 2);
-
+  {$WARN 5025 off : Local variable "$1" not used}
+  {$WARN 5028 off : Local const "$1" not used}
 // ---- Used by ASM Round & Trunc functions ------------------------------------
 var
   _bakMXCSR, _tmpMXCSR : DWord;

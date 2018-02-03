@@ -1121,14 +1121,14 @@ function Compare(constref A: TNativeGLZBoundingBox; constref
   B: TGLZBoundingBox; Epsilon: Single): boolean;
 begin
   Result := True;
-  if not compare(A.pt1,B.pt1) then Result := False;
-  if not compare(A.pt2,B.pt2) then Result := False;
-  if not compare(A.pt3,B.pt3) then Result := False;
-  if not compare(A.pt4,B.pt4) then Result := False;
-  if not compare(A.pt5,B.pt5) then Result := False;
-  if not compare(A.pt6,B.pt6) then Result := False;
-  if not compare(A.pt7,B.pt7) then Result := False;
-  if not compare(A.pt8,B.pt8) then Result := False;
+  if not compare(A.pt1,B.pt1, Epsilon) then Result := False;
+  if not compare(A.pt2,B.pt2, Epsilon) then Result := False;
+  if not compare(A.pt3,B.pt3, Epsilon) then Result := False;
+  if not compare(A.pt4,B.pt4, Epsilon) then Result := False;
+  if not compare(A.pt5,B.pt5, Epsilon) then Result := False;
+  if not compare(A.pt6,B.pt6, Epsilon) then Result := False;
+  if not compare(A.pt7,B.pt7, Epsilon) then Result := False;
+  if not compare(A.pt8,B.pt8, Epsilon) then Result := False;
 end;
 
 function CompareMatrix(constref A: TNativeGLZMatrix4f; constref B: TGLZMatrix4f;  Epsilon: Single): boolean;
@@ -1184,7 +1184,7 @@ var i: integer;
 begin
   Result := True;
   for i := 0 to 7 do
-    if not compare(A[i],B[i]) then Result := False;
+    if not compare(A[i],B[i],Epsilon) then Result := False;
 end;
 
 function Compare(constref A: TGLZMatrix4f; constref B: TGLZMatrix4f;

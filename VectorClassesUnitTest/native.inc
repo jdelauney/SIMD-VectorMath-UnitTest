@@ -3068,9 +3068,9 @@ end;
 
 procedure TNativeGLZQuaternion.Create(const x, y, z: Single; eulerOrder : TGLZEulerOrder);
 // input angles in degrees
-var
-   gimbalLock: Boolean;
-   quat1, quat2: TNativeGLZQuaternion;
+//var
+//   gimbalLock: Boolean;
+//   quat1, quat2: TNativeGLZQuaternion;
 
    function EulerToQuat(const X, Y, Z: Single; eulerOrder: TGLZEulerOrder) : TNativeGLZQuaternion;
    const
@@ -3087,8 +3087,8 @@ var
       result:=(q[1] * result);
    end;
 
-const
-   SMALL_ANGLE = 0.001;
+//const
+//   SMALL_ANGLE = 0.001;
 begin
 
 //   NormalizeDegAngle(x);

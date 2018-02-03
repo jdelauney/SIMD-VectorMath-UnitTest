@@ -82,7 +82,7 @@ begin
    s := temp * ( 2 - temp );
    s := ss * ( 0.225 * ( ss - 1 ) + 1 );
 
-  result := ss;
+  result := s;
 end;
 
 //compute cosine: sin(x + PI/2) = cos(x)
@@ -346,9 +346,8 @@ end;
 Function FastLog(x:Single):Single; Inline;
 var
   i : Int64;
-  f, aExp, addcst, xx : single;
+   aExp, addcst, xx : single;
 begin
-  f := x;
   i := Round(x);
   AExp:= i shr 23;
   // 89.970756366 = 127 * log(2) - constant term of polynomial

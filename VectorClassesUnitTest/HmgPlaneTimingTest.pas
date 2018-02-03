@@ -168,7 +168,7 @@ procedure THmgPlaneTimingTest.TestTimeContainsBSphere;
 var
   nsp: TNativeGLZBoundingSphere;
   asp: TGLZBoundingSphere;
-  {%H-}nct, act: TGLZSpaceContains;
+  {%H-}nct, {%H-}act: TGLZSpaceContains;
 begin
   nsp.Create(NativeNullHmgVector, 2);
   asp.Create(NullHmgVector, 2);

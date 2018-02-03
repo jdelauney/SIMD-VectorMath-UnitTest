@@ -156,7 +156,6 @@ begin
 end;
 
 procedure TVectorHelperTimingTest.TestTimePointProject;
-var j: byte;
 begin
   TestDispName := 'VectorH Point Project';
   GlobalProfiler[0].Clear;

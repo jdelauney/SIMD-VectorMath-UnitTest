@@ -125,6 +125,8 @@ function FastPower(i:single;n:integer):single;
 implementation
 
 // On defini quelques valeurs en vue d'optimiser les calculs
+{$WARN 5025 on : Local variable "$1" not used}
+{$WARN 5028 on : Local const "$1" not used}
 Const
   _cInfinity = 1e1000;
   _EpsilonFuzzFactor = 1000;
@@ -164,6 +166,8 @@ Const
   _cTaylorCoefB : single = 1.0 / 24.0;
   _cTaylorCoefC : single = 1.0 / 720.0;
   _cTaylorCoefD : single = 1.0 / 40320.0;
+{$WARN 5025 off : Local variable "$1" not used}
+{$WARN 5028 off : Local const "$1" not used}
 
 //-----[ INCLUDE IMPLEMENTATION ]-----------------------------------------------
 
