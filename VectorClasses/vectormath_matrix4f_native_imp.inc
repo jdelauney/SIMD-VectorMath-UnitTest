@@ -773,7 +773,8 @@ begin
   Result.V[3] := -A.V[3];
 end;
 
-class operator TGLZMatrix4f.*(constref A: TGLZVector4f; constref B: TGLZMatrix4f): TGLZVector4f;
+
+class operator TGLZMatrix4f.*(constref A: TGLZMatrix4f; constref B: TGLZVector4f): TGLZVector4f;
 begin
   Result.X := (B.X * A.M[0,0]) + (B.Y * A.M[0,1]) + (B.Z * A.M[0,2]) + (B.W * A.M[0,3]);
   Result.Y := (B.X * A.M[1,0]) + (B.Y * A.M[1,1]) + (B.Z * A.M[1,2]) + (B.W * A.M[1,3]);
