@@ -810,7 +810,7 @@ begin
   // first try to hit the IdentityHmgMatrix return
   apl1.Create(NullHmgPoint, ZHmgVector); // create a xy plane at 0
   // first a vector on the plane
-  mtx1.CreateParallelProjectionMatrix(apl1,-XHmgVector);
+  mtx1.CreateParallelProjectionMatrix(apl1, XHmgVector);
   AssertTrue('CreateParallelProjectionMatrix:Sub1 not IdentityHmgMatrix ', compare(IdentityHmgMatrix,mtx1));
   // next a vector created from two points parallel to the plane
   vt1.Create(2.344, 23.4423, 3, 1);
@@ -818,6 +818,51 @@ begin
   vt3 := vt1-vt2; // subtraction of two points results in a vector.
   mtx1.CreateParallelProjectionMatrix(apl1, vt3);
   AssertTrue('CreateParallelProjectionMatrix:Sub2 not IdentityHmgMatrix ', compare(IdentityHmgMatrix,mtx1));
+  // now for the special case that v is perp to plane
+  // should behave as the lookat matrix above
+  vt1.Create(apl1.AsNormal3); // this will be half normal not unit see if that affects things
+  mtx1.CreateParallelProjectionMatrix(apl1, vt1);
+  vt2.Create(1,1,0,1);   //create usual point on z = 0 plane.
+  vt3 := mtx1 * vt2;     // vt2 should be unaffected by this transform
+  AssertEquals('CreateParallelProjectionMatrix:Sub3 X ',   1, vt3.X);
+  AssertEquals('CreateParallelProjectionMatrix:Sub4 Y ',   1, vt3.Y);
+  AssertEquals('CreateParallelProjectionMatrix:Sub5 Z ',   0, vt3.Z);
+  AssertEquals('CreateParallelProjectionMatrix:Sub6 W ',   1, vt3.W);  // vt1 was a point should get point back
+  vt2.Create(1,1,23,1);   //create usual point above the plane.
+  vt3 := mtx1 * vt2;     // vt2 should be unaffected by this transform
+  AssertEquals('CreateParallelProjectionMatrix:Sub7 X ',    1, vt3.X);
+  AssertEquals('CreateParallelProjectionMatrix:Sub8 Y ',    1, vt3.Y);
+  AssertEquals('CreateParallelProjectionMatrix:Sub9 Z ',    0, vt3.Z);
+  AssertEquals('CreateParallelProjectionMatrix:Sub10 W ',   1, vt3.W);  // vt1 was a point should get point back
+  vt2.Create(1,1,-23,1);   //create usual point below the plane.
+  vt3 := mtx1 * vt2;     // vt2 should be unaffected by this transform
+  AssertEquals('CreateParallelProjectionMatrix:Sub11 X ',    1, vt3.X);
+  AssertEquals('CreateParallelProjectionMatrix:Sub12 Y ',    1, vt3.Y);
+  AssertEquals('CreateParallelProjectionMatrix:Sub13 Z ',    0, vt3.Z);
+  AssertEquals('CreateParallelProjectionMatrix:Sub14 W ',    1, vt3.W);  // vt1 was a point should get point back
+  // now create a vector which is 45deg to the plane along the X axis
+  vt1.create(1,0,1,0);
+  vt1.pNormalize;    // does the vector have to be normalised?
+  mtx1.CreateParallelProjectionMatrix(apl1, -vt1);
+  vt2.Create(1,1,0,1);   //create usual point on z = 0 plane.
+  vt3 := mtx1 * vt2;     // vt2 should be unaffected by this transform
+  AssertEquals('CreateParallelProjectionMatrix:Sub15 X ',   1, vt3.X);
+  AssertEquals('CreateParallelProjectionMatrix:Sub16 Y ',   1, vt3.Y);
+  AssertEquals('CreateParallelProjectionMatrix:Sub17 Z ',   0, vt3.Z);
+  AssertEquals('CreateParallelProjectionMatrix:Sub18 W ',   1, vt3.W);  // vt1 was a point should get point back
+  mtx1.CreateParallelProjectionMatrix(apl1, vt1);
+  vt2.Create(1,1,0,1);   //create usual point on z = 0 plane.
+  vt3 := mtx1 * vt2;     // vt2 should be unaffected by this transform
+  AssertEquals('CreateParallelProjectionMatrix:Sub15 X ',   1, vt3.X);
+  AssertEquals('CreateParallelProjectionMatrix:Sub16 Y ',   1, vt3.Y);
+  AssertEquals('CreateParallelProjectionMatrix:Sub17 Z ',   0, vt3.Z);
+  AssertEquals('CreateParallelProjectionMatrix:Sub18 W ',   1, vt3.W);  // vt1 was a point should get point back
+  vt2.Create(1,1,1,1);   //create usual point on z = 0 plane.
+  vt3 := mtx1 * vt2;     // vt2 should be shifted in the -x axis (toward the Y by Cos(45).
+  AssertEquals('CreateParallelProjectionMatrix:Sub19 X ',   1-Cos(pi/4), vt3.X);
+  AssertEquals('CreateParallelProjectionMatrix:Sub20 Y ',   1, vt3.Y);
+  AssertEquals('CreateParallelProjectionMatrix:Sub21 Z ',   0, vt3.Z);
+  AssertEquals('CreateParallelProjectionMatrix:Sub22 W ',   1, vt3.W);  // vt1 was a point should get point back
 
 end;
 
