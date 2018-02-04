@@ -600,25 +600,25 @@ begin
    end;
    invDot:=1/dot;
 
-   Self.V[0].V[0]:=( plane.V[1] * dir.V[1] + plane.V[2] * dir.V[2]) * invDot;
-   Self.V[1].V[0]:=(-plane.V[1] * dir.V[0]) * invDot;
-   Self.V[2].V[0]:=(-plane.V[2] * dir.V[0]) * invDot;
-   Self.V[3].V[0]:=(-plane.V[3] * dir.V[0]) * invDot;
+   Self.m11:=( plane.V[1] * dir.V[1] + plane.V[2] * dir.V[2]) * invDot;
+   Self.m12:=(-plane.V[1] * dir.V[0]) * invDot;
+   Self.m13:=(-plane.V[2] * dir.V[0]) * invDot;
+   Self.m14:=(-plane.V[3] * dir.V[0]) * invDot;
 
-   Self.V[0].V[1]:=(-plane.V[0] * dir.V[1]) * invDot;
-   Self.V[1].V[1]:=( plane.V[0] * dir.V[0] + plane.V[2] * dir.V[2]) * invDot;
-   Self.V[2].V[1]:=(-plane.V[2] * dir.V[1]) * invDot;
-   Self.V[3].V[1]:=(-plane.V[3] * dir.V[1]) * invDot;
+   Self.m21:=(-plane.V[0] * dir.V[1]) * invDot;
+   Self.m22:=( plane.V[0] * dir.V[0] + plane.V[2] * dir.V[2]) * invDot;
+   Self.m23:=(-plane.V[2] * dir.V[1]) * invDot;
+   Self.m24:=(-plane.V[3] * dir.V[1]) * invDot;
 
-   Self.V[0].V[2]:=(-plane.V[0] * dir.V[2]) * invDot;
-   Self.V[1].V[2]:=(-plane.V[1] * dir.V[2]) * invDot;
-   Self.V[2].V[2]:=( plane.V[0] * dir.V[0] + plane.V[1] * dir.V[1]) * invDot;
-   Self.V[3].V[2]:=(-plane.V[3] * dir.V[2]) * invDot;
+   Self.m31:=(-plane.V[0] * dir.V[2]) * invDot;
+   Self.m32:=(-plane.V[1] * dir.V[2]) * invDot;
+   Self.m33:=( plane.V[0] * dir.V[0] + plane.V[1] * dir.V[1]) * invDot;
+   Self.m34:=(-plane.V[3] * dir.V[2]) * invDot;
 
-   Self.V[0].V[3]:=0;
-   Self.V[1].V[3]:=0;
-   Self.V[2].V[3]:=0;
-   Self.V[3].V[3]:=1;
+   Self.m41:=0;
+   Self.m42:=0;
+   Self.m43:=0;
+   Self.m44:=1;
 end;
 
 procedure TGLZMatrix4f.CreateShadowMatrix(const planePoint, planeNormal, lightPos : TGLZVector);
