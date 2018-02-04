@@ -869,16 +869,16 @@ begin
   AssertEquals('CreateParallelProjectionMatrix:Sub26 W ',   1, vt3.W);  // vt1 was a point should get point back
   vt2.Create(1,1,2,1);   //create usual point above z=0 plane.
   vt3 := mtx1 * vt2;     // vt2 should be shifted in the -x axis (toward the Y by tan(45).
-  AssertEquals('CreateParallelProjectionMatrix:Sub23 X ',   1-2, vt3.X);
-  AssertEquals('CreateParallelProjectionMatrix:Sub24 Y ',   1, vt3.Y);
-  AssertEquals('CreateParallelProjectionMatrix:Sub25 Z ',   0, vt3.Z);
-  AssertEquals('CreateParallelProjectionMatrix:Sub26 W ',   1, vt3.W);  // vt1 was a point should get point back
+  AssertEquals('CreateParallelProjectionMatrix:Sub27 X ',   1-2, vt3.X);
+  AssertEquals('CreateParallelProjectionMatrix:Sub28 Y ',   1, vt3.Y);
+  AssertEquals('CreateParallelProjectionMatrix:Sub29 Z ',   0, vt3.Z);
+  AssertEquals('CreateParallelProjectionMatrix:Sub30 W ',   1, vt3.W);  // vt1 was a point should get point back
   vt2.Create(1,1,-2,1);   //create usual point above z=0 plane.
   vt3 := mtx1 * vt2;     // vt2 should be shifted in the -x axis (toward the Y by tan(45).
-  AssertEquals('CreateParallelProjectionMatrix:Sub23 X ',   1+2, vt3.X);
-  AssertEquals('CreateParallelProjectionMatrix:Sub24 Y ',   1, vt3.Y);
-  AssertEquals('CreateParallelProjectionMatrix:Sub25 Z ',   0, vt3.Z);
-  AssertEquals('CreateParallelProjectionMatrix:Sub26 W ',   1, vt3.W);  // vt1 was a point should get point back
+  AssertEquals('CreateParallelProjectionMatrix:Sub31 X ',   1+2, vt3.X);
+  AssertEquals('CreateParallelProjectionMatrix:Sub32 Y ',   1, vt3.Y);
+  AssertEquals('CreateParallelProjectionMatrix:Sub33 Z ',   0, vt3.Z);
+  AssertEquals('CreateParallelProjectionMatrix:Sub34 W ',   1, vt3.W);  // vt1 was a point should get point back
 
 end;
 
