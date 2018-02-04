@@ -461,6 +461,10 @@ end;
 
 
 { TODO 1 -oTMatrix4 -cASM : Adjoint : Add SSE/AVX Version }
+// so far has only been used in Invert and eliminated from
+// assembler algo might not need to do this just keep it for pascal
+// It does not do what it says on the tin anyway as it has combined
+//  Adjugate and Determinant functionality
 procedure TGLZMatrix4f.Adjoint;
 var
    a1, a2, a3, a4,
@@ -576,10 +580,11 @@ begin
   Self.V[1] := YAxis;
   Self.V[2] := -ZAxis;
   Self.V[3] := NullHmgPoint;
-//  negEye :=  Self * -Eye ;  // this is a long winded way to get -dist
-//  self.m14 := negEye.X;   // these should always be 0 anyway
-//  self.m24 := negEye.Y;
-  self.m34 := -(center.Distance(eye));  //TODO TEST both methods
+  // this is just a reverse tranlation of eye to world origin as origin was not passed in.
+  self.m14 := -Eye.X;
+  self.m24 := -Eye.Y;
+  self.m34 := -Eye.Z;
+
 end;
 
 procedure TGLZMatrix4f.CreateParallelProjectionMatrix(const plane : TGLZHmgPlane;const dir : TGLZVector);
@@ -595,20 +600,20 @@ begin
    end;
    invDot:=1/dot;
 
-   Self.V[0].V[0]:=(plane.V[1]*dir.V[1]+plane.V[2]*dir.V[2])*invDot;
-   Self.V[1].V[0]:=(-plane.V[1]*dir.V[0])*invDot;
-   Self.V[2].V[0]:=(-plane.V[2]*dir.V[0])*invDot;
-   Self.V[3].V[0]:=(-plane.V[3]*dir.V[0])*invDot;
+   Self.V[0].V[0]:=( plane.V[1] * dir.V[1] + plane.V[2] * dir.V[2]) * invDot;
+   Self.V[1].V[0]:=(-plane.V[1] * dir.V[0]) * invDot;
+   Self.V[2].V[0]:=(-plane.V[2] * dir.V[0]) * invDot;
+   Self.V[3].V[0]:=(-plane.V[3] * dir.V[0]) * invDot;
 
-   Self.V[0].V[1]:=(-plane.V[0]*dir.V[1])*invDot;
-   Self.V[1].V[1]:=(plane.V[0]*dir.V[0]+plane.V[2]*dir.V[2])*invDot;
-   Self.V[2].V[1]:=(-plane.V[2]*dir.V[1])*invDot;
-   Self.V[3].V[1]:=(-plane.V[3]*dir.V[1])*invDot;
+   Self.V[0].V[1]:=(-plane.V[0] * dir.V[1]) * invDot;
+   Self.V[1].V[1]:=( plane.V[0] * dir.V[0] + plane.V[2] * dir.V[2]) * invDot;
+   Self.V[2].V[1]:=(-plane.V[2] * dir.V[1]) * invDot;
+   Self.V[3].V[1]:=(-plane.V[3] * dir.V[1]) * invDot;
 
-   Self.V[0].V[2]:=(-plane.V[0]*dir.V[2])*invDot;
-   Self.V[1].V[2]:=(-plane.V[1]*dir.V[2])*invDot;
-   Self.V[2].V[2]:=(plane.V[0]*dir.V[0]+plane.V[1]*dir.V[1])*invDot;
-   Self.V[3].V[2]:=(-plane.V[3]*dir.V[2])*invDot;
+   Self.V[0].V[2]:=(-plane.V[0] * dir.V[2]) * invDot;
+   Self.V[1].V[2]:=(-plane.V[1] * dir.V[2]) * invDot;
+   Self.V[2].V[2]:=( plane.V[0] * dir.V[0] + plane.V[1] * dir.V[1]) * invDot;
+   Self.V[3].V[2]:=(-plane.V[3] * dir.V[2]) * invDot;
 
    Self.V[0].V[3]:=0;
    Self.V[1].V[3]:=0;

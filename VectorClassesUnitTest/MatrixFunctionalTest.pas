@@ -29,6 +29,8 @@ type
     {$CODEALIGN RECORDMIN=16}
     mKnownDet, invKnown, ResMat: TGLZMatrix4f;       // has det of -50
     mtx1, mtx2, mtx3, mtx4 : TGLZMatrix4f;
+    aqt1 : TGLZQuaternion;
+    apl1 : TGLZHmgPlane;
     {$CODEALIGN RECORDMIN=4}
   published
     procedure TestOpAddMatrix;
@@ -59,6 +61,7 @@ type
     procedure TestCreateRotationMatrixZSinCos;
     procedure TestCreateRotationMatrixAxisAngle;
     procedure TestCreateLookAtMatrix;
+    procedure TestCreateParallelProjectionMatrix;
   end;
 implementation
 
@@ -512,7 +515,6 @@ end;
 // from this view a positive rotation imparts a CCV rotation of Z and Y
 // pos zy quadrant is upper right.
 procedure TMatrixFunctionalTest.TestCreateRotationMatrixXAngle;
-var aqt1: TGLZQuaternion;
 begin
   aqt1.Create(90,XVector);
   mtx2 := aqt1.ConvertToMatrix;
@@ -581,7 +583,6 @@ end;
 // pos zx quadrant is upper right.
 
 procedure TMatrixFunctionalTest.TestCreateRotationMatrixYAngle;
-var aqt1: TGLZQuaternion;
 begin
   mtx1.CreateRotationMatrixY(pi/2);
   aqt1.Create(90,YVector);
@@ -650,7 +651,6 @@ end;
 // from this view a positive rotation imparts a CCV rotation of x and Y
 // pos xy quadrant is upper right.
 procedure TMatrixFunctionalTest.TestCreateRotationMatrixZAngle;
-var aqt1: TGLZQuaternion;
 begin
   aqt1.Create(90,ZVector);
   mtx2 := aqt1.ConvertToMatrix;
@@ -769,11 +769,15 @@ end;
 // eye is looking along the -Z axis of the new coordinate system
 // center will be -(eye to center)length in -Z
 // ergo should only need to set m34 value others should be 0 ???
+// The center of the screen will eventually lie somewhere on the -z axis of
+// this matrix view.
+// This is an orthogonal representation of the world with an altered origin.
+// This is a parallel projection matrix on xy plane if z component is removed.
 procedure TMatrixFunctionalTest.TestCreateLookAtMatrix;
 begin
    vt1.Create(0,0,10,1);  // eye is a point; origin will be center up will be y
    mtx1.CreateLookAtMatrix(vt1,NullHmgPoint,YHmgVector); // create look at matrix
-   vt2.Create(1,1,0,1);   //create usual point on zplane.
+   vt2.Create(1,1,0,1);   //create usual point on z = 0 plane.
    vt3 := mtx1 * vt2;     // vt2 should be unaffected by this transform
    AssertEquals('CreateLookAtMatrix:Sub1 X ',   1, vt3.X);
    AssertEquals('CreateLookAtMatrix:Sub2 Y ',   1, vt3.Y);
@@ -786,7 +790,38 @@ begin
    AssertEquals('CreateLookAtMatrix:Sub2 Y ',   1, vt3.Y);
    AssertEquals('CreateLookAtMatrix:Sub3 Z ',  -10, vt3.Z);
    AssertEquals('CreateLookAtMatrix:Sub4 W ',   1, vt3.W);  // vt1 was a point should get point back
+   // try to test this assumption
+   // ergo should only need to set m34 value others should be 0 ???
+   vt1.Create(2,2,10,1);  // eye is a point;  up will be y
+   vt2.Create(2,2,0,1);  // eye -> center is a ray parallel -Z axis vector
+   mtx1.CreateLookAtMatrix(vt1,vt2,YHmgVector); // create look at matrix
+   vt2.Create(1,1,0,1);   //create usual point on z = 0 plane.
+   vt3 := mtx1 * vt2;     // vt2 should be appear in the -x-y quadrant
+   AssertEquals('CreateLookAtMatrix:Sub1 X ',   -1, vt3.X);
+   AssertEquals('CreateLookAtMatrix:Sub2 Y ',   -1, vt3.Y);
+   AssertEquals('CreateLookAtMatrix:Sub3 Z ',  -10, vt3.Z);
+   AssertEquals('CreateLookAtMatrix:Sub4 W ',   1, vt3.W);  // vt1 was a point should get point back
 end;
+
+// given the above look at parallel projection, they should have exactly the same
+// behaviour but from different?? starting parameters.
+procedure TMatrixFunctionalTest.TestCreateParallelProjectionMatrix;
+begin
+  // first try to hit the IdentityHmgMatrix return
+  apl1.Create(NullHmgPoint, ZHmgVector); // create a xy plane at 0
+  // first a vector on the plane
+  mtx1.CreateParallelProjectionMatrix(apl1,-XHmgVector);
+  AssertTrue('CreateParallelProjectionMatrix:Sub1 not IdentityHmgMatrix ', compare(IdentityHmgMatrix,mtx1));
+  // next a vector created from two points parallel to the plane
+  vt1.Create(2.344, 23.4423, 3, 1);
+  vt2.Create(22.344, -23.4423, 3, 1);
+  vt3 := vt1-vt2; // subtraction of two points results in a vector.
+  mtx1.CreateParallelProjectionMatrix(apl1, vt3);
+  AssertTrue('CreateParallelProjectionMatrix:Sub2 not IdentityHmgMatrix ', compare(IdentityHmgMatrix,mtx1));
+
+end;
+
+
 
 
 

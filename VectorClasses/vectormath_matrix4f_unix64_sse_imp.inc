@@ -536,7 +536,7 @@ asm
   {$ENDIF}
 end;
 
-// TODO move this back to pascal only will be really bad if done SSSE
+// TODO move this back to pascal only will be really bad if done SSE
 Function TGLZMatrix4f.Translate(constref V : TGLZVector) : TGLZMatrix4f;  //assembler;
 begin
    Result := Self;

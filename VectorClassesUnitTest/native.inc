@@ -2680,7 +2680,7 @@ end;
 
 procedure TNativeGLZMatrix4f.CreateLookAtMatrix(const eye, center, normUp: TNativeGLZVector4f);
 var
-  XAxis, YAxis, ZAxis, negEye: TNativeGLZVector4f;
+  XAxis, YAxis, ZAxis: TNativeGLZVector4f;
 begin
   ZAxis := TNativeGLZVector4f(center - eye).Normalize;
   XAxis := TNativeGLZVector4f(ZAxis.CrossProduct(normUp)).Normalize;
@@ -2689,10 +2689,10 @@ begin
   Self.V[1] := YAxis;
   Self.V[2] := -ZAxis;
   Self.V[3] := NativeNullHmgPoint;
-  negEye :=  Self * -Eye ;
-  self.m14 := negEye.X;
-  self.m24 := negEye.Y;
-  self.m34 := negEye.Z;
+  // this is just a reverse tranlation of eye to world origin as origin was not passed in.
+  self.m14 := -eye.X;
+  self.m24 := -eye.Y;
+  self.m34 := -eye.Z;
 end;
 
 procedure TNativeGLZMatrix4f.CreateMatrixFromFrustum(Left, Right, Bottom, Top, ZNear, ZFar: Single);
