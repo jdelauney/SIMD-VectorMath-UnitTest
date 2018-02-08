@@ -37,11 +37,10 @@ Historique : @br
 *==============================================================================*)
 Unit GLZVectorMath;
 
-{$mode objfpc}{$H+}
-
+//{$mode objfpc}{$H+}
 //-----------------------------
-{$ASMMODE INTEL}
-{$INLINE ON}
+{.$ASMMODE INTEL}
+{.$INLINE ON}
 {$MODESWITCH ADVANCEDRECORDS}
 //-----------------------------
 
@@ -766,14 +765,6 @@ type
 
 {%endregion%}
 
-{%region%----[ Frustrum ]-------------------------------------------------------}
-
-  TGLZFrustum =  record
-    pLeft, pTop, pRight, pBottom, pNear, pFar : TGLZHmgPlane;
- end;
-
-{%endregion%}
-
 {%region%----[ Matrix ]---------------------------------------------------------}
 
   TGLZMatrixTransType = (ttScaleX, ttScaleY, ttScaleZ,
@@ -1128,6 +1119,33 @@ type
 
 {%endregion%}
 
+{%region%----[ Frustum ]--------------------------------------------------------}
+
+  TGLZFrustum =  record
+  public
+    { Extracts a TFrustum for combined modelview and projection matrices. }
+    function CreateFromModelViewProjectionMatrix(constref modelViewProj : TGLZMatrix) : TGLZFrustum;
+
+    // function ExtractMatrix : TGLZMatrix;
+
+    function Contains(constref TestBSphere: TGLZBoundingSphere): TGLZSpaceContains;overload;
+    // see http://www.flipcode.com/articles/article_frustumculling.shtml
+    function Contains(constref TestAABB: TGLZAxisAlignedBoundingBox) : TGLZSpaceContains;overload;
+
+    // Determines if volume is clipped or not
+    function IsVolumeClipped(constref objPos : TGLZVector; const objRadius : Single):Boolean;overload; //const Frustum : TFrustum) : Boolean; overload;
+    //function IsVolumeClipped(const min, max : TGLZVector):Boolean;overload; //const Frustum : TFrustum) : Boolean; overload;
+
+
+   case byte of
+     0: (pLeft, pTop, pRight, pBottom, pNear, pFar : TGLZHmgPlane;
+         BoundingSphere: TGLZBoundingSphere); //Extended frustum, used for fast intersection testing
+     1: (Planes : Array[0..5] of TGLZHmgPlane);
+
+ end;
+
+{%endregion%}
+
 {%region%----[ TGLZVectorHelper ]-----------------------------------------------}
 
   TGLZVector2fHelper = record helper for TGLZVector2D
@@ -1181,7 +1199,6 @@ type
     }
     function Lerp(Constref B: TGLZVector2f; Constref T:Single): TGLZVector2f;
   end;
-
 
   TGLZVectorHelper = record helper for TGLZVector
   public
@@ -1308,6 +1325,7 @@ type
   public
     function Contains(const TestBSphere: TGLZBoundingSphere): TGLZSpaceContains;
     function PlaneContains(const Location, Normal: TGLZVector; const TestBSphere: TGLZBoundingSphere): TGLZSpaceContains;
+    function EvaluatePoint(constref Point : TGLZVector) : Single;
   end;
 
 {%endregion%}
@@ -1340,16 +1358,6 @@ type
 {%endregion%}
 
 {%region%----[ TGLZAxisAlignedBoundingBoxHelper ]-------------------------------}
-{%endregion%}
-
-{%region%----[ TGLZFrustrumHelper ]---------------------------------------------}
-
- (* TGLZFrustumHelper = record helper for TGLZFrustum
-  public
-    function Contains(const TestBSphere: TGLZBoundingSphere): TGLZSpaceContains;overload;
-    // see http://www.flipcode.com/articles/article_frustumculling.shtml
-    function Contains(const TestAABB: TGLZAxisAlignedBoundingBox) : TGLZSpaceContains;overload;
-  end; *)
 {%endregion%}
 
 {%region%----[ Vectors Const ]--------------------------------------------------}
@@ -1528,8 +1536,7 @@ Uses Math, GLZMath, GLZUtils;
 {%region%----[ Internal Types and Const ]---------------------------------------}
 
 Const
-  {$WARN 5025 on : Local variable "$1" not used}
-  {$WARN 5028 on : Local const "$1" not used}
+
      { SSE rounding modes (bits in MXCSR register) }
 //  cSSE_ROUND_MASK         : DWord = $FFFF9FFF;
   cSSE_ROUND_MASK         : DWord = $00009FFF;   // never risk a stray bit being set in MXCSR reserved
@@ -1590,8 +1597,7 @@ const
   CBBPlans: TPlanBB = ((0, 1, 2, 3), (4, 5, 6, 7), (0, 4, 7, 3), (1, 5, 6, 2),
     (0, 1, 5, 4), (2, 3, 7, 6));
   CDirPlan: TDirPlan = (0, 0, 1, 1, 2, 2);
-  {$WARN 5025 off : Local variable "$1" not used}
-  {$WARN 5028 off : Local const "$1" not used}
+
 // ---- Used by ASM Round & Trunc functions ------------------------------------
 var
   _bakMXCSR, _tmpMXCSR : DWord;
@@ -1653,7 +1659,7 @@ Var
          {$I vectormath_axisaligned_boundingbox_native_imp.inc}
          {.$I vectormath_boundingboxhelper_native_imp.inc}
          {.$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
-         {.$I vectormath_frustrumhelper_native_imp.inc}
+         {$I vectormath_frustrum_native_imp.inc}
          {$I vectormath_utils_native_imp.inc}
          {$I vectormath_utils_sse_imp.inc}
 
@@ -1692,7 +1698,7 @@ Var
          {$I vectormath_axisaligned_boundingbox_native_imp.inc}
          {.$I vectormath_boundingboxhelper_native_imp.inc}
          {.$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
-         {.$I vectormath_frustrumhelper_native_imp.inc}
+         {$I vectormath_frustrum_native_imp.inc}
          {$I vectormath_utils_native_imp.inc}
          {$I vectormath_utils_sse_imp.inc}
 
@@ -1756,6 +1762,8 @@ Var
           {$I vectormath_matrixhelper_native_imp.inc}
           {.$I vectormath_matrixhelper_win64_sse_imp.inc}
 
+          {$I vectormath_frustum_native_imp.inc}
+
           {$I vectormath_utils_native_imp.inc}
           {$I vectormath_utils_sse_imp.inc}
 
@@ -1788,9 +1796,9 @@ Var
          {$I vectormath_boundingbox_native_imp.inc}
          {$I vectormath_boundingsphere_native_imp.inc}
          {$I vectormath_axisaligned_boundingbox_native_imp.inc}
-         {.$I vectormath_boundingboxhelper_native_imp.inc}
-         {.$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
-         {.$I vectormath_frustrumhelper_native_imp.inc}
+
+         {$I vectormath_frustrum_native_imp.inc}
+
          {$I vectormath_utils_native_imp.inc}
          {$I vectormath_utils_sse_imp.inc}
 
@@ -1822,9 +1830,9 @@ Var
         {$I vectormath_boundingbox_native_imp.inc}
         {$I vectormath_boundingsphere_native_imp.inc}
         {$I vectormath_axisaligned_boundingbox_native_imp.inc}
-        {.$I vectormath_boundingboxhelper_native_imp.inc}
-        {.$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
-        {.$I vectormath_frustrumhelper_native_imp.inc}
+
+        {$I vectormath_frustrum_native_imp.inc}
+
         {$I vectormath_utils_native_imp.inc}
         {$I vectormath_utils_sse_imp.inc}
 
@@ -1854,9 +1862,9 @@ Var
   {$I vectormath_hmgplane_native_imp.inc}
   {$I vectormath_vector2fhelper_native_imp.inc}
   {$I vectormath_vectorhelper_native_imp.inc}
-  {.$I vectormath_boundingboxhelper_native_imp.inc}
-  {.$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
-  {.$I vectormath_frustrumhelper_native_imp.inc}
+
+  {$I vectormath_frustrum_native_imp.inc}
+
   {$I vectormath_utils_native_imp.inc}
 {$endif}
 

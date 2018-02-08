@@ -249,7 +249,7 @@ Function InterpolateValueSafe(Const OriginalStart, OriginalStop, OriginalCurrent
 { : perform Hermite interpolation between two values }
 function SmoothStep(Edge0,Edge1,x: Single): Single;
 {: perform linear interpolation between two values }
-function Mix(Edge0,Edge1,x: Single): Single;
+function Lerp(Edge0,Edge1,x: Single): Single;
 {: Generate a step function by comparing two values
    0.0 is returned if x < edge, and 1.0 is returned otherwise }
 function Step(Edge,x: Single): Single;
@@ -1423,7 +1423,7 @@ begin
   result := t * t * (3.0 - 2.0 * t); //t*t * ((t*2.0)*3.0);
 end;
 
-function Mix(Edge0,Edge1,x: Single): Single; Inline;
+function Lerp(Edge0,Edge1,x: Single): Single; Inline;
 begin
   result := Edge0 * (1 - x) + (Edge1 * x);
 end;

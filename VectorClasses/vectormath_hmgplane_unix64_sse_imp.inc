@@ -369,6 +369,23 @@ asm
 end;
 
 
+function TGLZHmgPlaneHelper.EvaluatePoint(constref Point : TGLZVector) : Single; Assembler; register; nostackframe;
+asm
+  movaps xmm0,[RDI]
+  movaps xmm1, [Point]
+  movaps xmm2, xmm1
+  shufps xmm2, xmm2, $FF  // store plane.W
+  andps xmm1, [RIP+cSSE_MASK_NO_W]
+  mulps xmm0, xmm1
+  // Horizontal add
+  movshdup xmm3,xmm0
+  addps  xmm0,xmm3
+  movhlps xmm3,xmm0
+  addss  xmm0,xmm3
+
+  addss xmm0, xmm2 //+Plane.W
+end;
+
 //function TGLZHmgPlane.Distance(constref Center : TGLZVector; constref Radius:Single) : Single; assembler;
 //asm
 //  movaps xmm0, [RDI]    // xmm0 = Plane->d | Plane->c | Plane->b | Plane->a

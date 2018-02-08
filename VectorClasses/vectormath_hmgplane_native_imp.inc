@@ -17,28 +17,12 @@ end;
 
 {%region%----[ Pure Pascal may Convert at some point ]--------------------------}
 
-function TGLZHmgPlane.IsInHalfSpace(constref point: TGLZVector): Boolean;
-begin
-  Result := ((Self.X*Point.X) + (Self.Y*Point.Y) + (Self.Z*Point.Z) + Self.W) > 0;
-end;
-
 { TODO 1 -oASM -cTHmgPlane : Create(point, normal) AddASM Version }
 procedure TGLZHmgPlane.Create(constref point, normal : TGLZVector);
 begin
    Self.AsNormal3:= normal.AsVector3f;
    Self.W:=-(Point.DotProduct(normal));
 end;
-
-
-function TGLZHmgPlaneHelper.PlaneContains(const Location, Normal: TGLZVector; const TestBSphere: TGLZBoundingSphere): TGLZSpaceContains;
-var
-  Plane: TGLZHmgPlane;
-begin
- Plane.Create(Location, Normal);
- Result := plane.Contains(TestBSphere);
-end;
-
-
 
 function TGLZHmgPlane.Distance(constref Center : TGLZVector; constref Radius:Single) : Single;
 var dist : single;
@@ -52,7 +36,19 @@ begin
       result := dist + radius;
 end;
 
-// helpers
+function TGLZHmgPlane.IsInHalfSpace(constref point: TGLZVector): Boolean;
+begin
+  //Result := (EvaluatePoint(point) > 0);
+  Result := ((Self.X*Point.X) + (Self.Y*Point.Y) + (Self.Z*Point.Z) + Self.W) > 0;
+end;
+
+function TGLZHmgPlaneHelper.PlaneContains(const Location, Normal: TGLZVector; const TestBSphere: TGLZBoundingSphere): TGLZSpaceContains;
+var
+  Plane: TGLZHmgPlane;
+begin
+ Plane.Create(Location, Normal);
+ Result := plane.Contains(TestBSphere);
+end;
 
 function TGLZHmgPlaneHelper.Contains(const TestBSphere: TGLZBoundingSphere): TGLZSpaceContains;
 var
@@ -67,6 +63,7 @@ begin
   else
     Result := ScContainsFully;
 end;
+
 
 
 {%endregion}
@@ -106,9 +103,6 @@ begin
   Result :=  V - (Self.AsVector * (2 * V.DotProduct(Self.AsVector)));
 end;
 
-
-
-
 function TGLZHmgPlane.Distance(constref point : TGLZVector) : Single;
 begin
   result:= (Self.X*Point.X) + (Self.Y*Point.Y) + (Self.Z*Point.Z) + Self.W;
@@ -119,14 +113,11 @@ begin
   result:= system.abs((Self.X*Point.X) + (Self.Y*Point.Y) + (Self.Z*Point.Z) + Self.W);
 end;
 
-
-
 function TGLZHmgPlane.Normalized:TGLZHmgPlane;
 begin
    Result := self;
    Result.Normalize;
 end;
-
 
 procedure TGLZHmgPlane.Normalize;
 var
@@ -136,8 +127,12 @@ begin
    Self.AsVector.pMul(n);
 end;
 
-
 {%endregion%}
+
+function TGLZHmgPlaneHelper.EvaluatePoint(constref Point : TGLZVector) : Single;
+begin
+  Result := Self.X*point.X+Self.Y*point.Y+Self.Z*point.Z+Self.W;
+end;
 
 {%endregion%}
 
