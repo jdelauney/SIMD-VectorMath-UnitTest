@@ -198,7 +198,9 @@ begin
   aMat.CreateParallelProjectionMatrix(aPlane, ZHmgVector);
   nCr := naabb1.ToClipRect(nMat,200,200);
   aCr := aaabb1.ToClipRect(aMat,200,200);
-  AssertTrue('AABB To ClipRect does not match', Compare(nCr,aCr));
+  AssertTrue('AABB To ClipRect does not match : '+#13+#10+nCr.ToString+'<=>'+aCr.ToString
+             +#13+#10+'nMat : '+nMat.ToString
+             +#13+#10+'aMat : '+aMat.ToString, Compare(nCr,aCr));
 end;
 
 procedure TAABBComparatorTest.TestIntersect;
