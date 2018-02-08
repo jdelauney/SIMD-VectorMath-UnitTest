@@ -11,7 +11,7 @@ unit umainform;
   {$CODEALIGN VARMIN=16}
 {$endif}
 
-{$ifdef Windows}
+{$ifdef WINDOWS}
  {$define USE_FRAMEBUFFER}
 {$else}
  {$define USE_CANVAS}
@@ -65,6 +65,7 @@ Type
     procedure FormDestroy(Sender : TObject);
     procedure FormResize(Sender : TObject);
     procedure FormShow(Sender : TObject);
+    procedure Panel1Click(Sender: TObject);
   private
     {$ifdef USE_FRAMEBUFFER} FBitmapBuffer : TBitmap; {$endif}
     FCadencer : TTimer; // TGLZCadencer;
@@ -151,6 +152,11 @@ begin
   DoubleBuffered:=true;
   FStopWatch.Start;
   FCadencer.Enabled := True;
+end;
+
+procedure TMainForm.Panel1Click(Sender: TObject);
+begin
+
 end;
 
 procedure TMainForm.CadencerProgress(Sender : TObject);
@@ -305,7 +311,7 @@ begin
       LineTo(P.ST.x+P.UV.x,P.ST.y+P.UV.y);
     end;
   end;
-   {$endif}
+   {.$endif}
 
 end;
 

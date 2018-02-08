@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="10"/>
     <BuildModes Active="Cpu32_SSE_3"/>
-    <Units Count="41">
+    <Units Count="42">
       <Unit0>
         <Filename Value="ReynoldzBoidZ.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -17,9 +17,8 @@
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="25"/>
-        <CursorPos X="52" Y="46"/>
+        <TopLine Value="182"/>
+        <CursorPos X="54" Y="199"/>
         <UsageCount Value="27"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -314,8 +313,21 @@
         <CursorPos Y="415"/>
         <UsageCount Value="10"/>
       </Unit40>
+      <Unit41>
+        <Filename Value="..\..\..\Components\GLZScene\Projects\BoidZ\umainform.pas"/>
+        <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="185"/>
+        <CursorPos Y="202"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit41>
     </Units>
-    <JumpHistory Count="6" HistoryIndex="5">
+    <JumpHistory Count="10" HistoryIndex="9">
       <Position1>
         <Filename Value="umainform.pas"/>
         <Caret Line="156" Column="5" TopLine="149"/>
@@ -340,6 +352,22 @@
         <Filename Value="umainform.pas"/>
         <Caret Line="58" Column="45" TopLine="58"/>
       </Position6>
+      <Position7>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="46" Column="52" TopLine="25"/>
+      </Position7>
+      <Position8>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="168" Column="28" TopLine="150"/>
+      </Position8>
+      <Position9>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="160" Column="3" TopLine="158"/>
+      </Position9>
+      <Position10>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="159" Column="3" TopLine="157"/>
+      </Position10>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>

@@ -56,9 +56,6 @@
             <OtherUnitFiles Value="..\UtilsClasses;..\VectorClasses"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
-          <CodeGeneration>
-            <TargetCPU Value="i386"/>
-          </CodeGeneration>
           <Linking>
             <Debugging>
               <GenerateDebugInfo Value="False"/>
