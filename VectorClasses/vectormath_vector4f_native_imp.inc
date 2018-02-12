@@ -2,7 +2,31 @@
 // Temp comment this region is where we keep pascal routines for which it does
 // not make sense to use SSE/AVX
 
-procedure TGLZVector4f.Create(Const aX,aY,aZ: single; const aW : Single = 0);
+procedure TGLZVector4f.Create(const AValue: single);
+begin
+  Self.X := AValue;
+  Self.Y := AValue;
+  Self.Z := AValue;
+  Self.W := AValue;
+end;
+
+procedure TGLZVector4f.CreateAffine(const AValue: single);
+begin
+  Self.X := AValue;
+  Self.Y := AValue;
+  Self.Z := AValue;
+  Self.W := 1.0;
+end;
+
+procedure TGLZVector4f.CreateAffine(Const aX,aY,aZ: single);
+begin
+  Self.X := aX;
+  Self.Y := aY;
+  Self.Z := aZ;
+  Self.W := 1.0;
+end;
+
+procedure TGLZVector4f.Create(const aX, aY, aZ: single; const aW: Single);
 begin
    Self.X := AX;
    Self.Y := AY;
@@ -43,6 +67,23 @@ function TGLZVector4f.MaxXYZComponent : Single;
 begin
    Result:=GLZMath.Max(Self.X, Self.Y, Self.Z);
 end;
+
+// Horizontal min/max.
+(* VM_INLINE float hmin(float3 v)
+ v  = xyz
+ v2 = yxz
+ v  = min(v,v2)
+ v2 = zxy
+ result = min(v,v2);
+
+	v = min(v, SHUFFLE3(v, 1, 0, 2));
+	return min(v, SHUFFLE3(v, 2, 0, 1)).x();
+
+
+VM_INLINE float hmax(float3 v)
+	v = max(v, SHUFFLE3(v, 1, 0, 2));
+	return max(v, SHUFFLE3(v, 2, 0, 1)).x();
+*)
 
 {%endregion}
 
@@ -167,6 +208,122 @@ begin
      else result := self; //swXYZW, swRGBA
    end;
 end;
+
+function TGLZVector4f.GetXY : TGLZVector2f;
+begin
+   Result.Create(Self.X,Self.Y);
+end;
+
+function TGLZVector4f.GetYX : TGLZVector2f;
+begin
+   Result.Create(Self.Y,Self.X);
+end;
+
+function TGLZVector4f.GetXZ : TGLZVector2f;
+begin
+   Result.Create(Self.X,Self.Z);
+end;
+
+function TGLZVector4f.GetZX : TGLZVector2f;
+begin
+   Result.Create(Self.Z,Self.X);
+end;
+
+function TGLZVector4f.GetYZ : TGLZVector2f;
+begin
+   Result.Create(Self.Y,Self.Z);
+end;
+
+function TGLZVector4f.GetZY : TGLZVector2f;
+begin
+   Result.Create(Self.Z,Self.Y);
+end;
+
+function TGLZVector4f.GetXX : TGLZVector2f;
+begin
+   Result.Create(Self.X,Self.X);
+end;
+
+function TGLZVector4f.GetYY : TGLZVector2f;
+begin
+   Result.Create(Self.Y,Self.Y);
+end;
+
+function TGLZVector4f.GetZZ : TGLZVector2f;
+begin
+   Result.Create(Self.Z,Self.Z);
+end;
+
+function TGLZVector4f.GetXYZ : TGLZVector4f;
+begin
+  Result := Self;
+end;
+
+function TGLZVector4f.GetXZY : TGLZVector4f;
+begin
+  result := Swizzle(swXZYW);
+end;
+
+function TGLZVector4f.GetYXZ : TGLZVector4f;
+begin
+  result := Swizzle(swYXZW);
+end;
+
+function TGLZVector4f.GetYZX : TGLZVector4f;
+begin
+  result := Swizzle(swYZXW);
+end;
+
+function TGLZVector4f.GetZXY : TGLZVector4f;
+begin
+  result := Swizzle(swZXYW);
+end;
+
+function TGLZVector4f.GetZYX : TGLZVector4f;
+begin
+  result := Swizzle(swZYXW);
+end;
+
+function TGLZVector4f.GetXXX : TGLZVector4f;
+begin
+  result := Swizzle(swXXXX);
+end;
+
+function TGLZVector4f.GetYYY : TGLZVector4f;
+begin
+  result := Swizzle(swYYYY);
+end;
+
+function TGLZVector4f.GetZZZ : TGLZVector4f;
+begin
+  result := Swizzle(swZZZZ);
+end;
+
+function TGLZVector4f.GetYYX : TGLZVector4f;
+begin
+  Result.X := Self.Y;
+  Result.Y := Self.Y;
+  Result.Z := Self.X;
+  Result.W := Self.W;
+end;
+
+function TGLZVector4f.GetXYY : TGLZVector4f;
+begin
+  Result.X := Self.X;
+  Result.Y := Self.Y;
+  Result.Z := Self.Y;
+  Result.W := Self.W;
+end;
+
+function TGLZVector4f.GetYXY : TGLZVector4f;
+begin
+  Result.X := Self.Y;
+  Result.Y := Self.X;
+  Result.Z := Self.Y;
+  Result.W := Self.W;
+end;
+
+
 {%endregion}
 
 {$IFNDEF USE_ASM}

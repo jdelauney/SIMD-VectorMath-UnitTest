@@ -7,15 +7,15 @@ asm
   mulps  xmm0, xmm2
   //andps  xmm0, [RIP+cSSE_MASK_NO_W]
   {$ifdef USE_ASM_SSE_3} // Horizontal add
-  {$ifdef TEST}
-    haddps xmm0, xmm0  //Slow
-	  haddps xmm0, xmm0
-  {$else}
+  {.$ifdef TEST}
+    //haddps xmm0, xmm0  //Slow
+    // haddps xmm0, xmm0
+  {.$else}
     movshdup xmm1,xmm0
     addps  xmm0,xmm1
     movhlps xmm1,xmm0
     addss  xmm0,xmm1
-  {$endif}
+  {.$endif}
   {$else}
     movaps xmm1,xmm0
     movhlps xmm1, xmm1
@@ -262,4 +262,28 @@ asm
   mulps   xmm0, xmm2
   movaps   [RDX], xmm0
 end;
+
+function TGLZVectorHelper.Reflect(ConstRef N: TGLZVector4f): TGLZVector4f; assembler; register; nostackframe;
+asm
+  movaps   xmm1, [RCX]
+  movaps   xmm0, [N]
+  movaps   xmm2, xmm1
+
+  // Dot(N, I)
+  //andps xmm1, XMMWORD PTR [RIP+cSSE_MASK_NO_W]
+  mulps xmm0, xmm1
+  movshdup    xmm1, xmm0
+  addps       xmm0, xmm1
+  movhlps     xmm1, xmm0
+  addss       xmm0, xmm1
+
+  // (2 * Dot(N, I)) * N
+  addps  xmm0, xmm0
+  mulps  xmm0, xmm1
+
+  // I - ((2 * Dot(N, I)) * N)
+  subps   xmm2, xmm0
+  movaps [RDX], xmm2
+end;
+
 

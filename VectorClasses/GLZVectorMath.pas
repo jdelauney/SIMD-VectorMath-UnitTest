@@ -157,10 +157,100 @@ type
   { TGLZVector2i : Simple 2D Integer vector }
   TGLZVector2i = record
     { Return vector as string }
+    procedure Create(aX, aY:Integer); overload;
+
     function ToString : String;
-  case Byte of
-    0: (V: TGLZVector2iType);
-    1: (X, Y : Integer);
+
+    { Add 2 TGLZVector2i }
+    class operator +(constref A, B: TGLZVector2i): TGLZVector2i; overload;
+    { Sub 2 TGLZVector2i }
+    class operator -(constref A, B: TGLZVector2i): TGLZVector2i; overload;
+    { Multiply 2 TGLZVector2i }
+    class operator *(constref A, B: TGLZVector2i): TGLZVector2i; overload;
+     { Multiply 1 TGLZVector2i and 1 1 TGLZVector2i}
+    //class operator *(constref A:TGLZVector2i; Constref B: TGLZVector2f): TGLZVector2i; overload;
+    { Divide 2 TGLZVector2i }
+    class operator Div(constref A, B: TGLZVector2i): TGLZVector2i; overload;
+     { Divide 2 TGLZVector2i }
+    class operator Div(constref A: TGLZVector2i; Constref B:Integer): TGLZVector2i; overload;
+
+    { Add one float to one TGLZVector2i }
+    //class operator +(constref A: TGLZVector2i; constref B:Integer): TGLZVector2i; overload;
+    { Add one float to one TGLZVector2i }
+    class operator +(constref A: TGLZVector2i; constref B:Single): TGLZVector2i; overload;
+    { Sub one float to one TGLZVector2i }
+    //class operator -(constref A: TGLZVector2i; constref B:Integer): TGLZVector2i; overload;
+    { Sub one float to one TGLZVector2i }
+    class operator -(constref A: TGLZVector2i; constref B:Single): TGLZVector2i; overload;
+    { Mul one Integer to one TGLZVector2i }
+    //class operator *(constref A: TGLZVector2i; constref B:Integer): TGLZVector2i; overload;
+    { Mul one float to one TGLZVector2i }
+    class operator *(constref A: TGLZVector2i; constref B:Single): TGLZVector2i; overload;
+    { Divide one float to one TGLZVector2i }
+    class operator /(constref A: TGLZVector2i; constref B:Single): TGLZVector2i; overload;
+    { Negate self }
+    class operator -(constref A: TGLZVector2i): TGLZVector2i; overload;
+
+    { Compare if two TGLZVector2i are equal }
+    class operator =(constref A, B: TGLZVector2i): Boolean;
+
+    class operator mod(constref A, B : TGLZVector2i): TGLZVector2i;
+
+    { TODO -oGLZVectorMath -cTGLZVector2i : Add comparator operators <=,<=,>,< }
+    (*
+    class operator >=(constref A, B: TGLZVector2i): Boolean;
+    class operator <=(constref A, B: TGLZVector2i): Boolean;
+    class operator >(constref A, B: TGLZVector2i): Boolean;
+    class operator <(constref A, B: TGLZVector2i): Boolean;
+    *)
+
+    { Compare if two TGLZVector are not equal }
+    class operator <>(constref A, B: TGLZVector2i): Boolean;
+
+    {Return the minimum of each component in TGLZVector2i between self and another TGLZVector2i }
+    function Min(constref B: TGLZVector2i): TGLZVector2i; overload;
+    {Return the minimum of each component in TGLZVector2i between self and a float }
+    function Min(constref B: Integer): TGLZVector2i; overload;
+    {Return the maximum of each component in TGLZVector2i between self and another TGLZVector2i }
+    function Max(constref B: TGLZVector2i): TGLZVector2i; overload;
+    {Return the minimum of each component in TGLZVector2i between self and a float }
+    function Max(constref B: Integer): TGLZVector2i; overload;
+
+    { Clamp Self beetween a min and a max TGLZVector2i }
+    function Clamp(constref AMin, AMax: TGLZVector2i): TGLZVector2i;overload;
+    { Clamp each component of Self beatween a min and a max float }
+    function Clamp(constref AMin, AMax: Integer): TGLZVector2i;overload;
+    { Multiply Self by a TGLZVector2i and add an another TGLZVector2i }
+    function MulAdd(constref A,B:TGLZVector2i): TGLZVector2i;
+    { Multiply Self by a TGLZVector2i and div with an another TGLZVector2i }
+    function MulDiv(constref A,B:TGLZVector2i): TGLZVector2i;
+    { Return self length }
+    function Length:Single;
+    { Return self length squared }
+    function LengthSquare:Single;
+    { Return distance from self to an another TGLZVector2i }
+    function Distance(constref A:TGLZVector2i):Single;
+    { Return Self distance squared }
+    function DistanceSquare(constref A:TGLZVector2i):Single;
+    { Return self normalized TGLZVector2i }
+    function Normalize : TGLZVector2i;
+    { Return the dot product of self and an another TGLZVector2i}
+    function DotProduct(A:TGLZVector2i):Single;
+    { Return angle between Self and an another TGLZVector2i, relative to a TGLZVector2i as a Center Point }
+    function AngleBetween(Constref A, ACenterPoint : TGLZVector2i): Single;
+    { Return the angle cosine between Self and an another TGLZVector2i}
+    function AngleCosine(constref A: TGLZVector2i): Single;
+
+    // function Reflect(I, NRef : TVector2i):TVector2i
+
+ //   function Edge(ConstRef A, B : TGLZVector2i):Single; // @TODO : a passer dans TGLZVector2iHelper ???
+
+    function Abs:TGLZVector2i;overload;
+
+    case Byte of
+      0: (V: TGLZVector2iType);
+      1: (X, Y : Integer);
+      2: (Width, Height : Integer);
   end;
 
   { TGLZVector2f : Advanced 2D Float vector }
@@ -188,6 +278,8 @@ type
     class operator *(constref A: TGLZVector2f; constref B:Single): TGLZVector2f; overload;
     { Divide one float to one TGLZVector2f }
     class operator /(constref A: TGLZVector2f; constref B:Single): TGLZVector2f; overload;
+    { Divide 2 TGLZVector2f }
+    class operator /(constref A: TGLZVector2f; constref B: TGLZVector2i): TGLZVector2f; overload;
     { Negate self }
     class operator -(constref A: TGLZVector2f): TGLZVector2f; overload;
 
@@ -244,6 +336,8 @@ type
     // function Reflect(I, NRef : TVector2f):TVector2f
 
  //   function Edge(ConstRef A, B : TGLZVector2f):Single; // @TODO : a passer dans TGLZVector2fHelper ???
+
+    function Abs:TGLZvector2f;overload;
 
     { Round Self to an TGLZVector2i }
     function Round: TGLZVector2i; overload;
@@ -542,11 +636,44 @@ type
 
   { TGLZVector4f : Advanced 4D Float vector }
   TGLZVector4f =  record
+  private
+    function GetXY : TGLZVector2f;
+    function GetYX : TGLZVector2f;
+    function GetXZ : TGLZVector2f;
+    function GetZX : TGLZVector2f;
+    function GetYZ : TGLZVector2f;
+    function GetZY : TGLZVector2f;
+    function GetXX : TGLZVector2f;
+    function GetYY : TGLZVector2f;
+    function GetZZ : TGLZVector2f;
+
+    function GetXYZ : TGLZVector4f;
+    function GetXZY : TGLZVector4f;
+
+    function GetYXZ : TGLZVector4f;
+    function GetYZX : TGLZVector4f;
+
+    function GetZXY : TGLZVector4f;
+    function GetZYX : TGLZVector4f;
+
+    function GetXXX : TGLZVector4f;
+    function GetYYY : TGLZVector4f;
+    function GetZZZ : TGLZVector4f;
+
+    function GetYYX : TGLZVector4f;
+    function GetXYY : TGLZVector4f;
+    function GetYXY : TGLZVector4f;
   public
     { Self Create TGLZVector4f from x,y,z and w value set by default to 0.0}
+    procedure Create(Const AValue: single); overload;
     procedure Create(Const aX,aY,aZ: single; const aW : Single = 0); overload;
+
     { Self Create TGLZVector4f from a TGLZVector3f and w value set by default to 1.0 }
+    procedure CreateAffine(Const AValue: single); overload;
+    procedure CreateAffine(Const aX,aY,aZ: single); overload;
     procedure Create(Const anAffineVector: TGLZVector3f; const aW : Single = 1); overload;
+
+
 
     { Return vector as string }
     function ToString : String;
@@ -692,14 +819,38 @@ type
     procedure pMulAdd(Constref B, C: TGLZVector4f); // (Self*B)+c
     procedure pMulDiv(Constref B, C: TGLZVector4f); // (Self*B)-c
 
+    { : Propertie values accessability like in HLSL and GLSL }
+    property xy : TGLZVector2f read GetXY;
+    property yx : TGLZVector2f read GetYX;
+    property xz : TGLZVector2f read GetXZ;
+    property zx : TGLZVector2f read GetZX;
+    property yz : TGLZVector2f read GetYZ;
+    property zy : TGLZVector2f read GetZY;
+    property xx : TGLZVector2f read GetXX;
+    property yy : TGLZVector2f read GetYY;
+    property zz : TGLZVector2f read GetZZ;
 
+    property XYZ : TGLZVector4f read GetXYZ;
+    property XZY : TGLZVector4f read GetXZY;
+    property YXZ : TGLZVector4f read GetYXZ;
+    property YZX : TGLZVector4f read GetYZX;
+    property ZXY : TGLZVector4f read GetZXY;
+    property ZYX : TGLZVector4f read GetZYX;
+
+    property XXX : TGLZVector4f read GetXXX;
+    property YYY : TGLZVector4f read GetYYY;
+    property ZZZ : TGLZVector4f read GetZZZ;
+
+    property YYX : TGLZVector4f read GetYYX;
+    property XYY : TGLZVector4f read GetXYY;
+    property YXY : TGLZVector4f read GetYXY;
     { Access modes }
     case Byte of
       0: (V: TGLZVector4fType);
       1: (X, Y, Z, W: Single);
       2: (Red, Green, Blue, Alpha: Single);
       3: (AsVector3f : TGLZVector3f);   //change name for AsAffine ?????
-      4: (ST,UV : TGLZVector2f);
+      4: (UV, ST : TGLZVector2f);
       5: (Left, Top, Right, Bottom: Single);
       6: (TopLeft,BottomRight : TGLZVector2f);
 
@@ -905,8 +1056,10 @@ type
 
     function ToString : String;
 
-    procedure Create(x,y,z: Single; Real : Single);overload;
     // Creates a quaternion from the given values
+    procedure Create(x,y,z: Single; Real : Single);overload;
+    //procedure Create(Const VecRotation: TGLZVector4f);
+
     procedure Create(const Imag: array of Single; Real : Single); overload;
 
     // Constructs a unit quaternion from two unit vectors
@@ -1314,6 +1467,8 @@ type
       see : http://developer.download.nvidia.com/cg/smoothstep.html
     }
     function SmoothStep(ConstRef A,B : TGLZVector4f): TGLZVector4f;
+
+    function Reflect(ConstRef N: TGLZVector4f): TGLZVector4f;
   end;
 
 {%endregion%}
@@ -1501,7 +1656,10 @@ function SinCos(v:TGLZVector2f):TGLZvector2f; overload;
 
 //function Sin(v:TGLZVector4f):TGLZVector4f; overload;
 //function Cos(v:TGLZVector4f):TGLZVector4f; overload;
-//function SinCos(v:TGLZVector4f):TGLZVector4f; overload; // retun SinCos, SinCos (x and z = sin, y and w = cos)
+
+// retun SinCos, SinCos (x and z = sin, y and w = cos)
+//function SinCos(v:TGLZVector4f):TGLZVector4f; overload;
+
 
 
 //function MakeVector(Const aX,aY,aZ: single; const aW : Single = 0):TGLZVector4f; overload;
@@ -1627,6 +1785,8 @@ Var
   {$ifdef CPU64}
     {$ifdef UNIX}
       {$IFDEF USE_ASM_AVX}
+         {$I vectormath_vector2i_native_imp.inc}
+         {$I vectormath_vector2i_unix64_avx_imp.inc}
 
          {$I vectormath_vector2f_native_imp.inc}
          {$I vectormath_vector2f_unix64_avx_imp.inc}
@@ -1659,11 +1819,13 @@ Var
          {$I vectormath_axisaligned_boundingbox_native_imp.inc}
          {.$I vectormath_boundingboxhelper_native_imp.inc}
          {.$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
-         {$I vectormath_frustrum_native_imp.inc}
+         {$I vectormath_frustum_native_imp.inc}
          {$I vectormath_utils_native_imp.inc}
          {$I vectormath_utils_sse_imp.inc}
 
       {$ELSE}
+         {$I vectormath_vector2i_native_imp.inc}
+         {$I vectormath_vector2i_unix64_sse_imp.inc}
 
          {$I vectormath_vector2f_native_imp.inc}
          {$I vectormath_vector2f_unix64_sse_imp.inc}
@@ -1698,26 +1860,54 @@ Var
          {$I vectormath_axisaligned_boundingbox_native_imp.inc}
          {.$I vectormath_boundingboxhelper_native_imp.inc}
          {.$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
-         {$I vectormath_frustrum_native_imp.inc}
+         {$I vectormath_frustum_native_imp.inc}
          {$I vectormath_utils_native_imp.inc}
          {$I vectormath_utils_sse_imp.inc}
 
       {$ENDIF}
     {$else} // win64
       {$IFDEF USE_ASM_AVX}
+          {$I vectormath_vector2i_native_imp.inc}
+          {$I vectormath_vector2i_win64_avx_imp.inc}
+
+          {$I vectormath_vector2f_native_imp.inc}
           {$I vectormath_vector2f_win64_avx_imp.inc}
-          {$I vectormath_vector4f_win64_avx_imp.inc}
+          {$I vectormath_vector2f_win64_avx_imp.inc}
 
           {$I vectormath_vector3b_native_imp.inc}
           {$I vectormath_vector4b_native_imp.inc}
 
+          {$I vectormath_vector4f_native_imp.inc}
+          {$I vectormath_vector4f_win64_avx_imp.inc}
+
+          {$I vectormath_vector4i_native_imp.inc}
+          {$I vectormath_vector4i_win64_avx_imp.inc}
+
+          {$I vectormath_quaternion_native_imp.inc}
           {$I vectormath_quaternion_win64_avx_imp.inc}
-          {$I vectormath_matrix_win64_avx_imp.inc}
-          {$I vectormath_planehelper_win64_avx_imp.inc}
+
+          {$I vectormath_matrix4f_native_imp.inc}
+          {$I vectormath_matrix4f_win64_avx_imp.inc}
+          {$I vectormath_matrixhelper_native_imp.inc}
+
+
+          {$I vectormath_vectorhelper_native_imp.inc}
           {$I vectormath_vectorhelper_win64_avx_imp.inc}
+
+          {$I vectormath_hmgplane_native_imp.inc}
+          {$I vectormath_hmgplane_win64_avx_imp.inc}
+
+          {$I vectormath_boundingbox_native_imp.inc}
+          {$I vectormath_boundingsphere_native_imp.inc}
+          {$I vectormath_axisaligned_boundingbox_native_imp.inc}
+          {.$I vectormath_boundingboxhelper_native_imp.inc}
+          {.$I vectormath_axisaligned_boundingBoxhelper_native_imp.inc}
+          {$I vectormath_frustum_native_imp.inc}
+          {$I vectormath_utils_native_imp.inc}
+          {$I vectormath_utils_sse_imp.inc}
        {$ELSE}
-          {.$I vectormath_vector2i_native_imp.inc}
-          {.$I vectormath_vector2i_win64_sse_imp.inc}
+          {$I vectormath_vector2i_native_imp.inc}
+          {$I vectormath_vector2i_win64_sse_imp.inc}
 
           {$I vectormath_vector2f_native_imp.inc}
           {$I vectormath_vector2f_win64_sse_imp.inc}
@@ -1831,7 +2021,7 @@ Var
         {$I vectormath_boundingsphere_native_imp.inc}
         {$I vectormath_axisaligned_boundingbox_native_imp.inc}
 
-        {$I vectormath_frustrum_native_imp.inc}
+        {$I vectormath_frustum_native_imp.inc}
 
         {$I vectormath_utils_native_imp.inc}
         {$I vectormath_utils_sse_imp.inc}
@@ -1840,8 +2030,9 @@ Var
   {$endif}
 
 {$else}  // pascal
+  {$I vectormath_vector2i_native_imp.inc}
   {$I vectormath_vector2f_native_imp.inc}
-  {.$I vectormath_vector2i_native_imp.inc}
+  
 
   {$I vectormath_vector3b_native_imp.inc}
   {.$I vectormath_vector3i_native_imp.inc}
@@ -1863,7 +2054,7 @@ Var
   {$I vectormath_vector2fhelper_native_imp.inc}
   {$I vectormath_vectorhelper_native_imp.inc}
 
-  {$I vectormath_frustrum_native_imp.inc}
+  {$I vectormath_frustum_native_imp.inc}
 
   {$I vectormath_utils_native_imp.inc}
 {$endif}

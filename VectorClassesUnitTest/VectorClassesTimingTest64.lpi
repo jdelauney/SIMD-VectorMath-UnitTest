@@ -91,7 +91,8 @@
 -an
 -ar
 -dUSE_ASM_SSE_3
--dSSE3_CONFIG_1"/>
+-dSSE3_CONFIG_1
+-dTEST"/>
           </Other>
         </CompilerOptions>
       </Item3>

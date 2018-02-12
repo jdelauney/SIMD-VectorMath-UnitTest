@@ -196,6 +196,16 @@ begin
   result := t * t * -((t * 2.0) + -3);
 end;
 
+function TGLZVectorHelper.Reflect(ConstRef N: TGLZVector4f): TGLZVector4f;
+var
+  d : Single;
+begin
+  //Self - (N*(N.DotProduct(Self)*2));
+  d:= N.DotProduct(Self);
+  d:=d+d;
+  Result := Self - (N*d);
+end;
+
 {%endregion%}
 
 {%endregion%}

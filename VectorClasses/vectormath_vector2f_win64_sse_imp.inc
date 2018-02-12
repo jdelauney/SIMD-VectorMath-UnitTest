@@ -79,7 +79,13 @@ asm
   movq   RAX, {%H-}xmm0
 end;
 
-
+class operator TGLZVector2f./(constref A: TGLZVector2f; constref B:TGLZVector2i): TGLZVector2f; assembler; nostackframe; register;
+asm
+  movq   xmm0, [A]
+  movq   xmm1, [B]
+  divps  xmm0, xmm1
+  movq   RAX, {%H-}xmm0
+end;
 {%endregion%}
 
 {%region%----[ Functions ]--------------------------------------------------------}
@@ -225,6 +231,12 @@ asm
   movq     rax, xmm0
 end;
 
+function TGLZVector2f.Abs: TGLZVector2f; assembler; nostackframe; register;
+asm
+  movq     xmm0, [RCX]
+  andps    xmm0, XMMWORD PTR [RIP+cSSE_MASK_ABS]//xmm1
+  movq     rax, xmm0
+end;
 
 
 function TGLZVector2f.Trunc: TGLZVector2i;assembler;//nostackframe;register;

@@ -329,6 +329,8 @@ asm
   mov      DWORD PTR [rsp], eax              // mov bits to mem
   ldmxcsr  DWORD PTR [rsp]                   // set new bits
   cvtps2dq xmm1, xmm1
+
+
   cvtdq2ps xmm1, xmm1
   mulps    xmm1, xmm2
   subps    xmm0, xmm1 // A - Trunc(A)

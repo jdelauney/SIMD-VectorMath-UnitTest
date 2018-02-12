@@ -135,7 +135,11 @@ begin
   Result.Y := A.Y * d;
 end;
 
-
+class operator TGLZVector2f./(constref A: TGLZVector2f; constref B:TGLZVector2i): TGLZVector2f;
+begin
+  Result.X := A.X / B.X;
+  Result.Y := A.Y / B.Y;
+end;
 
 {%endregion%}
 
@@ -222,6 +226,12 @@ end;
 function TGLZVector2f.Normalize : TGLZVector2f;
 begin
  Result := Self * (1/Self.Length);
+end;
+
+function TGLZVector2f.Abs: TGLZvector2f;
+begin
+  Result.X := System.abs(Self.X);
+  Result.Y := System.abs(Self.Y);
 end;
 
 function TGLZVector2f.Round : TGLZVector2i;
