@@ -188,6 +188,7 @@ type
     class operator *(constref A: TGLZVector2i; constref B:Single): TGLZVector2i; overload;
     { Divide one float to one TGLZVector2i }
     class operator /(constref A: TGLZVector2i; constref B:Single): TGLZVector2i; overload;
+    
     { Negate self }
     class operator -(constref A: TGLZVector2i): TGLZVector2i; overload;
 
@@ -1786,7 +1787,7 @@ Var
     {$ifdef UNIX}
       {$IFDEF USE_ASM_AVX}
          {$I vectormath_vector2i_native_imp.inc}
-         {$I vectormath_vector2i_unix64_avx_imp.inc}
+         {.$I vectormath_vector2i_unix64_avx_imp.inc}
 
          {$I vectormath_vector2f_native_imp.inc}
          {$I vectormath_vector2f_unix64_avx_imp.inc}

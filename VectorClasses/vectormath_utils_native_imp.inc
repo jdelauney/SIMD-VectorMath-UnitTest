@@ -40,12 +40,6 @@ end;
 // pascal only functions for simple records which have few or one method.
 // items may be moved to full incs when requred.
 
-{ Return TGLZVector2i as string }
-function TGLZVector2i.ToString : String;
-begin
-   Result := '(X: '+IntToStr(Self.X)+
-            ' ,Y: '+IntToStr(Self.Y)+')';
-end;
 
 {%endregion%}
 

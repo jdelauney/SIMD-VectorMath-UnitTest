@@ -27,16 +27,6 @@ asm
   movq  RAX, {%H-}xmm0
 end;
 
-class operator TGLZVector2i.*(constref A: TGLZVector2i; constref B : TGLZVector2i): TGLZVector2i; assembler; nostackframe; register;
-asm
-  movq  xmm0, [A]
-  movq  xmm1,[B]
-  cvtdq2ps xmm0,xmm0
-  cvtpi2ps xmm1,xmm1 //xmm2, [B]
-  mulps xmm0, xmm1
-  cvtps2dq xmm0, xmm0
-  movq  RAX, {%H-}xmm0
-end;
 
 class operator TGLZVector2i.Div(constref A, B: TGLZVector2i): TGLZVector2i; assembler; nostackframe; register;
 asm
@@ -92,6 +82,16 @@ asm
   movq   RAX, {%H-}xmm0
 end;
 
+class operator TGLZVector2i.Div(constref A: TGLZVector2i; constref B:Integer): TGLZVector2i; assembler; nostackframe; register;
+asm
+  movq   xmm0, [A]
+  movq   xmm1, [B]
+  shufps xmm1, xmm1, $00
+  divps  xmm0, xmm1
+  cvtps2dq xmm0, xmm0
+  movq   RAX, {%H-}xmm0
+end;
+
 
 {%endregion%}
 
@@ -118,7 +118,7 @@ asm
 end;
 
 
-function TGLZVector2i.Max(constref B: Single): TGLZVector2i;
+function TGLZVector2i.Max(constref B: Integer): TGLZVector2i;assembler; nostackframe; register;
 asm
   movq   xmm0, [RCX]
   movq   xmm1, [B]
@@ -127,7 +127,7 @@ asm
   movq   RAX, {%H-}xmm0
 end;
 
-function TGLZVector2i.Max(constref B: TGLZVector2i): TGLZVector2i;
+function TGLZVector2i.Max(constref B: TGLZVector2i): TGLZVector2i;assembler; nostackframe; register;
 asm
   movq  xmm0, [RCX]
   movq  xmm1, [B]
@@ -135,7 +135,7 @@ asm
   movq  RAX,  {%H-}xmm0 //RAX ????
 end;
 
-function TGLZVector2i.Clamp(constref AMin, AMax: Single): TGLZVector2i;
+function TGLZVector2i.Clamp(constref AMin, AMax: Integer): TGLZVector2i; assembler; nostackframe; register;
 asm
   movq   xmm0, [RCX] //movq ????
   movq   xmm1, [AMin]
@@ -147,7 +147,7 @@ asm
   movq  RAX,  {%H-}xmm0
 end;
 
-function TGLZVector2i.Clamp(constref AMin, AMax: TGLZVector2i): TGLZVector2i;
+function TGLZVector2i.Clamp(constref AMin, AMax: TGLZVector2i): TGLZVector2i;assembler; nostackframe; register;
 asm
   movq   xmm0, [RCX]
   movq   xmm1, [AMin]
@@ -157,7 +157,7 @@ asm
   movq   RAX,  {%H-}xmm0
 end;
 
-function TGLZVector2i.MulAdd(constref A, B: TGLZVector2i): TGLZVector2i;
+function TGLZVector2i.MulAdd(constref A, B: TGLZVector2i): TGLZVector2i;assembler; nostackframe; register;
 asm
   movq   xmm0, [RCX]
   movq   xmm1, [A]
@@ -167,7 +167,7 @@ asm
   movq RAX, xmm0
 end;
 
-function TGLZVector2i.MulDiv(constref A, B: TGLZVector2i): TGLZVector2i;
+function TGLZVector2i.MulDiv(constref A, B: TGLZVector2i): TGLZVector2i; assembler; nostackframe; register;
 asm
   movq   xmm0, [RCX]
   movq   xmm1, [A]
@@ -177,7 +177,7 @@ asm
   movq RAX, xmm0
 end;
 
-function TGLZVector2i.Length: Single;
+function TGLZVector2i.Length: Single; assembler; nostackframe; register;
 asm
   movq     xmm0, [RCX]
   mulps    xmm0, xmm0
@@ -186,7 +186,7 @@ asm
   sqrtss   xmm0, xmm0
 end;
 
-function TGLZVector2i.LengthSquare: Single;
+function TGLZVector2i.LengthSquare: Single;assembler; nostackframe; register;
 asm
   movq     xmm0, [RCX]
   mulps    xmm0, xmm0
@@ -194,7 +194,7 @@ asm
   addps    xmm0, xmm1
 end;
 
-function TGLZVector2i.Distance(constref A: TGLZVector2i): Single;
+function TGLZVector2i.Distance(constref A: TGLZVector2i): Single;assembler; nostackframe; register;
 asm
   movq   xmm0, [RCX]
   movq   xmm1, [A]
@@ -207,7 +207,7 @@ asm
   movq   RAX, {%H-}xmm0
 end;
 
-function TGLZVector2i.DistanceSquare(constref A: TGLZVector2i): Single;
+function TGLZVector2i.DistanceSquare(constref A: TGLZVector2i): Single;assembler; nostackframe; register;
 asm
   movq   xmm0, [RCX]
   movq   xmm1, [A]
@@ -218,7 +218,7 @@ asm
   addps    xmm0, xmm1
 end;
 
-function TGLZVector2i.Normalize: TGLZVector2i;
+function TGLZVector2i.Normalize: TGLZVector2i;assembler; nostackframe; register;
 asm
   movq   xmm2, [RCX]    // Y X
   movaps xmm0, xmm2
@@ -243,7 +243,7 @@ asm
   pand      xmm2, [RIP+cSSE_MASK_ONE]  // mask off one where negative
   pxor      xmm0, xmm1     // flip bit if negative
   paddd     xmm0, xmm2     // +1 if negative
-  movdqa   [RESULT], xmm0
+  movq   [RESULT], xmm0
 end;
 
 {%endregion%}
