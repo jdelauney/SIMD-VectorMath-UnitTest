@@ -374,7 +374,7 @@ type
       1: (X, Y, Z, W: Single);
       2: (Red, Green, Blue, Alpha: Single);
       3: (AsVector3f : TNativeGLZVector3f);   //change name for AsAffine ?????
-      4: (ST,UV : TNativeGLZVector2f);
+      4: (UV,ST : TNativeGLZVector2f);
       5: (Left, Top, Right, Bottom: Single);
       6: (TopLeft,BottomRight : TNativeGLZVector2f);
   end;

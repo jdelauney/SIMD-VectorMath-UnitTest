@@ -94,10 +94,10 @@ begin
   AssertEquals('CreateSingle:Sub10 Green failed ',  20.0, vt1.Green);
   AssertEquals('CreateSingle:Sub11 Blue  failed ',  30.0, vt1.Blue);
   AssertEquals('CreateSingle:Sub12 Alhpa failed ',   0.0, vt1.Alpha);
-  AssertEquals('CreateSingle:Sub13 ST.X failed ', 10.0, vt1.ST.X);
-  AssertEquals('CreateSingle:Sub14 ST.Y failed ', 20.0, vt1.ST.Y);
-  AssertEquals('CreateSingle:Sub15 UV.X failed ', 30.0, vt1.UV.X);
-  AssertEquals('CreateSingle:Sub16 UV.Y failed ',  0.0, vt1.UV.Y);
+  AssertEquals('CreateSingle:Sub13 UV.X failed ', 10.0, vt1.UV.X);
+  AssertEquals('CreateSingle:Sub14 UV.Y failed ', 20.0, vt1.UV.Y);
+  AssertEquals('CreateSingle:Sub15 ST.X failed ', 30.0, vt1.ST.X);
+  AssertEquals('CreateSingle:Sub16 ST.Y failed ',  0.0, vt1.ST.Y);
   AssertEquals('CreateSingle:Sub17 Left   failed ', 10.0, vt1.Left);
   AssertEquals('CreateSingle:Sub18 Top    failed ', 20.0, vt1.Top);
   AssertEquals('CreateSingle:Sub19 Right  failed ', 30.0, vt1.Right);
