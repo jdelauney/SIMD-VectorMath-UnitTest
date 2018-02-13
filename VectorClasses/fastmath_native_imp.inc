@@ -168,7 +168,7 @@ var
   i:integer;
   d:double;
 begin
-  _sinlookupBits := 12;  // 16bits accuracy
+  _sinlookupBits := 16;  // 16bits accuracy
   _sinlookupTableSize := 1 shl _sinlookupBits;
   _sinlookupTableSizeMinus1 := _sinlookupTableSize - 1;
   _sinlookupTableSizeWithMargin := _sinlookupTableSize + 1;
