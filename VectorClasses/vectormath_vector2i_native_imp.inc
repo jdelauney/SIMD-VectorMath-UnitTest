@@ -61,6 +61,11 @@ end;
 
 {%region%----[ Pure Pascal may Convert at some point ]--------------------------}
 
+class operator TGLZVector2i.Mod(Constref A, B : TGLZVector2i): TGLZVector2i;
+begin
+  Result.x := A.X Mod B.X;
+  Result.Y := A.Y Mod B.Y;
+end;
 
 {%endregion}
 
@@ -138,19 +143,7 @@ begin
   Result.Y := Round(A.Y * d);
 end;
 
-class operator TGLZVector2i.Mod(Constref A, B : TGLZVector2i): TGLZVector2i;
-var
-  t : TGLZVector2i;
-  vt : TGLZVector2i;
-begin
-  //vt := (Self / a);
-  //t := vt.floor;
-  //vt.x:=t.x;
-  //vt.y:=t.y;
-  //result := (Self - (a*vt));
-  Result.x := A.X Mod B.X;
-  Result.Y := A.Y Mod B.Y;
-end;
+
 
 {%endregion%}
 
