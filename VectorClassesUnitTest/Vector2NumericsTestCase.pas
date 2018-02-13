@@ -3,6 +3,18 @@ unit Vector2NumericsTestCase;
 {$mode objfpc}{$H+}
 {$CODEALIGN LOCALMIN=16}
 
+{$IFDEF USE_ASM_SSE_4}
+  {$DEFINE USE_ASM_SSE_3}
+{$ENDIF}
+
+{$IFDEF USE_ASM_SSE_3}
+  {$DEFINE USE_ASM}
+{$ENDIF}
+
+{$IFDEF USE_ASM_AVX}
+  {$DEFINE USE_ASM}
+{$ENDIF}
+
 interface
 
 uses
@@ -214,7 +226,11 @@ procedure TVector2NumericsTestCase.TestInvSqrt;
 begin
   ntt3 := ntt1.InvSqrt;
   vtt3 := vtt1.InvSqrt;
+{$ifdef USE_ASM}
+  AssertTrue('Vector2f  InvSqrt does not match : '+ntt3.ToString+' --> '+vtt3.ToString, Compare(ntt3,vtt3,1e-4));
+{$else}
   AssertTrue('Vector2f  InvSqrt does not match : '+ntt3.ToString+' --> '+vtt3.ToString, Compare(ntt3,vtt3,1e-6));
+{$endif}
 end;
 
 procedure TVector2NumericsTestCase.TestModF;

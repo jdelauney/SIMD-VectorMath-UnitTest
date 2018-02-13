@@ -3,6 +3,18 @@ unit Vector2fFunctionalTest;
 {$mode objfpc}{$H+}
 {$CODEALIGN LOCALMIN=16}
 
+{$IFDEF USE_ASM_SSE_4}
+  {$DEFINE USE_ASM_SSE_3}
+{$ENDIF}
+
+{$IFDEF USE_ASM_SSE_3}
+  {$DEFINE USE_ASM}
+{$ENDIF}
+
+{$IFDEF USE_ASM_AVX}
+  {$DEFINE USE_ASM}
+{$ENDIF}
+
 interface
 
 uses
@@ -658,8 +670,13 @@ procedure TVector2fFunctionalTest.TestInvSqrt;
 begin
   vtt1.Create(4.0,9.0);
   vtt2 :=  vtt1.InvSqrt;
+{$ifdef USE_ASM}
+  AssertEquals('InvSqrt:Sub1 X failed ', 0.5, vtt2.X, 1e-3);
+  AssertEquals('InvSqrt:Sub2 Y failed ', 1/3, vtt2.Y, 1e-3);
+{$else}
   AssertEquals('InvSqrt:Sub1 X failed ', 0.5, vtt2.X);
   AssertEquals('InvSqrt:Sub2 Y failed ', 1/3, vtt2.Y);
+{$endif}
 end;
 
 procedure TVector2fFunctionalTest.TestModF;
