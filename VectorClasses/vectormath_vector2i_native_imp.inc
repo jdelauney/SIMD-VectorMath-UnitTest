@@ -61,16 +61,6 @@ end;
 
 {%region%----[ Pure Pascal may Convert at some point ]--------------------------}
 
-class operator TGLZVector2i.mod(constref A, B : TGLZVector2i): TGLZVector2i;
-var
-  c: TGLZVector2i;
-begin
-  c:=a div b;
-  result := a-b * c;//GLZVectorMath.trunc(c);
-end;
-
-
-
 
 {%endregion}
 
