@@ -1787,7 +1787,7 @@ Var
     {$ifdef UNIX}
       {$IFDEF USE_ASM_AVX}
          {$I vectormath_vector2i_native_imp.inc}
-         {.$I vectormath_vector2i_unix64_avx_imp.inc}
+         {$I vectormath_vector2i_unix64_avx_imp.inc}
 
          {$I vectormath_vector2f_native_imp.inc}
          {$I vectormath_vector2f_unix64_avx_imp.inc}

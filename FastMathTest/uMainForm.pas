@@ -18,12 +18,13 @@ type
     Label1 : TLabel;
     StringGrid1 : TStringGrid;
     procedure Button1Click(Sender : TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender : TObject);
   private
-    FTotalCos : Array[0..6] of Single;
-    FTotalSin : Array[0..6] of Single;
-    FMaxCosError : Array[0..6] of Single;
-    FMaxSinError : Array[0..6] of Single;
+    FTotalCos : Array[0..9] of Single;
+    FTotalSin : Array[0..9] of Single;
+    FMaxCosError : Array[0..9] of Single;
+    FMaxSinError : Array[0..9] of Single;
 
     function getDiffError(a,b:Single):Single;
 
@@ -33,6 +34,7 @@ type
 
 var
   MainForm : TMainForm;
+  //SinCosLUT : array[0..1] of array[0..35999] of single:
 
 implementation
 
@@ -40,10 +42,61 @@ implementation
 
 uses math;
 
+
+function FastSin1 (fAngle:Double):Double; inline;
+var
+  fResult, fASqr : Double;
+begin
+    fASqr := fAngle*fAngle;
+    fResult := -2.39e-08;
+    fResult := fResult*fASqr;
+    fResult := fResult+2.7526e-06;
+    fResult := fResult*fASqr;
+    fResult := fResult-1.98409e-04;
+    fResult := fResult*fASqr;
+    fResult := fResult+8.3333315e-03;
+    fResult := fResult*fASqr;
+    fResult := fResult-1.666666664e-01;
+    fResult := fResult*fASqr;
+    fResult := fResult+1.0;
+    fResult := fResult*fAngle;
+    result := fResult;
+end;
+
+function fastsin2(x:Double):Double;
+var
+  k:Integer;
+  y,z : Double;
+begin
+  z := x;
+  z := z * 0.3183098861837907;
+  z := z + 6755399441055744.0;
+  k := round(z);
+  z := k;
+  z := z*3.1415926535897932;
+  x := x-z;
+  y := x;
+  y := y*x;
+  z := 0.0073524681968701;
+  z := z*y;
+  z := z-0.1652891139701474;
+  z := z*y;
+  z := z+0.9996919862959676;
+  x := x*z;
+  k := k and 1;
+  k := k+k;
+  z := k;
+  z := z*x;
+  x := x-z;
+
+  result := x;
+end;
+
 { TMainForm }
 
 procedure TMainForm.FormCreate(Sender : TObject);
 begin
+  _InitSinLUT;
   with StringGrid1 do
   begin
     Cells[0,1]  :='System.Cos';
@@ -53,13 +106,20 @@ begin
     Cells[0,5]  :='Quadratic Curve Cos LP';
     Cells[0,6]  :='Quadratic Curve Cos HP';
     Cells[0,7]  :='Remez Cos';
-    Cells[0,8]  :='System.Sin';
-    Cells[0,9]  :='Math.SinCos (Sin)';
-    Cells[0,10]  :='Taylor Sin';
-    Cells[0,11]  :='Taylor Lambert Sin';
-    Cells[0,12]  :='Quadratic Curve Sin LP';
-    Cells[0,13]  :='Quadratic Curve Sin HP';
-    Cells[0,14]  :='Remez Sin';
+    Cells[0,8]  :='FastCos1';
+    Cells[0,9]  :='FastCos2';
+    Cells[0,10]  :='FastCosLUT';
+
+    Cells[0,11]  :='System.Sin';
+    Cells[0,12]  :='Math.SinCos (Sin)';
+    Cells[0,13]  :='Taylor Sin';
+    Cells[0,14]  :='Taylor Lambert Sin';
+    Cells[0,15]  :='Quadratic Curve Sin LP';
+    Cells[0,16]  :='Quadratic Curve Sin HP';
+    Cells[0,17]  :='Remez Sin';
+    Cells[0,18]  :='FastSin1';
+    Cells[0,19]  :='FastSin2';
+    Cells[0,20]  :='FastSinLUT';
   end;
 end;
 
@@ -68,6 +128,11 @@ begin
   Screen.Cursor := crHourGlass;
   DoTest;
   Screen.Cursor := crDefault;
+end;
+
+procedure TMainForm.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  _DoneSinLUT;
 end;
 
 function TMainForm.getDiffError(a, b : Single) : Single;
@@ -119,6 +184,17 @@ begin
     FTotalCos[6] := FTotalCos[6] + DiffError;
     if FMaxCosError[6] < DiffError then FMaxCosError[6]:= DiffError;
 
+    FTotalCos[7] := 0;//FTotalCos[7] + DiffError;
+    //if FMaxCosError[9] < DiffError then
+    FMaxCosError[7]:= 0;//DiffError;
+
+    FTotalCos[8] := 0;//FTotalCos[7] + DiffError;
+    //if FMaxCosError[9] < DiffError then
+    FMaxCosError[8]:= 0;//DiffError;
+
+    DiffError := getDiffError(System.Cos(v), FastCosLUT(v));
+    FTotalCos[9] := FTotalCos[9] + DiffError;
+    if FMaxCosError[9] < DiffError then FMaxCosError[9]:= DiffError;
     //----------------[ SINUS ]-------------------------------------------------
     //System.Sin
     DiffError := getDiffError(System.Sin(v), System.Sin(v));
@@ -149,10 +225,24 @@ begin
     DiffError := getDiffError(System.Sin(v), RemezSin(v));
     FTotalSin[6] := FTotalSin[6] + DiffError;
     if FMaxSinError[6] < DiffError then FMaxSinError[6]:= DiffError;
+    //FastSin1
+    DiffError := getDiffError(System.Sin(v), FastSin1(v));
+    FTotalSin[7] := FTotalSin[7] + DiffError;
+    if FMaxSinError[7] < DiffError then FMaxSinError[7]:= DiffError;
+
+    //FastSin2
+    DiffError := getDiffError(System.Sin(v), FastSin2(v));
+    FTotalSin[8] := FTotalSin[8] + DiffError;
+    if FMaxSinError[8] < DiffError then FMaxSinError[8]:= DiffError;
+
+    //FastSinLUT
+    DiffError := getDiffError(System.Sin(v), FastSinLUT(v));
+    FTotalSin[9] := FTotalSin[9] + DiffError;
+    if FMaxSinError[9] < DiffError then FMaxSinError[9]:= DiffError;
 
     inc(cnt);
   end;
-  for i:=1 to 7 do
+  for i:=1 to 10 do
   begin
     With StringGrid1 do
     begin
@@ -162,9 +252,9 @@ begin
     End;
     With StringGrid1 do
     begin
-      Cells[1,i+7] := FloatToStr((FTotalSin[i-1]/cnt));
-      Cells[2,i+7] := FloatToStr(FMaxSinError[i-1]);
-      Cells[3,i+7] := 'n/a';
+      Cells[1,i+10] := FloatToStr((FTotalSin[i-1]/cnt));
+      Cells[2,i+10] := FloatToStr(FMaxSinError[i-1]);
+      Cells[3,i+10] := 'n/a';
     End;
   end;
 end;

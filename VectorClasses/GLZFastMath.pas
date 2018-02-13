@@ -85,6 +85,10 @@ function RemezSin(val:Single): Single;
 
 {%endregion%}
 
+
+function FastCosLUT(x:Single):Single;
+function FastSinLUT(x:Single):Single;
+
 Function FastSinc(x: Single): Single;
 
 Function FastTan(x:Single):Single;
@@ -118,56 +122,56 @@ Function FastNeg(f:single):single;
 
 Function FastSign(f:single):longint;
 
-function FastPower(i:single;n:integer):single;
+//function FastPower(i:single;n:integer):single;
+Function FastPower(Base: Single; Power: Integer): Single;
 
+{ Internals function only use in GLZMath. For initialize and Finalize SinLUT for FastSinLUT and FastCosLUT functions }
+procedure _InitSinLUT;
+procedure _DoneSinLUT;
 
 
 implementation
 
 // On defini quelques valeurs en vue d'optimiser les calculs
-{$WARN 5025 on : Local variable "$1" not used}
-{$WARN 5028 on : Local const "$1" not used}
 Const
   _cInfinity = 1e1000;
-  _EpsilonFuzzFactor = 1000;
-  _EpsilonXTResolution = 1E-19 * _EpsilonFuzzFactor;
+  //_EpsilonFuzzFactor = 1000;
+  //_EpsilonXTResolution = 1E-19 * _EpsilonFuzzFactor;
   _cPI: double = 3.1415926535897932384626433832795; //3.141592654;
-  _cInvPI: Double = 1.0 / 3.1415926535897932384626433832795;
+  //_cInvPI: Double = 1.0 / 3.1415926535897932384626433832795;
   _c2DivPI: Double = 2.0 / 3.1415926535897932384626433832795;
-  _cPIdiv180: Single = 0.017453292;
-  _cPI180 : Single =  3.1415926535897932384626433832795 * 180;
-  _c180divPI: Single = 57.29577951;
+  //_cPIdiv180: Single = 0.017453292;
+  //_cPI180 : Single =  3.1415926535897932384626433832795 * 180;
+  //_c180divPI: Single = 57.29577951;
   _c2PI: Single = 6.283185307;
   _cPIdiv2: Single = 1.570796326;
   _cPIdiv4: Single = 0.785398163;
-  _c3PIdiv2: Single = 4.71238898;
+  //_c3PIdiv2: Single = 4.71238898;
   _c3PIdiv4: Single = 2.35619449;
-  _cInv2PI: Single = 1 / 6.283185307;
-  _cInv360: Single = 1 / 360;
-  _c180: Single = 180;
-  _c360: Single = 360;
-  _cOneHalf: Single = 0.5;
-  _cMinusOneHalf: Single = -0.5;
-  _cOneDotFive: Single = 0.5;
+  //_cInv2PI: Single = 1 / 6.283185307;
+  //_cInv360: Single = 1 / 360;
+  //_c180: Single = 180;
+  //_c360: Single = 360;
+  //_cOneHalf: Single = 0.5;
+  //_cMinusOneHalf: Single = -0.5;
+  //_cOneDotFive: Single = 0.5;
   _cZero: Single = 0.0;
   _cOne: Single = 1.0;
-  _cLn10: Single = 2.302585093;
+  //_cLn10: Single = 2.302585093;
   _cEpsilon: Single = 1e-10;
-  _cEpsilon40 : Single = 1E-40;
-  _cEpsilon30 : Single = 1E-30;
-  _cFullEpsilon: Double = 1e-12;
-  _cColinearBias = 1E-8;
+  //_cEpsilon40 : Single = 1E-40;
+  //_cEpsilon30 : Single = 1E-30;
+  //_cFullEpsilon: Double = 1e-12;
+  //_cColinearBias = 1E-8;
   _cEulerNumber = 2.71828182846;
-  _cInvSqrt2   = 1.0 / sqrt(2.0);
-  _cInvThree   = 1.0 / 3.0;
+  //_cInvSqrt2   = 1.0 / sqrt(2.0);
+  //_cInvThree   = 1.0 / 3.0;
 
 Const
   _cTaylorCoefA : single = 1.0/2.0;
   _cTaylorCoefB : single = 1.0 / 24.0;
   _cTaylorCoefC : single = 1.0 / 720.0;
   _cTaylorCoefD : single = 1.0 / 40320.0;
-{$WARN 5025 off : Local variable "$1" not used}
-{$WARN 5028 off : Local const "$1" not used}
 
 //-----[ INCLUDE IMPLEMENTATION ]-----------------------------------------------
 
@@ -203,75 +207,6 @@ Const
   {$I fastmath_native_imp.inc}
 {$endif}
 
-//------------------------------------------------------------------------------
-
-Initialization
-
-
-{Vec4 VSin(const Vec4& x)
-
-Vec4 c1 = VReplicate(-1.f/6.f);
-Vec4 c2 = VReplicate(1.f/120.f);
-Vec4 c3 = VReplicate(-1.f/5040.f);
-Vec4 c4 = VReplicate(1.f/362880);
-Vec4 c5 = VReplicate(-1.f/39916800);
-Vec4 c6 = VReplicate(1.f/6227020800);
-Vec4 c7 = VReplicate(-1.f/1307674368000);
-
-Vec4 res =	x +
-c1*x*x*x +
-c2*x*x*x*x*x +
-c3*x*x*x*x*x*x*x +
-c4*x*x*x*x*x*x*x*x*x +
-c5*x*x*x*x*x*x*x*x*x*x*x +
-c6*x*x*x*x*x*x*x*x*x*x*x*x*x +
-c7*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x;
-
-return (res);
-
-
-//-----------
-
-Vec4 c1 = VReplicate(-1.f/6.f);
-Vec4 c2 = VReplicate(1.f/120.f);
-Vec4 c3 = VReplicate(-1.f/5040.f);
-Vec4 c4 = VReplicate(1.f/362880);
-Vec4 c5 = VReplicate(-1.f/39916800);
-Vec4 c6 = VReplicate(1.f/6227020800);
-Vec4 c7 = VReplicate(-1.f/1307674368000);
-
-Vec4 tmp0 = x;
-Vec4 x3 = x*x*x;
-Vec4 tmp1 = c1*x3;
-Vec4 res = tmp0 + tmp1;
-
-Vec4 x5 = x3*x*x;
-tmp0 = c2*x5;
-res	= res + tmp0;
-
-Vec4 x7 = x5*x*x;
-tmp0 = c3*x7;
-res	= res + tmp0;
-
-Vec4 x9 = x7*x*x;
-tmp0 = c4*x9;
-res	= res + tmp0;
-
-Vec4 x11 = x9*x*x;
-tmp0 = c5*x11;
-res	= res + tmp0;
-
-Vec4 x13 = x11*x*x;
-tmp0 = c6*x13;
-res	= res + tmp0;
-
-Vec4 x15 = x13*x*x;
-tmp0 = c7*x15;
-res	= res + tmp0;
-
-return (res);
-
-}
 
 
 end.

@@ -12,195 +12,193 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="24"/>
       </Unit0>
       <Unit1>
         <Filename Value="uMainForm.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="24"/>
-        <CursorPos X="46" Y="28"/>
-        <UsageCount Value="20"/>
+        <TopLine Value="91"/>
+        <CursorPos X="11" Y="99"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
+        <Filename Value="..\VectorClasses\GLZFastMath.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="167"/>
+        <CursorPos X="11" Y="129"/>
+        <UsageCount Value="24"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
         <Filename Value="..\..\..\Components\lazbeanz\tests\vector_sse\umainform.pas"/>
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
         <UsageCount Value="10"/>
-      </Unit2>
-      <Unit3>
+      </Unit3>
+      <Unit4>
         <Filename Value="AsmVectorTest\unit1.pas"/>
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="435"/>
         <CursorPos Y="442"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
-      </Unit3>
-      <Unit4>
-        <Filename Value="..\VectorClasses\GLZFastMath.pas"/>
-        <IsPartOfProject Value="True"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="154"/>
-        <CursorPos X="22" Y="82"/>
-        <UsageCount Value="20"/>
-        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="4"/>
-        <CursorPos Y="153"/>
-        <FoldState Value=" TJ01{=1?"/>
-        <UsageCount Value="10"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="184"/>
+        <CursorPos X="35" Y="202"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="C:\lazarus\lcl\grids.pas"/>
         <UnitName Value="Grids"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="9614"/>
         <CursorPos Y="9628"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit6>
       <Unit7>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\math.pp"/>
         <EditorIndex Value="1"/>
         <TopLine Value="294"/>
         <CursorPos X="17" Y="309"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit7>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="uMainForm.pas"/>
-        <Caret Line="134" TopLine="107"/>
-      </Position1>
-      <Position2>
-        <Filename Value="uMainForm.pas"/>
-        <Caret Line="155" Column="40" TopLine="129"/>
-      </Position2>
-      <Position3>
-        <Filename Value="uMainForm.pas"/>
-        <Caret Line="67" Column="29" TopLine="63"/>
-      </Position3>
-      <Position4>
-        <Filename Value="..\VectorClasses\GLZFastMath.pas"/>
-        <Caret Line="81" Column="47" TopLine="68"/>
-      </Position4>
-      <Position5>
         <Filename Value="..\VectorClasses\GLZFastMath.pas"/>
         <Caret Line="102" Column="35" TopLine="88"/>
+      </Position1>
+      <Position2>
+        <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
+        <Caret Line="8" Column="17"/>
+      </Position2>
+      <Position3>
+        <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
+        <Caret Line="12" Column="24"/>
+      </Position3>
+      <Position4>
+        <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
+        <Caret Line="39" Column="38" TopLine="32"/>
+      </Position4>
+      <Position5>
+        <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
+        <Caret Line="45" Column="35" TopLine="31"/>
       </Position5>
       <Position6>
         <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
-        <Caret Line="8" Column="17"/>
+        <Caret Line="78" Column="30" TopLine="58"/>
       </Position6>
       <Position7>
         <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
-        <Caret Line="12" Column="24"/>
+        <Caret Line="161" Column="56" TopLine="137"/>
       </Position7>
       <Position8>
         <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
-        <Caret Line="39" Column="38" TopLine="32"/>
+        <Caret Line="122" Column="36" TopLine="99"/>
       </Position8>
       <Position9>
         <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
-        <Caret Line="45" Column="35" TopLine="31"/>
+        <Caret Line="113" Column="39" TopLine="101"/>
       </Position9>
       <Position10>
         <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
-        <Caret Line="78" Column="30" TopLine="58"/>
+        <Caret Line="241" Column="57" TopLine="239"/>
       </Position10>
       <Position11>
         <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
-        <Caret Line="161" Column="56" TopLine="137"/>
+        <Caret Line="124" Column="12" TopLine="105"/>
       </Position11>
       <Position12>
         <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
-        <Caret Line="103" Column="14" TopLine="111"/>
+        <Caret Line="122" Column="12" TopLine="105"/>
       </Position12>
       <Position13>
-        <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
-        <Caret Line="122" Column="36" TopLine="99"/>
-      </Position13>
-      <Position14>
-        <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
-        <Caret Line="113" Column="39" TopLine="101"/>
-      </Position14>
-      <Position15>
-        <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
-        <Caret Line="241" Column="57" TopLine="239"/>
-      </Position15>
-      <Position16>
-        <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
-        <Caret Line="124" Column="12" TopLine="105"/>
-      </Position16>
-      <Position17>
-        <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
-        <Caret Line="122" Column="12" TopLine="105"/>
-      </Position17>
-      <Position18>
         <Filename Value="uMainForm.pas"/>
         <Caret Line="43" TopLine="26"/>
+      </Position13>
+      <Position14>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="96" Column="56" TopLine="82"/>
+      </Position14>
+      <Position15>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="151" Column="38" TopLine="124"/>
+      </Position15>
+      <Position16>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="159" Column="28" TopLine="138"/>
+      </Position16>
+      <Position17>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="50" Column="26" TopLine="33"/>
+      </Position17>
+      <Position18>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\math.pp"/>
       </Position18>
       <Position19>
         <Filename Value="uMainForm.pas"/>
-        <Caret Line="96" Column="56" TopLine="82"/>
+        <Caret Line="157" TopLine="136"/>
       </Position19>
       <Position20>
         <Filename Value="uMainForm.pas"/>
-        <Caret Line="25" Column="17" TopLine="111"/>
+        <Caret Line="149" Column="63" TopLine="139"/>
       </Position20>
       <Position21>
-        <Filename Value="uMainForm.pas"/>
-        <Caret Line="151" Column="38" TopLine="124"/>
+        <Filename Value="..\VectorClasses\GLZFastMath.pas"/>
+        <Caret Line="82" Column="22" TopLine="68"/>
       </Position21>
       <Position22>
         <Filename Value="uMainForm.pas"/>
-        <Caret Line="159" Column="28" TopLine="138"/>
+        <Caret Line="151" Column="20" TopLine="139"/>
       </Position22>
       <Position23>
-        <Filename Value="uMainForm.pas"/>
-        <Caret Line="50" Column="26" TopLine="33"/>
+        <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
+        <Caret Line="82" Column="29" TopLine="69"/>
       </Position23>
       <Position24>
-        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\math.pp"/>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="177" Column="32" TopLine="155"/>
       </Position24>
       <Position25>
         <Filename Value="uMainForm.pas"/>
-        <Caret Line="108" Column="32" TopLine="117"/>
+        <Caret Line="36" Column="5" TopLine="21"/>
       </Position25>
       <Position26>
         <Filename Value="uMainForm.pas"/>
-        <Caret Line="157" TopLine="136"/>
+        <Caret Line="45" Column="50" TopLine="44"/>
       </Position26>
       <Position27>
         <Filename Value="uMainForm.pas"/>
-        <Caret Line="149" Column="63" TopLine="139"/>
+        <Caret Line="397" Column="18" TopLine="373"/>
       </Position27>
       <Position28>
-        <Filename Value="..\VectorClasses\GLZFastMath.pas"/>
-        <Caret Line="82" Column="22" TopLine="68"/>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="65" Column="36" TopLine="51"/>
       </Position28>
       <Position29>
         <Filename Value="uMainForm.pas"/>
-        <Caret Line="151" Column="20" TopLine="139"/>
+        <Caret Line="443" Column="16" TopLine="421"/>
       </Position29>
       <Position30>
-        <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
-        <Caret Line="82" Column="29" TopLine="69"/>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="99" Column="11" TopLine="91"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>

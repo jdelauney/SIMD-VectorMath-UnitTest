@@ -22,8 +22,8 @@ function TaylorLambertCos(X : Single):Single; Inline;
 var
   xx : Single;
 begin
-    xx := x*x;
-		result := (0.9999932946 + xx * (-0.4999124376 + xx * (0.0414877472 + xx * -0.0012712095)));
+  xx := x*x;
+  result := (0.9999932946 + xx * (-0.4999124376 + xx * (0.0414877472 + xx * -0.0012712095)));
 end;
 
 function TaylorLambertSin(X:Single):Single; inline;
@@ -97,9 +97,9 @@ begin
     c := 1.27323954 * x + 0.405284735 * x * x;
 
     if (c < 0) then
-        c := 225 * (c *-c - c) + c
+        c := 0.225 * (c *-c - c) + c
     else
-        c := 225 * (c * c - c) + c;
+        c := 0.225 * (c * c - c) + c;
   end
   else
   begin
@@ -139,7 +139,9 @@ function RemezSin(val:Single): Single;inline;
 var
   val2 : Single;
 begin
-  Val2 := val*val;
+
+  Val2 := val*val; //*val;
+
   result:=
     val * (0.99997937679290771484375 + val2 *
            (-0.166624367237091064453125 + val2 *
@@ -152,12 +154,78 @@ end;
 
 {%region%-----[ Fast Trigonometric Functions ]----------------------------------}
 
+var
+  _SinLUT : array of double;
+  _sinlookupBits : Integer;
+  _sinlookupTableSize : Integer;
+  _sinlookupTableSizeMinus1 : Integer;
+  _sinlookupTableSizeWithMargin : Integer;
+  _sinpi2OverLookupSize : Single;
+  _sinlookupSizeOverPi2  : Single;
+
+procedure _InitSinLUT;
+var
+  i:integer;
+  d:double;
+begin
+  _sinlookupBits := 12;  // 16bits accuracy
+  _sinlookupTableSize := 1 shl _sinlookupBits;
+  _sinlookupTableSizeMinus1 := _sinlookupTableSize - 1;
+  _sinlookupTableSizeWithMargin := _sinlookupTableSize + 1;
+  _sinpi2OverLookupSize := _c2PI / _sinlookupTableSize;
+  _sinlookupSizeOverPi2  := _sinlookupTableSize / _c2PI;
+  setlength(_SinLUT,_sinlookupTableSizeWithMargin);
+  for i:=0 to _sinlookupTableSizeMinus1 do
+  begin
+    d := i * _sinpi2OverLookupSize;
+    _SinLUT[i]:=System.Sin(d);
+  end;
+end;
+
+procedure _DoneSinLUT;
+begin
+  setLength(_SinLUT,0);
+  _SinLUT := nil;
+end;
+
+function FastSinLUT(x:Single):Single; //x in radian
+var
+  Index, Alpha, Sin1, Sin2 : Single;
+  i, ii : Integer;
+begin
+  index := x * _sinlookupSizeOverPi2;
+  ii := Round(index);
+  alpha := index - ii;
+  i := ii and _sinlookupTableSizeMinus1;
+  sin1 := _SinLUT[i];
+  sin2 := _SinLUT[i + 1];
+  // Do a lerp for better accuracy
+  result := Sin1+alpha*(sin2-sin1); //sin1 * (1.0 - alpha) + sin2 * alpha;
+
+end;
+
+function FastCosLUT(x:Single):Single;
+var
+  Index, Alpha, Sin1, Sin2 : Single;
+  i, ii : Integer;
+begin
+  x := x +_c2PI;
+  index := x * _sinlookupSizeOverPi2;
+  ii := Round(index);
+  alpha := index - ii;
+  i := ii and _sinlookupTableSizeMinus1;
+  sin1 := _SinLUT[i];
+  sin2 := _SinLUT[i + 1];
+  result := Sin1+alpha*(sin2-sin1); //sin1 * (1.0 - alpha) + sin2 * alpha;
+end;
+
 function FastTan(x:Single):Single; Inline;
 Var
   xx:Single;
 begin
+ if (x = _cPIdiv2) then Exit(0);
  xx:=x*x;
- Result := x + (xx * x * 0.3333333333) + (xx * xx * x * 0.1333333333333) + (xx * xx * xx * x * 0.0539682539);
+ Result := x + (xx * x * 0.3333333333)   + (xx * xx * x * 0.1333333333333) + (xx * xx * xx * x * 0.0539682539);
 end;
 
 function FastArcTan(x:Single):Single;Inline;
@@ -165,10 +233,23 @@ Const
   _A = 0.0776509570923569;
   _B = -0.287434475393028;
 var
- xx: Double;
+  xx: Double;
+  //a,b : single;
 begin
   xx := x * x;
+  // Very fast approximation
   result := ((_A*xx + _B)* xx + (_cPIDiv4 - _A - _B )*x);
+  // More accurate approximation
+  //a := xx*x;
+  //Result := x - (a * 0.333333333333);
+  //b:= a*xx; // xx * xx*x
+  //Result := Result + (b * 0.2);
+  //b:=b*xx;  // xx * xx*xx*x
+  //Result := Result - (b * 0.1428571429);
+  //b:=b*xx;  // xx * xx*xx*xx*x
+  //Result := Result + (b * 0.111111111111);
+  //b:=b*xx;
+  //Result := Result - (b * 0.0909090909);
 end;
 
 Function FastArcTan2(y, x: Single): Single; inline;// accuracy of about 0.07 rads
@@ -205,16 +286,12 @@ End;  *)
 
 Function FastArcSine(Const x: Single): Single;
 Begin
-  Result := FastArcTan2(X, Sqrt(1 - (X*X)));
-  //Result := x + x * x * x * x * x * 0.4971;
-  //x + (x * x * x * T(0.166666667)) + (x * x * x * x * x * T(0.075)) + (x * x * x * x * x * x * x * T(0.0446428571)) + (x * x * x * x * x * x * x * x * x * T(0.0303819444));// + (x * x * x * x * x * x * x * x * x * x * x * T(0.022372159));
+  Result := FastArcTan2(X, FastSqrt(1 - (X*X)));
 End;
 
 Function FastArcCosine(const X: Single): Single;
 var ret, t:single;
 begin
-  //result := FastArcTan2(FastSqrt(1 - (x*x)), X); WRONG
-
   // cubic approximation, the Lagrange polynomial for x  {-1, -½, 0, ½, 1},
   // not enough accurate in some case
   //result:= (-0.69813170079773212 * x * x - 0.87266462599716477) * x + 1.5707963267948966;
@@ -230,8 +307,6 @@ begin
    ret := ret * Sqrt(1.0-x); // Do not use FastSqrt here
    ret := ret - 2 * t * ret;
    result := t * _cPI + ret;
-   // polynomial
-   // result := x*(1+x*x*(1/6+ x*x*(3/(2*4*5) + x*x*((1*3*5)/(2*4*6*7))))); no enougth accurate
 end;
 
 Function FastSinc(x: Single): Single;  //Source ImageMagick
@@ -346,8 +421,10 @@ end;
 Function FastLog(x:Single):Single; Inline;
 var
   i : Int64;
-   aExp, addcst, xx : single;
+  //f,
+  aExp, addcst, xx : single;
 begin
+  //f := x;
   i := Round(x);
   AExp:= i shr 23;
   // 89.970756366 = 127 * log(2) - constant term of polynomial
@@ -542,22 +619,22 @@ begin
   result:=1+((longint((@f)^) shr 31)shl 1)
 end;
 
-function FastPower(i:single;n:integer):single;
-var l:longint;
-begin
-  l:=longint((@i)^);
-  l:=l-$3F800000;l:=l shl (n-1);l:=l+$3F800000;
-  result:=single((@l)^);
-end;
+//function FastPower(i:single;n:integer):single;   //--> This is not enougth accurate
+//var l:longint;
+//begin
+//  l:=longint((@i)^);
+//  l:=l-$3F800000;l:=l shl (n-1);l:=l+$3F800000;
+//  result:=single((@l)^);
+//end;
 
-(* Function FastPower(Base: Single; Const Power: Integer): Single;
+Function FastPower(Base: Single; Power: Integer): Single;
 Var
   Y:    Integer;
   Temp: Double;
 Begin
   Y := Abs(Power);
-  Temp := cOne;
-  While Y > cZero Do
+  Temp := _cOne;
+  While Y > _cZero Do
   Begin
     While Not Odd(Y) Do
     Begin
@@ -568,11 +645,11 @@ Begin
     Temp := Temp * Base;
   End;
 
-  If Power < cZero Then
-    Temp := cOne / Temp;
+  If Power < _cZero Then
+    Temp := _cOne / Temp;
 
   Result := Temp;
-End; *)
+End;
 
 {%endregion%}
 

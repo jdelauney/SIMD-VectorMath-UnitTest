@@ -3,9 +3,11 @@ object MainForm: TMainForm
   Height = 472
   Top = 0
   Width = 611
+  ActiveControl = StringGrid1
   Caption = 'Fast Math Test'
   ClientHeight = 472
   ClientWidth = 611
+  OnClose = FormClose
   OnCreate = FormCreate
   Position = poScreenCenter
   Visible = False
@@ -29,7 +31,7 @@ object MainForm: TMainForm
         ReadOnly = True
         Title.Alignment = taCenter
         Title.Caption = 'Average Error'
-        Width = 154
+        Width = 148
       end    
       item
         Alignment = taCenter
@@ -38,7 +40,7 @@ object MainForm: TMainForm
         ReadOnly = True
         Title.Alignment = taCenter
         Title.Caption = 'Largest Error'
-        Width = 154
+        Width = 148
       end    
       item
         Alignment = taCenter
@@ -47,22 +49,22 @@ object MainForm: TMainForm
         ReadOnly = True
         Title.Alignment = taCenter
         Title.Caption = 'Speed Factor'
-        Width = 154
+        Width = 149
       end>
     DefaultColWidth = 240
     Flat = True
     MouseWheelOption = mwGrid
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect, goSmoothScroll, goCellHints]
     ParentShowHint = False
-    RowCount = 15
+    RowCount = 21
     ShowHint = True
     TabOrder = 0
     UseXORFeatures = True
     ColWidths = (
       140
-      154
-      154
-      154
+      148
+      148
+      149
     )
   end
   object Button1: TButton

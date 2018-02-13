@@ -39,9 +39,9 @@ Historique : @br
  *==============================================================================*)
 Unit GLZMath;
 
-{.$i glzscene_options.inc}
+{$i ../../glzscene_options.inc}
 
-{$ASMMODE INTEL}
+{.$ASMMODE INTEL}
 
 {.$DEFINE USE_FASTMATH}
 
@@ -176,7 +176,7 @@ Function IsPowerOfTwo(Value: Longword): Boolean;
 Function NextPowerOfTwo(Value: Cardinal): Cardinal;
 Function PreviousPowerOfTwo(Value: Cardinal): Cardinal;
 {Raise base to any power. For fractional exponents, or |exponents| > MaxInt, base must be > 0. }
-function PowerSingle(const Base, Exponent: Single): Single; overload;
+function Pow(const Base, Exponent: Single): Single; overload;
 function PowerInteger(Const Base: Single; Exponent: Integer): Single; overload;
 Function PowerInt(Const Base, Power: Integer): Single;
 Function pow3(x: Single): Single;
@@ -255,7 +255,8 @@ function Lerp(Edge0,Edge1,x: Single): Single;
 function Step(Edge,x: Single): Single;
 
 // Return the lenght of vector 1D
-Function Length1D(x:Single):Single; overload;
+Function Length1D(x:Single):Single;
+function fwidth(const x,y:Single): Single;
 
 {%endregion%}
 
@@ -331,7 +332,7 @@ end;
 function Sin(x:Single):Single;Inline;
 begin
   {$IFDEF USE_FASTMATH}
-    result := RemezSin(x);
+    result := FastSinLUT(x);//RemezSin(x);
   {$ELSE}
     result := System.Sin(x);
   {$ENDIF}
@@ -340,7 +341,7 @@ end;
 function Cos(x:Single):Single; Inline;
 begin
   {$IFDEF USE_FASTMATH}
-    result := RemezCos(x);
+    result := FastCosLUT(x); //RemezCos(x);
   {$ELSE}
     result := System.Cos(x);
   {$ENDIF}
@@ -692,7 +693,7 @@ Begin
   Result := Value + 1;
 End;
 
-function PowerSingle(const base, exponent : Single) : Single;
+function Pow(const base, exponent : Single) : Single;
 begin
   {$IFDEF USE_FASTMATH}
     if exponent=cZero then Result:=cOne
@@ -1438,6 +1439,11 @@ begin
   Result := Sqrt(x*x);
 end;
 
+function fwidth(const x,y:Single): Single; inline;
+begin
+  Result := Abs(x)+abs(y);
+end;
+
 //------------------------------------------------------------------
 
 {%endregion%}
@@ -1482,20 +1488,20 @@ end;
 
 Function ExpStep(x,k,n:Single):Single;Inline;
 begin
-  result := Exp(-k * powersingle(x,n));
+  result := Exp(-k * pow(x,n));
 end;
 
 Function Parabola(x,k:Single):Single;Inline;
 begin
-  result := powersingle( 4.0*x*(1.0-x), k );
+  result := pow( 4.0*x*(1.0-x), k );
 end;
 
 Function pcurve(x,a,b:Single):Single;Inline;
 var
   k : Single;
 begin
-    k := powersingle(a+b,a+b) / (powersingle(a,a) * powersingle(b,b));
-    result := k * powersingle(x, a) * powersingle(1.0-x, b);
+    k := pow(a+b,a+b) / (pow(a,a) * pow(b,b));
+    result := k * pow(x, a) * pow(1.0-x, b);
 end;
 
 Function Sinc(x,k:Single):Single;Inline;
@@ -1567,9 +1573,15 @@ End;
 
 {%endregion%}
 
-Initialization
+initialization
+ {$IFDEF USE_FASTMATH}
+  _InitSinLUT;
+ {$ENDIF}
 
-Finalization
+finalization
+ {$IFDEF USE_FASTMATH}
+ _DoneSinLUT;
+ {$ENDIF}
 
 
 End.
