@@ -31,3 +31,7 @@
 
 # Enable fast math over native pascal system and math units
 #-dUSE_FASTMATH
+
+# for trunk and testing of new vectorcall keyword by CuriousKit
+# only use for trunk later than r38206
+#-dUSE_VECTORCALL        
