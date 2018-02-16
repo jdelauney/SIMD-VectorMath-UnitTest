@@ -20,7 +20,7 @@
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="91"/>
+        <TopLine Value="73"/>
         <CursorPos X="11" Y="99"/>
         <UsageCount Value="24"/>
         <Loaded Value="True"/>
@@ -30,7 +30,7 @@
         <Filename Value="..\VectorClasses\GLZFastMath.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="167"/>
+        <TopLine Value="170"/>
         <CursorPos X="11" Y="129"/>
         <UsageCount Value="24"/>
         <Loaded Value="True"/>
@@ -58,8 +58,8 @@
         <Filename Value="..\VectorClasses\fastmath_native_imp.inc"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="184"/>
-        <CursorPos X="35" Y="202"/>
+        <TopLine Value="154"/>
+        <CursorPos X="23" Y="171"/>
         <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit5>

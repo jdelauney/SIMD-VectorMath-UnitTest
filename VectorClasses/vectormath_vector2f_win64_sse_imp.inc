@@ -82,7 +82,8 @@ end;
 class operator TGLZVector2f./(constref A: TGLZVector2f; constref B:TGLZVector2i): TGLZVector2f; assembler; nostackframe; register;
 asm
   movq   xmm0, [A]
-  movq   xmm1, [B]
+  //movq   xmm1, [B]
+  cvtpi2ps xmm1,[B]
   divps  xmm0, xmm1
   movq   RAX, {%H-}xmm0
 end;
