@@ -792,7 +792,6 @@ begin
    AssertEquals('CreateLookAtMatrix:Sub3 Z ',  -10, vt3.Z);
    AssertEquals('CreateLookAtMatrix:Sub4 W ',   1, vt3.W);  // vt1 was a point should get point back
    // try to test this assumption
-   // ergo should only need to set m34 value others should be 0 ???
    vt1.Create(2,2,10,1);  // eye is a point;  up will be y
    vt2.Create(2,2,0,1);  // eye -> center is a ray parallel -Z axis vector
    mtx1.CreateLookAtMatrix(vt1,vt2,YHmgVector); // create look at matrix

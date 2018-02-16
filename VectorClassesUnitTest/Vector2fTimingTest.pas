@@ -26,9 +26,11 @@ type
     procedure TimeSubSingle;
     procedure TimeMulSingle;
     procedure TimeDivSingle;
+    procedure TimeDiv2i;
     procedure TimeNegative;
     procedure TimeOpEqual;
     procedure TimeOpNotEqual;
+    procedure TimeAbs;
     procedure TimeMin;
     procedure TimeMax;
     procedure TimeMinSingle;
@@ -170,6 +172,23 @@ begin
   GlobalProfiler[1].Stop;
 end;
 
+procedure TVector2OperatorsTimingTest.TimeDiv2i;
+var
+  at2i: TGLZVector2i;
+begin
+  at2i.Create(2,2);
+  nt2i.V := at2i.V;
+  TestDispName := 'Vector2f Op Divide 2i';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin ntt3 := ntt1 / nt2i; end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  for cnt := 1 to Iterations do begin vtt3 := vtt1 / at2i; end;
+  GlobalProfiler[1].Stop;
+end;
+
 procedure TVector2OperatorsTimingTest.TimeNegative;
 begin
   TestDispName := 'Vector2f Op Negative';
@@ -206,6 +225,19 @@ begin
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;
   for cnt := 1 to Iterations do begin res := vtt1 <> vtt2; end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVector2OperatorsTimingTest.TimeAbs;
+begin
+  TestDispName := 'Vector2f Abs';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin ntt3 := ntt1.Abs; end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  for cnt := 1 to Iterations do begin vtt3 := vtt1.Abs; end;
   GlobalProfiler[1].Stop;
 end;
 

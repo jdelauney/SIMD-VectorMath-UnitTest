@@ -86,6 +86,12 @@ begin
   Result.Y := A.Y * d;
 end;
 
+class operator TNativeGLZVector2f./(constref A: TNativeGLZVector2f; constref B: TNativeGLZVector2i): TNativeGLZVector2f;
+begin
+  Result.X := A.X / B.X;
+  Result.Y := A.Y / B.Y;
+end;
+
 {%endregion%}
 
 {%region%----[ TNativeGLZVector2f Functions ]-----------------------------------}
@@ -178,16 +184,17 @@ end;
 class operator <=(constref A, B: TVector4f): Boolean;
 class operator >(constref A, B: TVector4f): Boolean;
 class operator <(constref A, B: TVector4f): Boolean; *)
+
 class operator TNativeGLZVector2f.<>(constref A, B: TNativeGLZVector2f): Boolean;
 begin
   result := ((A.X <> B.X) or (A.Y <> B.Y));
 end;
 
-(* function TGLZVector2f.Abs(const A: TVector2f): TVector2f;
+function TNativeGLZVector2f.Abs: TNativeGLZVector2f;
 begin
-  Result.X := System.Abs(A.X);
-  Result.Y := System.Abs(A.Y);
-end;  *)
+  Result.X := System.Abs(Self.X);
+  Result.Y := System.Abs(Self.Y);
+end;
 
 function TNativeGLZVector2f.DotProduct(A:TNativeGLZVector2f):Single;
 begin

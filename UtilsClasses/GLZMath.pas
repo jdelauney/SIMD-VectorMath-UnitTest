@@ -1546,7 +1546,7 @@ End;
 Procedure ScaleFloatArray(Var values: TSingleArray; factor: Single);
 Begin
   If System.Length(values) > 0 Then
-    ScaleFloatArray(@values[0], System.Length(values), factor);
+    ScaleFloatArray(@values[0], System.Length(values), factor{%H-});
 End;
 
 Procedure OffsetFloatArray(values: PSingleArray; nb: Integer; Var delta: Single);
@@ -1560,7 +1560,7 @@ End;
 Procedure OffsetFloatArray(Var values: Array Of Single; delta: Single);
 Begin
   If System.Length(values) > 0 Then
-    OffsetFloatArray(@values[0], System.Length(values), delta);
+    OffsetFloatArray(@values[0], System.Length(values), delta{%H-});
 End;
 
 Procedure OffsetFloatArray(valuesDest, valuesDelta: PSingleArray; nb: Integer);

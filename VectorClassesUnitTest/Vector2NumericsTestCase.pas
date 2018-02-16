@@ -31,6 +31,7 @@ type
     procedure TestMax;
     procedure TestMinSingle;
     procedure TestMaxSingle;
+    procedure TestAbs;
     procedure TestClamp;
     procedure TestClampSingle;
     procedure TestMulAdd;
@@ -94,6 +95,13 @@ begin
   ntt3 := ntt1.Max(fs1);
   vtt3 := vtt1.Max(fs1);
   AssertTrue('Vector2f MaxSingle does not match : '+ntt3.ToString+' --> '+vtt3.ToString, Compare(ntt3,vtt3));
+end;
+
+procedure TVector2NumericsTestCase.TestAbs;
+begin
+  ntt3 := ntt1.Abs;
+  vtt3 := vtt1.Abs;
+  AssertTrue('Vector2f Abs does not match : '+ntt3.ToString+' --> '+vtt3.ToString, Compare(ntt3,vtt3));
 end;
 
 procedure TVector2NumericsTestCase.TestClamp;

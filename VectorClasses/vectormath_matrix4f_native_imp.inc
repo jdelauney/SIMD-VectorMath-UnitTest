@@ -24,7 +24,8 @@ end;
 
 function TGLZMatrix4f.ToString : String;
 begin
-  Result :='|'+V[0].ToString+'|'+#13+#10
+  Result :=#13+#10
+          +'|'+V[0].ToString+'|'+#13+#10
           +'|'+V[1].ToString+'|'+#13+#10
           +'|'+V[2].ToString+'|'+#13+#10
           +'|'+V[3].ToString+'|'+#13+#10
@@ -187,7 +188,7 @@ begin
    //GLZMath.
    SinCos(angle, sine, cosine);
    one_minus_cosine:=1-cosine;
-   axis.Normalize;
+   axis := axis.Normalize;
 
    omcx := one_minus_cosine * axis.V[0];
    omcy := one_minus_cosine * axis.V[1];
@@ -532,7 +533,7 @@ procedure TGLZMatrix4f.AnglePreservingMatrixInvert(constref mat : TGLZMatrix4f);
 var
    ascale : Single;
 begin
-   ascale:=mat.V[0].Norm;   // pd this looks wrong in matrix the scale is the diagonal????
+   ascale:=mat.V[0].Norm;
 
    // Is the submatrix A singular?
    if Abs(ascale)<cEPSILON then

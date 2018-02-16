@@ -23,6 +23,7 @@ type
     procedure TestMulSingle;
     procedure TestDivVector;
     procedure TestDivSingle;
+    procedure TestDiv2i;
     procedure TestNegate;
     procedure TestEqualVector;
     procedure TestUnEqualVector;
@@ -97,6 +98,17 @@ begin
   ntt3 := ntt1 / fs1;
   vtt3 := vtt1 / fs1;
   AssertTrue('Vector / Single no match'+ntt3.ToString+' --> '+vtt3.ToString, Compare(ntt3,vtt3,1e-5));
+end;
+
+procedure TVector2OperatorsTestCase.TestDiv2i;
+var
+  at2i: TGLZVector2i;
+begin
+  at2i.Create(2,2);
+  nt2i.V := at2i.V;
+  ntt3 := ntt1 / nt2i;
+  vtt3 := vtt1 / at2i;
+  AssertTrue('Vector / 2i no match'+ntt3.ToString+' --> '+vtt3.ToString, Compare(ntt3,vtt3));
 end;
 
 procedure TVector2OperatorsTestCase.TestNegate;

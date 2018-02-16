@@ -254,14 +254,16 @@ end;
 
 function TGLZVector2f.Ceil : TGLZVector2i;
 begin
- result.X := GLZMath.Ceil(Self.X);
- result.Y := GLZMath.Ceil(Self.Y);
+  //result.X := GLZMath.Ceil(Self.X);
+  //result.Y := GLZMath.Ceil(Self.Y);
+  result.X := Math.Ceil(Self.X);
+  result.Y := Math.Ceil(Self.Y);
 end;
 
 function TGLZVector2f.Fract : TGLZVector2f;
 begin
- result.X := GLZMath.Fract(Self.X);
- result.Y := GLZMath.Fract(Self.Y);
+  result.X := GLZMath.Fract(Self.X);
+  result.Y := GLZMath.Fract(Self.Y);
 end;
 
 function TGLZVector2f.Sqrt : TGLZVector2f;

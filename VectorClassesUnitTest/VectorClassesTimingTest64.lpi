@@ -91,8 +91,7 @@
 -an
 -ar
 -dUSE_ASM_SSE_3
--dSSE3_CONFIG_1
--dTEST"/>
+-dSSE3_CONFIG_1"/>
           </Other>
         </CompilerOptions>
       </Item3>
@@ -469,7 +468,7 @@
         <PackageName Value="FCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="58">
+    <Units Count="59">
       <Unit0>
         <Filename Value="VectorClassesTimingTest64.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -702,6 +701,10 @@
         <Filename Value="Vector2fHelperFunctionalTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit57>
+      <Unit58>
+        <Filename Value="Vector2iFunctionalTest.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit58>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

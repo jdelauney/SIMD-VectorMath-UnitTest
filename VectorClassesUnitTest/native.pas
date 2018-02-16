@@ -39,6 +39,7 @@ type
     class operator -(constref A: TNativeGLZVector2f; constref B:Single): TNativeGLZVector2f; overload;
     class operator *(constref A: TNativeGLZVector2f; constref B:Single): TNativeGLZVector2f; overload;
     class operator /(constref A: TNativeGLZVector2f; constref B:Single): TNativeGLZVector2f; overload;
+    class operator /(constref A: TNativeGLZVector2f; constref B: TNativeGLZVector2i): TNativeGLZVector2f; overload;
 
     class operator -(constref A: TNativeGLZVector2f): TNativeGLZVector2f; overload;
 
@@ -53,6 +54,7 @@ type
     function Min(constref B: Single): TNativeGLZVector2f; overload;
     function Max(constref B: TNativeGLZVector2f): TNativeGLZVector2f; overload;
     function Max(constref B: Single): TNativeGLZVector2f; overload;
+    function Abs: TNativeGLZVector2f;
 
     function Clamp(constref AMin, AMax: TNativeGLZVector2f): TNativeGLZVector2f;overload;
     function Clamp(constref AMin, AMax: Single): TNativeGLZVector2f;overload;

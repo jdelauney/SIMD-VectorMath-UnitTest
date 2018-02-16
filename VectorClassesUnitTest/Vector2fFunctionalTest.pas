@@ -35,6 +35,7 @@ type
       procedure TestOpAddSingle;
       procedure TestOpSubSingle;
       procedure TestOpDivSingle;
+      procedure TestOpDiv2i;
       procedure TestOpMulSingle;
       procedure TestOpMul2i;
       procedure TestOpNegate;
@@ -56,6 +57,7 @@ type
       procedure TestDotProduct;
       procedure TestAngleBetween;
       procedure TestAngleCosine;
+      procedure TestAbs;
       procedure TestTrunc;
       procedure TestRound;
       procedure TestFloor;
@@ -160,6 +162,17 @@ begin
   vtt3 := vtt2 / 0.25;
   AssertEquals('OpDivSingle:Sub3 X failed ', 12.0, vtt3.X);
   AssertEquals('OpDivSingle:Sub4 Y failed ', 8.0, vtt3.Y);
+end;
+
+procedure TVector2fFunctionalTest.TestOpDiv2i;
+var
+ at2i1: TGLZVector2i;
+begin
+  vtt1.Create(1.0,2.0);
+  at2i1.Create(3,2);
+  vtt3 := vtt1 / at2i1;
+  AssertEquals('OpSub:Sub1 X failed ', 0.33333333333334, vtt3.X);
+  AssertEquals('OpSub:Sub2 Y failed ', 1.0, vtt3.Y);
 end;
 
 procedure TVector2fFunctionalTest.TestOpMulSingle;
@@ -579,6 +592,22 @@ begin
   vtt1.Create(1.0,-1.0);   // se
   fs1 := vtt2.AngleCosine(vtt1);
   AssertEquals('AngleCosine:Sub3 failed ',  1/sqrt(2), fs1);
+end;
+
+procedure TVector2fFunctionalTest.TestAbs;
+begin
+  vtt1.Create(-5.69999,6.99998);
+  vtt3 := vtt1.Abs;
+  AssertEquals('Abs:Sub1 X failed ', 5.69999, vtt3.X);
+  AssertEquals('Abs:Sub2 Y failed ', 6.99998, vtt3.Y);
+  vtt1.Create(5.69999,-6.99998);
+  vtt3 := vtt1.Abs;
+  AssertEquals('Abs:Sub3 X failed ', 5.69999, vtt3.X);
+  AssertEquals('Abs:Sub4 Y failed ', 6.99998, vtt3.Y);
+  vtt1.Create(-5.69999,-6.99998);
+  vtt3 := vtt1.Abs;
+  AssertEquals('Abs:Sub5 X failed ', 5.69999, vtt3.X);
+  AssertEquals('Abs:Sub6 Y failed ', 6.99998, vtt3.Y);
 end;
 
 procedure TVector2fFunctionalTest.TestTrunc;

@@ -69,6 +69,14 @@ asm
 end;
 
 
+class operator TGLZVector2f./(constref A: TGLZVector2f; constref B: TGLZVector2i): TGLZVector2f;  assembler; nostackframe; register;
+asm
+  movq     xmm0, [A]
+  cvtpi2ps xmm1, [B]
+  divps    xmm0, xmm1
+end;
+
+
 {%endregion%}
 
 {%region%----[ Functions ]--------------------------------------------------------}
@@ -205,6 +213,12 @@ asm
   ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
   pop      rax                               // free used stack
   movq     rax,  xmm0
+end;
+
+function TGLZVector2f.Abs:TGLZvector2f;assembler; nostackframe; register;
+asm
+  movq     xmm0, [RDI]
+  andps    xmm0, XMMWORD PTR [RIP+cSSE_MASK_ABS]
 end;
 
 function TGLZVector2f.Round: TGLZVector2i;assembler; nostackframe; register;
