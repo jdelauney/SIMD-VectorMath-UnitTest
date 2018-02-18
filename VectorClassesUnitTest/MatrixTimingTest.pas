@@ -19,6 +19,8 @@ type
     {$CODEALIGN RECORDMIN=16}
     nmtx1,nmtx2, nmtx3 : TNativeGLZMatrix4f;
     mtx1, mtx2, mtx3  : TGLZMatrix4f;
+    apl1 : TGLZHmgPlane;
+    npl1 : TNativeGLZHmgPlane;
     {$CODEALIGN RECORDMIN=4}
   published
     procedure TestAddMatrix;
@@ -38,6 +40,14 @@ type
     procedure TestTranslate;
     procedure TestInvert;
     procedure TestCreateLookAtMatrix;
+    procedure TestCreateRotationMatrixXAngle;
+    procedure TestCreateRotationMatrixXSinCos;
+    procedure TestCreateRotationMatrixYAngle;
+    procedure TestCreateRotationMatrixYSinCos;
+    procedure TestCreateRotationMatrixZAngle;
+    procedure TestCreateRotationMatrixZSinCos;
+    procedure TestCreateRotationMatrixAxisAngle;
+    procedure TestCreateParallelProjectionMatrix;
   end;
 
 implementation
@@ -278,6 +288,114 @@ begin
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;
   For cnt:= 1 to IterationsQuarter do begin mtx3.CreateLookAtMatrix(vt1,NullHmgPoint,YHmgVector);   end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TMatrixTimingTest.TestCreateRotationMatrixXAngle;
+begin
+  TestDispName := 'Matrix CreateRotationMatrixXAngle;';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to IterationsQuarter do begin nmtx3.CreateRotationMatrixX(pi/2);  end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  For cnt:= 1 to IterationsQuarter do begin mtx3.CreateRotationMatrixX(pi/2);  end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TMatrixTimingTest.TestCreateRotationMatrixXSinCos;
+begin
+  TestDispName := 'Matrix CreateRotationMatrixXSinCos';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to IterationsQuarter do begin nmtx3.CreateRotationMatrixX(1,0);  end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  For cnt:= 1 to IterationsQuarter do begin mtx3.CreateRotationMatrixX(1,0);  end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TMatrixTimingTest.TestCreateRotationMatrixYAngle;
+begin
+  TestDispName := 'Matrix CreateRotationMatrixYAngle;';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to IterationsQuarter do begin nmtx3.CreateRotationMatrixY(pi/2);  end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  For cnt:= 1 to IterationsQuarter do begin mtx3.CreateRotationMatrixY(pi/2);  end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TMatrixTimingTest.TestCreateRotationMatrixYSinCos;
+begin
+  TestDispName := 'Matrix CreateRotationMatrixYSinCos';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to IterationsQuarter do begin nmtx3.CreateRotationMatrixY(1,0);  end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  For cnt:= 1 to IterationsQuarter do begin mtx3.CreateRotationMatrixY(1,0);  end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TMatrixTimingTest.TestCreateRotationMatrixZAngle;
+begin
+  TestDispName := 'Matrix CreateRotationMatrixZAngle;';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to IterationsQuarter do begin nmtx3.CreateRotationMatrixZ(pi/2);  end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  For cnt:= 1 to IterationsQuarter do begin mtx3.CreateRotationMatrixZ(pi/2);  end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TMatrixTimingTest.TestCreateRotationMatrixZSinCos;
+begin
+  TestDispName := 'Matrix CreateRotationMatrixZSinCos';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to IterationsQuarter do begin nmtx3.CreateRotationMatrixZ(1,0);  end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  For cnt:= 1 to IterationsQuarter do begin mtx3.CreateRotationMatrixZ(1,0);  end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TMatrixTimingTest.TestCreateRotationMatrixAxisAngle;
+begin
+  TestDispName := 'Matrix CreateRotationMatrixAxisAngle';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to IterationsQuarter do begin nmtx3.CreateRotationMatrix(NativeZVector,pi/2);  end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  For cnt:= 1 to IterationsQuarter do begin mtx3.CreateRotationMatrix(ZVector,pi/2);  end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TMatrixTimingTest.TestCreateParallelProjectionMatrix;
+begin
+  nt1.Create(1,1,0,1);
+  vt1.Create(1,1,0,1);
+  apl1.Create(vt1, ZHmgVector); // create a xy plane at 0
+  npl1.Create(nt1, NativeZHmgVector); // create a xy plane at 0
+  TestDispName := 'Matrix CreateParallelProjectionMatrix';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to IterationsQuarter do begin nmtx3.CreateParallelProjectionMatrix(npl1, nt1);  end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  For cnt:= 1 to IterationsQuarter do begin mtx3.CreateParallelProjectionMatrix(apl1, vt1);  end;
   GlobalProfiler[1].Stop;
 end;
 

@@ -28,6 +28,7 @@ type
       procedure TestFaceForward;
       procedure TestSaturate;
       procedure TestSmoothStep;
+      procedure TestReflect;
       //procedure Test;
 
   end;
@@ -594,6 +595,11 @@ begin
    AssertEquals('TestSmoothStep:Sub14 Y failed ',   0.84375, vt4.Y,1e-4);
    AssertEquals('TestSmoothStep:Sub15 Z failed ',   0.0    , vt4.Z,1e-4);
    AssertEquals('TestSmoothStep:Sub16 W failed ',   0.84375, vt4.W,1e-4);
+end;
+
+procedure TVector4fHelperFunctionalTest.TestReflect;
+begin
+
 end;
 
 initialization

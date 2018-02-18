@@ -20,6 +20,8 @@ type
     {$CODEALIGN RECORDMIN=16}
     nmtx1,nmtx2, nmtx3 : TNativeGLZMatrix4f;
     mtx1, mtx2, mtx3  : TGLZMatrix4f;
+    apl1 : TGLZHmgPlane;
+    npl1 : TNativeGLZHmgPlane;
     {$CODEALIGN RECORDMIN=4}
   published
     procedure TestAddMatrix;
@@ -38,6 +40,15 @@ type
     procedure TestTranslate;
     procedure TestInvert;
     procedure TestCreateLookAtMatrix;
+    procedure TestCreateRotationMatrixXAngle;
+    procedure TestCreateRotationMatrixXSinCos;
+    procedure TestCreateRotationMatrixYAngle;
+    procedure TestCreateRotationMatrixYSinCos;
+    procedure TestCreateRotationMatrixZAngle;
+    procedure TestCreateRotationMatrixZSinCos;
+    procedure TestCreateRotationMatrixAxisAngle;
+    procedure TestCreateParallelProjectionMatrix;
+
   end;
 
 implementation
@@ -174,6 +185,66 @@ begin
   nmtx3.CreateLookAtMatrix(nt1,NativeNullHmgPoint,NativeYHmgVector); // create look at matrix
   mtx3.CreateLookAtMatrix(vt1,NullHmgPoint,YHmgVector); // create look at matrix
   AssertTrue('Matrix CreateLookAtMatrix no match'+#13+#10+nmtx3.ToString+#13+#10+' --> '+#13+#10+mtx3.ToString, CompareMatrix(nmtx3,mtx3));
+end;
+
+procedure TMatrix4TestCase.TestCreateRotationMatrixXAngle;
+begin
+  mtx3.CreateRotationMatrixX(pi/2);
+  nmtx3.CreateRotationMatrixX(pi/2);
+  AssertTrue('Matrix CreateRotationMatrixXAngle no match'+#13+#10+nmtx3.ToString+#13+#10+' --> '+#13+#10+mtx3.ToString, CompareMatrix(nmtx3,mtx3));
+end;
+
+procedure TMatrix4TestCase.TestCreateRotationMatrixXSinCos;
+begin
+  mtx3.CreateRotationMatrixX(1,0);
+  nmtx3.CreateRotationMatrixX(1,0);
+  AssertTrue('Matrix CreateRotationMatrixXSinCos no match'+#13+#10+nmtx3.ToString+#13+#10+' --> '+#13+#10+mtx3.ToString, CompareMatrix(nmtx3,mtx3));
+end;
+
+procedure TMatrix4TestCase.TestCreateRotationMatrixYAngle;
+begin
+  mtx3.CreateRotationMatrixY(pi/2);
+  nmtx3.CreateRotationMatrixY(pi/2);
+  AssertTrue('Matrix CreateRotationMatrixYAngle no match'+#13+#10+nmtx3.ToString+#13+#10+' --> '+#13+#10+mtx3.ToString, CompareMatrix(nmtx3,mtx3));
+end;
+
+procedure TMatrix4TestCase.TestCreateRotationMatrixYSinCos;
+begin
+  mtx3.CreateRotationMatrixY(1,0);
+  nmtx3.CreateRotationMatrixY(1,0);
+  AssertTrue('Matrix CreateRotationMatrixYSinCos no match'+#13+#10+nmtx3.ToString+#13+#10+' --> '+#13+#10+mtx3.ToString, CompareMatrix(nmtx3,mtx3));
+end;
+
+procedure TMatrix4TestCase.TestCreateRotationMatrixZAngle;
+begin
+  mtx3.CreateRotationMatrixZ(pi/2);
+  nmtx3.CreateRotationMatrixZ(pi/2);
+  AssertTrue('Matrix CreateRotationMatrixZAngle no match'+#13+#10+nmtx3.ToString+#13+#10+' --> '+#13+#10+mtx3.ToString, CompareMatrix(nmtx3,mtx3));
+end;
+
+procedure TMatrix4TestCase.TestCreateRotationMatrixZSinCos;
+begin
+  mtx3.CreateRotationMatrixZ(1,0);
+  nmtx3.CreateRotationMatrixZ(1,0);
+  AssertTrue('Matrix CreateRotationMatrixZSinCos no match'+#13+#10+nmtx3.ToString+#13+#10+' --> '+#13+#10+mtx3.ToString, CompareMatrix(nmtx3,mtx3));
+end;
+
+procedure TMatrix4TestCase.TestCreateRotationMatrixAxisAngle;
+begin
+  mtx1.CreateRotationMatrix(ZVector,pi/2);
+  nmtx1.CreateRotationMatrix(NativeZVector,pi/2);
+  AssertTrue('Matrix CreateRotationMatrixAxisAngle no match'+#13+#10+nmtx3.ToString+#13+#10+' --> '+#13+#10+mtx3.ToString, CompareMatrix(nmtx3,mtx3));
+end;
+
+procedure TMatrix4TestCase.TestCreateParallelProjectionMatrix;
+begin
+  nt1.Create(1,1,0,1);
+  vt1.Create(1,1,0,1);
+  apl1.Create(vt1, ZHmgVector); // create a xy plane at 0
+  npl1.Create(nt1, NativeZHmgVector); // create a xy plane at 0
+  mtx1.CreateParallelProjectionMatrix(apl1, vt1);
+  nmtx1.CreateParallelProjectionMatrix(npl1, nt1);
+  AssertTrue('Matrix CreateParallelProjectionMatrix no match'+#13+#10+nmtx3.ToString+#13+#10+' --> '+#13+#10+mtx3.ToString, CompareMatrix(nmtx3,mtx3));
 end;
 
 {%endregion%}

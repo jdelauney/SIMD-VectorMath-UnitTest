@@ -33,6 +33,7 @@ type
     procedure TimeOpNegate;
     procedure TimeEquals;
     procedure TimeNotEquals;
+    procedure TimeMod;
     procedure TimeMin;
     procedure TimeMax;
     procedure TimeMinInteger;
@@ -232,6 +233,19 @@ begin
   GlobalProfiler[1].Clear;
   GlobalProfiler[1].Start;
   for cnt := 1 to Iterations do begin nb := at2i1 <> at2i1; end;
+  GlobalProfiler[1].Stop;
+end;
+
+procedure TVector2iTimingTest.TimeMod;
+begin
+  TestDispName := 'Vector2i Mod';
+  GlobalProfiler[0].Clear;
+  GlobalProfiler[0].Start;
+  for cnt := 1 to Iterations do begin nt2i3 := nt2i1 mod nt2i2; end;
+  GlobalProfiler[0].Stop;
+  GlobalProfiler[1].Clear;
+  GlobalProfiler[1].Start;
+  for cnt := 1 to Iterations do begin at2i3 := at2i1 mod at2i2; end;
   GlobalProfiler[1].Stop;
 end;
 

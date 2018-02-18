@@ -33,6 +33,7 @@ type
       procedure TestOpNegate;
       procedure TestEquals;
       procedure TestNotEquals;
+      procedure TestMod;
       procedure TestMin;
       procedure TestMax;
       procedure TestMinInteger;
@@ -266,6 +267,18 @@ begin
   at2i2.Create(12,2);
   nb := at2i1 <> at2i2;
   AssertEquals('NotEquals:Sub4 does not match ', True, nb);
+end;
+
+procedure TVector2iFunctionalTest.TestMod;
+begin
+  at2i1.Create(2,3);
+  at2i2.Create(3,7);
+  at2i3 := at2i2 mod at2i1;
+  AssertEquals('Min:Sub1 failed ', 1, at2i3.X);
+  AssertEquals('Min:Sub2 failed ', 1, at2i3.Y);
+  at2i3 := at2i1 mod at2i2;
+  AssertEquals('Min:Sub3 failed ', 2, at2i3.X);
+  AssertEquals('Min:Sub4 failed ', 3, at2i3.Y);
 end;
 
 procedure TVector2iFunctionalTest.TestMin;

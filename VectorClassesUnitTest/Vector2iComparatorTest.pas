@@ -33,6 +33,7 @@ type
       procedure TestOpNegate;
       procedure TestEquals;
       procedure TestNotEquals;
+      procedure TestMod;
       procedure TestMin;
       procedure TestMax;
       procedure TestMinInteger;
@@ -172,6 +173,13 @@ begin
   nb := nt2i1 <> nt2i2;
   ab := at2i1 <> at2i2;
   AssertTrue('Vector2i <> does not match '+nb.ToString+' --> '+ab.ToString, (nb = ab));
+end;
+
+procedure TVector2iComparatorTest.TestMod;
+begin
+  nt2i3 := nt2i1 mod nt2i2;
+  at2i3 := at2i1 mod at2i2;
+  AssertTrue('Vector2i: Mod does not match'+nt2i3.ToString+' --> '+at2i3.ToString, Compare(nt2i3,at2i3));
 end;
 
 procedure TVector2iComparatorTest.TestMin;
