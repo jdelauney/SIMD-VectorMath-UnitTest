@@ -45,6 +45,8 @@ uses
   BSphereComparatorTest,
   AABBComparatorTest,
 {$ifndef NO_TIMING_TEST}
+  // Vector2i Timing Test Case
+  Vector2iTimingTest,
   // Vector2f Timing Test Case
   Vector2fTimingTest,
   // Vector3b Timing Test Case

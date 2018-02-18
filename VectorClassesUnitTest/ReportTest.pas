@@ -74,6 +74,7 @@ end;
 
 initialization
 RegisterTest(REPORT_GROUP_VECTOR2F, TFileWriteTest );
+RegisterTest(REPORT_GROUP_VECTOR2I, TFileWriteTest );
 RegisterTest(REPORT_GROUP_VECTOR3B, TFileWriteTest );
 RegisterTest(REPORT_GROUP_VECTOR4B, TFileWriteTest );
 RegisterTest(REPORT_GROUP_VECTOR4F, TFileWriteTest );
