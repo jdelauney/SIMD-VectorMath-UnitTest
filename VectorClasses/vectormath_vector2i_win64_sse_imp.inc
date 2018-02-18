@@ -260,7 +260,7 @@ asm
   pand      xmm2, [RIP+cSSE_MASK_ONE]  // mask off one where negative
   pxor      xmm0, xmm1     // flip bit if negative
   paddd     xmm0, xmm2     // +1 if negative
-  movq   [RESULT], xmm0
+  movq      RAX, xmm0
 end;
 
 {%endregion%}
