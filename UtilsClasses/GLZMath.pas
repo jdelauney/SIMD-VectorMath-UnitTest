@@ -39,9 +39,9 @@ Historique : @br
  *==============================================================================*)
 Unit GLZMath;
 
-//{$i ../../glzscene_options.inc}
+{.$i glzscene_options.inc}
 
-{.$ASMMODE INTEL}
+{$ASMMODE INTEL}
 
 {.$DEFINE USE_FASTMATH}
 

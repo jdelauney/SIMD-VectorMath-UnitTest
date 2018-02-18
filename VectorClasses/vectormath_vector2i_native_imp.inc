@@ -48,13 +48,14 @@ end;
 
 function TGLZVector2i.AngleBetween(Constref A, ACenterPoint : TGLZVector2i): Single;
 Var
-  vt1,vt2  :  TGLZVector2i;
+  vt1,vt2: TGLZVector2i;
+  vf1,vf2: TGLZVector2f;
 begin
   vt1 := Self - ACenterPoint;
   vt2 := A - ACenterPoint;
-  vt1 := vt1.Normalize;
-  vt2 := vt2.Normalize;
-  Result := ArcCos(vt1.AngleCosine(vt2));
+  vf1 := vt1.Normalize;
+  vf2 := vt2.Normalize;
+  Result := ArcCos(vf1.AngleCosine(vf2));
 end;
 
 {%endregion}
@@ -81,10 +82,22 @@ begin
   Result.Y := A.Y + B.Y;
 end;
 
+class operator TGLZVector2i.+(constref A: TGLZVector2i; constref B:Integer): TGLZVector2i;
+begin
+  Result.X := A.X + B;
+  Result.Y := A.Y + B;
+end;
+
 class operator TGLZVector2i.-(constref A, B: TGLZVector2i): TGLZVector2i;
 begin
   Result.X := A.X - B.X;
   Result.Y := A.Y - B.Y;
+end;
+
+class operator TGLZVector2i.-(constref A: TGLZVector2i; constref B:Integer): TGLZVector2i;
+begin
+  Result.X := A.X - B;
+  Result.Y := A.Y - B;
 end;
 
 class operator TGLZVector2i.*(constref A, B: TGLZVector2i): TGLZVector2i;
@@ -224,10 +237,7 @@ begin
    Result := t.LengthSquare;
 end;
 
-function TGLZVector2i.Normalize : TGLZVector2i;
-begin
- Result := Self * (1/Self.Length);
-end;
+
 
 function TGLZVector2i.Abs: TGLZVector2i;
 begin
@@ -236,8 +246,15 @@ begin
 end;
 
 
+{%endregion%}
 
+{%region%----[ 2i Helper ]------------------------------------------------------}
 
+function TGLZVector2iHelper.Normalize : TGLZVector2f;
+begin
+  Result.Create(Self.X,Self.Y);
+  Result := Result.Normalize;
+end;
 {%endregion%}
 
 {%endregion%}

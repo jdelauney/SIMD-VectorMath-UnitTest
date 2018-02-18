@@ -17,6 +17,7 @@ type
   //  protected
      // procedure Setup; override;
     public
+     Ir1, Ir2: integer;
      Fs1,Fs2 : Single;
      nb, vb, ab: boolean;
   end;

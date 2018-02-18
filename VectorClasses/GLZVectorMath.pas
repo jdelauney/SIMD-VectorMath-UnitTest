@@ -37,10 +37,11 @@ Historique : @br
 *==============================================================================*)
 Unit GLZVectorMath;
 
-//{$mode objfpc}{$H+}
+{$mode objfpc}{$H+}
+
 //-----------------------------
-{.$ASMMODE INTEL}
-{.$INLINE ON}
+{$ASMMODE INTEL}
+{$INLINE ON}
 {$MODESWITCH ADVANCEDRECORDS}
 //-----------------------------
 
@@ -174,12 +175,12 @@ type
      { Divide 2 TGLZVector2i }
     class operator Div(constref A: TGLZVector2i; Constref B:Integer): TGLZVector2i; overload;
 
-    { Add one float to one TGLZVector2i }
-    //class operator +(constref A: TGLZVector2i; constref B:Integer): TGLZVector2i; overload;
+    { Add one integer to one TGLZVector2i }
+    class operator +(constref A: TGLZVector2i; constref B:Integer): TGLZVector2i; overload;
     { Add one float to one TGLZVector2i }
     class operator +(constref A: TGLZVector2i; constref B:Single): TGLZVector2i; overload;
     { Sub one float to one TGLZVector2i }
-    //class operator -(constref A: TGLZVector2i; constref B:Integer): TGLZVector2i; overload;
+    class operator -(constref A: TGLZVector2i; constref B:Integer): TGLZVector2i; overload;
     { Sub one float to one TGLZVector2i }
     class operator -(constref A: TGLZVector2i; constref B:Single): TGLZVector2i; overload;
     { Mul one Integer to one TGLZVector2i }
@@ -233,8 +234,6 @@ type
     function Distance(constref A:TGLZVector2i):Single;
     { Return Self distance squared }
     function DistanceSquare(constref A:TGLZVector2i):Single;
-    { Return self normalized TGLZVector2i }
-    function Normalize : TGLZVector2i;
     { Return the dot product of self and an another TGLZVector2i}
     function DotProduct(A:TGLZVector2i):Single;
     { Return angle between Self and an another TGLZVector2i, relative to a TGLZVector2i as a Center Point }
@@ -1300,6 +1299,16 @@ type
 
 {%endregion%}
 
+{%region%----[ TGLZVector2iHelper ]-----------------------------------------------}
+
+   TGLZVector2iHelper = record helper for TGLZVector2i
+   public
+     { Return self normalized TGLZVector2i }
+     function Normalize : TGLZVector2f;
+   end;
+
+{%endregion%}
+
 {%region%----[ TGLZVectorHelper ]-----------------------------------------------}
 
   TGLZVector2fHelper = record helper for TGLZVector2D
@@ -1522,6 +1531,8 @@ Const
   NullVector2f   : TGLZVector2f = (x:0;y:0);
   OneVector2f   : TGLZVector2f = (x:1;y:1);
 
+  NullVector2i   : TGLZVector2i = (x:0;y:0);
+  OneVector2i   : TGLZVector2i = (x:1;y:1);
 
   // standard affine vectors
   XVector :    TGLZAffineVector = (X:1; Y:0; Z:0);
@@ -1695,7 +1706,8 @@ Uses Math, GLZMath, GLZUtils;
 {%region%----[ Internal Types and Const ]---------------------------------------}
 
 Const
-
+  {$WARN 5025 on : Local variable "$1" not used}
+  {$WARN 5028 on : Local const "$1" not used}
      { SSE rounding modes (bits in MXCSR register) }
 //  cSSE_ROUND_MASK         : DWord = $FFFF9FFF;
   cSSE_ROUND_MASK         : DWord = $00009FFF;   // never risk a stray bit being set in MXCSR reserved
@@ -1756,7 +1768,8 @@ const
   CBBPlans: TPlanBB = ((0, 1, 2, 3), (4, 5, 6, 7), (0, 4, 7, 3), (1, 5, 6, 2),
     (0, 1, 5, 4), (2, 3, 7, 6));
   CDirPlan: TDirPlan = (0, 0, 1, 1, 2, 2);
-
+  {$WARN 5025 off : Local variable "$1" not used}
+  {$WARN 5028 off : Local const "$1" not used}
 // ---- Used by ASM Round & Trunc functions ------------------------------------
 var
   _bakMXCSR, _tmpMXCSR : DWord;
@@ -1787,7 +1800,7 @@ Var
     {$ifdef UNIX}
       {$IFDEF USE_ASM_AVX}
          {$I vectormath_vector2i_native_imp.inc}
-         {$I vectormath_vector2i_unix64_avx_imp.inc}
+         {.$I vectormath_vector2i_unix64_avx_imp.inc}
 
          {$I vectormath_vector2f_native_imp.inc}
          {$I vectormath_vector2f_unix64_avx_imp.inc}

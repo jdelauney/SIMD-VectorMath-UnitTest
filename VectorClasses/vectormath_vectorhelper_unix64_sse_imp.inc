@@ -245,4 +245,7 @@ asm
   movhlps xmm1, xmm0
 end;
 
-
+function TGLZVectorHelper.Reflect(ConstRef N: TGLZVector4f): TGLZVector4f; assembler; register; nostackframe;
+asm
+  ///TODO
+end;
