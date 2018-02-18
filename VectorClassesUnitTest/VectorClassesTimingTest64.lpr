@@ -14,6 +14,7 @@ uses
   Vector2NumericsTestCase,
   // Vector2i Test Case
   Vector2iFunctionalTest,
+  Vector2iComparatorTest,
   // Vector3b Test Case
   Vector3bFunctionalTest,
   Vector3bComparatorTest,

@@ -208,7 +208,7 @@ asm
   cvtdq2ps xmm2, xmm2
   Mulps    xmm0, xmm1
   Divps    xmm0, xmm2
-  cvtps2dq xmm0, xmm0
+  {$i macro_sse_win64_trunc_xmm0-xmm0.inc}
   movq     RAX, {%H-}xmm0
 end;
 

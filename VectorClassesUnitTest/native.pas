@@ -16,11 +16,75 @@ uses
 type
 {%region%----[ TNativeGLZVector2i ]---------------------------------------------}
   TNativeGLZVector2i = record
-    { Return vector as string }
-    function ToString : String;
+  { Return vector as string }
+  procedure Create(aX, aY:Integer); overload;
+
+  function ToString : String;
+
+  { Add 2 TGLZVector2i }
+  class operator +(constref A, B: TNativeGLZVector2i): TNativeGLZVector2i; overload;
+  { Sub 2 TGLZVector2i }
+  class operator -(constref A, B: TNativeGLZVector2i): TNativeGLZVector2i; overload;
+  { Multiply 2 TGLZVector2i }
+  class operator *(constref A, B: TNativeGLZVector2i): TNativeGLZVector2i; overload;
+   { Multiply 1 TGLZVector2i and 1 1 TGLZVector2i}
+  //class operator *(constref A:TGLZVector2i; Constref B: TGLZVector2f): TGLZVector2i; overload;
+  { Divide 2 TGLZVector2i }
+  class operator Div(constref A, B: TNativeGLZVector2i): TNativeGLZVector2i; overload;
+   { Divide 2 TGLZVector2i }
+  class operator Div(constref A: TNativeGLZVector2i; Constref B:Integer): TNativeGLZVector2i; overload;
+
+  class operator +(constref A: TNativeGLZVector2i; constref B:Integer): TNativeGLZVector2i; overload;
+  class operator +(constref A: TNativeGLZVector2i; constref B:Single): TNativeGLZVector2i; overload;
+  class operator -(constref A: TNativeGLZVector2i; constref B:Integer): TNativeGLZVector2i; overload;
+  class operator -(constref A: TNativeGLZVector2i; constref B:Single): TNativeGLZVector2i; overload;
+  //class operator *(constref A: TNativeGLZVector2i; constref B:Integer): TNativeGLZVector2i; overload;
+  class operator *(constref A: TNativeGLZVector2i; constref B:Single): TNativeGLZVector2i; overload;
+  class operator /(constref A: TNativeGLZVector2i; constref B:Single): TNativeGLZVector2i; overload;
+
+  class operator -(constref A: TNativeGLZVector2i): TNativeGLZVector2i; overload;
+
+  class operator =(constref A, B: TNativeGLZVector2i): Boolean;
+
+  class operator mod(constref A, B : TNativeGLZVector2i): TNativeGLZVector2i;
+
+  { TODO -oGLZVectorMath -cTNativeGLZVector2i : Add comparator operators <=,<=,>,< }
+  (*
+  class operator >=(constref A, B: TNativeGLZVector2i): Boolean;
+  class operator <=(constref A, B: TNativeGLZVector2i): Boolean;
+  class operator >(constref A, B: TNativeGLZVector2i): Boolean;
+  class operator <(constref A, B: TNativeGLZVector2i): Boolean;
+  *)
+
+  class operator <>(constref A, B: TNativeGLZVector2i): Boolean;
+
+  function Min(constref B: TNativeGLZVector2i): TNativeGLZVector2i; overload;
+  function Min(constref B: Integer): TNativeGLZVector2i; overload;
+  function Max(constref B: TNativeGLZVector2i): TNativeGLZVector2i; overload;
+  function Max(constref B: Integer): TNativeGLZVector2i; overload;
+
+  function Clamp(constref AMin, AMax: TNativeGLZVector2i): TNativeGLZVector2i;overload;
+  function Clamp(constref AMin, AMax: Integer): TNativeGLZVector2i;overload;
+  function MulAdd(constref A,B:TNativeGLZVector2i): TNativeGLZVector2i;
+  function MulDiv(constref A,B:TNativeGLZVector2i): TNativeGLZVector2i;
+  function Length:Single;
+  function LengthSquare:Single;
+  function Distance(constref A:TNativeGLZVector2i):Single;
+  function DistanceSquare(constref A:TNativeGLZVector2i):Single;
+  function DotProduct(A:TNativeGLZVector2i):Single;
+  function AngleBetween(Constref A, ACenterPoint : TNativeGLZVector2i): Single;
+  function AngleCosine(constref A: TNativeGLZVector2i): Single;
+
+  // function Reflect(I, NRef : TNativeGLZVector2i):TNativeGLZVector2i
+
+//   function Edge(ConstRef A, B : TNativeGLZVector2i):Single; // @TODO : a passer dans TGLZVector2iHelper ???
+
+  function Abs:TNativeGLZVector2i;overload;
+
   case Byte of
     0: (V: TGLZVector2iType);
     1: (X, Y : Integer);
+    2: (Width, Height : Integer);
   end;
 {%endregion%}
 
@@ -742,6 +806,16 @@ type
     Case Integer of
       0 : (Min, Max : TNativeGLZVector);
   end;
+
+{%endregion%}
+
+{%region%----[ TNativeGLZVector2iHelper ]---------------------------------------}
+
+   TNativeGLZVector2iHelper = record helper for TNativeGLZVector2i
+   public
+     { Return self normalized TGLZVector2i }
+     function Normalize : TNativeGLZVector2f;
+   end;
 
 {%endregion%}
 

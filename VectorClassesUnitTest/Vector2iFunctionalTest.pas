@@ -6,7 +6,7 @@ unit Vector2iFunctionalTest;
 interface
 
 uses
-  Classes, SysUtils, math, fpcunit, testregistry, BaseTestCase,
+  Classes, SysUtils, fpcunit, testregistry, BaseTestCase,
   GLZVectorMath;
 
 type
