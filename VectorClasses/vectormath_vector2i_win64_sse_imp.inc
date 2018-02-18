@@ -52,8 +52,25 @@ asm
   paddd xmm0, xmm1
   movq   RAX, {%H-}xmm0
 end;
+          class operator TGLZVector2i.+(constref A: TGLZVector2i; constref B:Integer): TGLZVector2i; assembler; nostackframe; register;
+asm
+  movq   xmm0, [A]
+  movq   xmm1, [B]
+  pshufd xmm1, xmm1, $00
+  paddd xmm0, xmm1
+  movq   RAX, {%H-}xmm0
+end;
 
 class operator TGLZVector2i.-(constref A: TGLZVector2i; constref B:Single): TGLZVector2i; assembler; nostackframe; register;
+asm
+  movq   xmm0, [A]
+  movq   xmm1, [B]
+  pshufd xmm1, xmm1, $00
+  psubd  xmm0, xmm1
+  movq   RAX, {%H-}xmm0
+end;
+
+class operator TGLZVector2i.-(constref A: TGLZVector2i; constref B:Integer): TGLZVector2i; assembler; nostackframe; register;
 asm
   movq   xmm0, [A]
   movq   xmm1, [B]
@@ -218,7 +235,7 @@ asm
   addps    xmm0, xmm1
 end;
 
-function TGLZVector2i.Normalize: TGLZVector2i;assembler; nostackframe; register;
+function TGLZVector2iHelper.Normalize: TGLZVector2f;assembler; nostackframe; register;
 asm
   movq   xmm2, [RCX]    // Y X
   movaps xmm0, xmm2

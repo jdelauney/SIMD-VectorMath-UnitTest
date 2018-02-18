@@ -33,7 +33,6 @@ type
       procedure TestOpNegate;
       procedure TestEquals;
       procedure TestNotEquals;
-      procedure TestMod;
       procedure TestMin;
       procedure TestMax;
       procedure TestMinInteger;
