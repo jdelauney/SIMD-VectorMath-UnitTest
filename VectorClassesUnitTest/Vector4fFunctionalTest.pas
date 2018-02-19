@@ -74,6 +74,27 @@ type
       procedure TestCombine3;
       procedure TestRound;
       procedure TestTrunc;
+      procedure TestPropertyXY;
+      procedure TestPropertyYX;
+      procedure TestPropertyXZ;
+      procedure TestPropertyZX;
+      procedure TestPropertyYZ;
+      procedure TestPropertyZY;
+      procedure TestPropertyXX;
+      procedure TestPropertyYY;
+      procedure TestPropertyZZ;
+      procedure TestPropertyXYZ;
+      procedure TestPropertyXZY;
+      procedure TestPropertyYXZ;
+      procedure TestPropertyYZX;
+      procedure TestPropertyZXY;
+      procedure TestPropertyZYX;
+      procedure TestPropertyXXX;
+      procedure TestPropertyYYY;
+      procedure TestPropertyZZZ;
+      procedure TestPropertyYYX;
+      procedure TestPropertyXYY;
+      procedure TestPropertyYXY;
   end;
 
 implementation
@@ -1216,6 +1237,167 @@ begin
   AssertEquals('Trunc:Sub10 Y failed ', 2, a4it4.Y);
   AssertEquals('Trunc:Sub11 Z failed ', 3, a4it4.Z);
   AssertEquals('Trunc:Sub12 W failed ', 4, a4it4.W);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyXY;
+begin
+  vtt1 := vt1.xy;
+  AssertEquals('PropertyXY:Sub1 X failed ',   5.850, vtt1.X);
+  AssertEquals('PropertyXY:Sub2 Y failed ', -15.480, vtt1.Y);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyYX;
+begin
+  vtt1 := vt1.yx;
+  AssertEquals('PropertyYX:Sub1 X failed ', -15.480, vtt1.X);
+  AssertEquals('PropertyYX:Sub2 Y failed ',   5.850, vtt1.Y);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyXZ;
+begin
+  vtt1 := vt1.xz;
+  AssertEquals('PropertyXZ:Sub1 X failed ', 5.850, vtt1.X);
+  AssertEquals('PropertyXZ:Sub2 Y failed ', 8.512, vtt1.Y);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyZX;
+begin
+  vtt1 := vt1.zx;
+  AssertEquals('PropertyZX:Sub1 X failed ', 8.512, vtt1.X);
+  AssertEquals('PropertyZX:Sub2 Y failed ', 5.850, vtt1.Y);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyYZ;
+begin
+  vtt1 := vt1.yz;
+  AssertEquals('PropertyYZ:Sub1 X failed ', -15.480, vtt1.X);
+  AssertEquals('PropertyYZ:Sub2 Y failed ',   8.512, vtt1.Y);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyZY;
+begin
+  vtt1 := vt1.zy;
+  AssertEquals('PropertyZY:Sub1 X failed ',   8.512, vtt1.X);
+  AssertEquals('PropertyZY:Sub2 Y failed ', -15.480, vtt1.Y);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyXX;
+begin
+  vtt1 := vt1.xx;
+  AssertEquals('PropertyXX:Sub1 X failed ', 5.850, vtt1.X);
+  AssertEquals('PropertyXX:Sub2 Y failed ', 5.850, vtt1.Y);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyYY;
+begin
+  vtt1 := vt1.YY;
+  AssertEquals('PropertyYY:Sub1 X failed ', -15.480, vtt1.X);
+  AssertEquals('PropertyYY:Sub2 Y failed ', -15.480, vtt1.Y);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyZZ;
+begin
+  vtt1 := vt1.ZZ;
+  AssertEquals('PropertyZZ:Sub1 X failed ', 8.512, vtt1.X);
+  AssertEquals('PropertyZZ:Sub2 Y failed ', 8.512, vtt1.Y);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyXYZ;
+begin
+  vt3 := vt1.XYZ;
+  AssertEquals('PropertyXYZ:Sub1 X failed ',   5.850, vt3.X);
+  AssertEquals('PropertyXYZ:Sub2 Y failed ', -15.480, vt3.Y);
+  AssertEquals('PropertyXYZ:Sub3 Z failed ',   8.512, vt3.Z);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyXZY;
+begin
+  vt3 := vt1.XZY;
+  AssertEquals('PropertyXZY:Sub1 X failed ',   5.850, vt3.X);
+  AssertEquals('PropertyXZY:Sub2 Y failed ',   8.512, vt3.Y);
+  AssertEquals('PropertyXZY:Sub3 Z failed ', -15.480, vt3.Z);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyYXZ;
+begin
+  vt3 := vt1.YXZ;
+  AssertEquals('PropertyYXZ:Sub1 X failed ', -15.480, vt3.X);
+  AssertEquals('PropertyYXZ:Sub2 Y failed ',   5.850, vt3.Y);
+  AssertEquals('PropertyYXZ:Sub3 Z failed ',   8.512, vt3.Z);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyYZX;
+begin
+  vt3 := vt1.YZX;
+  AssertEquals('PropertyYZX:Sub1 X failed ', -15.480, vt3.X);
+  AssertEquals('PropertyYZX:Sub2 Y failed ',   8.512, vt3.Y);
+  AssertEquals('PropertyYZX:Sub3 Z failed ',   5.850, vt3.Z);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyZXY;
+begin
+  vt3 := vt1.ZXY;
+  AssertEquals('PropertyZXY:Sub1 X failed ',   8.512, vt3.X);
+  AssertEquals('PropertyZXY:Sub2 Y failed ',   5.850, vt3.Y);
+  AssertEquals('PropertyZXY:Sub3 Z failed ', -15.480, vt3.Z);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyZYX;
+begin
+  vt3 := vt1.ZYX;
+  AssertEquals('PropertyZYX:Sub1 X failed ',   8.512, vt3.X);
+  AssertEquals('PropertyZYX:Sub2 Y failed ', -15.480, vt3.Y);
+  AssertEquals('PropertyZYX:Sub3 Z failed ',   5.850, vt3.Z);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyXXX;
+begin
+  vt3 := vt1.XXX;
+  AssertEquals('PropertyXXX:Sub1 X failed ',   5.850, vt3.X);
+  AssertEquals('PropertyXXX:Sub2 Y failed ',   5.850, vt3.Y);
+  AssertEquals('PropertyXXX:Sub3 Z failed ',   5.850, vt3.Z);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyYYY;
+begin
+  vt3 := vt1.YYY;
+  AssertEquals('PropertyYYY:Sub1 X failed ', -15.480, vt3.X);
+  AssertEquals('PropertyYYY:Sub2 Y failed ', -15.480, vt3.Y);
+  AssertEquals('PropertyYYY:Sub3 Z failed ', -15.480, vt3.Z);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyZZZ;
+begin
+  vt3 := vt1.ZZZ;
+  AssertEquals('PropertyZZZ:Sub1 X failed ',   8.512, vt3.X);
+  AssertEquals('PropertyZZZ:Sub2 Y failed ',   8.512, vt3.Y);
+  AssertEquals('PropertyZZZ:Sub3 Z failed ',   8.512, vt3.Z);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyYYX;
+begin
+  vt3 := vt1.YYX;
+  AssertEquals('PropertyYYX:Sub1 X failed ', -15.480, vt3.X);
+  AssertEquals('PropertyYYX:Sub2 Y failed ', -15.480, vt3.Y);
+  AssertEquals('PropertyYYX:Sub3 Z failed ',   5.850, vt3.Z);
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyXYY;
+begin
+  vt3 := vt1.XYY;
+  AssertEquals('PropertyXYY:Sub1 X failed ',   5.850, vt3.X);
+  AssertEquals('PropertyXYY:Sub2 Y failed ', -15.480, vt3.Y);
+  AssertEquals('PropertyXYY:Sub3 Z failed ', -15.480, vt3.Z);
+
+end;
+
+procedure TVector4fFunctionalTest.TestPropertyYXY;
+begin
+  vt3 := vt1.YXY;
+  AssertEquals('PropertyYXY:Sub1 X failed ', -15.480, vt3.X);
+  AssertEquals('PropertyYXY:Sub2 Y failed ',   5.850, vt3.Y);
+  AssertEquals('PropertyYXY:Sub3 Z failed ', -15.480, vt3.Z);
+
 end;
 
 
