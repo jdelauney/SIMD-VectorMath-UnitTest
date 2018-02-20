@@ -267,10 +267,11 @@ function TGLZVectorHelper.Reflect(ConstRef N: TGLZVector4f): TGLZVector4f; assem
 asm
   movaps   xmm1, [RCX]
   movaps   xmm0, [N]
-  movaps   xmm2, xmm1
+  movaps   xmm2, xmm0
+  movaps   xmm3, xmm1
 
   // Dot(N, I)
-  //andps xmm1, XMMWORD PTR [RIP+cSSE_MASK_NO_W]
+  andps xmm1, XMMWORD PTR [RIP+cSSE_MASK_NO_W]
   mulps xmm0, xmm1
   movshdup    xmm1, xmm0
   addps       xmm0, xmm1
@@ -278,12 +279,12 @@ asm
   addss       xmm0, xmm1
 
   // (2 * Dot(N, I)) * N
-  addps  xmm0, xmm0
-  mulps  xmm0, xmm1
+  addss  xmm0, xmm0
+  mulps  xmm0, xmm2
 
   // I - ((2 * Dot(N, I)) * N)
-  subps   xmm2, xmm0
-  movaps [RDX], xmm2
+  subps   xmm3, xmm0
+  movaps [RDX], xmm3
 end;
 
 
