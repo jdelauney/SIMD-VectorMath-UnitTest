@@ -1516,6 +1516,22 @@ begin
    Self.W := AW;
 end;
 
+procedure TNativeGLZVector4f.CreateAffine(const AValue: single);
+begin
+  Self.X := AValue;
+  Self.Y := AValue;
+  Self.Z := AValue;
+  Self.W := 1.0;
+end;
+
+procedure TNativeGLZVector4f.CreateAffine(Const aX,aY,aZ: single);
+begin
+  Self.X := aX;
+  Self.Y := aY;
+  Self.Z := aZ;
+  Self.W := 1.0;
+end;
+
 procedure TNativeGLZVector4f.Create(const anAffineVector: TNativeGLZVector3f; const aW: Single);
 begin
    Self.X := anAffineVector.X;
@@ -1843,8 +1859,8 @@ Var
 begin
   vt1 := Self - ACenterPoint;
   vt2 := A - ACenterPoint;
-  vt1.pNormalize;
-  vt2.pNormalize;
+  vt1 := vt1.Normalize;
+  vt2 := vt2.Normalize;
   Result := ArcCos(vt1.AngleCosine(vt2));
 end;
 
@@ -2011,191 +2027,7 @@ end;
 
 {%endregion%}
 
-{%region%----[ TNativeGLZVector4f Ops on self ]---------------------------------}
 
-
-procedure TNativeGLZVector4f.pAdd(constref A: TNativeGLZVector4f);
-begin
-  Self.X := Self.X + A.X;
-  Self.Y := Self.Y + A.Y;
-  Self.Z := Self.Z + A.Z;
-  Self.W := Self.W + A.W;
-end;
-
-procedure TNativeGLZVector4f.pSub(constref A: TNativeGLZVector4f);
-begin
-  Self.X := Self.X - A.X;
-  Self.Y := Self.Y - A.Y;
-  Self.Z := Self.Z - A.Z;
-  Self.W := Self.W - A.W;
-end;
-
-procedure TNativeGLZVector4f.pMul(constref A: TNativeGLZVector4f);
-begin
-  Self.X := Self.X * A.X;
-  Self.Y := Self.Y * A.Y;
-  Self.Z := Self.Z * A.Z;
-  Self.W := Self.W * A.W;
-end;
-
-procedure TNativeGLZVector4f.pDiv(constref A: TNativeGLZVector4f);
-begin
-  Self.X := Self.X / A.X;
-  Self.Y := Self.Y / A.Y;
-  Self.Z := Self.Z / A.Z;
-  Self.W := Self.W / A.W;
-end;
-
-procedure TNativeGLZVector4f.pAdd(constref A: Single);
-begin
-  Self.X := Self.X + A;
-  Self.Y := Self.Y + A;
-  Self.Z := Self.Z + A;
-  Self.W := Self.W + A;
-end;
-
-procedure TNativeGLZVector4f.pSub(constref A: Single);
-begin
-  Self.X := Self.X - A;
-  Self.Y := Self.Y - A;
-  Self.Z := Self.Z - A;
-  Self.W := Self.W - A;
-end;
-
-procedure TNativeGLZVector4f.pMul(constref A: Single);
-begin
-  Self.X := Self.X * A;
-  Self.Y := Self.Y * A;
-  Self.Z := Self.Z * A;
-  Self.W := Self.W * A;
-end;
-
-procedure TNativeGLZVector4f.pDiv(constref A: Single);
-begin
-  Self.X := Self.X / A;
-  Self.Y := Self.Y / A;
-  Self.Z := Self.Z / A;
-  Self.W := Self.W / A;
-end;
-
-procedure TNativeGLZVector4f.pInvert;
-begin
-  Self.X := -Self.X;
-  Self.Y := -Self.Y;
-  Self.Z := -Self.Z;
-  Self.W := -Self.W;
-end;
-
-procedure TNativeGLZVector4f.pNegate;
-begin
-   Self.X := -Self.X;
-   Self.Y := -Self.Y;
-   Self.Z := -Self.Z;
-   Self.W := -Self.W;
-end;
-
-procedure TNativeGLZVector4f.pAbs;
-begin
-  Self.X:=System.Abs(Self.X);
-  Self.Y:=System.Abs(Self.Y);
-  Self.Z:=System.Abs(Self.Z);
-  Self.W:=System.Abs(Self.W);
-End;
-
-procedure TNativeGLZVector4f.pDivideBy2;
-begin
-  Self.x := Self.X*0.5;
-  Self.y := Self.Y*0.5;
-  Self.z := Self.Z*0.5;
-  Self.w := Self.W*0.5;
-end;
-
-procedure TNativeGLZVector4f.pCrossProduct(constref A: TNativeGLZVector4f);
-Var
- Tmp : TNativeGLZVector4f;
-begin
-  Tmp.X:=Self.Y*A.Z-Self.Z*A.Y;
-  Tmp.Y:=Self.Z*A.X-Self.X*A.Z;
-  Tmp.Z:=Self.X*A.Y-Self.Y*A.X;
-  Tmp.W:=0;
-  Self := Tmp;
-end;
-
-procedure TNativeGLZVector4f.pNormalize;
-var
-  invLen : Single;
-  vn : single;
-begin
-  vn:=Self.Norm;
-  if vn=0 then
-  begin
-//    result := Self;
-//    Self.W := 0; //cZero;
-  end
-  else
-  begin
-    invLen:=1/Sqrt(vn);
-    Self.X:=Self.X*invLen;
-    Self.Y:=Self.Y*invLen;
-    Self.Z:=Self.Z*invLen;
-    Self.W:=Self.W;
-  end;
-end;
-
-procedure TNativeGLZVector4f.pMin(constref B: TNativeGLZVector4f);
-begin
-  if Self.X>B.X then Self.X := B.X;
-  if Self.Y>B.Y then Self.Y := B.Y;
-  if Self.Z>B.Z then Self.Z := B.Z;
-  if Self.W>B.W then Self.W := B.W;
-End;
-
-procedure TNativeGLZVector4f.pMin(constref B: Single);
-begin
-  if Self.X>B then Self.X := B;
-  if Self.Y>B then Self.Y := B;
-  if Self.Z>B then Self.Z := B;
-  if Self.W>B then Self.W := B;
-End;
-
-procedure TNativeGLZVector4f.pMax(constref B: TNativeGLZVector4f);
-begin
-  if Self.X<B.X then Self.X := B.X;
-  if Self.Y<B.Y then Self.Y := B.Y;
-  if Self.Z<B.Z then Self.Z := B.Z;
-  if Self.W<B.W then Self.W := B.W;
-End;
-
-procedure TNativeGLZVector4f.pMax(constref B: Single);
-begin
-  if Self.X<B then Self.X := B;
-  if Self.Y<B then Self.Y := B;
-  if Self.Z<B then Self.Z := B;
-  if Self.W<B then Self.W := B;
-End;
-
-procedure TNativeGLZVector4f.pClamp(Constref AMin, AMax: TNativeGLZVector4f);
-begin
-  Self.pMax(AMin);
-  Self.pMin(AMax);
-End;
-
-procedure TNativeGLZVector4f.pClamp(constref AMin, AMax: Single);
-begin
-  Self.pMax(AMin);
-  Self.pMin(AMax);
-End;
-
-procedure TNativeGLZVector4f.pMulAdd(Constref B, C: TNativeGLZVector4f); // (Self*B)+c
-begin
-  Self := (self*B)+C;
-end;
-
-procedure TNativeGLZVector4f.pMulDiv(Constref B, C: TNativeGLZVector4f); // (Self*B)-c
-begin
-  Self := (self*B)/C;
-end;
-{%endregion%}
 {%endregion%}
 
 {%region%-----[ TNativeGLZMatrix4 ]---------------------------------------------}
@@ -2884,9 +2716,9 @@ begin
   begin
     for I:=0 to 2 do
       Tran[TGLZMatrixTransType(Ord(ttScaleX) + I)]:=-Tran[TGLZMatrixTransType(Ord(ttScaleX) + I)];
-    row0.pNegate;
-    row1.pNegate;
-    row2.pNegate;
+    row0 := -row0; //row0.Negate;
+    row1 := -row1;
+    row2 := -row2;
   end;
 
   // now, get the rotations out, as described in the gem
@@ -3324,60 +3156,27 @@ begin
 end;
 
 procedure TNativeGLZQuaternion.Create(const x, y, z: Single; eulerOrder : TGLZEulerOrder);
-// input angles in degrees
-//var
-//   gimbalLock: Boolean;
-//   quat1, quat2: TNativeGLZQuaternion;
+const
+   cEulerOrderRef : array [Low(TGLZEulerOrder)..High(TGLZEulerOrder)] of array [1..3] of Byte =
+      ( (1, 2, 3), (1, 3, 2), (2, 1, 3),     // eulXYZ, eulXZY, eulYXZ,
+        (2, 3, 1), (3, 1, 2), (3, 2, 1) );   // eulYZX, eulZXY, eulZYX
 
-   function EulerToQuat(const X, Y, Z: Single; eulerOrder: TGLZEulerOrder) : TNativeGLZQuaternion;
-   const
-      cOrder : array [Low(TGLZEulerOrder)..High(TGLZEulerOrder)] of array [1..3] of Byte =
-         ( (1, 2, 3), (1, 3, 2), (2, 1, 3),     // eulXYZ, eulXZY, eulYXZ,
-           (3, 1, 2), (2, 3, 1), (3, 2, 1) );   // eulYZX, eulZXY, eulZYX
-   var
-      q : array [1..3] of TNativeGLZQuaternion;
-   begin
-      q[cOrder[eulerOrder][1]].Create(X, NativeXVector); // Create From Angle Axis
-      q[cOrder[eulerOrder][2]].Create(Y, NativeYVector);
-      q[cOrder[eulerOrder][3]].Create(Z, NativeZVector);
-      result:=(q[2] * q[3]);
-      result:=(q[1] * result);
-   end;
 
-//const
-//   SMALL_ANGLE = 0.001;
+var
+   q : array [1..3] of TNativeGLZQuaternion;
 begin
-
-//   NormalizeDegAngle(x);
-//   NormalizeDegAngle(y);
-//   NormalizeDegAngle(z);
-   //case EulerOrder of
-   //   eulXYZ, eulZYX: GimbalLock := Abs(Abs(y) - 90.0) <= cEpsilon30; // cos(Y) = 0;
-   //   eulYXZ, eulZXY: GimbalLock := Abs(Abs(x) - 90.0) <= cEpsilon30; // cos(X) = 0;
-   //   eulXZY, eulYZX: GimbalLock := Abs(Abs(z) - 90.0) <= cEpsilon30; // cos(Z) = 0;
-   //else
-   //   Assert(False);
-   //   gimbalLock:=False;
-   //end;
-   //if gimbalLock then
-   //begin
-   //   case EulerOrder of
-   //     eulXYZ, eulZYX: quat1 := EulerToQuat(x, y - SMALL_ANGLE, z, EulerOrder);
-   //     eulYXZ, eulZXY: quat1 := EulerToQuat(x - SMALL_ANGLE, y, z, EulerOrder);
-   //     eulXZY, eulYZX: quat1 := EulerToQuat(x, y, z - SMALL_ANGLE, EulerOrder);
-   //   end;
-   //   case EulerOrder of
-   //     eulXYZ, eulZYX: quat2 := EulerToQuat(x, y + SMALL_ANGLE, z, EulerOrder);
-   //     eulYXZ, eulZXY: quat2 := EulerToQuat(x + SMALL_ANGLE, y, z, EulerOrder);
-   //     eulXZY, eulYZX: quat2 := EulerToQuat(x, y, z + SMALL_ANGLE, EulerOrder);
-   //   end;
-   //   Self := Quat1.Slerp(quat2{%H-}, 0.5);
-   //end
-   //else
-   //begin
-      Self := EulerToQuat(x, y, z, EulerOrder);
-   //end;
+   {%H-}q[1].Create(X, NativeXVector); // Create From Angle Axis
+   q[2].Create(Y, NativeYVector);
+   q[3].Create(Z, NativeZVector);
+   Self := (q[cEulerOrderRef[eulerOrder][1]] * q[cEulerOrderRef[eulerOrder][2]]);
+   Self := self *q[cEulerOrderRef[eulerOrder][3]];
 end;
+
+procedure TNativeGLZQuaternion.Create(const EulerAngles : TGLZEulerAngles; eulerOrder : TGLZEulerOrder);
+begin
+  Self.Create(EulerAngles.Roll,EulerAngles.Yaw,EulerAngles.Pitch, eulerOrder);
+end;
+
 
 //procedure TNativeGLZQuaternion.ConvertToPoints(var ArcFrom, ArcTo: TNativeGLZAffineVector);
 ////procedure ConvertToPoints(var ArcFrom, ArcTo: TGLZVector); //overload;
@@ -3503,77 +3302,148 @@ begin
    Result.Normalize;
 end;
 
-{ Constructs a rotation matrix from (possibly non-unit) quaternion.
-   Assumes matrix is used to multiply column vector on the left:
-   vnew = mat vold.
-   Works correctly for right-handed coordinate system and right-handed rotations. }
-//function TNativeGLZQuaternion.ConvertToMatrix : TGLZMatrix;
-{ var
-   w, x, y, z, xx, xy, xz, xw, yy, yz, yw, zz, zw: Single;
+// Get euler angle from rotation matrix
+// http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToEuler/index.htm
+// https://www.learnopencv.com/rotation-matrix-to-euler-angles/
+// http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/derivation/index.htm
+// http://www.euclideanspace.com/maths/geometry/rotations/for/index.htm
+
+// @TODO : Take care of singularity at pole SUD  <-0.999999
+function TNativeGLZQuaternion.ConvertToEuler(Const EulerOrder : TGLZEulerOrder) : TGLZEulerAngles;
+var
+  rm : TNativeGLZMatrix;
+  m11,m12,m13,m21,m22,m23,m31,m32,m33 : Double;
 begin
-   NormalizeQuaternion(quat);
-   w := quat.RealPart;
-   x := quat.ImagPart.V[0];
-   y := quat.ImagPart.V[1];
-   z := quat.ImagPart.V[2];
-   xx := x * x;
-   xy := x * y;
-   xz := x * z;
-   xw := x * w;
-   yy := y * y;
-   yz := y * z;
-   yw := y * w;
-   zz := z * z;
-   zw := z * w;
-   Result.V[0].V[0] := 1 - 2 * ( yy + zz );
-   Result.V[1].V[0] :=     2 * ( xy - zw );
-   Result.V[2].V[0] :=     2 * ( xz + yw );
-   Result.V[3].V[0] := 0;
-   Result.V[0].V[1] :=     2 * ( xy + zw );
-   Result.V[1].V[1] := 1 - 2 * ( xx + zz );
-   Result.V[2].V[1] :=     2 * ( yz - xw );
-   Result.V[3].V[1] := 0;
-   Result.V[0].V[2] :=     2 * ( xz - yw );
-   Result.V[1].V[2] :=     2 * ( yz + xw );
-   Result.V[2].V[2] := 1 - 2 * ( xx + yy );
-   Result.V[3].V[2] := 0;
-   Result.V[0].V[3] := 0;
-   Result.V[1].V[3] := 0;
-   Result.V[2].V[3] := 0;
-   Result.V[3].V[3] := 1;
-end; }
+  rm := Self.ConvertToMatrix;
+  // Rotation X
+  m11 := rm.m11;
+  m12 := Clamp(rm.m12,-1,1);
+  m13 := Clamp(rm.m13,-1,1);
+  // Rotation Y
+  m21 := Clamp(rm.m21,-1,1);
+  m22 := rm.m22;
+  m23 := Clamp(rm.m23,-1,1);
+  // Rotation Z
+  m31 := Clamp(rm.m31,-1,1);
+  m32 := Clamp(rm.m32,-1,1);
+  m33 := rm.m33;
 
-//function TNativeGLZQuaternion.ConvertToAffineMatrix : TGLZAffineMatrix;
-{ var
-   w, x, y, z, xx, xy, xz, xw, yy, yz, yw, zz, zw: Single;
+  // Remember :
+  // ROLL = X ; YAW = Y ; PITCH = Z
+  case EulerOrder of
+    eulXYZ :
+      begin
+        Result.Yaw := ArcSin(m31);
+        if Abs(m31) < 0.99999 then
+        begin
+          Result.Roll := ArcTan2(-m32,m33);
+          Result.Pitch := ArcTan2(-m21,m11)
+          //Yaw := -cPIDiv2; //DegToRad(-90);
+        end
+        else
+        // if abs(m20)> 0.99999
+        begin
+          Result.Roll := ArcTan2(m23,m22);
+          Result.Pitch := 0;
+        end;
+      end;
+    eulXZY :
+      begin
+        Result.Pitch := ArcSin(m21);
+        if Abs(m21) < 0.99999 then
+        begin
+           Result.Roll := ArcTan2(m23,m22);
+           Result.Yaw := ArcTan2(m31,m11);
+        end
+        else
+        begin
+          Result.Roll := ArcTan2(-m32,m33);
+          Result.Yaw := 0;
+        end;
+      end;
+    eulYXZ :
+      begin
+        Result.Roll := ArcSin(-m32);
+        if Abs(m32)< 0.99999 then
+        begin
+          Result.Yaw :=ArcTan2(m31,m33);
+          Result.Pitch := ArcTan2(m12,m22);
+        end
+        else
+        begin
+          Result.Yaw := ArcTan2(-m13,m11);
+          Result.Pitch := 0;
+        end;
+      end;
+    eulYZX :
+      begin
+        Result.Pitch := ArcSin(m12);
+        if Abs(m12) < 0.99999 then
+        begin
+          Result.Roll := ArcTan2(-m32,m22);
+          Result.Yaw := ArcTan2(-m13,m11);
+        end
+        else
+        begin
+          Result.Roll := 0;
+          Result.Yaw := ArcTan2(m31,m33);
+        end;
+      end;
+    eulZXY :
+      begin
+        Result.Roll := ArcSin(m23);
+        if Abs(m21)< 0.99999 then
+        begin
+          Result.Yaw := ArcTan2(-m13,m33);
+          Result.Pitch := ArcTan2(-m21,m22);
+        end
+        else
+        begin
+          Result.Yaw := 0;
+          Result.Pitch := ArcTan2(m12,m11);
+        end;
+      end;
+    eulZYX :
+      begin
+        Result.Yaw := ArcSin(m13);
+        if Abs(m13) < 0.99999 then
+        begin
+          Result.Roll := ArcTan2(m23,m33);
+          Result.Pitch := ArcTan2(m12,m11);
+        end
+        else
+        begin
+          Result.Roll := 0;
+          Result.Pitch :=  ArcTan2(-m21,m22);
+        end;
+      end;
+  end;
+  Result.Roll := RadToDeg(Result.Roll);
+  Result.Pitch := RadToDeg(Result.Pitch);
+  Result.Yaw := RadToDeg(Result.Yaw);
+end;
+
+procedure TNativeGLZQuaternion.ConvertToAngleAxis(out Angle  : Single; out axis : TNativeGLZAffineVector);
+var
+  qw2: Double;
+  den: Double;
 begin
-   NormalizeQuaternion(quat);
-   w := quat.RealPart;
-   x := quat.ImagPart.V[0];
-   y := quat.ImagPart.V[1];
-   z := quat.ImagPart.V[2];
-   xx := x * x;
-   xy := x * y;
-   xz := x * z;
-   xw := x * w;
-
-   yy := y * y;
-   yz := y * z;
-   yw := y * w;
-
-   zz := z * z;
-   zw := z * w;
-
-   Result.V[0].V[0] := 1 - 2 * ( yy + zz );
-   Result.V[1].V[0] :=     2 * ( xy - zw );
-   Result.V[2].V[0] :=     2 * ( xz + yw );
-   Result.V[0].V[1] :=     2 * ( xy + zw );
-   Result.V[1].V[1] := 1 - 2 * ( xx + zz );
-   Result.V[2].V[1] :=     2 * ( yz - xw );
-   Result.V[0].V[2] :=     2 * ( xz - yw );
-   Result.V[1].V[2] :=     2 * ( yz + xw );
-   Result.V[2].V[2] := 1 - 2 * ( xx + yy );
-end; }
+  qw2 := Self.RealPart*Self.RealPart;
+  Angle := RadToDeg(2*ArcCos(Self.RealPart));
+  den := Sqrt(1-qw2);
+  if den <> 0 then
+  begin
+    Axis.x := Self.X/den;
+    Axis.y := Self.Y/den;
+    Axis.z := Self.Z/den;
+  end
+  else
+  begin
+    Axis.x := 0;
+    Axis.y := 0;
+    Axis.z := 0;
+  end;
+end;
 
 {%endregion%}
 
@@ -3636,7 +3506,7 @@ var
    n : Single;
 begin
    n:=1/Sqrt(Self.X*Self.X+Self.Y*Self.Y+Self.Z*Self.Z);
-   Self.AsVector.pMul(n);
+   Self.AsVector := Self.AsVector * n;
 end;
 
 function TNativeGLZHmgPlane.IsInHalfSpace(constref point: TNativeGLZVector) : Boolean;
@@ -3687,6 +3557,94 @@ end;
 {%endregion%}
 
 {%region%----[ TNativeGLZVector2fHelper ]---------------------------------------}
+
+
+// Swizzling
+
+function TNativeGLZVector2fHelper.GetXY : TNativeGLZVector2f;
+begin
+   Result.Create(Self.X,Self.Y);
+end;
+
+function TNativeGLZVector2fHelper.GetYX : TNativeGLZVector2f;
+begin
+   Result.Create(Self.Y,Self.X);
+end;
+
+function TNativeGLZVector2fHelper.GetXX : TNativeGLZVector2f;
+begin
+   Result.Create(Self.X,Self.X);
+end;
+
+function TNativeGLZVector2fHelper.GetYY : TNativeGLZVector2f;
+begin
+   Result.Create(Self.Y,Self.Y);
+end;
+
+
+function TNativeGLZVector2fHelper.GetXXY : TNativeGLZVector4f;
+begin
+  Result.X := Self.X;
+  Result.Y := Self.X;
+  Result.Z := Self.Y;
+  Result.W := 1;
+end;
+
+function TNativeGLZVector2fHelper.GetYYY : TNativeGLZVector4f;
+begin
+  Result.X := Self.Y;
+  Result.Y := Self.Y;
+  Result.Z := Self.Y;
+  Result.W := 1;
+end;
+
+function TNativeGLZVector2fHelper.GetXXX : TNativeGLZVector4f;
+begin
+  Result.X := Self.X;
+  Result.Y := Self.X;
+  Result.Z := Self.X;
+  Result.W := 1;
+end;
+
+function TNativeGLZVector2fHelper.GetYYX : TNativeGLZVector4f;
+begin
+  Result.X := Self.Y;
+  Result.Y := Self.Y;
+  Result.Z := Self.X;
+  Result.W := 1;
+end;
+
+function TNativeGLZVector2fHelper.GetXYY : TNativeGLZVector4f;
+begin
+  Result.X := Self.X;
+  Result.Y := Self.Y;
+  Result.Z := Self.Y;
+  Result.W := 1;
+end;
+
+function TNativeGLZVector2fHelper.GetYXY : TNativeGLZVector4f;
+begin
+  Result.X := Self.Y;
+  Result.Y := Self.X;
+  Result.Z := Self.Y;
+  Result.W := 1;
+end;
+
+function TNativeGLZVector2fHelper.GetXYX : TNativeGLZVector4f;
+begin
+  Result.X := Self.X;
+  Result.Y := Self.Y;
+  Result.Z := Self.X;
+  Result.W := 1;
+end;
+
+function TNativeGLZVector2fHelper.GetYXX : TNativeGLZVector4f;
+begin
+  Result.X := Self.Y;
+  Result.Y := Self.X;
+  Result.Z := Self.X;
+  Result.W := 1;
+end;
 
 function TNativeGLZVector2fHelper.Step(ConstRef B : TNativeGLZVector2f):TNativeGLZVector2f;
 begin
@@ -3905,6 +3863,120 @@ begin
   result := t * t * -((t * 2.0) + -3);
 end;
 
+function TNativeGLZVectorHelper.Reflect(ConstRef N: TNativeGLZVector4f): TNativeGLZVector4f;
+var
+  d : Single;
+begin
+  //Self - (N*(N.DotProduct(Self)*2));
+  d:= N.DotProduct(Self);
+  d:=d+d;
+  Result := Self - (N*d);
+end;
+
+function TNativeGLZVectorHelper.GetXY : TNativeGLZVector2f;
+begin
+  result.Create(Self.X,Self.Y);
+end;
+
+function TNativeGLZVectorHelper.GetYX : TNativeGLZVector2f;
+begin
+  result.Create(Self.Y,Self.X);
+end;
+
+function TNativeGLZVectorHelper.GetXZ : TNativeGLZVector2f;
+begin
+  result.Create(Self.X,Self.Z);
+end;
+
+function TNativeGLZVectorHelper.GetZX : TNativeGLZVector2f;
+begin
+  result.Create(Self.Z,Self.X);
+end;
+
+function TNativeGLZVectorHelper.GetYZ : TNativeGLZVector2f;
+begin
+  result.Create(Self.Y,Self.Z);
+end;
+
+function TNativeGLZVectorHelper.GetZY : TNativeGLZVector2f;
+begin
+  result.Create(Self.Z,Self.Y);
+end;
+
+function TNativeGLZVectorHelper.GetXX : TNativeGLZVector2f;
+begin
+  result.Create(Self.X,Self.X);
+end;
+
+function TNativeGLZVectorHelper.GetYY : TNativeGLZVector2f;
+begin
+  result.Create(Self.Y,Self.Y);
+end;
+
+function TNativeGLZVectorHelper.GetZZ : TNativeGLZVector2f;
+begin
+  result.Create(Self.Z,Self.Z);
+end;
+
+function TNativeGLZVectorHelper.GetXYZ : TNativeGLZVector4f;
+begin
+  result.CreateAffine(Self.X,Self.Y,Self.Z);
+end;
+
+function TNativeGLZVectorHelper.GetXZY : TNativeGLZVector4f;
+begin
+  result.CreateAffine(Self.X,Self.Z,Self.Y);
+end;
+
+function TNativeGLZVectorHelper.GetYXZ : TNativeGLZVector4f;
+begin
+  result.CreateAffine(Self.Y,Self.X,Self.Z);
+end;
+
+function TNativeGLZVectorHelper.GetYZX : TNativeGLZVector4f;
+begin
+  result.CreateAffine(Self.Y,Self.Z,Self.X);
+end;
+
+function TNativeGLZVectorHelper.GetZXY : TNativeGLZVector4f;
+begin
+  result.CreateAffine(Self.Z,Self.X,Self.Y);
+end;
+
+function TNativeGLZVectorHelper.GetZYX : TNativeGLZVector4f;
+begin
+  result.CreateAffine(Self.Z,Self.Y,Self.X);
+end;
+
+function TNativeGLZVectorHelper.GetXXX : TNativeGLZVector4f;
+begin
+  result.CreateAffine(Self.X,Self.X,Self.X);
+end;
+
+function TNativeGLZVectorHelper.GetYYY : TNativeGLZVector4f;
+begin
+  result.CreateAffine(Self.Y,Self.Y,Self.Y);
+end;
+
+function TNativeGLZVectorHelper.GetZZZ : TNativeGLZVector4f;
+begin
+  result.CreateAffine(Self.Z,Self.Z,Self.Z);
+end;
+
+function TNativeGLZVectorHelper.GetYYX : TNativeGLZVector4f;
+begin
+  result.CreateAffine(Self.Y,Self.Y,Self.X);
+end;
+
+function TNativeGLZVectorHelper.GetXYY : TNativeGLZVector4f;
+begin
+  result.CreateAffine(Self.X,Self.Y,Self.Y);
+end;
+
+function TNativeGLZVectorHelper.GetYXY : TNativeGLZVector4f;
+begin
+  result.CreateAffine(Self.Y,Self.X,Self.Y);
+end;
 
 {%endregion%}
 

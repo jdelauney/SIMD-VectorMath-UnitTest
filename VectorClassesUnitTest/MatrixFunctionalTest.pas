@@ -844,7 +844,7 @@ begin
   // now create a vector which is 45deg to the plane along the X axis
   // oblique projection
   vt1.create(1,0,1,0);
-  vt1.pNormalize;    // does the vector have to be normalised?
+  vt1 := vt1.Normalize;    // does the vector have to be normalised?
   mtx1.CreateParallelProjectionMatrix(apl1, -vt1);
   vt2.Create(1,1,0,1);   //create usual point on z = 0 plane.
   vt3 := mtx1 * vt2;     // vt2 should be unaffected by this transform
@@ -880,11 +880,6 @@ begin
   AssertEquals('CreateParallelProjectionMatrix:Sub34 W ',   1, vt3.W);  // vt1 was a point should get point back
 
 end;
-
-
-
-
-
 
 function TMatrixFunctionalTest.OddPosition(Pos: Integer; AValue: single): TGLZMatrix4f;
 begin

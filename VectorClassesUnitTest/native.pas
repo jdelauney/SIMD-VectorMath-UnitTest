@@ -152,7 +152,6 @@ type
 
 {%endregion%}
 
-
 {%region%----[ TNativeGLZVector3b ]---------------------------------------------}
 
     TNativeGLZVector3b = Record
@@ -342,11 +341,13 @@ type
 
 {%region%----[ TNativeGLZVector4f ]---------------------------------------------}
   TNativeGLZVector4f =  record  // With packed record the performance decrease a little
-  private
-    //FSwizzleMode :  TGLZVector4SwizzleRef;
   public
     procedure Create(Const aX,aY,aZ: single; const aW : Single = 0); overload;
-    procedure Create(Const anAffineVector: TNativeGLZVector3f; const aW : Single = 0); overload;
+
+    { Self Create TGLZVector4f from a TGLZVector3f and w value set by default to 1.0 }
+    procedure CreateAffine(Const AValue: single); overload;
+    procedure CreateAffine(Const aX,aY,aZ: single); overload;
+    procedure Create(Const anAffineVector: TNativeGLZVector3f; const aW : Single = 1.0); overload;
 
     function ToString : String;
 
@@ -409,31 +410,6 @@ type
     function Trunc: TNativeGLZVector4i;
 
 //    function MoveAround(constRef AMovingUp, ATargetPosition: TNativeGLZVector4f; pitchDelta, turnDelta: Single): TNativeGLZVector4f;
-
-    procedure pAdd(constref A: TNativeGLZVector4f);overload;
-    procedure pSub(constref A: TNativeGLZVector4f);overload;
-    procedure pMul(constref A: TNativeGLZVector4f);overload;
-    procedure pDiv(constref A: TNativeGLZVector4f);overload;
-    procedure pAdd(constref A: Single);overload;
-    procedure pSub(constref A: Single);overload;
-    procedure pMul(constref A: Single);overload;
-    procedure pDiv(constref A: Single);overload;
-    procedure pInvert;
-    procedure pNegate;
-    procedure pAbs;
-    procedure pDivideBy2;
-    procedure pCrossProduct(constref A: TNativeGLZVector4f);
-    procedure pNormalize;
-    procedure pMin(constref B: TNativeGLZVector4f); overload;
-    procedure pMin(constref B: Single);overload;
-    procedure pMax(constref B: TNativeGLZVector4f); overload;
-    procedure pMax(constref B: Single); overload;
-    procedure pClamp(Constref AMin, AMax: TNativeGLZVector4f); overload;
-    procedure pClamp(constref AMin, AMax: Single); overload;
-    procedure pMulAdd(Constref B, C: TNativeGLZVector4f); // (Self*B)+c
-    procedure pMulDiv(Constref B, C: TNativeGLZVector4f); // (Self*B)-c
-    //procedure Lerp(Constref B: TNativeGLZVector4f; Constref T:Single): TNativeGLZVector4f;
-
 
     case Byte of
       0: (V: TGLZVector4fType);
@@ -633,12 +609,18 @@ type
 
     // Constructs quaternion from Euler angles in arbitrary order (angles in degrees)
     procedure Create(const x, y, z: Single; eulerOrder : TGLZEulerOrder); overload;
-
+    procedure Create(const EulerAngles : TGLZEulerAngles; eulerOrder : TGLZEulerOrder);
     { Constructs a rotation matrix from (possibly non-unit) quaternion.
        Assumes matrix is used to multiply column vector on the left:
        vnew = mat vold.
        Works correctly for right-handed coordinate system and right-handed rotations. }
     function ConvertToMatrix : TNativeGLZMatrix;
+
+    { Convert quaternion to Euler Angles according the order }
+    function ConvertToEuler(Const EulerOrder : TGLZEulerOrder) : TGLZEulerAngles;
+
+    { Convert quaternion to angle (in deg) and axis , Needed to Keep or remove ? }
+    procedure ConvertToAngleAxis(out angle  : Single; out axis : TNativeGLZAffineVector);
 
     { Constructs an affine rotation matrix from (possibly non-unit) quaternion. }
     //function ConvertToAffineMatrix : TGLZAffineMatrix;
@@ -819,9 +801,28 @@ type
 
 {%endregion%}
 
-{%region%----[ TNativeGLZVectorHelper ]-----------------------------------------}
+{%region%----[ TGLZVector2fHelper ]-----------------------------------------------}
 
-  TNativeGLZVector2fHelper = record helper for TNativeGLZVector2f
+  TNativeGLZVector2fHelper = record helper for TNAtiveGLZVector2f
+  private
+    // Swizling access
+    function GetXY : TNativeGLZVector2f;
+    function GetYX : TNativeGLZVector2f;
+    function GetXX : TNativeGLZVector2f;
+    function GetYY : TNativeGLZVector2f;
+
+    function GetXXY : TNativeGLZVector4f;
+    function GetYYX : TNativeGLZVector4f;
+
+    function GetXYY : TNativeGLZVector4f;
+    function GetYXX : TNativeGLZVector4f;
+
+    function GetXYX : TNativeGLZVector4f;
+    function GetYXY : TNativeGLZVector4f;
+
+    function GetXXX : TNativeGLZVector4f;
+    function GetYYY : TNativeGLZVector4f;
+
   public
     {  : Implement a step function returning either zero or one.
       Implements a step function returning one for each component of Self that is
@@ -837,7 +838,7 @@ type
       B = Geometric normal vector (for some facet the peturbed normal belongs).
       see : http://developer.download.nvidia.com/cg/faceforward.html
     }
-    //function FaceForward(constref A, B: TGLZVector2f): TGLZVector2f;
+    //function FaceForward(constref A, B: TNativeGLZVector2f): TNativeGLZVector2f;
 
     { : Returns smallest integer not less than a scalar or each vector component.
       Returns Self saturated to the range [0,1] as follows:
@@ -871,11 +872,65 @@ type
        if T has values outside the [0,1] range, it actually extrapolates.
     }
     function Lerp(Constref B: TNativeGLZVector2f; Constref T:Single): TNativeGLZVector2f;
+
+    { : Swizzling Properties values accessability like in HLSL and GLSL }
+
+    // Vector2f
+
+    property XY : TNativeGLZVector2f read GetXY;
+    property YX : TNativeGLZVector2f read GetYX;
+    property XX : TNativeGLZVector2f read GetXX;
+    property YY : TNativeGLZVector2f read GetYY;
+
+    property XXY : TNativeGLZVector4f read GetXXY;
+    property YYX : TNativeGLZVector4f read GetYYX;
+
+    property XYY : TNativeGLZVector4f read GetXYY;
+    property YXX : TNativeGLZVector4f read GetYXX;
+
+    property XYX : TNativeGLZVector4f read GetXYX;
+    property YXY : TNativeGLZVector4f read GetYXY;
+
+    property XXX : TNativeGLZVector4f read GetXXX;
+    property YYY : TNativeGLZVector4f read GetYYY;
+
   end;
+
+{%endregion%}
+
+{%region%----[ TNativeGLZVectorHelper ]-----------------------------------------}
 
   { TNativeGLZVectorHelper }
 
   TNativeGLZVectorHelper = record helper for TNativeGLZVector
+  private
+      // Swizling access
+      function GetXY : TNativeGLZVector2f;
+      function GetYX : TNativeGLZVector2f;
+      function GetXZ : TNativeGLZVector2f;
+      function GetZX : TNativeGLZVector2f;
+      function GetYZ : TNativeGLZVector2f;
+      function GetZY : TNativeGLZVector2f;
+      function GetXX : TNativeGLZVector2f;
+      function GetYY : TNativeGLZVector2f;
+      function GetZZ : TNativeGLZVector2f;
+
+      function GetXYZ : TNativeGLZVector4f;
+      function GetXZY : TNativeGLZVector4f;
+
+      function GetYXZ : TNativeGLZVector4f;
+      function GetYZX : TNativeGLZVector4f;
+
+      function GetZXY : TNativeGLZVector4f;
+      function GetZYX : TNativeGLZVector4f;
+
+      function GetXXX : TNativeGLZVector4f;
+      function GetYYY : TNativeGLZVector4f;
+      function GetZZZ : TNativeGLZVector4f;
+
+      function GetYYX : TNativeGLZVector4f;
+      function GetXYY : TNativeGLZVector4f;
+      function GetYXY : TNativeGLZVector4f;
   public
 
 //  procedure CreatePlane(constref p1, p2, p3 : TNativeGLZVector);overload;
@@ -949,6 +1004,37 @@ type
     function FaceForward(constref A, B: TNativeGLZVector): TNativeGLZVector;
     function Saturate : TNativeGLZVector;
     function SmoothStep(ConstRef  A,B : TNativeGLZvector): TNativeGLZVector;
+
+    function Reflect(ConstRef N: TNativeGLZVector4f): TNativeGLZVector4f;
+
+    { : Swizzling Properties values accessability like in HLSL and GLSL }
+
+    // Vector2f
+    property XY : TNativeGLZVector2f read GetXY;
+    property YX : TNativeGLZVector2f read GetYX;
+    property XZ : TNativeGLZVector2f read GetXZ;
+    property ZX : TNativeGLZVector2f read GetZX;
+    property YZ : TNativeGLZVector2f read GetYZ;
+    property ZY : TNativeGLZVector2f read GetZY;
+    property XX : TNativeGLZVector2f read GetXX;
+    property YY : TNativeGLZVector2f read GetYY;
+    property ZZ : TNativeGLZVector2f read GetZZ;
+
+    // As Affine Vector
+    property XYZ : TNativeGLZVector4f read GetXYZ;
+    property XZY : TNativeGLZVector4f read GetXZY;
+    property YXZ : TNativeGLZVector4f read GetYXZ;
+    property YZX : TNativeGLZVector4f read GetYZX;
+    property ZXY : TNativeGLZVector4f read GetZXY;
+    property ZYX : TNativeGLZVector4f read GetZYX;
+
+    property XXX : TNativeGLZVector4f read GetXXX;
+    property YYY : TNativeGLZVector4f read GetYYY;
+    property ZZZ : TNativeGLZVector4f read GetZZZ;
+
+    property YYX : TNativeGLZVector4f read GetYYX;
+    property XYY : TNativeGLZVector4f read GetXYY;
+    property YXY : TNativeGLZVector4f read GetYXY;
   end;
 
 {%endregion%}

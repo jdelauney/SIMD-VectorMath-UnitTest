@@ -76,6 +76,19 @@ asm
   divps    xmm0, xmm1
 end;
 
+class operator TGLZVector2f.+(constref A: TGLZVector2f; constref B: TGLZVector2i): TGLZVector2f; assembler; nostackframe; register;
+asm
+  movq   xmm0, [A]
+  cvtdq2ps   xmm1, [B]
+  addps  xmm0, xmm1
+end;
+
+class operator TGLZVector2f.-(constref A: TGLZVector2f; constref B: TGLZVector2i): TGLZVector2f; assembler; nostackframe; register;
+asm
+  movq   xmm0, [A]
+  cvtdq2ps   xmm1, [B]
+  subps  xmm0, xmm1
+end;
 
 {%endregion%}
 
@@ -140,6 +153,16 @@ asm
   Mulps  xmm0, xmm1
   Addps  xmm0, xmm2
 end;
+
+function TGLZVector2f.MulSub(constref A,B:TGLZVector2f): TGLZVector2f;Assembler; nostackframe;register;
+asm
+  movq   xmm0, [RDI]
+  movq   xmm1, [A]
+  movq   xmm2, [B]
+  Mulps  xmm0, xmm1
+  Subps  xmm0, xmm2
+end;
+
 
 function TGLZVector2f.MulDiv(constref A,B:TGLZVector2f): TGLZVector2f;Assembler; nostackframe; register;
 asm

@@ -426,7 +426,7 @@ end;
 { : Extract the corners from the AABB }
 function TGLZAxisAlignedBoundingBox.ExtractCorners: TGLZAABBCorners;
 begin
-  Result[0].Create(Self.Min.X, Self.Min.Y, Self.Min.Z,1);
+  Result{%H-}[0].Create(Self.Min.X, Self.Min.Y, Self.Min.Z,1);
   Result[1].Create(Self.Min.X, Self.Min.Y, Self.Max.Z,1);
   Result[2].Create(Self.Min.X, Self.Max.Y, Self.Min.Z,1);
   Result[3].Create(Self.Min.X, Self.Max.Y, Self.Max.Z,1);

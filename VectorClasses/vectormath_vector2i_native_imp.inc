@@ -100,6 +100,12 @@ begin
   Result.Y := A.Y - B;
 end;
 
+class operator TGLZVector2i.-(constref A: TGLZVector2i; constref B:Single): TGLZVector2i;
+begin
+  Result.X := Round(A.X - B);
+  Result.Y := Round(A.Y - B);
+end;
+
 class operator TGLZVector2i.*(constref A, B: TGLZVector2i): TGLZVector2i;
 begin
   Result.X := A.X * B.X;
@@ -130,11 +136,6 @@ begin
   Result.Y := Round(A.Y + B);
 end;
 
-class operator TGLZVector2i.-(constref A: TGLZVector2i; constref B:Single): TGLZVector2i;
-begin
-  Result.X := Round(A.X - B);
-  Result.Y := Round(A.Y - B);
-end;
 
 class operator TGLZVector2i.*(constref A: TGLZVector2i; constref B:Single): TGLZVector2i;
 begin

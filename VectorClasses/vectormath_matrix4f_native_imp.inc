@@ -354,9 +354,9 @@ begin
   begin
     for I:=0 to 2 do
       Tran[TGLZMatrixTransType(Ord(ttScaleX) + I)]:=-Tran[TGLZMatrixTransType(Ord(ttScaleX) + I)];
-    row0.pNegate;
-    row1.pNegate;
-    row2.pNegate;
+    row0 := -row0;
+    row1 := -row1;
+    row2 := -row2;
   end;
 
   // now, get the rotations out, as described in the gem

@@ -3,7 +3,92 @@
 // not make sense to use SSE/AVX
 
 
+// Swizzling
 
+function TGLZVector2fHelper.GetXY : TGLZVector2f;
+begin
+   Result.Create(Self.X,Self.Y);
+end;
+
+function TGLZVector2fHelper.GetYX : TGLZVector2f;
+begin
+   Result.Create(Self.Y,Self.X);
+end;
+
+function TGLZVector2fHelper.GetXX : TGLZVector2f;
+begin
+   Result.Create(Self.X,Self.X);
+end;
+
+function TGLZVector2fHelper.GetYY : TGLZVector2f;
+begin
+   Result.Create(Self.Y,Self.Y);
+end;
+
+
+function TGLZVector2fHelper.GetXXY : TGLZVector4f;
+begin
+  Result.X := Self.X;
+  Result.Y := Self.X;
+  Result.Z := Self.Y;
+  Result.W := 1;
+end;
+
+function TGLZVector2fHelper.GetYYY : TGLZVector4f;
+begin
+  Result.X := Self.Y;
+  Result.Y := Self.Y;
+  Result.Z := Self.Y;
+  Result.W := 1;
+end;
+
+function TGLZVector2fHelper.GetXXX : TGLZVector4f;
+begin
+  Result.X := Self.X;
+  Result.Y := Self.X;
+  Result.Z := Self.X;
+  Result.W := 1;
+end;
+
+function TGLZVector2fHelper.GetYYX : TGLZVector4f;
+begin
+  Result.X := Self.Y;
+  Result.Y := Self.Y;
+  Result.Z := Self.X;
+  Result.W := 1;
+end;
+
+function TGLZVector2fHelper.GetXYY : TGLZVector4f;
+begin
+  Result.X := Self.X;
+  Result.Y := Self.Y;
+  Result.Z := Self.Y;
+  Result.W := 1;
+end;
+
+function TGLZVector2fHelper.GetYXY : TGLZVector4f;
+begin
+  Result.X := Self.Y;
+  Result.Y := Self.X;
+  Result.Z := Self.Y;
+  Result.W := 1;
+end;
+
+function TGLZVector2fHelper.GetXYX : TGLZVector4f;
+begin
+  Result.X := Self.X;
+  Result.Y := Self.Y;
+  Result.Z := Self.X;
+  Result.W := 1;
+end;
+
+function TGLZVector2fHelper.GetYXX : TGLZVector4f;
+begin
+  Result.X := Self.Y;
+  Result.Y := Self.X;
+  Result.Z := Self.X;
+  Result.W := 1;
+end;
 
 {%endregion}
 
@@ -57,6 +142,8 @@ begin
 end;
 
 {%endregion%}
+
+
 
 {%endregion%}
 

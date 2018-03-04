@@ -122,6 +122,110 @@ begin
   end;
 end;
 
+function TGLZVectorHelper.GetXY : TGLZVector2f;
+begin
+  result.Create(Self.X,Self.Y);
+end;
+
+function TGLZVectorHelper.GetYX : TGLZVector2f;
+begin
+  result.Create(Self.Y,Self.X);
+end;
+
+function TGLZVectorHelper.GetXZ : TGLZVector2f;
+begin
+  result.Create(Self.X,Self.Z);
+end;
+
+function TGLZVectorHelper.GetZX : TGLZVector2f;
+begin
+  result.Create(Self.Z,Self.X);
+end;
+
+function TGLZVectorHelper.GetYZ : TGLZVector2f;
+begin
+  result.Create(Self.Y,Self.Z);
+end;
+
+function TGLZVectorHelper.GetZY : TGLZVector2f;
+begin
+  result.Create(Self.Z,Self.Y);
+end;
+
+function TGLZVectorHelper.GetXX : TGLZVector2f;
+begin
+  result.Create(Self.X,Self.X);
+end;
+
+function TGLZVectorHelper.GetYY : TGLZVector2f;
+begin
+  result.Create(Self.Y,Self.Y);
+end;
+
+function TGLZVectorHelper.GetZZ : TGLZVector2f;
+begin
+  result.Create(Self.Z,Self.Z);
+end;
+
+function TGLZVectorHelper.GetXYZ : TGLZVector4f;
+begin
+  result.CreateAffine(Self.X,Self.Y,Self.Z);
+end;
+
+function TGLZVectorHelper.GetXZY : TGLZVector4f;
+begin
+  result.CreateAffine(Self.X,Self.Z,Self.Y);
+end;
+
+function TGLZVectorHelper.GetYXZ : TGLZVector4f;
+begin
+  result.CreateAffine(Self.Y,Self.X,Self.Z);
+end;
+
+function TGLZVectorHelper.GetYZX : TGLZVector4f;
+begin
+  result.CreateAffine(Self.Y,Self.Z,Self.X);
+end;
+
+function TGLZVectorHelper.GetZXY : TGLZVector4f;
+begin
+  result.CreateAffine(Self.Z,Self.X,Self.Y);
+end;
+
+function TGLZVectorHelper.GetZYX : TGLZVector4f;
+begin
+  result.CreateAffine(Self.Z,Self.Y,Self.X);
+end;
+
+function TGLZVectorHelper.GetXXX : TGLZVector4f;
+begin
+  result.CreateAffine(Self.X,Self.X,Self.X);
+end;
+
+function TGLZVectorHelper.GetYYY : TGLZVector4f;
+begin
+  result.CreateAffine(Self.Y,Self.Y,Self.Y);
+end;
+
+function TGLZVectorHelper.GetZZZ : TGLZVector4f;
+begin
+  result.CreateAffine(Self.Z,Self.Z,Self.Z);
+end;
+
+function TGLZVectorHelper.GetYYX : TGLZVector4f;
+begin
+  result.CreateAffine(Self.Y,Self.Y,Self.X);
+end;
+
+function TGLZVectorHelper.GetXYY : TGLZVector4f;
+begin
+  result.CreateAffine(Self.X,Self.Y,Self.Y);
+end;
+
+function TGLZVectorHelper.GetYXY : TGLZVector4f;
+begin
+  result.CreateAffine(Self.Y,Self.X,Self.Y);
+end;
 
 
 {%endregion}

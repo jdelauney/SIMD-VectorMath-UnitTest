@@ -29,7 +29,7 @@ uses
   VectorOperatorsTestCase,
   VectorNumericsTestCase,
   VectorOtherTestCase,
-  VectorOnSelfTestCase,
+ // VectorOnSelfTestCase,
   VectorHelperTestCase,
   // HmgPlane Test Case
   HmgPlaneFunctionalTest,
@@ -56,7 +56,7 @@ uses
   Vector4iTimingTest,
   // Vector4f Timing Test Case
   VectorOperatorsTimingTest,
-  VectorOperatorsOnSelfTimingTest,
+  //VectorOperatorsOnSelfTimingTest,
   VectorNumericsTimingTest,
   VectorOtherTimingTest,
   VectorHelperTimingTest,

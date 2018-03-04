@@ -52,7 +52,8 @@ asm
   paddd xmm0, xmm1
   movq   RAX, {%H-}xmm0
 end;
-          class operator TGLZVector2i.+(constref A: TGLZVector2i; constref B:Integer): TGLZVector2i; assembler; nostackframe; register;
+
+class operator TGLZVector2i.+(constref A: TGLZVector2i; constref B:Integer): TGLZVector2i; assembler; nostackframe; register;
 asm
   movq   xmm0, [A]
   movq   xmm1, [B]

@@ -83,7 +83,7 @@ begin
 
   // make a non normalized vector with the same direction
   // this plane is good for
-  norm.pMul(3.56);
+  norm :=  norm * 3.56;
   ph2.Create(vt3,norm);
   fs1 := ph2.A * vt1.X + ph2.B * vt1.Y + ph2.C * vt1.Z + ph2.D;
   AssertTrue('TGLZHmgPlane:Create3Vec:sub4 Point 1 does not lie on plane', IsEqual(fs1,0, 1e-5));
@@ -106,7 +106,7 @@ begin
 
   ph2.Create(vt4,norm);
   AssertTrue('TGLZHmgPlane:NormalizeSelf:Sub1 planes do not match', compare(ph1,ph2));
-  norm.pMul(3.56);
+  norm := norm * 3.56;
   ph2.Create(vt4,norm);
   AssertFalse('TGLZHmgPlane:NormalizeSelf:Sub2 planes should not match', compare(ph1,ph2));
   ph2.Normalize;
@@ -120,7 +120,7 @@ begin
   ph1.Create(vt1,vt2,vt4);
   norm.AsVector3f := ph1.AsNormal3;
 //  norm.Create(4,4,4);
-  norm.pMul(3.56);
+  norm := norm * 3.56;
   ph2.Create(vt4,norm);
   AssertFalse('TGLZHmgPlane:Normalize:Sub1 planes should not match', compare(ph1,ph2));
   ph3 := ph2.Normalized;

@@ -52,6 +52,44 @@ end;
 
 {%region%----[ Pure Pascal may Convert at some point ]--------------------------}
 
+// http://www.euclideanspace.com/maths/geometry/rotations/conversions/eulerToAngle/index.htm
+procedure TGLZEulerAngles.ConvertToAngleAxis(Const EulerOrder : TGLZEulerOrder; Out Angle : Single; Out Axis : TGLZVector);
+Var
+ L, c1,c2,c3,s1,s2,s3, i1,i2,i3, c1c2, s1s2 : Single;
+begin
+ i1 := DegToRad(Self.V[cEulerOrderRef[eulerOrder][1]])/2;
+ i2 := DegToRad(Self.V[cEulerOrderRef[eulerOrder][2]])/2;
+ i3 := DegToRad(Self.V[cEulerOrderRef[eulerOrder][3]])/2;
+
+ c1 := Cos(i1);
+ s1 := Sin(i1);
+ c2 := Cos(i2);
+ s2 := Sin(i2);
+ c3 := Cos(i3);
+ s3 := Sin(i3);
+ c1c2 := c1 * c2;
+ s1s2 := s1 * s2;
+
+ Axis.w := c1c2 * c3 - s1s2 * s3;
+ Axis.x := c1c2 * s3 + s1s2 * c3;
+ Axis.y := s1 * c2 * c3 + c1 * s2 * s3;
+ Axis.z := c1 * s2 * c3 - s1 * c2 * s3;
+ Angle := 2 * ArcCos(Axis.w);
+ L := Axis.LengthSquare; // double norm = x*x+y*y+z*z;
+ if (L < 0.001) then
+ begin
+    // when all euler angles are zero angle =0 so we can set axis to anything to avoid divide by zero
+    Axis.Create(1.0,0.0,0.0);
+ end
+ else
+ begin
+   Axis := Axis.Normalize;
+   //L = Sqrt(L);
+   //Axis.X := Axis.X / L;
+   //Axis.X := Axis.X / L;
+   //Axis.X := Axis.X / L;
+ end;
+end;
 
 // This region is for pascal routines that are required to create a working
 // library of routines. We may or may not convert these to SSE/AVX.
@@ -73,8 +111,6 @@ begin
    Self.RealPart := v1.DotProduct(v2) + 1;
    self.Normalize;
 end;
-
-//procedure TGLZQuaternion.Create(const V1, V2: TGLZVector);
 
 
 procedure TGLZQuaternion.Create(const mat : TGLZMatrix);
@@ -130,7 +166,7 @@ begin
    Self.ImagePart.V[2]:=axis.V[2]*f;
 end;
 
-procedure TGLZQuaternion.Create(const r, p, y : Single); //Roll Pitch Yaw
+procedure TGLZQuaternion.Create(const r, p, y : Single); //Roll Pitch Yaw ZXY
 var
    qp, qy : TGLZQuaternion;
 begin
@@ -143,59 +179,19 @@ begin
 end;
 
 procedure TGLZQuaternion.Create(const x, y, z: Single; eulerOrder : TGLZEulerOrder);
-// input angles in degrees
-//var
-//   gimbalLock: Boolean;
-//   quat1, quat2: TGLZQuaternion;
-
-   function EulerToQuat(const X, Y, Z: Single; eulerOrder: TGLZEulerOrder) : TGLZQuaternion;
-   const
-      cOrder : array [Low(TGLZEulerOrder)..High(TGLZEulerOrder)] of array [1..3] of Byte =
-         ( (1, 2, 3), (1, 3, 2), (2, 1, 3),     // eulXYZ, eulXZY, eulYXZ,
-           (3, 1, 2), (2, 3, 1), (3, 2, 1) );   // eulYZX, eulZXY, eulZYX
-   var
-      q : array [1..3] of TGLZQuaternion;
-   begin
-      q[cOrder[eulerOrder][1]].Create(X, XVector); // Create From Angle Axis
-      q[cOrder[eulerOrder][2]].Create(Y, YVector);
-      q[cOrder[eulerOrder][3]].Create(Z, ZVector);
-      result:=(q[2] * q[3]);
-      result:=(q[1] * result);
-   end;
-
-//const
-//   SMALL_ANGLE = 0.001;
+var
+   q : array [1..3] of TGLZQuaternion;
 begin
+   {%H-}q[1].Create(X, XVector); // Create From Angle Axis
+   q[2].Create(Y, YVector);
+   q[3].Create(Z, ZVector);
+   Self := (q[cEulerOrderRef[eulerOrder][1]] * q[cEulerOrderRef[eulerOrder][2]]);
+   Self := self *q[cEulerOrderRef[eulerOrder][3]];
+end;
 
-//   NormalizeDegAngle(x);
-//   NormalizeDegAngle(y);
-//   NormalizeDegAngle(z);
-   //case EulerOrder of
-   //   eulXYZ, eulZYX: GimbalLock := Abs(Abs(y) - 90.0) <= cEpsilon30; // cos(Y) = 0;
-   //   eulYXZ, eulZXY: GimbalLock := Abs(Abs(x) - 90.0) <= cEpsilon30; // cos(X) = 0;
-   //   eulXZY, eulYZX: GimbalLock := Abs(Abs(z) - 90.0) <= cEpsilon30; // cos(Z) = 0;
-   //else
-   //   Assert(False);
-   //   gimbalLock:=False;
-   //end;
-   //if gimbalLock then
-   //begin
-   //   case EulerOrder of
-   //     eulXYZ, eulZYX: quat1 := EulerToQuat(x, y - SMALL_ANGLE, z, EulerOrder);
-   //     eulYXZ, eulZXY: quat1 := EulerToQuat(x - SMALL_ANGLE, y, z, EulerOrder);
-   //     eulXZY, eulYZX: quat1 := EulerToQuat(x, y, z - SMALL_ANGLE, EulerOrder);
-   //   end;
-   //   case EulerOrder of
-   //     eulXYZ, eulZYX: quat2 := EulerToQuat(x, y + SMALL_ANGLE, z, EulerOrder);
-   //     eulYXZ, eulZXY: quat2 := EulerToQuat(x + SMALL_ANGLE, y, z, EulerOrder);
-   //     eulXZY, eulYZX: quat2 := EulerToQuat(x, y, z + SMALL_ANGLE, EulerOrder);
-   //   end;
-   //   Self := Quat1.Slerp(quat2{%H-}, 0.5);
-   //end
-   //else
-   //begin
-      Self := EulerToQuat(x, y, z, EulerOrder);
-   //end;
+procedure TGLZQuaternion.Create(const EulerAngles : TGLZEulerAngles; eulerOrder : TGLZEulerOrder);
+begin
+  Self.Create(EulerAngles.Roll,EulerAngles.Yaw,EulerAngles.Pitch, eulerOrder);
 end;
 
 // To be removed
@@ -236,22 +232,33 @@ begin
    yw := y * w;
    zz := z * z;
    zw := z * w;
-   Result.V[0].V[0] := 1 - 2 * ( yy + zz );
-   Result.V[1].V[0] :=     2 * ( xy + zw );
-   Result.V[2].V[0] :=     2 * ( xz - yw );
-   Result.V[3].V[0] := 0;
-   Result.V[0].V[1] :=     2 * ( xy - zw );
-   Result.V[1].V[1] := 1 - 2 * ( xx + zz );
-   Result.V[2].V[1] :=     2 * ( yz + xw );
-   Result.V[3].V[1] := 0;
-   Result.V[0].V[2] :=     2 * ( xz + yw );
-   Result.V[1].V[2] :=     2 * ( yz - xw );
-   Result.V[2].V[2] := 1 - 2 * ( xx + yy );
-   Result.V[3].V[2] := 0;
-   Result.V[0].V[3] := 0;
-   Result.V[1].V[3] := 0;
-   Result.V[2].V[3] := 0;
-   Result.V[3].V[3] := 1;
+   With Result do
+   begin
+
+    // Col 1
+    m11 := 1 - 2 * ( yy + zz );
+    m21 :=     2 * ( xy + zw );
+    m31 :=     2 * ( xz - yw );
+    m41 := 0;
+
+    // Col 2
+    m12 :=     2 * ( xy - zw );
+    m22 := 1 - 2 * ( xx + zz );
+    m32 :=     2 * ( yz + xw );
+    m42 := 0;
+
+    // Col 3
+    m13 :=     2 * ( xz + yw );
+    m23 :=     2 * ( yz - xw );
+    m33 := 1 - 2 * ( xx + yy );
+    m43 := 0;
+
+    // Col 4
+    m14 := 0;
+    m24 := 0;
+    m34 := 0;
+    m44 := 1;
+  end;
 end;
 
 //function TGLZQuaternion.ConvertToAffineMatrix : TGLZAffineMatrix;
@@ -283,6 +290,152 @@ begin
    Result.V[2].V[2] := 1 - 2 * ( xx + yy );
 end; }
 
+// Get euler angle from rotation matrix
+// http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToEuler/index.htm
+// https://www.learnopencv.com/rotation-matrix-to-euler-angles/
+// http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/derivation/index.htm
+// http://www.euclideanspace.com/maths/geometry/rotations/for/index.htm
+
+// @TODO : Take care of singularity at pole SUD  <-0.999999
+function TGLZQuaternion.ConvertToEuler(Const EulerOrder : TGLZEulerOrder) : TGLZEulerAngles;
+var
+  rm : TGLZMatrix;
+  m11,m12,m13,m21,m22,m23,m31,m32,m33 : Double;
+begin
+  rm := Self.ConvertToMatrix;
+  // Rotation X
+  m11 := rm.m11;
+  m12 := Clamp(rm.m12,-1,1);
+  m13 := Clamp(rm.m13,-1,1);
+  // Rotation Y
+  m21 := Clamp(rm.m21,-1,1);
+  m22 := rm.m22;
+  m23 := Clamp(rm.m23,-1,1);
+  // Rotation Z
+  m31 := Clamp(rm.m31,-1,1);
+  m32 := Clamp(rm.m32,-1,1);
+  m33 := rm.m33;
+
+  // Remember :
+  // ROLL = X ; YAW = Y ; PITCH = Z
+  Result.Roll:=0;
+  Result.Yaw:=0;
+  Result.Pitch:=0;
+  case EulerOrder of
+    eulXYZ :
+      begin
+        Result.Yaw := ArcSin(m31);
+        if Abs(m31) < 0.99999 then
+        begin
+          Result.Roll := ArcTan2(-m32,m33);
+          Result.Pitch := ArcTan2(-m21,m11)
+          //Yaw := -cPIDiv2; //DegToRad(-90);
+        end
+        else
+        // if abs(m20)> 0.99999
+        begin
+          Result.Roll := ArcTan2(m23,m22);
+          Result.Pitch := 0;
+        end;
+      end;
+    eulXZY :
+      begin
+        Result.Pitch := ArcSin(m21);
+        if Abs(m21) < 0.99999 then
+        begin
+           Result.Roll := ArcTan2(m23,m22);
+           Result.Yaw := ArcTan2(m31,m11);
+        end
+        else
+        begin
+          Result.Roll := ArcTan2(-m32,m33);
+          Result.Yaw := 0;
+        end;
+      end;
+    eulYXZ :
+      begin
+        Result.Roll := ArcSin(-m32);
+        if Abs(m32)< 0.99999 then
+        begin
+          Result.Yaw :=ArcTan2(m31,m33);
+          Result.Pitch := ArcTan2(m12,m22);
+        end
+        else
+        begin
+          Result.Yaw := ArcTan2(-m13,m11);
+          Result.Pitch := 0;
+        end;
+      end;
+    eulYZX :
+      begin
+        Result.Pitch := ArcSin(m12);
+        if Abs(m12) < 0.99999 then
+        begin
+          Result.Roll := ArcTan2(-m32,m22);
+          Result.Yaw := ArcTan2(-m13,m11);
+        end
+        else
+        begin
+          Result.Roll := 0;
+          Result.Yaw := ArcTan2(m31,m33);
+        end;
+      end;
+    eulZXY :
+      begin
+        Result.Roll := ArcSin(m23);
+        if Abs(m21)< 0.99999 then
+        begin
+          Result.Yaw := ArcTan2(-m13,m33);
+          Result.Pitch := ArcTan2(-m21,m22);
+        end
+        else
+        begin
+          Result.Yaw := 0;
+          Result.Pitch := ArcTan2(m12,m11);
+        end;
+      end;
+    eulZYX :
+      begin
+        Result.Yaw := ArcSin(m13);
+        if Abs(m13) < 0.99999 then
+        begin
+          Result.Roll := ArcTan2(m23,m33);
+          Result.Pitch := ArcTan2(m12,m11);
+        end
+        else
+        begin
+          Result.Roll := 0;
+          Result.Pitch :=  ArcTan2(-m21,m22);
+        end;
+      end;
+  end;
+  Result.Roll := RadToDeg(Result.Roll);
+  Result.Pitch := RadToDeg(Result.Pitch);
+  Result.Yaw := RadToDeg(Result.Yaw);
+end;
+
+procedure TGLZQuaternion.ConvertToAngleAxis(out Angle  : Single; out axis : TGLZAffineVector);
+var
+  qw2: Double;
+  den: Double;
+begin
+  qw2 := Self.RealPart*Self.RealPart;
+  Angle := RadToDeg(2*ArcCos(Self.RealPart));
+  den := Sqrt(1-qw2);
+  if den <> 0 then
+  begin
+    Axis.x := Self.X/den;
+    Axis.y := Self.Y/den;
+    Axis.z := Self.Z/den;
+  end
+  else
+  begin
+    Axis.x := 0;
+    Axis.y := 0;
+    Axis.z := 0;
+  end;
+end;
+
 {%endregion%}
 
 {$IFNDEF USE_ASM}
@@ -305,27 +458,6 @@ begin
   Result.Z :=  (A.w * B.z) + (A.x * B.y) - (A.y * B.x) + (A.z * B.w);
   Result.W :=  (A.w * B.w) - (A.x * B.x) - (A.y * B.y) - (A.z * B.z);
 end;
-{*
-class operator TGLZQuaternion.*(constref A, B: TGLZQuaternion): TGLZQuaternion;
-var
-  Temp : TQuaternion;
-begin
-  Temp.RealPart := A.RealPart * B.RealPart - A.ImagePart.X * B.ImagePart.X
-                 - A.ImagePart.Y * B.ImagePart.Y - A.ImagePart.Z * B.ImagePart.Z;
-
-  Temp.ImagePart.X := A.RealPart * B.ImagePart.X + A.ImagePart.X * B.RealPart
-                   + A.ImagePart.Y * B.ImagePart.Z - A.ImagePart.Z * B.ImagePart.Y;
-
-  Temp.ImagePart.Y := A.RealPart * B.ImagePart.Y + A.ImagePart.Y * B.RealPart
-                   + A.ImagePart.Z * B.ImagePart.X - A.ImagePart.X * B.ImagePart.Z;
-
-  Temp.ImagePart.Z := A.RealPart * B.ImagePart.Z + A.ImagePart.Z * B.RealPart
-                   + A.ImagePart.X * B.ImagePart.Y - A.ImagePart.Y * B.ImagePart.X;
-  Result:=Temp;
-end;
-*}
-
-
 
 class operator TGLZQuaternion.=(constref A, B: TGLZQuaternion): Boolean;
 begin

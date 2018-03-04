@@ -13,7 +13,7 @@ type
   { TVector2fHelperFunctionalTest }
 
   TVector2fHelperFunctionalTest = class(TVectorBaseTestCase)
-    published
+  published
       //procedure TestRotate;
       //procedure TestRotateX;
       //procedure TestRotateY;
@@ -25,12 +25,23 @@ type
       //procedure TestShiftObjectFromCenter;
 
 
-      procedure TestStep;
-      //procedure TestFaceForward;
-      procedure TestSaturate;
-      procedure TestSmoothStep;
-      procedure TestLerp;
-      //procedure Test;
+    procedure TestStep;
+    //procedure TestFaceForward;
+    procedure TestSaturate;
+    procedure TestSmoothStep;
+    procedure TestLerp;
+    //procedure Test;
+
+    procedure TestPropertyXY;
+    procedure TestPropertyYX;
+    procedure TestPropertyXX;
+    procedure TestPropertyYY;
+    procedure TestPropertyXYY;
+    procedure TestPropertyYXX;
+    procedure TestPropertyXYX;
+    procedure TestPropertyYXY;
+    procedure TestPropertyXXX;
+    procedure TestPropertyYYY;
 
   end;
 
@@ -176,6 +187,82 @@ begin
   vtt4 := NullVector2f.Lerp(vtt1, 0.25);
   AssertEquals('Lerp:Sub9 X failed ', 15, vtt4.X);
   AssertEquals('Lerp:Sub10 Y failed ', 15, vtt4.Y);
+end;
+
+procedure TVector2fHelperFunctionalTest.TestPropertyXY;
+begin
+  vtt1 := vtt2.xy;
+  AssertEquals('PropertyXY:Sub1 X failed ',   1.558, vtt1.X);
+  AssertEquals('PropertyXY:Sub2 Y failed ',   6.512, vtt1.Y);
+end;
+
+procedure TVector2fHelperFunctionalTest.TestPropertyYX;
+begin
+  vtt1 := vtt2.yx;
+  AssertEquals('PropertyYX:Sub1 X failed ', 6.512, vtt1.X);
+  AssertEquals('PropertyYX:Sub2 Y failed ', 1.558, vtt1.Y);
+end;
+
+procedure TVector2fHelperFunctionalTest.TestPropertyXX;
+begin
+  vtt1 := vtt2.xx;
+  AssertEquals('PropertyYX:Sub1 X failed ', 1.558, vtt1.X);
+  AssertEquals('PropertyYX:Sub2 Y failed ', 1.558, vtt1.Y);
+end;
+
+procedure TVector2fHelperFunctionalTest.TestPropertyYY;
+begin
+  vtt1 := vtt2.yy;
+  AssertEquals('PropertyYX:Sub1 X failed ', 6.512, vtt1.X);
+  AssertEquals('PropertyYX:Sub2 Y failed ', 6.512, vtt1.Y);
+end;
+
+procedure TVector2fHelperFunctionalTest.TestPropertyXYY;
+begin
+  vt3 := vtt2.xyy;
+  AssertEquals('PropertyYX:Sub1 X failed ', 1.558, vt3.X);
+  AssertEquals('PropertyYX:Sub2 Y failed ', 6.512, vt3.Y);
+  AssertEquals('PropertyYX:Sub2 Y failed ', 6.512, vt3.Z);
+end;
+
+procedure TVector2fHelperFunctionalTest.TestPropertyYXX;
+begin
+  vt3 := vtt2.yxx;
+  AssertEquals('PropertyYX:Sub1 X failed ', 6.512, vt3.X);
+  AssertEquals('PropertyYX:Sub2 Y failed ', 1.558, vt3.Y);
+  AssertEquals('PropertyYX:Sub2 Y failed ', 1.558, vt3.Z);
+end;
+
+procedure TVector2fHelperFunctionalTest.TestPropertyXYX;
+begin
+  vt3 := vtt2.xyx;
+  AssertEquals('PropertyYX:Sub1 X failed ', 1.558, vt3.X);
+  AssertEquals('PropertyYX:Sub2 Y failed ', 6.512, vt3.Y);
+  AssertEquals('PropertyYX:Sub2 Y failed ', 1.558, vt3.Z);
+end;
+
+procedure TVector2fHelperFunctionalTest.TestPropertyYXY;
+begin
+  vt3 := vtt2.yxy;
+  AssertEquals('PropertyYX:Sub1 X failed ', 6.512, vt3.X);
+  AssertEquals('PropertyYX:Sub2 Y failed ', 1.558, vt3.Y);
+  AssertEquals('PropertyYX:Sub2 Y failed ', 6.512, vt3.Z);
+end;
+
+procedure TVector2fHelperFunctionalTest.TestPropertyXXX;
+begin
+  vt3 := vtt2.xxx;
+  AssertEquals('PropertyXXX:Sub1 X failed ',   1.558, vt3.X);
+  AssertEquals('PropertyXXX:Sub2 Y failed ',   1.558, vt3.Y);
+  AssertEquals('PropertyXXX:Sub3 Z failed ',   1.558, vt3.Z);
+end;
+
+procedure TVector2fHelperFunctionalTest.TestPropertyYYY;
+begin
+  vt3 := vtt2.yyy;
+  AssertEquals('PropertyXXX:Sub1 X failed ',   6.512, vt3.X);
+  AssertEquals('PropertyXXX:Sub2 Y failed ',   6.512, vt3.Y);
+  AssertEquals('PropertyXXX:Sub3 Z failed ',   6.512, vt3.Z);
 end;
 
 initialization

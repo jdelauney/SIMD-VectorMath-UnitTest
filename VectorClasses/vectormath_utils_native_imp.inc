@@ -29,6 +29,16 @@ begin
   result.Create(vx,vy,vz,vw);
 end;
 
+function vec4(vx:single):TGLZVector4f;
+begin
+  result.Create(vx,vx,vx,vx);
+end;
+
+function Affinevec4(vx:single):TGLZVector4f;
+begin
+  result.Create(vx,vx,vx,1);
+end;
+
 function AffineVec4(vx,vy,vz:single):TGLZVector4f;
 begin
   result.Create(vx,vy,vz,1);
@@ -93,6 +103,19 @@ begin
   result.Y := Cos(v.Y);
 end;
 
+function Fract(Constref v:TGLZVector4f):TGLZVector4f;
+var
+  vt : TGLZVector4f;
+  vi : TGLZVector4i;
+begin
+  vi := v.Floor;
+  vt.Create(vi.x,vi.y,vi.z,vi.W);
+  vt := v - vt;
+  result := vt;    //vt.Trunc
+end;
+
+
+
 {%endregion}
 
 {$IFNDEF USE_ASM}
@@ -141,6 +164,22 @@ begin
 end;
 
 
+//procedure ConvertQuaternionToArcPoints(Constref Q : TGLZQuaternion; var ArcFrom, ArcTo: TGLZVector);
+//var
+//   s, invS : Single;
+//begin
+//   s:=Q.ImagePart.X*Q.ImagePart.X+Q.ImagePart.Y*Q.ImagePart.Y;
+//   if s=0 then ArcFrom := AffineVectorMake( 0, 1, 0)
+//   else
+//   begin
+//      invS:=InvSqrt(s);
+//      ArcFrom := AffineVectorMake( -Q.ImagePart.Y*invS, Q.ImagePart.X*invS, 0);
+//   end;
+//   ArcTo.X:=Q.RealPart*ArcFrom.X-Q.ImagePart.Z*ArcFrom.Y;
+//   ArcTo.Y:=Q.RealPart*ArcFrom.Y+Q.ImagePart.Z*ArcFrom.X;
+//   ArcTo.Z:=Q.ImagePart.X*ArcFrom.Y-Q.ImagePart.Y*ArcFrom.X;
+//   if Q.RealPart<0 then ArcFrom := AffineVectorMake( -ArcFrom.X, -ArcFrom.Y, 0);
+//end;
 
 {%endregion%}
 

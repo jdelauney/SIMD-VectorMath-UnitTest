@@ -141,6 +141,18 @@ begin
   Result.Y := A.Y / B.Y;
 end;
 
+class operator TGLZVector2f.+(constref A: TGLZVector2f; constref B: TGLZVector2i): TGLZVector2f;
+begin
+  Result.X := A.X + B.X;
+  Result.Y := A.Y + B.Y;
+end;
+
+class operator TGLZVector2f.-(constref A: TGLZVector2f; constref B: TGLZVector2i): TGLZVector2f;
+begin
+  Result.X := A.X - B.X;
+  Result.Y := A.Y - B.Y;
+end;
+
 {%endregion%}
 
 {%region%----[ Functions ]------------------------------------------------------}
@@ -193,6 +205,11 @@ end;
 function TGLZVector2f.MulAdd(constref A,B:TGLZVector2f): TGLZVector2f;
 begin
   Result := (Self*A) + B;
+end;
+
+function TGLZVector2f.MulSub(constref A,B:TGLZVector2f): TGLZVector2f;
+begin
+  Result := (Self*A) - B;
 end;
 
 function TGLZVector2f.MulDiv(constref A,B:TGLZVector2f): TGLZVector2f;

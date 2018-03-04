@@ -719,6 +719,16 @@ asm
   movaps [RESULT], xmm0
 end;
 
+function TGLZVector4f.MulSub(Constref B, C: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
+asm
+  movaps xmm0,[RCX]
+  //movaps xmm1, [B]
+  //movaps xmm2, [C]
+  mulps  xmm0, XMMWORD PTR [B] //xmm1
+  Subps  xmm0, XMMWORD PTR [C] //xmm2
+  movaps [RESULT], xmm0
+end;
+
 function TGLZVector4f.MulDiv(Constref B, C: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
 asm
   movaps xmm0,[RCX]
@@ -1059,331 +1069,84 @@ asm
   movaps     [RESULT], xmm0
 end;
 
+function TGLZVector4f.Floor : TGLZVector4i; assembler;//nostackframe;register;
+asm
+  movaps     xmm0, [RCX]
+  push     rax                               // create a mem area for mxcsr
+  stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
+  mov      eax, DWORD PTR [rsp]              // get it
+  mov      ecx, eax                          // make local copy   self is done with at this point
+  // smaller opcode no mem access required.
+  and      eax, $00009FFF
+  or       eax, $00002000;                    // Set bits Round Mask Down
+  //{$endif}
+  mov      DWORD PTR [rsp], eax              // mov bits to mem
+  ldmxcsr  DWORD PTR [rsp]                   // set new bits
+  cvtps2dq xmm0, xmm0
+  mov      DWORD PTR [rsp], ecx              // put old bits in mem
+  ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
+  pop      rax
+  movaps   [Result], xmm0
+end;
+
+function TGLZVector4f.Ceil : TGLZVector4i; assembler;//nostackframe;register;
+asm
+  movaps     xmm0, [RCX]
+  push     rax                               // create a mem area for mxcsr
+  stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
+  mov      eax, DWORD PTR [rsp]              // get it
+  mov      ecx, eax                          // make local copy   self is done with at this point
+  // smaller opcode no mem access required.
+  and      eax, $00009FFF
+  or       eax, $00004000;                    // Set bits Round Mask up
+  //{$endif}
+  mov      DWORD PTR [rsp], eax              // mov bits to mem
+  ldmxcsr  DWORD PTR [rsp]                   // set new bits
+  cvtps2dq xmm0, xmm0
+  mov      DWORD PTR [rsp], ecx              // put old bits in mem
+  ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
+  pop      rax
+  movaps   [Result], xmm0
+end;
+
+function TGLZVector4f.Fract: TGLZVector4f; assembler;//nostackframe;register;
+asm
+  movaps     xmm0, [RCX]
+  movaps   xmm1, xmm0
+  push     rax                               // create a mem area for mxcsr
+  stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
+  mov      eax, DWORD PTR [rsp]              // get it
+  mov      ecx, eax                          // make local copy   self is done with at this point
+  // smaller opcode no mem access required.
+  and      eax, $00009FFF
+  or       eax, $00006000                    // Set bits
+  mov      DWORD PTR [rsp], eax              // mov bits to mem
+  ldmxcsr  DWORD PTR [rsp]                   // set new bits
+  cvtps2dq xmm0, xmm0
+  mov      DWORD PTR [rsp], ecx              // put old bits in mem
+  ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
+  pop      rax
+  cvtdq2ps xmm0, xmm0
+  subps    xmm1, xmm0 // A - Trunc(A)
+  movaps   [Result], xmm1
+end;
+
+function TGLZVector4f.Sqrt: TGLZVector4f;assembler;nostackframe;register;
+asm
+  // Rounding mode defaults to round-to-nearest
+  //movaps     xmm0, [RCX]
+  sqrtps xmm0, XMMWORD PTR [RCX]//xmm0
+  movaps     [RESULT], xmm0
+end;
+
+function TGLZVector4f.InvSqrt: TGLZVector4f;assembler;nostackframe;register;
+asm
+  // Rounding mode defaults to round-to-nearest
+  //movaps     xmm0, [RCX]
+  rsqrtps xmm0, XMMWORD PTR [RCX]//xmm0
+  movaps     [RESULT], xmm0
+end;
+
 {%endregion%}
 
-{%region%----[ Operations on Self ]-----------------------------------------------}
 
-procedure TGLZVector4f.pAdd(constref A: TGLZVector4f); assembler; nostackframe; register;
-asm
-   movaps xmm0,[RCX]
-   {$ifdef TEST}
-     addps  xmm0,[A]
-   {$else}
-     movaps xmm1,[A]
-     addps  xmm0, xmm1
-   {$endif}
-   movaps [RCX],xmm0
-End;
-
-procedure TGLZVector4f.pSub(constref A: TGLZVector4f); assembler; nostackframe; register;
-asm
-   movaps xmm0,[RCX]
-   {$ifdef TEST}
-     subps  xmm0,[A]
-   {$else}
-     movaps xmm1,[A]
-     subps  xmm0, xmm1
-   {$endif}
-   movaps [RCX],xmm0
-End;
-
-procedure TGLZVector4f.pMul(constref A: TGLZVector4f); assembler; nostackframe; register;
-asm
-   movaps xmm0,[RCX]
-   {$ifdef TEST}
-     mulps  xmm0,[A]
-   {$else}
-     movaps xmm1,[A]
-     mulps  xmm0, xmm1
-   {$endif}
-   movaps [RCX],xmm0
-End;
-
-procedure TGLZVector4f.pDiv(constref A: TGLZVector4f); assembler; nostackframe; register;
-asm
-   movaps xmm0,[RCX]
-   {$ifdef TEST}
-     {$ifdef USE_ASM_SIMD_HIGHPRECISION}
-        divps  xmm0,[A]
-     {$else}
-       movaps xmm1,[A]
-       rcpps  xmm1, xmm1
-       mulps  xmm0,xmm1
-     {$endif}
-   {$else}
-     movaps xmm1,[A]
-     {$ifdef USE_ASM_SIMD_HIGHPRECISION}
-        divps  xmm0,xmm1
-     {$else}
-       rcpps  xmm1, xmm1
-       mulps  xmm0,xmm1
-     {$endif}
-   {$endif}
-   movaps [RCX],xmm0
-End;
-
-procedure TGLZVector4f.pAdd(constref A: Single); assembler; nostackframe; register;
-asm
-  movaps xmm0,[RCX]
-  {$ifdef TEST}
-    movlps  xmm1,[A]
-  {$else}
-    movss  xmm1,[A]
-  {$endif}
-  shufps xmm1, xmm1,0
-  addps  xmm0, xmm1
-  movaps [RCX],xmm0
-End;
-
-procedure TGLZVector4f.pSub(constref A: Single); assembler; nostackframe; register;
-asm
-  movaps xmm0,[RCX]
-  {$ifdef TEST}
-    movlps  xmm1,[A]
-  {$else}
-    movss  xmm1,[A]
-  {$endif}
-  shufps xmm1, xmm1,0
-  subps  xmm0, xmm1
-  movaps [RCX],xmm0
-End;
-
-procedure TGLZVector4f.pMul(constref A: Single); assembler; nostackframe; register;
-asm
-  movaps xmm0,[RCX]
-  {$ifdef TEST}
-    movlps  xmm1,[A]
-  {$else}
-    movss  xmm1,[A]
-  {$endif}
-  shufps xmm1, xmm1,0
-  mulps  xmm0, xmm1
-  movaps [RCX],xmm0
-End;
-
-procedure TGLZVector4f.pDiv(constref A: Single); assembler; nostackframe; register;
-asm
-  movaps xmm0,[RCX]
-  {$ifdef TEST}
-    movlps  xmm1,[A]
-  {$else}
-    movss  xmm1,[A]
-  {$endif}
-  shufps xmm1, xmm1,0
-  divps  xmm0, xmm1
-  movaps [RCX],xmm0
-End;
-
-procedure TGLZVector4f.pInvert;assembler; nostackframe; register;
-asm
-//  movaps xmm1,[RCX]
-  movaps xmm0, [RIP+cNullVector4f]
-  subps xmm0,[RCX] //xmm1
-  movaps [RCX],xmm0
-End;
-
-procedure TGLZVector4f.pNegate; assembler; nostackframe; register;
-asm
-  movaps xmm0,[RCX]
-  {$ifdef TEST}
-    xorps xmm0, [RIP+cSSE_MASK_NEGATE]
-  {$else}
-    movaps xmm1, [RIP+cSSE_MASK_NEGATE]
-    xorps xmm0, xmm1
-  {$endif}
-  movaps [RCX],xmm0
-End;
-
-procedure TGLZVector4f.pAbs; assembler; nostackframe; register;
-asm
-  movaps xmm0,[RCX]
-  {$ifdef TEST}
-    andps    xmm0, [RIP+cSSE_MASK_ABS]
-  {$else}
-    movaps   xmm1, [RIP+cSSE_MASK_ABS]
-    andps    xmm0, xmm1
-  {$endif}
-  movaps   [RCX], xmm0
-end;
-
-procedure TGLZVector4f.pDivideBy2;assembler; nostackframe; register;
-asm
-  movaps xmm0,[RCX]
-  {$ifdef TEST}
-      mulps xmm0,[RIP+cHalfOneVector4f]
-  {$else}
-     movaps xmm1, [RIP+cHalfOneVector4f]
-     mulps xmm0, xmm1
-  {$endif}
-  movaps [RCX],xmm0
-end;
-
-procedure TGLZVector4f.pCrossProduct(constref A: TGLZVector4f);assembler; nostackframe; register;
-asm
-  movaps xmm0,[RCX]
-
-  movaps xmm1, [A]
-  movaps xmm2, xmm0
-  movaps xmm3, xmm1
-
-  // shuffle members
-  // becarefull at the order in the register (right to left )= w z x y )
-  // 1st arg xmm = w z y x = 11 10 01 00
-  // 2nd arg xmm = w z y x = 11 10 01 00
-  // 3rd arg where to place members of 1st arg in 2nd arg
-  // becarefull reading from right to left
-
-  shufps xmm0, xmm0, $c9  //w z y x -> $c9 = 11 00 10 01 -> w x z y
-  shufps xmm1, xmm1, $d2  //w z y x -> $d2 = 11 01 00 10 -> w y x z
-  shufps xmm2, xmm2, $d2
-  shufps xmm3, xmm3, $c9
-  // scale
-  mulps  xmm0, xmm1
-  mulps  xmm2, xmm3
-  // sub the results
-  subps  xmm0, xmm2
-
-  //andps xmm0, [rip+cSSE_MASK_NO_W]
-  //addps xmm0, [rip+cWOnevector4f] // it would better change by logical operator
-  //movhlps xmm1,xmm0
-  movaps [RCX], xmm0
-end;
-
-procedure TGLZVector4f.pNormalize;  assembler; nostackframe; register;
-asm
-  movaps xmm0,[RCX]
-  movaps xmm3,xmm0
-  andps  xmm3, [RIP+cSSE_MASK_ONLY_W]
-  andps  xmm0, [RIP+cSSE_MASK_NO_W]
-  movaps xmm2, xmm0
-  {$IFDEF USE_ASM_SSE_3}
-    mulps  xmm0, xmm0
-    haddps xmm0, xmm0
-    haddps xmm0, xmm0
-  {$ELSE}
-    mulps xmm0, xmm0
-    movaps xmm1, xmm0
-    shufps xmm0, xmm1, $4e
-    addps xmm0, xmm1
-    movaps xmm1, xmm0
-    shufps xmm1, xmm1, $11
-    addps xmm0, xmm1
-  {$ENDIF}
-  {$IFDEF USE_ASM_SIMD_HIGHPRECISION}
-    // High Precision
-    sqrtps xmm0, xmm0
-    divps xmm2, xmm0
-  {$ELSE}
-    // Low precision
-    rsqrtps xmm0, xmm0       //approximate reciprocal
-    mulps xmm2, xmm0
-  {$ENDIF}
-  addps xmm2,xmm3
-  movaps [RCX], xmm2
-end;
-
-procedure TGLZVector4f.pMin(constref B: TGLZVector4f); assembler; nostackframe; register;
-asm
-  movaps xmm0,[RCX]
-  {$ifdef TEST}
-    minps  xmm0, [B]
-  {$else}
-    movaps xmm1, [B]
-    minps  xmm0, xmm1
-  {$endif}
-  movaps [RCX],xmm0
-End;
-
-procedure TGLZVector4f.pMin(constref B: Single); assembler; nostackframe; register;
-asm
-  movaps xmm0,[RCX]
-  movlps xmm1, [B]
-  shufps xmm1,  xmm1, $00
-  minps  xmm0, xmm1
-  movaps [RCX],xmm0
-End;
-
-procedure TGLZVector4f.pMax(constref B: TGLZVector4f); assembler; nostackframe; register;
-asm
-  movaps xmm0,[RCX]
-  {$ifdef TEST}
-    maxps  xmm0, [B]
-  {$else}
-    movaps xmm1, [B]
-    maxps  xmm0, xmm1
-  {$endif}
-  movaps [RCX],xmm0
-End;
-
-procedure TGLZVector4f.pMax(constref B: Single); assembler; nostackframe; register;
-asm
-  movaps xmm0,[RCX]
-  movlps xmm1, [B]
-  shufps xmm1, xmm1, $00
-  maxps  xmm0, xmm1
-  movaps [RCX],xmm0
-End;
-
-procedure TGLZVector4f.pClamp(Constref AMin, AMax: TGLZVector4f); assembler; nostackframe; register;
-asm
-  movaps xmm0,[RCX]
-  {$ifdef TEST}
-    maxps  xmm0, [AMin]
-    minps  xmm0, [AMax]
-  {$else}
-    movaps xmm2, [AMin]
-    movaps xmm3, [AMax]
-    maxps  xmm0, xmm2
-    minps  xmm0, xmm3
-  {$endif}
-  movaps [RCX],xmm0
-End;
-
-procedure TGLZVector4f.pClamp(constref AMin, AMax: Single); assembler; nostackframe; register;
-asm
-  movaps xmm0,[RCX]
-  {$ifdef TEST}
-    movlps xmm2, [AMin]
-    movlps xmm3, [AMax]
-  {$else}
-    movss xmm2, [AMin]
-    movss xmm3, [AMax]
-  {$endif}
-  shufps xmm2, xmm2, 0 //xmm2, $00 // Replicate AMin
-  shufps xmm3, xmm3,0 //xmm3, $00 // Replicate AMax
-  maxps  xmm0, xmm2
-  minps  xmm0, xmm3
-  movaps [RCX],xmm0
-End;
-
-procedure TGLZVector4f.pMulAdd(Constref B, C: TGLZVector4f); assembler; nostackframe; register; // (Self*B)+c
-asm
-  movaps xmm0,[RCX]
-  {$ifdef TEST}
-    mulps  xmm0, [B]
-    addps  xmm0, [C]
-  {$else}
-    movaps xmm1, [B]
-    movaps xmm2, [C]
-    mulps  xmm0, xmm1
-    addps  xmm0, xmm2
-  {$endif}
-  movaps [RCX],xmm0
-End;
-
-procedure TGLZVector4f.pMulDiv(Constref B, C: TGLZVector4f); assembler; nostackframe; register; // (Self*B)-c
-asm
-  movaps xmm0,[RCX]
-  {$ifdef TEST}
-    mulps  xmm0, [B] //xmm1
-    Divps  xmm0, [C] //xmm2
-  {$else}
-    movaps xmm1, [B]
-    movaps xmm2, [C]
-    mulps  xmm0, xmm1
-    Divps  xmm0, xmm2
-  {$endif}
-  movaps [RCX],xmm0
-End;
-
-{%endregion%}

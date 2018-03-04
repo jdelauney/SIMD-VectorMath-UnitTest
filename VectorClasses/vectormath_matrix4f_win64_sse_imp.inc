@@ -613,9 +613,10 @@ end;
 
 Function TGLZMatrix4f.Translate(constref V : TGLZVector) : TGLZMatrix4f;// assembler;
 begin
-  Self.X.W:=Self.X.W+v.X;
-  Self.Y.W:=Self.Y.W+v.Y;
-  Self.Z.W:=Self.Z.W+v.Z;
+  Result := Self;
+  Result.X.W := Result.X.W+v.X;
+  Result.Y.W := Result.Y.W+v.Y;
+  Result.Z.W := Result.Z.W+v.Z;
 end;
 
 //asm

@@ -209,121 +209,6 @@ begin
    end;
 end;
 
-function TGLZVector4f.GetXY : TGLZVector2f;
-begin
-   Result.Create(Self.X,Self.Y);
-end;
-
-function TGLZVector4f.GetYX : TGLZVector2f;
-begin
-   Result.Create(Self.Y,Self.X);
-end;
-
-function TGLZVector4f.GetXZ : TGLZVector2f;
-begin
-   Result.Create(Self.X,Self.Z);
-end;
-
-function TGLZVector4f.GetZX : TGLZVector2f;
-begin
-   Result.Create(Self.Z,Self.X);
-end;
-
-function TGLZVector4f.GetYZ : TGLZVector2f;
-begin
-   Result.Create(Self.Y,Self.Z);
-end;
-
-function TGLZVector4f.GetZY : TGLZVector2f;
-begin
-   Result.Create(Self.Z,Self.Y);
-end;
-
-function TGLZVector4f.GetXX : TGLZVector2f;
-begin
-   Result.Create(Self.X,Self.X);
-end;
-
-function TGLZVector4f.GetYY : TGLZVector2f;
-begin
-   Result.Create(Self.Y,Self.Y);
-end;
-
-function TGLZVector4f.GetZZ : TGLZVector2f;
-begin
-   Result.Create(Self.Z,Self.Z);
-end;
-
-function TGLZVector4f.GetXYZ : TGLZVector4f;
-begin
-  Result := Self;
-end;
-
-function TGLZVector4f.GetXZY : TGLZVector4f;
-begin
-  result := Swizzle(swXZYW);
-end;
-
-function TGLZVector4f.GetYXZ : TGLZVector4f;
-begin
-  result := Swizzle(swYXZW);
-end;
-
-function TGLZVector4f.GetYZX : TGLZVector4f;
-begin
-  result := Swizzle(swYZXW);
-end;
-
-function TGLZVector4f.GetZXY : TGLZVector4f;
-begin
-  result := Swizzle(swZXYW);
-end;
-
-function TGLZVector4f.GetZYX : TGLZVector4f;
-begin
-  result := Swizzle(swZYXW);
-end;
-
-function TGLZVector4f.GetXXX : TGLZVector4f;
-begin
-  result := Swizzle(swXXXX);
-end;
-
-function TGLZVector4f.GetYYY : TGLZVector4f;
-begin
-  result := Swizzle(swYYYY);
-end;
-
-function TGLZVector4f.GetZZZ : TGLZVector4f;
-begin
-  result := Swizzle(swZZZZ);
-end;
-
-function TGLZVector4f.GetYYX : TGLZVector4f;
-begin
-  Result.X := Self.Y;
-  Result.Y := Self.Y;
-  Result.Z := Self.X;
-  Result.W := Self.W;
-end;
-
-function TGLZVector4f.GetXYY : TGLZVector4f;
-begin
-  Result.X := Self.X;
-  Result.Y := Self.Y;
-  Result.Z := Self.Y;
-  Result.W := Self.W;
-end;
-
-function TGLZVector4f.GetYXY : TGLZVector4f;
-begin
-  Result.X := Self.Y;
-  Result.Y := Self.X;
-  Result.Z := Self.Y;
-  Result.W := Self.W;
-end;
-
-
 {%endregion}
 
 {$IFNDEF USE_ASM}
@@ -465,14 +350,14 @@ end;
 
 function TGLZVector4f.Distance(constref A: TGLZVector4f):Single;
 begin
-  result := sqrt(sqr(Self.X-A.X)+ sqr(Self.Y-A.Y) + sqr(Self.Z-A.Z));
+  result := System.sqrt(sqr(Self.X-A.X)+ sqr(Self.Y-A.Y) + sqr(Self.Z-A.Z));
 end;
 
 function TGLZVector4f.Length : Single;
 //var
 //X1 : Single;
 begin
-  Result := Sqrt((Self.X * Self.X) +(Self.Y * Self.Y) +(Self.Z * Self.Z));
+  Result := System.Sqrt((Self.X * Self.X) +(Self.Y * Self.Y) +(Self.Z * Self.Z));
   { Ensure result is non-zero to avoid divide-by-zero errors }
   //if X1 = 0 then X1 := 0.0000000001;
   //Result := X1;
@@ -541,7 +426,7 @@ begin
   end
   else
   begin
-    invLen:=1/Sqrt(vn);
+    invLen:=1/System.Sqrt(vn);
     result.X:=Self.X*invLen;
     result.Y:=Self.Y*invLen;
     result.Z:=Self.Z*invLen;
@@ -600,6 +485,11 @@ End;
 function TGLZVector4f.MulAdd(Constref B, C: TGLZVector4f): TGLZVector4f;
 begin
   result := (self*B)+C;
+end;
+
+function TGLZVector4f.MulSub(Constref B, C: TGLZVector4f): TGLZVector4f;
+begin
+  result := (self*B)-C;
 end;
 
 function TGLZVector4f.MulDiv(Constref B, C: TGLZVector4f): TGLZVector4f;
@@ -672,190 +562,44 @@ begin
   result.W:=System.Trunc(Self.W);
 end;
 
-{%endregion%}
-
-{%region%----[ Operations on Self ]---------------------------------------------}
-
-procedure TGLZVector4f.pAdd(constref A: TGLZVector4f);
+function TGLZVector4f.Floor : TGLZVector4i;
 begin
-  Self.X := Self.X + A.X;
-  Self.Y := Self.Y + A.Y;
-  Self.Z := Self.Z + A.Z;
-  Self.W := Self.W + A.W;
+ result.X := GLZMath.Floor(Self.X);
+ result.Y := GLZMath.Floor(Self.Y);
+ result.Z := GLZMath.Floor(Self.Z);
+ result.W := GLZMath.Floor(Self.W);
 end;
 
-procedure TGLZVector4f.pSub(constref A: TGLZVector4f);
+function TGLZVector4f.Ceil : TGLZVector4i;
 begin
-  Self.X := Self.X - A.X;
-  Self.Y := Self.Y - A.Y;
-  Self.Z := Self.Z - A.Z;
-  Self.W := Self.W - A.W;
+ result.X := GLZMath.Ceil(Self.X);
+ result.Y := GLZMath.Ceil(Self.Y);
+ result.Z := GLZMath.Ceil(Self.Z);
+ result.W := GLZMath.Ceil(Self.W);
 end;
 
-procedure TGLZVector4f.pMul(constref A: TGLZVector4f);
+function TGLZVector4f.Fract : TGLZVector4f;
 begin
-  Self.X := Self.X * A.X;
-  Self.Y := Self.Y * A.Y;
-  Self.Z := Self.Z * A.Z;
-  Self.W := Self.W * A.W;
+ result.X := GLZMath.Fract(Self.X);
+ result.Y := GLZMath.Fract(Self.Y);
+ result.Z := GLZMath.Fract(Self.X);
+ result.W := GLZMath.Fract(Self.Y);
 end;
 
-procedure TGLZVector4f.pDiv(constref A: TGLZVector4f);
+function TGLZVector4f.Sqrt:TGLZVector4f;
 begin
-  Self.X := Self.X / A.X;
-  Self.Y := Self.Y / A.Y;
-  Self.Z := Self.Z / A.Z;
-  Self.W := Self.W / A.W;
+  result.X:=System.Sqrt(Self.X);
+  result.Y:=System.Sqrt(Self.Y);
+  result.Z:=System.Sqrt(Self.Z);
+  result.W:=System.Sqrt(Self.W);
 end;
 
-procedure TGLZVector4f.pAdd(constref A: Single);
+function TGLZVector4f.InvSqrt:TGLZVector4f;
 begin
-  Self.X := Self.X + A;
-  Self.Y := Self.Y + A;
-  Self.Z := Self.Z + A;
-  Self.W := Self.W + A;
-end;
-
-procedure TGLZVector4f.pSub(constref A: Single);
-begin
-  Self.X := Self.X - A;
-  Self.Y := Self.Y - A;
-  Self.Z := Self.Z - A;
-  Self.W := Self.W - A;
-end;
-
-procedure TGLZVector4f.pMul(constref A: Single);
-begin
-  Self.X := Self.X * A;
-  Self.Y := Self.Y * A;
-  Self.Z := Self.Z * A;
-  Self.W := Self.W * A;
-end;
-
-procedure TGLZVector4f.pDiv(constref A: Single);
-begin
-  Self.X := Self.X / A;
-  Self.Y := Self.Y / A;
-  Self.Z := Self.Z / A;
-  Self.W := Self.W / A;
-end;
-
-procedure TGLZVector4f.pInvert;
-begin
-  Self.X := -Self.X;
-  Self.Y := -Self.Y;
-  Self.Z := -Self.Z;
-  Self.W := -Self.W;
-end;
-
-procedure TGLZVector4f.pNegate;
-begin
-  Self.X := -Self.X;
-  Self.Y := -Self.Y;
-  Self.Z := -Self.Z;
-  Self.W := -Self.W;
-end;
-
-procedure TGLZVector4f.pAbs;
-begin
-  Self.X:=System.Abs(Self.X);
-  Self.Y:=System.Abs(Self.Y);
-  Self.Z:=System.Abs(Self.Z);
-  Self.W:=System.Abs(Self.W);
-End;
-
-procedure TGLZVector4f.pDivideBy2;
-begin
-  Self.x := Self.X*0.5;
-  Self.y := Self.Y*0.5;
-  Self.z := Self.Z*0.5;
-  Self.w := Self.W*0.5;
-end;
-
-procedure TGLZVector4f.pCrossProduct(constref A: TGLZVector4f);
-Var
- Tmp : TGLZVector4f;
-begin
-  Tmp.X:=Self.Y*A.Z-Self.Z*A.Y;
-  Tmp.Y:=Self.Z*A.X-Self.X*A.Z;
-  Tmp.Z:=Self.X*A.Y-Self.Y*A.X;
-  Tmp.W:=0;
-  Self := Tmp;
-end;
-
-procedure TGLZVector4f.pNormalize;
-var
-  invLen : Single;
-  vn : single;
-begin
-  vn:=Self.Norm;
-  if vn=0 then
-  begin
-//    result := Self;
-    Self.W := 0; //cZero;
-  end
-  else
-  begin
-    invLen:=1/Sqrt(vn);
-    Self.X:=Self.X*invLen;
-    Self.Y:=Self.Y*invLen;
-    Self.Z:=Self.Z*invLen;
-    Self.W:=Self.W;
-  end;
-end;
-
-procedure TGLZVector4f.pMin(constref B: TGLZVector4f);
-begin
-  if Self.X>B.X then Self.X := B.X;
-  if Self.Y>B.Y then Self.Y := B.Y;
-  if Self.Z>B.Z then Self.Z := B.Z;
-  if Self.W>B.W then Self.W := B.W;
-End;
-
-procedure TGLZVector4f.pMin(constref B: Single);
-begin
-  if Self.X>B then Self.X := B;
-  if Self.Y>B then Self.Y := B;
-  if Self.Z>B then Self.Z := B;
-  if Self.W>B then Self.W := B;
-End;
-
-procedure TGLZVector4f.pMax(constref B: TGLZVector4f);
-begin
-  if Self.X<B.X then Self.X := B.X;
-  if Self.Y<B.Y then Self.Y := B.Y;
-  if Self.Z<B.Z then Self.Z := B.Z;
-  if Self.W<B.W then Self.W := B.W;
-End;
-
-procedure TGLZVector4f.pMax(constref B: Single);
-begin
-  if Self.X<B then Self.X := B;
-  if Self.Y<B then Self.Y := B;
-  if Self.Z<B then Self.Z := B;
-  if Self.W<B then Self.W := B;
-End;
-
-procedure TGLZVector4f.pClamp(Constref AMin, AMax: TGLZVector4f);
-begin
-  Self.pMax(AMin);
-  Self.pMin(AMax);
-End;
-
-procedure TGLZVector4f.pClamp(constref AMin, AMax: Single);
-begin
-  Self.pMax(AMin);
-  Self.pMin(AMax);
-End;
-
-procedure TGLZVector4f.pMulAdd(Constref B, C: TGLZVector4f); // (Self*B)+c
-begin
-  Self := (self*B)+C;
-end;
-
-procedure TGLZVector4f.pMulDiv(Constref B, C: TGLZVector4f); // (Self*B)-c
-begin
-  Self := (self*B)/C;
+  result.X:=GLZMath.InvSqrt(Self.X);
+  result.Y:=GLZMath.InvSqrt(Self.Y);
+  result.Z:=GLZMath.InvSqrt(Self.Z);
+  result.W:=GLZMath.InvSqrt(Self.W);
 end;
 
 {%endregion%}

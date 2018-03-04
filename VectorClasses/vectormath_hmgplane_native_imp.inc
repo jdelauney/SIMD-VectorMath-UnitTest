@@ -9,7 +9,7 @@ var
 begin
    v1:=p2-p1;
    v2:=p3-p1;
-   v1.pCrossProduct(v2);
+   v1 := v1.CrossProduct(v2);
    Self.AsVector := v1.Normalize;
 end;
 
@@ -124,7 +124,7 @@ var
    n : Single;
 begin
    n:=1/Sqrt(Self.X*Self.X+Self.Y*Self.Y+Self.Z*Self.Z);
-   Self.AsVector.pMul(n);
+   Self.AsVector := Self.AsVector * n;
 end;
 
 {%endregion%}

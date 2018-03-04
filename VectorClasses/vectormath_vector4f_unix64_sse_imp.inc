@@ -530,6 +530,16 @@ asm
   movhlps xmm1, xmm0
 end;
 
+function TGLZVector4f.MulSub(Constref B, C: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
+asm
+  movaps xmm0,[RDI]
+  //movaps xmm1, [B]
+  //movaps xmm2, [C]
+  mulps  xmm0, XMMWORD PTR [B] //xmm1
+  Subps  xmm0, XMMWORD PTR [C] //xmm2
+  movhlps xmm1, xmm0
+end;
+
 function TGLZVector4f.MulDiv(Constref B, C: TGLZVector4f): TGLZVector4f; assembler; nostackframe; register;
 asm
   movaps  xmm0, [RDI]
@@ -854,11 +864,92 @@ asm
   movq     RDX,  xmm1
 end;
 
+
+function TGLZVector4f.Floor : TGLZVector4i; assembler;//nostackframe;register;
+asm
+  movaps     xmm0, [RDI]
+  push     rax                               // create a mem area for mxcsr
+  stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
+  mov      eax, DWORD PTR [rsp]              // get it
+  mov      ecx, eax                          // make local copy   self is done with at this point
+  // smaller opcode no mem access required.
+  and      eax, $00009FFF
+  or       eax, $00002000;                    // Set bits Round Mask Down
+  //{$endif}
+  mov      DWORD PTR [rsp], eax              // mov bits to mem
+  ldmxcsr  DWORD PTR [rsp]                   // set new bits
+  cvtps2dq xmm0, xmm0
+  mov      DWORD PTR [rsp], ecx              // put old bits in mem
+  ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
+  pop      rax
+  movhlps  xmm1, xmm0
+  movq     RAX,  xmm0
+  movq     RDX,  xmm1
+end;
+
+function TGLZVector4f.Ceil : TGLZVector4i; assembler;//nostackframe;register;
+asm
+  movaps     xmm0, [RDI]
+  push     rax                               // create a mem area for mxcsr
+  stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
+  mov      eax, DWORD PTR [rsp]              // get it
+  mov      ecx, eax                          // make local copy   self is done with at this point
+  // smaller opcode no mem access required.
+  and      eax, $00009FFF
+  or       eax, $00004000;                    // Set bits Round Mask up
+  //{$endif}
+  mov      DWORD PTR [rsp], eax              // mov bits to mem
+  ldmxcsr  DWORD PTR [rsp]                   // set new bits
+  cvtps2dq xmm0, xmm0
+  mov      DWORD PTR [rsp], ecx              // put old bits in mem
+  ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
+  movhlps  xmm1, xmm0
+  movq     RAX,  xmm0
+  movq     RDX,  xmm1
+end;
+
+function TGLZVector4f.Fract: TGLZVector4f; assembler;//nostackframe;register;
+asm
+  movaps     xmm0, [RDI]
+  movaps   xmm1, xmm0
+  push     rax                               // create a mem area for mxcsr
+  stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
+  mov      eax, DWORD PTR [rsp]              // get it
+  mov      ecx, eax                          // make local copy   self is done with at this point
+  // smaller opcode no mem access required.
+  and      eax, $00009FFF
+  or       eax, $00006000                    // Set bits
+  mov      DWORD PTR [rsp], eax              // mov bits to mem
+  ldmxcsr  DWORD PTR [rsp]                   // set new bits
+  cvtps2dq xmm0, xmm0
+  mov      DWORD PTR [rsp], ecx              // put old bits in mem
+  ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
+  pop      rax
+  cvtdq2ps xmm0, xmm0
+  subps    xmm1, xmm0 // A - Trunc(A)
+
+end;
+
+function TGLZVector4f.Sqrt: TGLZVector4f;assembler;nostackframe;register;
+asm
+  // Rounding mode defaults to round-to-nearest
+  //movaps     xmm0, [RCX]
+  sqrtps xmm0, XMMWORD PTR [RDI]//xmm0
+  movhlps xmm1,xmm0
+end;
+
+function TGLZVector4f.InvSqrt: TGLZVector4f;assembler;nostackframe;register;
+asm
+  // Rounding mode defaults to round-to-nearest
+  //movaps     xmm0, [RCX]
+  rsqrtps xmm0, XMMWORD PTR [RDI]//xmm0
+  movhlps xmm1,xmm0
+end;
 {%endregion%}
 
 {%region%----[ Operations on Self ]-----------------------------------------------}
 
-procedure TGLZVector4f.pAdd(constref A: TGLZVector4f); assembler; nostackframe; register;
+(* procedure TGLZVector4f.pAdd(constref A: TGLZVector4f); assembler; nostackframe; register;
 asm
    movaps  xmm0, [RDI]
    movaps  xmm1, [A]
@@ -1094,6 +1185,6 @@ asm
   mulps   xmm0, xmm1
   divps   xmm0, xmm2
   movaps [RDI], xmm0
-End;
+End;  *)
 
 {%endregion%}
