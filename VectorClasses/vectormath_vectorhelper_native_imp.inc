@@ -87,7 +87,7 @@ begin
     // calculate the current pitch.
     // 0 is looking down and PI is looking up
     pitchNow := ArcCos(AMovingObjectUp.DotProduct(normalT2C));
-    pitchNow := GLZUtils.Clamp(pitchNow - DegToRadian(pitchDelta), 0 + 0.025, cPI - 0.025);
+    pitchNow := GLZMath.Clamp(pitchNow - DegToRadian(pitchDelta), 0 + 0.025, cPI - 0.025);
     // create a new vector pointing up and then rotate it down
     // into the new position
     normalT2C := AMovingObjectUp;
@@ -109,7 +109,7 @@ begin
   else Result := Self + lDirection * ADistance;
 end;
 
-function TGLZVectorHelper.ExtendClipRect(vX, vY: Single) : TGLZClipRect;
+(* function TGLZVectorHelper.ExtendClipRect(vX, vY: Single) : TGLZClipRect;
 begin
   Result := Self;
   with Result do
@@ -120,7 +120,7 @@ begin
     if vX > Right then Right := vX;
     if vY > Bottom then Bottom := vY;
   end;
-end;
+end; *)
 
 function TGLZVectorHelper.GetXY : TGLZVector2f;
 begin
@@ -169,62 +169,62 @@ end;
 
 function TGLZVectorHelper.GetXYZ : TGLZVector4f;
 begin
-  result.CreateAffine(Self.X,Self.Y,Self.Z);
+  result.CreatePoint(Self.X,Self.Y,Self.Z);
 end;
 
 function TGLZVectorHelper.GetXZY : TGLZVector4f;
 begin
-  result.CreateAffine(Self.X,Self.Z,Self.Y);
+  result.CreatePoint(Self.X,Self.Z,Self.Y);
 end;
 
 function TGLZVectorHelper.GetYXZ : TGLZVector4f;
 begin
-  result.CreateAffine(Self.Y,Self.X,Self.Z);
+  result.CreatePoint(Self.Y,Self.X,Self.Z);
 end;
 
 function TGLZVectorHelper.GetYZX : TGLZVector4f;
 begin
-  result.CreateAffine(Self.Y,Self.Z,Self.X);
+  result.CreatePoint(Self.Y,Self.Z,Self.X);
 end;
 
 function TGLZVectorHelper.GetZXY : TGLZVector4f;
 begin
-  result.CreateAffine(Self.Z,Self.X,Self.Y);
+  result.CreatePoint(Self.Z,Self.X,Self.Y);
 end;
 
 function TGLZVectorHelper.GetZYX : TGLZVector4f;
 begin
-  result.CreateAffine(Self.Z,Self.Y,Self.X);
+  result.CreatePoint(Self.Z,Self.Y,Self.X);
 end;
 
 function TGLZVectorHelper.GetXXX : TGLZVector4f;
 begin
-  result.CreateAffine(Self.X,Self.X,Self.X);
+  result.CreatePoint(Self.X,Self.X,Self.X);
 end;
 
 function TGLZVectorHelper.GetYYY : TGLZVector4f;
 begin
-  result.CreateAffine(Self.Y,Self.Y,Self.Y);
+  result.CreatePoint(Self.Y,Self.Y,Self.Y);
 end;
 
 function TGLZVectorHelper.GetZZZ : TGLZVector4f;
 begin
-  result.CreateAffine(Self.Z,Self.Z,Self.Z);
+  result.CreatePoint(Self.Z,Self.Z,Self.Z);
 end;
 
 function TGLZVectorHelper.GetYYX : TGLZVector4f;
 begin
-  result.CreateAffine(Self.Y,Self.Y,Self.X);
+  result.CreatePoint(Self.Y,Self.Y,Self.X);
 end;
 
 function TGLZVectorHelper.GetXYY : TGLZVector4f;
 begin
-  result.CreateAffine(Self.X,Self.Y,Self.Y);
+  result.CreatePoint(Self.X,Self.Y,Self.Y);
 end;
 
 function TGLZVectorHelper.GetYXY : TGLZVector4f;
 begin
-  result.CreateAffine(Self.Y,Self.X,Self.Y);
+  result.CreatePoint(Self.Y,Self.X,Self.Y);
 end;
 
 

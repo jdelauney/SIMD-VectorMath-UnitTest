@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Vector Classes Math Library: Vector Math Classes</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>Vector Classes Math Library</h2><p><a href="introduction.html" class="navigation">Vector Math Classes</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p><form class="search-form" action="_tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input"></div><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></form>
+<div style="clear: both"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+        /* 10 items to display seems standard */
+        'show': 10,
+        /* For PasDoc docs, showing urls is not very useful,
+           since the page title already shows the unit and identifier. */
+        'showURL': false
+    });
+});
+</script>
+</td><td class="content">
+Vector Classes Math Library for FPC & Lazarus.
+<h1 class="externalitem">Vector Classes Math Librairy for FPC &amp; Lazarus</h1>
+ 
+
+<p> 
+
+<p>Licence : MPL
+
+<p><h2 class=""><span id="SecPreface"></span>Preface Preface</h2>
+
+
+<p>GLZ-MathsClasses, may replace and extend standard math functions from FPC/Lazarus library. <br> It is optimized for x86-32 &amp; x86-64 Windows, Unix systems based. <br> It is provides robust, optimized and efficient standard and vectorizable math functions such as <a class="normal" href="GLZMath.html#Sqrt">sqrt</a>, <a class="normal" href="GLZMath.html#Sin">sin</a>, or atan. <br> It is define a set of functions to compute common mathematical operations, vector, matrix, quaternion, euler, plane operations and transformations. <br> Also provide extra operations for specific mathematical algorithms for 2D/3D rendering systems.<br> It is include some function in the way of standard GLSL and HLSL scripting like <a class="normal" href="GLZMath.html#SmoothStep">SmoothStep</a>, FaceFoward, Reflect, ect... A set of functions provides a fast approximation to sine, cosine, square root, <a class="normal" href="GLZMath.html#ArcTan2">arctan2</a>, ect...( Taylor, Remez, Quadratic, LUT... algorithms). Accuracy can differ from one algorith to one other.
+
+<p>For fast computing we use SIMD instructions (SSE / SSE2 / SSE3 / AVX /AVX2) in some severals vectorizable functions.
+
+<p>All function have passed Functionnals test in UnitTest.
+
+<p>This math library is much faster than standard FPC/Lazarus functions. See the benchmarks to compare speed of each function.
+
+<p><h2 class=""><span id="SecArchDsgn"></span>Architecture and Design</h2>
+
+
+<p>Trigonometric fast and approximation math operations such <a class="normal" href="GLZMath.html#Sin">Sin</a>, <a class="normal" href="GLZMath.html#Cos">Cos</a>, <a class="normal" href="GLZMath.html#ArcTan2">ArcTan2</a> ect.. are on single-precision floating-point values only. Double-precision floating-point arithmetic is unsupported with fast math functions.
+
+<p>2D, 3D and 4-Dimensional vectors, of type Byte, Single Integer are supported.<br> Respectively <a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>, <a class="normal" href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>, <a class="normal" href="GLZVectorMath.TGLZVector3b.html">TGLZVector3b</a>, <a class="normal" href="GLZVectorMath.TGLZVector3i.html">TGLZVector3i</a>, <a class="normal" href="GLZVectorMath.TGLZVector3f.html">TGLZVector3f</a>, <a class="normal" href="GLZVectorMath.TGLZVector4b.html">TGLZVector4b</a>, <a class="normal" href="GLZVectorMath.TGLZVector4i.html">TGLZVector4i</a>, <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> @TODO : Type of Double are only support in 2D vectors.<br> <b>Note : </b> 3D Vectors type have no advanced design (<a class="normal" href="GLZVectorMath.TGLZVector3i.html">TGLZVector3i</a>, <a class="normal" href="GLZVectorMath.TGLZVector3f.html">TGLZVector3f</a>). Except for type of Byte (<a class="normal" href="GLZVectorMath.TGLZVector3b.html">TGLZVector3b</a>).
+
+<p>Provides 2x2, 4x4 Matrices (called TGLZMatrix2f, TGZMatrix2i, <a class="normal" href="GLZVectorMath.TGLZMatrix4f.html">TGLZMatrix4f</a>, @TODO:TGLZMatrix4i) Single precision and Integer are only (currently) supported. By default, matrices are stored in row-major order ; column-major order is not supported.
+
+<p>There is also support for Homogenous plane operations and transformations <a class="normal" href="GLZVectorMath.TGLZHmgPlane.html">TGLZHmgPlane</a>. And for representing rotations in 3D space, you can use <a class="normal" href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>.
+
+<p>Vectors, matrices and other are not only used to represent points in space, they can also be used as arrays of 2, 3,4,...16 values that can be used to perform calculations in parallel.
+
+<p>You'll equally find,some functions like in shader languages (such as GLSL and HLSL). For example : <br> You can use the the <a class="normal" href="GLZMath.html#SmoothStep">SmoothStep</a>, <a class="normal" href="GLZMath.html#Sin">Sin</a>, <a class="normal" href="GLZMath.html#Sqrt">Sqrt</a>, (<a class="normal" href="GLZMath.html#SinCos">SinCos</a>)... functions to calculate only a single value, or compute 2 or 4 values at the same time by using it with a <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> or <a class="normal" href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>
+
+<p>All fast math describe in <a class="normal" href="GLZFastMath.html">GLZFastMath</a> unit are prefixed by &quot;Fast&quot; (Except for <a class="normal" href="GLZMath.html#Sin">sin</a>/<a class="normal" href="GLZMath.html#Cos">cos</a> approximations functions).
+
+<p>In <a class="normal" href="GLZVectorMathEx.html">GLZVectorMathEX</a>, you have access to some specifics advanced record for rendering system.<br> You'll can manipulate for 2D or 3D space view : <br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>Frustum TGLZFrustum </p></li>
+  <li><p>Oriented Bounding Box (OBB) <a class="normal" href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a> </p></li>
+  <li><p>Axis Aligned Bounding Box (AABB) <a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a> </p></li>
+  <li><p>bounding sphere <a class="normal" href="GLZVectorMathEx.TGLZBoundingSphere.html">TGLZBoundingSphere</a></p></li>
+  <li><p>and use a specialized raycast advanced record TGLZRayCast</p></li>
+</ul>
+
+<p>
+
+<p><h2 class=""><span id="SecOverloadOps"></span>Overloaded Operators</h2>
+
+
+<p>All vector types support overloaded operators which allow you to negate, add, subtract, multiply and divide scalars, vectors . <br> There are also overloaded operators that compare vectors or matrices for equality. The arithmetic operators &quot;+&quot;, &quot;-&quot;, &quot;*&quot; and &quot;/&quot; usually work component-wise when applied to vectors. For compute Cross or Dot used respectively CrossProduct and DotProduct functions
+
+<p>For matrices, the &quot;+&quot;, &quot;-&quot; and special &quot;/&quot; (only divide by a single value) operators operate component-wise. <br> However, when multiplying matrices with vectors or other matrices, then the usual linear algebraic multiplication is used. For example: </p>
+
+<p>( (Matrix := Matrix1 * Matrix2 &ndash;&gt; performs a linear algebraic matrix multiplication (Vector := Matrix1 * Vector1 &ndash;&gt; Transform 
+
+<p>To multiply matrices component-wise, you can use the Multiply function instead.
+
+<p><h3 class=""><span id="SecOverloadExamples"></span>Examples</h3>
+ </p>
+
+<pre class="longcode">
+<span class="pascal_keyword">Uses</span> GLZMath, GLZVectorMath, GLZVectorMAthEX;</pre>
+
+<p>
+
+<p><h2 class=""><span id="SecHowTo"></span>How to use Vector Classes Library</h2>
+
+
+<p>First Copy VectorClasses folder under sub folder of your project
+
+<p>Set your project option folder search path
+
+<p>Add <a class="normal" href="GLZVectorMath.html">GLZVectorMath</a>, <a class="normal" href="GLZMath.html">GLZMath</a>, <a class="normal" href="GLZVectorMathEx.html">GLZVectorMathEX</a> in &quot;uses&quot;
+
+<p><h3 class=""><span id="SecHowToExamples"></span>Examples</h3>
+ </p>
+
+<pre class="longcode">
+<span class="pascal_keyword">Uses</span> GLZMath, GLZVectorMath, GLZVectorMAthEX;</pre>
+
+<p>
+
+<p><h2 class=""><span id="SecAlignDatas"></span>How to align data to 16 bits boundary</h2>
+ Under x64, for using vector based function, you'll need add some preprocessor commands to get proper aligned data.
+
+<p><h3 class=""><span id="SecAlignDatasExamples"></span>Examples</h3>
+ On the header of your unit add : <br> </p>
+
+<pre class="longcode">
+<span class="pascal_keyword">Unit</span> MyUnit;
+<span class="pascal_compiler_comment">{$mode objfpc}</span><span class="pascal_compiler_comment">{$H+}</span>
+<span class="pascal_compiler_comment">{$CODEALIGN LOCALMIN=16}</span></pre>
+
+<p> <br> @OrderedLis(   
+
+<p><h2 class=""><span id="SecSetupPrj"></span>How to configure your project properly</h2>
+
+
+<p>You need to know some additionnal options for compiler to configure GLZ-MathsClasses.
+
+<p></p>
+
+<ol class="paragraph_spacing">
+  <li value="1"><p>Go in project options</p></li>
+  <li value="2"><p>Go in project extrasoptions</p></li>
+  <li value="3"><p>Write options in extracfg.cfg</p></li>
+</ol>
+
+<p>
+
+<p><h2 class=""><span id="SecTGLZVectors"></span>Routines dealing with 2D,3D and 4D Vectors</h2>
+
+
+<p><h3 class=""><span id="SecTGLZVectorsOverview"></span>Overview</h3>
+
+
+<p><h3 class=""><span id="SecTGLZVectorsExamples"></span>Examples</h3>
+
+
+<p><h2 class=""><span id="SecTGLZMatrix"></span>Routines dealing with 2D,3D and 4D Matrix</h2>
+
+
+<p><h3 class=""><span id="SecTGLZMatrixOverview"></span>Overview</h3>
+
+
+<p><h3 class=""><span id="SecTGLZMatrixExamples"></span>Examples</h3>
+
+
+<p><h2 class=""><span id="SecTGLZEulerAngles"></span>Routines dealing with Euler Angles</h2>
+
+
+<p><h3 class=""><span id="SecTGLZEulerAnglesOverview"></span>Overview</h3>
+
+
+<p><h3 class=""><span id="SecTGLZEulerAnglesExamples"></span>Examples</h3>
+
+
+<p><h2 class=""><span id="SecTGLZQuaternion"></span>Routines dealing with Quaternion</h2>
+
+
+<p><h3 class=""><span id="SecTGLZQuaternionOverview"></span>Overview</h3>
+
+
+<p><h3 class=""><span id="SecTGLZQuaternionExamples"></span>Examples</h3>
+
+
+<p><h2 class=""><span id="SecTGLZHmgPlane"></span>Routines dealing with Homogenous Plane</h2>
+
+
+<p><h3 class=""><span id="SecTGLZHmgPlaneOverview"></span>Overview</h3>
+
+
+<p><h3 class=""><span id="SecTGLZHmgPlaneExamples"></span>Examples</h3>
+
+
+<p><h2 class=""><span id="SecTGLZFrustum"></span>Routines dealing with Frustum</h2>
+
+
+<p><h3 class=""><span id="SecTGLZFrustumOverview"></span>Overview</h3>
+
+
+<p><h3 class=""><span id="SecTGLZFrustumExamples"></span>Examples</h3>
+
+
+<p><h2 class=""><span id="SecTGLZOBB"></span>Routines dealing with Oriented Bounding Box</h2>
+
+
+<p><h3 class=""><span id="SecTGLZOBBOverview"></span>Overview</h3>
+
+
+<p><h3 class=""><span id="SecTGLZOBBExamples"></span>Examples</h3>
+
+
+<p><h2 class=""><span id="SecTGLZAABB"></span>Routines dealing with Axis Aligned Bounding Box</h2>
+
+
+<p><h3 class=""><span id="SecTGLZAABBOverview"></span>Overview</h3>
+
+
+<p><h3 class=""><span id="SecTGLZAABBExamples"></span>Examples</h3>
+
+
+<p><h2 class=""><span id="SecTGLZRayCast"></span>Routines dealing with RayCast</h2>
+
+
+<p><h3 class=""><span id="SecTGLZRayCastOverview"></span>Overview</h3>
+
+
+<p><h3 class=""><span id="SecTGLZRayCastExamples"></span>Examples</h3>
+
+
+<p>Functions Below you will find a categorized list of the global functions supported in GLZ-MathsClasses :
+
+<p>Helper functions for creating vectors and matrices Vector2: creates a 2D vector
+
+<p>Vector3: creates a 3D vector
+
+<p>Vector4: creates a 4D vector
+
+<p>Matrix2: creates a 2x2 matrix
+
+<p>Matrix3: creates a 3x3 matrix
+
+<p>Matrix4: creates a 4x4 matrix
+
+<p>Quaternion: creates a quaternion
+
+<p>IVector2: creates a 2D integer vector
+
+<p>IVector3: creates a 3D integer vector
+
+<p>IVector4: creates a 4D integer vector
+
+<p>Angle and Trigonometry Functions Radians: converts degrees to radians
+
+<p>Degrees: converts radians to degrees
+
+<p><a class="normal" href="GLZMath.html#Sin">Sin</a>: calculates a sine of an angle
+
+<p><a class="normal" href="GLZMath.html#Cos">Cos</a>: calculates a cosine of an angle
+
+<p><a class="normal" href="GLZMath.html#SinCos">SinCos</a>: calculates a sine/cosine pair
+
+<p><a class="normal" href="GLZMath.html#Tan">Tan</a>: calculates the tangent of an angle
+
+<p><a class="normal" href="GLZMath.html#ArcSin">ArcSin</a>: calculates an arc sine
+
+<p><a class="normal" href="GLZMath.html#ArcCos">ArcCos</a>: calculates an arc cosine
+
+<p>ArcTan: calculates an arc tangent
+
+<p><a class="normal" href="GLZMath.html#ArcTan2">ArcTan2</a>: calculates an arctangent angle and quadrant
+
+<p><a class="normal" href="GLZMath.html#Sinh">Sinh</a>: calculates a hyperbolic sine
+
+<p><a class="normal" href="GLZMath.html#Cosh">Cosh</a>: calculates a hyperbolic cosine
+
+<p>Tanh: calculates a hyperbolic tangent
+
+<p>ArcSinh: calculates an inverse hyperbolic sine
+
+<p>ArcCosh: calculates an inverse hyperbolic cosine
+
+<p>ArcTanh: calculates an inverse hyperbolic tangent
+
+<p>Exponential Functions Power: raises a base to a power
+
+<p><a class="normal" href="GLZMath.html#Exp">Exp</a>: calculates a natural exponentiation (that is, e raised to a given power)
+
+<p><a class="normal" href="GLZMath.html#Ln">Ln</a>: calculates a natural logarithm
+
+<p>Exp2: calculates 2 raised to a power
+
+<p><a class="normal" href="GLZMath.html#Log2">Log2</a>: calculates a base 2 logarithm
+
+<p><a class="normal" href="GLZMath.html#Sqrt">Sqrt</a>: calculates a square root
+
+<p>InverseSqrt: calculates an inverse square root
+
+<p>Fast Approximate Functions FastSin: fast sine function
+
+<p>FastCos: fast cosine function
+
+<p>FastSinCos: fast sine/cosine function
+
+<p><a class="normal" href="GLZFastMath.html#FastTan">FastTan</a>: fast tangent function
+
+<p><a class="normal" href="GLZFastMath.html#FastArcTan2">FastArcTan2</a>: fast arctangent angle and quadrant
+
+<p><a class="normal" href="GLZFastMath.html#FastPower">FastPower</a>: fast power function
+
+<p><a class="normal" href="GLZFastMath.html#FastExp">FastExp</a>: fast natural exponentiation function
+
+<p><a class="normal" href="GLZFastMath.html#FastLn">FastLn</a>: fast natural logarithm function
+
+<p><a class="normal" href="GLZFastMath.html#FastLog2">FastLog2</a>: fast base 2 logarithm function
+
+<p>FastExp2: fast Exp2 function
+
+<p>Common Functions Abs: calculates an absolute value
+
+<p><a class="normal" href="GLZMath.html#Sign">Sign</a>: calculates the <a class="normal" href="GLZMath.html#Sign">sign</a> of a value
+
+<p><a class="normal" href="GLZMath.html#Floor">Floor</a>: rounds a value towards negative infinity
+
+<p><a class="normal" href="GLZMath.html#Trunc">Trunc</a>: rounds a value towards 0
+
+<p><a class="normal" href="GLZMath.html#Round">Round</a>: rounds a value towards its nearest integer
+
+<p><a class="normal" href="GLZMath.html#Ceil">Ceil</a>: rounds a value towards positive infinity
+
+<p>Frac: returns the fractional part of a number
+
+<p>FMod: calculates the remainder of a floating-point division
+
+<p>ModF: splits a floating-point value into its integer and fractional parts
+
+<p><a class="normal" href="GLZMath.html#Min">Min</a>: calculates the minimum of two values
+
+<p><a class="normal" href="GLZMath.html#Max">Max</a>: calculates the maximum of two values
+
+<p>EnsureRange: clamps a given value into a range
+
+<p>Mix: calculates a linear blend between two values, using on a progress value
+
+<p><a class="normal" href="GLZMath.html#Step">Step</a>: <a class="normal" href="GLZMath.html#Step">step</a> function
+
+<p><a class="normal" href="GLZMath.html#SmoothStep">SmoothStep</a>: performs smooth Hermite interpolation between 0 and 1
+
+<p>FMA: Fused Multiply and Add<h2 class="authors">Authors</h2>
+<ul class="authors">
+<li>J.Delauney (BeanzMaster)</li>
+<li>P.Dyson (Dicped)</li>
+</ul>
+(R) 2017-2018 -- By J.Delauney and P.Dyson. Under MPL Licence
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

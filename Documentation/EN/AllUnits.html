@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Vector Classes Math Library: All Units</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>Vector Classes Math Library</h2><p><a href="introduction.html" class="navigation">Vector Math Classes</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p><form class="search-form" action="_tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input"></div><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></form>
+<div style="clear: both"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+        /* 10 items to display seems standard */
+        'show': 10,
+        /* For PasDoc docs, showing urls is not very useful,
+           since the page title already shows the unit and identifier. */
+        'showURL': false
+    });
+});
+</script>
+</td><td class="content">
+Vector Classes Math Library for FPC & Lazarus.
+<h1 class="allitems">All Units</h1>
+<table class="unitstable wide_list">
+<tr class="listheader">
+<th class="itemname">Name</th>
+<th class="itemdesc">Description</th>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="GLZFastMath.html">GLZFastMath</a></td>
+<td class="itemdesc"><p>====&lt; GLZFastMath.pas &gt;=====================================================<br>  @author(J.Delauney (BeanzMaster) - Peter Dyson (Dicepd) Historique : <br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>25/11/2017 : Creation </p></li>
+</ul>
+
+<p> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; Description : L'unité <a class="normal" href="GLZVectorMath.html">GLZVectorMath</a> regroupe des fonctions mathematiques, optimisées en assembleur SSE/SSE2/SSE3/SSE4 et AVX pour les vecteurs, matrices, quaternion et autres fonctions utiles en 3D &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; <b>Notes :</b>
+
+<p>Quelques liens : </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="http://lab.polygonal.de/2007/07/18/fast-and-accurate-sinecosine-approximation/">http://lab.polygonal.de/2007/07/18/fast-and-accurate-sinecosine-approximation/</a></p></li>
+  <li><p><a  href="https://en.wikipedia.org/wiki/Fast_inverse_square_root">https://en.wikipedia.org/wiki/Fast_inverse_square_root</a></p></li>
+  <li><p><a  href="https://en.wikipedia.org/wiki/Taylor_series">https://en.wikipedia.org/wiki/Taylor_series</a></p></li>
+  <li><p><a  href="https://stackoverflow.com/questions/18662261/fastest-implementation-of-sine-cosine-and-square-root-in-c-doesnt-need-to-b">https://stackoverflow.com/questions/18662261/fastest-implementation-of-sine-cosine-and-square-root-in-c-doesnt-need-to-b</a></p></li>
+  <li><p><a  href="https://en.wikipedia.org/wiki/Newton%27s_method">https://en.wikipedia.org/wiki/Newton%27s_method</a></p></li>
+  <li><p><a  href="http://allenchou.net/2014/02/game-math-faster-sine-cosine-with-polynomial-curves/">http://allenchou.net/2014/02/game-math-faster-sine-cosine-with-polynomial-curves/</a></p></li>
+  <li><p><a  href="http://www.ue.eti.pg.gda.pl/~wrona/lab_dsp/cw04/fun_aprox.pdf">http://www.ue.eti.pg.gda.pl/&tilde;wrona/lab_dsp/cw04/fun_aprox.pdf</a></p></li>
+  <li><p><a  href="http://www.netlib.org/cephes/">http://www.netlib.org/cephes/</a></p></li>
+  <li><p><a  href="http://www.ue.eti.pg.gda.pl/~wrona/lab_dsp/cw04/fun_aprox.pdf">http://www.ue.eti.pg.gda.pl/&tilde;wrona/lab_dsp/cw04/fun_aprox.pdf</a></p></li>
+</ul>
+
+<p> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br>
+
+<p><b>Credits :</b> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>FPC/Lazarus</p></li>
+</ul>
+
+<p>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> LICENCE : GPL/MPL <br> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; *==============================================================================</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="GLZMath.html">GLZMath</a></td>
+<td class="itemdesc"><p>====&lt; GLZMath.pas &gt;===========================================================<br>   Historique : <br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>18/11/2016 : Creation </p></li>
+</ul>
+
+<p> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br>
+
+<p>Description : <br> The <code>GLZMath</code> unit containss optimized mathematical functions. <br>   Appoximative functions can be used if desired (useful for real time). <br>
+
+<p>  For example: <br> The 'approximated' functions of <a class="normal" href="GLZMath.html#Sin">Sin</a> and <a class="normal" href="GLZMath.html#Cos">Cos</a> have an average accuracy of 4E-8.
+
+<p>It includes trigonometric functions, calculating interpolations, Advanced features like <a class="normal" href="GLZMath.html#Bessel">Bessel</a>, <a class="normal" href="GLZMath.html#Blackman">BlackMan</a>. And also some useful functions
+
+<p>It also has undefined functions in the FPC Math unit tel <a class="normal" href="GLZMath.html#ArcCsc">ArcCsc</a>, <a class="normal" href="GLZMath.html#ArcSec">ArcSec</a>, <a class="normal" href="GLZMath.html#ArcCot">ArcCot</a>, <a class="normal" href="GLZMath.html#CscH">CscH</a>, <a class="normal" href="GLZMath.html#SecH">SecH</a> ect ... @ br
+
+<p>  For more mathematical functions see units: <br> - 
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; <br> <b>Notes :</b>
+
+<p>Quelques liens : </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="http://www.i-logic.com/utilities/trig.htm">http://www.i-logic.com/utilities/trig.htm</a></p></li>
+  <li><p><a  href="http://jacksondunstan.com/articles/1217">http://jacksondunstan.com/articles/1217</a></p></li>
+  <li><p><a  href="http://mathworld.wolfram.com">http://mathworld.wolfram.com</a></p></li>
+</ul>
+
+<p> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br>
+
+<p><b>Credits :</b> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>FPC/Lazarus</p></li>
+</ul>
+
+<p>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> LICENCE : GPL/MPL <br> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; *==============================================================================</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="GLZVectorMath.html">GLZVectorMath</a></td>
+<td class="itemdesc"><p>====&lt; GLZVectorMath.pas &gt;=====================================================<br>
+
+<p>  
+
+<p>Historique : <br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>Last Update : 13/03/2018 </p></li>
+  <li><p>25/11/2017 : Creation </p></li>
+</ul>
+
+<p>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> Description :<br> <code>GLZVectorMath</code> is an optimized vector classes math library for FreePascal and Lazarus<br> using SIMD (SSE, SSE3, SS4, AVX, AVX2) acceleration<br> It can be used in 2D/3D graphics, computing apps.<br>
+
+<p>Support :<br> </p>
+
+<p>          )
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> <b>Notes :</b><br>
+
+<p>Notice, here, we need to set rounding FPC mode to is the same as our SSE code.<br> In FPC, the &quot;function <a class="normal" href="GLZMath.html#Round">Round</a>&quot; using &quot;banker's rounding&quot; algorithm.<br> In fat, is not doing a RoundUp or RoundDown if the is exactly x.50<br> Examples : <br> <code><a class="normal" href="GLZMath.html#Round">Round</a>(2.5) //return = 2</code><br> <code><a class="normal" href="GLZMath.html#Round">Round</a>(3.5) //return = 4</code> <br>
+
+<p>For more informations see : <a  href="https://www.freepascal.org/docs-html/rtl/system/round.html">https://www.freepascal.org/docs-html/rtl/system/round.html</a> <br>
+
+<p>Some links as references :<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="http://forum.lazarus.freepascal.org/index.php/topic,32741.0.html">http://forum.lazarus.freepascal.org/index.php/topic,32741.0.html</a></p></li>
+  <li><p><a  href="http://agner.org/optimize/">http://agner.org/optimize/</a></p></li>
+  <li><p><a  href="http://www.songho.ca/misc/sse/sse.html">http://www.songho.ca/misc/sse/sse.html</a></p></li>
+  <li><p><a  href="https://godbolt.org">https://godbolt.org</a></p></li>
+  <li><p><a  href="http://softpixel.com/~cwright/programming/simd/sse.php">http://softpixel.com/&tilde;cwright/programming/simd/sse.php</a></p></li>
+  <li><p><a  href="https://www.gamasutra.com/view/feature/132636/designing_fast_crossplatform_simd_.php?page=3">https://www.gamasutra.com/view/feature/132636/designing_fast_crossplatform_simd_.php?page=3</a></p></li>
+  <li><p><a  href="https://butterflyofdream.wordpress.com/2016/07/05/converting-rotation-matrices-of-left-handed-coordinate-system/">https://butterflyofdream.wordpress.com/2016/07/05/converting-rotation-matrices-of-left-handed-coordinate-system/</a></p></li>
+  <li><p><a  href="http://shybovycha.tumblr.com/post/122400740651/speeding-up-algorithms-with-sse">http://shybovycha.tumblr.com/post/122400740651/speeding-up-algorithms-with-sse</a></p></li>
+  <li><p><a  href="https://www.scratchapixel.com/index.php">https://www.scratchapixel.com/index.php</a></p></li>
+  <li><p><a  href="http://mark.masmcode.com">http://mark.masmcode.com</a></p></li>
+  <li><p><a  href="https://www.cs.uaf.edu/courses/cs441/notes/sse-avx/">https://www.cs.uaf.edu/courses/cs441/notes/sse-avx/</a></p></li>
+  <li><p><a  href="http://www.euclideanspace.com">http://www.euclideanspace.com</a></p></li>
+  <li><p><a  href="https://www.3dgep.com/category/math/">https://www.3dgep.com/category/math/</a></p></li>
+</ul>
+
+<p><br>
+
+<p>Quelques liens en français (in french) :<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="http://villemin.gerard.free.fr/Wwwgvmm/Nombre.htm">http://villemin.gerard.free.fr/Wwwgvmm/Nombre.htm</a></p></li>
+  <li><p><a  href="https://ljk.imag.fr/membres/Bernard.Ycart/mel/">https://ljk.imag.fr/membres/Bernard.Ycart/mel/</a></p></li>
+  <li><p><a  href="https://www.gladir.com/CODER/ASM8086/">https://www.gladir.com/CODER/ASM8086/</a></p></li>
+</ul>
+
+<p><br>
+
+<p>Others interesting articles, papers at some points:<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="https://conkerjo.wordpress.com/2009/06/13/spatial-hashing-implementation-for-fast-2d-collisions/">https://conkerjo.wordpress.com/2009/06/13/spatial-hashing-implementation-for-fast-2d-collisions/</a></p></li>
+  <li><p><a  href="https://realhet.wordpress.com/2016/11/02/fast-sse-3x3-median-filter-for-rgb24-images/">https://realhet.wordpress.com/2016/11/02/fast-sse-3x3-median-filter-for-rgb24-images/</a></p></li>
+  <li><p><a  href="http://www.jagregory.com/abrash-black-book/">http://www.jagregory.com/abrash-black-book/</a></p></li>
+  <li><p><a  href="http://x86asm.net/articles/fixed-point-arithmetic-and-tricks/">http://x86asm.net/articles/fixed-point-arithmetic-and-tricks/</a></p></li>
+  <li><p><a  href="http://lolengine.net/blog/2011/3/20/understanding-fast-float-integer-conversions">http://lolengine.net/blog/2011/3/20/understanding-fast-float-integer-conversions</a></p></li>
+  <li><p><a  href="http://chrishecker.com/Miscellaneous_Technical_Articles">http://chrishecker.com/Miscellaneous_Technical_Articles</a></p></li>
+  <li><p><a  href="http://catlikecoding.com/unity/tutorials/rendering/part-1/">http://catlikecoding.com/unity/tutorials/rendering/part-1/</a></p></li>
+</ul>
+
+<p><br>
+
+<p>You can also found some papers in <b>DocRefs</b> folder<br> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br>
+
+<p><b>Credits :</b><br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>FPC/Lazarus</p></li>
+  <li><p>GLScene</p></li>
+  <li><p>All authors of papers and web links</p></li>
+</ul>
+
+<p>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> LICENCE : MPL <br> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> *==============================================================================</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="GLZVectorMathEx.html">GLZVectorMathEx</a></td>
+<td class="itemdesc"><p>====&lt; GLZVectorMathEx.pas &gt;=====================================================<br>
+
+<p>  
+
+<p>Historique : <br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>Last Update : 13/03/2018 </p></li>
+  <li><p>12/03/2018 : Creation </p></li>
+</ul>
+
+<p>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> Description :<br> <code>GLZVectorMathEx</code> Contains extra optimized classes using SIMD (SSE, SSE3, SS4, AVX, AVX2) acceleration<br> Those classes are specialized and must be in graphic rendering/physics engine It can be used in 2D/3D graphics, computing apps, games...<br>
+
+<p>Support :<br> </p>
+
+<p>  
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> <b>Notes :</b><br>
+
+<p>Some links as references :<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p></p></li>
+</ul>
+
+<p><br>
+
+<p>Quelques liens en français (in french) :<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p></p></li>
+</ul>
+
+<p><br>
+
+<p>Others interesting articles, papers at some points:<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p></p></li>
+</ul>
+
+<p><br>
+
+<p>You can also found some papers in <b>DocRefs</b> folder<br> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br>
+
+<p><b>Credits :</b><br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>FPC/Lazarus</p></li>
+  <li><p>GLScene</p></li>
+  <li><p>All authors of papers and web links</p></li>
+</ul>
+
+<p>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> LICENCE : MPL <br> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> *==============================================================================</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="GLZVectorMathUtils.html">GLZVectorMathUtils</a></td>
+<td class="itemdesc"><p>====&lt; GLZVectorMathEx.pas &gt;=====================================================<br>
+
+<p>  
+
+<p>Historique : <br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>Last Update : 13/03/2018 </p></li>
+  <li><p>12/03/2018 : Creation </p></li>
+</ul>
+
+<p>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> Description :<br> <code>GLZVectorMathUtils</code> Contains extra inline functions for vectors
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> <b>Notes :</b><br>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br>
+
+<p><b>Credits :</b><br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>FPC/Lazarus</p></li>
+  <li><p>GLScene</p></li>
+  <li><p>All authors of papers and web links</p></li>
+</ul>
+
+<p>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> LICENCE : MPL <br> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> *==============================================================================</p></td>
+</tr>
+</table>
+(R) 2017-2018 -- By J.Delauney and P.Dyson. Under MPL Licence
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

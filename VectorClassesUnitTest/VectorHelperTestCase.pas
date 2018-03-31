@@ -166,11 +166,11 @@ var
   nCr: TNativeGLZClipRect;
   aCr: TGLZClipRect;
 begin
-  nCr.V := nt1.V;
-  aCr.V := vt1.V;
-  nCr.ExtendClipRect(Fs1,Fs2);
-  aCr.ExtendClipRect(Fs1,Fs2);
-  AssertTrue('VectorHelper ExtendClipRect does not match : '+nCr.ToString+' --> '+nCr.ToString, Compare(nCr,aCr));
+  //nCr.V := nt1.V;
+  //aCr.V := vt1.V;
+  //nCr.ExtendClipRect(Fs1,Fs2);
+  //aCr.ExtendClipRect(Fs1,Fs2);
+  //AssertTrue('VectorHelper ExtendClipRect does not match : '+nCr.ToString+' --> '+nCr.ToString, Compare(nCr,aCr));
 end;
 
 procedure TVectorHelperTestCase.TestStep;

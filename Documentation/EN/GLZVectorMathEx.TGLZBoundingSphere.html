@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Vector Classes Math Library: GLZVectorMathEx: Record TGLZBoundingSphere</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>Vector Classes Math Library</h2><p><a href="introduction.html" class="navigation">Vector Math Classes</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p><form class="search-form" action="_tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input"></div><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></form>
+<div style="clear: both"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+        /* 10 items to display seems standard */
+        'show': 10,
+        /* For PasDoc docs, showing urls is not very useful,
+           since the page title already shows the unit and identifier. */
+        'showURL': false
+    });
+});
+</script>
+</td><td class="content">
+Vector Classes Math Library for FPC & Lazarus.
+<span id="TGLZBoundingSphere"></span><h1 class="cio">Record TGLZBoundingSphere</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="GLZVectorMathEx.html">GLZVectorMathEx</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TGLZBoundingSphere = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+<code>TGLZBoundingSphere</code> : Describe a very Bounding Sphere system
+
+<p>More informations :<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="https://en.wikipedia.org/wiki/Bounding_sphere">https://en.wikipedia.org/wiki/Bounding_sphere</a></p></li>
+  <li><p><a  href="https://www.ep.liu.se/ecp/034/009/ecp083409.pdf">https://www.ep.liu.se/ecp/034/009/ecp083409.pdf</a></p></li>
+  <li><p><a  href="https://www.mvps.org/directx/articles/using_bounding_spheres.htm">https://www.mvps.org/directx/articles/using_bounding_spheres.htm</a></p></li>
+</ul>
+
+<p><br> <b>Note :</b> For use it, it will be recommended to wrap it in classes <br> <b>UNFINISHED</b></p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZBoundingSphere.html#Center">Center</a></b>: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZBoundingSphere.html#Radius">Radius</a></b>: Single</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZBoundingSphere.html#Create">Create</a></b>(Const x,y,z: Single;Const r: single = 1.0); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZBoundingSphere.html#Create">Create</a></b>(Const AValue : <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a>;Const r: single = 1.0); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZBoundingSphere.html#Create">Create</a></b>(Const AValue : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;Const r: single = 1.0); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZBoundingSphere.html#ToString">ToString</a></b>: String;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZBoundingSphere.html#Contains">Contains</a></b>(const TestBSphere: <a  href="GLZVectorMathEx.TGLZBoundingSphere.html">TGLZBoundingSphere</a>) : <a  href="GLZVectorMathEx.html#TGLZSpaceContains">TGLZSpaceContains</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZBoundingSphere.html#Intersect">Intersect</a></b>(const TestBSphere: <a  href="GLZVectorMathEx.TGLZBoundingSphere.html">TGLZBoundingSphere</a>): Boolean;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Center"></span><code><b>Center</b>: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Center</code> of Bounding Sphere</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Radius"></span><code><b>Radius</b>: Single</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Radius</code> of Bounding Sphere</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(Const x,y,z: Single;Const r: single = 1.0); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : <a class="normal" href="GLZVectorMathEx.TGLZBoundingSphere.html#Create">Create</a> a bounding sphere    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Single</dd>
+<dt>Y</dt>
+<dd>: Single</dd>
+<dt>Z</dt>
+<dd>: Single</dd>
+<dt>R</dt>
+<dd>: Single &ndash; <a class="normal" href="GLZVectorMathEx.TGLZBoundingSphere.html#Radius">Radius</a> default 1.0</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(Const AValue : <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a>;Const r: single = 1.0); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : <a class="normal" href="GLZVectorMathEx.TGLZBoundingSphere.html#Create">Create</a> a bounding sphere  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AValue</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a></dd>
+<dt>R</dt>
+<dd>: Single &ndash; <a class="normal" href="GLZVectorMathEx.TGLZBoundingSphere.html#Radius">Radius</a> default 1.0</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(Const AValue : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;Const r: single = 1.0); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : <code>Create</code> a bounding sphere  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AValue</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+<dt>R</dt>
+<dd>: Single &ndash; <a class="normal" href="GLZVectorMathEx.TGLZBoundingSphere.html#Radius">Radius</a> default 1.0</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ToString"></span><code>function <b>ToString</b>: String;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ToString</code> : Return Bounding Sphere to a formatted string eg &quot;(&quot;x, y, z, <a class="normal" href="GLZVectorMathEx.TGLZBoundingSphere.html#Radius">Radius</a>&quot;)&quot; </p>
+<h6 class="description_section">Returns</h6>
+<p class="return">String</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Contains"></span><code>function <b>Contains</b>(const TestBSphere: <a  href="GLZVectorMathEx.TGLZBoundingSphere.html">TGLZBoundingSphere</a>) : <a  href="GLZVectorMathEx.html#TGLZSpaceContains">TGLZSpaceContains</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Contains</code> : Determines the space intersection of the Bounding Sphere with another Bounding Sphere  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>TestBSphere:</dt>
+<dd><a class="normal" href="GLZVectorMathEx.TGLZBoundingSphere.html">TGLZBoundingSphere</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.html#TGLZSpaceContains">TGLZSpaceContains</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Intersect"></span><code>function <b>Intersect</b>(const TestBSphere: <a  href="GLZVectorMathEx.TGLZBoundingSphere.html">TGLZBoundingSphere</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Intersect</code> : Determines if the Bounding Sphere intersects another Bounding Sphere  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>TestBSphere:</dt>
+<dd><a class="normal" href="GLZVectorMathEx.TGLZBoundingSphere.html">TGLZBoundingSphere</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Boolean <code>True</code> if <code>Intersect</code></p></td></tr>
+</table>
+(R) 2017-2018 -- By J.Delauney and P.Dyson. Under MPL Licence
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

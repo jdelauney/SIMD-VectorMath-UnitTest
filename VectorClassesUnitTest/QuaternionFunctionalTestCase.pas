@@ -240,43 +240,44 @@ end;
 
 // this will only test the correctness of the order
 // multiplication of all will come later.
-// r, p, y   roll pitch yaw  eulZXY
+// r, p, y   roll pitch yaw  eulYZX
 // you can create eulers outside of range -pi to pi, shall we say not
 // recommended but allowed. You do lose the ease of interpreting the direction
 // when debugging however.
 procedure TQuaternionFunctionalTestCase.TestCreateEuler;
 begin
-  aqt1.Create(90,0,0);
-  // should be a positive rotation in Z
+  aqt1.Create(90,0,0);  // Yaw Pitch Roll (YZX order)
+  // should be a positive rotation in Y
   AssertEquals('CreateEuler:Sub1 X failed ', 0.0, aqt1.X);
-  AssertEquals('CreateEuler:Sub2 Y failed ', 0.0, aqt1.Y);
-  AssertEquals('CreateEuler:Sub3 Z failed ', 0.707106781187, aqt1.Z);
+  AssertEquals('CreateEuler:Sub2 Y failed -> '+aqt1.ToString, 0.707106781187, aqt1.Y);
+  AssertEquals('CreateEuler:Sub3 Z failed ', 0.0, aqt1.Z);
   AssertEquals('CreateEuler:Sub4 W failed ', 0.707106781187, aqt1.W);
   aqt1.Create(0,90,0);
-  // should be a positive rotation in X
-  AssertEquals('CreateEuler:Sub5 X failed ', 0.707106781187, aqt1.X);
+  // should be a positive rotation in Z
+  AssertEquals('CreateEuler:Sub5 X failed ', 0.0, aqt1.X);
   AssertEquals('CreateEuler:Sub6 Y failed ', 0.0, aqt1.Y);
-  AssertEquals('CreateEuler:Sub7 Z failed ', 0.0, aqt1.Z);
+  AssertEquals('CreateEuler:Sub7 Z failed ', 0.707106781187, aqt1.Z);
   AssertEquals('CreateEuler:Sub8 W failed ', 0.707106781187, aqt1.W);
   aqt1.Create(0,0,90);
-  // should be a positive rotation in Y
-  AssertEquals('CreateEuler:Sub9 X failed ',  0.0, aqt1.X);
-  AssertEquals('CreateEuler:Sub10 Y failed ', 0.707106781187, aqt1.Y);
+  // should be a positive rotation in X
+  AssertEquals('CreateEuler:Sub9 X failed ',  0.707106781187, aqt1.X);
+  AssertEquals('CreateEuler:Sub10 Y failed ', 0.0, aqt1.Y);
   AssertEquals('CreateEuler:Sub11 Z failed ', 0.0, aqt1.Z);
   AssertEquals('CreateEuler:Sub12 W failed ', 0.707106781187, aqt1.W);
+
   aqt1.Create(0, 270, 0);
   // should be a negative rotation in X but has gone over the pi interval
-  // so neg shows on real component. This is equivalent to -90 in x
+  // so neg shows on real component. This is equivalent to -90 in z
   // with negations swapped on none zero values.
-  AssertEquals('CreateEuler:Sub13 X failed ',  0.707106781187, aqt1.X);
+  AssertEquals('CreateEuler:Sub13 X failed ',  0.0, aqt1.X);
   AssertEquals('CreateEuler:Sub14 Y failed ',  0.0, aqt1.Y);
-  AssertEquals('CreateEuler:Sub15 Z failed ',  0.0, aqt1.Z);
+  AssertEquals('CreateEuler:Sub15 Z failed ',  0.707106781187, aqt1.Z);
   AssertEquals('CreateEuler:Sub16 W failed ', -0.707106781187, aqt1.W);
   aqt1.Create(0, 450, 0);
   // should be a positive rotation in X two negs make a pos
-  AssertEquals('CreateEuler:Sub17 X failed ', -0.707106781187, aqt1.X);
+  AssertEquals('CreateEuler:Sub17 X failed ',  0.0, aqt1.X);
   AssertEquals('CreateEuler:Sub18 Y failed ',  0.0, aqt1.Y);
-  AssertEquals('CreateEuler:Sub19 Z failed ',  0.0, aqt1.Z);
+  AssertEquals('CreateEuler:Sub19 Z failed ', -0.707106781187, aqt1.Z);
   AssertEquals('CreateEuler:Sub20 W failed ', -0.707106781187, aqt1.W);
 end;
 
@@ -285,7 +286,7 @@ end;
 // is this efficient????
 procedure TQuaternionFunctionalTestCase.TestCreateEulerOrder;
 begin
-  aqt1.Create(90,0,0,eulXYZ);
+  aqt1.Create(90,0,0,eulYZX);
   // should be a positive rotation in X
   AssertEquals('CreateEulerOrder:Sub1 X failed ', 0.707106781187, aqt1.X);
   AssertEquals('CreateEulerOrder:Sub2 Y failed ', 0.0, aqt1.Y);

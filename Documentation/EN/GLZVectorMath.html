@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Vector Classes Math Library: GLZVectorMath</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>Vector Classes Math Library</h2><p><a href="introduction.html" class="navigation">Vector Math Classes</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p><form class="search-form" action="_tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input"></div><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></form>
+<div style="clear: both"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+        /* 10 items to display seems standard */
+        'show': 10,
+        /* For PasDoc docs, showing urls is not very useful,
+           since the page title already shows the unit and identifier. */
+        'showURL': false
+    });
+});
+</script>
+</td><td class="content">
+Vector Classes Math Library for FPC & Lazarus.
+<h1 class="unit">Unit GLZVectorMath</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Uses</div><div class="one_section"><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></div><div class="one_section"><a class="section" href="#PasDoc-FuncsProcs">Functions and Procedures</a></div><div class="one_section"><a class="section" href="#PasDoc-Types">Types</a></div><div class="one_section"><a class="section" href="#PasDoc-Constants">Constants</a></div><div class="one_section">Variables</div></div>
+<span id="PasDoc-Description"></span><h2 class="description">Description</h2>
+<p>
+====&lt; GLZVectorMath.pas &gt;=====================================================<br>
+
+<p>  
+
+<p>Historique : <br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>Last Update : 13/03/2018 </p></li>
+  <li><p>25/11/2017 : Creation </p></li>
+</ul>
+
+<p>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> Description :<br> <code>GLZVectorMath</code> is an optimized vector classes math library for FreePascal and Lazarus<br> using SIMD (SSE, SSE3, SS4, AVX, AVX2) acceleration<br> It can be used in 2D/3D graphics, computing apps.<br>
+
+<p>Support :<br> </p>
+
+<p>          )
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> <b>Notes :</b><br>
+
+<p>Notice, here, we need to set rounding FPC mode to is the same as our SSE code.<br> In FPC, the &quot;function <a class="normal" href="GLZMath.html#Round">Round</a>&quot; using &quot;banker's rounding&quot; algorithm.<br> In fat, is not doing a RoundUp or RoundDown if the is exactly x.50<br> Examples : <br> <code><a class="normal" href="GLZMath.html#Round">Round</a>(2.5) //return = 2</code><br> <code><a class="normal" href="GLZMath.html#Round">Round</a>(3.5) //return = 4</code> <br>
+
+<p>For more informations see : <a  href="https://www.freepascal.org/docs-html/rtl/system/round.html">https://www.freepascal.org/docs-html/rtl/system/round.html</a> <br>
+
+<p>Some links as references :<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="http://forum.lazarus.freepascal.org/index.php/topic,32741.0.html">http://forum.lazarus.freepascal.org/index.php/topic,32741.0.html</a></p></li>
+  <li><p><a  href="http://agner.org/optimize/">http://agner.org/optimize/</a></p></li>
+  <li><p><a  href="http://www.songho.ca/misc/sse/sse.html">http://www.songho.ca/misc/sse/sse.html</a></p></li>
+  <li><p><a  href="https://godbolt.org">https://godbolt.org</a></p></li>
+  <li><p><a  href="http://softpixel.com/~cwright/programming/simd/sse.php">http://softpixel.com/&tilde;cwright/programming/simd/sse.php</a></p></li>
+  <li><p><a  href="https://www.gamasutra.com/view/feature/132636/designing_fast_crossplatform_simd_.php?page=3">https://www.gamasutra.com/view/feature/132636/designing_fast_crossplatform_simd_.php?page=3</a></p></li>
+  <li><p><a  href="https://butterflyofdream.wordpress.com/2016/07/05/converting-rotation-matrices-of-left-handed-coordinate-system/">https://butterflyofdream.wordpress.com/2016/07/05/converting-rotation-matrices-of-left-handed-coordinate-system/</a></p></li>
+  <li><p><a  href="http://shybovycha.tumblr.com/post/122400740651/speeding-up-algorithms-with-sse">http://shybovycha.tumblr.com/post/122400740651/speeding-up-algorithms-with-sse</a></p></li>
+  <li><p><a  href="https://www.scratchapixel.com/index.php">https://www.scratchapixel.com/index.php</a></p></li>
+  <li><p><a  href="http://mark.masmcode.com">http://mark.masmcode.com</a></p></li>
+  <li><p><a  href="https://www.cs.uaf.edu/courses/cs441/notes/sse-avx/">https://www.cs.uaf.edu/courses/cs441/notes/sse-avx/</a></p></li>
+  <li><p><a  href="http://www.euclideanspace.com">http://www.euclideanspace.com</a></p></li>
+  <li><p><a  href="https://www.3dgep.com/category/math/">https://www.3dgep.com/category/math/</a></p></li>
+</ul>
+
+<p><br>
+
+<p>Quelques liens en français (in french) :<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="http://villemin.gerard.free.fr/Wwwgvmm/Nombre.htm">http://villemin.gerard.free.fr/Wwwgvmm/Nombre.htm</a></p></li>
+  <li><p><a  href="https://ljk.imag.fr/membres/Bernard.Ycart/mel/">https://ljk.imag.fr/membres/Bernard.Ycart/mel/</a></p></li>
+  <li><p><a  href="https://www.gladir.com/CODER/ASM8086/">https://www.gladir.com/CODER/ASM8086/</a></p></li>
+</ul>
+
+<p><br>
+
+<p>Others interesting articles, papers at some points:<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="https://conkerjo.wordpress.com/2009/06/13/spatial-hashing-implementation-for-fast-2d-collisions/">https://conkerjo.wordpress.com/2009/06/13/spatial-hashing-implementation-for-fast-2d-collisions/</a></p></li>
+  <li><p><a  href="https://realhet.wordpress.com/2016/11/02/fast-sse-3x3-median-filter-for-rgb24-images/">https://realhet.wordpress.com/2016/11/02/fast-sse-3x3-median-filter-for-rgb24-images/</a></p></li>
+  <li><p><a  href="http://www.jagregory.com/abrash-black-book/">http://www.jagregory.com/abrash-black-book/</a></p></li>
+  <li><p><a  href="http://x86asm.net/articles/fixed-point-arithmetic-and-tricks/">http://x86asm.net/articles/fixed-point-arithmetic-and-tricks/</a></p></li>
+  <li><p><a  href="http://lolengine.net/blog/2011/3/20/understanding-fast-float-integer-conversions">http://lolengine.net/blog/2011/3/20/understanding-fast-float-integer-conversions</a></p></li>
+  <li><p><a  href="http://chrishecker.com/Miscellaneous_Technical_Articles">http://chrishecker.com/Miscellaneous_Technical_Articles</a></p></li>
+  <li><p><a  href="http://catlikecoding.com/unity/tutorials/rendering/part-1/">http://catlikecoding.com/unity/tutorials/rendering/part-1/</a></p></li>
+</ul>
+
+<p><br>
+
+<p>You can also found some papers in <b>DocRefs</b> folder<br> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br>
+
+<p><b>Credits :</b><br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>FPC/Lazarus</p></li>
+  <li><p>GLScene</p></li>
+  <li><p>All authors of papers and web links</p></li>
+</ul>
+
+<p>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> LICENCE : MPL <br> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> *==============================================================================</p>
+<span id="PasDoc-Uses"></span><h2 class="overview">Overview</h2>
+<span id="PasDoc-Classes"></span><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
+<table class="classestable wide_list">
+<tr class="listheader">
+<th class="itemname">Name</th>
+<th class="itemdesc">Description</th>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMath.TGLZVector2i.html"><code>TGLZVector2i</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMath.TGLZVector2f.html"><code>TGLZVector2f</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMath.TGLZVector2d.html"><code>TGLZVector2d</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMath.TGLZVector3b.html"><code>TGLZVector3b</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMath.TGLZVector3i.html"><code>TGLZVector3i</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMath.TGLZVector3f.html"><code>TGLZVector3f</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMath.TGLZVector4b.html"><code>TGLZVector4b</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMath.TGLZVector4i.html"><code>TGLZVector4i</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMath.TGLZVector4f.html"><code>TGLZVector4f</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMath.TGLZHmgPlane.html"><code>TGLZHmgPlane</code></a></td>
+<td class="itemdesc">A plane equation. Defined by its equation A.x+B.y+C.z+D, a plane can be mapped to the homogeneous space coordinates, and this is what we are doing here.<br> The plane is normalized so in effect contains unit normal in ABC (XYZ) and distance from origin to plane.
+
+<p>WARNING : Create(Point, Normal) will allow non unit vectors but basically <b>DON'T DO IT</b>.<br> A non unit vector WILL calculate the wrong distance to the plane.
+
+<p>It is a fast way to create a plane when we have a point and a normal without yet another sqrt call.
+
+<p>More informations : <br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="https://en.wikipedia.org/wiki/Plane_">https://en.wikipedia.org/wiki/Plane_</a>(geometry) </p></li>
+  <li><p><a  href="http://www.songho.ca/math/plane/plane.html">http://www.songho.ca/math/plane/plane.html</a></p></li>
+  <li><p><a  href="https://brilliant.org/wiki/3d-coordinate-geometry-equation-of-a-plane/">https://brilliant.org/wiki/3d-coordinate-geometry-equation-of-a-plane/</a> </p></li>
+  <li><p><a  href="http://tutorial.math.lamar.edu/Classes/CalcII/EqnsOfPlanes.aspx">http://tutorial.math.lamar.edu/Classes/CalcII/EqnsOfPlanes.aspx</a> </p></li>
+</ul>
+
+<p></td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMath.TGLZMatrix4f.html"><code>TGLZMatrix4f</code></a></td>
+<td class="itemdesc"> <code>TGLZMatrix4f</code> : 4D Float Matrix<br> The elements of the matrix in row-major order More Informations :<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="http://www.euclideanspace.com/maths/algebra/matrix/index.htm">http://www.euclideanspace.com/maths/algebra/matrix/index.htm</a></p></li>
+  <li><p><a  href="http://www.euclideanspace.com/maths/differential/other/matrixcalculus/index.htm">http://www.euclideanspace.com/maths/differential/other/matrixcalculus/index.htm</a></p></li>
+  <li><p><a  href="http://www.fastgraph.com/makegames/3drotation/">http://www.fastgraph.com/makegames/3drotation/</a></p></li>
+</ul>
+
+<p> </td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMath.TGLZEulerAngles.html"><code>TGLZEulerAngles</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMath.TGLZQuaternion.html"><code>TGLZQuaternion</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMath.TGLZVector2iHelper.html"><code>TGLZVector2iHelper</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMath.TGLZVector2fHelper.html"><code>TGLZVector2fHelper</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMath.TGLZVectorHelper.html"><code>TGLZVectorHelper</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMath.TGLZMatrixHelper.html"><code>TGLZMatrixHelper</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+</table>
+<span id="PasDoc-FuncsProcs"></span><h3 class="summary">Functions and Procedures</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.html#sse_GetRoundMode">sse_GetRoundMode</a></b>: <a  href="GLZVectorMath.html#sse_Rounding_Mode">sse_Rounding_Mode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMath.html#sse_SetRoundMode">sse_SetRoundMode</a></b>(Round_Mode: <a  href="GLZVectorMath.html#sse_Rounding_Mode">sse_Rounding_Mode</a>);</code></td>
+</tr>
+</table>
+<span id="PasDoc-Types"></span><h3 class="summary">Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#sse_Rounding_Mode">sse_Rounding_Mode</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZVector2fType">TGLZVector2fType</a></b> = packed array[0..1] of Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZVector2dType">TGLZVector2dType</a></b> = packed array[0..1] of Double;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZVector2iType">TGLZVector2iType</a></b> = packed array[0..1] of Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZVector3fType">TGLZVector3fType</a></b> = packed array[0..2] of Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZVector3iType">TGLZVector3iType</a></b> = packed Array[0..2] of Longint;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZVector3bType">TGLZVector3bType</a></b> = packed Array[0..2] of Byte;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZVector4fType">TGLZVector4fType</a></b> = packed array[0..3] of Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZVector4iType">TGLZVector4iType</a></b> = packed array[0..3] of Longint;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZVector4bType">TGLZVector4bType</a></b> = packed Array[0..3] of Byte;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZVector3SwizzleRef">TGLZVector3SwizzleRef</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZVector4SwizzleRef">TGLZVector4SwizzleRef</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a></b> = <a  href="GLZVectorMath.TGLZVector3f.html">TGLZVector3f</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#PGLZAffineVector">PGLZAffineVector</a></b> = &circ;<a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a></b> = <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#PGLZVector">PGLZVector</a></b> = &circ;<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZColorVector">TGLZColorVector</a></b> = <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZClipRect">TGLZClipRect</a></b> = <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZHmgPlaneHalfSpace">TGLZHmgPlaneHalfSpace</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZMatrixTransType">TGLZMatrixTransType</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZMatrixTransformations">TGLZMatrixTransformations</a></b>  = array [<a  href="GLZVectorMath.html#TGLZMatrixTransType">TGLZMAtrixTransType</a>] of Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a></b> = <a  href="GLZVectorMath.TGLZMatrix4f.html">TGLZMatrix4f</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#PGLZMatrix">PGLZMatrix</a></b> = &circ;<a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#TGLZEulerOrder">TGLZEulerOrder</a></b> = (...);</code></td>
+</tr>
+</table>
+<span id="PasDoc-Constants"></span><h3 class="summary">Constants</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#cColorFloatRatio">cColorFloatRatio</a></b> : Single = 1/255;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#sse_no_round_bits_mask">sse_no_round_bits_mask</a></b>= $ffffffff-sse_MaskNegRound-sse_MaskPosRound;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#mxcsr_default">mxcsr_default</a></b> : dword =sse_MaskInvalidOp or sse_MaskDenorm  or sse_MaskDivZero or sse_MaskOverflow
+                      or sse_MaskUnderflow or sse_MaskPrecision or $00000000;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#sse_Rounding_Flags">sse_Rounding_Flags</a></b>: array [<a  href="GLZVectorMath.html#sse_Rounding_Mode">sse_Rounding_Mode</a>] of longint = (0,sse_MaskNegRound,sse_MaskPosRound,0);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#sse_align">sse_align</a></b>=16;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#sse_align_mask">sse_align_mask</a></b>=<a  href="GLZVectorMath.html#sse_align">sse_align</a>-1;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#cPlaneFront">cPlaneFront</a></b>   = 0;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#cPlaneBack">cPlaneBack</a></b>    = 1;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#cPlanePlanar">cPlanePlanar</a></b>  = 2;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#cPlaneClipped">cPlaneClipped</a></b> = 3;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#cPlaneCulled">cPlaneCulled</a></b>  = 4;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#cPlaneVisible">cPlaneVisible</a></b> = 5;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#NullVector2f">NullVector2f</a></b>   : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> = (x:0;y:0);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#OneVector2f">OneVector2f</a></b>   : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> = (x:1;y:1);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#NullVector2d">NullVector2d</a></b>   : <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> = (x:0;y:0);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#OneVector2d">OneVector2d</a></b>   : <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> = (x:1;y:1);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#NullVector2i">NullVector2i</a></b>   : <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a> = (x:0;y:0);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#OneVector2i">OneVector2i</a></b>   : <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a> = (x:1;y:1);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#XVector">XVector</a></b> :    <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a> = (X:1; Y:0; Z:0);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#YVector">YVector</a></b> :    <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a> = (X:0; Y:1; Z:0);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#ZVector">ZVector</a></b> :    <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a> = (X:0; Y:0; Z:1);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#XYVector">XYVector</a></b> :   <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a> = (X:1; Y:1; Z:0);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#XZVector">XZVector</a></b> :   <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a> = (X:1; Y:0; Z:1);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#YZVector">YZVector</a></b> :   <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a> = (X:0; Y:1; Z:1);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#XYZVector">XYZVector</a></b> :  <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a> = (X:1; Y:1; Z:1);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#NullVector">NullVector</a></b> : <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a> = (X:0; Y:0; Z:0);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#XHmgVector">XHmgVector</a></b> : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:1; Y:0; Z:0; W:0);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#YHmgVector">YHmgVector</a></b> : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:0; Y:1; Z:0; W:0);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#ZHmgVector">ZHmgVector</a></b> : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:0; Y:0; Z:1; W:0);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#WHmgVector">WHmgVector</a></b> : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:0; Y:0; Z:0; W:1);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#NullHmgVector">NullHmgVector</a></b> : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:0; Y:0; Z:0; W:0);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#XYHmgVector">XYHmgVector</a></b>: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X: 1; Y: 1; Z: 0; W: 0);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#YZHmgVector">YZHmgVector</a></b>: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X: 0; Y: 1; Z: 1; W: 0);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#XZHmgVector">XZHmgVector</a></b>: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X: 1; Y: 0; Z: 1; W: 0);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#XYZHmgVector">XYZHmgVector</a></b>: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X: 1; Y: 1; Z: 1; W: 0);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#XYZWHmgVector">XYZWHmgVector</a></b>: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X: 1; Y: 1; Z: 1; W: 1);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#XHmgPoint">XHmgPoint</a></b> :  <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:1; Y:0; Z:0; W:1);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#YHmgPoint">YHmgPoint</a></b> :  <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:0; Y:1; Z:0; W:1);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#ZHmgPoint">ZHmgPoint</a></b> :  <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:0; Y:0; Z:1; W:1);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#WHmgPoint">WHmgPoint</a></b> :  <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:0; Y:0; Z:0; W:1);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#NullHmgPoint">NullHmgPoint</a></b> : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:0; Y:0; Z:0; W:1);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#NegativeUnitVector">NegativeUnitVector</a></b> : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:-1; Y:-1; Z:-1; W:-1);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#IdentityHmgMatrix">IdentityHmgMatrix</a></b> : <a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a> = (V:((X:1; Y:0; Z:0; W:0),
+                                       (X:0; Y:1; Z:0; W:0),
+                                       (X:0; Y:0; Z:1; W:0),
+                                       (X:0; Y:0; Z:0; W:1)));</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#EmptyHmgMatrix">EmptyHmgMatrix</a></b> : <a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a> = (V:((X:0; Y:0; Z:0; W:0),
+                                    (X:0; Y:0; Z:0; W:0),
+                                    (X:0; Y:0; Z:0; W:0),
+                                    (X:0; Y:0; Z:0; W:0)));</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.html#IdentityQuaternion">IdentityQuaternion</a></b>: <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a> = (ImagePart:(X:0; Y:0; Z:0); RealPart: 1);</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Functions and Procedures</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="sse_GetRoundMode"></span><code>function <b>sse_GetRoundMode</b>: <a  href="GLZVectorMath.html#sse_Rounding_Mode">sse_Rounding_Mode</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Return current SIMD Rounding Mode</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="sse_SetRoundMode"></span><code>procedure <b>sse_SetRoundMode</b>(Round_Mode: <a  href="GLZVectorMath.html#sse_Rounding_Mode">sse_Rounding_Mode</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Set current SIMD Rounding Mode</p>
+</td></tr>
+</table>
+<h3 class="detail">Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="sse_Rounding_Mode"></span><code><b>sse_Rounding_Mode</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Kind of SIMD rounding mode</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="rmNearestSSE">rmNearestSSE</span></li>
+<li>
+<span id="rmFloorSSE">rmFloorSSE</span></li>
+<li>
+<span id="rmCeilSSE">rmCeilSSE</span></li>
+<li>
+<span id="rmDefaultSSE">rmDefaultSSE</span></li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZVector2fType"></span><code><b>TGLZVector2fType</b> = packed array[0..1] of Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Aligned array for 2D Single Vector</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZVector2dType"></span><code><b>TGLZVector2dType</b> = packed array[0..1] of Double;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Aligned array for 2D Double Vector</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZVector2iType"></span><code><b>TGLZVector2iType</b> = packed array[0..1] of Integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Aligned array for 2D Integer Vector</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZVector3fType"></span><code><b>TGLZVector3fType</b> = packed array[0..2] of Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Aligned array for 3D Single Vector</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZVector3iType"></span><code><b>TGLZVector3iType</b> = packed Array[0..2] of Longint;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Aligned array for 3D Integer Vector</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZVector3bType"></span><code><b>TGLZVector3bType</b> = packed Array[0..2] of Byte;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Aligned array for 3D Byte Vector</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZVector4fType"></span><code><b>TGLZVector4fType</b> = packed array[0..3] of Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Aligned array for 4D Single Vector</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZVector4iType"></span><code><b>TGLZVector4iType</b> = packed array[0..3] of Longint;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Aligned array for 4D Integer Vector</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZVector4bType"></span><code><b>TGLZVector4bType</b> = packed Array[0..3] of Byte;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Aligned array for 4D Byte Vector</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZVector3SwizzleRef"></span><code><b>TGLZVector3SwizzleRef</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Reference for swizzle (shuffle) 3D Vectors</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="swDefaultSwizzle3">swDefaultSwizzle3</span></li>
+<li>
+<span id="swXXX">swXXX</span></li>
+<li>
+<span id="swYYY">swYYY</span></li>
+<li>
+<span id="swZZZ">swZZZ</span></li>
+<li>
+<span id="swXYZ">swXYZ</span></li>
+<li>
+<span id="swXZY">swXZY</span></li>
+<li>
+<span id="swZYX">swZYX</span></li>
+<li>
+<span id="swZXY">swZXY</span></li>
+<li>
+<span id="swYXZ">swYXZ</span></li>
+<li>
+<span id="swYZX">swYZX</span></li>
+<li>
+<span id="swRRR">swRRR</span></li>
+<li>
+<span id="swGGG">swGGG</span></li>
+<li>
+<span id="swBBB">swBBB</span></li>
+<li>
+<span id="swRGB">swRGB</span></li>
+<li>
+<span id="swRBG">swRBG</span></li>
+<li>
+<span id="swBGR">swBGR</span></li>
+<li>
+<span id="swBRG">swBRG</span></li>
+<li>
+<span id="swGRB">swGRB</span></li>
+<li>
+<span id="swGBR">swGBR</span></li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZVector4SwizzleRef"></span><code><b>TGLZVector4SwizzleRef</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Reference for swizzle (shuffle) 4D Vectors</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="swDefaultSwizzle4">swDefaultSwizzle4</span></li>
+<li>
+<span id="swXXXX">swXXXX</span></li>
+<li>
+<span id="swYYYY">swYYYY</span></li>
+<li>
+<span id="swZZZZ">swZZZZ</span></li>
+<li>
+<span id="swWWWW">swWWWW</span></li>
+<li>
+<span id="swXYZW">swXYZW</span></li>
+<li>
+<span id="swXZYW">swXZYW</span></li>
+<li>
+<span id="swZYXW">swZYXW</span></li>
+<li>
+<span id="swZXYW">swZXYW</span></li>
+<li>
+<span id="swYXZW">swYXZW</span></li>
+<li>
+<span id="swYZXW">swYZXW</span></li>
+<li>
+<span id="swWXYZ">swWXYZ</span></li>
+<li>
+<span id="swWXZY">swWXZY</span></li>
+<li>
+<span id="swWZYX">swWZYX</span></li>
+<li>
+<span id="swWZXY">swWZXY</span></li>
+<li>
+<span id="swWYXZ">swWYXZ</span></li>
+<li>
+<span id="swWYZX">swWYZX</span></li>
+<li>
+<span id="swRRRR">swRRRR</span></li>
+<li>
+<span id="swGGGG">swGGGG</span></li>
+<li>
+<span id="swBBBB">swBBBB</span></li>
+<li>
+<span id="swAAAA">swAAAA</span></li>
+<li>
+<span id="swRGBA">swRGBA</span></li>
+<li>
+<span id="swRBGA">swRBGA</span></li>
+<li>
+<span id="swBGRA">swBGRA</span></li>
+<li>
+<span id="swBRGA">swBRGA</span></li>
+<li>
+<span id="swGRBA">swGRBA</span></li>
+<li>
+<span id="swGBRA">swGBRA</span></li>
+<li>
+<span id="swARGB">swARGB</span></li>
+<li>
+<span id="swARBG">swARBG</span></li>
+<li>
+<span id="swABGR">swABGR</span></li>
+<li>
+<span id="swABRG">swABRG</span></li>
+<li>
+<span id="swAGRB">swAGRB</span></li>
+<li>
+<span id="swAGBR">swAGBR</span></li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZAffineVector"></span><code><b>TGLZAffineVector</b> = <a  href="GLZVectorMath.TGLZVector3f.html">TGLZVector3f</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Spelling convenience for vector3f, describe an affine vector</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PGLZAffineVector"></span><code><b>PGLZAffineVector</b> = &circ;<a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Pointer of <a class="normal" href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZVector"></span><code><b>TGLZVector</b> = <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Spelling convenience for <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>, describe an homogenous vector</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PGLZVector"></span><code><b>PGLZVector</b> = &circ;<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Pointer of <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZColorVector"></span><code><b>TGLZColorVector</b> = <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+@TODO Make Independant</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZClipRect"></span><code><b>TGLZClipRect</b> = <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+@TODO Make Independant</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZHmgPlaneHalfSpace"></span><code><b>TGLZHmgPlaneHalfSpace</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Positions for point relative to the normal axis of a plane.<br> The positive definition is relative to the normal vector direction</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="phsIsOnNegativeSide">phsIsOnNegativeSide</span>: On negative side.</li>
+<li>
+<span id="phsIsOnPositiveSide">phsIsOnPositiveSide</span>: On positive side.</li>
+<li>
+<span id="phsIsOnPlane">phsIsOnPlane</span>: Directly on plane.</li>
+<li>
+<span id="phsIsClipped">phsIsClipped</span>: Clipped by plane.</li>
+<li>
+<span id="phsIsAway">phsIsAway</span>: Away from plane.</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZMatrixTransType"></span><code><b>TGLZMatrixTransType</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Transformation actions type</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="ttScaleX">ttScaleX</span></li>
+<li>
+<span id="ttScaleY">ttScaleY</span></li>
+<li>
+<span id="ttScaleZ">ttScaleZ</span></li>
+<li>
+<span id="ttShearXY">ttShearXY</span></li>
+<li>
+<span id="ttShearXZ">ttShearXZ</span></li>
+<li>
+<span id="ttShearYZ">ttShearYZ</span></li>
+<li>
+<span id="ttRotateX">ttRotateX</span></li>
+<li>
+<span id="ttRotateY">ttRotateY</span></li>
+<li>
+<span id="ttRotateZ">ttRotateZ</span></li>
+<li>
+<span id="ttTranslateX">ttTranslateX</span></li>
+<li>
+<span id="ttTranslateY">ttTranslateY</span></li>
+<li>
+<span id="ttTranslateZ">ttTranslateZ</span></li>
+<li>
+<span id="ttPerspectiveX">ttPerspectiveX</span></li>
+<li>
+<span id="ttPerspectiveY">ttPerspectiveY</span></li>
+<li>
+<span id="ttPerspectiveZ">ttPerspectiveZ</span></li>
+<li>
+<span id="ttPerspectiveW">ttPerspectiveW</span></li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZMatrixTransformations"></span><code><b>TGLZMatrixTransformations</b>  = array [<a  href="GLZVectorMath.html#TGLZMatrixTransType">TGLZMAtrixTransType</a>] of Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>TGLZMatrixTransformations</code> is used to describe a sequence of transformations in following order:<br> [Sx][Sy][Sz][ShearXY][ShearXZ][ShearZY][Rx][Ry][Rz][Tx][Ty][Tz][P(x,y,z,w)]<br> Constants are declared for easier access (see MatrixDecompose below)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZMatrix"></span><code><b>TGLZMatrix</b> = <a  href="GLZVectorMath.TGLZMatrix4f.html">TGLZMatrix4f</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Spelling convenience for <a class="normal" href="GLZVectorMath.TGLZMatrix4f.html">TGLZMAtrix4f</a>, describe a 4D float matrix</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PGLZMatrix"></span><code><b>PGLZMatrix</b> = &circ;<a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Pointer of <a class="normal" href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZEulerOrder"></span><code><b>TGLZEulerOrder</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Euler Angle rotation order.<br> Here, We're using the Tait–Bryan angles conventions for the definition of the rotation axes<br> (x-y-z, y-z-x, z-x-y, x-z-y, z-y-x, y-x-z).</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="eulXYZ">eulXYZ</span></li>
+<li>
+<span id="eulXZY">eulXZY</span></li>
+<li>
+<span id="eulYXZ">eulYXZ</span></li>
+<li>
+<span id="eulYZX">eulYZX</span></li>
+<li>
+<span id="eulZXY">eulZXY</span></li>
+<li>
+<span id="eulZYX">eulZYX</span></li>
+</ul>
+</td></tr>
+</table>
+<h3 class="detail">Constants</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cColorFloatRatio"></span><code><b>cColorFloatRatio</b> : Single = 1/255;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Constant for normalise color byte component to float</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="sse_no_round_bits_mask"></span><code><b>sse_no_round_bits_mask</b>= $ffffffff-sse_MaskNegRound-sse_MaskPosRound;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+mask for removing old rounding bits to set new bits</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="mxcsr_default"></span><code><b>mxcsr_default</b> : dword =sse_MaskInvalidOp or sse_MaskDenorm  or sse_MaskDivZero or sse_MaskOverflow
+                      or sse_MaskUnderflow or sse_MaskPrecision or $00000000;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Default value of the mxcsr after booting the PC<br> Default setting of the mxscr register ; disable all exception's</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="sse_Rounding_Flags"></span><code><b>sse_Rounding_Flags</b>: array [<a  href="GLZVectorMath.html#sse_Rounding_Mode">sse_Rounding_Mode</a>] of longint = (0,sse_MaskNegRound,sse_MaskPosRound,0);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+sse_MaskPosRound; Conversion table from rounding mode name to rounding bits</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="sse_align"></span><code><b>sse_align</b>=16;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+SIMD Data Alignement Constant in bits </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="sse_align_mask"></span><code><b>sse_align_mask</b>=<a  href="GLZVectorMath.html#sse_align">sse_align</a>-1;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Mask for data alignement</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cPlaneFront"></span><code><b>cPlaneFront</b>   = 0;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Half space representation. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cPlaneBack"></span><code><b>cPlaneBack</b>    = 1;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cPlanePlanar"></span><code><b>cPlanePlanar</b>  = 2;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cPlaneClipped"></span><code><b>cPlaneClipped</b> = 3;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cPlaneCulled"></span><code><b>cPlaneCulled</b>  = 4;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cPlaneVisible"></span><code><b>cPlaneVisible</b> = 5;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="NullVector2f"></span><code><b>NullVector2f</b>   : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> = (x:0;y:0);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+standard 2D vectors </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="OneVector2f"></span><code><b>OneVector2f</b>   : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> = (x:1;y:1);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="NullVector2d"></span><code><b>NullVector2d</b>   : <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> = (x:0;y:0);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="OneVector2d"></span><code><b>OneVector2d</b>   : <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> = (x:1;y:1);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="NullVector2i"></span><code><b>NullVector2i</b>   : <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a> = (x:0;y:0);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="OneVector2i"></span><code><b>OneVector2i</b>   : <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a> = (x:1;y:1);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XVector"></span><code><b>XVector</b> :    <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a> = (X:1; Y:0; Z:0);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+standard affine vectors </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YVector"></span><code><b>YVector</b> :    <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a> = (X:0; Y:1; Z:0);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ZVector"></span><code><b>ZVector</b> :    <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a> = (X:0; Y:0; Z:1);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XYVector"></span><code><b>XYVector</b> :   <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a> = (X:1; Y:1; Z:0);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XZVector"></span><code><b>XZVector</b> :   <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a> = (X:1; Y:0; Z:1);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YZVector"></span><code><b>YZVector</b> :   <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a> = (X:0; Y:1; Z:1);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XYZVector"></span><code><b>XYZVector</b> :  <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a> = (X:1; Y:1; Z:1);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="NullVector"></span><code><b>NullVector</b> : <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a> = (X:0; Y:0; Z:0);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XHmgVector"></span><code><b>XHmgVector</b> : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:1; Y:0; Z:0; W:0);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+standard homogeneous vectors </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YHmgVector"></span><code><b>YHmgVector</b> : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:0; Y:1; Z:0; W:0);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ZHmgVector"></span><code><b>ZHmgVector</b> : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:0; Y:0; Z:1; W:0);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="WHmgVector"></span><code><b>WHmgVector</b> : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:0; Y:0; Z:0; W:1);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="NullHmgVector"></span><code><b>NullHmgVector</b> : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:0; Y:0; Z:0; W:0);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XYHmgVector"></span><code><b>XYHmgVector</b>: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X: 1; Y: 1; Z: 0; W: 0);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YZHmgVector"></span><code><b>YZHmgVector</b>: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X: 0; Y: 1; Z: 1; W: 0);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XZHmgVector"></span><code><b>XZHmgVector</b>: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X: 1; Y: 0; Z: 1; W: 0);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XYZHmgVector"></span><code><b>XYZHmgVector</b>: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X: 1; Y: 1; Z: 1; W: 0);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XYZWHmgVector"></span><code><b>XYZWHmgVector</b>: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X: 1; Y: 1; Z: 1; W: 1);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XHmgPoint"></span><code><b>XHmgPoint</b> :  <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:1; Y:0; Z:0; W:1);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+standard homogeneous points </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YHmgPoint"></span><code><b>YHmgPoint</b> :  <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:0; Y:1; Z:0; W:1);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ZHmgPoint"></span><code><b>ZHmgPoint</b> :  <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:0; Y:0; Z:1; W:1);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="WHmgPoint"></span><code><b>WHmgPoint</b> :  <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:0; Y:0; Z:0; W:1);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="NullHmgPoint"></span><code><b>NullHmgPoint</b> : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:0; Y:0; Z:0; W:1);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="NegativeUnitVector"></span><code><b>NegativeUnitVector</b> : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a> = (X:-1; Y:-1; Z:-1; W:-1);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Negative Homogenous Unit Vector</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="IdentityHmgMatrix"></span><code><b>IdentityHmgMatrix</b> : <a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a> = (V:((X:1; Y:0; Z:0; W:0),
+                                       (X:0; Y:1; Z:0; W:0),
+                                       (X:0; Y:0; Z:1; W:0),
+                                       (X:0; Y:0; Z:0; W:1)));</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Identity Homogenous Matrix</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="EmptyHmgMatrix"></span><code><b>EmptyHmgMatrix</b> : <a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a> = (V:((X:0; Y:0; Z:0; W:0),
+                                    (X:0; Y:0; Z:0; W:0),
+                                    (X:0; Y:0; Z:0; W:0),
+                                    (X:0; Y:0; Z:0; W:0)));</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Empty Homogenous Matrix</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="IdentityQuaternion"></span><code><b>IdentityQuaternion</b>: <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a> = (ImagePart:(X:0; Y:0; Z:0); RealPart: 1);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Identity Quaternion</p>
+</td></tr>
+</table>
+<h2 class="authors">Authors</h2>
+<ul class="authors">
+<li>J.Delauney (BeanzMaster)</li>
+<li>Peter Dyson (Dicepd)</li>
+</ul>
+<h2 class="created">Created</h2>
+<p>
+2017-11-25
+</p>
+(R) 2017-2018 -- By J.Delauney and P.Dyson. Under MPL Licence
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

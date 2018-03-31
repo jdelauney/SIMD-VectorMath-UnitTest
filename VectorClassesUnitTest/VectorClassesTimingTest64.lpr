@@ -12,6 +12,9 @@ uses
   Vector2fHelperFunctionalTest,
   Vector2OperatorsTestCase,
   Vector2NumericsTestCase,
+  // Vector2f Test Case
+  Vector2dFunctionalTest,
+  Vector2dTimingTest,
   // Vector2i Test Case
   Vector2iFunctionalTest,
   Vector2iComparatorTest,
@@ -72,7 +75,7 @@ uses
   { ensure your code is included before this line}
   ReportTest,
 {$endif}
-  GLZVectorMath;
+  GLZVectorMath, GLZMath, GLZVectorMathEx, GLZVectorMathUtils;
 
 begin
   Application.Title := 'VectorClassesUnitTest';

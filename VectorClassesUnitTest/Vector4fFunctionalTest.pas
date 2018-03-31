@@ -3,6 +3,8 @@ unit Vector4fFunctionalTest;
 {$mode objfpc}{$H+}
 {$CODEALIGN LOCALMIN=16}
 {$CODEALIGN CONSTMIN=16}
+{$CODEALIGN VARMIN=16}
+
 interface
 
 uses
@@ -122,17 +124,17 @@ var temp: TGLZVector3f;
 begin
   vt1.Create(10.0,20.0,30.0);
   temp := vt1.AsVector3f;
-  vt4.Create(temp);
+  vt4.CreatePoint(temp);
   AssertEquals('Create3f:Sub1 X failed ', 10.0, vt4.X);
   AssertEquals('Create3f:Sub2 Y failed ', 20.0, vt4.Y);
   AssertEquals('Create3f:Sub3 Z failed ', 30.0, vt4.Z);
   AssertEquals('Create3f:Sub4 W failed ',  1.0, vt4.W);
-  vt4.Create(vt1.AsVector3f);
+  vt4.CreatePoint(vt1.AsVector3f);
   AssertEquals('Create3f:Sub5 X failed ', 10.0, vt4.X);
   AssertEquals('Create3f:Sub6 Y failed ', 20.0, vt4.Y);
   AssertEquals('Create3f:Sub7 Z failed ', 30.0, vt4.Z);
   AssertEquals('Create3f:Sub8 W failed ',  1.0, vt4.W);
-  vt4.Create(vt1.AsVector3f, 0);
+  vt4.Create(vt1.AsVector3f);
   AssertEquals('Create3f:Sub9 X failed ',  10.0, vt4.X);
   AssertEquals('Create3f:Sub10 Y failed ', 20.0, vt4.Y);
   AssertEquals('Create3f:Sub11 Z failed ', 30.0, vt4.Z);
@@ -140,7 +142,11 @@ begin
 end;
 
 procedure TVector4fFunctionalTest.TestOpNegate;
-var a: TGLZVector4f;
+
+var
+  {$CODEALIGN VARMIN=16}
+  a: TGLZVector4f;
+  {$CODEALIGN VARMIN=4}
 begin
   vt1.Create(10.0, 20.0, 30.0, 1);
   vt4 := -vt1;

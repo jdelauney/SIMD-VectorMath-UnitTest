@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Vector Classes Math Library: GLZVectorMathEx</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>Vector Classes Math Library</h2><p><a href="introduction.html" class="navigation">Vector Math Classes</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p><form class="search-form" action="_tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input"></div><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></form>
+<div style="clear: both"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+        /* 10 items to display seems standard */
+        'show': 10,
+        /* For PasDoc docs, showing urls is not very useful,
+           since the page title already shows the unit and identifier. */
+        'showURL': false
+    });
+});
+</script>
+</td><td class="content">
+Vector Classes Math Library for FPC & Lazarus.
+<h1 class="unit">Unit GLZVectorMathEx</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Uses</div><div class="one_section"><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></div><div class="one_section">Functions and Procedures</div><div class="one_section"><a class="section" href="#PasDoc-Types">Types</a></div><div class="one_section"><a class="section" href="#PasDoc-Constants">Constants</a></div><div class="one_section">Variables</div></div>
+<span id="PasDoc-Description"></span><h2 class="description">Description</h2>
+<p>
+====&lt; GLZVectorMathEx.pas &gt;=====================================================<br>
+
+<p>  
+
+<p>Historique : <br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>Last Update : 13/03/2018 </p></li>
+  <li><p>12/03/2018 : Creation </p></li>
+</ul>
+
+<p>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> Description :<br> <code>GLZVectorMathEx</code> Contains extra optimized classes using SIMD (SSE, SSE3, SS4, AVX, AVX2) acceleration<br> Those classes are specialized and must be in graphic rendering/physics engine It can be used in 2D/3D graphics, computing apps, games...<br>
+
+<p>Support :<br> </p>
+
+<p>  
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> <b>Notes :</b><br>
+
+<p>Some links as references :<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p></p></li>
+</ul>
+
+<p><br>
+
+<p>Quelques liens en français (in french) :<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p></p></li>
+</ul>
+
+<p><br>
+
+<p>Others interesting articles, papers at some points:<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p></p></li>
+</ul>
+
+<p><br>
+
+<p>You can also found some papers in <b>DocRefs</b> folder<br> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br>
+
+<p><b>Credits :</b><br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>FPC/Lazarus</p></li>
+  <li><p>GLScene</p></li>
+  <li><p>All authors of papers and web links</p></li>
+</ul>
+
+<p>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> LICENCE : MPL <br> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> *==============================================================================</p>
+<span id="PasDoc-Uses"></span><h2 class="overview">Overview</h2>
+<span id="PasDoc-Classes"></span><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
+<table class="classestable wide_list">
+<tr class="listheader">
+<th class="itemname">Name</th>
+<th class="itemdesc">Description</th>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html"><code>TGLZ2DSingleAffineMatrix</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMathEx.TGLZBoundingBox.html"><code>TGLZBoundingBox</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMathEx.TGLZBoundingSphere.html"><code>TGLZBoundingSphere</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html"><code>TGLZAxisAlignedBoundingBox</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZVectorMathEx.TGLZHmgPlaneHelper.html"><code>TGLZHmgPlaneHelper</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+</table>
+<span id="PasDoc-Types"></span><h3 class="summary">Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.html#TGLZSpaceContains">TGLZSpaceContains</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.html#TGLZAABBCorners">TGLZAABBCorners</a></b> = array [0 .. 7] of <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.html#TGLZFrustrumPlanesArray">TGLZFrustrumPlanesArray</a></b> = Array[0..5] of <a  href="GLZVectorMath.TGLZHmgPlane.html">TGLZHmgPlane</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Constants"></span><h3 class="summary">Constants</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.html#NullBoundingBox">NullBoundingBox</a></b>: <a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a> =
+   (Points:((X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1)));</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZSpaceContains"></span><code><b>TGLZSpaceContains</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Result type for space intersection tests, with Bounding records see also : <br> - <a class="normal" href="GLZVectorMathEx.TGLZBoundingSphere.html">TGLZBoundingSphere</a>, <a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a> (3D)<br> - TGLZBoundingCircle, TGLZAxisAlignedBoundingRect (2D)<br></p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="ScNoOverlap">ScNoOverlap</span></li>
+<li>
+<span id="ScContainsFully">ScContainsFully</span></li>
+<li>
+<span id="ScContainsPartially">ScContainsPartially</span></li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZAABBCorners"></span><code><b>TGLZAABBCorners</b> = array [0 .. 7] of <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>TGLZAABBCorners</code> : Structure for storing the corners of an AABB, used with <a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#ExtractCorners">TGLZAxisAlignedBoundingBox.ExtractCorners</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZFrustrumPlanesArray"></span><code><b>TGLZFrustrumPlanesArray</b> = Array[0..5] of <a  href="GLZVectorMath.TGLZHmgPlane.html">TGLZHmgPlane</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Convenience for Frustrum planes access</p>
+</td></tr>
+</table>
+<h3 class="detail">Constants</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="NullBoundingBox"></span><code><b>NullBoundingBox</b>: <a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a> =
+   (Points:((X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1),
+            (X: 0; Y: 0; Z: 0; W: 1)));</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Null Oriented Bounding Box (OBB)</p>
+</td></tr>
+</table>
+<h2 class="authors">Authors</h2>
+<ul class="authors">
+<li>J.Delauney (BeanzMaster)</li>
+<li>Peter Dyson (Dicepd)</li>
+</ul>
+<h2 class="created">Created</h2>
+<p>
+2017-11-25
+</p>
+(R) 2017-2018 -- By J.Delauney and P.Dyson. Under MPL Licence
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

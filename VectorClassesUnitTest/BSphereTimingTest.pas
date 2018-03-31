@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, fpcunit, testregistry, BaseTimingTest, BaseTestCase,
-  native, GLZVectorMath, GLZProfiler;
+  native, GLZVectorMath, GLZVectorMathEx, GLZProfiler;
 
 type
 

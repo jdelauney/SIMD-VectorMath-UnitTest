@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Vector Classes Math Library: GLZVectorMath: Record TGLZQuaternion</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>Vector Classes Math Library</h2><p><a href="introduction.html" class="navigation">Vector Math Classes</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p><form class="search-form" action="_tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input"></div><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></form>
+<div style="clear: both"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+        /* 10 items to display seems standard */
+        'show': 10,
+        /* For PasDoc docs, showing urls is not very useful,
+           since the page title already shows the unit and identifier. */
+        'showURL': false
+    });
+});
+</script>
+</td><td class="content">
+Vector Classes Math Library for FPC & Lazarus.
+<span id="TGLZQuaternion"></span><h1 class="cio">Record TGLZQuaternion</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="GLZVectorMath.html">GLZVectorMath</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TGLZQuaternion = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+<code>TGLZQuaternion</code> : The quaternions are a number system that extends the complex numbers and applied to mechanics in three-dimensional space.<br> A feature of quaternions is that multiplication of two quaternions is noncommutative.<br>
+
+<p>More informations :<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="https://en.wikipedia.org/wiki/Quaternion">https://en.wikipedia.org/wiki/Quaternion</a></p></li>
+  <li><p><a  href="http://developerblog.myo.com/quaternions/">http://developerblog.myo.com/quaternions/</a></p></li>
+  <li><p><a  href="http://www.chrobotics.com/library/understanding-quaternions">http://www.chrobotics.com/library/understanding-quaternions</a></p></li>
+  <li><p><a  href="https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation">https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation</a></p></li>
+  <li><p><a  href="http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/">http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/</a></p></li>
+  <li><p><a  href="http://mathworld.wolfram.com/Quaternion.html">http://mathworld.wolfram.com/Quaternion.html</a></p></li>
+</ul>
+
+<p></p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZQuaternion.html#V">V</a></b>: <a  href="GLZVectorMath.html#TGLZVector4fType">TGLZVector4fType</a></code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZQuaternion.html#X">X</a></b>: Single</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZQuaternion.html#Y">Y</a></b>: Single</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZQuaternion.html#Z">Z</a></b>: Single</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZQuaternion.html#W">W</a></b>: Single</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZQuaternion.html#AsVector4f">AsVector4f</a></b>: <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a></code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZQuaternion.html#ImagePart">ImagePart</a></b>: <a  href="GLZVectorMath.TGLZVector3f.html">TGLZVector3f</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZQuaternion.html#RealPart">RealPart</a></b>: Single</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMath.TGLZQuaternion.html#Create">Create</a></b>(x,y,z: Single; Real : Single); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMath.TGLZQuaternion.html#Create">Create</a></b>(const Imag: array of Single; Real : Single); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMath.TGLZQuaternion.html#Create">Create</a></b>(const V1, V2: <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a>); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMath.TGLZQuaternion.html#Create">Create</a></b>(const V1, V2: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMath.TGLZQuaternion.html#Create">Create</a></b>(const mat : <a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a>); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMath.TGLZQuaternion.html#Create">Create</a></b>(const angle : Single; const axis : <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a>); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMath.TGLZQuaternion.html#Create">Create</a></b>(const Yaw, Pitch, Roll : Single); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMath.TGLZQuaternion.html#Create">Create</a></b>(const x, y, z: Single; eulerOrder : <a  href="GLZVectorMath.html#TGLZEulerOrder">TGLZEulerOrder</a>); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMath.TGLZQuaternion.html#Create">Create</a></b>(const EulerAngles : <a  href="GLZVectorMath.TGLZEulerAngles.html">TGLZEulerAngles</a>; eulerOrder : <a  href="GLZVectorMath.html#TGLZEulerOrder">TGLZEulerOrder</a>); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>class operator *(constref A, B: <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>): <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>class operator =(constref A, B: <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>class operator &lt;&gt;(constref A, B: <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZQuaternion.html#ToString">ToString</a></b> : String;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZQuaternion.html#ConvertToMatrix">ConvertToMatrix</a></b> : <a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZQuaternion.html#ConvertToEuler">ConvertToEuler</a></b>(Const EulerOrder : <a  href="GLZVectorMath.html#TGLZEulerOrder">TGLZEulerOrder</a>) : <a  href="GLZVectorMath.TGLZEulerAngles.html">TGLZEulerAngles</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMath.TGLZQuaternion.html#ConvertToAngleAxis">ConvertToAngleAxis</a></b>(out angle : Single; out axis : <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZQuaternion.html#Conjugate">Conjugate</a></b> : <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZQuaternion.html#Magnitude">Magnitude</a></b> : Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMath.TGLZQuaternion.html#Normalize">Normalize</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZQuaternion.html#Transform">Transform</a></b>(constref V: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>): <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMath.TGLZQuaternion.html#Scale">Scale</a></b>(ScaleVal: single);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZQuaternion.html#MultiplyAsSecond">MultiplyAsSecond</a></b>(const qFirst : <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>): <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZQuaternion.html#Slerp">Slerp</a></b>(const QEnd: <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>; Spin: Integer; t: Single): <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZQuaternion.html#Slerp">Slerp</a></b>(const QEnd: <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>; const t : Single) : <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>; overload;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="V"></span><code><b>V</b>: <a  href="GLZVectorMath.html#TGLZVector4fType">TGLZVector4fType</a></code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Array access</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="X"></span><code><b>X</b>: Single</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Legacy access</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Y"></span><code><b>Y</b>: Single</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Legacy access</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Z"></span><code><b>Z</b>: Single</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Legacy access</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="W"></span><code><b>W</b>: Single</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Legacy access</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="AsVector4f"></span><code><b>AsVector4f</b>: <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a></code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+As <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ImagePart"></span><code><b>ImagePart</b>: <a  href="GLZVectorMath.TGLZVector3f.html">TGLZVector3f</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="RealPart"></span><code><b>RealPart</b>: Single</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+As complex number</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(x,y,z: Single; Real : Single); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : <a class="normal" href="GLZVectorMath.TGLZQuaternion.html#Create">Create</a> a quaternion from the given values    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Single</dd>
+<dt>Y</dt>
+<dd>: Single</dd>
+<dt>Z</dt>
+<dd>: Single</dd>
+<dt>Real</dt>
+<dd>: Single</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(const Imag: array of Single; Real : Single); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : <a class="normal" href="GLZVectorMath.TGLZQuaternion.html#Create">Create</a> a quaternion from the given values  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Imag</dt>
+<dd>: Array of single</dd>
+<dt>Real</dt>
+<dd>: Single</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(const V1, V2: <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a>); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : Constructs a unit quaternion from two unit vectors  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>V1</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a></dd>
+<dt>V2</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(const V1, V2: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : Constructs a unit quaternion from two unit vectors or two points or on unit sphere  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>V1</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+<dt>V2</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(const mat : <a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a>); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : Constructs a unit quaternion from a matrix. <br> <b>Note :</b> The matrix must be a rotation matrix ! </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>mat</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(const angle : Single; const axis : <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a>); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : Constructs quaternion from angle (in deg) and axis  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Angle</dt>
+<dd>: Single</dd>
+<dt>Axis</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(const Yaw, Pitch, Roll : Single); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : Constructs quaternion from Euler angles. ( Common Standard Euler Order = YZX )   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Yaw</dt>
+<dd>: Single</dd>
+<dt>Pitch</dt>
+<dd>: Single</dd>
+<dt>Roll</dt>
+<dd>: Single</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(const x, y, z: Single; eulerOrder : <a  href="GLZVectorMath.html#TGLZEulerOrder">TGLZEulerOrder</a>); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : Constructs quaternion from Euler angles in arbitrary order (angles in degrees)    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Single</dd>
+<dt>Y</dt>
+<dd>: Single</dd>
+<dt>Z</dt>
+<dd>: Single</dd>
+<dt>eulerOrder</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZEulerOrder">TGLZEulerOrder</a></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(const EulerAngles : <a  href="GLZVectorMath.TGLZEulerAngles.html">TGLZEulerAngles</a>; eulerOrder : <a  href="GLZVectorMath.html#TGLZEulerOrder">TGLZEulerOrder</a>); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : Constructs quaternion from Euler angles in arbitrary order (angles in degrees)  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>EulerAngles</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZEulerAngles.html">TGLZEulerAngles</a></dd>
+<dt>eulerOrder</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZEulerOrder">TGLZEulerOrder</a></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="*"></span><code>class operator *(constref A, B: <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>): <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>*</code> : Return quaternion product quatrenion_Left * quaternion_Right. (which is the concatenation of a rotation Q1 followed by the rotation Q2) <br> <b>Note :</b> Order is important reverted to A prod B as B prod A gave wrong results !   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a> &ndash; Left</dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a> &ndash; Right</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="="></span><code>class operator =(constref A, B: <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>=</code> : Compare if two <a class="normal" href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a> are equal   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Boolean <code>True</code> if equal</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="<"></span><code>class operator &lt;&gt;(constref A, B: <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>&lt;</code> : Compare if two <a class="normal" href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a> are not equal   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Boolean <code>True</code> if not equal</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ToString"></span><code>function <b>ToString</b> : String;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ToString</code> :Return Quaternion to a formatted string eg &quot;(&quot;<a class="normal" href="GLZVectorMath.TGLZQuaternion.html#X">x</a>, <a class="normal" href="GLZVectorMath.TGLZQuaternion.html#Y">y</a>, <a class="normal" href="GLZVectorMath.TGLZQuaternion.html#Z">z</a>, <a class="normal" href="GLZVectorMath.TGLZQuaternion.html#W">w</a>&quot;)&quot; </p>
+<h6 class="description_section">Returns</h6>
+<p class="return">String</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ConvertToMatrix"></span><code>function <b>ConvertToMatrix</b> : <a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ConvertToMatrix</code> : Construct a rotation matrix from (possibly non-unit) quaternion. <br> Assumes matrix is used to multiply column vector on the left : <br> vnew = mat * vold. <br> Works correctly for right-handed coordinate system and right-handed rotations. </p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ConvertToEuler"></span><code>function <b>ConvertToEuler</b>(Const EulerOrder : <a  href="GLZVectorMath.html#TGLZEulerOrder">TGLZEulerOrder</a>) : <a  href="GLZVectorMath.TGLZEulerAngles.html">TGLZEulerAngles</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ConvertToEuler</code> : Convert quaternion to Euler Angles according the rotation order  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>EulerOrder</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZEulerOrder">TGLZEulerOrder</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZEulerAngles.html">TGLZEulerAngles</a> </p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ConvertToAngleAxis"></span><code>procedure <b>ConvertToAngleAxis</b>(out angle : Single; out axis : <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ConvertToAngleAxis</code> : Convert quaternion to angle (in deg) and axis  </p>
+<h6 class="description_section">Returns</h6>
+<p class="return">Axis : <a class="normal" href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a> </p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Conjugate"></span><code>function <b>Conjugate</b> : <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Conjugate</code> : Returns the <code>conjugate</code> of a quaternion </p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a> </p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Magnitude"></span><code>function <b>Magnitude</b> : Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Magnitude</code> : Returns the <code>magnitude</code> of the quaternion </p>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Normalize"></span><code>procedure <b>Normalize</b>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Normalize</code> : Normalizes the quaternion</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Transform"></span><code>function <b>Transform</b>(constref V: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>): <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Transform</code> : Applies rotation to <a class="normal" href="GLZVectorMath.TGLZQuaternion.html#V">V</a> around local axes.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>V</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Scale"></span><code>procedure <b>Scale</b>(ScaleVal: single);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Scale</code> : If a <code>scale</code> factor is applied to a quaternion then the rotation will <code>scale</code> vectors when transforming them. <br> Assumes quaternion is already normalized </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ScaleVal</dt>
+<dd>: Single</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MultiplyAsSecond"></span><code>function <b>MultiplyAsSecond</b>(const qFirst : <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>): <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>MultiplyAsSecond</code> : Returns quaternion product quaternion_Right * quaternion_Left. <br> To combine rotations, use the product Muliply(qSecond, qFirst), which gives the effect of rotating by qFirst then qSecond. <br> <b>Note :</b> order is important !  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>qFirst</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a> &ndash; Quaternion_Right</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Slerp"></span><code>function <b>Slerp</b>(const QEnd: <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>; Spin: Integer; t: Single): <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Slerp</code> :Spherical linear interpolation of unit quaternions with spins.<br> <b>Note :</b> QStart = Self    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>QEnd</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a> &ndash; start and end unit quaternions</dd>
+<dt>t</dt>
+<dd>: Single &ndash; interpolation parameter (0 to 1)</dd>
+<dt>Spin</dt>
+<dd>: Integer &ndash; number of extra spin rotations to involve</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Slerp"></span><code>function <b>Slerp</b>(const QEnd: <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>; const t : Single) : <a  href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Slerp</code> :Spherical linear interpolation of unit quaternions with spins.<br> <b>Note :</b> QStart = Self   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>QEnd</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a> &ndash; start and end unit quaternions</dd>
+<dt>t</dt>
+<dd>: Single &ndash; interpolation parameter (0 to 1)</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZQuaternion.html">TGLZQuaternion</a></p></td></tr>
+</table>
+(R) 2017-2018 -- By J.Delauney and P.Dyson. Under MPL Licence
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

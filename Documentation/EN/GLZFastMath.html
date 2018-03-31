@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Vector Classes Math Library: GLZFastMath</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>Vector Classes Math Library</h2><p><a href="introduction.html" class="navigation">Vector Math Classes</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p><form class="search-form" action="_tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input"></div><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></form>
+<div style="clear: both"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+        /* 10 items to display seems standard */
+        'show': 10,
+        /* For PasDoc docs, showing urls is not very useful,
+           since the page title already shows the unit and identifier. */
+        'showURL': false
+    });
+});
+</script>
+</td><td class="content">
+Vector Classes Math Library for FPC & Lazarus.
+<h1 class="unit">Unit GLZFastMath</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Uses</div><div class="one_section">Classes, Interfaces, Objects and Records</div><div class="one_section"><a class="section" href="#PasDoc-FuncsProcs">Functions and Procedures</a></div><div class="one_section">Types</div><div class="one_section">Constants</div><div class="one_section">Variables</div></div>
+<span id="PasDoc-Description"></span><h2 class="description">Description</h2>
+<p>
+====&lt; GLZFastMath.pas &gt;=====================================================<br>  @author(J.Delauney (BeanzMaster) - Peter Dyson (Dicepd) Historique : <br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>25/11/2017 : Creation </p></li>
+</ul>
+
+<p> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; Description : L'unité <a class="normal" href="GLZVectorMath.html">GLZVectorMath</a> regroupe des fonctions mathematiques, optimisées en assembleur SSE/SSE2/SSE3/SSE4 et AVX pour les vecteurs, matrices, quaternion et autres fonctions utiles en 3D &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; <b>Notes :</b>
+
+<p>Quelques liens : </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="http://lab.polygonal.de/2007/07/18/fast-and-accurate-sinecosine-approximation/">http://lab.polygonal.de/2007/07/18/fast-and-accurate-sinecosine-approximation/</a></p></li>
+  <li><p><a  href="https://en.wikipedia.org/wiki/Fast_inverse_square_root">https://en.wikipedia.org/wiki/Fast_inverse_square_root</a></p></li>
+  <li><p><a  href="https://en.wikipedia.org/wiki/Taylor_series">https://en.wikipedia.org/wiki/Taylor_series</a></p></li>
+  <li><p><a  href="https://stackoverflow.com/questions/18662261/fastest-implementation-of-sine-cosine-and-square-root-in-c-doesnt-need-to-b">https://stackoverflow.com/questions/18662261/fastest-implementation-of-sine-cosine-and-square-root-in-c-doesnt-need-to-b</a></p></li>
+  <li><p><a  href="https://en.wikipedia.org/wiki/Newton%27s_method">https://en.wikipedia.org/wiki/Newton%27s_method</a></p></li>
+  <li><p><a  href="http://allenchou.net/2014/02/game-math-faster-sine-cosine-with-polynomial-curves/">http://allenchou.net/2014/02/game-math-faster-sine-cosine-with-polynomial-curves/</a></p></li>
+  <li><p><a  href="http://www.ue.eti.pg.gda.pl/~wrona/lab_dsp/cw04/fun_aprox.pdf">http://www.ue.eti.pg.gda.pl/&tilde;wrona/lab_dsp/cw04/fun_aprox.pdf</a></p></li>
+  <li><p><a  href="http://www.netlib.org/cephes/">http://www.netlib.org/cephes/</a></p></li>
+  <li><p><a  href="http://www.ue.eti.pg.gda.pl/~wrona/lab_dsp/cw04/fun_aprox.pdf">http://www.ue.eti.pg.gda.pl/&tilde;wrona/lab_dsp/cw04/fun_aprox.pdf</a></p></li>
+</ul>
+
+<p> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br>
+
+<p><b>Credits :</b> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>FPC/Lazarus</p></li>
+</ul>
+
+<p>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> LICENCE : GPL/MPL <br> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; *==============================================================================</p>
+<span id="PasDoc-Uses"></span><h2 class="overview">Overview</h2>
+<span id="PasDoc-FuncsProcs"></span><h3 class="summary">Functions and Procedures</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZFastMath.html#TaylorCos">TaylorCos</a></b>(X:Single):Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZFastMath.html#TaylorLambertCos">TaylorLambertCos</a></b>(X : Single):Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZFastMath.html#QuadraticCurveCosLP">QuadraticCurveCosLP</a></b>(x:Single):Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZFastMath.html#QuadraticCurveCosHP">QuadraticCurveCosHP</a></b>(x:Single):Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZFastMath.html#RemezCos">RemezCos</a></b>( val: Single) : Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZFastMath.html#TaylorSin">TaylorSin</a></b>(X:Single):Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZFastMath.html#TaylorLambertSin">TaylorLambertSin</a></b>(X : Single):Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZFastMath.html#QuadraticCurveSinLP">QuadraticCurveSinLP</a></b>(x:Single):Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZFastMath.html#QuadraticCurveSinHP">QuadraticCurveSinHP</a></b>(x:Single):Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZFastMath.html#RemezSin">RemezSin</a></b>(val:Single): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZFastMath.html#FastCosLUT">FastCosLUT</a></b>(x:Single):Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZFastMath.html#FastSinLUT">FastSinLUT</a></b>(x:Single):Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastSinc">FastSinc</a></b>(x: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastTan">FastTan</a></b>(x:Single):Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastArcTan">FastArcTan</a></b>(x:Single):Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastArcTan2">FastArcTan2</a></b>(y, x: Single): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastArcSine">FastArcSine</a></b>(Const x: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastArcCosine">FastArcCosine</a></b>(const X: Single): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastInvSqrt">FastInvSqrt</a></b>(Const Value: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastSqrt">FastSqrt</a></b>(Const Value: Single): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastLn">FastLn</a></b>(Const X: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastExp">FastExp</a></b>(x:Single):Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastLog">FastLog</a></b>(x:Single):Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastLog2">FastLog2</a></b>(X: Single): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastLog10">FastLog10</a></b>(X: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastLDExp">FastLDExp</a></b>(x: Single; N: Integer): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastLNXP1">FastLNXP1</a></b>(Const x: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastAbs">FastAbs</a></b>(f:single):single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastNeg">FastNeg</a></b>(f:single):single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastSign">FastSign</a></b>(f:single):longint;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZFastMath.html#FastPower">FastPower</a></b>(Base: Single; Power: Integer): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZFastMath.html#_InitSinLUT">_InitSinLUT</a></b>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZFastMath.html#_DoneSinLUT">_DoneSinLUT</a></b>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Functions and Procedures</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TaylorCos"></span><code>function <b>TaylorCos</b>(X:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; At This Stage just for testing. Unused function will comment in final version and stay for educational purpose &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; Cosinus</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TaylorLambertCos"></span><code>function <b>TaylorLambertCos</b>(X : Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="QuadraticCurveCosLP"></span><code>function <b>QuadraticCurveCosLP</b>(x:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="QuadraticCurveCosHP"></span><code>function <b>QuadraticCurveCosHP</b>(x:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="RemezCos"></span><code>function <b>RemezCos</b>( val: Single) : Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TaylorSin"></span><code>function <b>TaylorSin</b>(X:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Sinus</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TaylorLambertSin"></span><code>function <b>TaylorLambertSin</b>(X : Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="QuadraticCurveSinLP"></span><code>function <b>QuadraticCurveSinLP</b>(x:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="QuadraticCurveSinHP"></span><code>function <b>QuadraticCurveSinHP</b>(x:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="RemezSin"></span><code>function <b>RemezSin</b>(val:Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastCosLUT"></span><code>function <b>FastCosLUT</b>(x:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+%endregion%</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastSinLUT"></span><code>function <b>FastSinLUT</b>(x:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastSinc"></span><code>Function <b>FastSinc</b>(x: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastTan"></span><code>Function <b>FastTan</b>(x:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastArcTan"></span><code>Function <b>FastArcTan</b>(x:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastArcTan2"></span><code>Function <b>FastArcTan2</b>(y, x: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Fast <a class="normal" href="GLZMath.html#ArcTan2">ArcTan2</a> approximation, about 0.07 rads accuracy.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastArcSine"></span><code>Function <b>FastArcSine</b>(Const x: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastArcCosine"></span><code>Function <b>FastArcCosine</b>(const X: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastInvSqrt"></span><code>Function <b>FastInvSqrt</b>(Const Value: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastSqrt"></span><code>Function <b>FastSqrt</b>(Const Value: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastLn"></span><code>Function <b>FastLn</b>(Const X: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastExp"></span><code>Function <b>FastExp</b>(x:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastLog"></span><code>Function <b>FastLog</b>(x:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastLog2"></span><code>Function <b>FastLog2</b>(X: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastLog10"></span><code>Function <b>FastLog10</b>(X: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastLDExp"></span><code>Function <b>FastLDExp</b>(x: Single; N: Integer): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastLNXP1"></span><code>Function <b>FastLNXP1</b>(Const x: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastAbs"></span><code>Function <b>FastAbs</b>(f:single):single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastNeg"></span><code>Function <b>FastNeg</b>(f:single):single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastSign"></span><code>Function <b>FastSign</b>(f:single):longint;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FastPower"></span><code>Function <b>FastPower</b>(Base: Single; Power: Integer): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+function <code>FastPower</code>(i:single;n:integer):single;</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="_InitSinLUT"></span><code>procedure <b>_InitSinLUT</b>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Internals function only use in <a class="normal" href="GLZMath.html">GLZMath</a>. For initialize and Finalize SinLUT for <a class="normal" href="GLZFastMath.html#FastSinLUT">FastSinLUT</a> and <a class="normal" href="GLZFastMath.html#FastCosLUT">FastCosLUT</a> functions</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="_DoneSinLUT"></span><code>procedure <b>_DoneSinLUT</b>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h2 class="created">Created</h2>
+<p>
+2017-11-25
+</p>
+(R) 2017-2018 -- By J.Delauney and P.Dyson. Under MPL Licence
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Vector Classes Math Library: GLZVectorMathEx: Record TGLZ2DSingleAffineMatrix</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>Vector Classes Math Library</h2><p><a href="introduction.html" class="navigation">Vector Math Classes</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p><form class="search-form" action="_tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input"></div><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></form>
+<div style="clear: both"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+        /* 10 items to display seems standard */
+        'show': 10,
+        /* For PasDoc docs, showing urls is not very useful,
+           since the page title already shows the unit and identifier. */
+        'showURL': false
+    });
+});
+</script>
+</td><td class="content">
+Vector Classes Math Library for FPC & Lazarus.
+<span id="TGLZ2DSingleAffineMatrix"></span><h1 class="cio">Record TGLZ2DSingleAffineMatrix</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="GLZVectorMathEx.html">GLZVectorMathEx</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TGLZ2DSingleAffineMatrix = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+<code>TGLZ2DSingleAffineMatrix</code> : Represent a 2D affine transformation as a 3x3 matrix
+
+<p>More informations :<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="https://computergraphics.stackexchange.com/questions/391/what-are-affine-transformations">https://computergraphics.stackexchange.com/questions/391/what-are-affine-transformations</a></p></li>
+  <li><p><a  href="https://en.wikipedia.org/wiki/Affine_transformation">https://en.wikipedia.org/wiki/Affine_transformation</a></p></li>
+  <li><p><a  href="http://blog.lotech.org/2013/05/the-beauty-of-using-matrices-to-apply.html">http://blog.lotech.org/2013/05/the-beauty-of-using-matrices-to-apply.html</a></p></li>
+  <li><p><a  href="https://webglfundamentals.org/webgl/lessons/fr/webgl-2d-matrices.html">https://webglfundamentals.org/webgl/lessons/fr/webgl-2d-matrices.html</a></p></li>
+  <li><p><a  href="https://www.tutorialspoint.com/computer_graphics/2d_transformation.htm">https://www.tutorialspoint.com/computer_graphics/2d_transformation.htm</a></p></li>
+  <li><p><a  href="https://code.tutsplus.com/tutorials/understanding-affine-transformations-with-matrix-mathematics--active-10884">https://code.tutsplus.com/tutorials/understanding-affine-transformations-with-matrix-mathematics--active-10884</a></p></li>
+  <li><p><a  href="http://negativeprobability.blogspot.in/2011/11/affine-transformations-and-their.html">http://negativeprobability.blogspot.in/2011/11/affine-transformations-and-their.html</a></p></li>
+  <li><p><a  href="https://homepages.inf.ed.ac.uk/rbf/HIPR2/affine.htm">https://homepages.inf.ed.ac.uk/rbf/HIPR2/affine.htm</a></p></li>
+  <li><p><a  href="http://ncase.me/matrix/">http://ncase.me/matrix/</a></p></li>
+</ul>
+
+<p></p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#M">M</a></b>: array [0..2, 0..2] of Single</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#V">V</a></b>: array [0..2] of <a  href="GLZVectorMath.TGLZVector3f.html">TGLZVector3f</a></code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#X">X</a></b>: <a  href="GLZVectorMath.TGLZVector3f.html">TGLZVector3f</a></code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#Y">Y</a></b>: <a  href="GLZVectorMath.TGLZVector3f.html">TGLZVector3f</a></code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#Z">Z</a></b>: <a  href="GLZVectorMath.TGLZVector3f.html">TGLZVector3f</a></code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#m11">m11</a></b>: Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#m12">m12</a></b>: Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#m13">m13</a></b>: Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#m21">m21</a></b>: Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#m22">m22</a></b>: Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#m23">m23</a></b>: Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#m31">m31</a></b>: Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#m32">m32</a></b>: Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#m33">m33</a></b>: Single;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#CreateIdentityMatrix">CreateIdentityMatrix</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#CreateNullMatrix">CreateNullMatrix</a></b>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#CreateTranslationMatrix">CreateTranslationMatrix</a></b>(Const OffsetX, OffsetY : Single); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#CreateTranslationMatrix">CreateTranslationMatrix</a></b>(Constref Offset : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#CreateScaleMatrix">CreateScaleMatrix</a></b>(Const ScaleX, ScaleY : Single); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#CreateScaleMatrix">CreateScaleMatrix</a></b>(Constref Scale : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#CreateRotationMatrix">CreateRotationMatrix</a></b>(Const anAngle : Single); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#CreateShearMatrix">CreateShearMatrix</a></b>(const ShearX, ShearY : Single); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#CreateShearMatrix">CreateShearMatrix</a></b>(constref Shear : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#CreateReflectXMatrix">CreateReflectXMatrix</a></b>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#CreateReflectYMatrix">CreateReflectYMatrix</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#CreateReflectMatrix">CreateReflectMatrix</a></b>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#Create">Create</a></b>(Const ScaleX, ScaleY, ShearX, ShearY, anAngle, OffsetX, OffsetY : Single); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#Create">Create</a></b>(Constref Scale, Shear, Offset : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; Const anAngle : Single); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#ToString">ToString</a></b> : String;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>class operator *(constref A, B: <a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a>): <a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>class operator *(constref A: <a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a>; constref B: <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>): <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>class operator *(constref A: <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; constref B: <a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a>): <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#Transpose">Transpose</a></b>: <a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#Invert">Invert</a></b> : <a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#Components">Components</a></b>[constARow,AColumn:Integer]: Single read GetComponent write SetComponent;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#Determinant">Determinant</a></b>: Single read GetDeterminant;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="M"></span><code><b>M</b>: array [0..2, 0..2] of Single</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+The elements of the matrix in row-major order</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="V"></span><code><b>V</b>: array [0..2] of <a  href="GLZVectorMath.TGLZVector3f.html">TGLZVector3f</a></code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="X"></span><code><b>X</b>: <a  href="GLZVectorMath.TGLZVector3f.html">TGLZVector3f</a></code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Y"></span><code><b>Y</b>: <a  href="GLZVectorMath.TGLZVector3f.html">TGLZVector3f</a></code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Z"></span><code><b>Z</b>: <a  href="GLZVectorMath.TGLZVector3f.html">TGLZVector3f</a></code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="m11"></span><code><b>m11</b>: Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="m12"></span><code><b>m12</b>: Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="m13"></span><code><b>m13</b>: Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="m21"></span><code><b>m21</b>: Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="m22"></span><code><b>m22</b>: Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="m23"></span><code><b>m23</b>: Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="m31"></span><code><b>m31</b>: Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="m32"></span><code><b>m32</b>: Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="m33"></span><code><b>m33</b>: Single;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CreateIdentityMatrix"></span><code>procedure <b>CreateIdentityMatrix</b>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CreateNullMatrix"></span><code>procedure <b>CreateNullMatrix</b>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CreateTranslationMatrix"></span><code>procedure <b>CreateTranslationMatrix</b>(Const OffsetX, OffsetY : Single); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CreateTranslationMatrix"></span><code>procedure <b>CreateTranslationMatrix</b>(Constref Offset : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CreateScaleMatrix"></span><code>procedure <b>CreateScaleMatrix</b>(Const ScaleX, ScaleY : Single); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CreateScaleMatrix"></span><code>procedure <b>CreateScaleMatrix</b>(Constref Scale : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CreateRotationMatrix"></span><code>procedure <b>CreateRotationMatrix</b>(Const anAngle : Single); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CreateShearMatrix"></span><code>procedure <b>CreateShearMatrix</b>(const ShearX, ShearY : Single); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CreateShearMatrix"></span><code>procedure <b>CreateShearMatrix</b>(constref Shear : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CreateReflectXMatrix"></span><code>procedure <b>CreateReflectXMatrix</b>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CreateReflectYMatrix"></span><code>procedure <b>CreateReflectYMatrix</b>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CreateReflectMatrix"></span><code>procedure <b>CreateReflectMatrix</b>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(Const ScaleX, ScaleY, ShearX, ShearY, anAngle, OffsetX, OffsetY : Single); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(Constref Scale, Shear, Offset : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; Const anAngle : Single); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ToString"></span><code>function <b>ToString</b> : String;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ToString</code> : Return Matrix to a formatted string :<br> &quot;(&quot;<a class="normal" href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#X">x</a>, <a class="normal" href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#Y">y</a>, <a class="normal" href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#Z">Z</a>&quot;)&quot; <br> &quot;(&quot;<a class="normal" href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#X">x</a>, <a class="normal" href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#Y">y</a>, <a class="normal" href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html#Z">Z</a>&quot;)&quot; <br> &quot;(&quot;0, 0, 1&quot;)&quot; <br> </p>
+<h6 class="description_section">Returns</h6>
+<p class="return">String</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="*"></span><code>class operator *(constref A, B: <a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a>): <a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>*</code> : Multiplies two matrices   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="*"></span><code>class operator *(constref A: <a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a>; constref B: <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>): <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>*</code> : Transforms a vector by multiplying it with a matrix   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="*"></span><code>class operator *(constref A: <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; constref B: <a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a>): <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>*</code> : Transforms a vector by multiplying it with a matrix   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Transpose"></span><code>function <b>Transpose</b>: <a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Transpose</code> : Computes <code>transpose</code> of the matrix </p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Invert"></span><code>function <b>Invert</b> : <a  href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Invert</code> : Finds the inverse of the matrix </p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.TGLZ2DSingleAffineMatrix.html">TGLZ2DSingleAffineMatrix</a></p></td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Components"></span><code>property <b>Components</b>[constARow,AColumn:Integer]: Single read GetComponent write SetComponent;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Determinant"></span><code>property <b>Determinant</b>: Single read GetDeterminant;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Get <code>Determinant</code> of the matrix @return(Single)</p>
+</td></tr>
+</table>
+(R) 2017-2018 -- By J.Delauney and P.Dyson. Under MPL Licence
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

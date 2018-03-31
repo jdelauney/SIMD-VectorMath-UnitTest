@@ -137,6 +137,7 @@ begin
 end;
 
 
+
 class operator TGLZVector2i.*(constref A: TGLZVector2i; constref B:Single): TGLZVector2i;
 begin
   Result.X := Round(A.X * B);

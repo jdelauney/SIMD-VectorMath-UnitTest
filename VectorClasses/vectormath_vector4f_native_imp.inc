@@ -10,7 +10,7 @@ begin
   Self.W := AValue;
 end;
 
-procedure TGLZVector4f.CreateAffine(const AValue: single);
+procedure TGLZVector4f.CreatePoint(const AValue: single);
 begin
   Self.X := AValue;
   Self.Y := AValue;
@@ -18,7 +18,7 @@ begin
   Self.W := 1.0;
 end;
 
-procedure TGLZVector4f.CreateAffine(Const aX,aY,aZ: single);
+procedure TGLZVector4f.CreatePoint(Const aX,aY,aZ: single);
 begin
   Self.X := aX;
   Self.Y := aY;
@@ -26,7 +26,7 @@ begin
   Self.W := 1.0;
 end;
 
-procedure TGLZVector4f.Create(const aX, aY, aZ: single; const aW: Single);
+procedure TGLZVector4f.Create(Const aX,aY,aZ: single; const aW : Single = 0);
 begin
    Self.X := AX;
    Self.Y := AY;
@@ -34,12 +34,20 @@ begin
    Self.W := AW;
 end;
 
-procedure TGLZVector4f.Create(Const anAffineVector: TGLZVector3f; const aW : Single = 1); //W=1 because it's a point
+procedure TGLZVector4f.Create(Const anAffineVector: TGLZVector3f; const aW : Single = 0); //W=1 for a point
 begin
    Self.X := anAffineVector.X;
    Self.Y := anAffineVector.Y;
    Self.Z := anAffineVector.Z;
    Self.W := AW;
+end;
+
+procedure TGLZVector4f.CreatePoint(Const anAffineVector: TGLZVector3f);
+begin
+   Self.X := anAffineVector.X;
+   Self.Y := anAffineVector.Y;
+   Self.Z := anAffineVector.Z;
+   Self.W := 1.0;
 end;
 
 function TGLZVector4f.ToString : String;

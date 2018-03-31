@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Vector Classes Math Library: GLZVectorMath: Record TGLZVector2d</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>Vector Classes Math Library</h2><p><a href="introduction.html" class="navigation">Vector Math Classes</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p><form class="search-form" action="_tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input"></div><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></form>
+<div style="clear: both"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+        /* 10 items to display seems standard */
+        'show': 10,
+        /* For PasDoc docs, showing urls is not very useful,
+           since the page title already shows the unit and identifier. */
+        'showURL': false
+    });
+});
+</script>
+</td><td class="content">
+Vector Classes Math Library for FPC & Lazarus.
+<span id="TGLZVector2d"></span><h1 class="cio">Record TGLZVector2d</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="GLZVectorMath.html">GLZVectorMath</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TGLZVector2d = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+<code>TGLZVector2d</code> : 2D Float vector (Double)</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZVector2d.html#V">V</a></b>: <a  href="GLZVectorMath.html#TGLZVector2dType">TGLZVector2dType</a></code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZVector2d.html#X">X</a></b>: Double</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZVector2d.html#Y">Y</a></b>: Double</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZVector2d.html#Width">Width</a></b>: Double</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZVector2d.html#Height">Height</a></b>: Double</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMath.TGLZVector2d.html#Create">Create</a></b>(aX,aY: Double);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#ToString">ToString</a></b> : String;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>class operator +(constref A, B: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>class operator +(constref A: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; constref B: <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>class operator -(constref A, B: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>class operator -(constref A: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; constref B: <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>class operator *(constref A, B: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>class operator *(constref A:<a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; Constref B: <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>class operator /(constref A, B: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>class operator +(constref A: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; constref B:Double): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>class operator -(constref A: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; constref B:Double): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>class operator *(constref A: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; constref B:Double): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>class operator /(constref A: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; constref B:Double): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>class operator /(constref A: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; constref B: <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>class operator -(constref A: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>class operator =(constref A, B: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>class operator &lt;&gt;(constref A, B: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#Min">Min</a></b>(constref B: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#Min">Min</a></b>(constref B: Double): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#Max">Max</a></b>(constref B: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#Max">Max</a></b>(constref B: Double): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#Clamp">Clamp</a></b>(constref AMin, AMax: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#Clamp">Clamp</a></b>(constref AMin, AMax: Double): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#MulAdd">MulAdd</a></b>(constref A,B:<a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#MulSub">MulSub</a></b>(constref A,B:<a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#MulDiv">MulDiv</a></b>(constref A,B:<a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#Length">Length</a></b>:Double;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#LengthSquare">LengthSquare</a></b>:Double;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#Distance">Distance</a></b>(constref A:<a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>):Double;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#DistanceSquare">DistanceSquare</a></b>(constref A:<a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>):Double;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#Normalize">Normalize</a></b> : <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#DotProduct">DotProduct</a></b>(A:<a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>):Double;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#AngleBetween">AngleBetween</a></b>(Constref A, ACenterPoint : <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): Double;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#AngleCosine">AngleCosine</a></b>(constref A: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): Double;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#Abs">Abs</a></b>:<a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#Round">Round</a></b>: <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#Trunc">Trunc</a></b>: <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#Floor">Floor</a></b>: <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#Ceil">Ceil</a></b> : <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#Fract">Fract</a></b> : <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#Modf">Modf</a></b>(constref A : <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#fMod">fMod</a></b>(Constref A : <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#Sqrt">Sqrt</a></b> : <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2d.html#InvSqrt">InvSqrt</a></b> : <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="V"></span><code><b>V</b>: <a  href="GLZVectorMath.html#TGLZVector2dType">TGLZVector2dType</a></code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Array access</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="X"></span><code><b>X</b>: Double</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Legacy access</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Y"></span><code><b>Y</b>: Double</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Legacy access</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Width"></span><code><b>Width</b>: Double</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Surface size</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Height"></span><code><b>Height</b>: Double</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Surface size</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(aX,aY: Double);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : Initialize <a class="normal" href="GLZVectorMath.TGLZVector2d.html#X">X</a> and <a class="normal" href="GLZVectorMath.TGLZVector2d.html#Y">Y</a> float values  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>aX</dt>
+<dd>: Single &ndash; value for <a class="normal" href="GLZVectorMath.TGLZVector2d.html#X">X</a></dd>
+<dt>aY</dt>
+<dd>: Single &ndash; value for <a class="normal" href="GLZVectorMath.TGLZVector2d.html#Y">Y</a></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ToString"></span><code>function <b>ToString</b> : String;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ToString</code> : Return Vector to a formatted string eg &quot;(&quot;<a class="normal" href="GLZVectorMath.TGLZVector2d.html#X">x</a>, <a class="normal" href="GLZVectorMath.TGLZVector2d.html#Y">y</a>&quot;)&quot; </p>
+<h6 class="description_section">Returns</h6>
+<p class="return">String</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="+"></span><code>class operator +(constref A, B: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>+</code> : Add two <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="+"></span><code>class operator +(constref A: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; constref B: <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>+</code> : Add one <a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a> to one <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="-"></span><code>class operator -(constref A, B: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>-</code> : Sub two <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="-"></span><code>class operator -(constref A: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; constref B: <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>-</code> : Substract one <a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a> to one <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="*"></span><code>class operator *(constref A, B: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>*</code> : Multiply two <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="*"></span><code>class operator *(constref A:<a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; Constref B: <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>*</code> : Multiply one <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> by a <a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="/"></span><code>class operator /(constref A, B: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>/</code> : Divide two <a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="+"></span><code>class operator +(constref A: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; constref B:Double): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>+</code> : Add one Float to one <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>B</dt>
+<dd>: Single</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="-"></span><code>class operator -(constref A: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; constref B:Double): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>-</code> : Substract one Float to one <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>B</dt>
+<dd>: Single</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="*"></span><code>class operator *(constref A: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; constref B:Double): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>*</code> : Multiply one <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> by a Float   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>B</dt>
+<dd>: Single</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="/"></span><code>class operator /(constref A: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; constref B:Double): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>/</code> : Divide one <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> by a Float   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>B</dt>
+<dd>: Single</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="/"></span><code>class operator /(constref A: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; constref B: <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>/</code> : Multiply one <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> by a <a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="-"></span><code>class operator -(constref A: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>-</code> : Negate a <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="="></span><code>class operator =(constref A, B: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>=</code> : Compare if two <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> are equal   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Boolean <code>True</code> if equal</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="<"></span><code>class operator &lt;&gt;(constref A, B: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>&lt;</code> : Compare if two <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> are not equal   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Boolean <code>True</code> if not equal</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Min"></span><code>function <b>Min</b>(constref B: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Min</code> : Return the minimum of each component in <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> between self and another <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Min"></span><code>function <b>Min</b>(constref B: Double): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Min</code> : Return the minimum of each component in <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> between self and a Float  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>B</dt>
+<dd>: Single</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Max"></span><code>function <b>Max</b>(constref B: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Max</code> : Return the maximum of each component in <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> between self and another <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Max"></span><code>function <b>Max</b>(constref B: Double): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Max</code> : Return the maximum of each component in <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> between self and a Float  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>B</dt>
+<dd>: Single</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Clamp"></span><code>function <b>Clamp</b>(constref AMin, AMax: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Clamp</code> : <a class="normal" href="GLZVectorMath.TGLZVector2d.html#Clamp">Clamp</a> Self beetween a <a class="normal" href="GLZVectorMath.TGLZVector2d.html#Min">min</a> and a <a class="normal" href="GLZVectorMath.TGLZVector2d.html#Max">max</a> <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AMin</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>AMax</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Clamp"></span><code>function <b>Clamp</b>(constref AMin, AMax: Double): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Clamp</code> : <code>Clamp</code> Self beetween a <a class="normal" href="GLZVectorMath.TGLZVector2d.html#Min">min</a> and a <a class="normal" href="GLZVectorMath.TGLZVector2d.html#Max">max</a> Float   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AMin</dt>
+<dd>: Single</dd>
+<dt>AMax</dt>
+<dd>: Single</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MulAdd"></span><code>function <b>MulAdd</b>(constref A,B:<a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>MulAdd</code> : Multiply Self by a <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> and add an another <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MulSub"></span><code>function <b>MulSub</b>(constref A,B:<a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>MulSub</code> : Multiply Self by a <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> and substract an another <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>:</dt>
+<dd><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>:</dt>
+<dd><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MulDiv"></span><code>function <b>MulDiv</b>(constref A,B:<a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>MulDiv</code> : Multiply Self by a <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> and div with an another <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>:</dt>
+<dd><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>:</dt>
+<dd><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Length"></span><code>function <b>Length</b>:Double;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Length</code> : Return self <code>length</code> </p>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="LengthSquare"></span><code>function <b>LengthSquare</b>:Double;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>LengthSquare</code> : Return self <a class="normal" href="GLZVectorMath.TGLZVector2d.html#Length">length</a> squared </p>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Distance"></span><code>function <b>Distance</b>(constref A:<a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>):Double;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Distance</code> : Return <code>distance</code> from self to an another <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="DistanceSquare"></span><code>function <b>DistanceSquare</b>(constref A:<a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>):Double;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>DistanceSquare</code> : Return Self <a class="normal" href="GLZVectorMath.TGLZVector2d.html#Distance">distance</a> squared   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>:</dt>
+<dd></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Normalize"></span><code>function <b>Normalize</b> : <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Normalize</code> : Return self normalized <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> </p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="DotProduct"></span><code>function <b>DotProduct</b>(A:<a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>):Double;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>DotProduct</code> : Return the dot product of self and an another <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="AngleBetween"></span><code>function <b>AngleBetween</b>(Constref A, ACenterPoint : <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): Double;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>AngleBetween</code> : Return angle between Self and an another <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>, relative to a <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a> as a Center Point   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>ACenterPoint</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="AngleCosine"></span><code>function <b>AngleCosine</b>(constref A: <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): Double;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>AngleCosine</code> : Return the angle cosine between Self and an another <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Abs"></span><code>function <b>Abs</b>:<a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Abs</code> : Return absolute value of each component </p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Round"></span><code>function <b>Round</b>: <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Round</code> : <code>Round</code> Self to a <a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a> </p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Trunc"></span><code>function <b>Trunc</b>: <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Trunc</code> : <code>Trunc</code> Self to a <a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a> </p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Floor"></span><code>function <b>Floor</b>: <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Floor</code> : <code>Floor</code> Self to a <a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a> </p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Ceil"></span><code>function <b>Ceil</b> : <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Ceil</code> : <code>Ceil</code> Self to a <a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a> </p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Fract"></span><code>function <b>Fract</b> : <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Fract</code> : Return factorial of Self </p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Modf"></span><code>function <b>Modf</b>(constref A : <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Modf</code> : Return remainder of each component  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="fMod"></span><code>function <b>fMod</b>(Constref A : <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>): <a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>fMod</code> : Return remainder of each component as <a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></dd>
+<dt>:</dt>
+<dd></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Sqrt"></span><code>function <b>Sqrt</b> : <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Sqrt</code> : Return square root of each component </p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="InvSqrt"></span><code>function <b>InvSqrt</b> : <a  href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>InvSqrt</code> : Return inversed square root of each component </p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2d.html">TGLZVector2d</a></p></td></tr>
+</table>
+(R) 2017-2018 -- By J.Delauney and P.Dyson. Under MPL Licence
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

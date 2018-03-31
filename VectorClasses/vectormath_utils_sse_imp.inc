@@ -11,7 +11,7 @@ asm
   or       eax,  $00006000                   // Set bits
   mov      DWORD PTR [rsp], eax              // mov bits to mem
   ldmxcsr  DWORD PTR [rsp]                   // set new bits
-  movq     xmm0, [V]
+  movq     xmm0, {%H-}[V]
   cvtps2dq xmm0, xmm0
   mov      DWORD PTR [rsp], ecx              // put old bits in mem
   ldmxcsr  DWORD PTR [rsp]                   // Pop rounding mode
@@ -21,14 +21,14 @@ end;
 
 function Round(Constref V : TGLZVector2f): TGLZVector2i;assembler; //nostackframe; register;
 asm
-  movq     xmm0, [V]
+  movq     xmm0, {%H-}[V]
   cvtps2dq xmm0, xmm0
   movq     rax,  xmm0
 end;
 
 function Floor(Constref V : TGLZVector2f) : TGLZVector2i; assembler;//nostackframe;register;
 asm
-  movq     xmm0, [V]
+  movq     xmm0, {%H-}[V]
   push     rax                               // create a mem area for mxcsr
   stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
   mov      eax, DWORD PTR [rsp]              // get it
@@ -47,7 +47,7 @@ end;
 
 function Ceil(Constref V : TGLZVector2f) : TGLZVector2i; assembler; //nostackframe;register;
 asm
-  movq     xmm0, [V]
+  movq     xmm0, {%H-}[V]
   push     rax                               // create a mem area for mxcsr
   stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
   mov      eax, DWORD PTR [rsp]              // get it
@@ -67,7 +67,7 @@ end;
 function Fract(Constref V : TGLZVector2f) : TGLZVector2f; assembler; //nostackframe;register;
 
 asm
-  movq     xmm0, [V]
+  movq     xmm0, {%H-}[V]
   movaps   xmm1, xmm0
   push     rax                               // create a mem area for mxcsr
   stmxcsr  DWORD PTR [rsp]                   //  store mxcsr
@@ -90,14 +90,14 @@ end;
 
 function Sqrt(constref V: TGLZVector2f): TGLZVector2f; assembler;//nostackframe;register;
 asm
-  movq   xmm0, [V]
+  movq   xmm0, {%H-}[V]
   sqrtps xmm0, xmm0
   movq   rax, xmm0
 end;
 
 function InvSqrt(constref V: TGLZVector2f): TGLZVector2f; assembler;//nostackframe;register;
 asm
-  movq   xmm0, [V]
+  movq   xmm0, {%H-}[V]
   rsqrtps xmm0, xmm0
   movq   rax, xmm0
 end;

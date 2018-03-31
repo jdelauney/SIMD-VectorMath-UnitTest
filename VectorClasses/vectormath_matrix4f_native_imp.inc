@@ -184,7 +184,7 @@ begin
 // http://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/index.htm
 
    //axis.AsVector3f := anAxis;
-   axis.Create(anAxis);
+   axis.CreatePoint(anAxis);
    //GLZMath.
    SinCos(angle, sine, cosine);
    one_minus_cosine:=1-cosine;
@@ -227,6 +227,148 @@ begin
    CreateRotationMatrix(anAxis.AsVector3f, angle);
 end;
 
+
+(* procedure CreateRotationMatrix(angleX, angleY, aangleZ : Single;Const  EulerOrder:TGLZEulerOrder = eulZXY);
+var
+  mt0, mr1, mr2, mr4, mr5, mr6, mr8, mr9, mr10 : Double;
+  xs,xc,ys,yc,zs,zc : Double;
+  t1,t2 : double;
+begin
+
+  SinCos(AngleX, xs,xc);
+  SinCos(AngleY, ys,yc);
+  SinCos(AngleZ, zs,zc);
+  Case EulerOrder of
+     eulXYZ : // XYZ order
+     begin
+	t1 := xc*ys;
+	t2 := xs*ys;
+
+	mr0 = c*e; //mt11
+	mr1 = -c*f;//mt12
+	mr2 = -d;  //mt13
+
+	mr4 = -(bd*e) + (a*f); //mt21
+	mr5 = (bd*f) + (a*e);  //mt22
+	mr6 = -b*c;            //mt23
+
+	mr8 = (ad*e) + (b*f);  //mt31
+	mr9 = -(ad*f) + (b*e); //mt32
+	mr10 = a*c;            //mt33
+
+
+      end;
+	case 11 : // XZY order
+		float af = a*f;
+		float bf = b*f;
+
+		mr0 = c*e;
+		mr1 = -f;
+		mr2 = -d*e;
+
+		mr4 = (af*c) - (b*d);
+		mr5 = a*e;
+		mr6 = -(af*d) - (b*c);
+
+		mr8 = (bf*c) + (a*d);
+		mr9 = b*e;
+		mr10 = -(bf*d) + (a*c);
+
+		break;
+
+	case 12 : // YXZ order
+		float bc = b*c;
+		float db = d*b;
+
+		mr0 = (c*e) - (db*f);
+		mr1 = -(c*f) - (db*e);
+		mr2 = -d*a;
+
+		mr4 = a*f;
+		mr5 = a*e;
+		mr6 = -b;
+
+		mr8 = (d*e) + (bc*f);
+		mr9 = -(d*f) + (bc*e);
+		mr10 = c*a;
+
+		break;
+
+	case 13 : // YZX order
+		float cf = c*f;
+		float df = d*f;
+
+		mr0 = c*e;
+		mr1 = -(cf*a) - (d*b);
+		mr2 = (cf*b) - (d*a);
+
+		mr4 = f;
+		mr5 = a*e;
+		mr6 = -b*e;
+
+		mr8 = d*e;
+		mr9 = -(df*a) + (b*c);
+		mr10 = (df*b) + (a*c);
+
+		break;
+
+	case 14 : // ZXY order
+		float eb = e*b;
+		float fb = f*b;
+
+		mr0 = (c*e) + (fb*d);
+		mr1 = -f*a;
+		mr2 = -(d*e) + (fb*c);
+
+		mr4 = (c*f) - (eb*d);
+		mr5 = e*a;
+		mr6 = -(d*f) - (eb*c);
+
+		mr8 = a*d;
+		mr9 = b;
+		mr10 = a*c;
+
+		break;
+
+	case 15 : // ZYX order
+		float ed = e*d;
+		float fd = f*d;
+
+		mr0 = e*c;
+		mr1 = -(f*a) - (ed*b);
+		mr2 = (f*b) - (ed*a);
+
+		mr4 = f*c;
+		mr5 = (e*a) - (fd*b);
+		mr6 = -(e*b) - (fd*a);
+
+		mr8 = d;
+		mr9 = c*b;
+		mr10 = c*a;
+
+		break;
+
+	default : return;
+}
+
+//	( current matrix * rotation matrix ) multiplication
+float mt0 = (m11*mr0) + (m12*mr4) + (m13*mr8);
+float mt1 = (m11*mr1) + (m12*mr5) + (m13*mr9);
+float mt2 = (m11*mr2) + (m12*mr6) + (m13*mr10);
+
+float mt4 = (m21*mr0) + (m22*mr4) + (m23*mr8);
+float mt5 = (m21*mr1) + (m22*mr5) + (m23*mr9);
+float mt6 = (m21*mr2) + (m22*mr6) + (m23*mr10);
+
+float mt8 = (m31*mr0) + (m32*mr4) + (m33*mr8);
+float mt9 = (m31*mr1) + (m32*mr5) + (m33*mr9);
+float mt10 = (m31*mr2) + (m32*mr6) + (m33*mr10);
+
+m11 = mt0; m12 = mt1; m13 = mt2;
+m21 = mt4; m22 = mt5; m23 = mt6;
+m31 = mt8; m32 = mt9; m33 = mt10;
+}
+*)
 
 (* function TGLZMatrix4f.Invert:TGLZMatrix4;
 var
@@ -869,14 +1011,17 @@ begin
       Result.m12 := (m14*m33*m42 - m13*m34*m42 - m14*m32*m43 + m12*m34*m43 + m13*m32*m44 - m12*m33*m44) * det;
       Result.m13 := (m13*m24*m42 - m14*m23*m42 + m14*m22*m43 - m12*m24*m43 - m13*m22*m44 + m12*m23*m44) * det;
       Result.m14 := (m14*m23*m32 - m13*m24*m32 - m14*m22*m33 + m12*m24*m33 + m13*m22*m34 - m12*m23*m34) * det;
+
       Result.m21 := (m24*m33*m41 - m23*m34*m41 - m24*m31*m43 + m21*m34*m43 + m23*m31*m44 - m21*m33*m44) * det;
       Result.m22 := (m13*m34*m41 - m14*m33*m41 + m14*m31*m43 - m11*m34*m43 - m13*m31*m44 + m11*m33*m44) * det;
       Result.m23 := (m14*m23*m41 - m13*m24*m41 - m14*m21*m43 + m11*m24*m43 + m13*m21*m44 - m11*m23*m44) * det;
       Result.m24 := (m13*m24*m31 - m14*m23*m31 + m14*m21*m33 - m11*m24*m33 - m13*m21*m34 + m11*m23*m34) * det;
+
       Result.m31 := (m22*m34*m41 - m24*m32*m41 + m24*m31*m42 - m21*m34*m42 - m22*m31*m44 + m21*m32*m44) * det;
       Result.m32 := (m14*m32*m41 - m12*m34*m41 - m14*m31*m42 + m11*m34*m42 + m12*m31*m44 - m11*m32*m44) * det;
       Result.m33 := (m12*m24*m41 - m14*m22*m41 + m14*m21*m42 - m11*m24*m42 - m12*m21*m44 + m11*m22*m44) * det;
       Result.m34 := (m14*m22*m31 - m12*m24*m31 - m14*m21*m32 + m11*m24*m32 + m12*m21*m34 - m11*m22*m34) * det;
+
       Result.m41 := (m23*m32*m41 - m22*m33*m41 - m23*m31*m42 + m21*m33*m42 + m22*m31*m43 - m21*m32*m43) * det;
       Result.m42 := (m12*m33*m41 - m13*m32*m41 + m13*m31*m42 - m11*m33*m42 - m12*m31*m43 + m11*m32*m43) * det;
       Result.m43 := (m13*m22*m41 - m12*m23*m41 - m13*m21*m42 + m11*m23*m42 + m12*m21*m43 - m11*m22*m43) * det;
@@ -948,8 +1093,6 @@ begin
   Result.M[3,2] := M[2,3];
   Result.M[3,3] := M[3,3];
 end;
-
-
 
 
 {%endregion%}

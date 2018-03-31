@@ -42,28 +42,6 @@ begin
   Result := ((Self.X*Point.X) + (Self.Y*Point.Y) + (Self.Z*Point.Z) + Self.W) > 0;
 end;
 
-function TGLZHmgPlaneHelper.PlaneContains(const Location, Normal: TGLZVector; const TestBSphere: TGLZBoundingSphere): TGLZSpaceContains;
-var
-  Plane: TGLZHmgPlane;
-begin
- Plane.Create(Location, Normal);
- Result := plane.Contains(TestBSphere);
-end;
-
-function TGLZHmgPlaneHelper.Contains(const TestBSphere: TGLZBoundingSphere): TGLZSpaceContains;
-var
-   Dist: Single;
-begin
-  Dist := self.Distance(TestBSphere.Center);
-
-  if Abs(Dist) < TestBSphere.Radius then
-    Result := ScContainsPartially
-  else if Dist < 0 then
-    Result :=  ScNoOverlap
-  else
-    Result := ScContainsFully;
-end;
-
 
 
 {%endregion}

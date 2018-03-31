@@ -468,7 +468,7 @@
         <PackageName Value="FCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="58">
+    <Units Count="62">
       <Unit0>
         <Filename Value="VectorClassesTimingTest64.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -514,193 +514,210 @@
         <IsPartOfProject Value="True"/>
       </Unit10>
       <Unit11>
-        <Filename Value="Vector2fTimingTest.pas"/>
+        <Filename Value="vector2dtimingtest.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="Vector2dTimingTest"/>
       </Unit11>
       <Unit12>
-        <Filename Value="../UtilsClasses/GLZMath.pas"/>
+        <Filename Value="../UtilsClasses/GLZProfiler.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit12>
       <Unit13>
-        <Filename Value="../UtilsClasses/GLZProfiler.pas"/>
+        <Filename Value="../UtilsClasses/GLZStopWatch.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit13>
       <Unit14>
-        <Filename Value="../UtilsClasses/GLZStopWatch.pas"/>
+        <Filename Value="../UtilsClasses/GLZSystem.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit14>
       <Unit15>
-        <Filename Value="../UtilsClasses/GLZSystem.pas"/>
+        <Filename Value="../UtilsClasses/GLZTypes.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit15>
       <Unit16>
-        <Filename Value="../UtilsClasses/GLZTypes.pas"/>
+        <Filename Value="../UtilsClasses/GLZUtils.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit16>
       <Unit17>
-        <Filename Value="../UtilsClasses/GLZUtils.pas"/>
+        <Filename Value="MatrixTestCase.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit17>
       <Unit18>
-        <Filename Value="MatrixTestCase.pas"/>
+        <Filename Value="QuaternionTestCase.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit18>
       <Unit19>
-        <Filename Value="QuaternionTestCase.pas"/>
+        <Filename Value="MatrixTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit19>
       <Unit20>
-        <Filename Value="MatrixTimingTest.pas"/>
+        <Filename Value="QuaternionTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit20>
       <Unit21>
-        <Filename Value="QuaternionTimingTest.pas"/>
+        <Filename Value="VectorOperatorsTestCase.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit21>
       <Unit22>
-        <Filename Value="VectorOperatorsTestCase.pas"/>
+        <Filename Value="VectorOperatorsTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit22>
       <Unit23>
-        <Filename Value="VectorOperatorsTimingTest.pas"/>
+        <Filename Value="Vector2NumericsTestCase.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit23>
       <Unit24>
-        <Filename Value="Vector2NumericsTestCase.pas"/>
+        <Filename Value="Vector3bComparatorTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit24>
       <Unit25>
-        <Filename Value="Vector3bComparatorTest.pas"/>
+        <Filename Value="Vector4bComparatorTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit25>
       <Unit26>
-        <Filename Value="Vector4bComparatorTest.pas"/>
+        <Filename Value="Vector3bTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit26>
       <Unit27>
-        <Filename Value="Vector3bTimingTest.pas"/>
+        <Filename Value="Vector4bTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit27>
       <Unit28>
-        <Filename Value="Vector4bTimingTest.pas"/>
+        <Filename Value="BoundingBoxComparatorTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit28>
       <Unit29>
-        <Filename Value="BoundingBoxComparatorTest.pas"/>
+        <Filename Value="BoundingBoxTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit29>
       <Unit30>
-        <Filename Value="BoundingBoxTimingTest.pas"/>
+        <Filename Value="BSphereComparatorTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit30>
       <Unit31>
-        <Filename Value="BSphereComparatorTest.pas"/>
+        <Filename Value="BSphereTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit31>
       <Unit32>
-        <Filename Value="BSphereTimingTest.pas"/>
+        <Filename Value="AABBComparatorTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit32>
       <Unit33>
-        <Filename Value="AABBComparatorTest.pas"/>
+        <Filename Value="AABBTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit33>
       <Unit34>
-        <Filename Value="AABBTimingTest.pas"/>
+        <Filename Value="VectorOtherTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit34>
       <Unit35>
-        <Filename Value="VectorOtherTimingTest.pas"/>
+        <Filename Value="VectorHelperTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit35>
       <Unit36>
-        <Filename Value="VectorHelperTimingTest.pas"/>
+        <Filename Value="MatrixFunctionalTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit36>
       <Unit37>
-        <Filename Value="MatrixFunctionalTest.pas"/>
+        <Filename Value="Vector4iComparatorTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit37>
       <Unit38>
-        <Filename Value="Vector4iComparatorTest.pas"/>
+        <Filename Value="Vector4iTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit38>
       <Unit39>
-        <Filename Value="Vector4iTimingTest.pas"/>
+        <Filename Value="vector2dfunctionaltest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit39>
       <Unit40>
-        <Filename Value="Vector2fFunctionalTest.pas"/>
+        <Filename Value="HmgPlaneFunctionalTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit40>
       <Unit41>
-        <Filename Value="HmgPlaneFunctionalTest.pas"/>
+        <Filename Value="HmgPlaneComparatorTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit41>
       <Unit42>
-        <Filename Value="HmgPlaneComparatorTest.pas"/>
+        <Filename Value="HmgPlaneTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit42>
       <Unit43>
-        <Filename Value="HmgPlaneTimingTest.pas"/>
+        <Filename Value="extrafpc.cfg"/>
         <IsPartOfProject Value="True"/>
       </Unit43>
       <Unit44>
-        <Filename Value="extrafpc.cfg"/>
+        <Filename Value="Vector3bFunctionalTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit44>
       <Unit45>
-        <Filename Value="Vector3bFunctionalTest.pas"/>
+        <Filename Value="Vector4bFunctionalTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit45>
       <Unit46>
-        <Filename Value="Vector4bFunctionalTest.pas"/>
+        <Filename Value="Vector4iFunctionalTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit46>
       <Unit47>
-        <Filename Value="Vector4iFunctionalTest.pas"/>
+        <Filename Value="Vector4fFunctionalTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit47>
       <Unit48>
-        <Filename Value="Vector4fFunctionalTest.pas"/>
+        <Filename Value="VectorHelperTestCase.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit48>
       <Unit49>
-        <Filename Value="VectorHelperTestCase.pas"/>
+        <Filename Value="config.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit49>
       <Unit50>
-        <Filename Value="config.inc"/>
+        <Filename Value="Vector4fHelperFunctionalTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit50>
       <Unit51>
-        <Filename Value="Vector4fHelperFunctionalTest.pas"/>
+        <Filename Value="QuaternionFunctionalTestCase.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit51>
       <Unit52>
-        <Filename Value="QuaternionFunctionalTestCase.pas"/>
+        <Filename Value="GLZMathFunctionalTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit52>
       <Unit53>
-        <Filename Value="GLZMathFunctionalTest.pas"/>
+        <Filename Value="Vector2fHelperFunctionalTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit53>
       <Unit54>
-        <Filename Value="Vector2fHelperFunctionalTest.pas"/>
+        <Filename Value="Vector2iFunctionalTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit54>
       <Unit55>
-        <Filename Value="Vector2iFunctionalTest.pas"/>
+        <Filename Value="Vector2iComparatorTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit55>
       <Unit56>
-        <Filename Value="Vector2iComparatorTest.pas"/>
+        <Filename Value="Vector2iTimingTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit56>
       <Unit57>
-        <Filename Value="Vector2iTimingTest.pas"/>
+        <Filename Value="../VectorClasses/GLZVectorMathUtils.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit57>
+      <Unit58>
+        <Filename Value="../VectorClasses/GLZVectorMathEx.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit58>
+      <Unit59>
+        <Filename Value="../VectorClasses/GLZMath.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit59>
+      <Unit60>
+        <Filename Value="Vector2fFunctionalTest.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit60>
+      <Unit61>
+        <Filename Value="Vector2fTimingTest.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit61>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

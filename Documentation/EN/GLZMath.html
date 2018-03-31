@@ -1,0 +1,2327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Vector Classes Math Library: GLZMath</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>Vector Classes Math Library</h2><p><a href="introduction.html" class="navigation">Vector Math Classes</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p><form class="search-form" action="_tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input"></div><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></form>
+<div style="clear: both"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+        /* 10 items to display seems standard */
+        'show': 10,
+        /* For PasDoc docs, showing urls is not very useful,
+           since the page title already shows the unit and identifier. */
+        'showURL': false
+    });
+});
+</script>
+</td><td class="content">
+Vector Classes Math Library for FPC & Lazarus.
+<h1 class="unit">Unit GLZMath</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Uses</div><div class="one_section"><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></div><div class="one_section"><a class="section" href="#PasDoc-FuncsProcs">Functions and Procedures</a></div><div class="one_section"><a class="section" href="#PasDoc-Types">Types</a></div><div class="one_section"><a class="section" href="#PasDoc-Constants">Constants</a></div><div class="one_section">Variables</div></div>
+<span id="PasDoc-Description"></span><h2 class="description">Description</h2>
+<p>
+====&lt; GLZMath.pas &gt;===========================================================<br>   Historique : <br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>18/11/2016 : Creation </p></li>
+</ul>
+
+<p> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br>
+
+<p>Description : <br> The <code>GLZMath</code> unit containss optimized mathematical functions. <br>   Appoximative functions can be used if desired (useful for real time). <br>
+
+<p>  For example: <br> The 'approximated' functions of <a class="normal" href="GLZMath.html#Sin">Sin</a> and <a class="normal" href="GLZMath.html#Cos">Cos</a> have an average accuracy of 4E-8.
+
+<p>It includes trigonometric functions, calculating interpolations, Advanced features like <a class="normal" href="GLZMath.html#Bessel">Bessel</a>, <a class="normal" href="GLZMath.html#Blackman">BlackMan</a>. And also some useful functions
+
+<p>It also has undefined functions in the FPC Math unit tel <a class="normal" href="GLZMath.html#ArcCsc">ArcCsc</a>, <a class="normal" href="GLZMath.html#ArcSec">ArcSec</a>, <a class="normal" href="GLZMath.html#ArcCot">ArcCot</a>, <a class="normal" href="GLZMath.html#CscH">CscH</a>, <a class="normal" href="GLZMath.html#SecH">SecH</a> ect ... @ br
+
+<p>  For more mathematical functions see units: <br> - 
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; <br> <b>Notes :</b>
+
+<p>Quelques liens : </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="http://www.i-logic.com/utilities/trig.htm">http://www.i-logic.com/utilities/trig.htm</a></p></li>
+  <li><p><a  href="http://jacksondunstan.com/articles/1217">http://jacksondunstan.com/articles/1217</a></p></li>
+  <li><p><a  href="http://mathworld.wolfram.com">http://mathworld.wolfram.com</a></p></li>
+</ul>
+
+<p> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br>
+
+<p><b>Credits :</b> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>FPC/Lazarus</p></li>
+</ul>
+
+<p>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> LICENCE : GPL/MPL <br> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; *==============================================================================</p>
+<h6 class="description_section">See also</h6>
+<dl class="see_also">
+  <dt>(GLZVectorMath),</dt>
+  <dd></dd>
+</dl>
+<span id="PasDoc-Uses"></span><h2 class="overview">Overview</h2>
+<span id="PasDoc-Classes"></span><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
+<table class="classestable wide_list">
+<tr class="listheader">
+<th class="itemname">Name</th>
+<th class="itemdesc">Description</th>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="GLZMath.TSinCos.html"><code>TSinCos</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+</table>
+<span id="PasDoc-FuncsProcs"></span><h3 class="summary">Functions and Procedures</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Round">Round</a></b>(v: Single): Integer; Overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Trunc">Trunc</a></b>(v: Single): Integer; Overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Floor">Floor</a></b>(v: Single): Integer; Overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Fract">Fract</a></b>(v:Single):Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Ceil">Ceil</a></b>(v: Single): Integer; Overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#fmodf">fmodf</a></b>(const A,B:Single):Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#Clamp">Clamp</a></b>(const V,Min,Max : integer) : integer; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#Clamp">Clamp</a></b>(const V,Min,Max : Single): Single; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#ClampByte">ClampByte</a></b>(Const Value:Integer):Byte;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#IsZero">IsZero</a></b>(Const A: Extended; Const Epsilon: Extended = 0.0): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Sign">Sign</a></b>(x: Single): Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#SignStrict">SignStrict</a></b>(x: Single): Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#RoundInt">RoundInt</a></b>(v: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#NewRound">NewRound</a></b>(x: Single): Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Max">Max</a></b>(Const A, B, C: Integer): Integer; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Min">Min</a></b>(Const A, B, C: Integer): Integer; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Max">Max</a></b>(Const v1, v2 : Single): Single; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Min">Min</a></b>(Const v1, v2 : Single): Single; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Max">Max</a></b>(Const v1, v2, v3: Single): Single; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Min">Min</a></b>(Const v1, v2, v3: Single): Single; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#ComputeReciprocal">ComputeReciprocal</a></b>(Const x: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#IsInRange">IsInRange</a></b>(const X, a, b: Single): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#NormalizeRadAngle">NormalizeRadAngle</a></b>(angle: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#NormalizeDegAngle">NormalizeDegAngle</a></b>(angle: Single): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#DistanceBetweenAngles">DistanceBetweenAngles</a></b>(angle1, angle2: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#DegToRadian">DegToRadian</a></b>(Const Degrees: Single): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#RadianToDeg">RadianToDeg</a></b>(Const Radians: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#InterpolateAngleLinear">InterpolateAngleLinear</a></b>(start, stop, t: Single): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#IsPowerOfTwo">IsPowerOfTwo</a></b>(Value: Longword): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#NextPowerOfTwo">NextPowerOfTwo</a></b>(Value: Cardinal): Cardinal;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#PreviousPowerOfTwo">PreviousPowerOfTwo</a></b>(Value: Cardinal): Cardinal;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#Pow">Pow</a></b>(const Base, Exponent: Single): Single; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#PowerInteger">PowerInteger</a></b>(Const Base: Single; Exponent: Integer): Single; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#PowerInt">PowerInt</a></b>(Const Base, Power: Integer): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#pow3">pow3</a></b>(x: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#Sin">Sin</a></b>(x:Single):Single; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#Cos">Cos</a></b>(x:Single):Single; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#Tan">Tan</a></b>(const X : Single) : Single; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZMath.html#SinCos">SinCos</a></b>(const Theta: Single; out Sin, Cos: Single); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZMath.html#SinCos">SinCos</a></b>(const theta, radius : Single; out Sin, Cos: Single); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Hypot">Hypot</a></b>(Const X, Y: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#CoTan">CoTan</a></b>(const X : Single) : Single; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#ArcCos">ArcCos</a></b>(const x : Single) : Single; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#ArcSin">ArcSin</a></b>(Const x: Single): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#ArcTan2">ArcTan2</a></b>(const Y, X : Single) : Single; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#ArcCsc">ArcCsc</a></b>(Const X: Single): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#ArcSec">ArcSec</a></b>(Const X: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#ArcCot">ArcCot</a></b>(Const X: Single): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#Sinh">Sinh</a></b>(const x : Single) : Single; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#Cosh">Cosh</a></b>(const x : Single) : Single; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#CscH">CscH</a></b>(Const X: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#SecH">SecH</a></b>(Const X: Single): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#CotH">CotH</a></b>(Const X: Extended): Extended;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#SinCosh">SinCosh</a></b>(Const x: Single): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#ArcCscH">ArcCscH</a></b>(Const X: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#ArcSecH">ArcSecH</a></b>(Const X: Single): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#ArcCotH">ArcCotH</a></b>(Const X: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#Sqrt">Sqrt</a></b>(const A: Single): Single; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#InvSqrt">InvSqrt</a></b>(v: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Log2">Log2</a></b>(X: Single): Single; Overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#Log10">Log10</a></b>(X: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#LogN">LogN</a></b>(Base, X: Single): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Exp">Exp</a></b>(Const X: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#ldExp">ldExp</a></b>(x: Single; N: Integer): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Ln">Ln</a></b>(Const X: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#LnXP1">LnXP1</a></b>(x: Single): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#BesselOrderOne">BesselOrderOne</a></b>(x: Double): Double;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Bessel">Bessel</a></b>(x: Double): Double;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#BesselIO">BesselIO</a></b>(x: Double): Double;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Blackman">Blackman</a></b>(x: Double): Double;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Sinc">Sinc</a></b>(x: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#InterpolateValue">InterpolateValue</a></b>(Const Start, Stop, Delta: Single; Const DistortionDegree: Single; Const InterpolationType: <a  href="GLZMath.html#TGLZInterpolationType">TGLZInterpolationType</a>): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#InterpolateValueFast">InterpolateValueFast</a></b>(Const OriginalStart, OriginalStop, OriginalCurrent: Single; Const TargetStart, TargetStop: Single;Const DistortionDegree: Single; Const InterpolationType: <a  href="GLZMath.html#TGLZInterpolationType">TGLZInterpolationType</a>): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#InterpolateValueSafe">InterpolateValueSafe</a></b>(Const OriginalStart, OriginalStop, OriginalCurrent: Single; Const TargetStart, TargetStop: Single;Const DistortionDegree: Single; Const InterpolationType: <a  href="GLZMath.html#TGLZInterpolationType">TGLZInterpolationType</a>): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#SmoothStep">SmoothStep</a></b>(Edge0,Edge1,x: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#Lerp">Lerp</a></b>(Edge0,Edge1,x: Single): Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#Step">Step</a></b>(Edge,x: Single): Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Length1D">Length1D</a></b>(x:Single):Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#AlmostIdentity">AlmostIdentity</a></b>( x,m,n : single ):single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZMath.html#Impulse">Impulse</a></b>(k,x : Single):Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#CubicPulse">CubicPulse</a></b>(c,w,x : Single) : Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#ExpStep">ExpStep</a></b>(x,k,n:Single):Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Parabola">Parabola</a></b>(x,k:Single):Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#pcurve">pcurve</a></b>(x,a,b:Single):Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#pGain">pGain</a></b>(x,k:Single):Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#pSinc">pSinc</a></b>(x,k:Single):Single; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>Function <b><a  href="GLZMath.html#Val2Percent">Val2Percent</a></b>(min, val, max: Single): Integer;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Types"></span><h3 class="summary">Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#PSinCos">PSinCos</a></b> = &circ;<a  href="GLZMath.TSinCos.html">TSinCos</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#TGLZInterpolationType">TGLZInterpolationType</a></b> = (...);</code></td>
+</tr>
+</table>
+<span id="PasDoc-Constants"></span><h3 class="summary">Constants</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cInfinity">cInfinity</a></b> = 1e1000;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#EpsilonFuzzFactor">EpsilonFuzzFactor</a></b> = 1000;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#EpsilonXTResolution">EpsilonXTResolution</a></b> = 1E-19 * <a  href="GLZMath.html#EpsilonFuzzFactor">EpsilonFuzzFactor</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cPI">cPI</a></b>: Double = 3.1415926535897932384626433832795;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cInvPI">cInvPI</a></b>: Double = 1.0 / 3.1415926535897932384626433832795;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#c2DivPI">c2DivPI</a></b>: Double = 2.0 / 3.1415926535897932384626433832795;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cPIdiv180">cPIdiv180</a></b>: Single = 3.1415926535897932384626433832795 / 180;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cPI180">cPI180</a></b> : Single =  3.1415926535897932384626433832795 * 180;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#c180divPI">c180divPI</a></b>: Single = 180 / 3.1415926535897932384626433832795;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#c2PI">c2PI</a></b>: Single = 3.1415926535897932384626433832795*2;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cPIdiv2">cPIdiv2</a></b>: Single = 3.1415926535897932384626433832795 / 2;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cPIdiv4">cPIdiv4</a></b>: Single = 3.1415926535897932384626433832795 / 4;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#c3PIdiv2">c3PIdiv2</a></b>: Single = 3*3.1415926535897932384626433832795/2;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#c3PIdiv4">c3PIdiv4</a></b>: Single = 3*3.1415926535897932384626433832795/4;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cInv2PI">cInv2PI</a></b>: Single = 1 / (2*3.1415926535897932384626433832795);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cInv360">cInv360</a></b>: Single = 1 / 360;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#c180">c180</a></b>: Single = 180;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#c360">c360</a></b>: Single = 360;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cOneHalf">cOneHalf</a></b>: Single = 0.5;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cMinusOneHalf">cMinusOneHalf</a></b>: Single = -0.5;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cOneDotFive">cOneDotFive</a></b>: Single = 0.5;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cZero">cZero</a></b>: Single = 0.0;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cOne">cOne</a></b>: Single = 1.0;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cLn10">cLn10</a></b>: Single = 2.302585093;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cEpsilon">cEpsilon</a></b>: Single = 1e-10;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cEpsilon40">cEpsilon40</a></b> : Single = 1E-40;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cEpsilon30">cEpsilon30</a></b> : Single = 1E-30;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cFullEpsilon">cFullEpsilon</a></b>: Double = 1e-12;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cColinearBias">cColinearBias</a></b> = 1E-8;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cEulerNumber">cEulerNumber</a></b> = 2.71828182846;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cInvSqrt2">cInvSqrt2</a></b>   = 1.0 / <a  href="GLZMath.html#Sqrt">sqrt</a>(2.0);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cInvThree">cInvThree</a></b>   = 1.0 / 3.0;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#cInv255">cInv255</a></b> = 1/255;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#MinSingle">MinSingle</a></b>   = 1.5e-45;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#MaxSingle">MaxSingle</a></b>   = 3.4e+38;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#MinDouble">MinDouble</a></b>   = 5.0e-324;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#MaxDouble">MaxDouble</a></b>   = 1.7e+308;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#MinExtended">MinExtended</a></b> = 3.4e-4932;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#MaxExtended">MaxExtended</a></b> = 1.1e+4932;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZMath.html#MinComp">MinComp</a></b>     = -9.223372036854775807e+18;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZMath.html#MaxComp">MaxComp</a></b>     = 9.223372036854775807e+18;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Functions and Procedures</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Round"></span><code>Function <b>Round</b>(v: Single): Integer; Overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Round</code> : Rounds a value towards its nearest integer  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>V</dt>
+<dd>value to <code>round</code></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Rounded value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Trunc"></span><code>Function <b>Trunc</b>(v: Single): Integer; Overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Trunc</code> : Rounds a value towards 0  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>V</dt>
+<dd>: Value to <code>trunc</code></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Truncated value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Floor"></span><code>Function <b>Floor</b>(v: Single): Integer; Overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Floor</code> : Rounds a value towards negative infinity  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>v</dt>
+<dd>: value to <code>floor</code></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Floored value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Fract"></span><code>Function <b>Fract</b>(v:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Fract</code> : Returns the fractional part of a number  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>v</dt>
+<dd>value where extract fractionnal part</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Fractionnal part</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Ceil"></span><code>Function <b>Ceil</b>(v: Single): Integer; Overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Ceil</code> : Rounds a value towards positive infinity  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>v</dt>
+<dd>: value to <code>ceil</code></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Ceilled value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="fmodf"></span><code>function <b>fmodf</b>(const A,B:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>fmodf</code> : calculates the remainder of a floating-point division   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: Number to divide</dd>
+<dt>A</dt>
+<dd>: Divisor</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">remainder in floating point</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Clamp"></span><code>function <b>Clamp</b>(const V,Min,Max : integer) : integer; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Clamp</code> : Clamps a given value into a range of two Integer values    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>V</dt>
+<dd>: Value to compare</dd>
+<dt>Min</dt>
+<dd>: <a class="normal" href="GLZMath.html#Clamp">Clamp</a> to Minimum</dd>
+<dt>Max</dt>
+<dd>: <a class="normal" href="GLZMath.html#Clamp">Clamp</a> to Maximum</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Value ensured in range [<a class="normal" href="GLZMath.html#Min">min</a>..max]</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Clamp"></span><code>function <b>Clamp</b>(const V,Min,Max : Single): Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Clamp</code> : Clamps a given value into a range of two Single values    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>V</dt>
+<dd>: Value to compare</dd>
+<dt>Min</dt>
+<dd>: <code>Clamp</code> to Minimum</dd>
+<dt>Max</dt>
+<dd>: <code>Clamp</code> to Maximum</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Value ensured in range [<a class="normal" href="GLZMath.html#Min">min</a>..max]</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ClampByte"></span><code>function <b>ClampByte</b>(Const Value:Integer):Byte;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ClampByte</code> : Clamps a given value into a range of 0..255  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>V</dt>
+<dd>: Value to compare</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Value ensured in ragne [0..255]</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="IsZero"></span><code>Function <b>IsZero</b>(Const A: Extended; Const Epsilon: Extended = 0.0): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>IsZero</code> : Check if value is near zero or absolute zero   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: Value to test</dd>
+<dt>Epsilon</dt>
+<dd>: Précision test, default absolute zero = 0.0</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>True</code> if equal or less than Epsilon. <code>False</code> otherwise</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Sign"></span><code>Function <b>Sign</b>(x: Single): Integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Sign</code> : Returns the <code>sign</code> of the x value using the (-1, 0, +1) convention  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value to get <code>sign</code></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>Sign</code> : </p>
+
+<ul class="paragraph_spacing">
+  <li><p>-1 : Less than zero</p></li>
+  <li><p> 0 : Equal to zero</p></li>
+  <li><p>+1 : Greater than zero</p></li>
+</ul>
+
+<p></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="SignStrict"></span><code>Function <b>SignStrict</b>(x: Single): Integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>SignStrict</code> : Returns the strict <a class="normal" href="GLZMath.html#Sign">sign</a> of the x value using the (-1, +1) convention  ) </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value to get Strict <a class="normal" href="GLZMath.html#Sign">sign</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Strict <a class="normal" href="GLZMath.html#Sign">Sign</a> : </p>
+
+<ul class="paragraph_spacing">
+  <li><p>-1 : Less than zero</p></li>
+  <li><p>+1 : Equal or Greater than zero</p></li>
+</ul>
+
+<p></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="RoundInt"></span><code>Function <b>RoundInt</b>(v: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>RoundInt</code> : Rounds the floating point value to the closest Integer. <br> Behaves like <a class="normal" href="GLZMath.html#Round">Round</a> but returns a floating point value like Int.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>v</dt>
+<dd>: value to <a class="normal" href="GLZMath.html#Round">round</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Rounded value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="NewRound"></span><code>Function <b>NewRound</b>(x: Single): Integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>NewRound</code> : rounds a value towards its nearest integer  @return</p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt></dt>
+<dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Max"></span><code>Function <b>Max</b>(Const A, B, C: Integer): Integer; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Max</code> : Returns the maximum of three integer values    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: value 1</dd>
+<dt>B</dt>
+<dd>: value 2</dd>
+<dt>C</dt>
+<dd>: value 3</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">The maximum value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Min"></span><code>Function <b>Min</b>(Const A, B, C: Integer): Integer; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Min</code> : Returns the minimum of three integer values    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: value 1</dd>
+<dt>B</dt>
+<dd>: value 2</dd>
+<dt>C</dt>
+<dd>: value 3</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">The minimum value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Max"></span><code>Function <b>Max</b>(Const v1, v2 : Single): Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Max</code> : Returns the maximum of two values   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>v1</dt>
+<dd>: value 1</dd>
+<dt>v2</dt>
+<dd>: value 2</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">The maximum value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Min"></span><code>Function <b>Min</b>(Const v1, v2 : Single): Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Min</code> : Returns the minimum of two values   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>v1</dt>
+<dd>: value 1</dd>
+<dt>v2</dt>
+<dd>: value 2</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">The minimum value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Max"></span><code>Function <b>Max</b>(Const v1, v2, v3: Single): Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Max</code> : calculates the maximum of three single values    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: value 1</dd>
+<dt>B</dt>
+<dd>: value 2</dd>
+<dt>C</dt>
+<dd>: value 3</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">The maximum value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Min"></span><code>Function <b>Min</b>(Const v1, v2, v3: Single): Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Min</code> : calculates the minimum of three single values    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: value 1</dd>
+<dt>B</dt>
+<dd>: value 2</dd>
+<dt>C</dt>
+<dd>: value 3</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">The minimum value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ComputeReciprocal"></span><code>Function <b>ComputeReciprocal</b>(Const x: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ComputeReciprocal</code> : Compute Reciprocal (1 / x)  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>x</dt>
+<dd>: value to get reciprocal</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Reciprocal</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="IsInRange"></span><code>Function <b>IsInRange</b>(const X, a, b: Single): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>IsInRange</code> : rounds a value towards its nearest integer    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: value to test</dd>
+<dt>A</dt>
+<dd>: minimum range value</dd>
+<dt>B</dt>
+<dd>: maximum range value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>True</code> if in range [a..b]. <code>False</code> otherwise</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="NormalizeRadAngle"></span><code>Function <b>NormalizeRadAngle</b>(angle: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>NormalizeRadAngle</code> : Normalize angle in radian  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Angle</dt>
+<dd>: Value in radian to normalize</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Normalized value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="NormalizeDegAngle"></span><code>Function <b>NormalizeDegAngle</b>(angle: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>NormalizeDegAngle</code> : Normalize angle in degree  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Angle</dt>
+<dd>: Value in degree to normalize</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Normalized value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="DistanceBetweenAngles"></span><code>Function <b>DistanceBetweenAngles</b>(angle1, angle2: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>DistanceBetweenAngles</code> : Compute distance between two angle   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Angle1</dt>
+<dd>: Value 1 in degree</dd>
+<dt>Angle2</dt>
+<dd>: Value 2 in degree</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Distance between Angle1 and Angle2</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="DegToRadian"></span><code>Function <b>DegToRadian</b>(Const Degrees: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>DegToRadian</code> : converts degrees to radians (Degrees : Angle to convert in degrees </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt></dt>
+<dd></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Converted value as Radian</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="RadianToDeg"></span><code>Function <b>RadianToDeg</b>(Const Radians: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>RadianToDeg</code> : converts radians to degrees (Degrees : Angle to convert in Radian </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt></dt>
+<dd></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Converted value as Degrees</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="InterpolateAngleLinear"></span><code>Function <b>InterpolateAngleLinear</b>(start, stop, t: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>InterpolateAngleLinear</code> : Linear interpolation between angle    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Start</dt>
+<dd>: Start Angle</dd>
+<dt>Stop</dt>
+<dd>: Stop Angle</dd>
+<dt>t</dt>
+<dd>: Current <a class="normal" href="GLZMath.html#Step">step</a> in range [0..1]</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Interpolated value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="IsPowerOfTwo"></span><code>Function <b>IsPowerOfTwo</b>(Value: Longword): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>IsPowerOfTwo</code> : Returns if value is a power of two.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Value</dt>
+<dd>: Value to test</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>True</code> if the specified value is a power of two or <code>False</code> otherwise</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="NextPowerOfTwo"></span><code>Function <b>NextPowerOfTwo</b>(Value: Cardinal): Cardinal;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>NextPowerOfTwo</code> : Returns next power of two fro m value  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Value</dt>
+<dd>: Value reference</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Next power of two</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PreviousPowerOfTwo"></span><code>Function <b>PreviousPowerOfTwo</b>(Value: Cardinal): Cardinal;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>PreviousPowerOfTwo</code> : Returns previous power of two fro m value  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Value</dt>
+<dd>: Value reference</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Previous power of two</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Pow"></span><code>function <b>Pow</b>(const Base, Exponent: Single): Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Pow</code> : Raise base to any power. For fractional exponents, or |exponents| &gt; MaxInt, base must be &gt; 0.   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Base</dt>
+<dd>: Base</dd>
+<dt>Exponent</dt>
+<dd>: Exponent</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Raise Base to Exponent power</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PowerInteger"></span><code>function <b>PowerInteger</b>(Const Base: Single; Exponent: Integer): Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>PowerInteger</code> : Raise float single precision base to Integer power   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Base</dt>
+<dd>: Base</dd>
+<dt>Exponent</dt>
+<dd>: Exponent</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Raise Base to Exponent power</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PowerInt"></span><code>Function <b>PowerInt</b>(Const Base, Power: Integer): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>PowerInt</code> : Raise Integer base to Integer power   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Base</dt>
+<dd>: Base</dd>
+<dt>Exponent</dt>
+<dd>: Exponent</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Raise Base to Exponent power</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="pow3"></span><code>Function <b>pow3</b>(x: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>pow3</code> : Raise base to power of 3  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Base</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Base raise by 3</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Sin"></span><code>function <b>Sin</b>(x:Single):Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Sin</code> : Calculates sine from the given angle X  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Angle in radian</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Sine</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Cos"></span><code>function <b>Cos</b>(x:Single):Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Cos</code> : Calculates cosine from the given angle X  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Angle in radian</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Cosine</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Tan"></span><code>function <b>Tan</b>(const X : Single) : Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Tan</code> : calculates the tangent of an angle  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Angle in radian</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Tangent</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="SinCos"></span><code>procedure <b>SinCos</b>(const Theta: Single; out Sin, Cos: Single); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>SinCos</code> : Calculates sine and cosine from the given angle Theta  @return(@unorderedlis(  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Theta</dt>
+<dd>in radian</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="SinCos"></span><code>procedure <b>SinCos</b>(const theta, radius : Single; out Sin, Cos: Single); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>SinCos</code> : Calculates sine and cosine from the given angle Theta and Radius. <br> <a class="normal" href="GLZMath.html#Sin">sin</a> and <a class="normal" href="GLZMath.html#Cos">cos</a> values calculated from theta are multiplicated by radius.   @return(@unorderedlis(  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Theta</dt>
+<dd>: Angle in radian</dd>
+<dt>Radius</dt>
+<dd>: factor</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Hypot"></span><code>Function <b>Hypot</b>(Const X, Y: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Hypot</code> : Compute the Hypotenuse   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+<dt>Y</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Hypotenus</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CoTan"></span><code>function <b>CoTan</b>(const X : Single) : Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>CoTan</code> : Calculates cotangent from the given angle X  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Angle in radian</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Cotangent</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ArcCos"></span><code>function <b>ArcCos</b>(const x : Single) : Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ArcCos</code> : calculates an arc cosine  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Angle in radian</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Inverse Cosine</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ArcSin"></span><code>Function <b>ArcSin</b>(Const x: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ArcSin</code> : calculates an arc sine  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Angle in radian</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Inverse Sine</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ArcTan2"></span><code>function <b>ArcTan2</b>(const Y, X : Single) : Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ArcTan2</code> : calculates an arctangent for angle and quadrant   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Angle in radian</dd>
+<dt>Y</dt>
+<dd>: Quadrant</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Inverse Tangent</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ArcCsc"></span><code>Function <b>ArcCsc</b>(Const X: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ArcCsc</code> : Calculates Inverse Cosecant from the given value  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Inverse Cosecant</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ArcSec"></span><code>Function <b>ArcSec</b>(Const X: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ArcSec</code> : Calculates Inverse Secant from the given value  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Inverse Secant</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ArcCot"></span><code>Function <b>ArcCot</b>(Const X: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ArcCot</code> : Calculates Inverse Cotangent from the given value  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Inverse Cotangent</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Sinh"></span><code>function <b>Sinh</b>(const x : Single) : Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Sinh</code> : calculates a hyperbolic sine  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Hyperbolic Sine</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Cosh"></span><code>function <b>Cosh</b>(const x : Single) : Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Cosh</code> : calculates a hyperbolic cosine  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Hyperbolic Cosine</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CscH"></span><code>Function <b>CscH</b>(Const X: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>CscH</code> : calculates a hyperbolic cosecant  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Hyperbolic Cosecant</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="SecH"></span><code>Function <b>SecH</b>(Const X: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>SecH</code> : calculates a hyperbolic Secant  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Hyperbolic Secant</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CotH"></span><code>Function <b>CotH</b>(Const X: Extended): Extended;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>CotH</code> : calculates a hyperbolic Cotangent  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Hyperbolic Cotangent</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="SinCosh"></span><code>Function <b>SinCosh</b>(Const x: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>SinCosh</code> : calculates a hyperbolic Sine/Cosine  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Hyperbolic Sine/Cosine</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ArcCscH"></span><code>Function <b>ArcCscH</b>(Const X: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ArcCscH</code> : calculates a Inverse hyperbolic CoSecant  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Inverse Hyperbolic CoSecant</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ArcSecH"></span><code>Function <b>ArcSecH</b>(Const X: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ArcSecH</code> : calculates a Inverse hyperbolic Secant  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Inverse Hyperbolic Secant</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ArcCotH"></span><code>Function <b>ArcCotH</b>(Const X: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ArcCotH</code> : calculates a Inverse hyperbolic CoTangent  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single float precision Inverse Hyperbolic CoTangent</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Sqrt"></span><code>function <b>Sqrt</b>(const A: Single): Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Sqrt</code> : calculates square root  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Squared root value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="InvSqrt"></span><code>Function <b>InvSqrt</b>(v: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>InvSqrt</code> : calculates an inverse square root  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>v</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Inverse Squared root value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Log2"></span><code>Function <b>Log2</b>(X: Single): Single; Overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Log2</code> : calculates a base 2 logarithm  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>Log2</code> value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Log10"></span><code>function <b>Log10</b>(X: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Log10</code> : calculates a base 10 logarithm  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>Log10</code> value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="LogN"></span><code>function <b>LogN</b>(Base, X: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>LogN</code> : calculates a base N logarithm   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Base</dt>
+<dd>: Value</dd>
+<dt>N</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Log N value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Exp"></span><code>Function <b>Exp</b>(Const X: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Exp</code> : calculates a natural exponentiation  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>Exp</code> value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ldExp"></span><code>Function <b>ldExp</b>(x: Single; N: Integer): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ldExp</code> : multiplies x by 2 power of n.   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+<dt>N</dt>
+<dd>: Exponent</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZMath.html#Exp">Exp</a> value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Ln"></span><code>Function <b>Ln</b>(Const X: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Ln</code> : calculates a natural logarithm  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Logarithmic value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="LnXP1"></span><code>Function <b>LnXP1</b>(x: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>LnXP1</code> : Return <a class="normal" href="GLZMath.html#Ln">ln</a>(1 + X), accurate for X near 0.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Logarithmic XP1 value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="BesselOrderOne"></span><code>Function <b>BesselOrderOne</b>(x: Double): Double;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>BesselOrderOne</code> : Compute <a class="normal" href="GLZMath.html#Bessel">Bessel</a> Order Onefactor  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZMath.html#Bessel">Bessel</a> Order One Double float precicion</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Bessel"></span><code>Function <b>Bessel</b>(x: Double): Double;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Bessel</code> : Compute <code>Bessel</code> factor  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>Bessel</code> Double float precicion</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="BesselIO"></span><code>Function <b>BesselIO</b>(x: Double): Double;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>BesselIO</code> : Compute <a class="normal" href="GLZMath.html#Bessel">Bessel</a> IO factor  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZMath.html#Bessel">Bessel</a> IO Double float precicion</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Blackman"></span><code>Function <b>Blackman</b>(x: Double): Double;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Blackman</code> : Compute <code>Blackman</code> factor  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>Blackman</code> Double float precicion</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Sinc"></span><code>Function <b>Sinc</b>(x: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Sinc</code> : A phase shifter <code>sinc</code> curve can be useful if it starts at zero and ends at zero, for some bouncing behaviors (suggested by Hubert-Jan). Give k different integer values to tweak the amount of bounces. It peaks at 1.0, but that take negative values, which can make it unusable in some applications  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>Sinc</code> Single float precision</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="InterpolateValue"></span><code>Function <b>InterpolateValue</b>(Const Start, Stop, Delta: Single; Const DistortionDegree: Single; Const InterpolationType: <a  href="GLZMath.html#TGLZInterpolationType">TGLZInterpolationType</a>): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>InterpolateValue</code> : Do the same as &quot;<a class="normal" href="GLZMath.html#Lerp">Lerp</a>&quot;, but add some distortions.      ) </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Start</dt>
+<dd>: Start Value</dd>
+<dt>Stop</dt>
+<dd>: Stop Value</dd>
+<dt>Delta</dt>
+<dd>: Delta Value</dd>
+<dt>Distortion</dt>
+<dd>: Distortion Value in degree</dd>
+<dt>InterpolationType</dt>
+<dd>: Kind of interpolation.</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Interpolated value at Delta</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="InterpolateValueFast"></span><code>Function <b>InterpolateValueFast</b>(Const OriginalStart, OriginalStop, OriginalCurrent: Single; Const TargetStart, TargetStop: Single;Const DistortionDegree: Single; Const InterpolationType: <a  href="GLZMath.html#TGLZInterpolationType">TGLZInterpolationType</a>): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>InterpolateValueFast</code> : Do the same as &quot;<a class="normal" href="GLZMath.html#Lerp">Lerp</a>&quot;, but add some distortions, fast        ) </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>OriginalStart</dt>
+<dd>: Start Value</dd>
+<dt>OriginalStop</dt>
+<dd>: Stop Value</dd>
+<dt>OriginalCurrent</dt>
+<dd>: Delta Value</dd>
+<dt>TargetStart</dt>
+<dd>: Start Value</dd>
+<dt>TargetStop</dt>
+<dd>: Stop Value</dd>
+<dt>Distortion</dt>
+<dd>: Distortion Value in degree</dd>
+<dt>InterpolationType</dt>
+<dd>: Kind of interpolation.</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Interpolated value at Delta</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="InterpolateValueSafe"></span><code>Function <b>InterpolateValueSafe</b>(Const OriginalStart, OriginalStop, OriginalCurrent: Single; Const TargetStart, TargetStop: Single;Const DistortionDegree: Single; Const InterpolationType: <a  href="GLZMath.html#TGLZInterpolationType">TGLZInterpolationType</a>): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>InterpolateValueSafe</code> : Do the same as &quot;<a class="normal" href="GLZMath.html#Lerp">Lerp</a>&quot;, but add some distortions, values are checked        ) </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>OriginalStart</dt>
+<dd>: Start Value</dd>
+<dt>OriginalStop</dt>
+<dd>: Stop Value</dd>
+<dt>OriginalCurrent</dt>
+<dd>: Delta Value</dd>
+<dt>TargetStart</dt>
+<dd>: Start Value</dd>
+<dt>TargetStop</dt>
+<dd>: Stop Value</dd>
+<dt>Distortion</dt>
+<dd>: Distortion Value in degree</dd>
+<dt>InterpolationType</dt>
+<dd>: Kind of interpolation.</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Interpolated value at Delta</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="SmoothStep"></span><code>function <b>SmoothStep</b>(Edge0,Edge1,x: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>SmoothStep</code> :Perform Hermite interpolation between two values    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Edge0</dt>
+<dd>: Start Value</dd>
+<dt>Edge1</dt>
+<dd>: Stop Value</dd>
+<dt>X</dt>
+<dd>: Position Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Smoothed value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Lerp"></span><code>function <b>Lerp</b>(Edge0,Edge1,x: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Lerp</code> : Perform linear interpolation between two values    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Edge0</dt>
+<dd>: Start Value</dd>
+<dt>Edge1</dt>
+<dd>: Stop Value</dd>
+<dt>X</dt>
+<dd>: Position Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>Lerp</code> value</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Step"></span><code>function <b>Step</b>(Edge,x: Single): Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Step</code> : Generate a <code>step</code> function by comparing two values   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Edge</dt>
+<dd>: Value 1</dd>
+<dt>X</dt>
+<dd>: Value 2</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">0.0 is returned if x &lt; edge, and 1.0 is returned otherwise</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Length1D"></span><code>Function <b>Length1D</b>(x:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Length1D</code> : Return the lenght of vector 1D  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Length of X</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="AlmostIdentity"></span><code>Function <b>AlmostIdentity</b>( x,m,n : single ):single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>AlmostIdentity</code> : blend value with threshold, and smooth it with a cubic polynomial.   (N : Value things will take when X is zero.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value to Blend</dd>
+<dt>M</dt>
+<dd>: Thresold</dd>
+<dt></dt>
+<dd></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Smoothed value</p><h6 class="description_section">See also</h6>
+<dl class="see_also">
+  <dt>http://www.iquilezles.org/www/articles/functions/functions.htm</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Impulse"></span><code>function <b>Impulse</b>(k,x : Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Impulse</code> : Great for triggering behaviours or making envelopes for music or animation    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>K</dt>
+<dd>:control the stretching</dd>
+<dt>X</dt>
+<dd>: A Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Smoothed Value</p><h6 class="description_section">See also</h6>
+<dl class="see_also">
+  <dt>http://www.iquilezles.org/www/articles/functions/functions.htm</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CubicPulse"></span><code>Function <b>CubicPulse</b>(c,w,x : Single) : Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>CubicPulse</code> : Cubic interpolation. Same as <a class="normal" href="GLZMath.html#SmoothStep">smoothstep</a>(c-w,c,x)-<a class="normal" href="GLZMath.html#SmoothStep">smoothstep</a>(c,c+w,x)<br> You can use it as a cheap replacement for a gaussian     </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>C</dt>
+<dd>: Value</dd>
+<dt>W</dt>
+<dd>: Value</dd>
+<dt>X</dt>
+<dd>: Value to smoothed</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Smoothed Value</p><h6 class="description_section">See also</h6>
+<dl class="see_also">
+  <dt>http://www.iquilezles.org/www/articles/functions/functions.htm</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ExpStep"></span><code>Function <b>ExpStep</b>(x,k,n:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ExpStep</code> : A natural attenuation     </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value to smoothed</dd>
+<dt>K</dt>
+<dd>: Limit Value</dd>
+<dt>N</dt>
+<dd>: Power exponent</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Smoothed Value</p><h6 class="description_section">See also</h6>
+<dl class="see_also">
+  <dt>http://www.iquilezles.org/www/articles/functions/functions.htm</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Parabola"></span><code>Function <b>Parabola</b>(x,k:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Parabola</code> : Remap the 0..1 interval into 0..1, such that the corners are remapped to 0 and the center to 1 <br> <b>Note : </b> <code>parabola</code>(0) = <code>parabola</code>(1) = 0, and <code>parabola</code>(1/2) = 1    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+<dt>N</dt>
+<dd>: Power exponent</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Smoothed Value</p><h6 class="description_section">See also</h6>
+<dl class="see_also">
+  <dt>http://www.iquilezles.org/www/articles/functions/functions.htm</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="pcurve"></span><code>Function <b>pcurve</b>(x,a,b:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>pcurve</code> : Remap the 0..1 interval into 0..1, such that the corners are remapped to 0. <br> Very useful to skew the shape one side or the other in order to make leaves, eyes, and many other interesting shapes     </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+<dt>A</dt>
+<dd>: Value</dd>
+<dt>B</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Curved Value</p><h6 class="description_section">See also</h6>
+<dl class="see_also">
+  <dt>http://www.iquilezles.org/www/articles/functions/functions.htm</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="pGain"></span><code>Function <b>pGain</b>(x,k:Single):Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>pGain</code> : Remapping the unit interval into the unit interval by expanding the sides and compressing the center, and keeping 1/2 mapped to 1/2 <br> This was a common function in RSL tutorials (the Renderman Shading Language).  (K :k=1 is the identity curve, k&lt;1 produces the classic gain() shape, and k&gt;1 produces &quot;s&quot; shaped curces. <br> <b>Note : </b> The curves are symmetric (and inverse) for k=a and k=1/a.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+<dt></dt>
+<dd></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Curved value</p><h6 class="description_section">See also</h6>
+<dl class="see_also">
+  <dt>http://www.iquilezles.org/www/articles/functions/functions.htm</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="pSinc"></span><code>Function <b>pSinc</b>(x,k:Single):Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>pSinc</code> : A phase shifter <a class="normal" href="GLZMath.html#Sinc">sinc</a> curve     </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>X</dt>
+<dd>: Value</dd>
+<dt>K</dt>
+<dd>: Value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Curved value</p><h6 class="description_section">See also</h6>
+<dl class="see_also">
+  <dt><a class="normal" href="GLZMath.html#Sinc">SinC</a></dt>
+  <dd></dd>
+  <dt>http://mathworld.wolfram.com/SincFunction.html</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Val2Percent"></span><code>Function <b>Val2Percent</b>(min, val, max: Single): Integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Val2Percent</code> : Convert a value to percent from range of [<a class="normal" href="GLZMath.html#Min">min</a>..max]    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Min</dt>
+<dd>: Minimum value</dd>
+<dt>Val</dt>
+<dd>: Value to get percent</dd>
+<dt>Min</dt>
+<dd>: Maximum value</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Percent</p></td></tr>
+</table>
+<h3 class="detail">Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PSinCos"></span><code><b>PSinCos</b> = &circ;<a  href="GLZMath.TSinCos.html">TSinCos</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGLZInterpolationType"></span><code><b>TGLZInterpolationType</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Type of interpolation. </p>
+<h6 class="description_section">See also</h6>
+<dl class="see_also">
+  <dt><a class="normal" href="GLZMath.html#InterpolateValue">InterpolateValue</a></dt>
+  <dd></dd>
+</dl>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="itLinear">itLinear</span></li>
+<li>
+<span id="itPower">itPower</span></li>
+<li>
+<span id="itSin">itSin</span></li>
+<li>
+<span id="itSinAlt">itSinAlt</span></li>
+<li>
+<span id="itTan">itTan</span></li>
+<li>
+<span id="itLn">itLn</span></li>
+<li>
+<span id="itExp">itExp</span></li>
+</ul>
+</td></tr>
+</table>
+<h3 class="detail">Constants</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cInfinity"></span><code><b>cInfinity</b> = 1e1000;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Commons usefull Math Constants </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="EpsilonFuzzFactor"></span><code><b>EpsilonFuzzFactor</b> = 1000;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="EpsilonXTResolution"></span><code><b>EpsilonXTResolution</b> = 1E-19 * <a  href="GLZMath.html#EpsilonFuzzFactor">EpsilonFuzzFactor</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cPI"></span><code><b>cPI</b>: Double = 3.1415926535897932384626433832795;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cInvPI"></span><code><b>cInvPI</b>: Double = 1.0 / 3.1415926535897932384626433832795;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+3.141592654;</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="c2DivPI"></span><code><b>c2DivPI</b>: Double = 2.0 / 3.1415926535897932384626433832795;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cPIdiv180"></span><code><b>cPIdiv180</b>: Single = 3.1415926535897932384626433832795 / 180;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cPI180"></span><code><b>cPI180</b> : Single =  3.1415926535897932384626433832795 * 180;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="c180divPI"></span><code><b>c180divPI</b>: Single = 180 / 3.1415926535897932384626433832795;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="c2PI"></span><code><b>c2PI</b>: Single = 3.1415926535897932384626433832795*2;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cPIdiv2"></span><code><b>cPIdiv2</b>: Single = 3.1415926535897932384626433832795 / 2;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+5286766559;</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cPIdiv4"></span><code><b>cPIdiv4</b>: Single = 3.1415926535897932384626433832795 / 4;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="c3PIdiv2"></span><code><b>c3PIdiv2</b>: Single = 3*3.1415926535897932384626433832795/2;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="c3PIdiv4"></span><code><b>c3PIdiv4</b>: Single = 3*3.1415926535897932384626433832795/4;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cInv2PI"></span><code><b>cInv2PI</b>: Single = 1 / (2*3.1415926535897932384626433832795);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cInv360"></span><code><b>cInv360</b>: Single = 1 / 360;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="c180"></span><code><b>c180</b>: Single = 180;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="c360"></span><code><b>c360</b>: Single = 360;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cOneHalf"></span><code><b>cOneHalf</b>: Single = 0.5;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cMinusOneHalf"></span><code><b>cMinusOneHalf</b>: Single = -0.5;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cOneDotFive"></span><code><b>cOneDotFive</b>: Single = 0.5;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cZero"></span><code><b>cZero</b>: Single = 0.0;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cOne"></span><code><b>cOne</b>: Single = 1.0;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cLn10"></span><code><b>cLn10</b>: Single = 2.302585093;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cEpsilon"></span><code><b>cEpsilon</b>: Single = 1e-10;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cEpsilon40"></span><code><b>cEpsilon40</b> : Single = 1E-40;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cEpsilon30"></span><code><b>cEpsilon30</b> : Single = 1E-30;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cFullEpsilon"></span><code><b>cFullEpsilon</b>: Double = 1e-12;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cColinearBias"></span><code><b>cColinearBias</b> = 1E-8;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cEulerNumber"></span><code><b>cEulerNumber</b> = 2.71828182846;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cInvSqrt2"></span><code><b>cInvSqrt2</b>   = 1.0 / <a  href="GLZMath.html#Sqrt">sqrt</a>(2.0);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cInvThree"></span><code><b>cInvThree</b>   = 1.0 / 3.0;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cInv255"></span><code><b>cInv255</b> = 1/255;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MinSingle"></span><code><b>MinSingle</b>   = 1.5e-45;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+portées maximal les types de points flottants IEEE Compatible avec Math.pas</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MaxSingle"></span><code><b>MaxSingle</b>   = 3.4e+38;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MinDouble"></span><code><b>MinDouble</b>   = 5.0e-324;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MaxDouble"></span><code><b>MaxDouble</b>   = 1.7e+308;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MinExtended"></span><code><b>MinExtended</b> = 3.4e-4932;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MaxExtended"></span><code><b>MaxExtended</b> = 1.1e+4932;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MinComp"></span><code><b>MinComp</b>     = -9.223372036854775807e+18;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Complex</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MaxComp"></span><code><b>MaxComp</b>     = 9.223372036854775807e+18;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h2 class="authors">Author</h2>
+<ul class="authors">
+<li>J.Delauney (BeanzMaster)</li>
+</ul>
+<h2 class="created">Created</h2>
+<p>
+2016-11-18
+</p>
+(R) 2017-2018 -- By J.Delauney and P.Dyson. Under MPL Licence
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

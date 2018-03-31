@@ -11,7 +11,7 @@ unit native;
 interface
 
 uses
-  Classes, SysUtils, GLZVectorMath;
+  Classes, SysUtils, GLZVectorMath, GLZVectorMathEx;
 
 type
 {%region%----[ TNativeGLZVector2i ]---------------------------------------------}
@@ -89,6 +89,7 @@ type
 {%endregion%}
 
 {%region%----[ TNativeGLZVector2f ]---------------------------------------------}
+
   TNativeGLZVector2f =  record
     procedure Create(aX,aY: single);
 
@@ -152,6 +153,255 @@ type
 
 {%endregion%}
 
+{%region%----[ TNativeGLZVector2d ]---------------------------------------------}
+
+{ TNativeGLZVector2d : 2D Float vector (Double) }
+ TNativeGLZVector2d =  record
+   { @name : Initialize X and Y float values
+     @param(aX : Single -- value for X)
+     @param(aY : Single -- value for Y) }
+   procedure Create(aX,aY: Double);
+
+   { @name : Return Vector to a formatted string eg "("x, y")"
+     @return(String) }
+   function ToString : String;
+
+   { @name : Add two TNativeGLZVector2d
+     @param(A : TNativeGLZVector2d)
+     @param(B : TNativeGLZVector2d)
+     @return(TNativeGLZVector2d) }
+   class operator +(constref A, B: TNativeGLZVector2d): TNativeGLZVector2d; overload;
+
+   { @name : Add one TNativeGLZVector2i to one TNativeGLZVector2d
+     @param(A : TNativeGLZVector2d)
+     @param(B : TNativeGLZVector2i)
+     @return(TNativeGLZVector2d) }
+   class operator +(constref A: TNativeGLZVector2d; constref B: TNativeGLZVector2i): TNativeGLZVector2d; overload;
+
+   { @name : Sub two TNativeGLZVector2d
+     @param(A : TNativeGLZVector2d)
+     @param(B : TNativeGLZVector2d)
+     @return(TNativeGLZVector2d) }
+   class operator -(constref A, B: TNativeGLZVector2d): TNativeGLZVector2d; overload;
+
+   { @name : Substract one TNativeGLZVector2i to one TNativeGLZVector2d
+     @param(A : TNativeGLZVector2d)
+     @param(B : TNativeGLZVector2i)
+     @return(TNativeGLZVector2d) }
+   class operator -(constref A: TNativeGLZVector2d; constref B: TNativeGLZVector2i): TNativeGLZVector2d; overload;
+
+   { @name : Multiply two TNativeGLZVector2d
+     @param(A : TNativeGLZVector2d)
+     @param(B : TNativeGLZVector2d)
+     @return(TNativeGLZVector2d) }
+   class operator *(constref A, B: TNativeGLZVector2d): TNativeGLZVector2d; overload;
+
+   { @name : Multiply one TNativeGLZVector2d by a TNativeGLZVector2i
+     @param(A : TNativeGLZVector2d)
+     @param(B : TNativeGLZVector2i)
+     @return(TNativeGLZVector2d) }
+   class operator *(constref A:TNativeGLZVector2d; Constref B: TNativeGLZVector2i): TNativeGLZVector2d; overload;
+
+   { @name : Divide two TNativeGLZVector2i
+     @param(A : TNativeGLZVector2d)
+     @param(B : TNativeGLZVector2d)
+     @return(TNativeGLZVector2d) }
+   class operator /(constref A, B: TNativeGLZVector2d): TNativeGLZVector2d; overload;
+
+   { @name : Add one Float to one TNativeGLZVector2d
+     @param(A : TNativeGLZVector2d)
+     @param(B : Single)
+     @return(TNativeGLZVector2d) }
+   class operator +(constref A: TNativeGLZVector2d; constref B:Double): TNativeGLZVector2d; overload;
+
+   { @name : Substract one Float to one TNativeGLZVector2d
+     @param(A : TNativeGLZVector2d)
+     @param(B : Single)
+     @return(TNativeGLZVector2d) }
+   class operator -(constref A: TNativeGLZVector2d; constref B:Double): TNativeGLZVector2d; overload;
+
+   { @name : Multiply one TNativeGLZVector2d by a Float
+     @param(A : TNativeGLZVector2d)
+     @param(B : Single)
+     @return(TNativeGLZVector2d) }
+   class operator *(constref A: TNativeGLZVector2d; constref B:Double): TNativeGLZVector2d; overload;
+
+   { @name : Divide one TNativeGLZVector2d by a Float
+     @param(A : TNativeGLZVector2d)
+     @param(B : Single)
+     @return(TNativeGLZVector2d) }
+   class operator /(constref A: TNativeGLZVector2d; constref B:Double): TNativeGLZVector2d; overload;
+
+   { @name : Multiply one TNativeGLZVector2d by a TNativeGLZVector2i
+     @param(A : TNativeGLZVector2d)
+     @param(B : TNativeGLZVector2i)
+     @return(TNativeGLZVector2d) }
+   class operator /(constref A: TNativeGLZVector2d; constref B: TNativeGLZVector2i): TNativeGLZVector2d; overload;
+
+   { @name : Negate a TNativeGLZVector2d
+     @param(A : TNativeGLZVector2d)
+     @return(TNativeGLZVector2d) }
+   class operator -(constref A: TNativeGLZVector2d): TNativeGLZVector2d; overload;
+
+   { @name : Compare if two TNativeGLZVector2d are equal
+     @param(A : TNativeGLZVector2d)
+     @param(B : TNativeGLZVector2d)
+     @return(Boolean @True if equal)}
+   class operator =(constref A, B: TNativeGLZVector2d): Boolean;
+
+   { @name : Compare if two TNativeGLZVector2d are not equal
+     @param(A : TNativeGLZVector2d)
+     @param(B : TNativeGLZVector2d)
+     @return(Boolean @True if not equal)}
+   class operator <>(constref A, B: TNativeGLZVector2d): Boolean;
+
+   //class operator mod(const a,b:TNativeGLZVector2d): TNativeGLZVector2d;
+
+   { @name : Return the minimum of each component in TNativeGLZVector2d between self and another TNativeGLZVector2d
+     @param(B : TNativeGLZVector2d)
+     @return(TNativeGLZVector2d) }
+   function Min(constref B: TNativeGLZVector2d): TNativeGLZVector2d; overload;
+
+   { @name : Return the minimum of each component in TNativeGLZVector2d between self and a Float
+     @param(B : Single)
+     @return(TNativeGLZVector2d) }
+   function Min(constref B: Double): TNativeGLZVector2d; overload;
+
+   { @name : Return the maximum of each component in TNativeGLZVector2d between self and another TNativeGLZVector2d
+     @param(B : TNativeGLZVector2d)
+     @return(TNativeGLZVector2d) }
+   function Max(constref B: TNativeGLZVector2d): TNativeGLZVector2d; overload;
+
+   { @name : Return the maximum of each component in TNativeGLZVector2d between self and a Float
+     @param(B : Single)
+     @return(TNativeGLZVector2d) }
+   function Max(constref B: Double): TNativeGLZVector2d; overload;
+
+   { @name : Clamp Self beetween a min and a max TNativeGLZVector2d
+     @param(AMin : TNativeGLZVector2d)
+     @param(AMax : TNativeGLZVector2d)
+     @return(TNativeGLZVector2d) }
+   function Clamp(constref AMin, AMax: TNativeGLZVector2d): TNativeGLZVector2d;overload;
+
+   { @name : Clamp Self beetween a min and a max Float
+     @param(AMin : Single)
+     @param(AMax : Single)
+     @return(TNativeGLZVector2d) }
+   function Clamp(constref AMin, AMax: Double): TNativeGLZVector2d;overload;
+
+   { @name : Multiply Self by a TNativeGLZVector2d and add an another TNativeGLZVector2d
+     @param(A : TNativeGLZVector2d)
+     @param(B : TNativeGLZVector2d)
+     @return(TNativeGLZVector2d) }
+   function MulAdd(constref A,B:TNativeGLZVector2d): TNativeGLZVector2d;
+
+   { @name : Multiply Self by a TNativeGLZVector2d and substract an another TNativeGLZVector2d
+     @param( : TNativeGLZVector2d)
+     @param( : TNativeGLZVector2d)
+     @return(TNativeGLZVector2d) }
+   function MulSub(constref A,B:TNativeGLZVector2d): TNativeGLZVector2d;
+
+   { @name : Multiply Self by a TNativeGLZVector2d and div with an another TNativeGLZVector2d
+     @param( : TNativeGLZVector2d)
+     @param( : TNativeGLZVector2d)
+     @return(TNativeGLZVector2d) }
+   function MulDiv(constref A,B:TNativeGLZVector2d): TNativeGLZVector2d;
+
+   { @name : Return self length
+     @return(Single) }
+   function Length:Double;
+
+   { @name : Return self length squared
+     @return(Single) }
+   function LengthSquare:Double;
+
+   { @name : Return distance from self to an another TNativeGLZVector2d
+     @param(A : TNativeGLZVector2d)
+     @return(Single) }
+   function Distance(constref A:TNativeGLZVector2d):Double;
+
+   { @name : Return Self distance squared
+     @param(A : TNativeGLZVector2d)
+     @param( : )
+     @return(Single) }
+   function DistanceSquare(constref A:TNativeGLZVector2d):Double;
+
+   { @name : Return self normalized TNativeGLZVector2d
+     @return(TNativeGLZVector2d) }
+   function Normalize : TNativeGLZVector2d;
+
+   { @name : Return the dot product of self and an another TNativeGLZVector2d
+     @param(A : TNativeGLZVector2d)
+     @return(Single) }
+   function DotProduct(A:TNativeGLZVector2d):Double;
+
+   { @name : Return angle between Self and an another TNativeGLZVector2d, relative to a TNativeGLZVector2d as a Center Point
+     @param(A : TNativeGLZVector2d)
+     @param(ACenterPoint : TNativeGLZVector2d)
+     @return(Single) }
+   function AngleBetween(Constref A, ACenterPoint : TNativeGLZVector2d): Double;
+
+   { @name : Return the angle cosine between Self and an another TNativeGLZVector2d
+     @param(A : TNativeGLZVector2d)
+     @return(Single) }
+   function AngleCosine(constref A: TNativeGLZVector2d): Double;
+
+   // function Reflect(I, NRef : TVector2f):TVector2f
+
+//   function Edge(ConstRef A, B : TNativeGLZVector2d):Single; // @TODO : a passer dans TNativeGLZVector2dHelper ???
+
+   { @name : Return absolute value of each component
+     @return(TNativeGLZVector2d) }
+   function Abs:TNativeGLZVector2d;overload;
+
+   { @name : Round Self to a TNativeGLZVector2i
+     @return(TNativeGLZVector2i) }
+   function Round: TNativeGLZVector2i; overload;
+
+   { @name : Trunc Self to a TNativeGLZVector2i
+     @return(TNativeGLZVector2i) }
+   function Trunc: TNativeGLZVector2i; overload;
+
+   { @name : Floor Self to a TNativeGLZVector2i
+     @return(TNativeGLZVector2i) }
+   function Floor: TNativeGLZVector2i; overload;
+
+   { @name : Ceil Self to a TNativeGLZVector2i
+     @return(TNativeGLZVector2i) }
+   function Ceil : TNativeGLZVector2i; overload;
+
+   { @name : Return factorial of Self
+     @return(TNativeGLZVector2d) }
+   function Fract : TNativeGLZVector2d; overload;
+
+   { @name : Return remainder of each component
+     @param(A : TNativeGLZVector2d)
+     @return(TNativeGLZVector2d) }
+   function Modf(constref A : TNativeGLZVector2d): TNativeGLZVector2d;
+
+   { @name : Return remainder of each component as TNativeGLZVector2i
+     @param(A : TNativeGLZVector2d)
+     @param( : )
+     @return(TNativeGLZVector2i) }
+   function fMod(Constref A : TNativeGLZVector2d): TNativeGLZVector2i;
+
+   { @name : Return square root of each component
+     @return(TNativeGLZVector2d) }
+   function Sqrt : TNativeGLZVector2d; overload;
+
+   { @name : Return inversed square root of each component
+     @return(TNativeGLZVector2d) }
+   function InvSqrt : TNativeGLZVector2d; overload;
+
+   { Access properties }
+   case Byte of
+     0: (V: TGLZVector2dType);    //< Array access
+     1: (X, Y : Double);          //< Legacy access
+     2: (Width, Height : Double); //< Surface size
+ End;
+
+{%endregion%}
+
 {%region%----[ TNativeGLZVector3b ]---------------------------------------------}
 
     TNativeGLZVector3b = Record
@@ -190,6 +440,7 @@ type
         1 : (x,y,z:Byte);
         2 : (Red,Green,Blue:Byte);
     end;
+
 {%endregion%}
 
 {%region%----[ TNativeGLZVector3i ]---------------------------------------------}
@@ -340,6 +591,7 @@ type
 {%endregion%}
 
 {%region%----[ TNativeGLZVector4f ]---------------------------------------------}
+
   TNativeGLZVector4f =  record  // With packed record the performance decrease a little
   public
     procedure Create(Const aX,aY,aZ: single; const aW : Single = 0); overload;
@@ -490,11 +742,11 @@ type
 
     procedure CreateIdentityMatrix;
     // Creates scale matrix
-    procedure CreateScaleMatrix(const v : TGLZAffineVector); overload;
+    procedure CreateScaleMatrix(const v : TNativeGLZAffineVector); overload;
     // Creates scale matrix
     procedure CreateScaleMatrix(const v : TNativeGLZVector4f); overload;
     // Creates translation matrix
-    procedure CreateTranslationMatrix(const V : TGLZAffineVector); overload;
+    procedure CreateTranslationMatrix(const V : TNativeGLZAffineVector); overload;
     // Creates translation matrix
     procedure CreateTranslationMatrix(const V : TNativeGLZVector4f); overload;
     { Creates a scale+translation matrix.
@@ -605,7 +857,7 @@ type
     //procedure Create(const angle  : Single; const axis : TGLZVector); overload;
 
     // Constructs quaternion from Euler angles
-    procedure Create(const r, p, y : Single); overload;
+    procedure Create(const y,p,r: Single); overload;
 
     // Constructs quaternion from Euler angles in arbitrary order (angles in degrees)
     procedure Create(const x, y, z: Single; eulerOrder : TGLZEulerOrder); overload;
@@ -1078,6 +1330,9 @@ Const
 
   NativeNullVector2f : TNativeGLZVector2f = (x:0;y:0);
   NativeOneVector2f : TNativeGLZVector2f = (x:1;y:1);
+
+  NativeNullVector2d : TNativeGLZVector2d = (x:0;y:0);
+  NativeOneVector2d : TNativeGLZVector2d = (x:1;y:1);
 
   // standard affine vectors
   NativeXVector :    TNativeGLZAffineVector = (X:1; Y:0; Z:0);

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Vector Classes Math Library: GLZVectorMathUtils</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>Vector Classes Math Library</h2><p><a href="introduction.html" class="navigation">Vector Math Classes</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p><form class="search-form" action="_tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input"></div><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></form>
+<div style="clear: both"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+        /* 10 items to display seems standard */
+        'show': 10,
+        /* For PasDoc docs, showing urls is not very useful,
+           since the page title already shows the unit and identifier. */
+        'showURL': false
+    });
+});
+</script>
+</td><td class="content">
+Vector Classes Math Library for FPC & Lazarus.
+<h1 class="unit">Unit GLZVectorMathUtils</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Uses</div><div class="one_section">Classes, Interfaces, Objects and Records</div><div class="one_section"><a class="section" href="#PasDoc-FuncsProcs">Functions and Procedures</a></div><div class="one_section">Types</div><div class="one_section">Constants</div><div class="one_section">Variables</div></div>
+<span id="PasDoc-Description"></span><h2 class="description">Description</h2>
+<p>
+====&lt; GLZVectorMathEx.pas &gt;=====================================================<br>
+
+<p>  
+
+<p>Historique : <br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>Last Update : 13/03/2018 </p></li>
+  <li><p>12/03/2018 : Creation </p></li>
+</ul>
+
+<p>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> Description :<br> <code>GLZVectorMathUtils</code> Contains extra inline functions for vectors
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> <b>Notes :</b><br>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br>
+
+<p><b>Credits :</b><br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>FPC/Lazarus</p></li>
+  <li><p>GLScene</p></li>
+  <li><p>All authors of papers and web links</p></li>
+</ul>
+
+<p>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> LICENCE : MPL <br> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br> *==============================================================================</p>
+<span id="PasDoc-Uses"></span><h2 class="overview">Overview</h2>
+<span id="PasDoc-FuncsProcs"></span><h3 class="summary">Functions and Procedures</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#AffineVectorMake">AffineVectorMake</a></b>(const x, y, z : Single) : <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#AffineVectorMake">AffineVectorMake</a></b>(const v : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>) : <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#vec2">vec2</a></b>(vx,vy:single):<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#vec4">vec4</a></b>(vx,vy,vz,vw:single):<a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#vec4">vec4</a></b>(vx:single):<a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#PointVec4">PointVec4</a></b>(vx,vy,vz:single):<a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#PointVec4">PointVec4</a></b>(vx:single):<a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#Trunc">Trunc</a></b>(Constref v:<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#Round">Round</a></b>(Constref v:<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#Floor">Floor</a></b>(Constref v:<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#Fract">Fract</a></b>(Constref v:<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#Sqrt">Sqrt</a></b>(Constref v:<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#InvSqrt">InvSqrt</a></b>(Constref v:<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#Sin">Sin</a></b>(v:<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#Cos">Cos</a></b>(v:<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#SinCos">SinCos</a></b>(x:Single):<a  href="GLZVectorMath.TGLZVector2f.html">TGLZvector2f</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#SinCos">SinCos</a></b>(v:<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2f.html">TGLZvector2f</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#Fract">Fract</a></b>(Constref v:<a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>):<a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathUtils.html#VectorIsColinear">VectorIsColinear</a></b>(constref v1, v2: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>) : Boolean;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Functions and Procedures</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="AffineVectorMake"></span><code>function <b>AffineVectorMake</b>(const x, y, z : Single) : <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>AffineVectorMake</code> : Create a 3D Float single precision affine vector from values    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>vX</dt>
+<dd>: Single &ndash; value for X</dd>
+<dt>vY</dt>
+<dd>: Single &ndash; value for Y</dd>
+<dt>vZ</dt>
+<dd>: Single &ndash; value for Z</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">A <a class="normal" href="GLZVectorMath.TGLZVector3f.html">TGLZVector3f</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="AffineVectorMake"></span><code>function <b>AffineVectorMake</b>(const v : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>) : <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>AffineVectorMake</code> : Create a 3D Float single precision affine vector from one Homogenous vector  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>v</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> &ndash; Homogenous vector</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">A <a class="normal" href="GLZVectorMath.TGLZVector3f.html">TGLZVector3f</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="vec2"></span><code>function <b>vec2</b>(vx,vy:single):<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>vec2</code> : Create a 2D Float single precision from values   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>vX</dt>
+<dd>: Single &ndash; value for X</dd>
+<dt>vY</dt>
+<dd>: Single &ndash; value for Y</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">A <a class="normal" href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="vec4"></span><code>function <b>vec4</b>(vx,vy,vz,vw:single):<a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>vec4</code> : Create a 4D Float single precision homogenous vector from values     </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>vX</dt>
+<dd>: Single &ndash; value for X</dd>
+<dt>vY</dt>
+<dd>: Single &ndash; value for Y</dd>
+<dt>vZ</dt>
+<dd>: Single &ndash; value for Z</dd>
+<dt>vW</dt>
+<dd>: Single &ndash; value for W</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">A <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="vec4"></span><code>function <b>vec4</b>(vx:single):<a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>vec4</code> : Create a 4D Float single precision homogenous vector from one value as Homogenous  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>vX</dt>
+<dd>: Single &ndash; value for each component</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">A <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PointVec4"></span><code>function <b>PointVec4</b>(vx,vy,vz:single):<a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>PointVec4</code> : Create a 4D Float single precision Point vector from values    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>vX</dt>
+<dd>: Single &ndash; value for X</dd>
+<dt>vY</dt>
+<dd>: Single &ndash; value for Y</dd>
+<dt>vZ</dt>
+<dd>: Single &ndash; value for Z</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">A <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PointVec4"></span><code>function <b>PointVec4</b>(vx:single):<a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>PointVec4</code> : Create a 4D Float single precision Point vector from values  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>vX</dt>
+<dd>: Single &ndash; value for each component except W (W=1)</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">a <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Trunc"></span><code>function <b>Trunc</b>(Constref v:<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Trunc</code> : Rounds each component of a 2D float single precision vector towards towards 0  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>V</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> &ndash; value to <code>Trunc</code></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Truncated value as <a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a> </p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Round"></span><code>function <b>Round</b>(Constref v:<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Round</code> : Rounds each component of a 2D float single precision vector towards its nearest integer  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>V</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> &ndash; value to <code>round</code></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Rounded value as <a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a> </p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Floor"></span><code>function <b>Floor</b>(Constref v:<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Floor</code> : Rounds each component of a 2D float single precision vector towards negative infinity  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>V</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> &ndash; value to <a class="normal" href="GLZVectorMathUtils.html#Round">round</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Floored value as <a class="normal" href="GLZVectorMath.TGLZVector2i.html">TGLZVector2i</a> </p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Fract"></span><code>function <b>Fract</b>(Constref v:<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Fract</code> : Returns the fractional part of each component of a 2D float single precision vector  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>v</dt>
+<dd>value where extract fractionnal part</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Fractionnal part</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Sqrt"></span><code>function <b>Sqrt</b>(Constref v:<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Sqrt</code> : Returns the Square root of each component of a 2D float single precision vector  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>v</dt>
+<dd>value where extract Square root</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Square root</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="InvSqrt"></span><code>function <b>InvSqrt</b>(Constref v:<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>InvSqrt</code> : Returns the Inverse Square root of each component of a 2D float single precision vector  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>v</dt>
+<dd>value where extract Square root</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Inverse Square root</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Sin"></span><code>function <b>Sin</b>(v:<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Sin</code> : Returns the Sinus of each component of a 2D float single precision vector  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>v</dt>
+<dd>value where compute Sinus</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Sinus</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Cos"></span><code>function <b>Cos</b>(v:<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Cos</code> : Returns the Cosinus of each component of a 2D float single precision vector  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>v</dt>
+<dd>value where compute Cosinus</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Cosinus</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="SinCos"></span><code>function <b>SinCos</b>(x:Single):<a  href="GLZVectorMath.TGLZVector2f.html">TGLZvector2f</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>SinCos</code> : Returns the Sinus and Cosinus from a single value to each component of a 2D float single precision vector  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>v</dt>
+<dd>value where compute Sinus and Cosinus</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Sinus in X component and Cosinus in Y component</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="SinCos"></span><code>function <b>SinCos</b>(v:<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2f.html">TGLZvector2f</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>SinCos</code> : Returns the Sinus and Cosinus from a 2D float single precision vector  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>v</dt>
+<dd>value where compute Sinus and Cosinus</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Sinus of X in X component and Cosinus Y in Y component</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Fract"></span><code>function <b>Fract</b>(Constref v:<a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>):<a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Fract</code> : Returns the fractional part of each component of a 4D float single precision vector  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>v</dt>
+<dd>value where extract fractionnal part</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Fractionnal part</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="VectorIsColinear"></span><code>function <b>VectorIsColinear</b>(constref v1, v2: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>) : Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>VectorIsColinear</code> : Returns true if both vector are colinear   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>v1</dt>
+<dd>: Vector 1</dd>
+<dt>v2</dt>
+<dd>: Vector 2</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>True</code> vectors are colinear. <code>False</code> otherwise</p></td></tr>
+</table>
+<h2 class="authors">Authors</h2>
+<ul class="authors">
+<li>J.Delauney (BeanzMaster)</li>
+<li>Peter Dyson (Dicepd)</li>
+</ul>
+<h2 class="created">Created</h2>
+<p>
+2017-11-25
+</p>
+(R) 2017-2018 -- By J.Delauney and P.Dyson. Under MPL Licence
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

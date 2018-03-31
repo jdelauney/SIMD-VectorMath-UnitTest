@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Vector Classes Math Library: GLZVectorMathEx: Record TGLZAxisAlignedBoundingBox</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>Vector Classes Math Library</h2><p><a href="introduction.html" class="navigation">Vector Math Classes</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p><form class="search-form" action="_tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input"></div><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></form>
+<div style="clear: both"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+        /* 10 items to display seems standard */
+        'show': 10,
+        /* For PasDoc docs, showing urls is not very useful,
+           since the page title already shows the unit and identifier. */
+        'showURL': false
+    });
+});
+</script>
+</td><td class="content">
+Vector Classes Math Library for FPC & Lazarus.
+<span id="TGLZAxisAlignedBoundingBox"></span><h1 class="cio">Record TGLZAxisAlignedBoundingBox</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="GLZVectorMathEx.html">GLZVectorMathEx</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TGLZAxisAlignedBoundingBox = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+<code>TGLZAxisAlignedBoundingBox</code> : Describe a 3D Axis Aligned Bounding Box (AABB)
+
+<p>More informations :<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="https://en.wikipedia.org/wiki/Bounding_volume">https://en.wikipedia.org/wiki/Bounding_volume</a></p></li>
+  <li><p><a  href="https://www.gamasutra.com/view/feature/131833/when_two_hearts_collide_.php">https://www.gamasutra.com/view/feature/131833/when_two_hearts_collide_.php</a></p></li>
+  <li><p><a  href="https://developer.mozilla.org/kab/docs/Games/Techniques/2D_collision_detection">https://developer.mozilla.org/kab/docs/Games/Techniques/2D_collision_detection</a></p></li>
+  <li><p><a  href="https://www.azurefromthetrenches.com/introductory-guide-to-aabb-tree-collision-detection/">https://www.azurefromthetrenches.com/introductory-guide-to-aabb-tree-collision-detection/</a></p></li>
+  <li><p><a  href="http://www.gamefromscratch.com/post/2012/11/26/GameDev-math-recipes-Collision-detection-using-an-axis-aligned-bounding-box.aspx">http://www.gamefromscratch.com/post/2012/11/26/GameDev-math-recipes-Collision-detection-using-an-axis-aligned-bounding-box.aspx</a></p></li>
+  <li><p><a  href="https://www.researchgate.net/publication/303703971_An_intensity_recovery_algorithm_IRA_for_minimizing_the_edge_effect_of_LIDAR_data">https://www.researchgate.net/publication/303703971_An_intensity_recovery_algorithm_IRA_for_minimizing_the_edge_effect_of_LIDAR_data</a></p></li>
+  <li><p><a  href="http://www-ljk.imag.fr/Publications/Basilic/com.lmc.publi.PUBLI_Inproceedings@117681e94b6_1860ffd/bounding_volume_hierarchies.pdf">http://www-ljk.imag.fr/Publications/Basilic/com.lmc.publi.PUBLI_Inproceedings@117681e94b6_1860ffd/bounding_volume_hierarchies.pdf</a></p></li>
+</ul>
+
+<p><br> <b>Note :</b> For use it, it will be recommended to wrap it in classes <br> <b>UNFINISHED</b></p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Min">Min</a></b>: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a></code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Max">Max</a></b>: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a></code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Create">Create</a></b>(const AValue: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Create">Create</a></b>(const AMin, AMax: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Create">Create</a></b>(const ABB: <a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#CreateFromSweep">CreateFromSweep</a></b>(const Start, Dest: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;const Radius: Single);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Create">Create</a></b>(const BSphere: <a  href="GLZVectorMathEx.TGLZBoundingSphere.html">TGLZBoundingSphere</a>); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Create">Create</a></b>(const Center: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>; Radius: Single); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>class operator +(ConstRef A, B : <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>):<a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>class operator +(ConstRef A: <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>; ConstRef B : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>):<a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>class operator *(ConstRef A: <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>; ConstRef B : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>):<a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>class operator =(ConstRef A, B : <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>):Boolean; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Transform">Transform</a></b>(Constref M:<a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a>):<a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Include">Include</a></b>(Constref P:<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>):<a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Intersection">Intersection</a></b>(const B: <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>): <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#ToBoundingBox">ToBoundingBox</a></b>: <a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#ToBoundingBox">ToBoundingBox</a></b>(const M: <a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a>) : <a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#ToBoundingSphere">ToBoundingSphere</a></b>: <a  href="GLZVectorMathEx.TGLZBoundingSphere.html">TGLZBoundingSphere</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Intersect">Intersect</a></b>(const B: <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>;const M1, M2: <a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a>):Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#IntersectAbsoluteXY">IntersectAbsoluteXY</a></b>(const B: <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#IntersectAbsoluteXZ">IntersectAbsoluteXZ</a></b>(const B: <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#IntersectAbsolute">IntersectAbsolute</a></b>(const B: <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#FitsInAbsolute">FitsInAbsolute</a></b>(const B: <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#PointIn">PointIn</a></b>(const P: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#ExtractCorners">ExtractCorners</a></b>: <a  href="GLZVectorMathEx.html#TGLZAABBCorners">TGLZAABBCorners</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Contains">Contains</a></b>(const TestAABB: <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>): <a  href="GLZVectorMathEx.html#TGLZSpaceContains">TGLZSpaceContains</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Contains">Contains</a></b>(const TestBSphere: <a  href="GLZVectorMathEx.TGLZBoundingSphere.html">TGLZBoundingSphere</a>): <a  href="GLZVectorMathEx.html#TGLZSpaceContains">TGLZSpaceContains</a>; overload;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Min"></span><code><b>Min</b>: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a></code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+function RayCastIntersect(const RayOrigin, RayDirection: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a>; out TNear, TFar: Single): Boolean; overload; function RayCastIntersect(const RayOrigin, RayDirection: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a>; IntersectPoint: <a class="normal" href="GLZVectorMath.html#PGLZVector">PGLZVector</a> = nil): Boolean; overload;</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Max"></span><code><b>Max</b>: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a></code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+function RayCastIntersect(const RayOrigin, RayDirection: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a>; out TNear, TFar: Single): Boolean; overload; function RayCastIntersect(const RayOrigin, RayDirection: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a>; IntersectPoint: <a class="normal" href="GLZVectorMath.html#PGLZVector">PGLZVector</a> = nil): Boolean; overload;</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(const AValue: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : <a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Create">Create</a> AABB from one point </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AValue:</dt>
+<dd><a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(const AMin, AMax: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : <a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Create">Create</a> AABB from two bounding points  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AMin:</dt>
+<dd><a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+<dt>AMax:</dt>
+<dd><a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(const ABB: <a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : <a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Create">Create</a> the AABB information from an OBB. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ABB:</dt>
+<dd><a class="normal" href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CreateFromSweep"></span><code>procedure <b>CreateFromSweep</b>(const Start, Dest: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;const Radius: Single);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>CreateFromSweep</code> : Make the AABB that is formed by sweeping a sphere (or AABB) from Start to Dest
+
+<p>More informations :<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="http://physicsforgames.blogspot.in/2010/03/narrow-phase-sweeping-sphere-against.html">http://physicsforgames.blogspot.in/2010/03/narrow-phase-sweeping-sphere-against.html</a></p></li>
+  <li><p><a  href="https://www.gamasutra.com/view/feature/131790/simple_intersection_tests_for_games.php">https://www.gamasutra.com/view/feature/131790/simple_intersection_tests_for_games.php</a></p></li>
+</ul>
+
+<p>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Start</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+<dt>Dest</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+<dt>Radius</dt>
+<dd>: Single</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(const BSphere: <a  href="GLZVectorMathEx.TGLZBoundingSphere.html">TGLZBoundingSphere</a>); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : Convert a BSphere to the AABB </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>BSphere:</dt>
+<dd><a class="normal" href="GLZVectorMathEx.TGLZBoundingSphere.html">TGLZBoundingSphere</a></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(const Center: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>; Radius: Single); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : Convert a BSphere to the AABB  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Center:</dt>
+<dd><a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+<dt>Radius:</dt>
+<dd>Single</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="+"></span><code>class operator +(ConstRef A, B : <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>):<a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>+</code> : Add one AABB to another AABB   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="+"></span><code>class operator +(ConstRef A: <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>; ConstRef B : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>):<a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>+</code> : Add one Point to another AABB   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="*"></span><code>class operator *(ConstRef A: <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>; ConstRef B : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>):<a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>*</code> : Scale an AABB by a vector   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="="></span><code>class operator =(ConstRef A, B : <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>):Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>=</code> : Compare if two AABB are equal   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>True</code> if equal. <code>False</code> otherwise</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Transform"></span><code>function <b>Transform</b>(Constref M:<a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a>):<a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Transform</code> : <code>Transform</code> the AABB by a matrix  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>M:TGLZMatrix</dt>
+<dd></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Include"></span><code>function <b>Include</b>(Constref P:<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>):<a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Include</code> : Extend the AABB with the point P  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>P:TGLZVector</dt>
+<dd></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Intersection"></span><code>function <b>Intersection</b>(const B: <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>): <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Intersection</code> Returns the <code>intersection</code> of the AABB with second AABBs.<br> If the AABBs don't <a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Intersect">intersect</a>, will return a degenerated AABB (plane, line or point).  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>B:</dt>
+<dd><a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ToBoundingBox"></span><code>function <b>ToBoundingBox</b>: <a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ToBoundingBox</code> : Converts the AABB to its canonical BB. </p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ToBoundingBox"></span><code>function <b>ToBoundingBox</b>(const M: <a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a>) : <a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ToBoundingBox</code> : Converts the transformed AABB to a BB.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>M:</dt>
+<dd><a class="normal" href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ToBoundingSphere"></span><code>function <b>ToBoundingSphere</b>: <a  href="GLZVectorMathEx.TGLZBoundingSphere.html">TGLZBoundingSphere</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ToBoundingSphere</code> : Convert the AABB to a BSphere </p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.TGLZBoundingSphere.html">TGLZBoundingSphere</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Intersect"></span><code>function <b>Intersect</b>(const B: <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>;const M1, M2: <a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a>):Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Intersect</code> : Determines if self <code>Intersect</code> with another Axis Aligned Bounding Box.<br> The matrices are the ones that convert one point to the other's AABB system. <br> m1 : Rotation matrix; m2 : TranslationAndScale Matrix ????    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>B:</dt>
+<dd><a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></dd>
+<dt>M1:</dt>
+<dd><a class="normal" href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a></dd>
+<dt>M2:</dt>
+<dd><a class="normal" href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>True</code> if <code>intersect</code>. <code>False</code> otherwise</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="IntersectAbsoluteXY"></span><code>function <b>IntersectAbsoluteXY</b>(const B: <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>IntersectAbsoluteXY</code> : Checks whether self collide with another Axis Aligned Bounding Box in the XY plane.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>B:</dt>
+<dd><a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>True</code> if <a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Intersect">intersect</a>. <code>False</code> otherwise</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="IntersectAbsoluteXZ"></span><code>function <b>IntersectAbsoluteXZ</b>(const B: <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>IntersectAbsoluteXZ</code> : Checks whether self collide with another Axis Aligned Bounding Box in the XZ plane.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>B:</dt>
+<dd><a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>True</code> if <a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Intersect">intersect</a>. <code>False</code> otherwise</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="IntersectAbsolute"></span><code>function <b>IntersectAbsolute</b>(const B: <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>IntersectAbsolute</code> : Checks whether self collide with another Axis Aligned Bounding Box, aligned with the world axes .  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>B:</dt>
+<dd><a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>True</code> if <a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Intersect">intersect</a>. <code>False</code> otherwise</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FitsInAbsolute"></span><code>function <b>FitsInAbsolute</b>(const B: <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>FitsInAbsolute</code> : Checks whether self fits within another Bounding box, aligned with the world axes .  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>B:</dt>
+<dd><a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>True</code> if fit. <code>False</code> otherwise</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PointIn"></span><code>function <b>PointIn</b>(const P: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>PointIn</code> : Checks if a point &quot;p&quot; is inside the AABB  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>P:</dt>
+<dd><a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><code>True</code> if inside. <code>False</code> otherwise</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ExtractCorners"></span><code>function <b>ExtractCorners</b>: <a  href="GLZVectorMathEx.html#TGLZAABBCorners">TGLZAABBCorners</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ExtractCorners</code> : Extract the corners from the AABB </p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.html#TGLZAABBCorners">TGLZAABBCorners</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Contains"></span><code>function <b>Contains</b>(const TestAABB: <a  href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a>): <a  href="GLZVectorMathEx.html#TGLZSpaceContains">TGLZSpaceContains</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Contains</code> : Determines to which extent the AABB <a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html#Contains">contains</a> another AABB  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>TestAABB:</dt>
+<dd><a class="normal" href="GLZVectorMathEx.TGLZAxisAlignedBoundingBox.html">TGLZAxisAlignedBoundingBox</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.html#TGLZSpaceContains">TGLZSpaceContains</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Contains"></span><code>function <b>Contains</b>(const TestBSphere: <a  href="GLZVectorMathEx.TGLZBoundingSphere.html">TGLZBoundingSphere</a>): <a  href="GLZVectorMathEx.html#TGLZSpaceContains">TGLZSpaceContains</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Contains</code> : Determines to which extent the AABB <code>contains</code> a BSphere  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>TestBSphere:</dt>
+<dd><a class="normal" href="GLZVectorMathEx.TGLZBoundingSphere.html">TGLZBoundingSphere</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.html#TGLZSpaceContains">TGLZSpaceContains</a></p></td></tr>
+</table>
+(R) 2017-2018 -- By J.Delauney and P.Dyson. Under MPL Licence
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

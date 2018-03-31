@@ -1,0 +1,338 @@
+@shorttitle(Vector Math Classes)
+@title(Vector Classes Math Librairy for FPC & Lazarus)
+
+@author(J.Delauney (BeanzMaster))
+@author(P.Dyson (Dicped))
+
+Licence : MPL
+
+@section(1 SecPreface Preface Preface)
+
+GLZ-MathsClasses, may replace and extend standard math functions from FPC/Lazarus library. @br
+It is optimized for x86-32 & x86-64 Windows, Unix systems based. @br
+It is provides robust, optimized and efficient standard and vectorizable math functions such as sqrt, sin, or atan. @br
+It is define a set of functions to compute common mathematical operations, vector, matrix, quaternion, euler, plane operations and transformations. @br
+Also provide extra operations for specific mathematical algorithms for 2D/3D rendering systems.@br
+It is include some function in the way of standard GLSL and HLSL scripting like SmoothStep, FaceFoward, Reflect, ect...
+A set of functions provides a fast approximation to sine, cosine, square root, arctan2, ect...( Taylor, Remez, Quadratic, LUT... algorithms). Accuracy can differ from one algorith to one other.
+
+For fast computing we use SIMD instructions (SSE / SSE2 / SSE3 / AVX /AVX2) in some severals vectorizable functions.
+
+All function have passed Functionnals test in UnitTest. 
+
+This math library is much faster than standard FPC/Lazarus functions. 
+See the benchmarks to compare speed of each function.
+
+@section(1 SecArchDsgn Architecture and Design)
+ 
+Trigonometric fast and approximation math operations such Sin, Cos, ArcTan2 ect.. are on single-precision floating-point values only. Double-precision floating-point arithmetic is unsupported with fast math functions.
+
+2D, 3D and 4-Dimensional vectors, of type Byte, Single Integer are supported.@br
+Respectively TGLZVector2i, TGLZVector2f, TGLZVector3b, TGLZVector3i, TGLZVector3f, TGLZVector4b, TGLZVector4i, TGLZVector4f
+@TODO : Type of Double are only support in 2D vectors.@br 
+@bold(Note : ) 3D Vectors type have no advanced design (TGLZVector3i, TGLZVector3f). Except for type of Byte (TGLZVector3b).
+
+Provides 2x2, 4x4 Matrices (called TGLZMatrix2f, TGZMatrix2i, TGLZMatrix4f, @TODO:TGLZMatrix4i) Single precision and Integer are only (currently) supported. 
+By default, matrices are stored in row-major order ; column-major order is not supported.
+
+There is also support for Homogenous plane operations and transformations TGLZHmgPlane. 
+And for representing rotations in 3D space, you can use TGLZQuaternion.
+
+Vectors, matrices and other are not only used to represent points in space, they can also be used 
+as arrays of 2, 3,4,...16 values that can be used to perform calculations in parallel. 
+
+You'll equally find,some functions like in shader languages (such as GLSL and HLSL). For example : @br
+You can use the the SmoothStep, Sin, Sqrt, (SinCos)... functions to calculate only a single value, or compute 2 or 4 values at the same time by using it with a TGLZVector4f or TGLZVector2f
+
+All fast math describe in GLZFastMath unit are prefixed by "Fast" (Except for sin/cos approximations functions).
+
+In GLZVectorMathEX, you have access to some specifics advanced record for rendering system.@br
+You'll can manipulate for 2D or 3D space view : @br
+  @unorderedlist( 
+    @item(Frustum TGLZFrustum )
+	@item(Oriented Bounding Box (OBB) TGLZBoundingBox ) 
+    @item(Axis Aligned Bounding Box (AABB) TGLZAxisAlignedBoundingBox  )
+	@item(bounding sphere TGLZBoundingSphere)
+	@item(and use a specialized raycast advanced record TGLZRayCast) 
+  )
+  
+@section(1 SecOverloadOps Overloaded Operators)
+
+All vector types support overloaded operators which allow you to negate, add, subtract, multiply and divide scalars, vectors . @br
+There are also overloaded operators that compare vectors or matrices for equality. 
+The arithmetic operators "+", "-", "*" and "/" usually work component-wise when applied to vectors. 
+For compute Cross or Dot used respectively CrossProduct and  DotProduct functions
+
+For matrices, the "+", "-" and special "/" (only divide by a single value) operators operate component-wise. @br
+However, when multiplying  matrices with vectors or other matrices, then the usual linear algebraic multiplication is used. For example:
+@unorderedlist(
+    @item(Matrix := Matrix1 * Matrix2 --> performs a linear algebraic matrix multiplication
+    @item(Vector := Matrix1 * Vector1 --> Transform
+    @item(Vector := Vector1 * Matrix1  --> Transform
+  )
+
+To multiply matrices component-wise, you can use the Multiply function instead.
+
+@section(2 SecOverloadExamples Examples)
+@longcode(#
+  Uses GLZMath, GLZVectorMath, GLZVectorMAthEX;
+#)
+
+@section(1 SecHowTo How to use Vector Classes Library)
+
+First Copy VectorClasses folder under sub folder of your project
+
+Set your project option folder search path
+
+Add GLZVectorMath, GLZMath, GLZVectorMathEX in "uses"
+
+@section(2 SecHowToExamples Examples)
+@longcode(#
+  Uses GLZMath, GLZVectorMath, GLZVectorMAthEX;
+#)
+
+@section(1 SecAlignDatas How to align data to 16 bits boundary)
+Under x64, for using vector based function, you'll need add some preprocessor commands to get proper aligned data.
+
+@section(2 SecAlignDatasExamples Examples)
+On the header of your unit add : @br
+@longcode(#
+Unit MyUnit;
+{$mode objfpc}{$H+}
+{$CODEALIGN LOCALMIN=16}
+#)
+@br
+  @OrderedLis(
+    @item(For constantes : @br
+	You'll need surround yours variable like this
+	@longcode(#	
+	Const
+	{$CODEALIGN CONSTMIN=16}
+	  cMyVector : TGLZVector = (X:0.5;Y:0.5;Z:0.5;W:1.0);
+	{$CODEALIGN CONSTMIN=4}
+    #))
+    @item(For Variable/Field in a class : @br
+	You'll need surround yours variable like this
+	@longcode(#
+    Type
+	  TMyClass = Class
+	  private
+	    {$CODEALIGN RECORMIN=16}
+	    FVec : TGLZVector;
+		FMatrix : TGLZMatrix;
+		{$CODEALIGN RECORMIN=4}
+		FFactor : Single;
+	  public
+	    property Vec : TGLZVector read FVec write FVec
+	 end;
+    #))
+	@item(For Variables in function or procedure : @br
+	You'll need surround yours variable like this
+	@longcode(#
+	function MyFunc(A,B,C:Single):Single;
+	var 
+	  {$CODEALIGN VARMIN=16}
+	  MyTempVec : TGLZVector
+	  {$CODEALIGN VARMIN=4}
+	 begin
+	  ...
+    #))
+
+@section(1 SecSetupPrj How to configure your project properly)
+	
+You need to know some additionnal options for compiler to configure GLZ-MathsClasses.
+
+@orderedList(
+  @item(Go in project options)
+  @item(Go in project extrasoptions)
+  @item(Write options in extracfg.cfg)
+)
+	
+@section(1 SecTGLZVectors Routines dealing with 2D,3D and 4D Vectors)
+
+@section(2 SecTGLZVectorsOverview Overview)
+
+@section(2 SecTGLZVectorsExamples Examples)
+
+
+@section(1 SecTGLZMatrix Routines dealing with 2D,3D and 4D Matrix)
+
+@section(2 SecTGLZMatrixOverview Overview)
+
+@section(2 SecTGLZMatrixExamples Examples)
+
+
+@section(1 SecTGLZEulerAngles Routines dealing with Euler Angles)
+
+@section(2 SecTGLZEulerAnglesOverview Overview)
+
+@section(2 SecTGLZEulerAnglesExamples Examples)
+
+
+@section(1 SecTGLZQuaternion Routines dealing with Quaternion)
+
+@section(2 SecTGLZQuaternionOverview Overview)
+
+@section(2 SecTGLZQuaternionExamples Examples)
+
+
+@section(1 SecTGLZHmgPlane Routines dealing with Homogenous Plane)
+
+@section(2 SecTGLZHmgPlaneOverview Overview)
+
+@section(2 SecTGLZHmgPlaneExamples Examples)
+
+
+@section(1 SecTGLZFrustum Routines dealing with Frustum)
+
+@section(2 SecTGLZFrustumOverview Overview)
+
+@section(2 SecTGLZFrustumExamples Examples)
+
+
+@section(1 SecTGLZOBB Routines dealing with Oriented Bounding Box)
+
+@section(2 SecTGLZOBBOverview Overview)
+
+@section(2 SecTGLZOBBExamples Examples)
+
+
+@section(1 SecTGLZAABB Routines dealing with Axis Aligned Bounding Box)
+
+@section(2 SecTGLZAABBOverview Overview)
+
+@section(2 SecTGLZAABBExamples Examples)
+
+
+@section(1 SecTGLZRayCast Routines dealing with RayCast)
+
+@section(2 SecTGLZRayCastOverview Overview)
+
+@section(2 SecTGLZRayCastExamples Examples)
+
+
+Functions
+Below you will find a categorized list of the global functions supported in GLZ-MathsClasses :
+
+Helper functions for creating vectors and matrices
+Vector2: creates a 2D vector
+
+Vector3: creates a 3D vector
+
+Vector4: creates a 4D vector
+
+Matrix2: creates a 2x2 matrix
+
+Matrix3: creates a 3x3 matrix
+
+Matrix4: creates a 4x4 matrix
+
+Quaternion: creates a quaternion
+
+IVector2: creates a 2D integer vector
+
+IVector3: creates a 3D integer vector
+
+IVector4: creates a 4D integer vector
+
+Angle and Trigonometry Functions
+Radians: converts degrees to radians
+
+Degrees: converts radians to degrees
+
+Sin: calculates a sine of an angle
+
+Cos: calculates a cosine of an angle
+
+SinCos: calculates a sine/cosine pair
+
+Tan: calculates the tangent of an angle
+
+ArcSin: calculates an arc sine
+
+ArcCos: calculates an arc cosine
+
+ArcTan: calculates an arc tangent
+
+ArcTan2: calculates an arctangent angle and quadrant
+
+Sinh: calculates a hyperbolic sine
+
+Cosh: calculates a hyperbolic cosine
+
+Tanh: calculates a hyperbolic tangent
+
+ArcSinh: calculates an inverse hyperbolic sine
+
+ArcCosh: calculates an inverse hyperbolic cosine
+
+ArcTanh: calculates an inverse hyperbolic tangent
+
+Exponential Functions
+Power: raises a base to a power
+
+Exp: calculates a natural exponentiation (that is, e raised to a given power)
+
+Ln: calculates a natural logarithm
+
+Exp2: calculates 2 raised to a power
+
+Log2: calculates a base 2 logarithm
+
+Sqrt: calculates a square root
+
+InverseSqrt: calculates an inverse square root
+
+Fast Approximate Functions
+FastSin: fast sine function
+
+FastCos: fast cosine function
+
+FastSinCos: fast sine/cosine function
+
+FastTan: fast tangent function
+
+FastArcTan2: fast arctangent angle and quadrant
+
+FastPower: fast power function
+
+FastExp: fast natural exponentiation function
+
+FastLn: fast natural logarithm function
+
+FastLog2: fast base 2 logarithm function
+
+FastExp2: fast Exp2 function
+
+Common Functions
+Abs: calculates an absolute value
+
+Sign: calculates the sign of a value
+
+Floor: rounds a value towards negative infinity
+
+Trunc: rounds a value towards 0
+
+Round: rounds a value towards its nearest integer
+
+Ceil: rounds a value towards positive infinity
+
+Frac: returns the fractional part of a number
+
+FMod: calculates the remainder of a floating-point division
+
+ModF: splits a floating-point value into its integer and fractional parts
+
+Min: calculates the minimum of two values
+
+Max: calculates the maximum of two values
+
+EnsureRange: clamps a given value into a range
+
+Mix: calculates a linear blend between two values, using on a progress value
+
+Step: step function
+
+SmoothStep: performs smooth Hermite interpolation between 0 and 1
+
+FMA: Fused Multiply and Add

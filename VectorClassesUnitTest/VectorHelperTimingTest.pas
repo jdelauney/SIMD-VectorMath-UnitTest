@@ -213,17 +213,17 @@ var
   nCr: TNativeGLZClipRect;
   aCr: TGLZClipRect;
 begin
-  nCr.V := nt1.V;
-  aCr.V := vt1.V;
-  TestDispName := 'VectorH ExtendClipRect';
-  GlobalProfiler[0].Clear;
-  GlobalProfiler[0].Start;
-  for cnt := 1 to Iterations do begin nCr.ExtendClipRect(Fs1,Fs2); end;
-  GlobalProfiler[0].Stop;
-  GlobalProfiler[1].Clear;
-  GlobalProfiler[1].Start;
-  for cnt := 1 to Iterations do begin aCr.ExtendClipRect(Fs1,Fs2); end;
-  GlobalProfiler[1].Stop;
+  //nCr.V := nt1.V;
+  //aCr.V := vt1.V;
+  //TestDispName := 'VectorH ExtendClipRect';
+  //GlobalProfiler[0].Clear;
+  //GlobalProfiler[0].Start;
+  //for cnt := 1 to Iterations do begin nCr.ExtendClipRect(Fs1,Fs2); end;
+  //GlobalProfiler[0].Stop;
+  //GlobalProfiler[1].Clear;
+  //GlobalProfiler[1].Start;
+  //for cnt := 1 to Iterations do begin aCr.ExtendClipRect(Fs1,Fs2); end;
+  //GlobalProfiler[1].Stop;
 end;
 
 procedure TVectorHelperTimingTest.TestTimeStep;

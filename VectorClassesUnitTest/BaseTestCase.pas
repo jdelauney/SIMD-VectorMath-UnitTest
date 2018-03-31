@@ -8,7 +8,7 @@ interface
 
 uses
   Classes, SysUtils, fpcunit, testregistry,
-  native, GLZVectorMath;
+  native, GLZVectorMath, GLZVectorMathEx;
 
 type
 
@@ -29,9 +29,11 @@ type
     public
      {$CODEALIGN RECORDMIN=16}
      vtt1,vtt2, vtt3, vtt4: TGLZVector2f;
+     vttd1,vttd2, vttd3, vttd4: TGLZVector2d;
      vt1,vt2, vt3, vt4 : TGLZVector4f;
      at1, at2, at3, at4, vorg: TGLZVector4f;
      ntt1,ntt2, ntt3 : TNativeGLZVector2f;
+     nttd1,nttd2, nttd3 : TNativeGLZVector2d;
      vt2i  : TGLZVector2i;
      vt4i  : TGLZVector4i;
      nt2i  : TNativeGLZVector2i;
@@ -39,6 +41,9 @@ type
      nt1,nt2, nt3 : TNativeGLZVector4f;
      ant1,ant2, ant3, ant4, norg : TNativeGLZVector4f;
      {$CODEALIGN RECORDMIN=4}
+     r1, rs : Single;
+     rd1, rds : Double;
+     Res: boolean;
     published
   end;
 
@@ -91,13 +96,14 @@ type
   end;
 
 
-  TReportGroup = (rgBaseMath, rgVector2f, rgVector2i, rgVector3b, rgVector4b, rgVector4i,
+  TReportGroup = (rgBaseMath, rgVector2f,rgVector2d, rgVector2i, rgVector3b, rgVector4b, rgVector4i,
                    rgVector4f, rgMatrix4f, rgQuaterion, rgBBox, rgBSphere,
                    rgAABB, rgPlaneHelper);
 
 const
   REPORT_GROUP_BASE = 'Base Math';
   REPORT_GROUP_VECTOR2F = 'Vector2f';
+  REPORT_GROUP_VECTOR2D = 'Vector2d';
   REPORT_GROUP_VECTOR2I = 'Vector2i';
   REPORT_GROUP_VECTOR3B = 'Vector3b';
   REPORT_GROUP_VECTOR4B = 'Vector4b';
@@ -113,6 +119,7 @@ const
   rgArray: Array[TReportGroup] of string = (
               REPORT_GROUP_BASE,
               REPORT_GROUP_VECTOR2F,
+              REPORT_GROUP_VECTOR2D,
               REPORT_GROUP_VECTOR2I,
               REPORT_GROUP_VECTOR3B,
               REPORT_GROUP_VECTOR4B,
@@ -200,6 +207,11 @@ begin
   ntt1.V := vtt1.V;
   ntt2.V := vtt2.V;
 
+  vttd1.Create(5.850,4.525);
+  vttd2.Create(1.558,6.512);
+  nttd1.V := vttd1.V;
+  nttd2.V := vttd2.V;
+
   vt1.Create(5.850,-15.480,8.512,1.5);
   vt2.Create(1.558,6.512,4.525,1.0);
   nt1.V := vt1.V;
@@ -207,6 +219,13 @@ begin
 
   Fs1 := 1.5;
   Fs2 := 5.5;
+
+  r1 := 1.5;
+  rs := 5.5;
+  rd1 := 1.5;
+  rds := 5.5;
+  res := false;
+
 end;
 
 end.

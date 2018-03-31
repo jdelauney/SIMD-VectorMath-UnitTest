@@ -34,12 +34,12 @@ begin
   result.Create(vx,vx,vx,vx);
 end;
 
-function Affinevec4(vx:single):TGLZVector4f;
+function PointVec4(vx:single):TGLZVector4f;
 begin
   result.Create(vx,vx,vx,1);
 end;
 
-function AffineVec4(vx,vy,vz:single):TGLZVector4f;
+function PointVec4(vx,vy,vz:single):TGLZVector4f;
 begin
   result.Create(vx,vy,vz,1);
 end;
@@ -60,20 +60,20 @@ end;
 
 //----------- Algebra and Trigo fo TGLZvector2f --------------------------------
 
-Type
-  TSinCosRemezArrayType = array[0..4] of TSinCos;
-
-Const
-  SinCos_Remez_const : TSinCosRemezArrayType = ((sin:0.99997937679290771484375;
-                                   cos:1.0),
-                                  (sin:-0.166624367237091064453125;
-                                   cos:-0.49985158205212948 ),
-                                  (sin:8.30897875130176544189453125e-3;
-                                   cos:4.151803521644389800e-2 ),
-                                  (sin:-1.92649182281456887722015380859375e-4;
-                                   cos:-1.34229470252267675e-3 ),
-                                  (sin:2.147840177713078446686267852783203125e-6 ;
-                                   cos:1.89298648243010005378029e-5 ));
+//Type
+//  TSinCosRemezArrayType = array[0..4] of TSinCos;
+//
+//Const
+//  SinCos_Remez_const : TSinCosRemezArrayType = ((sin:0.99997937679290771484375;
+//                                   cos:1.0),
+//                                  (sin:-0.166624367237091064453125;
+//                                   cos:-0.49985158205212948 ),
+//                                  (sin:8.30897875130176544189453125e-3;
+//                                   cos:4.151803521644389800e-2 ),
+//                                  (sin:-1.92649182281456887722015380859375e-4;
+//                                   cos:-1.34229470252267675e-3 ),
+//                                  (sin:2.147840177713078446686267852783203125e-6 ;
+//                                   cos:1.89298648243010005378029e-5 ));
 
 
 
@@ -114,6 +114,23 @@ begin
   result := vt;    //vt.Trunc
 end;
 
+function VectorIsColinear(constref v1, v2: TGLZVector) : Boolean;
+var
+  a, b, c : Single;
+begin
+  a := v1.DotProduct(v1);
+  b := v1.DotProduct(v2);
+  c := v2.DotProduct(v2);
+  Result :=  (a*c - b*b) < cColinearBias;
+end;
+
+(* function PlaneContains(const Location, Normal: TGLZVector; const TestBSphere: TGLZBoundingSphere): TGLZSpaceContains;
+var
+  Plane: TGLZHmgPlane;
+begin
+ Plane.Create(Location, Normal);
+ Result := plane.Contains(TestBSphere);
+end; *)
 
 
 {%endregion}
@@ -163,6 +180,117 @@ begin
   result.Create(InvSqrt(v.X), InvSqrt(v.Y));
 end;
 
+
+
+
+
+(* function BarycentricCoordinates(const v1, v2, v3, p: TGLZAffineVector; var u, v: single): boolean;
+var
+  a1, a2: integer;
+  n, e1, e2, pt: TAffineVector;
+begin
+  // calculate edges
+  VectorSubtract(v1, v3, e1);
+  VectorSubtract(v2, v3, e2);
+
+  // calculate p relative to v3
+  VectorSubtract(p, v3, pt);
+
+  // find the dominant axis
+  n:= VectorCrossProduct(e1, e2);
+  AbsVector(n);
+  a1:= 0;
+  if n.V[1] > n.V[a1] then
+    a1:= 1;
+  if n.V[2] > n.V[a1] then
+    a1:= 2;
+
+  // use dominant axis for projection
+  case a1 of
+    0: begin
+      a1:= 1;
+      a2:= 2;
+    end;
+    1: begin
+      a1:= 0;
+      a2:= 2;
+    end;
+  else // 2:
+    a1:= 0;
+    a2:= 1;
+  end;
+
+  // solve for u and v
+  u:= (pt.V[a2] * e2.V[a1] - pt.V[a1] * e2.V[a2]) / (e1.V[a2] * e2.V[a1] - e1.V[a1] * e2.V[a2]);
+  v:= (pt.V[a2] * e1.V[a1] - pt.V[a1] * e1.V[a2]) / (e2.V[a2] * e1.V[a1] - e2.V[a1] * e1.V[a2]);
+
+  result:= (u >= 0) and (v >= 0) and (u+v <= 1);
+end;
+
+
+function TriangleArea(const p1, p2, p3 : TGLZAffineVector) : Single;
+begin
+   Result:=0.5*VectorLength(VectorCrossProduct(VectorSubtract(p2, p1),
+                                               VectorSubtract(p3, p1)));
+end;
+
+function PolygonArea(const p : PAffineVectorArray; nSides : Integer) : Single;
+var
+   r : TAffineVector;
+   i : Integer;
+   p1, p2, p3 : PAffineVector;
+begin
+   Result:=0;
+   if nSides>2 then begin
+      RstVector(r);
+      p1:=@p[0];
+      p2:=@p[1];
+      for i:=2 to nSides-1 do begin
+         p3:=@p[i];
+         AddVector(r, VectorCrossProduct(VectorSubtract(p2^, p1^),
+                                         VectorSubtract(p3^, p1^)));
+         p2:=p3;
+      end;
+      Result:=VectorLength(r)*0.5;
+   end;
+end;
+
+
+function TriangleSignedArea(const p1, p2, p3 : TGLZAffineVector) : Single;
+begin
+   Result:=0.5*( (p2.V[0]-p1.V[0])*(p3.V[1]-p1.V[1])
+                -(p3.V[0]-p1.V[0])*(p2.V[1]-p1.V[1]));
+end;
+
+
+ function PolygonSignedArea(const p : PAffineVectorArray; nSides : Integer) : Single;
+var
+   i : Integer;
+   p1, p2, p3 : PAffineVector;
+begin
+   Result:=0;
+   if nSides>2 then begin
+      p1:=@(p^[0]);
+      p2:=@(p^[1]);
+      for i:=2 to nSides-1 do begin
+         p3:=@(p^[i]);
+         Result:=Result+(p2^.V[0]-p1^.V[0])*(p3^.V[1]-p1^.V[1])
+                       -(p3^.V[0]-p1^.V[0])*(p2^.V[1]-p1^.V[1]);
+         p2:=p3;
+      end;
+      Result:=Result*0.5;
+   end;
+end;
+
+function RandomPointOnSphere: TGLZVector;
+var
+   t, w : Single;
+begin
+   p.V[2]:=2*Random-1;
+   t:=2*PI*Random;
+   w:=Sqrt(1-p.V[2]*p.V[2]);
+   GLVectorGeometry.SinCos(t, w, p.V[1], p.V[0]);
+end;  *)
 
 //procedure ConvertQuaternionToArcPoints(Constref Q : TGLZQuaternion; var ArcFrom, ArcTo: TGLZVector);
 //var

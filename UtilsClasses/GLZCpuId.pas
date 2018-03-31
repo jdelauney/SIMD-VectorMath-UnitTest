@@ -107,9 +107,9 @@ Var
 //==============================================================================
 implementation
 
-var
-  GLZCPUFeaturesInitialized : Boolean = False;
-  GLZCPUFeaturesData: TGLZCPUFeatures;
+//var
+//  GLZCPUFeaturesInitialized : Boolean = False;
+//  GLZCPUFeaturesData: TGLZCPUFeatures;
 
 
 //==============================================================================
@@ -1104,16 +1104,16 @@ begin
 end;
 
 {$ELSE}
-function CPU_HasFeature(const InstructionSet: TCPUFeaturesSet): Boolean;
+function CPU_HasFeature(const InstructionSet: TGLZCPUFeaturesSet): Boolean;
 begin
   Result := False;
 end;
 
-function getCPUInfos:TCPUInfos;
+function getCPUInfos:TGLZCPUInfos;
 var
-  ret:TCPUInfos;
-  CPUFeaturesData : TCPUFeatures;
-  i : TCPUFeaturesSet;
+  ret:TGLZCPUInfos;
+  CPUFeaturesData : TGLZCPUFeatures;
+  i : TGLZCPUFeaturesSet;
 begin
   CPUFeaturesData := [];
 
@@ -1121,7 +1121,7 @@ begin
     begin
        Vendor  := 'n/a';
        BrandName := 'n/a';
-       Familly:='';
+       Familly:=0;
        Features  := CPUFeaturesData;
        Signature := 0;
        Speed :=round(CPU_Speed);

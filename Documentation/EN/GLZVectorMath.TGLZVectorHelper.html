@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Vector Classes Math Library: GLZVectorMath: Record TGLZVectorHelper</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>Vector Classes Math Library</h2><p><a href="introduction.html" class="navigation">Vector Math Classes</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p><form class="search-form" action="_tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input"></div><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></form>
+<div style="clear: both"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+        /* 10 items to display seems standard */
+        'show': 10,
+        /* For PasDoc docs, showing urls is not very useful,
+           since the page title already shows the unit and identifier. */
+        'showURL': false
+    });
+});
+</script>
+</td><td class="content">
+Vector Classes Math Library for FPC & Lazarus.
+<span id="TGLZVectorHelper"></span><h1 class="cio">Record TGLZVectorHelper</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="GLZVectorMath.html">GLZVectorMath</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TGLZVectorHelper = record helper for TGLZVector</code></p>
+<h2 class="description">Description</h2>
+<p>
+Helper for <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a></p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVectorHelper.html#Rotate">Rotate</a></b>(constref axis : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>; angle : Single):<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVectorHelper.html#RotateWithMatrixAroundX">RotateWithMatrixAroundX</a></b>(alpha : Single) : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVectorHelper.html#RotateWithMatrixAroundY">RotateWithMatrixAroundY</a></b>(alpha : Single) : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVectorHelper.html#RotateWithMatrixAroundZ">RotateWithMatrixAroundZ</a></b>(alpha : Single) : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVectorHelper.html#RotateAroundX">RotateAroundX</a></b>(alpha : Single) : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVectorHelper.html#RotateAroundY">RotateAroundY</a></b>(alpha : Single) : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVectorHelper.html#RotateAroundZ">RotateAroundZ</a></b>(alpha : Single) : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVectorHelper.html#PointProject">PointProject</a></b>(constref origin, direction : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>) : Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVectorHelper.html#MoveAround">MoveAround</a></b>(constref AMovingObjectUp, ATargetPosition: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>; pitchDelta, turnDelta: Single): <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVectorHelper.html#ShiftObjectFromCenter">ShiftObjectFromCenter</a></b>(Constref ACenter: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>; const ADistance: Single; const AFromCenterSpot: Boolean): <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVectorHelper.html#AverageNormal4">AverageNormal4</a></b>(constref up, left, down, right: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>): <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVectorHelper.html#Step">Step</a></b>(ConstRef B : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>):<a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVectorHelper.html#FaceForward">FaceForward</a></b>(constref A, B: <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>): <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVectorHelper.html#Saturate">Saturate</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVectorHelper.html#SmoothStep">SmoothStep</a></b>(ConstRef A,B : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>): <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVectorHelper.html#Reflect">Reflect</a></b>(ConstRef N: <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>): <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#XY">XY</a></b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetXY;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#YX">YX</a></b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetYX;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#XZ">XZ</a></b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetXZ;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#ZX">ZX</a></b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetZX;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#YZ">YZ</a></b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetYZ;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#ZY">ZY</a></b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetZY;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#XX">XX</a></b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetXX;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#YY">YY</a></b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetYY;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#ZZ">ZZ</a></b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetZZ;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#XYZ">XYZ</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetXYZ;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#XZY">XZY</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetXZY;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#YXZ">YXZ</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetYXZ;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#YZX">YZX</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetYZX;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#ZXY">ZXY</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetZXY;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#ZYX">ZYX</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetZYX;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#XXX">XXX</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetXXX;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#YYY">YYY</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetYYY;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#ZZZ">ZZZ</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetZZZ;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#YYX">YYX</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetYYX;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#XYY">XYY</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetXYY;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVectorHelper.html#YXY">YXY</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetYXY;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Rotate"></span><code>function <b>Rotate</b>(constref axis : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>; angle : Single):<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Rotate</code> : Returns given vector rotated around arbitrary axis (alpha is in rad, , use Pure Math Model) <br> We are using right hand rule coordinate system.<br> Positive rotations are anticlockwise with postive axis toward you. <br> Posiitve rotations are clockwise viewed from origin along positive axis :. <br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>Axis orientation to view positives in Upper Right quadrant [as graph axes] </p></li>
+  <li><p>With +Z pointing at you (as screen) positive X is to the right positive Y is Up </p></li>
+  <li><p>With +Y pointing at you positive Z is to the right positive X is Up </p></li>
+  <li><p>With +X pointing at you positive Y is to the left positive Z is up </p></li>
+</ul>
+
+<p>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Axis</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+<dt>Angle</dt>
+<dd>: Single</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="RotateWithMatrixAroundX"></span><code>function <b>RotateWithMatrixAroundX</b>(alpha : Single) : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>RotateWithMatrixAroundX</code> : Returns given vector rotated around the X axis (use Pure Math Model)  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Alpha</dt>
+<dd>: Single &ndash; In Rad</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="RotateWithMatrixAroundY"></span><code>function <b>RotateWithMatrixAroundY</b>(alpha : Single) : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>RotateWithMatrixAroundY</code> : Returns given vector rotated around the Y axis (use Pure Math Model)  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Alpha</dt>
+<dd>: Single &ndash; In Rad</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="RotateWithMatrixAroundZ"></span><code>function <b>RotateWithMatrixAroundZ</b>(alpha : Single) : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>RotateWithMatrixAroundZ</code> : Returns given vector rotated around the Z axis (use Pure Math Model)   )</p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Alpha</dt>
+<dd>: Single &ndash; In Rad</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="RotateAroundX"></span><code>function <b>RotateAroundX</b>(alpha : Single) : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>RotateAroundX</code> : Returns given vector rotated around the X axis. <br> - With +X pointing at you positive Y is to the left positive Z is Up. <br> Positive rotation around x, Y becomes negative.
+
+<p> </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Alpha</dt>
+<dd>: Single</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="RotateAroundY"></span><code>function <b>RotateAroundY</b>(alpha : Single) : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>RotateAroundY</code> : Returns given vector rotated around the Y axis. <br> - With +Y pointing at you positive Z is to the right positive X is Up. <br> Positive rotation around y, Z becomes negative.
+
+<p> </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Alpha</dt>
+<dd>: Single</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="RotateAroundZ"></span><code>function <b>RotateAroundZ</b>(alpha : Single) : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>RotateAroundZ</code> : Returns given vector rotated around the Z axis. <br> - With +Z pointing at you (as screen) positive X is to the right positive Y is Up. <br> Positive rotation around z, X becomes negative
+
+<p> </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Alpha</dt>
+<dd>: Single &ndash; In Rad</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PointProject"></span><code>function <b>PointProject</b>(constref origin, direction : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>) : Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>PointProject</code> : Projects self on the line defined by Origin and Direction. <br> Performs a DotProduct((p - origin), direction), which, if direction is normalized, computes the distance between origin and the projection of self on the (origin, direction) line.
+
+<p>  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Origin</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a></dd>
+<dt>Direction</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MoveAround"></span><code>function <b>MoveAround</b>(constref AMovingObjectUp, ATargetPosition: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>; pitchDelta, turnDelta: Single): <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>MoveAround</code> : Change vector (camera) 's position to make it move around its target.<br> This method helps in quickly implementing camera controls. <br>
+
+<p><b>Note :</b> Angle deltas are in degrees <br>
+
+<p><b>Tips :</b><br> Vector (Camera) parent's coordinates should be identity. <br> Make the Vector (Camera) a child of a &quot;target&quot; dummy and make it a target the dummy. <br> Now, to pan across the scene, just move the dummy, to change viewing angle, use this method.
+
+<p>    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AMovingObjectUp</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+<dt>ATargetPosition</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+<dt>pitchDelta</dt>
+<dd>: Single</dd>
+<dt>turnDelta</dt>
+<dd>: Single</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a> &ndash; New position</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ShiftObjectFromCenter"></span><code>function <b>ShiftObjectFromCenter</b>(Constref ACenter: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>; const ADistance: Single; const AFromCenterSpot: Boolean): <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>ShiftObjectFromCenter</code> : Translate a point from a Center and a distance    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ACenter</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a> &ndash; some point, from which is should be distanced.</dd>
+<dt>Distance</dt>
+<dd>: Single &ndash; Distance to shift</dd>
+<dt>AFromCenterSpo</dt>
+<dd>: Boolean <br> &ndash; if <code>True</code> distance, which object should keep from ACenter <br> &ndash; if <code>False</code> distance, which object should shift from his current position away from center.</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">TGLZ </p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="AverageNormal4"></span><code>function <b>AverageNormal4</b>(constref up, left, down, right: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>): <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>AverageNormal4</code> : Return the average of 4 points, wich describe a plane     </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Up</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+<dt>Left</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+<dt>Down</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+<dt>Right</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Step"></span><code>function <b>Step</b>(ConstRef B : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>):<a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Step</code> : Implement a <code>step</code> function returning either 0 or 1.<br>
+
+<p>Returns 1 for each component of Self that is greater than or equal to the corresponding component in the reference vector &quot;B&quot;, and 0 otherwise.
+
+<p>see also : <br> - <a  href="http://developer.download.nvidia.com/cg/step.html">http://developer.download.nvidia.com/cg/step.html</a> - <a  href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/step.xhtml">https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/step.xhtml</a>  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FaceForward"></span><code>function <b>FaceForward</b>(constref A, B: <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>): <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>FaceForward</code> : Returns a normal as-is if a vertex's eye-space position vector points in the opposite direction of a geometric normal, otherwise return the negated version of the normal <br>
+
+<p><b>Note :</b> Self = Peturbed normal vector.
+
+<p>see also : <br> - <a  href="http://developer.download.nvidia.com/cg/faceforward.html">http://developer.download.nvidia.com/cg/faceforward.html</a> - <a  href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/faceforward.xhtml">https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/faceforward.xhtml</a>
+
+<p>  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> &ndash; Incidence vector (typically a direction vector from the eye to a vertex).</dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> &ndash; Geometric normal vector (for some facet the peturbed normal belongs).</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Saturate"></span><code>function <b>Saturate</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Saturate</code> : Returns smallest integer not less than a scalar or each vector component. <br> Returns Self saturated to the range [0,1] as follows:
+
+<p>For vectors, the returned vector contains the saturated result of each element of the vector Self saturated to [0,1]. <br>
+
+<p>see also : <br> - <a  href="http://developer.download.nvidia.com/cg/saturate.html">http://developer.download.nvidia.com/cg/saturate.html</a>
+
+<p></p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> <br> </p>
+
+<ol class="paragraph_spacing">
+  <li value="1"><p>Returns 0 if Self is less than 0</p></li>
+  <li value="2"><p>Returns 1 if Self is greater than 1</p></li>
+  <li value="3"><p>Returns Self otherwise.</p></li>
+</ol>
+
+<p></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="SmoothStep"></span><code>function <b>SmoothStep</b>(ConstRef A,B : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>): <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>SmoothStep</code> : Interpolate smoothly between two input values based on a third <br> Interpolates smoothly from 0 to 1 based on Self compared to a and b.
+
+<p>if A = Self then <br> The slope of Self.smoothstep(a,b) and b.smoothstep(a,b) is zero.
+
+<p>For vectors, the returned vector contains the smooth interpolation of each element of the vector x.
+
+<p>see also : <br> - <a  href="http://developer.download.nvidia.com/cg/smoothstep.html">http://developer.download.nvidia.com/cg/smoothstep.html</a> <br> - <a  href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/smoothstep.xhtml">https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/smoothstep.xhtml</a>
+
+<p>  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> <br> @undorederedlist(    )</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Reflect"></span><code>function <b>Reflect</b>(ConstRef N: <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>): <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Reflect</code> :  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>N</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> </p></td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XY"></span><code>property <b>XY</b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetXY;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Quick Swizzling Properties values accessability like in HLSL and GLSL. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YX"></span><code>property <b>YX</b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetYX;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XZ"></span><code>property <b>XZ</b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetXZ;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ZX"></span><code>property <b>ZX</b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetZX;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YZ"></span><code>property <b>YZ</b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetYZ;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ZY"></span><code>property <b>ZY</b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetZY;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XX"></span><code>property <b>XX</b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetXX;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YY"></span><code>property <b>YY</b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetYY;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ZZ"></span><code>property <b>ZZ</b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetZZ;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XYZ"></span><code>property <b>XYZ</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetXYZ;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XZY"></span><code>property <b>XZY</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetXZY;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YXZ"></span><code>property <b>YXZ</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetYXZ;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YZX"></span><code>property <b>YZX</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetYZX;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ZXY"></span><code>property <b>ZXY</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetZXY;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ZYX"></span><code>property <b>ZYX</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetZYX;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XXX"></span><code>property <b>XXX</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetXXX;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YYY"></span><code>property <b>YYY</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetYYY;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ZZZ"></span><code>property <b>ZZZ</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetZZZ;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YYX"></span><code>property <b>YYX</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetYYX;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XYY"></span><code>property <b>XYY</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetXYY;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YXY"></span><code>property <b>YXY</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetYXY;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+(R) 2017-2018 -- By J.Delauney and P.Dyson. Under MPL Licence
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Vector Classes Math Library: GLZVectorMath: Record TGLZHmgPlane</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>Vector Classes Math Library</h2><p><a href="introduction.html" class="navigation">Vector Math Classes</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p><form class="search-form" action="_tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input"></div><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></form>
+<div style="clear: both"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+        /* 10 items to display seems standard */
+        'show': 10,
+        /* For PasDoc docs, showing urls is not very useful,
+           since the page title already shows the unit and identifier. */
+        'showURL': false
+    });
+});
+</script>
+</td><td class="content">
+Vector Classes Math Library for FPC & Lazarus.
+<span id="TGLZHmgPlane"></span><h1 class="cio">Record TGLZHmgPlane</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="GLZVectorMath.html">GLZVectorMath</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TGLZHmgPlane = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+A plane equation. Defined by its equation A.x+B.y+C.z+D, a plane can be mapped to the homogeneous space coordinates, and this is what we are doing here.<br> The plane is normalized so in effect contains unit normal in ABC (XYZ) and distance from origin to plane.
+
+<p>WARNING : Create(Point, Normal) will allow non unit vectors but basically <b>DON'T DO IT</b>.<br> A non unit vector WILL calculate the wrong distance to the plane.
+
+<p>It is a fast way to create a plane when we have a point and a normal without yet another sqrt call.
+
+<p>More informations : <br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="https://en.wikipedia.org/wiki/Plane_">https://en.wikipedia.org/wiki/Plane_</a>(geometry) </p></li>
+  <li><p><a  href="http://www.songho.ca/math/plane/plane.html">http://www.songho.ca/math/plane/plane.html</a></p></li>
+  <li><p><a  href="https://brilliant.org/wiki/3d-coordinate-geometry-equation-of-a-plane/">https://brilliant.org/wiki/3d-coordinate-geometry-equation-of-a-plane/</a> </p></li>
+  <li><p><a  href="http://tutorial.math.lamar.edu/Classes/CalcII/EqnsOfPlanes.aspx">http://tutorial.math.lamar.edu/Classes/CalcII/EqnsOfPlanes.aspx</a> </p></li>
+</ul>
+
+<p></p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZHmgPlane.html#V">V</a></b>: <a  href="GLZVectorMath.html#TGLZVector4fType">TGLZVector4fType</a></code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZHmgPlane.html#A">A</a></b>: Single</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZHmgPlane.html#B">B</a></b>: Single</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZHmgPlane.html#C">C</a></b>: Single</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZHmgPlane.html#D">D</a></b>: Single</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZHmgPlane.html#AsNormal3">AsNormal3</a></b>: <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a></code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZHmgPlane.html#AsVector">AsVector</a></b>: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a></code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZHmgPlane.html#X">X</a></b>: Single</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZHmgPlane.html#Y">Y</a></b>: Single</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZHmgPlane.html#Z">Z</a></b>: Single</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMath.TGLZHmgPlane.html#W">W</a></b>: Single</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMath.TGLZHmgPlane.html#Create">Create</a></b>(constref point, normal : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMath.TGLZHmgPlane.html#Create">Create</a></b>(constref p1, p2, p3 : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMath.TGLZHmgPlane.html#Normalize">Normalize</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZHmgPlane.html#Normalized">Normalized</a></b> : <a  href="GLZVectorMath.TGLZHmgPlane.html">TGLZHmgPlane</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZHmgPlane.html#AbsDistance">AbsDistance</a></b>(constref point : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>) : Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZHmgPlane.html#Distance">Distance</a></b>(constref point : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>) : Single; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZHmgPlane.html#Distance">Distance</a></b>(constref Center : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>; constref Radius:Single) : Single; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZHmgPlane.html#Perpendicular">Perpendicular</a></b>(constref P : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>) : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZHmgPlane.html#Reflect">Reflect</a></b>(constref V: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>): <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZHmgPlane.html#IsInHalfSpace">IsInHalfSpace</a></b>(constref point: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>) : Boolean;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="V"></span><code><b>V</b>: <a  href="GLZVectorMath.html#TGLZVector4fType">TGLZVector4fType</a></code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+should have type compat with other vector4f</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="A"></span><code><b>A</b>: Single</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Plane Parameter access</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="B"></span><code><b>B</b>: Single</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Plane Parameter access</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="C"></span><code><b>C</b>: Single</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Plane Parameter access</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="D"></span><code><b>D</b>: Single</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Plane Parameter access</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="AsNormal3"></span><code><b>AsNormal3</b>: <a  href="GLZVectorMath.html#TGLZAffineVector">TGLZAffineVector</a></code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+super quick descriptive access to Normal as Affine Vector.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="AsVector"></span><code><b>AsVector</b>: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a></code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+as <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="X"></span><code><b>X</b>: Single</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+legacy access so existing code works</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Y"></span><code><b>Y</b>: Single</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+legacy access so existing code works</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Z"></span><code><b>Z</b>: Single</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+legacy access so existing code works</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="W"></span><code><b>W</b>: Single</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+legacy access so existing code works</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(constref point, normal : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : Will allow non unit vectors but basically <b>DON'T DO IT</b>.<br> <a class="normal" href="GLZVectorMath.TGLZHmgPlane.html#A">A</a> non unit vector WILL calculate the wrong <a class="normal" href="GLZVectorMath.TGLZHmgPlane.html#Distance">distance</a> to the plane.   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>point</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+<dt>normal</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">TGLZ </p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(constref p1, p2, p3 : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : <code>Create</code> and Computes the parameters of plane defined by three points.   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>p1</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+<dt>p2</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+<dt>p3</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Normalize"></span><code>procedure <b>Normalize</b>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Normalize</code> : <code>Normalize</code> self</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Normalized"></span><code>function <b>Normalized</b> : <a  href="GLZVectorMath.TGLZHmgPlane.html">TGLZHmgPlane</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Normalized</code> : Return self <code>normalized</code> plane </p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZHmgPlane.html">TGLZHmgPlane</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="AbsDistance"></span><code>function <b>AbsDistance</b>(constref point : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>) : Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>AbsDistance</code> : Return absolute <a class="normal" href="GLZVectorMath.TGLZHmgPlane.html#Distance">distance</a> between self and <a class="normal" href="GLZVectorMath.TGLZHmgPlane.html#A">a</a> point  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>point</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Distance"></span><code>function <b>Distance</b>(constref point : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>) : Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Distance</code> : Return signed <a class="normal" href="GLZVectorMath.TGLZHmgPlane.html#Distance">distance</a> between self and <a class="normal" href="GLZVectorMath.TGLZHmgPlane.html#A">a</a> point  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>point</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Distance"></span><code>function <b>Distance</b>(constref Center : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>; constref Radius:Single) : Single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Distance</code> : Return <code>distance</code> between self and <a class="normal" href="GLZVectorMath.TGLZHmgPlane.html#A">a</a> sphere   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Center</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+<dt>Radius</dt>
+<dd>: Single</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Single</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Perpendicular"></span><code>function <b>Perpendicular</b>(constref P : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>) : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Perpendicular</code> : Calculates <a class="normal" href="GLZVectorMath.TGLZHmgPlane.html#A">a</a> vector <code>perpendicular</code> to P.<br> Self is assumed to be of unit length, subtract out any component parallel to Self  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>P</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Reflect"></span><code>function <b>Reflect</b>(constref V: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>): <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Reflect</code> : Reflects vector <a class="normal" href="GLZVectorMath.TGLZHmgPlane.html#V">V</a> against Self (assumes self is <a class="normal" href="GLZVectorMath.TGLZHmgPlane.html#Normalized">normalized</a>)  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>V</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="IsInHalfSpace"></span><code>function <b>IsInHalfSpace</b>(constref point: <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>) : Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>IsInHalfSpace</code> : Return if <a class="normal" href="GLZVectorMath.TGLZHmgPlane.html#A">a</a> point is in half space  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>Point:</dt>
+<dd><a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Boolean <code>True</code> if point is in Half Space</p></td></tr>
+</table>
+(R) 2017-2018 -- By J.Delauney and P.Dyson. Under MPL Licence
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

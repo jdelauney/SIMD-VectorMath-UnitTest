@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, fpcunit, testregistry, BaseTestCase,
-  native, GLZVectorMath;
+  native, GLZVectorMath, GLZVectorMathEx;
 
 type
 
@@ -315,7 +315,7 @@ begin
   vt5 := ph1.AsVector * abs(ph1.W);  // set vt5 to sit on plane
   AssertFalse('TGLZHmgPlane:ContainsBSphere:Sub4 Points are the same instance something changed', Compare(vt5,sp.Center));
 
-  // small shpere center now sits on plane
+  // small sphere center now sits on plane
   sp.Center := vt5;
   ct := ph1.Contains(sp);
   AssertTrue('TGLZHmgPlane:ContainsBSphere:Sub5 Plane should contain BSphere', (ScContainsPartially = ct));

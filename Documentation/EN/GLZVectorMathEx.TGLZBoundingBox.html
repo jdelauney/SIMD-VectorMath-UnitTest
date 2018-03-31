@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Vector Classes Math Library: GLZVectorMathEx: Record TGLZBoundingBox</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>Vector Classes Math Library</h2><p><a href="introduction.html" class="navigation">Vector Math Classes</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p><form class="search-form" action="_tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input"></div><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></form>
+<div style="clear: both"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+        /* 10 items to display seems standard */
+        'show': 10,
+        /* For PasDoc docs, showing urls is not very useful,
+           since the page title already shows the unit and identifier. */
+        'showURL': false
+    });
+});
+</script>
+</td><td class="content">
+Vector Classes Math Library for FPC & Lazarus.
+<span id="TGLZBoundingBox"></span><h1 class="cio">Record TGLZBoundingBox</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="GLZVectorMathEx.html">GLZVectorMathEx</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TGLZBoundingBox = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+Describe a 3D Oriented Bounding Box &quot;OBB&quot;<br> An OBB is define by eight point (position of each corner of the &quot;box&quot;)
+
+<p>More informations :<br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="https://en.wikipedia.org/wiki/Minimum_bounding_box">https://en.wikipedia.org/wiki/Minimum_bounding_box</a></p></li>
+  <li><p><a  href="https://geidav.wordpress.com/tag/oriented-bounding-box/">https://geidav.wordpress.com/tag/oriented-bounding-box/</a></p></li>
+  <li><p><a  href="https://graphics.ethz.ch/teaching/former/seminar02/handouts/collisiondetection.pdf">https://graphics.ethz.ch/teaching/former/seminar02/handouts/collisiondetection.pdf</a></p></li>
+  <li><p><a  href="http://www.idt.mdh.se/~tla/publ/FastOBBs.pdf">http://www.idt.mdh.se/&tilde;tla/publ/FastOBBs.pdf</a></p></li>
+  <li><p><a  href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.717.9566&amp;rep=rep1&amp;type=pdf">http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.717.9566&amp;rep=rep1&amp;type=pdf</a></p></li>
+  <li><p><a  href="https://www.geometrictools.com/Documentation/DynamicCollisionDetection.pdf">https://www.geometrictools.com/Documentation/DynamicCollisionDetection.pdf</a></p></li>
+  <li><p><a  href="http://gamma.cs.unc.edu/users/gottschalk/main.pdf">http://gamma.cs.unc.edu/users/gottschalk/main.pdf</a></p></li>
+</ul>
+
+<p><br> <b>Note :</b> For use it, it will be recommended to wrap it in classes <br> <b>UNFINISHED</b></p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZBoundingBox.html#Points">Points</a></b>: Array[0..7] of <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a></code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZBoundingBox.html#pt1">pt1</a></b>:<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZBoundingBox.html#pt2">pt2</a></b>:<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZBoundingBox.html#pt3">pt3</a></b>:<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZBoundingBox.html#pt4">pt4</a></b>:<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZBoundingBox.html#pt5">pt5</a></b>:<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a></code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZBoundingBox.html#pt6">pt6</a></b>:<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a></code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZBoundingBox.html#pt7">pt7</a></b>:<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a></code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="GLZVectorMathEx.TGLZBoundingBox.html#pt8">pt8</a></b>:<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a></code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="GLZVectorMathEx.TGLZBoundingBox.html#Create">Create</a></b>(Const AValue : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>class operator +(ConstRef A, B : <a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a>):<a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>class operator +(ConstRef A: <a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a>; ConstRef B : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>):<a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>class operator =(ConstRef A, B : <a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a>):Boolean; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZBoundingBox.html#Transform">Transform</a></b>(ConstRef M:<a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a>):<a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZBoundingBox.html#MinX">MinX</a></b> : Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZBoundingBox.html#MaxX">MaxX</a></b> : Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZBoundingBox.html#MinY">MinY</a></b> : Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZBoundingBox.html#MaxY">MaxY</a></b> : Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZBoundingBox.html#MinZ">MinZ</a></b> : Single;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMathEx.TGLZBoundingBox.html#MaxZ">MaxZ</a></b> : Single;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Points"></span><code><b>Points</b>: Array[0..7] of <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a></code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Array access</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="pt1"></span><code><b>pt1</b>:<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Legacy access</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="pt2"></span><code><b>pt2</b>:<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Legacy access</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="pt3"></span><code><b>pt3</b>:<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Legacy access</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="pt4"></span><code><b>pt4</b>:<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Legacy access</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="pt5"></span><code><b>pt5</b>:<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a></code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="pt6"></span><code><b>pt6</b>:<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a></code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="pt7"></span><code><b>pt7</b>:<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a></code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="pt8"></span><code><b>pt8</b>:<a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a></code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Create"></span><code>procedure <b>Create</b>(Const AValue : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Create</code> : <code>Create</code> a minimal Oriented Bounding Box from a point </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AValue</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a> &ndash; A Point</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="+"></span><code>class operator +(ConstRef A, B : <a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a>):<a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>+</code> : Add two OBB   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="+"></span><code>class operator +(ConstRef A: <a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a>; ConstRef B : <a  href="GLZVectorMath.html#TGLZVector">TGLZVector</a>):<a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>+</code> : Add to the OBB a point (Extend the bounding box)   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZVector">TGLZVector</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="="></span><code>class operator =(ConstRef A, B : <a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a>):Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>=</code> : Compare if two Oriented Bounding Box are equal   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>A</dt>
+<dd>: <a class="normal" href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a></dd>
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Boolean <code>True</code> if equal</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Transform"></span><code>function <b>Transform</b>(ConstRef M:<a  href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a>):<a  href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Transform</code> : Applies a 4x4 affine transformation matrix to a bounding sphere.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>M</dt>
+<dd>: <a class="normal" href="GLZVectorMath.html#TGLZMatrix">TGLZMatrix</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMathEx.TGLZBoundingBox.html">TGLZBoundingBox</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MinX"></span><code>function <b>MinX</b> : Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>MinX</code> : Return the minimum of X </p>
+<h6 class="description_section">Returns</h6>
+<p class="return">single</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MaxX"></span><code>function <b>MaxX</b> : Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>MaxX</code> : Return the maximum of X </p>
+<h6 class="description_section">Returns</h6>
+<p class="return">single</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MinY"></span><code>function <b>MinY</b> : Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>MinY</code> : Return the minimum of Y </p>
+<h6 class="description_section">Returns</h6>
+<p class="return">single</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MaxY"></span><code>function <b>MaxY</b> : Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>MaxY</code> : Return the maximum of Y </p>
+<h6 class="description_section">Returns</h6>
+<p class="return">single</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MinZ"></span><code>function <b>MinZ</b> : Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>MinZ</code> : Return the minimum of Z </p>
+<h6 class="description_section">Returns</h6>
+<p class="return">single</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MaxZ"></span><code>function <b>MaxZ</b> : Single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>MaxZ</code> : Return the maximum of Z </p>
+<h6 class="description_section">Returns</h6>
+<p class="return">single</p></td></tr>
+</table>
+(R) 2017-2018 -- By J.Delauney and P.Dyson. Under MPL Licence
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

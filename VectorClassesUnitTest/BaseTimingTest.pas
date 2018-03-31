@@ -27,10 +27,8 @@ type
   protected
     procedure TearDown; override;
   public
-    {$CODEALIGN RECORDMIN=4}
-    var
-    r1, rs : Single;
-    Res: boolean;
+
+
 
     TestDispName: string;
 

@@ -476,6 +476,8 @@ function TNativeGLZVector2f.InvSqrt : TNativeGLZVector2f;
 begin
  result.X := GLZMath.InvSqrt(Self.X);
  result.Y := GLZMath.InvSqrt(Self.Y);
+ //result.X := 1/System.Sqrt(Self.X);
+ //result.Y := 1/System.Sqrt(Self.Y);
 end;
 
 function TNativeGLZVector2f.ModF(Constref A : TNativeGLZVector2f): TNativeGLZVector2f;
@@ -506,6 +508,305 @@ end;
 
 {%endregion%}
 {%endregion%}
+
+
+{%region%----[ TNativeGLZVector2d ]---------------------------------------------}
+
+procedure TNativeGLZVector2d.Create(aX,aY: Double);
+begin
+  Self.X := aX;
+  Self.Y := aY;
+end;
+
+function TNativeGLZVector2d.ToString : String;
+begin
+   Result := '(X: '+FloattoStrF(Self.X,fffixed,5,5)+
+            ' ,Y: '+FloattoStrF(Self.Y,fffixed,5,5)+')';
+End;
+
+class operator TNativeGLZVector2d.-(constref A: TNativeGLZVector2d): TNativeGLZVector2d;
+begin
+  Result.X := -A.X;
+  Result.Y := -A.Y;
+end;
+
+class operator TNativeGLZVector2d.=(constref A, B: TNativeGLZVector2d): Boolean;
+begin
+ result := ((A.X = B.X) And (A.Y = B.Y));
+end;
+
+(*class operator >=(constref A, B: TVector4f): Boolean;
+class operator <=(constref A, B: TVector4f): Boolean;
+class operator >(constref A, B: TVector4f): Boolean;
+class operator <(constref A, B: TVector4f): Boolean; *)
+
+class operator TNativeGLZVector2d.<>(constref A, B: TNativeGLZVector2d): Boolean;
+begin
+  result := ((A.X <> B.X) or (A.Y <> B.Y));
+end;
+
+function TNativeGLZVector2d.DotProduct(A:TNativeGLZVector2d):Double;
+begin
+  Result := (X * A.X) + (Y * A.Y);
+end;
+
+function TNativeGLZVector2d.AngleCosine(constref A: TNativeGLZVector2d): Double;
+begin
+   Result:=Self.DotProduct(A)/(Self.Length*A.Length);
+end;
+
+function TNativeGLZVector2d.AngleBetween(Constref A, ACenterPoint : TNativeGLZVector2d): Double;
+Var
+  vt1,vt2  :  TNativeGLZVector2d;
+begin
+  vt1 := Self - ACenterPoint;
+  vt2 := A - ACenterPoint;
+  vt1 := vt1.Normalize;
+  vt2 := vt2.Normalize;
+  Result := ArcCos(vt1.AngleCosine(vt2));
+end;
+
+
+class operator TNativeGLZVector2d.+(constref A, B: TNativeGLZVector2d): TNativeGLZVector2d;
+begin
+  Result.X := A.X + B.X;
+  Result.Y := A.Y + B.Y;
+end;
+
+class operator TNativeGLZVector2d.-(constref A, B: TNativeGLZVector2d): TNativeGLZVector2d;
+begin
+  Result.X := A.X - B.X;
+  Result.Y := A.Y - B.Y;
+end;
+
+class operator TNativeGLZVector2d.*(constref A, B: TNativeGLZVector2d): TNativeGLZVector2d;
+begin
+  Result.X := A.X * B.X;
+  Result.Y := A.Y * B.Y;
+end;
+
+class operator TNativeGLZVector2d.*(constref A:TNativeGLZVector2d; Constref B: TNativeGLZVector2i): TNativeGLZVector2d;
+begin
+  Result.X := A.X * B.X;
+  Result.Y := A.Y * B.Y;
+end;
+
+class operator TNativeGLZVector2d./(constref A, B: TNativeGLZVector2d): TNativeGLZVector2d;
+begin
+  Result.X := A.X / B.X;
+  Result.Y := A.Y / B.Y;
+end;
+
+class operator TNativeGLZVector2d.+(constref A: TNativeGLZVector2d; constref B:Double): TNativeGLZVector2d;
+begin
+  Result.X := A.X + B;
+  Result.Y := A.Y + B;
+end;
+
+class operator TNativeGLZVector2d.-(constref A: TNativeGLZVector2d; constref B:Double): TNativeGLZVector2d;
+begin
+  Result.X := A.X - B;
+  Result.Y := A.Y - B;
+end;
+
+class operator TNativeGLZVector2d.*(constref A: TNativeGLZVector2d; constref B:Double): TNativeGLZVector2d;
+begin
+  Result.X := A.X * B;
+  Result.Y := A.Y * B;
+end;
+
+class operator TNativeGLZVector2d./(constref A: TNativeGLZVector2d; constref B:Double): TNativeGLZVector2d;
+Var
+  d : Double;
+begin
+  d :=1/B;
+  Result.X := A.X * d;
+  Result.Y := A.Y * d;
+end;
+
+class operator TNativeGLZVector2d./(constref A: TNativeGLZVector2d; constref B:TNativeGLZVector2i): TNativeGLZVector2d;
+begin
+  Result.X := A.X / B.X;
+  Result.Y := A.Y / B.Y;
+end;
+
+class operator TNativeGLZVector2d.+(constref A: TNativeGLZVector2d; constref B: TNativeGLZVector2i): TNativeGLZVector2d;
+begin
+  Result.X := A.X + B.X;
+  Result.Y := A.Y + B.Y;
+end;
+
+class operator TNativeGLZVector2d.-(constref A: TNativeGLZVector2d; constref B: TNativeGLZVector2i): TNativeGLZVector2d;
+begin
+  Result.X := A.X - B.X;
+  Result.Y := A.Y - B.Y;
+end;
+
+
+function TNativeGLZVector2d.Min(constref B: TNativeGLZVector2d): TNativeGLZVector2d;
+begin
+  Result := Self;
+  if Result.X > B.X then Result.X := B.X;
+  //:= Math.Min(Self.X, B.X);
+  //Result.Y := Math.Min(Self.Y, B.Y);
+  if Result.Y > B.Y then Result.Y := B.Y;
+end;
+
+function TNativeGLZVector2d.Min(constref B: Double): TNativeGLZVector2d;
+Begin
+  Result := Self;
+  Result.X := Math.Min(Self.X, B);
+  Result.Y := Math.Min(Self.Y, B);
+end;
+
+function TNativeGLZVector2d.Max(constref B: TNativeGLZVector2d): TNativeGLZVector2d;
+begin
+  Result := Self;
+  //Result.X := Math.Max(Self.X, B.X);
+  //Result.Y := Math.Max(Self.Y, B.Y);
+  Result := Self;
+  if Result.X < B.X then Result.X := B.X;
+  if Result.Y < B.Y then Result.Y := B.Y;
+end;
+
+function TNativeGLZVector2d.Max(constref B: Double): TNativeGLZVector2d;
+begin
+  Result := Self;
+  Result.X := Math.Max(Self.X, B);
+  Result.Y := Math.Max(Self.Y, B);
+end;
+
+function TNativeGLZVector2d.Clamp(constref AMin, AMax: TNativeGLZVector2d): TNativeGLZVector2d;
+begin
+  Result.X := Math.Min(Math.Max(Self.X, AMin.X),AMax.X);
+  Result.Y := Math.Min(Math.Max(Self.Y, AMin.Y),AMax.Y);
+end;
+
+function TNativeGLZVector2d.Clamp(constref AMin, AMax: Double): TNativeGLZVector2d;
+begin
+  Result.X := Math.Min(Math.Max(Self.X, AMin),AMax);
+  Result.Y := Math.Min(Math.Max(Self.Y, AMin),AMax);
+end;
+
+function TNativeGLZVector2d.MulAdd(constref A,B:TNativeGLZVector2d): TNativeGLZVector2d;
+begin
+  Result := (Self*A) + B;
+end;
+
+function TNativeGLZVector2d.MulSub(constref A,B:TNativeGLZVector2d): TNativeGLZVector2d;
+begin
+  Result := (Self*A) - B;
+end;
+
+function TNativeGLZVector2d.MulDiv(constref A,B:TNativeGLZVector2d): TNativeGLZVector2d;
+begin
+  Result := (Self*A) / B;
+end;
+
+function TNativeGLZVector2d.Length:Double;
+begin
+  Result := System.Sqrt((Self.X * Self.X) + (Self.Y * Self.Y));
+end;
+
+function TNativeGLZVector2d.LengthSquare:Double;
+begin
+  Result := (Self.X * Self.X) + (Self.Y * Self.Y);
+end;
+
+function TNativeGLZVector2d.Distance(constref A:TNativeGLZVector2d):Double;
+begin
+  Result := (Self - A).Length;
+end;
+
+function TNativeGLZVector2d.DistanceSquare(constref A:TNativeGLZVector2d):Double;
+var
+  t : TNativeGLZVector2d;
+begin
+   t := Self - A;
+   Result := t.LengthSquare;
+end;
+
+function TNativeGLZVector2d.Normalize : TNativeGLZVector2d;
+begin
+ Result := Self * (1/Self.Length);
+end;
+
+function TNativeGLZVector2d.Abs: TNativeGLZVector2d;
+begin
+  Result.X := System.abs(Self.X);
+  Result.Y := System.abs(Self.Y);
+end;
+
+function TNativeGLZVector2d.Round : TNativeGLZVector2i;
+begin
+ result.X := System.Round(Self.X);
+ result.Y := System.Round(Self.Y);
+end;
+
+function TNativeGLZVector2d.Trunc : TNativeGLZVector2i;
+begin
+ result.X := System.Trunc(Self.X);
+ result.Y := System.Trunc(Self.Y);
+end;
+
+function TNativeGLZVector2d.Floor : TNativeGLZVector2i;
+begin
+ result.X := GLZMath.Floor(Self.X);
+ result.Y := GLZMath.Floor(Self.Y);
+end;
+
+function TNativeGLZVector2d.Ceil : TNativeGLZVector2i;
+begin
+ result.X := GLZMath.Ceil(Self.X);
+ result.Y := GLZMath.Ceil(Self.Y);
+end;
+
+function TNativeGLZVector2d.Fract : TNativeGLZVector2d;
+begin
+ result.X := GLZMath.Fract(Self.X);
+ result.Y := GLZMath.Fract(Self.Y);
+end;
+
+function TNativeGLZVector2d.Sqrt : TNativeGLZVector2d;
+begin
+ result.X := System.Sqrt(Self.X);
+ result.Y := System.Sqrt(Self.Y);
+end;
+
+function TNativeGLZVector2d.InvSqrt : TNativeGLZVector2d;
+begin
+ result.X := GLZMath.InvSqrt(Self.X);
+ result.Y := GLZMath.InvSqrt(Self.Y);
+end;
+
+function TNativeGLZVector2d.ModF(Constref A : TNativeGLZVector2d): TNativeGLZVector2d;
+var
+  t : TNativeGLZVector2i;
+  vt : TNativeGLZVector2d;
+begin
+  vt := (Self / a);
+  t := vt.floor;
+  vt.x:=t.x;
+  vt.y:=t.y;
+  result := (Self - (a*vt));
+end;
+
+function TNativeGLZVector2d.fMod(Constref A : TNativeGLZVector2d): TNativeGLZVector2i;
+var
+  t : TNativeGLZVector2i;
+  vt : TNativeGLZVector2d;
+begin
+  vt := (Self / A);
+  t := vt.floor;
+  vt.x:=t.x;
+  vt.y:=t.y;
+  vt := (Self - (A*vt));
+  result := vt.Trunc;
+end;
+
+
+{%endregion%}
+
 
 {%region%----[ TNativeGLZVector3b ]---------------------------------------------}
 
@@ -2163,7 +2464,7 @@ begin
   Self:=NativeIdentityHmgMatrix;
 End;
 
-procedure TNativeGLZMatrix4f.CreateScaleMatrix(const v : TGLZAffineVector);
+procedure TNativeGLZMatrix4f.CreateScaleMatrix(const v : TNativeGLZAffineVector);
 begin
    Self:=NativeIdentityHmgMatrix;
    Self.X.X:=v.X;
@@ -2179,7 +2480,7 @@ begin
    Self.Z.Z:=v.Z;
 end;
 
-procedure TNativeGLZMatrix4f.CreateTranslationMatrix(const V: TGLZAffineVector);
+procedure TNativeGLZMatrix4f.CreateTranslationMatrix(const V: TNativeGLZAffineVector);
 begin
    Self:=NativeIdentityHmgMatrix;
    Self.X.W:=V.X;
@@ -2817,7 +3118,7 @@ begin
     exit;
   end;
   // Translate and scale the picked region to the entire window
-  CreateTranslationMatrix(AffineVectorMake( (viewport.V[2] - 2 * (x - viewport.V[0])) / deltax,
+  CreateTranslationMatrix(NativeAffineVectorMake( (viewport.V[2] - 2 * (x - viewport.V[0])) / deltax,
 	                                    (viewport.V[3] - 2 * (y - viewport.V[1])) / deltay,
                                             0.0));
   Self.V[0].V[0] := viewport.V[2] / deltax;
@@ -3143,31 +3444,31 @@ begin
    Self.ImagePart.V[2]:=axis.V[2]*f;
 end;
 
-procedure TNativeGLZQuaternion.Create(const r, p, y : Single); //Roll Pitch Yaw
+procedure TNativeGLZQuaternion.Create(const y, p, r : Single); //Yaw Pitch Roll YZX order
 var
-   qp, qy : TNativeGLZQuaternion;
+  qr, qp, qy : TNativeGLZQuaternion;
 begin
-   Self.Create(r, NativeZVector); // Create From Angle Axis
+   qr.Create(r, NativeZVector); // Create From Angle Axis
    qp.Create(p, NativeXVector);
    qy.Create(y, NativeYVector);
 
-   Self:=qp * Self;
-   Self:=qy * Self;
+   Self:=qy * qp;
+   Self:=Self * qr;
 end;
 
 procedure TNativeGLZQuaternion.Create(const x, y, z: Single; eulerOrder : TGLZEulerOrder);
 const
    cEulerOrderRef : array [Low(TGLZEulerOrder)..High(TGLZEulerOrder)] of array [1..3] of Byte =
-      ( (1, 2, 3), (1, 3, 2), (2, 1, 3),     // eulXYZ, eulXZY, eulYXZ,
-        (2, 3, 1), (3, 1, 2), (3, 2, 1) );   // eulYZX, eulZXY, eulZYX
+      ( (0, 1, 2), (0, 2, 1), (1, 0, 2),     // eulXYZ, eulXZY, eulYXZ,
+        (1, 2, 0), (2, 0, 1), (2, 1, 0) );   // eulYZX, eulZXY, eulZYX
 
 
 var
-   q : array [1..3] of TNativeGLZQuaternion;
+   q : array [0..2] of TNativeGLZQuaternion;
 begin
-   {%H-}q[1].Create(X, NativeXVector); // Create From Angle Axis
-   q[2].Create(Y, NativeYVector);
-   q[3].Create(Z, NativeZVector);
+   {%H-}q[0].Create(X, NativeXVector); // Create From Angle Axis
+   q[1].Create(Y, NativeYVector);
+   q[2].Create(Z, NativeZVector);
    Self := (q[cEulerOrderRef[eulerOrder][1]] * q[cEulerOrderRef[eulerOrder][2]]);
    Self := self *q[cEulerOrderRef[eulerOrder][3]];
 end;

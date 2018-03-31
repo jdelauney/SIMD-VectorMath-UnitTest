@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Vector Classes Math Library: GLZVectorMath: Record TGLZVector2fHelper</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tipuesearch/tipuesearch.css">
+
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>Vector Classes Math Library</h2><p><a href="introduction.html" class="navigation">Vector Math Classes</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p><form class="search-form" action="_tipue_results.html"><div class="search-input"><input type="text" name="q" id="tipue_search_input"></div><div class="search-button"><input type="button" id="tipue_search_button" onclick="this.form.submit();"></div></form>
+<div style="clear: both"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+        /* 10 items to display seems standard */
+        'show': 10,
+        /* For PasDoc docs, showing urls is not very useful,
+           since the page title already shows the unit and identifier. */
+        'showURL': false
+    });
+});
+</script>
+</td><td class="content">
+Vector Classes Math Library for FPC & Lazarus.
+<span id="TGLZVector2fHelper"></span><h1 class="cio">Record TGLZVector2fHelper</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="GLZVectorMath.html">GLZVectorMath</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TGLZVector2fHelper = record helper for TGLZVector2f</code></p>
+<h2 class="description">Description</h2>
+<p>
+Helper for <a class="normal" href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a></p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2fHelper.html#Step">Step</a></b>(ConstRef B : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2fHelper.html#Saturate">Saturate</a></b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2fHelper.html#SmoothStep">SmoothStep</a></b>(ConstRef A,B : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>): <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="GLZVectorMath.TGLZVector2fHelper.html#Lerp">Lerp</a></b>(Constref B: <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; Constref T:Single): <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVector2fHelper.html#XY">XY</a></b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetXY;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVector2fHelper.html#YX">YX</a></b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetYX;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVector2fHelper.html#XX">XX</a></b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetXX;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVector2fHelper.html#YY">YY</a></b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetYY;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVector2fHelper.html#XXY">XXY</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetXXY;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVector2fHelper.html#YYX">YYX</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetYYX;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVector2fHelper.html#XYY">XYY</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetXYY;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVector2fHelper.html#YXX">YXX</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetYXX;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVector2fHelper.html#XYX">XYX</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetXYX;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVector2fHelper.html#YXY">YXY</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetYXY;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVector2fHelper.html#XXX">XXX</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetXXX;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>property <b><a  href="GLZVectorMath.TGLZVector2fHelper.html#YYY">YYY</a></b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetYYY;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Step"></span><code>function <b>Step</b>(ConstRef B : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>):<a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Step</code> :  Implement a <b>step</b> function returning either zero or one.<br> Implements a step function returning one for each component of Self that is greater than or equal to the corresponding component in the reference vector B, and zero otherwise.<br>
+
+<p>see also : <br> &ndash; <a  href="http://developer.download.nvidia.com/cg/step.html">http://developer.download.nvidia.com/cg/step.html</a> <br> &ndash; <a  href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/step.xhtml">https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/step.xhtml</a>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a></dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Saturate"></span><code>function <b>Saturate</b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Saturate</code> : Return smallest integer not less than a scalar or each vector component.<br> Return Self saturated to the range [0,1] as follows : <br> </p>
+
+<ol class="paragraph_spacing">
+  <li value="1"><p>Returns 0 if Self is less than 0; else</p></li>
+  <li value="2"><p>Returns 1 if Self is greater than 1; else</p></li>
+  <li value="3"><p>Returns Self otherwise.</p></li>
+</ol>
+
+<p>
+
+<p>For vectors, the returned vector contains the saturated result of each element of the vector Self saturated to [0,1].<br>
+
+<p>see also : <br> &ndash; <a  href="http://developer.download.nvidia.com/cg/saturate.html">http://developer.download.nvidia.com/cg/saturate.html</a> 
+
+<p></p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="SmoothStep"></span><code>function <b>SmoothStep</b>(ConstRef A,B : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>): <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>SmoothStep</code> : Interpolate smoothly between two input values based on a third Interpolates smoothly from 0 to 1 based on Self compared to a and b. <br> </p>
+
+<ol class="paragraph_spacing">
+  <li value="1"><p>Returns 0 if Self &lt; a &lt; b or Self &gt; a &gt; b</p></li>
+  <li value="2"><p>Returns 1 if Self &lt; b &lt; a or Self &gt; b &gt; a</p></li>
+  <li value="3"><p>Returns a value in the range [0,1] for the domain [a,b].</p></li>
+</ol>
+
+<p> <br>
+
+<p>if A = Self then, the slope of Self.smoothstep(a,b) and b.smoothstep(a,b) is zero.<br>
+
+<p>For vectors, the returned vector contains the smooth interpolation of each element of the vector x.<br> see also : <br> &ndash; <a  href="http://developer.download.nvidia.com/cg/smoothstep.html">http://developer.download.nvidia.com/cg/smoothstep.html</a> <br> &ndash; <a  href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/smoothstep.xhtml">https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/smoothstep.xhtml</a> 
+
+<p></p>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a></p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Lerp"></span><code>function <b>Lerp</b>(Constref B: <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>; Constref T:Single): <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Lerp</code> : Returns the linear interpolation of Self and B based on weight T.<br> If T has values outside the [0,1] range, it actually extrapolates.
+
+<p>See also : <br> &ndash; <a  href="http://developer.download.nvidia.com/cg/lerp.html">http://developer.download.nvidia.com/cg/lerp.html</a> <br> &ndash; <a  href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/mix.xhtml">https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/mix.xhtml</a>   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>B</dt>
+<dd>: <a class="normal" href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a></dd>
+<dt>T</dt>
+<dd>: Single</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return"><a class="normal" href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a></p></td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XY"></span><code>property <b>XY</b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetXY;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Quick Swizzling properties access like in HLSL and GLSL </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YX"></span><code>property <b>YX</b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetYX;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XX"></span><code>property <b>XX</b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetXX;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YY"></span><code>property <b>YY</b> : <a  href="GLZVectorMath.TGLZVector2f.html">TGLZVector2f</a> read GetYY;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XXY"></span><code>property <b>XXY</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetXXY;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YYX"></span><code>property <b>YYX</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetYYX;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XYY"></span><code>property <b>XYY</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetXYY;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YXX"></span><code>property <b>YXX</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetYXX;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XYX"></span><code>property <b>XYX</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetXYX;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YXY"></span><code>property <b>YXY</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetYXY;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="XXX"></span><code>property <b>XXX</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetXXX;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="YYY"></span><code>property <b>YYY</b> : <a  href="GLZVectorMath.TGLZVector4f.html">TGLZVector4f</a> read GetYYY;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+(R) 2017-2018 -- By J.Delauney and P.Dyson. Under MPL Licence
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

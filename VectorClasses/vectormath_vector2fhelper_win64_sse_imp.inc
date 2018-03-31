@@ -36,9 +36,9 @@ Const
 asm
   movq   xmm0, [RCX]
   //Saturate((self-a)/(b-a))
-  movq   xmm1, [A]
+  movq   xmm1, {%H-}[A]
   subps  xmm0, xmm1
-  movq   xmm2, [B]
+  movq   xmm2, {%H-}[B]
   subps  xmm2, xmm1
   divps  xmm0, xmm2
   maxps  xmm0, XMMWORD PTR [RIP+cNullVector4f]
@@ -59,7 +59,7 @@ end;
 function TGLZVector2fHelper.Lerp(Constref B: TGLZVector2f; Constref T:Single): TGLZVector2f;assembler; register; nostackframe;
 asm
   movq xmm0, [RCX]
-  movq xmm1, [B]
+  movq xmm1, {%H-}[B]
   movlps xmm2, [T]
   shufps xmm2, xmm2, 0
   subps xmm1, xmm0

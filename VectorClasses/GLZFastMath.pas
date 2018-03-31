@@ -43,6 +43,7 @@ Historique : @br
 unit GLZFastMath;
 
 {$mode objfpc}{$H+}
+//{$i ../../glzscene_options.inc}
 
 {$IFDEF USE_ASM_SSE_4}
   {$DEFINE USE_ASM_SSE_3}
@@ -132,7 +133,7 @@ procedure _DoneSinLUT;
 
 implementation
 
-// On defini quelques valeurs en vue d'optimiser les calculs
+// On defini quelques valeurs internes en vue d'optimiser les calculs
 Const
   _cInfinity = 1e1000;
   //_EpsilonFuzzFactor = 1000;
@@ -168,7 +169,7 @@ Const
   //_cInvThree   = 1.0 / 3.0;
 
 Const
-  _cTaylorCoefA : single = 1.0/2.0;
+  _cTaylorCoefA : single = 1.0 / 2.0;
   _cTaylorCoefB : single = 1.0 / 24.0;
   _cTaylorCoefC : single = 1.0 / 720.0;
   _cTaylorCoefD : single = 1.0 / 40320.0;
