@@ -46,9 +46,7 @@ uses
     {$IFDEF UNIX}
       //BaseUnix, UnixUtil, 
       Unix,
-      {$IFDEF X11_SUPPORT}
-        xlib,
-      {$ENDIF}
+      xlib,
     {$ENDIF}
   {$ELSE}
     Windows,
@@ -338,6 +336,7 @@ var
     {$ENDIF}
   {$ENDIF}
 begin
+
   {$IFDEF WINDOWS}
   With Result do
   begin
@@ -530,7 +529,7 @@ begin
   end;
 end;
 {$ELSE}
-{$IFDEF X11_SUPPORT}
+{$IFDEF UNIX}
 var
   dpy: PDisplay;
 begin

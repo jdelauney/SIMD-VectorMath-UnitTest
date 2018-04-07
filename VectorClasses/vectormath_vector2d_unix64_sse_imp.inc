@@ -5,6 +5,7 @@ asm
   movapd xmm0, [A]
   movapd xmm1, [B]
   addpd  xmm0, xmm1
+  movhlps xmm1, xmm0
 end;
 
 class operator TGLZVector2d.-(constref A, B: TGLZVector2d): TGLZVector2d; assembler; nostackframe; register;
@@ -12,6 +13,7 @@ asm
   movapd xmm0, [A]
   movapd xmm1, [B]
   subpd  xmm0, xmm1
+  movhlps xmm1, xmm0
 end;
 
 class operator TGLZVector2d.*(constref A, B: TGLZVector2d): TGLZVector2d; assembler; nostackframe; register;
@@ -19,6 +21,7 @@ asm
   movapd xmm0, [A]
   movapd xmm1, [B]
   mulpd  xmm0, xmm1
+  movhlps xmm1, xmm0
 end;
 
 class operator TGLZVector2d.*(constref A: TGLZVector2d; constref B : TGLZVector2i): TGLZVector2d; assembler; nostackframe; register;
@@ -26,6 +29,7 @@ asm
   movapd   xmm0, [A]
   cvtdq2pd xmm2, [B]
   mulpd    xmm0, xmm2
+  movhlps xmm1, xmm0
 end;
 
 class operator TGLZVector2d./(constref A, B: TGLZVector2d): TGLZVector2d; assembler; nostackframe; register;
@@ -33,6 +37,7 @@ asm
   movapd xmm0, [A]
   movapd xmm1, [B]
   divpd  xmm0, xmm1
+  movhlps xmm1, xmm0
 end;
 
 (* The 4 for above functions are pit of doom for performances, so we use native instead
@@ -80,6 +85,7 @@ asm
   movapd   xmm0, [A]
   cvtdq2pd xmm1, [B]
   divpd    xmm0, xmm1
+  movhlps xmm1, xmm0
 end;
 
 class operator TGLZVector2d.+(constref A: TGLZVector2d; constref B: TGLZVector2i): TGLZVector2d; assembler; nostackframe; register;
@@ -87,6 +93,7 @@ asm
   movapd   xmm0, [A]
   cvtdq2pd xmm1, [B]
   addpd    xmm0, xmm1
+  movhlps xmm1, xmm0
 end;
 
 class operator TGLZVector2d.-(constref A: TGLZVector2d; constref B: TGLZVector2i): TGLZVector2d; assembler; nostackframe; register;
@@ -94,6 +101,7 @@ asm
   movapd   xmm0, [A]
   cvtdq2pd xmm1, [B]
   subpd    xmm0, xmm1
+  movhlps xmm1, xmm0
 end;
 {%endregion%}
 
@@ -105,6 +113,7 @@ asm
   movq   xmm1, [B]
   shufpd xmm1, xmm1, $00
   minpd  xmm0, xmm1
+  movhlps xmm1, xmm0
 end;
 
 function TGLZVector2d.Min(constref B: TGLZVector2d): TGLZVector2d; assembler; nostackframe; register;
@@ -112,6 +121,7 @@ asm
   movapd xmm0, [RDI]
   movapd xmm1, [B]
   minpd  xmm0, xmm1
+  movhlps xmm1, xmm0
 end;
 
 
@@ -121,6 +131,7 @@ asm
   movq   xmm1, [B]
   shufpd xmm1, xmm1, $00
   maxpd  xmm0, xmm1
+  movhlps xmm1, xmm0
 end;
 
 function TGLZVector2d.Max(constref B: TGLZVector2d): TGLZVector2d;Assembler; nostackframe;register;
@@ -128,6 +139,7 @@ asm
   movapd xmm0, [RDI]
   movapd xmm1, [B]
   maxpd  xmm0, xmm1
+  movhlps xmm1, xmm0
 end;
 
 function TGLZVector2d.Clamp(constref AMin, AMax: Double): TGLZVector2d;Assembler; nostackframe;register;
@@ -139,6 +151,7 @@ asm
   shufpd xmm2, xmm2, $00 // Replicate AMax
   maxpd  xmm0, xmm1
   minpd  xmm0, xmm2
+  movhlps xmm1, xmm0
 end;
 
 function TGLZVector2d.Clamp(constref AMin, AMax: TGLZVector2d): TGLZVector2d;Assembler; nostackframe;register;
@@ -148,6 +161,7 @@ asm
   movapd xmm2, [AMax]
   maxpd  xmm0, xmm1
   minpd  xmm0, xmm2
+  movhlps xmm1, xmm0
 end;
 
 function TGLZVector2d.MulAdd(constref A,B:TGLZVector2d): TGLZVector2d;Assembler; nostackframe;register;
@@ -157,6 +171,7 @@ asm
   movapd xmm2, {%H-}[B]
   Mulpd  xmm0, xmm1
   Addpd  xmm0, xmm2
+  movhlps xmm1, xmm0
 end;
 
 function TGLZVector2d.MulSub(constref A,B:TGLZVector2d): TGLZVector2d;Assembler; nostackframe;register;
@@ -166,6 +181,7 @@ asm
   movapd xmm2, [B]
   Mulpd  xmm0, xmm1
   Subpd  xmm0, xmm2
+  movhlps xmm1, xmm0
 end;
 
 function TGLZVector2d.MulDiv(constref A,B:TGLZVector2d): TGLZVector2d;Assembler;nostackframe;register;
@@ -175,6 +191,7 @@ asm
   movapd xmm2, [B]
   Mulpd  xmm0, xmm1
   Divpd  xmm0, xmm2
+  movhlps xmm1, xmm0
 end;
 
 function TGLZVector2d.Length:Double;Assembler;nostackframe;register;
@@ -227,6 +244,7 @@ asm
   haddpd xmm2, xmm2
   sqrtpd xmm2, xmm2
   divpd  xmm0, xmm2
+  movhlps xmm1, xmm0
 end;
 
 // function Reflect(I, NRef : TVector2f):TVector2f
@@ -257,6 +275,7 @@ function TGLZVector2d.Abs: TGLZVector2d; assembler; nostackframe; register;
 asm
   movapd   xmm0, [RDI]
   andpd    xmm0, XMMWORD PTR [RIP+cSSE_MASK_ABS]//xmm1
+  movhlps xmm1, xmm0
 end;
 
 
@@ -345,6 +364,7 @@ function TGLZVector2d.Sqrt: TGLZVector2d; assembler;nostackframe;register;
 asm
   movapd xmm0,[RDI]
   sqrtpd xmm0, xmm0
+  movhlps xmm1, xmm0
 end;
 
 //function TGLZVector2d.InvSqrt: TGLZVector2d; assembler;nostackframe;register;
@@ -377,6 +397,7 @@ asm
   mulpd    xmm0, xmm2
   subpd    xmm1, xmm0 // A - Trunc(A)
   movapd   xmm0, xmm1
+  movhlps xmm1, xmm0
 end;
 
 function TGLZVector2d.fMod(Constref A : TGLZVector2d): TGLZVector2i; assembler;nostackframe;register;
