@@ -3364,7 +3364,8 @@ end;
 {$else}  // pascal
   {$I vectormath_vector2i_native_imp.inc}
   {$I vectormath_vector2f_native_imp.inc}
-  
+  {$I vectormath_vector2d_native_imp.inc}
+
 
   {$I vectormath_vector3b_native_imp.inc}
   {.$I vectormath_vector3i_native_imp.inc}

@@ -816,12 +816,14 @@ end;
      {$ENDIF}
   {$endif}
   {$else}  // pascal
-	{$I vectormathex_boundingbox_native_imp.inc}
-	{$I vectormathex_boundingsphere_native_imp.inc}
-	{$I vectormathex_axisaligned_boundingbox_native_imp.inc}
-	{.$I vectormathex_boundingboxhelper_native_imp.inc}
-	{.$I vectormathex_axisaligned_boundingBoxhelper_native_imp.inc}
-	{$I vectormathex_frustum_native_imp.inc}
+    {$I vectormathex_boundingbox_native_imp.inc}
+    {$I vectormathex_boundingsphere_native_imp.inc}
+    {$I vectormathex_axisaligned_boundingbox_native_imp.inc}
+    {.$I vectormathex_boundingboxhelper_native_imp.inc}
+    {.$I vectormathex_axisaligned_boundingBoxhelper_native_imp.inc}
+    {$I vectormathex_hmgplanehelper_native_imp.inc}
+    {$I vectormathex_2DSingleAffineMatrix_native_imp.inc}
+    {$I vectormathex_frustum_native_imp.inc}
   {$endif}
 
 initialization

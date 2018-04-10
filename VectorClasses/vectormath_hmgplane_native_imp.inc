@@ -107,10 +107,10 @@ end;
 
 {%endregion%}
 
-function TGLZHmgPlaneHelper.EvaluatePoint(constref Point : TGLZVector) : Single;
-begin
-  Result := Self.X*point.X+Self.Y*point.Y+Self.Z*point.Z+Self.W;
-end;
+//function TGLZHmgPlaneHelper.EvaluatePoint(constref Point : TGLZVector) : Single;
+//begin
+//  Result := Self.X*point.X+Self.Y*point.Y+Self.Z*point.Z+Self.W;
+//end;
 
 {%endregion%}
 
