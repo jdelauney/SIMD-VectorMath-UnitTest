@@ -7,3 +7,5 @@ It can be used in 2D/3D graphics, computing apps.
   
 [Contribution guidelines for this project](CONTRIBUTING.md)
 
+**UPDATED VERSION IS AVAILABLE HERE** : https://github.com/jdelauney/BZScene
+
